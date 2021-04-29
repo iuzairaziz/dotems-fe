@@ -100,6 +100,7 @@ import SparkLine from "../MainContent/Charts/SparkLine";
 //nehal defined routes
 import Tasks from "../MainContent/Tasks/Tasks";
 import NewTask from "../MainContent/Tasks/NewTask/NewTask";
+import TaskList from "../MainContent/Tasks/TaskList/TaskList";
 
 import Widgets from "../MainContent/Widgets/widgets";
 
@@ -109,6 +110,7 @@ class mainbuilder extends Component {
     return (
       <Switch>
         <Route exact path="/NewTask" component={NewTask} />
+        <Route exact path="/TaskList" component={TaskList} />
 
         <Route path="/calendar" component={Calendar} />
 
