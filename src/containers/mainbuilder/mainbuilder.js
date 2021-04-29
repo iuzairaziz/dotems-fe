@@ -97,6 +97,8 @@ import Chartjs from "../MainContent/Charts/Chartjs";
 import ApexChart from "../MainContent/Charts/ApexChart";
 import SparkLine from "../MainContent/Charts/SparkLine";
 
+import { Route, Switch } from "react-router-dom";
+import AddClients from "../MainContent/Client/AddClient/AddClient";
 //nehal defined routes
 import Tasks from "../MainContent/Tasks/Tasks";
 import NewTask from "../MainContent/Tasks/NewTask/NewTask";
@@ -104,11 +106,11 @@ import TaskList from "../MainContent/Tasks/TaskList/TaskList";
 
 import Widgets from "../MainContent/Widgets/widgets";
 
-import { Route, Switch } from "react-router-dom";
 class mainbuilder extends Component {
   render() {
     return (
       <Switch>
+        <Route path="/addclient" component={AddClients} />
         <Route exact path="/NewTask" component={NewTask} />
         <Route exact path="/TaskList" component={TaskList} />
 
