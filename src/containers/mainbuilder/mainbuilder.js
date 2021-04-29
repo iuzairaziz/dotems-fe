@@ -105,7 +105,6 @@ import NewTask from "../MainContent/Tasks/NewTask/NewTask";
 
 import Widgets from "../MainContent/Widgets/widgets";
 
-import { Route, Switch } from "react-router-dom";
 class mainbuilder extends Component {
   render() {
     return (
