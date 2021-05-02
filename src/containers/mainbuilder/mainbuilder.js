@@ -106,13 +106,14 @@ import TaskList from "../MainContent/Tasks/TaskList/TaskList";
 import AddClients from "../MainContent/Client/AddClients";
 
 import Widgets from "../MainContent/Widgets/widgets";
+import ViewClients from "../MainContent/Client/ViewClients";
 
 class mainbuilder extends Component {
   render() {
     return (
       <Switch>
         <Route exact path="/addclient" component={AddClients} />
-
+        <Route exact path="/viewclient" component={ViewClients} />
         <Route exact path="/NewTask" component={NewTask} />
         <Route exact path="/TaskList" component={TaskList} />
 

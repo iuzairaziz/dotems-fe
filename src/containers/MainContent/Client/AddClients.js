@@ -49,8 +49,14 @@ class AddClients extends Component {
 
                     <Formik
                       initialValues={{
-                        firstName: "",
-                        lastName: "",
+                        clientName: "",
+                        companyName: "",
+                        Email: "",
+                        Address: "",
+                        contactNum: "",
+                        otherContact: "",
+                        URL: "",
+                        country: "",
                       }}
                       validationSchema={ClientValidation.ClientSchemaValidation}
                       onSubmit={(values, actions) => {
