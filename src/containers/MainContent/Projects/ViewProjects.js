@@ -4,65 +4,90 @@ import { Link } from "react-router-dom";
 import { MDBDataTable, MDBBtn } from "mdbreact";
 import ClientValidation from "../../../validations/client-validations";
 import { Progress, Button } from "reactstrap";
-import ClientsForm from "../Client/ClientsForm";
+import ProjectForm from "../Projects/ProjectFrom";
 
-class ViewClients extends Component {
+class ViewProjects extends Component {
   render() {
     const data = {
       columns: [
         {
+          label: "Project Name",
+          field: "projectName",
+          sort: "asc",
+          width: 150,
+        },
+        {
           label: "Client Name",
           field: "clientName",
           sort: "asc",
-          width: 125,
-        },
-        {
-          label: "Company Name",
-          field: "companyName",
-          sort: "asc",
-          width: 125,
-        },
-        {
-          label: "Email",
-          field: "Email",
-          sort: "disabled",
-          width: 200,
-        },
-        {
-          label: "Address",
-          field: "Address",
-          sort: "disabled",
-          width: 200,
-        },
-        {
-          label: "Contact Number",
-          field: "contactNum",
-          sort: "disabled",
-          width: 125,
-        },
-        {
-          label: "Contact Number",
-          field: "otherContact",
-          sort: "disabled",
-          width: 125,
-        },
-        {
-          label: "URL",
-          field: "URL",
-          sort: "disabled",
           width: 150,
         },
         {
-          label: "Country",
-          field: "country",
-          sort: "asc",
-          width: 75,
+          label: "Order Num",
+          field: "orderNum",
+          sort: "disabled",
+          width: 100,
+        },
+
+        {
+          label: "Platform",
+          field: "platform",
+          sort: "disabled",
+          width: 125,
         },
         {
-          label: "Action",
-          field: "action",
+          label: "Technology ",
+          field: "technology",
           sort: "disabled",
-          width: 150,
+          width: 125,
+        },
+        {
+          label: "Service Type",
+          field: "serviceType",
+          sort: "disabled",
+          width: 100,
+        },
+        {
+          label: "Project Nature",
+          field: "projectNature",
+          sort: "asc",
+          width: 100,
+        },
+        {
+          label: "Status",
+          field: "status",
+          sort: "disabled",
+          width: 100,
+        },
+        {
+          label: "Start Date",
+          field: "startDate",
+          sort: "disabled",
+          width: 100,
+        },
+        {
+          label: "End Date",
+          field: "endDate",
+          sort: "disabled",
+          width: 100,
+        },
+        {
+          label: "Project Manager",
+          field: "projectManager",
+          sort: "disabled",
+          width: 100,
+        },
+        {
+          label: "Team Members",
+          field: "teamMembers",
+          sort: "disabled",
+          width: 100,
+        },
+        {
+          label: "Cost",
+          field: "cost",
+          sort: "disabled",
+          width: 100,
         },
       ],
       rows: [
@@ -142,7 +167,7 @@ class ViewClients extends Component {
                 </button>
               </div>
               <div className="modal-body">
-                <ClientsForm />
+                <ProjectForm />
               </div>
               <div className="modal-footer">
                 <button
@@ -161,4 +186,4 @@ class ViewClients extends Component {
   }
 }
 
-export default ViewClients;
+export default ViewProjects;
