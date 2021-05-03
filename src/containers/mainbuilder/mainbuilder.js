@@ -110,21 +110,42 @@ import ViewClients from "../MainContent/Client/ViewClients";
 import ClientsForm from "../MainContent/Client/ClientsForm";
 import AddProjects from "../MainContent/Projects/AddProjects";
 import ViewProjects from "../MainContent/Projects/ViewProjects";
+import AddNature from "../MainContent/Nature/AddNature/AddNature";
+import NatureList from "../MainContent/Nature/NatureList/NatureList";
+import AddTechnology from "../MainContent/Technology/AddTechnology/AddTechnology";
+import TechnologyList from "../MainContent/Technology/TechnologyList/TechnologyList";
+import CountryList from "../MainContent/Country/CountryList/CountryList";
+import AddCountry from "../MainContent/Country/AddCountry/AddCountry";
+import ServiceList from "../MainContent/Service/ServiceList/ServiceList";
+import AddService from "../MainContent/Service/AddService/AddService";
+import AddPlatform from "../MainContent/Platform/AddPlatform/AddPlatform";
+import PlatformList from "../MainContent/Platform/PlatformList/PlatformList";
 
 class mainbuilder extends Component {
   render() {
     return (
       <Switch>
+        // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />
         <Route exact path="/viewproject" component={ViewProjects} />
         <Route exact path="/addproject" component={AddProjects} />
         <Route exact path="/clientform" component={ClientsForm} />
+        //nehal routes
+        <Route exact path="/platform-list" component={PlatformList} />
+        <Route exact path="/add-platform" component={AddPlatform} />
+        <Route exact path="/service-list" component={ServiceList} />
+        <Route exact path="/add-service" component={AddService} />
+        <Route exact path="/country-list" component={CountryList} />
+        <Route exact path="/add-country" component={AddCountry} />
+        <Route exact path="/technology-list" component={TechnologyList} />
+        <Route exact path="/add-technology" component={AddTechnology} />
+        <Route exact path="/nature-list" component={NatureList} />
+        <Route exact path="/add-nature" component={AddNature} />
         <Route exact path="/NewTask" component={NewTask} />
         <Route exact path="/TaskList" component={TaskList} />
-
+        //===================================================================
         <Route path="/calendar" component={Calendar} />
-
         <Route path="/ecommerce_customers" component={Ecommerce_customers} />
         <Route
           path="/ecommerce_order_history"
@@ -142,7 +163,6 @@ class mainbuilder extends Component {
           path="/ecommerce_product_list"
           component={Ecommerce_product_list}
         />
-
         <Route path="/email_compose" component={Email_compose} />
         <Route path="/email_inbox" component={Email_inbox} />
         <Route path="/email_read" component={Email_read} />
@@ -158,7 +178,6 @@ class mainbuilder extends Component {
           path="/email_templates_billing"
           component={Email_templates_billing}
         />
-
         <Route path="/form_advanced" component={Form_advanced} />
         <Route path="/form_editors" component={Form_editors} />
         <Route path="/form_elements" component={Form_elements} />
@@ -168,7 +187,6 @@ class mainbuilder extends Component {
         <Route path="/form_validation" component={Form_validation} />
         <Route path="/form_wizard" component={Form_wizard} />
         <Route path="/form_xeditable" component={Form_xeditable} />
-
         <Route path="/icons_dripicons" component={Icons_dripicons} />
         <Route path="/icons_fontawesome" component={Icons_fontawesome} />
         <Route path="/icons_ion" component={Icons_ion} />
@@ -177,10 +195,8 @@ class mainbuilder extends Component {
         <Route path="/icons_themify" component={Icons_themify} />
         <Route path="/icons_typicons" component={Icons_typicons} />
         <Route path="/icons_weather" component={Icons_weather} />
-
         <Route path="/maps_google" component={Maps_google} />
         <Route path="/maps_vector" component={Maps_vector} />
-
         <Route path="/pages_400" component={Pages_400} />
         <Route path="/pages_timeline" component={Pages_timeline} />
         <Route path="/pages_500" component={Pages_500} />
@@ -201,12 +217,10 @@ class mainbuilder extends Component {
         <Route path="/pages_recoverpw_2" component={Pages_recoverpw_2} />
         <Route path="/pages_register" component={Pages_register} />
         <Route path="/pages_register_2" component={Pages_register_2} />
-
         <Route path="/tables_basic" component={Tables_basic} />
         <Route path="/tables_datatable" component={Tables_datatable} />
         <Route path="/tables_editable" component={Tables_editable} />
         <Route path="/tables_responsive" component={Tables_responsive} />
-
         <Route path="/alertify" component={Ui_alertify} />
         <Route path="/alerts" component={Ui_alerts} />
         <Route path="/animation" component={Ui_animation} />
@@ -233,14 +247,11 @@ class mainbuilder extends Component {
         <Route path="/tabs_accordions" component={Ui_tabs_accordions} />
         <Route path="/typography" component={Ui_typography} />
         <Route path="/video" component={Ui_video} />
-
         <Route path="/widgets" component={Widgets} />
-
         <Route path="/charts_easy" component={Charts_easy} />
         <Route path="/chartjs" component={Chartjs} />
         <Route path="/apexchart" component={ApexChart} />
         <Route path="/sparkline" component={SparkLine} />
-
         <Route path="/dashboard2" component={Dashboard2} />
         <Route path="/" component={Dashboard1} />
       </Switch>
