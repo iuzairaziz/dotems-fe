@@ -100,7 +100,7 @@ import SparkLine from "../MainContent/Charts/SparkLine";
 import { Route, Switch } from "react-router-dom";
 
 //nehal defined routes
-import Tasks from "../MainContent/Tasks/Tasks";
+
 import NewTask from "../MainContent/Tasks/NewTask/NewTask";
 import TaskList from "../MainContent/Tasks/TaskList/TaskList";
 import AddClients from "../MainContent/Client/AddClients";
@@ -117,6 +117,8 @@ import ServiceList from "../MainContent/Service/ServiceList/ServiceList";
 import AddService from "../MainContent/Service/AddService/AddService";
 import AddPlatform from "../MainContent/Platform/AddPlatform/AddPlatform";
 import PlatformList from "../MainContent/Platform/PlatformList/PlatformList";
+import Login from "../MainContent/Auth/Login/Login";
+import Register from "../MainContent/Auth/Register/Register";
 
 class mainbuilder extends Component {
   render() {
@@ -126,6 +128,8 @@ class mainbuilder extends Component {
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />
         //nehal routes
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
         <Route exact path="/platform-list" component={PlatformList} />
         <Route exact path="/add-platform" component={AddPlatform} />
         <Route exact path="/service-list" component={ServiceList} />

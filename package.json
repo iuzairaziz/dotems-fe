@@ -70,6 +70,7 @@
     "react-scrollbar-js": "^1.0.1",
     "react-select": "^2.4.2",
     "react-sparklines": "^1.7.0",
+    "react-toastify": "^7.0.4",
     "react-transform-hmr": "^1.0.4",
     "react-wizard-form": "^1.2.11",
     "react-x-editable": "0.0.10-beta",
