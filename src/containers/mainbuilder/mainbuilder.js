@@ -107,6 +107,9 @@ import AddClients from "../MainContent/Client/AddClients";
 
 import Widgets from "../MainContent/Widgets/widgets";
 import ViewClients from "../MainContent/Client/ViewClients";
+import ClientsForm from "../MainContent/Client/ClientsForm";
+import AddProjects from "../MainContent/Projects/AddProjects";
+import ViewProjects from "../MainContent/Projects/ViewProjects";
 import AddNature from "../MainContent/Nature/AddNature/AddNature";
 import NatureList from "../MainContent/Nature/NatureList/NatureList";
 import AddTechnology from "../MainContent/Technology/AddTechnology/AddTechnology";
@@ -127,6 +130,9 @@ class mainbuilder extends Component {
         // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />
+        <Route exact path="/viewproject" component={ViewProjects} />
+        <Route exact path="/addproject" component={AddProjects} />
+        <Route exact path="/clientform" component={ClientsForm} />
         //nehal routes
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />

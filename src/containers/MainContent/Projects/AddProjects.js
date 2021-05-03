@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import AUX from "../../../hoc/Aux_";
-import ClientsForm from "../Client/ClientsForm";
+import ProjectForm from "../Projects/ProjectFrom";
 
-class AddClients extends Component {
+class AddProjects extends Component {
   constructor() {
     super();
     this.state = {};
@@ -17,8 +17,8 @@ class AddClients extends Component {
               <div className="col-lg-12">
                 <div className="card m-b-20">
                   <div className="card-body">
-                    <h4 className="mt-0 header-title">Add New Client</h4>
-                    <ClientsForm />
+                    <h4 className="mt-0 header-title">Add New Project</h4>
+                    <ProjectForm />
                   </div>
                 </div>
               </div>
@@ -30,4 +30,4 @@ class AddClients extends Component {
   }
 }
 
-export default AddClients;
+export default AddProjects;
