@@ -26,12 +26,8 @@
     "fullcalendar": "^3.10.0",
     "google-maps-react": "^2.0.2",
     "jquery": "^3.3.1",
-<<<<<<< HEAD
     "jwt-decode": "^3.1.2",
-    "mdbreact": "^4.11.1",
-=======
     "mdbreact": "^5.0.2",
->>>>>>> 74c0affdecbdcc4c04da15d419060cf5b2c99379
     "moment": "^2.24.0",
     "react": "^16.13.1",
     "react-animations": "^1.0.0",
