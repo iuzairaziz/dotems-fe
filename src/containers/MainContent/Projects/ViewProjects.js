@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import AUX from "../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { MDBDataTable, MDBBtn } from "mdbreact";
@@ -7,7 +7,8 @@ import { Progress, Button } from "reactstrap";
 import ProjectForm from "../Projects/ProjectFrom";
 
 const ViewProjects = () => {
-  const data = {
+  const [editTask, setEditTask] = useState();
+  const [dataa, setData] = useState({
     columns: [
       {
         label: "Project Name",
@@ -77,54 +78,18 @@ const ViewProjects = () => {
         width: 100,
       },
       {
-        label: "Team Members",
-        field: "teamMembers",
-        sort: "disabled",
-        width: 100,
-      },
-      {
         label: "Cost",
         field: "cost",
         sort: "disabled",
         width: 100,
       },
     ],
-    rows: [
-      {
-        title: "Tiger Nixon",
-        project: "System Architect",
-        estimatedHrs: "Edinburgh",
-        projectRatio: (
-          <Progress color="teal" value="60">
-            60%
-          </Progress>
-        ),
-        status: <span className="badge badge-teal">Done</span>,
-        parentTask: "2011/04/25",
-        addedBy: "2011/04/25",
-        Country: "Pakistan",
-        action: (
-          <div className="row">
-            <div className="col">
-              <Button
-                color="info"
-                size="sm"
-                data-toggle="modal"
-                data-target="#myModal"
-              >
-                Edit
-              </Button>
-            </div>
-            <div className="col">
-              <Button color="danger" size="sm">
-                Delete
-              </Button>
-            </div>
-          </div>
-        ),
-      },
-    ],
-  };
+    rows: [],
+  })
+   
+  
+    
+
   return (
     <AUX>
       <div className="page-content-wrapper">
@@ -135,7 +100,7 @@ const ViewProjects = () => {
                 <div className="card-body">
                   <h4 className="mt-0 header-title">Clients</h4>
 
-                  <MDBDataTable bordered hover data={data} />
+                  <MDBDataTable bordered hover data={dataa} />
                 </div>
               </div>
             </div>
