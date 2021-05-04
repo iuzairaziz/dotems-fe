@@ -3,8 +3,12 @@ import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actionTypes from "../../../../store/action";
-
+import UserService from "../../../../services/UserService";
 class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { email: "", password: "" };
+  }
   componentDidMount() {
     if (this.props.loginpage === false) {
       this.props.UpdateLogin();
@@ -37,14 +41,17 @@ class Login extends Component {
                   Sign in to continue to Admiria.
                 </p>
 
-                <form className="form-horizontal m-t-30" action="/">
+                <form className="form-horizontal m-t-30">
                   <div className="form-group">
                     <label for="username">Username</label>
                     <input
                       type="text"
                       className="form-control"
-                      id="username"
-                      placeholder="Enter username"
+                      id="email"
+                      placeholder="Enter email"
+                      onChange={(e) => {
+                        this.setState({ email: e.target.value });
+                      }}
                     />
                   </div>
 
@@ -55,6 +62,9 @@ class Login extends Component {
                       className="form-control"
                       id="userpassword"
                       placeholder="Enter password"
+                      onChange={(e) => {
+                        this.setState({ password: e.target.value });
+                      }}
                     />
                   </div>
 
@@ -77,7 +87,20 @@ class Login extends Component {
                     <div className="col-sm-6 text-right">
                       <button
                         className="btn btn-primary w-md waves-effect waves-light"
-                        type="submit"
+                        type="button"
+                        onClick={async () => {
+                          UserService.login(
+                            this.state.email,
+                            this.state.password
+                          )
+                            .then((res) => {
+                              this.props.history.push("/");
+                              console.log(res);
+                            })
+                            .catch((err) => {
+                              console.log(err);
+                            });
+                        }}
                       >
                         Log In
                       </button>

@@ -1,10 +1,18 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Formik } from "formik";
 import ClientValidation from "../../../validations/client-validations";
 import Select from "react-select";
 import { Dropdown, Button } from "reactstrap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const ClientsForm = () => {
+  const [default_date, set_default_date] = useState(0);
+
+  const handleDefault = (date) => {
+    console.log(date);
+    set_default_date(date);
+  };
   return (
     <Formik
       initialValues={{
@@ -132,6 +140,21 @@ const ClientsForm = () => {
                   options={["Pakistan", "USA"]}
                 />
               </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-mb-6">
+              {" "}
+              <div className="form-group">
+                <label>Date of Joining</label>
+                <div>
+                  <DatePicker
+                    className="form-control"
+                    selected={default_date}
+                    onChange={handleDefault}
+                  />
+                </div>
+              </div>{" "}
             </div>
           </div>
           <div className="row">
