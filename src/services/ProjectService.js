@@ -26,7 +26,7 @@ class ProjectService {
   }
 
   deleteProject(id) {
-    return axios.delete(this.config.apiBaseUrl + "project/:id", formData);
+    return axios.delete(this.config.apiBaseUrl + "project/:id", id);
   }
 
   handleError(error) {
