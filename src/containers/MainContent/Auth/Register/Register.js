@@ -1,10 +1,17 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actionTypes from "../../../../store/action";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 class Register extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { name: "", email: "", password: "" };
+  }
+
   componentDidMount() {
     if (this.props.loginpage === false) {
       this.props.UpdateLogin();
@@ -14,7 +21,7 @@ class Register extends Component {
     };
   }
 
-  render() {
+  render(props) {
     return (
       <AUX>
         <div className="accountbg" />
@@ -37,7 +44,7 @@ class Register extends Component {
                   Get your free Admiria account now.
                 </p>
 
-                <form className="form-horizontal m-t-30" action="index.html">
+                <form className="form-horizontal m-t-30">
                   <div className="form-group">
                     <label for="useremail">Email</label>
                     <input
@@ -45,16 +52,22 @@ class Register extends Component {
                       className="form-control"
                       id="useremail"
                       placeholder="Enter email"
+                      onChange={(e) => {
+                        this.setState({ email: e.target.value });
+                      }}
                     />
                   </div>
 
                   <div className="form-group">
-                    <label for="username">Username</label>
+                    <label for="name">Name</label>
                     <input
                       type="text"
                       className="form-control"
-                      id="username"
-                      placeholder="Enter username"
+                      id="name"
+                      placeholder="Enter Name"
+                      onChange={(e) => {
+                        this.setState({ name: e.target.value });
+                      }}
                     />
                   </div>
 
@@ -65,6 +78,9 @@ class Register extends Component {
                       className="form-control"
                       id="userpassword"
                       placeholder="Enter password"
+                      onChange={(e) => {
+                        this.setState({ password: e.target.value });
+                      }}
                     />
                   </div>
 
@@ -72,7 +88,25 @@ class Register extends Component {
                     <div className="col-12 text-right">
                       <button
                         className="btn btn-primary w-md waves-effect waves-light"
-                        type="submit"
+                        type="button"
+                        onClick={async (values) => {
+                          await axios
+                            .post("http://localhost:8080/users/register", {
+                              name: this.state.name,
+                              email: this.state.email,
+                              password: this.state.password,
+                            })
+                            .then((res) => {
+                              console.log(res.data);
+                              this.props.history.push("/login");
+                            })
+                            .catch((err) => {
+                              console.log(err);
+                              toast.error(err.response.data, {
+                                position: toast.POSITION.TOP_CENTER,
+                              });
+                            });
+                        }}
                       >
                         Register
                       </button>
