@@ -159,7 +159,7 @@ const ProjectForm = () => {
             <div className="col">
               {" "}
               <div className="form-group">
-                <label>End Date</label>
+                <label>Deadline</label>
                 <div>
                   <DatePicker
                     className="form-control"
