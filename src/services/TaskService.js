@@ -7,19 +7,23 @@ class TaskService {
   }
 
   addTask(formData) {
-    return axios.post(this.config.apiBaseUrl + "orders", formData);
+    return axios.post(this.config.apiBaseUrl + "tasks", formData);
   }
 
   getTaskById(orderId) {
-    return axios.get(this.config.apiBaseUrl + "orders/" + orderId);
+    return axios.get(this.config.apiBaseUrl + "tasks/" + orderId);
+  }
+
+  getAllTask() {
+    return axios.get(this.config.apiBaseUrl + "tasks/show-task");
   }
 
   updateTask(formData) {
-    return axios.put(this.config.apiBaseUrl + "orders", formData);
+    return axios.put(this.config.apiBaseUrl + "tasks", formData);
   }
 
   deleteTask(id) {
-    return axios.delete(this.config.apiBaseUrl + "orders", formData);
+    return axios.delete(this.config.apiBaseUrl + "tasks", id);
   }
 
   getUserOrdersDetailById(userId) {
@@ -33,4 +37,4 @@ class TaskService {
   }
 }
 
-export default TaskService;
+export default new TaskService();
