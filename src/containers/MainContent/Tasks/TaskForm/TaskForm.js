@@ -1,10 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik } from "formik";
 import authValidation from "../../../../validations/auth-validations";
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Button } from "reactstrap";
+import Select from "react-select";
+import TaskService from "../../../../services/TaskService";
 const TaskForm = () => {
+  const [selectedOption1, setMultiSelect] = useState(null);
+
+  const handleChange1 = (selectedOption1) => {
+    setMultiSelect({ selectedOption1 });
+    console.log(`Option selected:`, selectedOption1);
+  };
+
+  const options = [
+    { value: "Alaska", label: "Alaska" },
+    { value: "Connecticut", label: "Connecticut" },
+    { value: "Delaware", label: "Delaware" },
+    { value: "Florida", label: "Florida" },
+    { value: "Georgia", label: "Georgia" },
+    { value: "Indiana", label: "Indiana" },
+    { value: "Maine", label: "Maine" },
+    { value: "Maryland", label: "Maryland" },
+    { value: "Massachusetts", label: "Massachusetts" },
+    { value: "Michigan", label: "Michigan" },
+    { value: "New Hampshire", label: "New Hampshire" },
+    { value: "New Jersey", label: "New Jersey" },
+    { value: "New York", label: "New York" },
+    { value: "North Carolina", label: "North Carolina" },
+    { value: "Ohio", label: "Ohio" },
+    { value: "Pennsylvania", label: "Pennsylvania" },
+    { value: "Rhode Island", label: "Rhode Island" },
+    { value: "South Carolina", label: "South Carolina" },
+    { value: "Vermont", label: "Vermont" },
+    { value: "Virginia", label: "Virginia" },
+    { value: "West Virginia", label: "West Virginia" },
+  ];
   return (
     <Formik
       initialValues={{
@@ -16,7 +48,7 @@ const TaskForm = () => {
       }}
       validationSchema={authValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
-        // console.log(values);
+        TaskService.addTask({ name: values.title });
       }}
     >
       {(props) => {
@@ -119,6 +151,18 @@ const TaskForm = () => {
                     }}
                   />
                   <span id="err">{props.errors.projectRatio}</span>
+                </div>
+              </div>
+              <div className="col">
+                <div className="form-group">
+                  <label>Assign Task</label>
+                  <Select
+                    value={selectedOption1}
+                    onChange={handleChange1}
+                    options={options}
+                    isMulti={true}
+                  />
+                  <span id="err">{props.errors.parentTask}</span>
                 </div>
               </div>
             </div>
