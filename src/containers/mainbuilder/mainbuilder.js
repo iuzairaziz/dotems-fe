@@ -136,18 +136,18 @@ class mainbuilder extends Component {
         //nehal routes
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/platform-list" component={PlatformList} />
+        <Route exact path="/list-platform" component={PlatformList} />
         <Route exact path="/add-platform" component={AddPlatform} />
-        <Route exact path="/service-list" component={ServiceList} />
+        <Route exact path="/list-service" component={ServiceList} />
         <Route exact path="/add-service" component={AddService} />
-        <Route exact path="/country-list" component={CountryList} />
+        <Route exact path="/list-country" component={CountryList} />
         <Route exact path="/add-country" component={AddCountry} />
-        <Route exact path="/technology-list" component={TechnologyList} />
+        <Route exact path="/list-technology" component={TechnologyList} />
         <Route exact path="/add-technology" component={AddTechnology} />
-        <Route exact path="/nature-list" component={NatureList} />
+        <Route exact path="/list-nature" component={NatureList} />
         <Route exact path="/add-nature" component={AddNature} />
-        <Route exact path="/NewTask" component={NewTask} />
-        <Route exact path="/TaskList" component={TaskList} />
+        <Route exact path="/add-task" component={NewTask} />
+        <Route exact path="/list-task" component={TaskList} />
         //===================================================================
         <Route path="/calendar" component={Calendar} />
         <Route path="/ecommerce_customers" component={Ecommerce_customers} />

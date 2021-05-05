@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { MDBDataTable, MDBBtn } from "mdbreact";
-import { Progress, Button } from "reactstrap";
 import PlatformForm from "../PlatformForm/PlatformForm";
+import PlatformService from "../../../../services/PlatformService";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+
 const PlatformList = () => {
-  const data = {
+  const [modalEdit, setModalEdit] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+
+  const [selectedPlatform, setSelectedPlatform] = useState({ name: "" });
+  const [data, setData] = useState({
     columns: [
       {
         label: "Title",
@@ -20,31 +26,67 @@ const PlatformList = () => {
         // width: 150,
       },
     ],
-    rows: [
-      {
-        title: "Tiger Nixon",
-        action: (
-          <div className="row">
-            {/* <div className="col"> */}
-            <Button
-              color="info"
-              size="sm"
-              data-toggle="modal"
-              data-target="#myModal"
-              className="mr-2"
-            >
-              Edit
-            </Button>
-            {/* </div> */}
-            {/* <div className="col"> */}
-            <Button color="danger" size="sm">
-              Delete
-            </Button>
-            {/* </div> */}
-          </div>
-        ),
-      },
-    ],
+    rows: [],
+  });
+
+  useEffect(() => {
+    getPlatform();
+  }, [modalEdit, modalDelete]);
+
+  const toggleEdit = () => setModalEdit(!modalEdit);
+  const toggleDelete = () => setModalDelete(!modalDelete);
+
+  const handleDelete = (id) => {
+    PlatformService.deletePlatform(id)
+      .then((res) => {
+        PlatformService.handleMessage("delete");
+        toggleDelete();
+      })
+      .catch((err) => {
+        PlatformService.handleError();
+        toggleDelete();
+      });
+  };
+
+  const getPlatform = () => {
+    PlatformService.getAllPlatform()
+      .then((res) => {
+        let updatedData = { ...data };
+        updatedData.rows = [];
+        res.data.map((item, index) => {
+          updatedData.rows.push({
+            title: item.name ? item.name : "none",
+            action: (
+              <div className="row flex-nowrap">
+                <Button
+                  onClick={() => {
+                    setSelectedPlatform(item);
+                    toggleEdit();
+                  }}
+                  color="info"
+                  size="sm"
+                >
+                  Edit
+                </Button>
+
+                <Button
+                  color="danger"
+                  size="sm"
+                  onClick={() => {
+                    setSelectedPlatform(item);
+                    toggleDelete();
+                  }}
+                >
+                  Delete
+                </Button>
+              </div>
+            ),
+          });
+        });
+        console.log("countries", updatedData);
+        setData(updatedData);
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <AUX>
@@ -70,57 +112,39 @@ const PlatformList = () => {
                 </div>
               </div>
             </div>
-            <div className="col-md-4 m-t-30">
-              <div className=" text-center">
-                <p className="text-muted">Standard modal</p>
-                <button
-                  type="button"
-                  className="btn btn-primary waves-effect waves-light"
-                  data-toggle="modal"
-                  data-target="#myModal"
-                >
-                  Standard modal
-                </button>
-              </div>
-
-              <div
-                id="myModal"
-                className="modal fade"
-                tabIndex="-1"
-                role="dialog"
-                aria-labelledby="myModalLabel"
-                aria-hidden="true"
-              >
-                <div className="modal-dialog modal-lg">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title mt-0" id="myModalLabel">
-                        Edit Platform
-                      </h5>
-                      <button
-                        type="button"
-                        className="close"
-                        data-dismiss="modal"
-                        aria-hidden="true"
-                      >
-                        ×
-                      </button>
-                    </div>
-                    <div className="modal-body">
-                      <PlatformForm />
-                    </div>
-                    <div className="modal-footer">
-                      <button
-                        type="button"
-                        className="btn btn-secondary waves-effect"
-                        data-dismiss="modal"
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div>
+              <Modal isOpen={modalEdit} toggle={toggleEdit}>
+                <ModalHeader toggle={toggleEdit}>Edit Platform</ModalHeader>
+                <ModalBody>
+                  <PlatformForm
+                    editable={true}
+                    platform={selectedPlatform}
+                    toggle={toggleEdit}
+                  />
+                </ModalBody>
+              </Modal>
+              <Modal isOpen={modalDelete} toggle={toggleDelete}>
+                <ModalHeader toggle={toggleDelete}>
+                  Delete Platform ?
+                </ModalHeader>
+                <ModalBody>
+                  Are you sure you want to delete the country "
+                  {selectedPlatform.name}" ?
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    color="primary"
+                    onClick={() => {
+                      handleDelete(selectedPlatform._id);
+                    }}
+                  >
+                    Yes
+                  </Button>{" "}
+                  <Button color="secondary" onClick={toggleDelete}>
+                    No
+                  </Button>
+                </ModalFooter>
+              </Modal>
             </div>
           </div>
         </div>

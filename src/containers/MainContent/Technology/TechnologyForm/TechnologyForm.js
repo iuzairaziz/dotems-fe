@@ -3,15 +3,36 @@ import { Button } from "reactstrap";
 import { Formik } from "formik";
 
 import shortValidations from "../../../../validations/short-validations";
-const TechnologyForm = () => {
+import TechnologyService from "../../../../services/TechnologyService";
+
+const TechnologyForm = (props) => {
   return (
     <Formik
       initialValues={{
-        title: "",
+        title: props.editable && props.technology.name,
       }}
       validationSchema={shortValidations.technologyValidation}
       onSubmit={(values, actions) => {
-        // console.log(values);
+        props.editable
+          ? TechnologyService.updateTechnology(props.technology._id, {
+              name: values.title,
+            })
+              .then((res) => {
+                props.toggle();
+                TechnologyService.handleMessage("update");
+              })
+              .catch((err) => {
+                props.toggle();
+                TechnologyService.handleError();
+              })
+          : TechnologyService.addTechnology({ name: values.title })
+              .then((res) => {
+                TechnologyService.handleMessage("add");
+                actions.setFieldValue("title", "");
+              })
+              .catch((err) => {
+                TechnologyService.handleError();
+              });
       }}
     >
       {(props) => {
@@ -34,7 +55,11 @@ const TechnologyForm = () => {
             </div>
             <div className="row">
               <div className="col">
-                <Button color="success" className="mt-3">
+                <Button
+                  color="success"
+                  className="mt-3"
+                  onClick={props.handleSubmit}
+                >
                   Submit
                 </Button>
               </div>

@@ -3,15 +3,35 @@ import { Button } from "reactstrap";
 import { Formik } from "formik";
 
 import shortValidations from "../../../../validations/short-validations";
-const NatureForm = () => {
+import NatureService from "../../../../services/NatureService";
+const NatureForm = (props) => {
   return (
     <Formik
       initialValues={{
-        title: "",
+        title: props.editable && props.nature.name,
       }}
       validationSchema={shortValidations.natureValidation}
       onSubmit={(values, actions) => {
-        // console.log(values);
+        props.editable
+          ? NatureService.updateNature(props.nature._id, {
+              name: values.title,
+            })
+              .then((res) => {
+                props.toggle();
+                NatureService.handleMessage("update");
+              })
+              .catch((err) => {
+                props.toggle();
+                NatureService.handleError();
+              })
+          : NatureService.addNature({ name: values.title })
+              .then((res) => {
+                NatureService.handleMessage("add");
+                actions.setFieldValue("title", "");
+              })
+              .catch((err) => {
+                NatureService.handleError();
+              });
       }}
     >
       {(props) => {
@@ -34,7 +54,11 @@ const NatureForm = () => {
             </div>
             <div className="row">
               <div className="col">
-                <Button color="success" className="mt-3">
+                <Button
+                  color="success"
+                  className="mt-3"
+                  onClick={props.handleSubmit}
+                >
                   Submit
                 </Button>
               </div>

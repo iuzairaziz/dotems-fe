@@ -3,15 +3,35 @@ import { Button } from "reactstrap";
 import { Formik } from "formik";
 
 import shortValidations from "../../../../validations/short-validations";
-const PlatformForm = () => {
+import PlatformService from "../../../../services/PlatformService";
+const PlatformForm = (props) => {
   return (
     <Formik
       initialValues={{
-        title: "",
+        title: props.editable && props.platform.name,
       }}
       validationSchema={shortValidations.platformValidation}
       onSubmit={(values, actions) => {
-        // console.log(values);
+        props.editable
+          ? PlatformService.updatePlatform(props.platform._id, {
+              name: values.title,
+            })
+              .then((res) => {
+                props.toggle();
+                PlatformService.handleMessage("update");
+              })
+              .catch((err) => {
+                props.toggle();
+                PlatformService.handleError();
+              })
+          : PlatformService.addPlatform({ name: values.title })
+              .then((res) => {
+                PlatformService.handleMessage("add");
+                actions.setFieldValue("title", "");
+              })
+              .catch((err) => {
+                PlatformService.handleError();
+              });
       }}
     >
       {(props) => {
@@ -34,7 +54,11 @@ const PlatformForm = () => {
             </div>
             <div className="row">
               <div className="col">
-                <Button color="success" className="mt-3">
+                <Button
+                  color="success"
+                  className="mt-3"
+                  onClick={props.handleSubmit}
+                >
                   Submit
                 </Button>
               </div>

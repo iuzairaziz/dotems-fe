@@ -1,17 +1,37 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
+import ServiceServices from "../../../../services/ServiceService";
 
 import shortValidations from "../../../../validations/short-validations";
-const ServiceForm = () => {
+const ServiceForm = (props) => {
   return (
     <Formik
       initialValues={{
-        title: "",
+        title: props.editable && props.service.name,
       }}
       validationSchema={shortValidations.serviceValidation}
       onSubmit={(values, actions) => {
-        // console.log(values);
+        props.editable
+          ? ServiceServices.updateService(props.service._id, {
+              name: values.title,
+            })
+              .then((res) => {
+                props.toggle();
+                ServiceServices.handleMessage("update");
+              })
+              .catch((err) => {
+                props.toggle();
+                ServiceServices.handleError();
+              })
+          : ServiceServices.addService({ name: values.title })
+              .then((res) => {
+                ServiceServices.handleMessage("add");
+                actions.setFieldValue("title", "");
+              })
+              .catch((err) => {
+                ServiceServices.handleError();
+              });
       }}
     >
       {(props) => {
@@ -34,7 +54,11 @@ const ServiceForm = () => {
             </div>
             <div className="row">
               <div className="col">
-                <Button color="success" className="mt-3">
+                <Button
+                  color="success"
+                  className="mt-3"
+                  onClick={props.handleSubmit}
+                >
                   Submit
                 </Button>
               </div>
