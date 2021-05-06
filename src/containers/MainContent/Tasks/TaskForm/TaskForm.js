@@ -1,54 +1,121 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
-import authValidation from "../../../../validations/auth-validations";
+import tasksValidations from "../../../../validations/tasks-validations";
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Button } from "reactstrap";
 import Select from "react-select";
 import TaskService from "../../../../services/TaskService";
-const TaskForm = () => {
-  const [selectedOption1, setMultiSelect] = useState(null);
+import userService from "../../../../services/UserService";
+import ProjectService from "../../../../services/ProjectService";
+const TaskForm = (props) => {
+  const [users, setUsers] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [projects, setProjects] = useState([]);
 
-  const handleChange1 = (selectedOption1) => {
-    setMultiSelect({ selectedOption1 });
-    console.log(`Option selected:`, selectedOption1);
+  useEffect(() => {
+    getUsers();
+    getProjects();
+    getTasks();
+  }, []);
+
+  const getUsers = () => {
+    userService.getUsers().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ value: item.name, label: item.name, id: item._id });
+        setUsers(options);
+      });
+    });
   };
 
-  const options = [
-    { value: "Alaska", label: "Alaska" },
-    { value: "Connecticut", label: "Connecticut" },
-    { value: "Delaware", label: "Delaware" },
-    { value: "Florida", label: "Florida" },
-    { value: "Georgia", label: "Georgia" },
-    { value: "Indiana", label: "Indiana" },
-    { value: "Maine", label: "Maine" },
-    { value: "Maryland", label: "Maryland" },
-    { value: "Massachusetts", label: "Massachusetts" },
-    { value: "Michigan", label: "Michigan" },
-    { value: "New Hampshire", label: "New Hampshire" },
-    { value: "New Jersey", label: "New Jersey" },
-    { value: "New York", label: "New York" },
-    { value: "North Carolina", label: "North Carolina" },
-    { value: "Ohio", label: "Ohio" },
-    { value: "Pennsylvania", label: "Pennsylvania" },
-    { value: "Rhode Island", label: "Rhode Island" },
-    { value: "South Carolina", label: "South Carolina" },
-    { value: "Vermont", label: "Vermont" },
-    { value: "Virginia", label: "Virginia" },
-    { value: "West Virginia", label: "West Virginia" },
-  ];
+  const getTasks = () => {
+    TaskService.getAllTask().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, id: item._id });
+        setTasks(options);
+      });
+    });
+  };
+
+  const getProjects = () => {
+    ProjectService.getAllProject().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.project_name,
+          id: item._id,
+        });
+        setProjects(options);
+      });
+    });
+  };
+  const task = props.task;
+  const editable = props.editable;
+  console.log("from task form ", task);
+  var assignedUsers = [];
+  editable &&
+    task.assignedTo.map((item) =>
+      assignedUsers.push({ label: item.name, value: item._id, id: item.id })
+    );
   return (
+    // <>
     <Formik
       initialValues={{
-        title: "",
-        project: "",
-        estimatedHrs: 0,
-        projectRatio: 0,
-        parentTask: "",
+        title: editable && task.name,
+        project: editable && task.project && task.project.project_name,
+        estimatedHrs: editable && task.estHrs,
+        projectRatio: editable && task.projectRatio,
+        description: editable && task.description,
+        parentTask: editable && task.parentTask && task.parentTask.name,
+        assignedTo: editable && assignedUsers,
       }}
-      validationSchema={authValidation.authSchemaValidation}
+      validationSchema={tasksValidations.newTaskValidation}
       onSubmit={(values, actions) => {
-        TaskService.addTask({ name: values.title });
+        let usrs = [];
+        values.assignedTo.map((item) => {
+          usrs.push(item.id);
+        });
+
+        editable
+          ? TaskService.updateTask(task._id, {
+              name: values.title,
+              description: values.description,
+              estHrs: values.estimatedHrs,
+              projectRatio: values.projectRatio,
+              project: values.project,
+              parentTask: values.parentTask,
+              assignedTo: usrs,
+            })
+              .then((res) => {
+                TaskService.handleMessage("update");
+                props.toggle();
+              })
+              .catch((err) => {
+                TaskService.handleError();
+                props.toggle();
+              })
+          : TaskService.addTask({
+              name: values.title,
+              startTime: new Date(),
+              description: values.description,
+              estHrs: values.estimatedHrs,
+              projectRatio: values.projectRatio,
+              project: values.project,
+              parentTask: values.parentTask,
+              assignedTo: usrs,
+            })
+              .then((res) => {
+                TaskService.handleMessage("add");
+                props.toggle();
+              })
+              .catch((err) => {
+                TaskService.handleError();
+                props.toggle();
+              });
+        console.log("project", values.project);
       }}
     >
       {(props) => {
@@ -79,9 +146,13 @@ const TaskForm = () => {
                     value={props.values.project}
                     onChange={props.handleChange("project")}
                   >
-                    <option>Select1</option>
-                    <option>Large select</option>
-                    <option>Small select</option>
+                    {projects.map((item, index) => {
+                      return (
+                        <option key={index} value={item.id}>
+                          {item.label}
+                        </option>
+                      );
+                    })}
                   </select>
                   <span id="err">{props.errors.project}</span>
                 </div>
@@ -118,9 +189,13 @@ const TaskForm = () => {
                     value={props.values.parentTask}
                     onChange={props.handleChange("parentTask")}
                   >
-                    <option>None</option>
-                    <option>Task 1</option>
-                    <option>Task 2</option>
+                    {tasks.map((item, index) => {
+                      return (
+                        <option key={index} value={item.id}>
+                          {item.label}
+                        </option>
+                      );
+                    })}
                   </select>
                   <span id="err">{props.errors.parentTask}</span>
                 </div>
@@ -157,9 +232,9 @@ const TaskForm = () => {
                 <div className="form-group">
                   <label>Assign Task</label>
                   <Select
-                    value={selectedOption1}
-                    onChange={handleChange1}
-                    options={options}
+                    value={props.values.assignedTo}
+                    onChange={(val) => props.setFieldValue("assignedTo", val)}
+                    options={users}
                     isMulti={true}
                   />
                   <span id="err">{props.errors.parentTask}</span>
@@ -167,8 +242,25 @@ const TaskForm = () => {
               </div>
             </div>
             <div className="row">
+              <div className="col-6">
+                <textarea
+                  id="textarea"
+                  className="form-control"
+                  onChange={props.handleChange("description")}
+                  rows="3"
+                  placeholder="Description"
+                >
+                  {props.values.description}
+                </textarea>
+              </div>
+            </div>
+            <div className="row">
               <div className="col">
-                <Button color="success" className="mt-3">
+                <Button
+                  color="success"
+                  className="mt-3"
+                  onClick={props.handleSubmit}
+                >
                   Submit
                 </Button>
               </div>
@@ -177,6 +269,7 @@ const TaskForm = () => {
         );
       }}
     </Formik>
+    // </>
   );
 };
 

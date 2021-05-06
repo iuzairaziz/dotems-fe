@@ -1,5 +1,6 @@
 import Configuration from "../config/configuration";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 class TaskService {
   constructor() {
@@ -7,7 +8,7 @@ class TaskService {
   }
 
   addTask(formData) {
-    return axios.post(this.config.apiBaseUrl + "tasks", formData);
+    return axios.post(this.config.apiBaseUrl + "tasks/create-task", formData);
   }
 
   getTaskById(orderId) {
@@ -18,22 +19,22 @@ class TaskService {
     return axios.get(this.config.apiBaseUrl + "tasks/show-task");
   }
 
-  updateTask(formData) {
-    return axios.put(this.config.apiBaseUrl + "tasks", formData);
+  updateTask(id, formData) {
+    return axios.put(this.config.apiBaseUrl + "tasks/" + id, formData);
   }
 
   deleteTask(id) {
-    return axios.delete(this.config.apiBaseUrl + "tasks", id);
+    return axios.delete(this.config.apiBaseUrl + "tasks/" + id);
   }
 
-  getUserOrdersDetailById(userId) {
-    // const {pageNo, pageSize, userId} = data ;
-    // return axios.get(this.config.apiBaseUrl + `history/${userId}?page=${pageNo}&pageSize=${pageSize}`);
-    return axios.get(this.config.apiBaseUrl + `orders/history/${userId}`);
+  handleMessage(type) {
+    if (type === "add") toast("Successfully added Task");
+    else if (type === "update") toast("Successfully updated Task");
+    else if (type === "delete") toast("Successfully deleted Task");
   }
 
-  handleError(error) {
-    console.log(error.message);
+  handleError() {
+    toast("Something went wrong!");
   }
 }
 

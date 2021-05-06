@@ -2,12 +2,21 @@ import React, { Component, useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
-import { Progress, Button } from "reactstrap";
 import TaskForm from "../TaskForm/TaskForm";
 import taskService from "../../../../services/TaskService";
+import {
+  Progress,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 
 const Tables_datatable = () => {
-  const [editTask, setEditTask] = useState();
+  const [modalEdit, setModalEdit] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+  const [selectedTask, setSelectedTask] = useState({ name: "" });
   const [dataa, setData] = useState({
     columns: [
       {
@@ -82,17 +91,34 @@ const Tables_datatable = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [modalEdit, modalDelete]);
+
+  const toggleEdit = () => setModalEdit(!modalEdit);
+  const toggleDelete = () => setModalDelete(!modalDelete);
+
+  const handleDelete = (id) => {
+    taskService
+      .deleteTask(id)
+      .then((res) => {
+        taskService.handleMessage("delete");
+        toggleDelete();
+      })
+      .catch((err) => {
+        taskService.handleError();
+        toggleDelete();
+      });
+  };
 
   const getData = () => {
     taskService
       .getAllTask()
       .then((res) => {
         let data = { ...dataa };
+        data.rows = [];
         res.data.map((item, index) => {
           data.rows.push({
             title: item.name ? item.name : "none",
-            project: item.project ? item.project : "none",
+            project: item.project ? item.project.name : "none",
             estimatedHrs: item.estHrs ? item.estHrs : "none",
             projectRatio: (
               <Progress color="teal" value="60">
@@ -117,13 +143,23 @@ const Tables_datatable = () => {
                   size="sm"
                   data-toggle="modal"
                   data-target="#myModal"
-                  onClick={setEditTask(item)}
+                  onClick={() => {
+                    setSelectedTask(item);
+                    toggleEdit();
+                  }}
                 >
                   Edit
                 </Button>
                 {/* </div> */}
                 {/* <div className="col"> */}
-                <Button color="danger" size="sm">
+                <Button
+                  color="danger"
+                  size="sm"
+                  onClick={() => {
+                    setSelectedTask(item);
+                    toggleDelete();
+                  }}
+                >
                   Delete
                 </Button>
                 {/* </div> */}
@@ -169,57 +205,37 @@ const Tables_datatable = () => {
                 </div>
               </div>
             </div>
-            <div className="col-md-4 m-t-30">
-              <div className=" text-center">
-                <p className="text-muted">Standard modal</p>
-                <button
-                  type="button"
-                  className="btn btn-primary waves-effect waves-light"
-                  data-toggle="modal"
-                  data-target="#myModal"
-                >
-                  Standard modal
-                </button>
-              </div>
-
-              <div
-                id="myModal"
-                className="modal fade"
-                tabIndex="-1"
-                role="dialog"
-                aria-labelledby="myModalLabel"
-                aria-hidden="true"
-              >
-                <div className="modal-dialog modal-lg">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title mt-0" id="myModalLabel">
-                        Edit Task
-                      </h5>
-                      <button
-                        type="button"
-                        className="close"
-                        data-dismiss="modal"
-                        aria-hidden="true"
-                      >
-                        ×
-                      </button>
-                    </div>
-                    <div className="modal-body">
-                      <TaskForm editForm={true} editData={editTask} />
-                    </div>
-                    <div className="modal-footer">
-                      <button
-                        type="button"
-                        className="btn btn-secondary waves-effect"
-                        data-dismiss="modal"
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div>
+              <Modal isOpen={modalEdit} toggle={toggleEdit}>
+                <ModalHeader toggle={toggleEdit}>Edit Task</ModalHeader>
+                <ModalBody>
+                  <TaskForm
+                    editable={true}
+                    task={selectedTask}
+                    toggle={toggleEdit}
+                  />
+                </ModalBody>
+              </Modal>
+              <Modal isOpen={modalDelete} toggle={toggleDelete}>
+                <ModalHeader toggle={toggleDelete}>Delete Task ?</ModalHeader>
+                <ModalBody>
+                  Are you sure you want to delete the Task "{selectedTask.name}"
+                  ?
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    color="primary"
+                    onClick={() => {
+                      handleDelete(selectedTask._id);
+                    }}
+                  >
+                    Yes
+                  </Button>{" "}
+                  <Button color="secondary" onClick={toggleDelete}>
+                    No
+                  </Button>
+                </ModalFooter>
+              </Modal>
             </div>
           </div>
         </div>

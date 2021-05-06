@@ -22,7 +22,7 @@ class ProjectService {
   }
 
   getAllProject() {
-    return axios.get(this.config.apiBaseUrl + "project/show-projects");
+    return axios.get(this.config.apiBaseUrl + "projects/show-projects");
   }
 
   deleteProject(id) {

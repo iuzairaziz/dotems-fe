@@ -1,6 +1,6 @@
 import Configuration from "../config/configuration";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 class CountryService {
   constructor() {
@@ -28,16 +28,6 @@ class CountryService {
 
   deleteCountry(id) {
     return axios.delete(this.config.apiBaseUrl + "country/" + id);
-  }
-
-  getUserOrdersDetailById(userId) {
-    // const {pageNo, pageSize, userId} = data ;
-    // return axios.get(this.config.apiBaseUrl + `history/${userId}?page=${pageNo}&pageSize=${pageSize}`);
-    return axios.get(this.config.apiBaseUrl + `orders/history/${userId}`);
-  }
-
-  handleError(error) {
-    console.log(error.message);
   }
 
   handleMessage(type) {
