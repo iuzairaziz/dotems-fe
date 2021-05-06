@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-class ClientValidations {
+class ClientValidation {
   authSchemaValidation = () => {
     return Yup.object({
       clientName: Yup.string()
@@ -20,8 +20,9 @@ class ClientValidations {
         .required()
         .max(100, "Required"),
       otherContact: Yup.string().max(100, ""),
-      URL: Yup.string().max(1000, ""),
+      url: Yup.string().max(1000, ""),
       country: Yup.string().required("Required!"),
+      dateOfJoin: Yup.date().required("Required!"),
     });
   };
 
@@ -39,5 +40,5 @@ class ClientValidations {
     console.log(error.message);
   }
 }
-const ClientValidation = new ClientValidations();
-export default ClientValidations;
+const clientValidation = new ClientValidation();
+export default clientValidation;

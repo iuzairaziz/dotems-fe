@@ -1,5 +1,6 @@
 import Configuration from "../config/configuration";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 class ClientService {
   constructor() {
@@ -31,6 +32,15 @@ class ClientService {
 
   handleError(error) {
     console.log(error.message);
+  }
+  handleMessage(type) {
+    if (type === "add") toast("Successfully added Client");
+    else if (type === "update") toast("Successfully updated Client");
+    else if (type === "delete") toast("Successfully deleted Client");
+  }
+
+  handleError() {
+    toast("Something went wrong!");
   }
 }
 

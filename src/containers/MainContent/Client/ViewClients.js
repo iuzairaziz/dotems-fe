@@ -3,12 +3,16 @@ import AUX from "../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import ClientValidation from "../../../validations/client-validations";
-import { Progress, Button } from "reactstrap";
 import ClientsForm from "../Client/ClientsForm";
 import ClientService from "../../../services/ClientService";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 const ViewClients = () => {
   const [editTask, setEditTask] = useState();
+  const [selectedClient, setSelectedClient] = useState({ name: "" });
+  const [modalEdit, setModalEdit] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+
   const [dataa, setData] = useState({
     columns: [
       {
@@ -70,14 +74,30 @@ const ViewClients = () => {
   });
   useEffect(() => {
     getData();
-  }, []);
+  }, [modalEdit, modalDelete]);
+
+  const toggleEdit = () => setModalEdit(!modalEdit);
+  const toggleDelete = () => setModalDelete(!modalDelete);
+
+  const handleDelete = (id) => {
+    ClientService.deleteClient(id)
+      .then((res) => {
+        ClientService.handleMessage("delete");
+        toggleDelete();
+      })
+      .catch((err) => {
+        ClientService.handleError();
+        toggleDelete();
+      });
+  };
 
   const getData = () => {
     ClientService.getAllClient()
       .then((res) => {
-        let data = { ...dataa };
+        let updatedData = { ...dataa };
+        updatedData.rows = [];
         res.data.map((item, index) => {
-          data.rows.push({
+          updatedData.rows.push({
             clientName: item.name ? item.name : "none",
             companyName: item.companyName ? item.companyName : "none",
             Email: item.email ? item.email : "none",
@@ -87,34 +107,35 @@ const ViewClients = () => {
             dateOfJoin: item.dateOfJoin ? item.dateOfJoin : "none",
             action: (
               <div className="row flex-nowrap">
-                {/* <div className="col"> */}
                 <Button
+                  onClick={() => {
+                    setSelectedClient(item);
+                    toggleEdit();
+                  }}
                   color="info"
                   size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
-                  onClick={setEditTask(item)}
                 >
                   Edit
                 </Button>
-                {/* </div> */}
-                {/* <div className="col"> */}
-                <Button color="danger" size="sm">
+
+                <Button
+                  color="danger"
+                  size="sm"
+                  onClick={() => {
+                    setSelectedClient(item);
+                    toggleDelete();
+                  }}
+                >
                   Delete
                 </Button>
-                {/* </div> */}
               </div>
             ),
           });
         });
-        setData(data);
-        console.log("state data", dataa);
-        console.log("my task data", data);
-        console.log("res data", res.data);
+        console.log("clients", updatedData);
+        setData(updatedData);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -125,49 +146,52 @@ const ViewClients = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Clients</h4>
+                  <h4 className="mt-0 header-title">All Clients</h4>
 
-                  <MDBDataTableV5 striped bordered hover data={dataa} />
+                  <MDBDataTableV5
+                    // scrollX
+                    striped
+                    bordered
+                    hover
+                    responsive
+                    // autoWidth
+                    data={dataa}
+                  />
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div
-        id="myModal"
-        className="modal fade"
-        tabIndex="-1"
-        role="dialog"
-        aria-labelledby="myModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-lg">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title mt-0" id="myModalLabel">
-                Edit Client
-              </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-hidden="true"
-              >
-                ×
-              </button>
-            </div>
-            <div className="modal-body">
-              <ClientsForm />
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary waves-effect"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
+
+            <div>
+              <Modal isOpen={modalEdit} toggle={toggleEdit}>
+                <ModalHeader toggle={toggleEdit}>Edit Client</ModalHeader>
+                <ModalBody>
+                  <ClientsForm
+                    editable={true}
+                    client={selectedClient}
+                    toggle={toggleEdit}
+                  />
+                </ModalBody>
+              </Modal>
+              <Modal isOpen={modalDelete} toggle={toggleDelete}>
+                <ModalHeader toggle={toggleDelete}>Delete Client ?</ModalHeader>
+                <ModalBody>
+                  Are you sure you want to delete the client "
+                  {selectedClient.clientName}" ?
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    color="primary"
+                    onClick={() => {
+                      handleDelete(selectedClient._id);
+                    }}
+                  >
+                    Yes
+                  </Button>{" "}
+                  <Button color="secondary" onClick={toggleDelete}>
+                    No
+                  </Button>
+                </ModalFooter>
+              </Modal>
             </div>
           </div>
         </div>
