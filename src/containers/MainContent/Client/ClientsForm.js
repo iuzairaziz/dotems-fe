@@ -1,33 +1,73 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Formik } from "formik";
-import ClientValidation from "../../../validations/client-validations";
+import clientValidation from "../../../validations/client-validations";
 import Select from "react-select";
 import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import ClientService from "../../../services/ClientService";
+import CountryService from "../../../services/CountryService";
 
-const ClientsForm = () => {
+const ClientsForm = (props) => {
   const [default_date, set_default_date] = useState(0);
+  const [dataa, setData] = useState();
 
   const handleDefault = (date) => {
     console.log(date);
     set_default_date(date);
   };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    CountryService.getAllCountry().then((res) => {
+      let data = { ...dataa };
+    });
+  };
+
   return (
     <Formik
       initialValues={{
-        clientName: "",
-        companyName: "",
-        Email: "",
-        Address: "",
-        contactNum: "",
-        otherContact: "",
-        URL: "",
-        country: "",
+        title: props.editable && props.client.clientName,
+        title: props.editable && props.client.companyName,
+        title: props.editable && props.client.Email,
+        title: props.editable && props.client.Address,
+        title: props.editable && props.client.contactNum,
+        title: props.editable && props.client.url,
+        title: props.editable && props.client.dateOfJoin,
+        title: props.editable && props.client.country,
       }}
-      validationSchema={ClientValidation.ClientSchemaValidation}
+      validationSchema={clientValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
-        // console.log(values);
+        props.editable
+          ? ClientService.updateClient(props.client._id, {
+              clientName: values.title,
+              companyName: values.title,
+              Email: values.title,
+              Address: values.title,
+              contactNum: values.title,
+              dateOfJoin: values.title,
+              url: values.title,
+              country: values.title,
+            })
+              .then((res) => {
+                props.toggle();
+                ClientService.handleMessage("update");
+              })
+              .catch((err) => {
+                props.toggle();
+                ClientService.handleError();
+              })
+          : ClientService.addClient({ name: values.title })
+              .then((res) => {
+                ClientService.handleMessage("add");
+                actions.setFieldValue("title", "");
+              })
+              .catch((err) => {
+                ClientService.handleError();
+              });
       }}
     >
       {(props) => (
@@ -103,17 +143,17 @@ const ClientsForm = () => {
               </div>
             </div>
             <div className="col">
+              {" "}
               <div className="form-group">
-                <label>Other Contact</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={props.values.otherContact}
-                  onChange={props.handleChange("otherContact")}
-                  placeholder="Enter Number"
-                />
-                <span id="err">{props.errors.otherContact}</span>
-              </div>
+                <label>Date of Joining</label>
+                <div>
+                  <DatePicker
+                    className="form-control"
+                    selected={default_date}
+                    onChange={props.handleChange("dateOfJoin")}
+                  />
+                </div>
+              </div>{" "}
             </div>
           </div>
           <div className="row">
@@ -123,8 +163,8 @@ const ClientsForm = () => {
                 <input
                   type="text"
                   className="form-control"
-                  value={props.values.URL}
-                  onChange={props.handleChange("URL")}
+                  value={props.values.url}
+                  onChange={props.handleChange("url")}
                   placeholder="Enter URL"
                 />
                 <span id="err">{props.errors.URL}</span>
@@ -137,29 +177,21 @@ const ClientsForm = () => {
                 <Select
                   value={props.values.country}
                   onChange={props.handleChange("country")}
-                  options={["Pakistan", "USA"]}
+                  options={dataa}
                 />
               </div>
             </div>
           </div>
+
           <div className="row">
-            <div className="col-mb-6">
-              {" "}
-              <div className="form-group">
-                <label>Date of Joining</label>
-                <div>
-                  <DatePicker
-                    className="form-control"
-                    selected={default_date}
-                    onChange={handleDefault}
-                  />
-                </div>
-              </div>{" "}
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-mb-2">
-              <Button color="success">Save</Button>{" "}
+            <div className="col">
+              <Button
+                color="success"
+                className="mt-3"
+                onClick={props.handleSubmit}
+              >
+                Submit
+              </Button>
             </div>
           </div>
         </>
@@ -167,5 +199,4 @@ const ClientsForm = () => {
     </Formik>
   );
 };
-
 export default ClientsForm;
