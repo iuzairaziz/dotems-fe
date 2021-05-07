@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-class ProjectValidations {
+class ProjectValidation {
   authSchemaValidation = () => {
     return Yup.object({
       projectName: Yup.string()
@@ -40,5 +40,5 @@ class ProjectValidations {
     console.log(error.message);
   }
 }
-const ProjectValidation = new ProjectValidations();
-export default ProjectValidations;
+const projectValidation = new ProjectValidation();
+export default projectValidation;
