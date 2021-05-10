@@ -16,16 +16,16 @@ const TaskForm = (props) => {
   useEffect(() => {
     getUsers();
     getProjects();
-    getTasks();
+    // getTasks();
   }, []);
 
   const getUsers = () => {
     userService.getUsers().then((res) => {
       let options = [];
       res.data.map((item, index) => {
-        options.push({ value: item.name, label: item.name, id: item._id });
-        setUsers(options);
+        options.push({ value: item._id, label: item.name, id: item._id });
       });
+      setUsers(options);
     });
   };
 
@@ -34,23 +34,45 @@ const TaskForm = (props) => {
       let options = [];
       res.data.map((item, index) => {
         options.push({ label: item.name, id: item._id });
-        setTasks(options);
       });
+      setTasks(options);
+    });
+  };
+
+  const getTasksByProjectId = (id) => {
+    TaskService.getTasksByProjectId(id).then((res) => {
+      let options = [{ label: "None", value: null }];
+      res.data.map((item, index) => {
+        if (!item.parentTask) {
+          options.push({ label: item.name, value: item._id });
+        }
+
+        console.log("tasks options", options);
+      });
+      setTasks(options);
     });
   };
 
   const getProjects = () => {
-    ProjectService.getAllProject().then((res) => {
-      let options = [];
-      res.data.map((item, index) => {
-        options.push({
-          // value: item._id,
-          label: item.project_name,
-          id: item._id,
+    ProjectService.getAllProject()
+      .then((res) => {
+        let options = [];
+        res.data.map((item, index) => {
+          // console.log("project options", options);
+          if (item.name) {
+            options.push({
+              value: item._id,
+              label: item.name,
+              id: item._id,
+            });
+          }
+          console.log("project options", options);
         });
         setProjects(options);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    });
   };
   const task = props.task;
   const editable = props.editable;
@@ -58,7 +80,7 @@ const TaskForm = (props) => {
   var assignedUsers = [];
   editable &&
     task.assignedTo.map((item) =>
-      assignedUsers.push({ label: item.name, value: item._id, id: item.id })
+      assignedUsers.push({ label: item.name, value: item._id, id: item._id })
     );
   return (
     // <>
@@ -71,6 +93,7 @@ const TaskForm = (props) => {
         description: editable && task.description,
         parentTask: editable && task.parentTask && task.parentTask.name,
         assignedTo: editable && assignedUsers,
+        teamLead: editable && task.teamLead,
       }}
       validationSchema={tasksValidations.newTaskValidation}
       onSubmit={(values, actions) => {
@@ -85,9 +108,10 @@ const TaskForm = (props) => {
               description: values.description,
               estHrs: values.estimatedHrs,
               projectRatio: values.projectRatio,
-              project: values.project,
-              parentTask: values.parentTask,
+              project: values.project.value,
+              parentTask: values.parentTask.value,
               assignedTo: usrs,
+              teamLead: values.teamLead.value,
             })
               .then((res) => {
                 TaskService.handleMessage("update");
@@ -103,17 +127,16 @@ const TaskForm = (props) => {
               description: values.description,
               estHrs: values.estimatedHrs,
               projectRatio: values.projectRatio,
-              project: values.project,
-              parentTask: values.parentTask,
+              project: values.project.value,
+              parentTask: values.parentTask.value,
               assignedTo: usrs,
+              teamLead: values.teamLead.value,
             })
               .then((res) => {
                 TaskService.handleMessage("add");
-                props.toggle();
               })
               .catch((err) => {
                 TaskService.handleError();
-                props.toggle();
               });
         console.log("project", values.project);
       }}
@@ -125,7 +148,7 @@ const TaskForm = (props) => {
         return (
           <>
             <div className="row">
-              <div className="col">
+              <div className="col-6">
                 <div className="form-group">
                   <label>Title</label>
                   <input
@@ -138,28 +161,22 @@ const TaskForm = (props) => {
                   <span id="err">{props.errors.title}</span>
                 </div>
               </div>
-              <div className="col">
+              <div className="col-6">
                 <div className="form-group">
                   <label>Project</label>
-                  <select
-                    className="form-control"
+                  <Select
                     value={props.values.project}
-                    onChange={props.handleChange("project")}
-                  >
-                    {projects.map((item, index) => {
-                      return (
-                        <option key={index} value={item.id}>
-                          {item.label}
-                        </option>
-                      );
-                    })}
-                  </select>
+                    onChange={(selected) => {
+                      props.setFieldValue("project", selected);
+                      getTasksByProjectId(selected.value);
+                    }}
+                    options={projects}
+                  />
                   <span id="err">{props.errors.project}</span>
                 </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col">
+
+              <div className="col-6">
                 <div className="form-group">
                   <label>Estimated Hours</label>
                   <span id="right_badge" className="float-right">
@@ -169,40 +186,31 @@ const TaskForm = (props) => {
                     min={0}
                     max={100}
                     type="number"
-                    //   step={0.5}
+                    step={0.1}
                     format={formatHrs}
                     value={props.values.estimatedHrs}
-                    //   onChange={props.handleChange("projectRatio")}
                     onChange={(value) => {
-                      // console.log("valueee==", value);
                       props.setFieldValue("estimatedHrs", value);
                     }}
                   />
                   <span id="err">{props.errors.estimatedHrs}</span>
                 </div>
               </div>
-              <div className="col">
+              <div className="col-6">
                 <div className="form-group">
                   <label>Parent Task</label>
-                  <select
-                    className="form-control"
+                  <Select
                     value={props.values.parentTask}
-                    onChange={props.handleChange("parentTask")}
-                  >
-                    {tasks.map((item, index) => {
-                      return (
-                        <option key={index} value={item.id}>
-                          {item.label}
-                        </option>
-                      );
-                    })}
-                  </select>
+                    onChange={(selected) => {
+                      props.setFieldValue("parentTask", selected);
+                    }}
+                    options={tasks}
+                  />
                   <span id="err">{props.errors.parentTask}</span>
                 </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col">
+
+              <div className="col-6">
                 <div className="form-group">
                   <label>Project Ratio</label>
                   <span id="right_badge" className="float-right">
@@ -219,7 +227,6 @@ const TaskForm = (props) => {
                     type="number"
                     format={formatPercent}
                     value={props.values.projectRatio}
-                    //   onChange={props.handleChange("projectRatio")}
                     onChange={(value) => {
                       // console.log("valueee==", value);
                       props.setFieldValue("projectRatio", value);
@@ -228,7 +235,22 @@ const TaskForm = (props) => {
                   <span id="err">{props.errors.projectRatio}</span>
                 </div>
               </div>
-              <div className="col">
+              <div className="col-6">
+                <div className="form-group">
+                  <label>Description</label>
+                  <textarea
+                    id="textarea"
+                    className="form-control"
+                    onChange={props.handleChange("description")}
+                    rows="2"
+                    placeholder="Description"
+                  >
+                    {props.values.description}
+                  </textarea>
+                  <span id="err">{props.errors.description}</span>
+                </div>
+              </div>
+              <div className="col-6">
                 <div className="form-group">
                   <label>Assign Task</label>
                   <Select
@@ -237,25 +259,23 @@ const TaskForm = (props) => {
                     options={users}
                     isMulti={true}
                   />
-                  <span id="err">{props.errors.parentTask}</span>
+                  <span id="err">{props.errors.assignedTo}</span>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="form-group">
+                  <label>Team Lead</label>
+                  <Select
+                    value={props.values.teamLead}
+                    onChange={(val) => props.setFieldValue("teamLead", val)}
+                    options={users}
+                  />
+                  <span id="err">{props.errors.teamLead}</span>
                 </div>
               </div>
             </div>
             <div className="row">
               <div className="col-6">
-                <textarea
-                  id="textarea"
-                  className="form-control"
-                  onChange={props.handleChange("description")}
-                  rows="3"
-                  placeholder="Description"
-                >
-                  {props.values.description}
-                </textarea>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
                 <Button
                   color="success"
                   className="mt-3"
