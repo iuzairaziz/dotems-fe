@@ -11,6 +11,7 @@ import CountryService from "../../../services/CountryService";
 const ClientsForm = (props) => {
   const [default_date, set_default_date] = useState(0);
   const [dataa, setData] = useState();
+  const [country, setCountry] = useState([]);
 
   const handleDefault = (date) => {
     console.log(date);
@@ -18,56 +19,77 @@ const ClientsForm = (props) => {
   };
 
   useEffect(() => {
-    getData();
+    getCountry();
   }, []);
 
-  const getData = () => {
+  const getCountry = () => {
     CountryService.getAllCountry().then((res) => {
-      let data = { ...dataa };
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setCountry(options);
+      });
     });
   };
+  const client = props.client;
+  const editable = props.editable;
+  console.log("from client form ", client);
 
   return (
     <Formik
       initialValues={{
-        title: props.editable && props.client.clientName,
-        title: props.editable && props.client.companyName,
-        title: props.editable && props.client.Email,
-        title: props.editable && props.client.Address,
-        title: props.editable && props.client.contactNum,
-        title: props.editable && props.client.url,
-        title: props.editable && props.client.dateOfJoin,
-        title: props.editable && props.client.country,
+        title: editable && client.name,
+        compName: editable && client.companyName,
+        email: editable && client.email,
+        adrs: editable && client.address,
+        conNum: editable && client.mobileNo,
+        ul: editable && client.url,
+        dateOfJoin: editable && client.dateOfJoin,
+        country: editable && client.country && client.country.country_name,
       }}
       validationSchema={clientValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
-        props.editable
-          ? ClientService.updateClient(props.client._id, {
-              clientName: values.title,
-              companyName: values.title,
-              Email: values.title,
-              Address: values.title,
-              contactNum: values.title,
-              dateOfJoin: values.title,
-              url: values.title,
-              country: values.title,
+        console.log("countries", values.country);
+        editable
+          ? ClientService.updateClient(client._id, {
+              name: values.title,
+              companyName: values.compName,
+              email: values.email,
+              address: values.adrs,
+              mobileNo: values.conNum,
+              dateOfJoin: new Date(),
+              url: values.ul,
+              country: values.country,
             })
               .then((res) => {
-                props.toggle();
                 ClientService.handleMessage("update");
+                props.toggle();
               })
               .catch((err) => {
-                props.toggle();
                 ClientService.handleError();
+                props.toggle();
               })
-          : ClientService.addClient({ name: values.title })
+          : ClientService.addClient({
+              name: values.title,
+              companyName: values.compName,
+              email: values.email,
+              address: values.adrs,
+              mobileNo: values.conNum,
+              dateOfJoin: new Date(),
+              url: values.ul,
+              country: values.country,
+            })
               .then((res) => {
                 ClientService.handleMessage("add");
-                actions.setFieldValue("title", "");
               })
               .catch((err) => {
                 ClientService.handleError();
               });
+        console.log("country", values.country);
       }}
     >
       {(props) => (
@@ -79,11 +101,11 @@ const ClientsForm = (props) => {
                 <input
                   type="text"
                   className="form-control"
-                  value={props.values.clientName}
-                  onChange={props.handleChange("clientName")}
+                  value={props.values.title}
+                  onChange={props.handleChange("title")}
                   placeholder="Enter Name"
                 />
-                <span id="err">{props.errors.clientName}</span>
+                <span id="err">{props.errors.title}</span>
               </div>
             </div>
             <div className="col">
@@ -92,11 +114,11 @@ const ClientsForm = (props) => {
                 <input
                   type="text"
                   className="form-control"
-                  value={props.values.companyName}
-                  onChange={props.handleChange("companyName")}
+                  value={props.values.compName}
+                  onChange={props.handleChange("compName")}
                   placeholder="Enter Name"
                 />
-                <span id="err">{props.errors.companyName}</span>
+                <span id="err">{props.errors.compName}</span>
               </div>
             </div>
           </div>
@@ -107,11 +129,11 @@ const ClientsForm = (props) => {
                 <input
                   type="text"
                   className="form-control"
-                  value={props.values.Email}
-                  onChange={props.handleChange("Email")}
+                  value={props.values.email}
+                  onChange={props.handleChange("email")}
                   placeholder="Enter Email"
                 />
-                <span id="err">{props.errors.Email}</span>
+                <span id="err">{props.errors.email}</span>
               </div>
             </div>
             <div className="col">
@@ -120,11 +142,11 @@ const ClientsForm = (props) => {
                 <input
                   type="text"
                   className="form-control"
-                  value={props.values.Address}
-                  onChange={props.handleChange("Address")}
+                  value={props.values.adrs}
+                  onChange={props.handleChange("adrs")}
                   placeholder="Enter Address"
                 />
-                <span id="err">{props.errors.Address}</span>
+                <span id="err">{props.errors.adrs}</span>
               </div>
             </div>
           </div>
@@ -135,11 +157,11 @@ const ClientsForm = (props) => {
                 <input
                   type="text"
                   className="form-control"
-                  value={props.values.contactNum}
-                  onChange={props.handleChange("contactNum")}
+                  value={props.values.conNum}
+                  onChange={props.handleChange("conNum")}
                   placeholder="Enter Number"
                 />
-                <span id="err">{props.errors.contactNum}</span>
+                <span id="err">{props.errors.conNum}</span>
               </div>
             </div>
             <div className="col">
@@ -150,7 +172,7 @@ const ClientsForm = (props) => {
                   <DatePicker
                     className="form-control"
                     selected={default_date}
-                    onChange={props.handleChange("dateOfJoin")}
+                    onChange={props.handleChange("Date()")}
                   />
                 </div>
               </div>{" "}
@@ -163,22 +185,30 @@ const ClientsForm = (props) => {
                 <input
                   type="text"
                   className="form-control"
-                  value={props.values.url}
-                  onChange={props.handleChange("url")}
+                  value={props.values.ul}
+                  onChange={props.handleChange("ul")}
                   placeholder="Enter URL"
                 />
-                <span id="err">{props.errors.URL}</span>
+                <span id="err">{props.errors.ul}</span>
               </div>
             </div>
             <div className="col">
               <div className="form-group">
                 <label className="control-label">Country</label>
-
-                <Select
+                <select
+                  className="form-control"
                   value={props.values.country}
                   onChange={props.handleChange("country")}
-                  options={dataa}
-                />
+                >
+                  {country.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
+                <span id="err">{props.errors.country}</span>
               </div>
             </div>
           </div>

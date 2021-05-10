@@ -9,7 +9,7 @@ class ClientService {
 
   addClient(formData) {
     return axios.post(
-      this.config.apiBaseUrl + "client//create-client",
+      this.config.apiBaseUrl + "client/create-client",
       formData
     );
   }
@@ -22,8 +22,8 @@ class ClientService {
     return axios.get(this.config.apiBaseUrl + "client/show-client");
   }
 
-  updateClient(formData) {
-    return axios.put(this.config.apiBaseUrl + "client/:id", formData);
+  updateClient(id, formData) {
+    return axios.put(this.config.apiBaseUrl + "client/" + id, formData);
   }
 
   deleteClient(id) {

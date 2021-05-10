@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import AUX from "../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
-import ClientValidation from "../../../validations/client-validations";
+import clientValidation from "../../../validations/client-validations";
 import ClientsForm from "../Client/ClientsForm";
 import ClientService from "../../../services/ClientService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
@@ -150,12 +150,15 @@ const ViewClients = () => {
 
                   <MDBDataTableV5
                     // scrollX
+                    fixedHeader={true}
+                    responsive
                     striped
                     bordered
+                    searchTop
                     hover
-                    responsive
-                    // autoWidth
+                    autoWidth
                     data={dataa}
+                    theadColor="#000"
                   />
                 </div>
               </div>

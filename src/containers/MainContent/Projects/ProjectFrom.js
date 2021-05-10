@@ -1,6 +1,6 @@
 import React, { Component, useState } from "react";
 import { Formik } from "formik";
-import ProjectValidation from "../../../validations/project-validations";
+import projectValidation from "../../../validations/project-validations";
 import Select from "react-select";
 import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
@@ -35,7 +35,7 @@ const ProjectForm = () => {
         teamMembers: "",
         projectNature: "",
       }}
-      validationSchema={ProjectValidation.ProjectSchemaValidation}
+      validationSchema={projectValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
         // console.log(values);
       }}

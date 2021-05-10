@@ -3,26 +3,26 @@ import * as Yup from "yup";
 class ClientValidation {
   authSchemaValidation = () => {
     return Yup.object({
-      clientName: Yup.string()
+      title: Yup.string()
         .required("Required!")
         .min(2)
         .max(50),
-      companyName: Yup.string()
+      compName: Yup.string()
         .required()
         .max(100, "company name must be less than 100 character"),
-      Email: Yup.string()
+      email: Yup.string()
         .required()
         .max(100, "Email Required"),
-      Address: Yup.string()
+      adrs: Yup.string()
         .required()
         .max(1000, "Required"),
-      contactNum: Yup.string()
+      conNum: Yup.string()
         .required()
         .max(100, "Required"),
-      otherContact: Yup.string().max(100, ""),
-      url: Yup.string().max(1000, ""),
+      // otherContact: Yup.string().max(100, ""),
+      ul: Yup.string().max(1000, ""),
       country: Yup.string().required("Required!"),
-      dateOfJoin: Yup.date().required("Required!"),
+      // dateOfJoin: Yup.date().required("Required!"),
     });
   };
 
