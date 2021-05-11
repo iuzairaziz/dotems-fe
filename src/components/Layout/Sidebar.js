@@ -70,6 +70,22 @@ class sidebar extends Component {
         { routeName: "list-task", label: "View Taskss" },
       ],
     },
+    {
+      name: "client_menu",
+      tab: "client",
+      subMenus: [
+        { routeName: "addclient", label: "New Client" },
+        { routeName: "viewclient", label: "View Clients" },
+      ],
+    },
+    {
+      name: "project_menu",
+      tab: "project",
+      subMenus: [
+        { routeName: "addproject", label: "New Project" },
+        { routeName: "viewproject", label: "View Projects" },
+      ],
+    },
   ];
 
   capitalize = (string) => {
