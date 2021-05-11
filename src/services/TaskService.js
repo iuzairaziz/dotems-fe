@@ -27,6 +27,10 @@ class TaskService {
     return axios.delete(this.config.apiBaseUrl + "tasks/" + id);
   }
 
+  getTasksByProjectId(id) {
+    return axios.get(this.config.apiBaseUrl + "tasks/project-tasks/" + id);
+  }
+
   handleMessage(type) {
     if (type === "add") toast("Successfully added Task");
     else if (type === "update") toast("Successfully updated Task");

@@ -61,7 +61,7 @@ const ClientsForm = (props) => {
               email: values.email,
               address: values.adrs,
               mobileNo: values.conNum,
-              dateOfJoin: new Date(),
+              dateOfJoin: values.dateOfJoin,
               url: values.ul,
               country: values.country,
             })
@@ -79,7 +79,7 @@ const ClientsForm = (props) => {
               email: values.email,
               address: values.adrs,
               mobileNo: values.conNum,
-              dateOfJoin: new Date(),
+              dateOfJoin: values.dateOfJoin,
               url: values.ul,
               country: values.country,
             })
@@ -171,8 +171,11 @@ const ClientsForm = (props) => {
                 <div>
                   <DatePicker
                     className="form-control"
-                    selected={default_date}
-                    onChange={props.handleChange("Date()")}
+                    selected={props.values.dateOfJoin}
+                    onChange={(date) => {
+                      props.setFieldValue("dateOfJoin", date);
+                      console.log("datepicker", date);
+                    }}
                   />
                 </div>
               </div>{" "}

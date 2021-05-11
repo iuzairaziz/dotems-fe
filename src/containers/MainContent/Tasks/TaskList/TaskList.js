@@ -50,6 +50,12 @@ const Tables_datatable = () => {
         // width: 100,
       },
       {
+        label: "Team Lead",
+        field: "teamLead",
+        sort: "asc",
+        // width: 100,
+      },
+      {
         label: "Parent Task",
         field: "parentTask",
         sort: "asc",
@@ -120,16 +126,19 @@ const Tables_datatable = () => {
             title: item.name ? item.name : "none",
             project: item.project ? item.project.name : "none",
             estimatedHrs: item.estHrs ? item.estHrs : "none",
-            projectRatio: (
-              <Progress color="teal" value="60">
-                {item.projectRatio ? item.projectRatio : "none"}
+            projectRatio: item.projectRatio ? (
+              <Progress color="teal" value={item.projectRatio}>
+                {item.projectRatio + "%"}
               </Progress>
+            ) : (
+              "none"
             ),
             status: (
               <span className="badge badge-teal">
                 {item.status ? item.status : "none"}
               </span>
             ),
+            teamLead: item.teamLead ? item.teamLead.name : "None",
             parentTask: item.parentTask ? item.parentTask.name : "None",
             addedBy: item.addedBy ? item.addedBy : "none",
             approvedBy: item.approvedBy ? item.approvedBy.name : "none",
@@ -150,8 +159,7 @@ const Tables_datatable = () => {
                 >
                   Edit
                 </Button>
-                {/* </div> */}
-                {/* <div className="col"> */}
+
                 <Button
                   color="danger"
                   size="sm"
@@ -162,7 +170,6 @@ const Tables_datatable = () => {
                 >
                   Delete
                 </Button>
-                {/* </div> */}
               </div>
             ),
           });

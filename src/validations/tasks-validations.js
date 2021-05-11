@@ -7,9 +7,15 @@ class TasksValidations {
         .required("Required!")
         .min(2)
         .max(20),
-      project: Yup.string().required(),
+      teamLead: Yup.object().required("Required!"),
+      assignedTo: Yup.array().required("Required!"),
+      project: Yup.object().required("Required!"),
+      description: Yup.string().required("Required!"),
       // .max(20, "Your lastname must be less than 20 character"),
       estimatedHrs: Yup.number("Please enter a valid number!").required(
+        "Required!"
+      ),
+      projectRatio: Yup.number("Please enter a valid number!").required(
         "Required!"
       ),
       //   projectRatio: Yup.number("Please enter a valid number!").required(
