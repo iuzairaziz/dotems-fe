@@ -1,14 +1,29 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Formik } from "formik";
 import projectValidation from "../../../validations/project-validations";
 import Select from "react-select";
 import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import CountryService from "../../../services/CountryService";
+import ProjectService from "../../../services/ProjectService";
+import PlatformService from "../../../services/PlatformService";
+import TechnologyService from "../../../services/TechnologyService";
+import ServiceService from "../../../services/ServiceService";
+import NatureService from "../../../services/NatureService";
+import userService from "../../../services/UserService";
+import ClientService from "../../../services/ClientService";
 
-const ProjectForm = () => {
+const ProjectForm = (props) => {
   const [default_date, set_default_date] = useState(0);
   const [end_date, set_end_date] = useState(0);
+  const [country, setCountry] = useState([]);
+  const [platform, setPlatform] = useState([]);
+  const [technology, setTechnology] = useState([]);
+  const [service, setServiceType] = useState([]);
+  const [nature, setNature] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [client, setClient] = useState([]);
 
   const handleDefault = (date) => {
     console.log(date);
@@ -18,26 +33,192 @@ const ProjectForm = () => {
     console.log(date);
     set_end_date(date);
   };
+  useEffect(() => {
+    getCountry();
+    getPlatform();
+    getTechnology();
+    getServiceType();
+    getNature();
+    getUsers();
+    getClient();
+  }, []);
+
+  const getUsers = () => {
+    userService.getUsers().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ value: item.name, label: item.name, id: item._id });
+        setUsers(options);
+      });
+    });
+  };
+
+  const getClient = () => {
+    ClientService.getAllClient().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setClient(options);
+      });
+    });
+  };
+
+  const getNature = () => {
+    NatureService.getAllNature().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setNature(options);
+      });
+    });
+  };
+
+  const getServiceType = () => {
+    ServiceService.getAllService().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setServiceType(options);
+      });
+    });
+  };
+
+  const getTechnology = () => {
+    TechnologyService.getAllTechnologies().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setTechnology(options);
+      });
+    });
+  };
+
+  const getPlatform = () => {
+    PlatformService.getAllPlatform().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setPlatform(options);
+      });
+    });
+  };
+
+  const getCountry = () => {
+    CountryService.getAllCountry().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setCountry(options);
+      });
+    });
+  };
+
+  const project = props.project;
+  const editable = props.editable;
+  console.log("from project form ", project);
+
   return (
     <Formik
       initialValues={{
-        projectName: "",
-        clientName: "",
-        orderNum: "",
-        cost: "",
-        platform: "",
-        technology: "",
-        serviceType: "",
-        status: "",
-        startDate: "",
-        endDate: "",
-        projectManager: "",
-        teamMembers: "",
-        projectNature: "",
+        projectName: editable && project.name,
+        clientName: editable && project.client && project.client.client_name,
+        status: editable && project.status,
+        cost: editable && project.cost,
+        platform:
+          editable && project.platform && project.platform.platform_name,
+        technology:
+          editable && project.technology && project.technology.technology_name,
+        serviceType:
+          editable && project.service && project.service.service_name,
+        projectNature: editable && project.nature && project.nature.nature_name,
+        startDate: editable && project.startDate,
+        endDate: editable && project.endDate,
+        projectManager:
+          editable &&
+          project.projectManager &&
+          project.projectManager.projectManager_name,
+        teamMembers:
+          editable &&
+          project.assignedUser &&
+          project.assignedUser.assignedUser_name,
+        orderNum: editable && project.orderNumber,
       }}
       validationSchema={projectValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
-        // console.log(values);
+        let usrs = [];
+        values.assignedTo.map((item) => {
+          usrs.push(item.id);
+        });
+        editable
+          ? ProjectService.updateProject(project._id, {
+              name: values.projectName,
+              client: values.clientName,
+              orderNumber: values.orderNum,
+              platform: values.platform,
+              technology: values.technology,
+              service: values.serviceType,
+              status: values.status,
+              nature: values.projectNature,
+              startDate: new Date(),
+              endDate: new Date(),
+              projectManager: values.projectManager,
+              assignedUser: usrs,
+              cost: values.cost,
+            })
+              .then((res) => {
+                ProjectService.handleMessage("update");
+                props.toggle();
+              })
+              .catch((err) => {
+                ProjectService.handleError();
+                props.toggle();
+              })
+          : ProjectService.addProject({
+              name: values.projectName,
+              client: values.clientName,
+              orderNumber: values.orderNum,
+              platform: values.platform,
+              technology: values.technology,
+              service: values.serviceType,
+              status: values.status,
+              nature: values.projectNature,
+              startDate: new Date(),
+              endDate: new Date(),
+              projectManager: values.projectManager,
+              assignedUser: usrs,
+              cost: values.cost,
+            })
+              .then((res) => {
+                ProjectService.handleMessage("add");
+              })
+              .catch((err) => {
+                ProjectService.handleError();
+              });
+        console.log("country", values.country);
       }}
     >
       {(props) => (
@@ -59,12 +240,20 @@ const ProjectForm = () => {
             <div className="col">
               <div className="form-group">
                 <label className="control-label">Client Name</label>
-
-                <Select
-                  value={props.values.clientName}
-                  onChange={props.handleChange("clientName")}
-                  options={["Pakistan", "USA"]}
-                />
+                <select
+                  className="form-control"
+                  value={props.values.client}
+                  onChange={props.handleChange("client")}
+                >
+                  {client.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
+                <span id="err">{props.errors.client}</span>
               </div>
             </div>
           </div>
@@ -86,11 +275,20 @@ const ProjectForm = () => {
               <div className="form-group">
                 <label className="control-label">Platform</label>
 
-                <Select
+                <select
+                  className="form-control"
                   value={props.values.platform}
                   onChange={props.handleChange("platform")}
-                  options={["Pakistan", "USA"]}
-                />
+                >
+                  {platform.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
+                <span id="err">{props.errors.platform}</span>
               </div>
             </div>
           </div>
@@ -99,22 +297,39 @@ const ProjectForm = () => {
               <div className="form-group">
                 <label className="control-label">Technology</label>
 
-                <Select
+                <select
+                  className="form-control"
                   value={props.values.technology}
                   onChange={props.handleChange("technology")}
-                  options={["Pakistan", "USA"]}
-                />
+                >
+                  {technology.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
+                <span id="err">{props.errors.technology}</span>
               </div>
             </div>
             <div className="col">
               <div className="form-group">
                 <label className="control-label">Services Type</label>
-
-                <Select
-                  value={props.values.serviceType}
-                  onChange={props.handleChange("serviceType")}
-                  options={["Pakistan", "USA"]}
-                />
+                <select
+                  className="form-control"
+                  value={props.values.service}
+                  onChange={props.handleChange("service")}
+                >
+                  {service.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
+                <span id="err">{props.errors.service}</span>
               </div>
             </div>
           </div>
@@ -126,7 +341,7 @@ const ProjectForm = () => {
                 <Select
                   value={props.values.status}
                   onChange={props.handleChange("status")}
-                  options={["Pakistan", "USA"]}
+                  options={["PAksitan", "China"]}
                 />
               </div>
             </div>
@@ -134,11 +349,20 @@ const ProjectForm = () => {
               <div className="form-group">
                 <label className="control-label">Project Nature</label>
 
-                <Select
-                  value={props.values.projectNature}
-                  onChange={props.handleChange("projectNature")}
-                  options={["Pakistan", "USA"]}
-                />
+                <select
+                  className="form-control"
+                  value={props.values.nature}
+                  onChange={props.handleChange("nature")}
+                >
+                  {nature.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
+                <span id="err">{props.errors.nature}</span>
               </div>
             </div>
           </div>
@@ -175,20 +399,29 @@ const ProjectForm = () => {
               <div className="form-group">
                 <label className="control-label">Project Manager</label>
 
-                <Select
-                  value={props.values.projectManager}
-                  onChange={props.handleChange("projectManager")}
-                  options={["Pakistan", "USA"]}
-                />
+                <select
+                  className="form-control"
+                  value={props.values.users}
+                  onChange={props.handleChange("users")}
+                >
+                  {users.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
+                <span id="err">{props.errors.users}</span>
               </div>
             </div>
             <div className="col">
               <div className="form-group mb-0">
                 <label className="control-label">Team Members</label>
                 <Select
-                  value={props.values.teamMembers}
-                  onChange={props.handleChange("teamMembers")}
-                  options={["Uzair", "Nehal", "Sarosh"]}
+                  value={props.values.assignedUser}
+                  onChange={(val) => props.setFieldValue("assignedUser", val)}
+                  options={users}
                   isMulti={true}
                 />
               </div>

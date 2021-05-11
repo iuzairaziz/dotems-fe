@@ -11,18 +11,19 @@ class ProjectValidation {
       orderNum: Yup.string()
         .required()
         .max(100, "Required"),
-      status: Yup.string().required("Required!"),
+      status: Yup.string(),
       cost: Yup.number()
         .required()
         .max(1000000, "Required"),
       platform: Yup.string().required("Required!"),
       technology: Yup.string().required("Required!"),
-      serviceType: Yup.string().required("Required!"),
-      projectNature: Yup.string().required("Required!"),
+      serviceType: Yup.string(),
+      projectNature: Yup.string(),
       startDate: Yup.string().required("Required!"),
       endDate: Yup.string().required("Required!"),
-      projectManager: Yup.string().required("Required!"),
-      teamMembers: Yup.string().required("Required!"),
+      projectManager: Yup.string(),
+      teamMembers: Yup.string(),
+      orderNum: Yup.string().required("Required!"),
     });
   };
 
