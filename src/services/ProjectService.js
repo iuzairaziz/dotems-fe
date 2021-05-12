@@ -18,8 +18,8 @@ class ProjectService {
     return axios.get(this.config.apiBaseUrl + "project/" + orderId);
   }
 
-  updateProject(formData) {
-    return axios.put(this.config.apiBaseUrl + "project/:id", formData);
+  updateProject(id, formData) {
+    return axios.put(this.config.apiBaseUrl + "project/" + id, formData);
   }
 
   getAllProject() {
@@ -44,6 +44,16 @@ class ProjectService {
   handleCustomMessage(message) {
     toast(message.toString());
   }
+  handleError() {
+    toast("Something went wrong!");
+  }
+
+  handleMessage(type) {
+    if (type === "add") toast("Successfully added Project");
+    else if (type === "update") toast("Successfully updated Project");
+    else if (type === "delete") toast("Successfully deleted Project");
+  }
+
   handleError() {
     toast("Something went wrong!");
   }

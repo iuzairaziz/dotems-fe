@@ -1,14 +1,25 @@
 import React, { Component, useState, useEffect } from "react";
 import AUX from "../../../hoc/Aux_";
 import { Link } from "react-router-dom";
-import { MDBDataTable, MDBBtn } from "mdbreact";
+import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import ClientValidation from "../../../validations/client-validations";
-import { Progress, Button } from "reactstrap";
+import {
+  Progress,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 import ProjectForm from "../Projects/ProjectFrom";
 import ProjectService from "../../../services/ProjectService";
 
 const ViewProjects = () => {
   const [editTask, setEditTask] = useState();
+  const [modalEdit, setModalEdit] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+  const [selectedProject, setSelectedProject] = useState({ name: "" });
+
   const [dataa, setData] = useState({
     columns: [
       {
@@ -37,17 +48,23 @@ const ViewProjects = () => {
         width: 125,
       },
       {
+        label: "Technology ",
+        field: "technology",
+        sort: "disabled",
+        width: 125,
+      },
+      {
         label: "Service Type",
         field: "serviceType",
         sort: "disabled",
         width: 100,
       },
-      // {
-      //   label: "Project Nature",
-      //   field: "projectNature",
-      //   sort: "asc",
-      //   width: 100,
-      // },
+      {
+        label: "Project Nature",
+        field: "projectNature",
+        sort: "asc",
+        width: 100,
+      },
       {
         label: "Status",
         field: "status",
@@ -66,43 +83,64 @@ const ViewProjects = () => {
         sort: "disabled",
         width: 100,
       },
-      // {
-      //   label: "Project Manager",
-      //   field: "projectManager",
-      //   sort: "disabled",
-      //   width: 100,
-      // },
+      {
+        label: "Project Manager",
+        field: "projectManager",
+        sort: "disabled",
+        width: 100,
+      },
+      {
+        label: "Team Members",
+        field: "teamMember",
+        sort: "disabled",
+        width: 100,
+      },
       {
         label: "Cost",
         field: "cost",
         sort: "disabled",
         width: 100,
       },
-      // {
-      //   label: "Technology ",
-      //   field: "technology",
-      //   sort: "disabled",
-      //   width: 125,
-      // },
     ],
     rows: [],
   });
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [modalEdit, modalDelete]);
 
+  const toggleEdit = () => setModalEdit(!modalEdit);
+  const toggleDelete = () => setModalDelete(!modalDelete);
+
+  const handleDelete = (id) => {
+    ProjectService.deleteTask(id)
+      .then((res) => {
+        ProjectService.handleMessage("delete");
+        toggleDelete();
+      })
+      .catch((err) => {
+        ProjectService.handleError();
+        toggleDelete();
+      });
+  };
   const getData = () => {
     ProjectService.getAllProject()
       .then((res) => {
-        let data = { ...dataa };
+        let updatedData = { ...dataa };
+        updatedData.rows = [];
         res.data.map((item, index) => {
-          data.rows.push({
+          updatedData.rows.push({
             projectName: item.name ? item.name : "none",
             clientName: item.client ? item.client.name : "none",
             orderNum: item.orderNum ? item.orderNum : "none",
             platform: item.platform ? item.platform : "none",
             serviceType: item.service ? item.service : "none",
+            projectNature: item.nature ? item.nature : "none",
+            technology: item.technology ? item.technology : "none",
+            projectManager: item.projectManager
+              ? item.projectManager.name
+              : "none",
+            teamMember: item.assignedUser ? item.assignedUser.name : "none",
             status: (
               <span className="badge badge-teal">
                 {item.status ? item.status : "none"}
@@ -113,30 +151,33 @@ const ViewProjects = () => {
             cost: item.cost ? item.cost : "none",
             action: (
               <div className="row flex-nowrap">
-                {/* <div className="col"> */}
                 <Button
+                  onClick={() => {
+                    setSelectedProject(item);
+                    toggleEdit();
+                  }}
                   color="info"
                   size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
-                  onClick={setEditTask(item)}
                 >
                   Edit
                 </Button>
-                {/* </div> */}
-                {/* <div className="col"> */}
-                <Button color="danger" size="sm">
+
+                <Button
+                  color="danger"
+                  size="sm"
+                  onClick={() => {
+                    setSelectedProject(item);
+                    toggleDelete();
+                  }}
+                >
                   Delete
                 </Button>
-                {/* </div> */}
               </div>
             ),
           });
         });
-        setData(data);
-        console.log("state data", dataa);
-        console.log("my project data", data);
-        console.log("res data", res.data);
+        console.log("project", updatedData);
+        setData(updatedData);
       })
       .catch((err) => {
         console.log(err);
@@ -153,48 +194,51 @@ const ViewProjects = () => {
                 <div className="card-body">
                   <h4 className="mt-0 header-title">Clients</h4>
 
-                  <MDBDataTable striped bordered hover data={dataa} />
+                  <MDBDataTableV5
+                    // scrollX
+                    fixedHeader={true}
+                    responsive
+                    striped
+                    bordered
+                    searchTop
+                    hover
+                    autoWidth
+                    data={dataa}
+                    theadColor="#000"
+                  />
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div
-        id="myModal"
-        className="modal fade"
-        tabIndex="-1"
-        role="dialog"
-        aria-labelledby="myModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-lg">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title mt-0" id="myModalLabel">
-                Edit Client
-              </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-hidden="true"
-              >
-                ×
-              </button>
-            </div>
-            <div className="modal-body">
-              <ProjectForm />
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary waves-effect"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-            </div>
+            <Modal isOpen={modalEdit} toggle={toggleEdit}>
+              <ModalHeader toggle={toggleEdit}>Edit Project</ModalHeader>
+              <ModalBody>
+                <ProjectForm
+                  editable={true}
+                  project={selectedProject}
+                  toggle={toggleEdit}
+                />
+              </ModalBody>
+            </Modal>
+            <Modal isOpen={modalDelete} toggle={toggleDelete}>
+              <ModalHeader toggle={toggleDelete}>Delete Project?</ModalHeader>
+              <ModalBody>
+                Are you sure you want to delete the Project? "
+                {selectedProject.projectName}" ?
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    handleDelete(selectedProject._id);
+                  }}
+                >
+                  Yes
+                </Button>{" "}
+                <Button color="secondary" onClick={toggleDelete}>
+                  No
+                </Button>
+              </ModalFooter>
+            </Modal>
           </div>
         </div>
       </div>
