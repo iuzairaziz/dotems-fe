@@ -122,6 +122,7 @@ import AddPlatform from "../MainContent/Platform/AddPlatform/AddPlatform";
 import PlatformList from "../MainContent/Platform/PlatformList/PlatformList";
 import Login from "../MainContent/Auth/Login/Login";
 import Register from "../MainContent/Auth/Register/Register";
+import AddTime from "../MainContent/Timesheet/AddTime/AddTime";
 
 class mainbuilder extends Component {
   render() {
@@ -134,20 +135,21 @@ class mainbuilder extends Component {
         <Route exact path="/addproject" component={AddProjects} />
         <Route exact path="/clientform" component={ClientsForm} />
         //nehal routes
+        <Route exact path="/add-time" component={AddTime} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/list-platform" component={PlatformList} />
+        <Route exact path="/platform" component={PlatformList} />
         <Route exact path="/add-platform" component={AddPlatform} />
-        <Route exact path="/list-service" component={ServiceList} />
+        <Route exact path="/service" component={ServiceList} />
         <Route exact path="/add-service" component={AddService} />
-        <Route exact path="/list-country" component={CountryList} />
+        <Route exact path="/country" component={CountryList} />
         <Route exact path="/add-country" component={AddCountry} />
-        <Route exact path="/list-technology" component={TechnologyList} />
+        <Route exact path="/technology" component={TechnologyList} />
         <Route exact path="/add-technology" component={AddTechnology} />
-        <Route exact path="/list-nature" component={NatureList} />
+        <Route exact path="/nature" component={NatureList} />
         <Route exact path="/add-nature" component={AddNature} />
         <Route exact path="/add-task" component={NewTask} />
-        <Route exact path="/list-task" component={TaskList} />
+        <Route exact path="/task" component={TaskList} />
         //===================================================================
         <Route path="/calendar" component={Calendar} />
         <Route path="/ecommerce_customers" component={Ecommerce_customers} />

@@ -17,17 +17,28 @@ class sidebar extends Component {
     service_menu: false,
     technology_menu: false,
     task_menu: false,
+    timesheet_menu: false,
+    client_menu: false,
+    project_menu: false,
   };
 
   stateKeys = Object.keys(this.state);
 
   menus = [
     {
+      name: "timesheet_menu",
+      tab: "timesheet",
+      subMenus: [
+        { routeName: "add-time", label: "New Time" },
+        { routeName: "timesheet", label: "View Timesheet" },
+      ],
+    },
+    {
       name: "country_menu",
       tab: "country",
       subMenus: [
         { routeName: "add-country", label: "New Country" },
-        { routeName: "list-country", label: "View Country" },
+        { routeName: "country", label: "View Country" },
       ],
     },
     {
@@ -35,7 +46,7 @@ class sidebar extends Component {
       tab: "nature",
       subMenus: [
         { routeName: "add-nature", label: "New Nature" },
-        { routeName: "list-nature", label: "View Nature" },
+        { routeName: "nature", label: "View Nature" },
       ],
     },
     {
@@ -43,7 +54,7 @@ class sidebar extends Component {
       tab: "platform",
       subMenus: [
         { routeName: "add-platform", label: "New Platform" },
-        { routeName: "list-platform", label: "View Platforms" },
+        { routeName: "platform", label: "View Platforms" },
       ],
     },
     {
@@ -51,7 +62,7 @@ class sidebar extends Component {
       tab: "service",
       subMenus: [
         { routeName: "add-service", label: "New Service" },
-        { routeName: "list-service", label: "View Services" },
+        { routeName: "service", label: "View Services" },
       ],
     },
     {
@@ -59,7 +70,7 @@ class sidebar extends Component {
       tab: "technology",
       subMenus: [
         { routeName: "add-technology", label: "New Technology" },
-        { routeName: "list-technology", label: "View Technologys" },
+        { routeName: "technology", label: "View Technologys" },
       ],
     },
     {
@@ -67,7 +78,7 @@ class sidebar extends Component {
       tab: "task",
       subMenus: [
         { routeName: "add-task", label: "New Tasks" },
-        { routeName: "list-task", label: "View Taskss" },
+        { routeName: "task", label: "View Taskss" },
       ],
     },
     {

@@ -31,12 +31,21 @@ class TaskService {
     return axios.get(this.config.apiBaseUrl + "tasks/project-tasks/" + id);
   }
 
+  getEmployeeProjectTasks(data) {
+    return axios.post(
+      this.config.apiBaseUrl + "tasks/by-employee-project/",
+      data
+    );
+  }
+
   handleMessage(type) {
     if (type === "add") toast("Successfully added Task");
     else if (type === "update") toast("Successfully updated Task");
     else if (type === "delete") toast("Successfully deleted Task");
   }
-
+  handleCustomMessage(message) {
+    toast(message.toString());
+  }
   handleError() {
     toast("Something went wrong!");
   }
