@@ -11,10 +11,12 @@ const AddTime = () => {
             <div className="col-lg-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Add New Task</h4>
+                  <h4 className="mt-0 header-title">
+                    Add Working Hours to a Task
+                  </h4>
                   <p className="text-muted m-b-30 font-14">
-                    Please fill the form below to add a new Working Hours to a
-                    Task.
+                    Please fill the form below to add number of hours worked on
+                    a task
                   </p>
                   <TimesheetForm />
                 </div>

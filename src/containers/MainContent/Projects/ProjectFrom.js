@@ -170,7 +170,8 @@ const ProjectForm = (props) => {
       validationSchema={projectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
         let usrs = [];
-        values.assignedTo.map((item) => {
+        console.log("team members", values.teamMembers);
+        values.teamMembers.map((item) => {
           usrs.push(item.id);
         });
         editable
@@ -430,8 +431,11 @@ const ProjectForm = (props) => {
               <div className="form-group mb-0">
                 <label className="control-label">Team Members</label>
                 <Select
-                  value={props.values.assignedUser}
-                  onChange={(val) => props.setFieldValue("assignedUser", val)}
+                  value={props.values.teamMembers}
+                  onChange={(val) => {
+                    props.setFieldValue("teamMembers", val);
+                    console.log("team change", val);
+                  }}
                   options={users}
                   isMulti={true}
                 />
