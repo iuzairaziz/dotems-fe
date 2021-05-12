@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 
 class ProjectValidation {
-  authSchemaValidation = () => {
+  newProjectValidation = () => {
     return Yup.object({
       projectName: Yup.string()
         .required("Required!")
@@ -27,15 +27,15 @@ class ProjectValidation {
     });
   };
 
-  loginSchemaValidation = () => {
-    return Yup.object({
-      username: Yup.string()
-        .required("Required!")
-        .min(6)
-        .max(20),
-      password: Yup.string().required("Required"),
-    });
-  };
+  // loginSchemaValidation = () => {
+  //   return Yup.object({
+  //     username: Yup.string()
+  //       .required("Required!")
+  //       .min(6)
+  //       .max(20),
+  //     password: Yup.string().required("Required"),
+  //   });
+  // };
 
   handleError(error) {
     console.log(error.message);

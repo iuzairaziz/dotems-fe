@@ -29,9 +29,9 @@ const ProjectForm = (props) => {
     console.log(date);
     set_default_date(date);
   };
-  const handleEnd = (date) => {
-    console.log(date);
-    set_end_date(date);
+  const handleEnd = (datee) => {
+    console.log(datee);
+    set_end_date(datee);
   };
   useEffect(() => {
     getCountry();
@@ -167,7 +167,7 @@ const ProjectForm = (props) => {
           project.assignedUser.assignedUser_name,
         orderNum: editable && project.orderNumber,
       }}
-      validationSchema={projectValidation.authSchemaValidation}
+      validationSchema={projectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
         let usrs = [];
         values.assignedTo.map((item) => {
@@ -183,8 +183,8 @@ const ProjectForm = (props) => {
               service: values.serviceType,
               status: values.status,
               nature: values.projectNature,
-              startDate: new Date(),
-              endDate: new Date(),
+              startDate: values.startDate,
+              endDate: values.endDate,
               projectManager: values.projectManager,
               assignedUser: usrs,
               cost: values.cost,
@@ -206,8 +206,8 @@ const ProjectForm = (props) => {
               service: values.serviceType,
               status: values.status,
               nature: values.projectNature,
-              startDate: new Date(),
-              endDate: new Date(),
+              startDate: values.startDate,
+              endDate: values.endDate,
               projectManager: values.projectManager,
               assignedUser: usrs,
               cost: values.cost,
@@ -218,7 +218,12 @@ const ProjectForm = (props) => {
               .catch((err) => {
                 ProjectService.handleError();
               });
-        console.log("country", values.country);
+        console.log("clientName", values.clientName);
+        console.log("platform", values.platform);
+        console.log("technology", values.technology);
+        console.log("serviceType", values.serviceType);
+        console.log("projectNature", values.projectNature);
+        console.log("projectManager", values.projectManager);
       }}
     >
       {(props) => (
@@ -374,8 +379,11 @@ const ProjectForm = (props) => {
                 <div>
                   <DatePicker
                     className="form-control"
-                    selected={default_date}
-                    onChange={handleDefault}
+                    selected={props.values.startDate}
+                    onChange={(date) => {
+                      props.setFieldValue("startDate", date);
+                      console.log("datepicker", date);
+                    }}
                   />
                 </div>
               </div>{" "}
@@ -387,8 +395,11 @@ const ProjectForm = (props) => {
                 <div>
                   <DatePicker
                     className="form-control"
-                    selected={end_date}
-                    onChange={handleEnd}
+                    selected={props.values.endDate}
+                    onChange={(datee) => {
+                      props.setFieldValue("endDate", datee);
+                      console.log("datepicker", datee);
+                    }}
                   />
                 </div>
               </div>{" "}
@@ -424,6 +435,7 @@ const ProjectForm = (props) => {
                   options={users}
                   isMulti={true}
                 />
+                <span id="err">{props.errors.assignedUser}</span>
               </div>
             </div>
           </div>
@@ -443,8 +455,14 @@ const ProjectForm = (props) => {
             </div>
           </div>
           <div className="row">
-            <div className="col-mb-2">
-              <Button color="success">Save</Button>{" "}
+            <div className="col">
+              <Button
+                color="success"
+                className="mt-3"
+                onClick={props.handleSubmit}
+              >
+                Submit
+              </Button>
             </div>
           </div>
         </>

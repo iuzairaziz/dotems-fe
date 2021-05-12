@@ -1,5 +1,6 @@
 import Configuration from "../config/configuration";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 class ProjectService {
   constructor() {
@@ -17,8 +18,8 @@ class ProjectService {
     return axios.get(this.config.apiBaseUrl + "project/" + orderId);
   }
 
-  updateProject(formData) {
-    return axios.put(this.config.apiBaseUrl + "project/:id", formData);
+  updateProject(id, formData) {
+    return axios.put(this.config.apiBaseUrl + "project/" + id, formData);
   }
 
   getAllProject() {
@@ -31,6 +32,16 @@ class ProjectService {
 
   handleError(error) {
     console.log(error.message);
+  }
+
+  handleMessage(type) {
+    if (type === "add") toast("Successfully added Project");
+    else if (type === "update") toast("Successfully updated Project");
+    else if (type === "delete") toast("Successfully deleted Project");
+  }
+
+  handleError() {
+    toast("Something went wrong!");
   }
 }
 
