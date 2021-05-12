@@ -36,16 +36,8 @@ class ProjectService {
     );
   }
 
-  handleMessage(type) {
-    if (type === "add") toast("Successfully added Task");
-    else if (type === "update") toast("Successfully updated Task");
-    else if (type === "delete") toast("Successfully deleted Task");
-  }
   handleCustomMessage(message) {
     toast(message.toString());
-  }
-  handleError() {
-    toast("Something went wrong!");
   }
 
   handleMessage(type) {
