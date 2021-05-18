@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 import AUX from "./hoc/Aux_";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Auth from "./containers/MainContent/Auth/Auth";
 
 class App extends Component {
   render() {
@@ -27,7 +28,6 @@ class App extends Component {
     return (
       <AUX>
         <ToastContainer />
-
         {layout}
       </AUX>
     );

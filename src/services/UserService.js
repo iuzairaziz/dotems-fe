@@ -11,6 +11,31 @@ class userServices {
     this.config = new Configuration();
   }
 
+  register = (name, email, status, gender, salary, password, joiningDate) =>
+    new Promise((resolve, reject) => {
+      axios
+        .post(
+          "http://localhost:8080/users/register",
+          name,
+          email,
+          salary,
+          password,
+          joiningDate,
+          status,
+          gender
+        )
+        .then((token) => {
+          localStorage.setItem("token", token.data);
+          resolve(token);
+        })
+        .catch((err) => {
+          toast.error(err.response.data, {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          reject(err);
+        });
+    });
+
   login = (email, password) =>
     new Promise((resolve, reject) => {
       axios
