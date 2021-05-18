@@ -28,18 +28,18 @@ const ViewProjects = () => {
         sort: "asc",
         width: 150,
       },
-      {
-        label: "Client Name",
-        field: "clientName",
-        sort: "asc",
-        width: 150,
-      },
-      {
-        label: "Order Num",
-        field: "orderNum",
-        sort: "disabled",
-        width: 100,
-      },
+      // {
+      //   label: "Client Name",
+      //   field: "clientName",
+      //   sort: "asc",
+      //   width: 150,
+      // },
+      // {
+      //   label: "Order Num",
+      //   field: "orderNum",
+      //   sort: "disabled",
+      //   width: 100,
+      // },
 
       {
         label: "Platform",
@@ -53,18 +53,18 @@ const ViewProjects = () => {
         sort: "disabled",
         width: 125,
       },
-      {
-        label: "Service Type",
-        field: "serviceType",
-        sort: "disabled",
-        width: 100,
-      },
-      {
-        label: "Project Nature",
-        field: "projectNature",
-        sort: "asc",
-        width: 100,
-      },
+      // {
+      //   label: "Service Type",
+      //   field: "serviceType",
+      //   sort: "disabled",
+      //   width: 100,
+      // },
+      // {
+      //   label: "Project Nature",
+      //   field: "projectNature",
+      //   sort: "asc",
+      //   width: 100,
+      // },
       {
         label: "Status",
         field: "status",
@@ -83,24 +83,80 @@ const ViewProjects = () => {
         sort: "disabled",
         width: 100,
       },
-      {
-        label: "Project Manager",
-        field: "projectManager",
-        sort: "disabled",
-        width: 100,
+      // {
+      //   label: "Project Manager",
+      //   field: "projectManager",
+      //   sort: "disabled",
+      //   width: 100,
+      // },
+      // {
+      //   label: "Team Members",
+      //   field: "teamMember",
+      //   sort: "disabled",
+      //   width: 100,
+      // },
+      // {
+      //   label: "Project Cost",
+      //   field: "cost",
+      //   sort: "disabled",
+      //   width: 100,
+      // },
+      // {
+      //   label: "Reserve Profit",
+      //   field: "Rprofit",
+      //   sort: "disabled",
+        
+      // },
+      //  {
+      //    label: "Estimate Hours",
+      //    field: "EstHrs",
+      //    sort: "disabled",
+        
+      //  },
+      //  {
+      //    label: "Actual Hours",
+      //    field: "ActHrs",
+      //   sort: "disabled",
+        
+      //  },
+       {
+        label: "Work Done",
+        field: "wrkdone",
+       sort: "disabled",
+       
       },
+      // {
+      //   label: "Project Income Rs.",
+      //   field: "Pincome",
+      //   sort: "disabled",
+        
+      // },
+      // {
+      //   label: "Platform Deduction",
+      //   field: "Pdeduction",
+      //   sort: "disabled",
+        
+      // },
+      // {
+      //   label: "Resource Expense",
+      //   field: "Rprofit",
+      //   sort: "disabled",
+        
+      // },
+      // {
+      //   label: "Total Profit",
+      //   field: "Tprofit",
+      //   sort: "disabled",
+        
+      // },
       {
-        label: "Team Members",
-        field: "teamMember",
+        label: "Action",
+        field: "action",
         sort: "disabled",
-        width: 100,
+        // width: 150,
       },
-      {
-        label: "Cost",
-        field: "cost",
-        sort: "disabled",
-        width: 100,
-      },
+
+
     ],
     rows: [],
   });
@@ -126,17 +182,17 @@ const ViewProjects = () => {
   const getData = () => {
     ProjectService.getAllProject()
       .then((res) => {
-        let updatedData = { ...dataa };
-        updatedData.rows = [];
+        let data = { ...dataa };
+        data.rows = [];
         res.data.map((item, index) => {
-          updatedData.rows.push({
+          data.rows.push({
             projectName: item.name ? item.name : "none",
             clientName: item.client ? item.client.name : "none",
             orderNum: item.orderNum ? item.orderNum : "none",
-            platform: item.platform ? item.platform : "none",
-            serviceType: item.service ? item.service : "none",
-            projectNature: item.nature ? item.nature : "none",
-            technology: item.technology ? item.technology : "none",
+            platform: item.platform ? item.platform.name : "none",
+            serviceType: item.service ? item.service.name : "none",
+            projectNature: item.nature ? item.nature.name : "none",
+            technology: item.technology ? item.technology.name : "none",
             projectManager: item.projectManager
               ? item.projectManager.name
               : "none",
@@ -149,15 +205,18 @@ const ViewProjects = () => {
             startDate: item.startDate ? item.startDate : "none",
             endDate: item.endDate ? item.endDate : "none",
             cost: item.cost ? item.cost : "none",
+            Rprofit: item.Rprofit ? item.Rprofit : "none",
             action: (
               <div className="row flex-nowrap">
-                <Button
+                 <Button
+                  color="info"
+                  size="sm"
+                  data-toggle="modal"
+                  data-target="#myModal"
                   onClick={() => {
                     setSelectedProject(item);
                     toggleEdit();
                   }}
-                  color="info"
-                  size="sm"
                 >
                   Edit
                 </Button>
@@ -176,8 +235,10 @@ const ViewProjects = () => {
             ),
           });
         });
-        console.log("project", updatedData);
-        setData(updatedData);
+        setData(data);
+        console.log("state data", dataa);
+        console.log("my project data", data);
+        console.log("res data", res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -192,7 +253,7 @@ const ViewProjects = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Clients</h4>
+                  <h4 className="mt-0 header-title">Projects</h4>
 
                   <MDBDataTableV5
                     // scrollX

@@ -13,6 +13,8 @@ import ServiceService from "../../../services/ServiceService";
 import NatureService from "../../../services/NatureService";
 import userService from "../../../services/UserService";
 import ClientService from "../../../services/ClientService";
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const ProjectForm = (props) => {
   const [default_date, set_default_date] = useState(0);
@@ -148,6 +150,7 @@ const ProjectForm = (props) => {
         clientName: editable && project.client && project.client.client_name,
         status: editable && project.status,
         cost: editable && project.cost,
+        Rprofit: editable && project.Rprofit,
         platform:
           editable && project.platform && project.platform.platform_name,
         technology:
@@ -166,6 +169,8 @@ const ProjectForm = (props) => {
           project.assignedUser &&
           project.assignedUser.assignedUser_name,
         orderNum: editable && project.orderNumber,
+        Pdeduction: editable && project.Pdeduction,
+        percentage: editable && project.percentage,
       }}
       validationSchema={projectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
@@ -189,6 +194,9 @@ const ProjectForm = (props) => {
               projectManager: values.projectManager,
               assignedUser: usrs,
               cost: values.cost,
+              Rprofit: values.Rprofit,
+              Pdeduction: values.Pdeduction,
+              percentage: values.percentage,
             })
               .then((res) => {
                 ProjectService.handleMessage("update");
@@ -212,6 +220,9 @@ const ProjectForm = (props) => {
               projectManager: values.projectManager,
               assignedUser: usrs,
               cost: values.cost,
+              Rprofit: values.Rprofit,
+              Pdeduction: values.Pdeduction,
+              percentage: values.percentage,
             })
               .then((res) => {
                 ProjectService.handleMessage("add");
@@ -457,6 +468,63 @@ const ProjectForm = (props) => {
                 <span id="err">{props.errors.cost}</span>
               </div>
             </div>
+            <div className="col">
+              <div className="form-group">
+                <label>Reserve Profit</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={props.values.Rprofit}
+                  onChange={props.handleChange("Rprofit")}
+                  placeholder="Enter Preserve Profit"
+                />
+                <span id="err">{props.errors.Rprofit}</span>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+          <div className="col">
+              <div className="form-group">
+                <label>Platform Deduction</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={props.values.Pdeduction}
+                  onChange={props.handleChange("Pdeduction")}
+                  placeholder="Enter Deduction"
+                />
+                <span id="err">{props.errors.Pdeduction}</span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label>Percentage</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={props.values.percentage}
+                  onChange={props.handleChange("percentage")}
+                  placeholder="Enter Percentage"
+                />
+                <span id="err">{props.errors.percentage}</span>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+          <div className="col-12">
+                            <div className="card m-b-20">
+                                <div className="card-body">
+
+                                    <h4 className="mt-0 header-title">Description</h4>
+                                
+
+                                        <Editor
+                                toolbarClassName="toolbarClassName"
+                                wrapperClassName="wrapperClassName"
+                                editorClassName="editorClassName" />
+                                </div>
+                            </div>
+                        </div>
           </div>
           <div className="row">
             <div className="col">
