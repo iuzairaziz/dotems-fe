@@ -124,6 +124,7 @@ import PlatformList from "../MainContent/Platform/PlatformList/PlatformList";
 import Login from "../MainContent/Auth/Login/Login";
 import Register from "../MainContent/Auth/Register/Register";
 import AddTime from "../MainContent/Timesheet/AddTime/AddTime";
+import ProjectReports from "../MainContent/Projects/ProjectReports";
 
 class mainbuilder extends Component {
   render() {
@@ -137,6 +138,7 @@ class mainbuilder extends Component {
         <Route exact path="/viewproject" component={ViewProjects} />
         <Route exact path="/addproject" component={AddProjects} />
         <Route exact path="/clientform" component={ClientsForm} />
+        <Route exact path="/projectreport" component={ProjectReports} />
         //nehal routes
         <Route exact path="/add-time" component={AddTime} />
         <Route exact path="/login" component={Login} />
