@@ -100,6 +100,7 @@ import SparkLine from "../MainContent/Charts/SparkLine";
 import { Route, Switch } from "react-router-dom";
 
 //nehal defined routes
+import AddUser from "../MainContent/User/AddNewUser/AddUser";
 
 import NewTask from "../MainContent/Tasks/NewTask/NewTask";
 import TaskList from "../MainContent/Tasks/TaskList/TaskList";
@@ -123,17 +124,21 @@ import PlatformList from "../MainContent/Platform/PlatformList/PlatformList";
 import Login from "../MainContent/Auth/Login/Login";
 import Register from "../MainContent/Auth/Register/Register";
 import AddTime from "../MainContent/Timesheet/AddTime/AddTime";
+import ProjectReports from "../MainContent/Projects/ProjectReports";
 
 class mainbuilder extends Component {
   render() {
     return (
       <Switch>
+        // Sarosh Routes
+        <Route exact path="/add-user" component={AddUser} />
         // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />
         <Route exact path="/viewproject" component={ViewProjects} />
         <Route exact path="/addproject" component={AddProjects} />
         <Route exact path="/clientform" component={ClientsForm} />
+        <Route exact path="/projectreport" component={ProjectReports} />
         //nehal routes
         <Route exact path="/add-time" component={AddTime} />
         <Route exact path="/login" component={Login} />

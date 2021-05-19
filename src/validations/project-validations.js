@@ -24,6 +24,9 @@ class ProjectValidation {
       projectManager: Yup.string(),
       teamMembers: Yup.string(),
       orderNum: Yup.string().required("Required!"),
+      Rprofit: Yup.string(),
+      Pdeduction: Yup.string(),
+      percentage: Yup.string(),
     });
   };
 

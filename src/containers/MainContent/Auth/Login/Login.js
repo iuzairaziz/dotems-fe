@@ -96,6 +96,7 @@ class Login extends Component {
                             .then((res) => {
                               this.props.history.push("/");
                               console.log(res);
+                              window.location.reload();
                             })
                             .catch((err) => {
                               console.log(err);
