@@ -149,6 +149,7 @@ class mainbuilder extends Component {
         <Route exact path="/nature" component={NatureList} />
         <Route exact path="/add-nature" component={AddNature} />
         <Route exact path="/add-task" component={NewTask} />
+        <Route exact path="/task/:id" component={TaskList} />
         <Route exact path="/task" component={TaskList} />
         //===================================================================
         <Route path="/calendar" component={Calendar} />
