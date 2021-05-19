@@ -124,6 +124,9 @@ import Login from "../MainContent/Auth/Login/Login";
 import Register from "../MainContent/Auth/Register/Register";
 import AddTime from "../MainContent/Timesheet/AddTime/AddTime";
 import ProjectReports from "../MainContent/Projects/ProjectReports";
+import AddCurrency from "../MainContent/Currency/AddCurrency";
+import AddStatus from "../MainContent/Status/AddStatus/AddStatus"
+import StatusList from "../MainContent/Status/StatusList/StatusList"
 
 class mainbuilder extends Component {
   render() {
@@ -136,6 +139,9 @@ class mainbuilder extends Component {
         <Route exact path="/addproject" component={AddProjects} />
         <Route exact path="/clientform" component={ClientsForm} />
         <Route exact path="/projectreport" component={ProjectReports} />
+        <Route exact path="/addcurrency" component={AddCurrency} />
+        <Route exact path="/addstatus" component={AddStatus} />
+        <Route exact path="/viewstatus" component={StatusList} />
         //nehal routes
         <Route exact path="/add-time" component={AddTime} />
         <Route exact path="/login" component={Login} />

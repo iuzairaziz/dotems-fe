@@ -169,7 +169,7 @@ const ViewProjects = () => {
   const toggleDelete = () => setModalDelete(!modalDelete);
 
   const handleDelete = (id) => {
-    ProjectService.deleteTask(id)
+    ProjectService.deleteProject(id)
       .then((res) => {
         ProjectService.handleMessage("delete");
         toggleDelete();
@@ -283,8 +283,8 @@ const ViewProjects = () => {
             <Modal isOpen={modalDelete} toggle={toggleDelete}>
               <ModalHeader toggle={toggleDelete}>Delete Project?</ModalHeader>
               <ModalBody>
-                Are you sure you want to delete the Project? "
-                {selectedProject.projectName}" ?
+                Are you sure you want to delete the Project?
+                {selectedProject.projectName}
               </ModalBody>
               <ModalFooter>
                 <Button

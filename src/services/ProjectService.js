@@ -9,17 +9,17 @@ class ProjectService {
 
   addProject(formData) {
     return axios.post(
-      this.config.apiBaseUrl + "project/create-project",
+      this.config.apiBaseUrl + "projects/create-project",
       formData
     );
   }
 
   getProjectById(orderId) {
-    return axios.get(this.config.apiBaseUrl + "project/" + orderId);
+    return axios.get(this.config.apiBaseUrl + "projects/" + orderId);
   }
 
   updateProject(id, formData) {
-    return axios.put(this.config.apiBaseUrl + "project/" + id, formData);
+    return axios.put(this.config.apiBaseUrl + "projects/" + id, formData);
   }
 
   getAllProject() {
@@ -27,7 +27,7 @@ class ProjectService {
   }
 
   deleteProject(id) {
-    return axios.delete(this.config.apiBaseUrl + "project/:id", id);
+    return axios.delete(this.config.apiBaseUrl + "projects/" + id);
   }
 
   getEmployeeProject(employeeId) {
@@ -36,16 +36,16 @@ class ProjectService {
     );
   }
 
-  handleCustomMessage(message) {
-    toast(message.toString());
-  }
+
 
   handleMessage(type) {
     if (type === "add") toast("Successfully added Project");
     else if (type === "update") toast("Successfully updated Project");
     else if (type === "delete") toast("Successfully deleted Project");
   }
-
+  handleCustomMessage(message) {
+    toast(message.toString());
+  }
   handleError() {
     toast("Something went wrong!");
   }

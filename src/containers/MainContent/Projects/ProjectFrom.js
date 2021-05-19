@@ -19,6 +19,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 const ProjectForm = (props) => {
   const [default_date, set_default_date] = useState(0);
   const [end_date, set_end_date] = useState(0);
+  const [default_option, set_default_option] = useState(0);
   const [country, setCountry] = useState([]);
   const [platform, setPlatform] = useState([]);
   const [technology, setTechnology] = useState([]);
@@ -26,6 +27,19 @@ const ProjectForm = (props) => {
   const [nature, setNature] = useState([]);
   const [users, setUsers] = useState([]);
   const [client, setClient] = useState([]);
+
+
+
+  const options = [
+    { value: "pending", label: "Pending", },
+    { value: "working", label: "Working", },
+    { value: "done", label: "Done", }
+  ];
+
+  const handleOption = (opt) => {
+    console.log(opt);
+    set_default_option(opt);
+  };
 
   const handleDefault = (date) => {
     console.log(date);
@@ -44,6 +58,8 @@ const ProjectForm = (props) => {
     getUsers();
     getClient();
   }, []);
+
+ 
 
   const getUsers = () => {
     userService.getUsers().then((res) => {
@@ -171,6 +187,7 @@ const ProjectForm = (props) => {
         orderNum: editable && project.orderNumber,
         Pdeduction: editable && project.Pdeduction,
         percentage: editable && project.percentage,
+        fCost: editable && project.fCost
       }}
       validationSchema={projectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
@@ -187,7 +204,7 @@ const ProjectForm = (props) => {
               platform: values.platform,
               technology: values.technology,
               service: values.serviceType,
-              status: values.status,
+              status: values.status.value,
               nature: values.projectNature,
               startDate: values.startDate,
               endDate: values.endDate,
@@ -197,6 +214,7 @@ const ProjectForm = (props) => {
               Rprofit: values.Rprofit,
               Pdeduction: values.Pdeduction,
               percentage: values.percentage,
+              fCost: values.fCost,
             })
               .then((res) => {
                 ProjectService.handleMessage("update");
@@ -213,7 +231,7 @@ const ProjectForm = (props) => {
               platform: values.platform,
               technology: values.technology,
               service: values.serviceType,
-              status: values.status,
+              status: values.status.value,
               nature: values.projectNature,
               startDate: values.startDate,
               endDate: values.endDate,
@@ -223,6 +241,7 @@ const ProjectForm = (props) => {
               Rprofit: values.Rprofit,
               Pdeduction: values.Pdeduction,
               percentage: values.percentage,
+              fCost: values.fCost,
             })
               .then((res) => {
                 ProjectService.handleMessage("add");
@@ -259,8 +278,8 @@ const ProjectForm = (props) => {
                 <label className="control-label">Client Name</label>
                 <select
                   className="form-control"
-                  value={props.values.client}
-                  onChange={props.handleChange("client")}
+                  value={props.values.clientName}
+                  onChange={props.handleChange("clientName")}
                 >
                   {client.map((item, index) => {
                     return (
@@ -270,7 +289,7 @@ const ProjectForm = (props) => {
                     );
                   })}
                 </select>
-                <span id="err">{props.errors.client}</span>
+                <span id="err">{props.errors.clientName}</span>
               </div>
             </div>
           </div>
@@ -335,8 +354,8 @@ const ProjectForm = (props) => {
                 <label className="control-label">Services Type</label>
                 <select
                   className="form-control"
-                  value={props.values.service}
-                  onChange={props.handleChange("service")}
+                  value={props.values.serviceType}
+                  onChange={props.handleChange("serviceType")}
                 >
                   {service.map((item, index) => {
                     return (
@@ -346,7 +365,7 @@ const ProjectForm = (props) => {
                     );
                   })}
                 </select>
-                <span id="err">{props.errors.service}</span>
+                <span id="err">{props.errors.serviceType}</span>
               </div>
             </div>
           </div>
@@ -357,8 +376,10 @@ const ProjectForm = (props) => {
 
                 <Select
                   value={props.values.status}
-                  onChange={props.handleChange("status")}
-                  options={["PAksitan", "China"]}
+                  onChange={(opt) => {
+                    props.setFieldValue("status", opt); 
+                  }}
+                  options={options}
                 />
               </div>
             </div>
@@ -368,8 +389,8 @@ const ProjectForm = (props) => {
 
                 <select
                   className="form-control"
-                  value={props.values.nature}
-                  onChange={props.handleChange("nature")}
+                  value={props.values.projectNature}
+                  onChange={props.handleChange("projectNature")}
                 >
                   {nature.map((item, index) => {
                     return (
@@ -379,7 +400,7 @@ const ProjectForm = (props) => {
                     );
                   })}
                 </select>
-                <span id="err">{props.errors.nature}</span>
+                <span id="err">{props.errors.projectNature}</span>
               </div>
             </div>
           </div>
@@ -424,8 +445,8 @@ const ProjectForm = (props) => {
 
                 <select
                   className="form-control"
-                  value={props.values.users}
-                  onChange={props.handleChange("users")}
+                  value={props.values.projectManager}
+                  onChange={props.handleChange("projectManager")}
                 >
                   {users.map((item, index) => {
                     return (
@@ -435,7 +456,7 @@ const ProjectForm = (props) => {
                     );
                   })}
                 </select>
-                <span id="err">{props.errors.users}</span>
+                <span id="err">{props.errors.projectManager}</span>
               </div>
             </div>
             <div className="col">
@@ -450,7 +471,7 @@ const ProjectForm = (props) => {
                   options={users}
                   isMulti={true}
                 />
-                <span id="err">{props.errors.assignedUser}</span>
+                <span id="err">{props.errors.teamMembers}</span>
               </div>
             </div>
           </div>
@@ -496,10 +517,28 @@ const ProjectForm = (props) => {
                 <span id="err">{props.errors.Pdeduction}</span>
               </div>
             </div>
+          
+          </div>
+          <div className="container">
+          <form>
+            <div className="row">
+            <div className="col">
+              <div className="form-group">
+                <label>Fixed Cost</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={props.values.fCost}
+                  onChange={props.handleChange("fCost")}
+                  placeholder="Enter Cost"
+                />
+                <span id="err">{props.errors.fCost}</span>
+              </div>
+            </div>
             <div className="col">
               <div className="form-group">
                 <label>Percentage</label>
-                <input
+                <input1
                   type="text"
                   className="form-control"
                   value={props.values.percentage}
@@ -509,6 +548,9 @@ const ProjectForm = (props) => {
                 <span id="err">{props.errors.percentage}</span>
               </div>
             </div>
+            </div>
+          </form>
+          
           </div>
           <div className="row">
           <div className="col-12">

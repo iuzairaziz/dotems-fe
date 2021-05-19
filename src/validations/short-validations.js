@@ -45,6 +45,23 @@ class ShortValidations {
     });
   };
 
+  statusValidation = () => {
+    return Yup.object({
+      title: Yup.string()
+        .required("Required!")
+        .min(2)
+        .max(20),
+    });
+  };
+
+  CurrencyValidation = () => {
+    return Yup.object({
+      name: Yup.string().required("Required!"),
+      exchangeRate: Yup.string(),
+    }
+    )
+  }
+
   handleError(error) {
     console.log(error.message);
   }
