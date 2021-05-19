@@ -20,11 +20,20 @@ class sidebar extends Component {
     timesheet_menu: false,
     client_menu: false,
     project_menu: false,
+    user_menu: false,
   };
 
   stateKeys = Object.keys(this.state);
 
   menus = [
+    {
+      name: "user_menu",
+      tab: "user",
+      subMenus: [
+        { routeName: "add-user", label: "Add New User" },
+        { routeName: "timesheet", label: "View User Details" },
+      ],
+    },
     {
       name: "timesheet_menu",
       tab: "timesheet",

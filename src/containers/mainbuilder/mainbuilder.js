@@ -100,6 +100,7 @@ import SparkLine from "../MainContent/Charts/SparkLine";
 import { Route, Switch } from "react-router-dom";
 
 //nehal defined routes
+import AddUser from "../MainContent/User/AddNewUser/AddUser";
 
 import NewTask from "../MainContent/Tasks/NewTask/NewTask";
 import TaskList from "../MainContent/Tasks/TaskList/TaskList";
@@ -132,6 +133,8 @@ class mainbuilder extends Component {
   render() {
     return (
       <Switch>
+        // Sarosh Routes
+        <Route exact path="/add-user" component={AddUser} />
         // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />
