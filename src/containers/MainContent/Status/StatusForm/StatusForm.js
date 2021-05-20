@@ -9,13 +9,13 @@ const StatusForm = (props) => {
   return (
     <Formik
       initialValues={{
-        title: props.editable && props.platform.name,
+        status: props.editable && props.platform.name,
       }}
       validationSchema={shortValidations.statusValidation}
       onSubmit={(values, actions) => {
         props.editable
           ? StatusService.AddStatus(props.platform._id, {
-              name: values.title,
+              name: values.status,
             })
               .then((res) => {
                 props.toggle();
@@ -25,10 +25,10 @@ const StatusForm = (props) => {
                 props.toggle();
                 StatusService.handleError();
               })
-          : StatusService.addStatus({ name: values.title })
+          : StatusService.addStatus({ name: values.status })
               .then((res) => {
                 StatusService.handleMessage("add");
-                actions.setFieldValue("title", "");
+                actions.setFieldValue("status", "");
               })
               .catch((err) => {
                 StatusService.handleError();
@@ -45,11 +45,11 @@ const StatusForm = (props) => {
                   <input
                     type="text"
                     className="form-control"
-                    value={props.values.title}
-                    onChange={props.handleChange("title")}
+                    value={props.values.status}
+                    onChange={props.handleChange("status")}
                     placeholder="Enter Name"
                   />
-                  <span id="err">{props.errors.title}</span>
+                  <span id="err">{props.errors.status}</span>
                 </div>
               </div>
             </div>

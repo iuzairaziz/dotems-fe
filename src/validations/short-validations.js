@@ -47,7 +47,7 @@ class ShortValidations {
 
   statusValidation = () => {
     return Yup.object({
-      title: Yup.string()
+      status: Yup.string()
         .required("Required!")
         .min(2)
         .max(20),
