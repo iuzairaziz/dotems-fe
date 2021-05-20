@@ -21,6 +21,7 @@ class sidebar extends Component {
     client_menu: false,
     project_menu: false,
     user_menu: false,
+    expense_menu: false,
   };
 
   stateKeys = Object.keys(this.state);
@@ -104,6 +105,14 @@ class sidebar extends Component {
       subMenus: [
         { routeName: "addproject", label: "New Project" },
         { routeName: "viewproject", label: "View Projects" },
+      ],
+    },
+    {
+      name: "expense_menu",
+      tab: "expense",
+      subMenus: [
+        { routeName: "add-expense", label: "New Expense" },
+        { routeName: "viewexpense", label: "View Expense" },
       ],
     },
   ];
