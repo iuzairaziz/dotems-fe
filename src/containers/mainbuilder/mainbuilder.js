@@ -129,6 +129,7 @@ import AddCurrency from "../MainContent/Currency/AddCurrency";
 import AddStatus from "../MainContent/Status/AddStatus/AddStatus"
 import StatusList from "../MainContent/Status/StatusList/StatusList"
 import CurrencyList from "../MainContent/Currency/ViewCurrency";
+import ExpenseList from "../MainContent/Expense/AddExpense/Expense";
 
 class mainbuilder extends Component {
   render() {
@@ -136,6 +137,7 @@ class mainbuilder extends Component {
       <Switch>
         // Sarosh Routes
         <Route exact path="/add-user" component={AddUser} />
+        <Route exact path="/add-expense" component={ExpenseList} />
         // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />
