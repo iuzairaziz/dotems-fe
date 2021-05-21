@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import AUX from "../../../../hoc/Aux_";
 import ExpenseForm from "../ExpenseForm/ExpenseForm";
+import ExpenseTable from "../ExpenseTable/ExpenseTable";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 class AddProjects extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      values: {},
+    };
   }
 
   render() {
@@ -28,7 +33,20 @@ class AddProjects extends Component {
                 <div className="card m-b-20">
                   <div className="card-body">
                     <h4 className="mt-0 header-title">Expense Table</h4>
-                    <ExpenseForm />
+                    <div className="form-group">
+                      <label>Start Date</label>
+                      <div>
+                        <DatePicker
+                          className="form-control"
+                          selected={this.state.values}
+                          onChange={(date) => {
+                            this.setState({ values: date });
+                            console.log("datepicker", date);
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <ExpenseTable />
                   </div>
                 </div>
               </div>
