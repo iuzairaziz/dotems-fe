@@ -9,7 +9,7 @@ class AddProjects extends Component {
   constructor() {
     super();
     this.state = {
-      values: {},
+      values: null,
     };
   }
 
