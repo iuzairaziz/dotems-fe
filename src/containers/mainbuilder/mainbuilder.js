@@ -126,8 +126,9 @@ import Register from "../MainContent/Auth/Register/Register";
 import AddTime from "../MainContent/Timesheet/AddTime/AddTime";
 import ProjectReports from "../MainContent/Projects/ProjectReports";
 import AddCurrency from "../MainContent/Currency/AddCurrency";
-import AddStatus from "../MainContent/Status/AddStatus/AddStatus";
-import StatusList from "../MainContent/Status/StatusList/StatusList";
+import AddStatus from "../MainContent/Status/AddStatus/AddStatus"
+import StatusList from "../MainContent/Status/StatusList/StatusList"
+import CurrencyList from "../MainContent/Currency/ViewCurrency";
 import ExpenseList from "../MainContent/Expense/AddExpense/Expense";
 
 class mainbuilder extends Component {
@@ -147,6 +148,7 @@ class mainbuilder extends Component {
         <Route exact path="/addcurrency" component={AddCurrency} />
         <Route exact path="/addstatus" component={AddStatus} />
         <Route exact path="/viewstatus" component={StatusList} />
+        <Route exact path="/viewcurrency" component={CurrencyList} />
         //nehal routes
         <Route exact path="/add-time" component={AddTime} />
         <Route exact path="/login" component={Login} />

@@ -197,11 +197,14 @@ const ViewProjects = () => {
               ? item.projectManager.name
               : "none",
             teamMember: item.assignedUser ? item.assignedUser.name : "none",
-            status: (
-              <span className="badge badge-teal">
-                {item.status ? item.status : "none"}
-              </span>
-            ),
+            // status: (
+            //   <span className="badge badge-teal">
+            //     {item.status ? item.status : "none"}
+            //   </span>
+              
+            // ),
+            status: item.status ? item.status.name : "none",
+            
             startDate: item.startDate ? item.startDate : "none",
             endDate: item.endDate ? item.endDate : "none",
             cost: item.cost ? item.cost : "none",
@@ -239,6 +242,7 @@ const ViewProjects = () => {
         console.log("state data", dataa);
         console.log("my project data", data);
         console.log("res data", res.data);
+        
       })
       .catch((err) => {
         console.log(err);

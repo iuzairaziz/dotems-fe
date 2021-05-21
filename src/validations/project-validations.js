@@ -26,6 +26,7 @@ class ProjectValidation {
       Pdeduction: Yup.string(),
       percentage: Yup.string(),
       fCost: Yup.string(),
+      currency: Yup.string(),
     });
   };
 

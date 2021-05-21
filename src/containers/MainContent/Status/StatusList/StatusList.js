@@ -16,7 +16,7 @@ const StatusList = () => {
     columns: [
       {
         label: "Title",
-        field: "title",
+        field: "status",
         sort: "asc",
         // width: 150,
       },
@@ -56,7 +56,7 @@ const StatusList = () => {
         updatedData.rows = [];
         res.data.map((item, index) => {
           updatedData.rows.push({
-            title: item.name ? item.name : "none",
+            status: item.name ? item.name : "none",
             action: (
               <div className="row flex-nowrap">
                 <Button

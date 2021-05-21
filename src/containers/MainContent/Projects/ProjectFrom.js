@@ -15,6 +15,9 @@ import userService from "../../../services/UserService";
 import ClientService from "../../../services/ClientService";
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import ProjectFormTable from "../Projects/ProjectFormTable"
+import StatusService from "../../../services/StatusService"
+import CurrencyService from "../../../services/CurrencyService"
 
 const ProjectForm = (props) => {
   const [default_date, set_default_date] = useState(0);
@@ -27,14 +30,12 @@ const ProjectForm = (props) => {
   const [nature, setNature] = useState([]);
   const [users, setUsers] = useState([]);
   const [client, setClient] = useState([]);
+  const [status, setStatus] = useState([]);
+  const [currency, setCurrency] = useState([]);
 
 
 
-  const options = [
-    { value: "pending", label: "Pending", },
-    { value: "working", label: "Working", },
-    { value: "done", label: "Done", }
-  ];
+ 
 
   const handleOption = (opt) => {
     console.log(opt);
@@ -57,8 +58,37 @@ const ProjectForm = (props) => {
     getNature();
     getUsers();
     getClient();
+    getStatus();
+    getCurrency();
   }, []);
 
+  const getCurrency = () => {
+    CurrencyService.getAllCurrency().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setCurrency(options);
+      });
+    });
+  };
+
+  const getStatus = () => {
+    StatusService.getAllStatus().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setStatus(options);
+      });
+    });
+  };
  
 
   const getUsers = () => {
@@ -164,7 +194,7 @@ const ProjectForm = (props) => {
       initialValues={{
         projectName: editable && project.name,
         clientName: editable && project.client && project.client.client_name,
-        status: editable && project.status,
+        status: editable && project.status && project.status.status_name,
         cost: editable && project.cost,
         Rprofit: editable && project.Rprofit,
         platform:
@@ -174,6 +204,7 @@ const ProjectForm = (props) => {
         serviceType:
           editable && project.service && project.service.service_name,
         projectNature: editable && project.nature && project.nature.nature_name,
+        currency: editable && project.currency && project.currency.currency_name,
         startDate: editable && project.startDate,
         endDate: editable && project.endDate,
         projectManager:
@@ -204,7 +235,7 @@ const ProjectForm = (props) => {
               platform: values.platform,
               technology: values.technology,
               service: values.serviceType,
-              status: values.status.value,
+              status: values.status,
               nature: values.projectNature,
               startDate: values.startDate,
               endDate: values.endDate,
@@ -215,6 +246,7 @@ const ProjectForm = (props) => {
               Pdeduction: values.Pdeduction,
               percentage: values.percentage,
               fCost: values.fCost,
+              currency: values.currency,
             })
               .then((res) => {
                 ProjectService.handleMessage("update");
@@ -231,7 +263,7 @@ const ProjectForm = (props) => {
               platform: values.platform,
               technology: values.technology,
               service: values.serviceType,
-              status: values.status.value,
+              status: values.status,
               nature: values.projectNature,
               startDate: values.startDate,
               endDate: values.endDate,
@@ -242,6 +274,7 @@ const ProjectForm = (props) => {
               Pdeduction: values.Pdeduction,
               percentage: values.percentage,
               fCost: values.fCost,
+              currency: values.currency,
             })
               .then((res) => {
                 ProjectService.handleMessage("add");
@@ -374,13 +407,20 @@ const ProjectForm = (props) => {
               <div className="form-group">
                 <label className="control-label">Status</label>
 
-                <Select
+                <select
+                  className="form-control"
                   value={props.values.status}
-                  onChange={(opt) => {
-                    props.setFieldValue("status", opt); 
-                  }}
-                  options={options}
-                />
+                  onChange={props.handleChange("status")}
+                >
+                  {status.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
+                <span id="err">{props.errors.status}</span>
               </div>
             </div>
             <div className="col">
@@ -491,15 +531,21 @@ const ProjectForm = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
-                <label>Reserve Profit</label>
-                <input
-                  type="text"
+                <label>Currency</label>
+                <select
                   className="form-control"
-                  value={props.values.Rprofit}
-                  onChange={props.handleChange("Rprofit")}
-                  placeholder="Enter Preserve Profit"
-                />
-                <span id="err">{props.errors.Rprofit}</span>
+                  value={props.values.currency}
+                  onChange={props.handleChange("currency")}
+                >
+                  {currency.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
+                <span id="err">{props.errors.currency}</span>
               </div>
             </div>
           </div>
@@ -517,7 +563,19 @@ const ProjectForm = (props) => {
                 <span id="err">{props.errors.Pdeduction}</span>
               </div>
             </div>
-          
+            <div className="col">
+              <div className="form-group">
+                <label>Reserve Profit</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={props.values.Rprofit}
+                  onChange={props.handleChange("Rprofit")}
+                  placeholder="Enter Preserve Profit"
+                />
+                <span id="err">{props.errors.Rprofit}</span>
+              </div>
+            </div>
           </div>
           <div className="container">
           <form>
@@ -568,6 +626,7 @@ const ProjectForm = (props) => {
                             </div>
                         </div>
           </div>
+          <ProjectFormTable />
           <div className="row">
             <div className="col">
               <Button

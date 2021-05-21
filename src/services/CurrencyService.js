@@ -9,7 +9,7 @@ class CurrencyService {
 
   addCurrency(formData) {
     return axios.post(
-      this.config.apiBaseUrl + "currency//create-currency",
+      this.config.apiBaseUrl + "currency/create-currency",
       formData
     );
   }
@@ -19,7 +19,7 @@ class CurrencyService {
   }
 
   getAllCurrency() {
-    return axios.get(this.config.apiBaseUrl + "currency/show-nature");
+    return axios.get(this.config.apiBaseUrl + "currency/show-currency");
   }
 
   updateCurrency(id, formData) {
