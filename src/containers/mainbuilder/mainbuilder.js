@@ -130,6 +130,7 @@ import AddStatus from "../MainContent/Status/AddStatus/AddStatus"
 import StatusList from "../MainContent/Status/StatusList/StatusList"
 import CurrencyList from "../MainContent/Currency/ViewCurrency";
 import ExpenseList from "../MainContent/Expense/AddExpense/Expense";
+import ViewProjectsTask from "../MainContent/Projects/ViewProjectTask";
 
 class mainbuilder extends Component {
   render() {
@@ -149,6 +150,8 @@ class mainbuilder extends Component {
         <Route exact path="/addstatus" component={AddStatus} />
         <Route exact path="/viewstatus" component={StatusList} />
         <Route exact path="/viewcurrency" component={CurrencyList} />
+        <Route exact path="/project-task-form" component={ViewProjectsTask} />
+   
         //nehal routes
         <Route exact path="/add-time" component={AddTime} />
         <Route exact path="/login" component={Login} />

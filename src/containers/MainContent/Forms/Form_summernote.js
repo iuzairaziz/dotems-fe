@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
+
 class Form_summernote extends Component{
  
 render(){

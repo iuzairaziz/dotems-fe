@@ -14,30 +14,40 @@ const ProjectFormTable = () => {
   const [modalDelete, setModalDelete] = useState(false);
   const [nature, setNature] = useState([]);
   const [users, setUsers] = useState([]);
+  const [newNature, setNewNature] = useState([{}]);
+  const [toShow,setToShow] = useState([])
 
 
-  const [selectedStatus, setSelectedStatus] = useState({ name: "" });
-  const [selectedProject, setSelectedProject] = useState({ name: "" });
+
+  // const [selectedStatus, setSelectedStatus] = useState({ name: "" });
+  // const [selectedProject, setSelectedProject] = useState({ name: "" });
   
+ 
 
   useEffect(() => {
     // getProject();
     getNature();
     getUsers();
-  }, []);
+    toShowData();
+  }, [newNature]);
 
   const getNature = () => {
     NatureService.getAllNature().then((res) => {
       let options = [];
+      let initialValues = {}
       res.data.map((item, index) => {
         options.push({
           // value: item._id,
-          label: item.name,
-          id: item._id,
+          text: item.name,
+          value: index,
+          
         });
+        initialValues[index] =  item.name;
         setNature(options);
+        setNewNature(initialValues)
       });
     });
+    console.log(newNature)
   };
 
   const getUsers = () => {
@@ -49,10 +59,21 @@ const ProjectFormTable = () => {
       });
     });
   };
+
+  const toShowData =() => {
+    let keys = Object.keys(nature)
+    keys.map((item) =>{
+      setToShow({value : item , text : newNature[item]})
+    })
+    console.log("Data To Disply in MultiSelect",toShow);
+  }
+
+  
  
   return (
    
     <AUX>
+      {console.log("new nature",toShow)}
 		    <div className="page-content-wrapper">
             <div className="container-fluid">
 
@@ -81,11 +102,7 @@ const ProjectFormTable = () => {
                                           dataType="select"
                                           mode="inline"
                                           title="Select Nature"
-                                          options={[
-                                              { value: 1, text: "Web Development" },
-                                              { value: 2, text: "Mobile Development" },
-                                              { value: 3, text: "Android Development" }
-                                            ]}
+                                          options={[toShow]}
                                             value="Not Selected"
                                           />
                                       </td>
@@ -109,81 +126,10 @@ const ProjectFormTable = () => {
                                       </td>
                                       
                                   </tr>
-                                  <tr>
-                                      <td>Sarosh</td>
-                                      <td>
-                                        <Editable
-                                          name="Nature"
-                                          dataType="select"
-                                          mode="inline"
-                                          title="Select Nature"
-                                          options={[
-                                              { value: 1, text: "Web Development" },
-                                              { value: 2, text: "Mobile Development" },
-                                              { value: 3, text: "Android Development" }
-                                            ]}
-                                            value="Not Selected"
-                                          />
-                                      </td>
-                                      <td>
-                                        <Editable
-                                          name="Hours"
-                                          dataType="text"
-                                          mode="inline"
-                                          title="Please enter Hours"
-                                          value="2"
-                                          />
-                                      </td>
-                                      <td>
-                                        <Editable
-                                          name="Cost"
-                                          dataType="text"
-                                          mode="inline"
-                                          title="Please enter Cost"
-                                          value="25000"
-                                          />
-                                      </td>
-                                      
-                                  </tr>
-                                  <tr>
-                                      <td>Uzair</td>
-                                      <td>
-                                        <Editable
-                                          name="Nature"
-                                          dataType="select"
-                                          mode="inline"
-                                          title="Select Nature"
-                                          options={[
-                                              { value: 1, text: "Web Development" },
-                                              { value: 2, text: "Mobile Development" },
-                                              { value: 3, text: "Android Development" }
-                                            ]}
-                                            value="Not Selected"
-                                          />
-                                      </td>
-                                      <td>
-                                        <Editable
-                                          name="Hours"
-                                          dataType="text"
-                                          mode="inline"
-                                          title="Please enter Hours"
-                                          value="2"
-                                          />
-                                      </td>
-                                      <td>
-                                        <Editable
-                                          name="Cost"
-                                          dataType="text"
-                                          mode="inline"
-                                          title="Please enter Cost"
-                                          value="25000"
-                                          />
-                                      </td>
-                                      
-                                  </tr>
+                                  
                                  
                                   <tr>
-                                    <td style={{width: "25%"}}>Total Estimate Hours/ Cost</td>
+                                    <td style={{fontSize: "15px", fontWeight: "bold"}}>Total Estimate Hours/ Cost</td>
                                     <td></td>
                                    <td>6</td>
                                    <td>75000</td>
@@ -192,7 +138,7 @@ const ProjectFormTable = () => {
                                
                                
                                 <tr>
-                                    <td>Start Date</td>
+                                    <td style={{fontSize: "15px", fontWeight: "bold"}}>Start Date</td>
                                     <td>
                                       <Editable
                                       
@@ -203,7 +149,7 @@ const ProjectFormTable = () => {
                                         value="2018-05-09"
                                       />
                                     </td>
-                                    <td>Deadline</td>
+                                    <td style={{fontSize: "15px", fontWeight: "bold"}}>Deadline</td>
                                     <td>
                                       <Editable
                                       
@@ -218,14 +164,18 @@ const ProjectFormTable = () => {
                                
                               
                                 </tbody>
+                                <div className="button" style={{marginleft: "55px"}}>
+                                <Button outline color="info"><i className="fa fa-plus fa-2x"></i></Button>{' '}
+                                </div>
+                                
                             </table>
-
                             </div>
                         </div>
                     </div> 
-                </div>
+                </div>     
             </div> 
         </div>
+       
            </AUX>
   );
 };

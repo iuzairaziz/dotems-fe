@@ -18,6 +18,9 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import ProjectFormTable from "../Projects/ProjectFormTable"
 import StatusService from "../../../services/StatusService"
 import CurrencyService from "../../../services/CurrencyService"
+import { EditorState } from 'draft-js';
+import Editable from 'react-x-editable';
+
 
 const ProjectForm = (props) => {
   const [default_date, set_default_date] = useState(0);
@@ -32,6 +35,12 @@ const ProjectForm = (props) => {
   const [client, setClient] = useState([]);
   const [status, setStatus] = useState([]);
   const [currency, setCurrency] = useState([]);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());  
+  const [toShow,setToShow] = useState([])
+  const [newNature, setNewNature] = useState([{}]);
+  const [teamMember, setTeamMember] = useState([])
+  const [defaultProjectDate, setDefaultProjectDate] = useState("2017-12-31");
+  const [endProjectDate, setEndProjectDate] = useState("2017-12-31");
 
 
 
@@ -187,7 +196,30 @@ const ProjectForm = (props) => {
 
   const project = props.project;
   const editable = props.editable;
-  console.log("from project form ", project);
+  // console.log("from project form ", project);
+
+  const toShowData =() => {
+    let keys = Object.keys(nature)
+    keys.map((item) =>{
+      setToShow({value : item , text : newNature[item]})
+    })
+    console.log("Data To Disply in MultiSelect",toShow);
+  }
+
+
+  // const ControlledEditor = () => {
+  //   constructor((props) => {
+  //     super(props);
+  //     this.state = {
+  //       editorState: EditorState.createEmpty(),
+  //     };
+  //   })
+  
+   const onEditorStateChange = (editorState) => {
+      setEditorState( editorState);
+    };
+ 
+    
 
   return (
     <Formik
@@ -505,8 +537,12 @@ const ProjectForm = (props) => {
                 <Select
                   value={props.values.teamMembers}
                   onChange={(val) => {
+                    
                     props.setFieldValue("teamMembers", val);
                     console.log("team change", val);
+                    setTeamMember(val)
+                    console.log("team Members", teamMember)
+                    
                   }}
                   options={users}
                   isMulti={true}
@@ -621,12 +657,157 @@ const ProjectForm = (props) => {
                                         <Editor
                                 toolbarClassName="toolbarClassName"
                                 wrapperClassName="wrapperClassName"
-                                editorClassName="editorClassName" />
+                                editorClassName="editorClassName" 
+                                onEditorStateChange={onEditorStateChange}
+                                />
+                                
                                 </div>
                             </div>
                         </div>
           </div>
-          <ProjectFormTable />
+          {/* <ProjectFormTable /> */}
+          <div className="page-content-wrapper">
+            <div className="container-fluid">
+
+                <div className="row">
+                    <div className="col-12">
+                        <div className="card m-b-20">
+                            <div className="card-body">
+
+                               
+
+                                    <table className="table table-striped mb-0">
+                                <thead>
+                                <tr>
+                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Name</th>
+                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Nature</th>
+                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Est. Hours</th>
+                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Est. Cost</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  {teamMember.map((item, index) => {
+                                    return(
+                                      <tr>
+                                      <td>{teamMember[index].value}</td>
+                                      {console.log("team Member Name", teamMember[index].value)}
+                                      <td>
+                                        
+                                      <select 
+                  className="form-control"
+                  value={props.values.projectNature}
+                  onChange={props.handleChange("projectNature")}
+                >
+                  {nature.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
+                <span id="err">{props.errors.projectNature}</span>
+                                        {/* <Editable
+                                          name="Nature"
+                                          dataType="select"
+                                          mode="inline"
+                                          title="Select Nature"
+                                          options={[toShow]}
+                                            value="Not Selected"
+                                          /> */}
+                                      </td>
+                                      <td>
+                                        <Editable
+                                          name="Hours"
+                                          dataType="text"
+                                          mode="inline"
+                                          title="Please enter Hours"
+                                          value="0"
+                                          />
+                                      </td>
+                                      <td>
+                                        <Editable
+                                          name="Cost"
+                                          dataType="text"
+                                          mode="inline"
+                                          title="Please enter Cost"
+                                          value="0"
+                                          />
+                                      </td>
+                                      
+                                  </tr>
+                                    )
+                                  })}
+                                 
+                                  
+                                 
+                                  <tr>
+                                    <td style={{fontSize: "14px", fontWeight: "bold"}}>Total Est. Hours/Cost</td>
+                                    <td></td>
+                                   <td>6</td>
+                                   <td>75000</td>
+                                </tr>
+                               
+                               
+                               
+                                <tr>
+                                    <td style={{fontSize: "14px", fontWeight: "bold"}}>Start Date</td>
+                                    <td>
+                                      <Editable
+                                      
+                                        name="username"
+                                        dataType="date"
+                                        mode="inline"
+                                        title="Please enter username"      
+                                        value={`${defaultProjectDate}`}
+                                        display={(value) => {
+                                          setDefaultProjectDate(value)
+                                          return (
+                                            <>
+                                          <strong>{value}</strong>
+                                            {console.log("date", defaultProjectDate)}
+                                            </>
+                                            );
+                                          
+                                        }}
+                                      />
+                                    </td>
+                                    <td style={{fontSize: "14px", fontWeight: "bold"}}>Deadline</td>
+                                    <td>
+                                      <Editable
+                                      
+                                        name="username"
+                                        dataType="date"
+                                        mode="inline"
+                                        title="Please enter username"      
+                                        value={`${endProjectDate}`}
+                                        display={(value) => {
+                                          setEndProjectDate(value)
+                                          return (
+                                            <>
+                                          <strong>{value}</strong>
+                                            {console.log("end date", endProjectDate)}
+                                            </>
+                                            );
+                                          
+                                        }}
+                                      />
+                                    </td>
+                                </tr>
+                               
+                              
+                                </tbody>
+                                <div className="button" style={{paddingLeft: "0px"}}>
+                                <Button outline color="info"><i className="fa fa-plus fa-2x"></i></Button>{' '}
+                                </div>
+                                
+                            </table>
+                            </div>
+                        </div>
+                    </div> 
+                </div>     
+            </div> 
+        </div>
           <div className="row">
             <div className="col">
               <Button
