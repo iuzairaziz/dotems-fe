@@ -2,7 +2,7 @@ import Configuration from "../config/configuration";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
-class ClientService {
+class ExpenseService {
   constructor() {
     this.config = new Configuration();
   }
@@ -14,29 +14,29 @@ class ClientService {
     );
   }
 
-  getClientById(orderId) {
-    return axios.get(this.config.apiBaseUrl + "client/" + orderId);
+  getExpenseById(orderId) {
+    return axios.get(this.config.apiBaseUrl + "expense/" + orderId);
   }
 
-  getAllClient() {
-    return axios.get(this.config.apiBaseUrl + "client/show-client");
+  getAllExpense() {
+    return axios.get(this.config.apiBaseUrl + "expense/show-expense");
   }
 
-  updateClient(id, formData) {
-    return axios.put(this.config.apiBaseUrl + "client/" + id, formData);
+  updateExpense(id, formData) {
+    return axios.put(this.config.apiBaseUrl + "expense/" + id, formData);
   }
 
-  deleteClient(id) {
-    return axios.delete(this.config.apiBaseUrl + "client/:id", id);
+  deleteExpense(id) {
+    return axios.delete(this.config.apiBaseUrl + "expense/:id", id);
   }
 
   handleError(error) {
     console.log(error.message);
   }
   handleMessage(type) {
-    if (type === "add") toast("Successfully added expense");
-    else if (type === "update") toast("Successfully updated expense");
-    else if (type === "delete") toast("Successfully deleted expense");
+    if (type === "add") toast("Successfully Added Expense");
+    else if (type === "update") toast("Successfully Updated Expense");
+    else if (type === "delete") toast("Successfully Deleted Expense");
   }
 
   handleError() {
@@ -44,4 +44,4 @@ class ClientService {
   }
 }
 
-export default new ClientService();
+export default new ExpenseService();

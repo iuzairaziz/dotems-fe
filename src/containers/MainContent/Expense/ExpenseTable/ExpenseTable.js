@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CountryService from "../../../../services/CountryService";
 import ExpenseCategoryService from "../../../../services/ExpenseCategoryService";
+import ExpenseService from "../../../../services/ExpenseService";
 import ProjectService from "../../../../services/ProjectService";
 import PlatformService from "../../../../services/PlatformService";
 import TechnologyService from "../../../../services/TechnologyService";
@@ -16,17 +17,43 @@ import userService from "../../../../services/UserService";
 import ClientService from "../../../../services/ClientService";
 
 const ExpensForm = (props) => {
+  const [data, setData] = useState([]);
+  const [dbValues, setDBValues] = useState({});
+  const [obj, setObj] = useState([{}]);
+
   const user = props.user;
   const editable = props.editable;
   console.log("from project form ", user);
+  useEffect(() => {
+    getExpenseCategory();
+  }, []);
+
+  const getExpenseCategory = () => {
+    ExpenseCategoryService.getAllExpenseCategory().then((res) => {
+      let options = [];
+      let initialValues = {};
+      res.data.map((item, index) => {
+        options.push(item.name);
+        initialValues[item.name] = "";
+      });
+      setData(options);
+      setDBValues(initialValues);
+    });
+    console.log("Data Set object", data);
+  };
 
   return (
     <Formik
-      initialValues={{
-        name: editable && user.name,
-      }}
-      validationSchema={expenseValidation.newExpenseValidation}
+      initialValues={dbValues}
       onSubmit={(values, actions) => {
+        let keys = Object.keys(values);
+        let toSend = [];
+        keys.map((item) => {
+          toSend.push({ name: item, cost: values[item] });
+        });
+        console.log(toSend);
+        console.log(values);
+
         editable
           ? ProjectService.updateProject(user._id, {
               name: values.projectName,
@@ -39,34 +66,41 @@ const ExpensForm = (props) => {
                 ProjectService.handleError();
                 props.toggle();
               })
-          : ExpenseCategoryService.addExpenseCategory({
-              name: values.name,
-            })
+          : ExpenseService.addExpense(toSend)
               .then((res) => {
-                ExpenseCategoryService.handleMessage("add");
+                ExpenseService.handleMessage("add");
               })
               .catch((err) => {
-                ExpenseCategoryService.handleError();
+                ExpenseService.handleError();
               });
       }}
     >
       {(props) => (
         <>
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label>Expense Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={props.values.name}
-                  onChange={props.handleChange("name")}
-                  placeholder="Enter Name"
-                />
-                <span id="err">{props.errors.name}</span>
-              </div>
-            </div>
-          </div>
+          {data.map((item, index) => {
+            return (
+              <>
+                <div className="row">
+                  <div className="col">
+                    <div className="form-group">
+                      <label>{item}</label>
+                      <input
+                        type="Number"
+                        className="form-control"
+                        name={item}
+                        value={props.values[item]}
+                        placeholder="Enter Cost"
+                        onChange={(e) =>
+                          props.setFieldValue(`${item}`, e.target.value)
+                        }
+                      />
+                      <span id="err">{props.errors.name}</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          })}
 
           <div className="row">
             <div className="col">
