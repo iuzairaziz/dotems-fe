@@ -35,11 +35,7 @@ const ProjectForm = (props) => {
 
 
 
-  const options = [
-    { value: "pending", label: "Pending", },
-    { value: "working", label: "Working", },
-    { value: "done", label: "Done", }
-  ];
+ 
 
   const handleOption = (opt) => {
     console.log(opt);

@@ -5,50 +5,26 @@ import { MDBDataTable, MDBBtn } from "mdbreact";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem,ButtonDropdown,Button  } from 'reactstrap';
 import ProjectService from "../../../services/ProjectService"
 import NatureService from "../../../services/NatureService";
+import Editable from 'react-x-editable';
+import userService from "../../../services/UserService";
 
 
 const ProjectFormTable = () => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [nature, setNature] = useState([]);
+  const [users, setUsers] = useState([]);
 
 
   const [selectedStatus, setSelectedStatus] = useState({ name: "" });
   const [selectedProject, setSelectedProject] = useState({ name: "" });
-  const [data, setData] = useState({
-    columns: [
-      {
-        label: "Name",
-        field: "name",
-        sort: "asc",
-        // width: 150,
-      },
-      {
-        label: "Nature",
-        field: "projectNature",
-        sort: "asc",
-        // width: 150,
-      },
-      {
-        label: "Estimated Hours",
-        field: "EstHrs",
-        sort: "asc",
-        // width: 150,
-      },
-      {
-        label: "Estimated Cost",
-        field: "EstCst",
-        sort: "asc",
-        // width: 150,
-      },
-    ],
-    rows: [],
-  });
+  
 
   useEffect(() => {
-    getProject();
+    // getProject();
     getNature();
-  }, [modalEdit, modalDelete]);
+    getUsers();
+  }, []);
 
   const getNature = () => {
     NatureService.getAllNature().then((res) => {
@@ -64,106 +40,193 @@ const ProjectFormTable = () => {
     });
   };
 
-  const toggleEdit = () => setModalEdit(!modalEdit);
-  const toggleDelete = () => setModalDelete(!modalDelete);
-
-//   const handleDelete = (id) => {
-//     StatusService.deleteStatus(id)
-//       .then((res) => {
-//         StatusService.handleMessage("delete");
-//         toggleDelete();
-//       })
-//       .catch((err) => {
-//         StatusService.handleError();
-//         toggleDelete();
-//       });
-//   };
-
-  const getProject = (props) => {
-    ProjectService.getAllProject()
-      .then((res) => {
-        let updatedData = { ...data };
-        updatedData.rows = [];
-        res.data.map((item, index) => {
-          updatedData.rows.push({
-            teamMember: item.assignedUser ? item.assignedUser: "none",
-            projectNature: (
-              <div className="row flex-nowrap">
-                  {/* <Button
-                  color="info"
-                  size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
-                  onClick={() => {
-                    {nature.map((item, index) => {
-                        return (
-                          <option key={index} value={item.id}>
-                            {item.label}
-                          </option>
-                        );
-                      })}
-                    // setNature(item);
-                    // toggleEdit();
-                  }}
-                >
-                  Nature
-                </Button> */}
-                <div className="dropdown">
-                                        <Dropdown isOpen={this.state.drp_button}  toggle={() => this.setState({ drp_button: !this.state.drp_button })}>
-                                            <DropdownToggle className="btn btn-secondary" caret>
-                                            Nature
-                                            </DropdownToggle>
-                                            <DropdownMenu>
-                                            onClick={() => {
-                    {nature.map((item, index) => {
-                        return (
-                          <option key={index} value={item.id}>
-                            {item.label}
-                          </option>
-                        );
-                      })}
-                    // setNature(item);
-                    // toggleEdit();
-                  }}
-                                            </DropdownMenu>
-                                       </Dropdown>
-                                        </div>
-              </div>
-            ),
-          });
-        });
-        console.log("countries", updatedData);
-        setData(updatedData);
-      })
-      .catch((err) => console.log(err));
+  const getUsers = () => {
+    userService.getUsers().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ value: item.name, label: item.name, id: item._id });
+        setUsers(options);
+      });
+    });
   };
+ 
   return (
+   
     <AUX>
-      <div className="page-content-wrapper">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
+		    <div className="page-content-wrapper">
+            <div className="container-fluid">
 
-                  <MDBDataTable
-                    // scrollX
-                    striped
-                    bordered
-                    hover
-                    // autoWidth
-                    data={data}
-                  />
+                <div className="row">
+                    <div className="col-12">
+                        <div className="card m-b-20">
+                            <div className="card-body">
+
+                               
+
+                                    <table className="table table-striped mb-0">
+                                <thead>
+                                <tr>
+                                    <th style={{width: "25%"}}>Name</th>
+                                    <th>Nature</th>
+                                    <th>Est. Hours</th>
+                                    <th>Est. Cost</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                      <td>Nehal</td>
+                                      <td>
+                                        <Editable
+                                          name="Nature"
+                                          dataType="select"
+                                          mode="inline"
+                                          title="Select Nature"
+                                          options={[
+                                              { value: 1, text: "Web Development" },
+                                              { value: 2, text: "Mobile Development" },
+                                              { value: 3, text: "Android Development" }
+                                            ]}
+                                            value="Not Selected"
+                                          />
+                                      </td>
+                                      <td>
+                                        <Editable
+                                          name="Hours"
+                                          dataType="text"
+                                          mode="inline"
+                                          title="Please enter Hours"
+                                          value="2"
+                                          />
+                                      </td>
+                                      <td>
+                                        <Editable
+                                          name="Cost"
+                                          dataType="text"
+                                          mode="inline"
+                                          title="Please enter Cost"
+                                          value="25000"
+                                          />
+                                      </td>
+                                      
+                                  </tr>
+                                  <tr>
+                                      <td>Sarosh</td>
+                                      <td>
+                                        <Editable
+                                          name="Nature"
+                                          dataType="select"
+                                          mode="inline"
+                                          title="Select Nature"
+                                          options={[
+                                              { value: 1, text: "Web Development" },
+                                              { value: 2, text: "Mobile Development" },
+                                              { value: 3, text: "Android Development" }
+                                            ]}
+                                            value="Not Selected"
+                                          />
+                                      </td>
+                                      <td>
+                                        <Editable
+                                          name="Hours"
+                                          dataType="text"
+                                          mode="inline"
+                                          title="Please enter Hours"
+                                          value="2"
+                                          />
+                                      </td>
+                                      <td>
+                                        <Editable
+                                          name="Cost"
+                                          dataType="text"
+                                          mode="inline"
+                                          title="Please enter Cost"
+                                          value="25000"
+                                          />
+                                      </td>
+                                      
+                                  </tr>
+                                  <tr>
+                                      <td>Uzair</td>
+                                      <td>
+                                        <Editable
+                                          name="Nature"
+                                          dataType="select"
+                                          mode="inline"
+                                          title="Select Nature"
+                                          options={[
+                                              { value: 1, text: "Web Development" },
+                                              { value: 2, text: "Mobile Development" },
+                                              { value: 3, text: "Android Development" }
+                                            ]}
+                                            value="Not Selected"
+                                          />
+                                      </td>
+                                      <td>
+                                        <Editable
+                                          name="Hours"
+                                          dataType="text"
+                                          mode="inline"
+                                          title="Please enter Hours"
+                                          value="2"
+                                          />
+                                      </td>
+                                      <td>
+                                        <Editable
+                                          name="Cost"
+                                          dataType="text"
+                                          mode="inline"
+                                          title="Please enter Cost"
+                                          value="25000"
+                                          />
+                                      </td>
+                                      
+                                  </tr>
+                                 
+                                  <tr>
+                                    <td style={{width: "25%"}}>Total Estimate Hours/ Cost</td>
+                                    <td></td>
+                                   <td>6</td>
+                                   <td>75000</td>
+                                </tr>
+                               
+                               
+                               
+                                <tr>
+                                    <td>Start Date</td>
+                                    <td>
+                                      <Editable
+                                      
+                                        name="username"
+                                        dataType="date"
+                                        mode="inline"
+                                        title="Please enter username"      
+                                        value="2018-05-09"
+                                      />
+                                    </td>
+                                    <td>Deadline</td>
+                                    <td>
+                                      <Editable
+                                      
+                                        name="username"
+                                        dataType="date"
+                                        mode="inline"
+                                        title="Please enter username"      
+                                        value="2018-05-09"
+                                      />
+                                    </td>
+                                </tr>
+                               
+                              
+                                </tbody>
+                            </table>
+
+                            </div>
+                        </div>
+                    </div> 
                 </div>
-              </div>
-            </div>
-            <div>
-             
-            </div>
-          </div>
+            </div> 
         </div>
-      </div>
-    </AUX>
+           </AUX>
   );
 };
 
