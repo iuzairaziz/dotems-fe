@@ -41,11 +41,34 @@ const ProjectForm = (props) => {
   const [teamMember, setTeamMember] = useState([])
   const [defaultProjectDate, setDefaultProjectDate] = useState("2017-12-31");
   const [endProjectDate, setEndProjectDate] = useState("2017-12-31");
+  const [totalHours, setTotalHours] = useState(0);
+  const [totalCost, setTotalCost] = useState(0);
+  let tHours = 0;
 
+  useEffect(()=>{
+    console.log(tHours);
+    setTotalHours(tHours)
+  },[tHours])
+
+
+  const setThours =(value)=>{
+    tHours+=value;
+  }
+  // setTimeout(tHours=2, 4000);
+//   const [inEditMode, setInEditMode] = useState({
+//     status: false,
+//     rowKey: null
+// });
 
 
  
-
+//   const onEdit = ({id, totalHours}) => {
+//     setInEditMode({
+//         status: true,
+//         rowKey: id
+//     })
+//     setTotalHours(totalHours);
+// }
   const handleOption = (opt) => {
     console.log(opt);
     set_default_option(opt);
@@ -69,7 +92,12 @@ const ProjectForm = (props) => {
     getClient();
     getStatus();
     getCurrency();
+    
   }, []);
+
+  useEffect(()=>{
+    toShowData();
+  },[nature]);
 
   const getCurrency = () => {
     CurrencyService.getAllCurrency().then((res) => {
@@ -199,11 +227,17 @@ const ProjectForm = (props) => {
   // console.log("from project form ", project);
 
   const toShowData =() => {
+    let options = [];
+    let natre = nature;
     let keys = Object.keys(nature)
-    keys.map((item) =>{
-      setToShow({value : item , text : newNature[item]})
+    console.log("n lenth",natre.length);
+    console.log("keys lenght", keys.length)
+    nature.map((item,index) =>{
+      options.push({value : item.id , text : item.label})
     })
-    console.log("Data To Disply in MultiSelect",toShow);
+    setToShow(options);
+    console.log("Data To Disply in MultiSelect",options);
+    console.log("User Nature", nature)
   }
 
 
@@ -214,11 +248,12 @@ const ProjectForm = (props) => {
   //       editorState: EditorState.createEmpty(),
   //     };
   //   })
-  
+    
    const onEditorStateChange = (editorState) => {
       setEditorState( editorState);
     };
  
+   
     
 
   return (
@@ -614,7 +649,7 @@ const ProjectForm = (props) => {
             </div>
           </div>
           <div className="container">
-          <form>
+          {/* <form>
             <div className="row">
             <div className="col">
               <div className="form-group">
@@ -643,7 +678,7 @@ const ProjectForm = (props) => {
               </div>
             </div>
             </div>
-          </form>
+          </form> */}
           
           </div>
           <div className="row">
@@ -687,42 +722,35 @@ const ProjectForm = (props) => {
                                 </thead>
                                 <tbody>
                                   {teamMember.map((item, index) => {
+                                    
                                     return(
                                       <tr>
                                       <td>{teamMember[index].value}</td>
                                       {console.log("team Member Name", teamMember[index].value)}
                                       <td>
-                                        
-                                      <select 
-                  className="form-control"
-                  value={props.values.projectNature}
-                  onChange={props.handleChange("projectNature")}
-                >
-                  {nature.map((item, index) => {
-                    return (
-                      <option key={index} value={item.id}>
-                        {item.label}
-                      </option>
-                    );
-                  })}
-                </select>
-                <span id="err">{props.errors.projectNature}</span>
-                                        {/* <Editable
+                                     
+                                        <Editable
                                           name="Nature"
                                           dataType="select"
                                           mode="inline"
                                           title="Select Nature"
-                                          options={[toShow]}
+                                          options={toShow}
                                             value="Not Selected"
-                                          /> */}
+                                          />
                                       </td>
                                       <td>
                                         <Editable
                                           name="Hours"
                                           dataType="text"
                                           mode="inline"
+                                          display={(value)=>{
+                                            console.log("value inside editable=",value);
+                                            setThours(value);
+                                            
+                                            return (<strong>{value}</strong>);
+                                          }}
                                           title="Please enter Hours"
-                                          value="0"
+                                          // value="0"
                                           />
                                       </td>
                                       <td>
@@ -744,7 +772,7 @@ const ProjectForm = (props) => {
                                   <tr>
                                     <td style={{fontSize: "14px", fontWeight: "bold"}}>Total Est. Hours/Cost</td>
                                     <td></td>
-                                   <td>6</td>
+                                   <td>{totalHours}</td>
                                    <td>75000</td>
                                 </tr>
                                

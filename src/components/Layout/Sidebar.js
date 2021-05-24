@@ -90,7 +90,8 @@ class sidebar extends Component {
       tab: "task",
       subMenus: [
         { routeName: "add-task", label: "New Tasks" },
-        { routeName: "task", label: "View Taskss" },
+        { routeName: "task", label: "View Tasks" },
+        { routeName: "subtask", label: "View subtask"},
       ],
     },
     {
@@ -108,6 +109,7 @@ class sidebar extends Component {
         { routeName: "addproject", label: "New Project" },
         { routeName: "viewproject", label: "View Projects" },
         { routeName: "projectreport", label: "Project Report" },
+        { routeName: "project-task-form", label: "Project/Task"},
       ],
     },
     {

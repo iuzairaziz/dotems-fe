@@ -15,6 +15,7 @@
     "babel-preset-react-app": "^6.1.0",
     "bootstrap": "^4.6.0",
     "chart.js": "^2.7.3",
+    "disqus-react": "^1.0.11",
     "draft-js": "^0.10.5",
     "eslint": "5.6.0",
     "eslint-config-react-app": "^3.0.6",

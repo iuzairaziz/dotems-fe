@@ -131,6 +131,8 @@ import StatusList from "../MainContent/Status/StatusList/StatusList"
 import CurrencyList from "../MainContent/Currency/ViewCurrency";
 import ExpenseList from "../MainContent/Expense/AddExpense/Expense";
 import ViewProjectsTask from "../MainContent/Projects/ViewProjectTask";
+import SubTask from "../MainContent/Tasks/TaskList/SubTask";
+import SubTaskDetails from "../MainContent/Tasks/TaskList/SubTaskDetails"
 
 class mainbuilder extends Component {
   render() {
@@ -151,6 +153,8 @@ class mainbuilder extends Component {
         <Route exact path="/viewstatus" component={StatusList} />
         <Route exact path="/viewcurrency" component={CurrencyList} />
         <Route exact path="/project-task-form" component={ViewProjectsTask} />
+        <Route exact path="/subtask" component={SubTask} />
+        <Route exact path="/subtask-details" component={SubTaskDetails}/>
    
         //nehal routes
         <Route exact path="/add-time" component={AddTime} />
