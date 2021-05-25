@@ -27,7 +27,7 @@ const SubTask = () => {
       },
       {
         label: "Team Member",
-        field: "project",
+        field: "teamMember",
         sort: "asc",
         // width: 270,
       },
@@ -132,6 +132,7 @@ const SubTask = () => {
             title: item.name ? item.name : "none",
             project: item.project ? item.project.name : "none",
             estimatedHrs: item.estHrs ? item.estHrs : "none",
+            teamMember: item.assignedUser ? item.assignedUser.name : "none",
             projectRatio: item.projectRatio ? (
               <Progress color="teal" value={item.projectRatio}>
                 {item.projectRatio + "%"}
@@ -153,16 +154,20 @@ const SubTask = () => {
             action: (
               <div className="row flex-nowrap">
                 {/* <div className="col"> */}
-                <Link to="/subtask-details">
+                <Link to={{pathname: "/subtask-details" ,
+                taskProps: item
+            }
+
+                }>
                 <Button
                   color="info"
                   size="sm"
                   data-toggle="modal"
                   data-target="#myModal"
-                  onClick={() => {
-                    setSelectedTask(item);
-                    toggleEdit();
-                  }}
+                //   onClick={() => {
+                //     setSelectedTask(item);
+                //     toggleEdit();
+                //   }}
                 >
                   View Details
                 </Button>
@@ -191,7 +196,7 @@ const SubTask = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">All Tasks View</h4>
+                  <h4 className="mt-0 header-title">All Sub-Tasks View</h4>
                   <p className="text-muted m-b-30 font-14">
                     Below are all tasks of all projects
                   </p>

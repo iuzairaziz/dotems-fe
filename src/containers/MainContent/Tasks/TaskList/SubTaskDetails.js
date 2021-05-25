@@ -3,9 +3,12 @@ import AUX from '../../../../hoc/Aux_';
 import { Link } from 'react-router-dom';
 
 
-class Form_eliments extends Component{
+const Form_eliments = (props) =>{
  
-render(){
+{
+    console.log("props", props.location.taskProps)
+    const task = props.location.taskProps;
+
     return(
            <AUX>
                 <div className="page-content-wrapper">
@@ -19,13 +22,13 @@ render(){
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Task Title</label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text" placeholder="Artisanal kale" id="example-text-input" />
+                                                <input className="form-control" type="text" placeholder="Artisanal kale" id="example-text-input" value={task.name}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Team Members</label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text" placeholder="Artisanal kale" id="example-text-input" />
+                                                <input className="form-control" type="text"  id="example-text-input" />
                                             </div>
                                         </div>
                                         <div className="form-group row">
