@@ -3,6 +3,7 @@ import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import TaskForm from "../TaskForm/TaskForm";
+import { Redirect } from "react-router-dom";
 import taskService from "../../../../services/TaskService";
 import {
   Progress,
@@ -13,7 +14,7 @@ import {
   ModalFooter,
 } from "reactstrap";
 
-const Tables_datatable = () => {
+const Tables_datatable = (props) => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [selectedTask, setSelectedTask] = useState({ name: "" });
@@ -117,7 +118,7 @@ const Tables_datatable = () => {
 
   const getData = () => {
     taskService
-      .getAllTask()
+      .getParentTasks()
       .then((res) => {
         let data = { ...dataa };
         data.rows = [];
@@ -147,6 +148,15 @@ const Tables_datatable = () => {
             action: (
               <div className="row flex-nowrap">
                 {/* <div className="col"> */}
+                <Button
+                  color="primary"
+                  size="sm"
+                  onClick={() => {
+                    props.history.push(`/task/${item._id}`);
+                  }}
+                >
+                  View
+                </Button>
                 <Button
                   color="info"
                   size="sm"
