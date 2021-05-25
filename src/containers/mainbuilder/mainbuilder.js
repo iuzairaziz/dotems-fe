@@ -125,6 +125,14 @@ import Login from "../MainContent/Auth/Login/Login";
 import Register from "../MainContent/Auth/Register/Register";
 import AddTime from "../MainContent/Timesheet/AddTime/AddTime";
 import ProjectReports from "../MainContent/Projects/ProjectReports";
+import AddCurrency from "../MainContent/Currency/AddCurrency";
+import AddStatus from "../MainContent/Status/AddStatus/AddStatus"
+import StatusList from "../MainContent/Status/StatusList/StatusList"
+import CurrencyList from "../MainContent/Currency/ViewCurrency";
+import ExpenseList from "../MainContent/Expense/AddExpense/Expense";
+import ViewProjectsTask from "../MainContent/Projects/ViewProjectTask";
+import SubTask from "../MainContent/Tasks/TaskList/SubTask";
+import SubTaskDetails from "../MainContent/Tasks/TaskList/SubTaskDetails"
 
 class mainbuilder extends Component {
   render() {
@@ -132,6 +140,7 @@ class mainbuilder extends Component {
       <Switch>
         // Sarosh Routes
         <Route exact path="/add-user" component={AddUser} />
+        <Route exact path="/add-expense" component={ExpenseList} />
         // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />
@@ -139,6 +148,14 @@ class mainbuilder extends Component {
         <Route exact path="/addproject" component={AddProjects} />
         <Route exact path="/clientform" component={ClientsForm} />
         <Route exact path="/projectreport" component={ProjectReports} />
+        <Route exact path="/addcurrency" component={AddCurrency} />
+        <Route exact path="/addstatus" component={AddStatus} />
+        <Route exact path="/viewstatus" component={StatusList} />
+        <Route exact path="/viewcurrency" component={CurrencyList} />
+        <Route exact path="/project-task-form" component={ViewProjectsTask} />
+        <Route exact path="/subtask" component={SubTask} />
+        <Route exact path="/subtask-details" component={SubTaskDetails}/>
+   
         //nehal routes
         <Route exact path="/add-time" component={AddTime} />
         <Route exact path="/login" component={Login} />

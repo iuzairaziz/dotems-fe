@@ -149,6 +149,8 @@ const ProjectReports = () => {
                 // endDate: item.endDate ? item.endDate : "none",
                 cost: item.cost ? item.cost : "none",
                 Rprofit: item.Rprofit ? item.Rprofit : "none",
+                Pdeduction: item.Pdeduction ? item.Pdeduction : "none",
+                percentage: item.percentage ? item.percentage : "none",
                 
               });
             });

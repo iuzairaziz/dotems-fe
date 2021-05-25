@@ -21,6 +21,9 @@ class sidebar extends Component {
     client_menu: false,
     project_menu: false,
     user_menu: false,
+    currency_menu: false,
+    status_menu: false,
+    expense_menu: false,
   };
 
   stateKeys = Object.keys(this.state);
@@ -87,7 +90,8 @@ class sidebar extends Component {
       tab: "task",
       subMenus: [
         { routeName: "add-task", label: "New Tasks" },
-        { routeName: "task", label: "View Taskss" },
+        { routeName: "task", label: "View Tasks" },
+        { routeName: "subtask", label: "View subtask"},
       ],
     },
     {
@@ -104,6 +108,32 @@ class sidebar extends Component {
       subMenus: [
         { routeName: "addproject", label: "New Project" },
         { routeName: "viewproject", label: "View Projects" },
+        { routeName: "projectreport", label: "Project Report" },
+        { routeName: "project-task-form", label: "Project/Task"},
+      ],
+    },
+    {
+      name: "currency_menu",
+      tab: "currency",
+      subMenus: [
+        { routeName: "addcurrency", label: "New Currency" },
+        { routeName: "viewcurrency", label: "View Currency" },
+      ],
+    },
+    {
+      name: "status_menu",
+      tab: "status",
+      subMenus: [
+        { routeName: "addstatus", label: "Add Status" },
+        { routeName: "viewstatus", label: "View Status" },
+      ],
+    },
+    {
+      name: "expense_menu",
+      tab: "expense",
+      subMenus: [
+        { routeName: "add-expense", label: "New Expense" },
+        { routeName: "viewexpense", label: "View Expense" },
       ],
     },
   ];

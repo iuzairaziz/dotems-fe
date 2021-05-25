@@ -15,10 +15,17 @@ import userService from "../../../services/UserService";
 import ClientService from "../../../services/ClientService";
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import ProjectFormTable from "../Projects/ProjectFormTable"
+import StatusService from "../../../services/StatusService"
+import CurrencyService from "../../../services/CurrencyService"
+import { EditorState } from 'draft-js';
+import Editable from 'react-x-editable';
+
 
 const ProjectForm = (props) => {
   const [default_date, set_default_date] = useState(0);
   const [end_date, set_end_date] = useState(0);
+  const [default_option, set_default_option] = useState(0);
   const [country, setCountry] = useState([]);
   const [platform, setPlatform] = useState([]);
   const [technology, setTechnology] = useState([]);
@@ -26,6 +33,46 @@ const ProjectForm = (props) => {
   const [nature, setNature] = useState([]);
   const [users, setUsers] = useState([]);
   const [client, setClient] = useState([]);
+  const [status, setStatus] = useState([]);
+  const [currency, setCurrency] = useState([]);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());  
+  const [toShow,setToShow] = useState([])
+  const [newNature, setNewNature] = useState([{}]);
+  const [teamMember, setTeamMember] = useState([])
+  const [defaultProjectDate, setDefaultProjectDate] = useState("2017-12-31");
+  const [endProjectDate, setEndProjectDate] = useState("2017-12-31");
+  const [totalHours, setTotalHours] = useState(0);
+  const [totalCost, setTotalCost] = useState(0);
+  let tHours = 0;
+
+  useEffect(()=>{
+    console.log(tHours);
+    setTotalHours(tHours)
+  },[tHours])
+
+
+  const setThours =(value)=>{
+    tHours+=value;
+  }
+  // setTimeout(tHours=2, 4000);
+//   const [inEditMode, setInEditMode] = useState({
+//     status: false,
+//     rowKey: null
+// });
+
+
+ 
+//   const onEdit = ({id, totalHours}) => {
+//     setInEditMode({
+//         status: true,
+//         rowKey: id
+//     })
+//     setTotalHours(totalHours);
+// }
+  const handleOption = (opt) => {
+    console.log(opt);
+    set_default_option(opt);
+  };
 
   const handleDefault = (date) => {
     console.log(date);
@@ -43,7 +90,43 @@ const ProjectForm = (props) => {
     getNature();
     getUsers();
     getClient();
+    getStatus();
+    getCurrency();
+    
   }, []);
+
+  useEffect(()=>{
+    toShowData();
+  },[nature]);
+
+  const getCurrency = () => {
+    CurrencyService.getAllCurrency().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setCurrency(options);
+      });
+    });
+  };
+
+  const getStatus = () => {
+    StatusService.getAllStatus().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setStatus(options);
+      });
+    });
+  };
+ 
 
   const getUsers = () => {
     userService.getUsers().then((res) => {
@@ -141,14 +224,44 @@ const ProjectForm = (props) => {
 
   const project = props.project;
   const editable = props.editable;
-  console.log("from project form ", project);
+  // console.log("from project form ", project);
+
+  const toShowData =() => {
+    let options = [];
+    let natre = nature;
+    let keys = Object.keys(nature)
+    console.log("n lenth",natre.length);
+    console.log("keys lenght", keys.length)
+    nature.map((item,index) =>{
+      options.push({value : item.id , text : item.label})
+    })
+    setToShow(options);
+    console.log("Data To Disply in MultiSelect",options);
+    console.log("User Nature", nature)
+  }
+
+
+  // const ControlledEditor = () => {
+  //   constructor((props) => {
+  //     super(props);
+  //     this.state = {
+  //       editorState: EditorState.createEmpty(),
+  //     };
+  //   })
+    
+   const onEditorStateChange = (editorState) => {
+      setEditorState( editorState);
+    };
+ 
+   
+    
 
   return (
     <Formik
       initialValues={{
         projectName: editable && project.name,
         clientName: editable && project.client && project.client.client_name,
-        status: editable && project.status,
+        status: editable && project.status && project.status.status_name,
         cost: editable && project.cost,
         Rprofit: editable && project.Rprofit,
         platform:
@@ -158,6 +271,7 @@ const ProjectForm = (props) => {
         serviceType:
           editable && project.service && project.service.service_name,
         projectNature: editable && project.nature && project.nature.nature_name,
+        currency: editable && project.currency && project.currency.currency_name,
         startDate: editable && project.startDate,
         endDate: editable && project.endDate,
         projectManager:
@@ -171,6 +285,7 @@ const ProjectForm = (props) => {
         orderNum: editable && project.orderNumber,
         Pdeduction: editable && project.Pdeduction,
         percentage: editable && project.percentage,
+        fCost: editable && project.fCost
       }}
       validationSchema={projectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
@@ -197,6 +312,8 @@ const ProjectForm = (props) => {
               Rprofit: values.Rprofit,
               Pdeduction: values.Pdeduction,
               percentage: values.percentage,
+              fCost: values.fCost,
+              currency: values.currency,
             })
               .then((res) => {
                 ProjectService.handleMessage("update");
@@ -223,6 +340,8 @@ const ProjectForm = (props) => {
               Rprofit: values.Rprofit,
               Pdeduction: values.Pdeduction,
               percentage: values.percentage,
+              fCost: values.fCost,
+              currency: values.currency,
             })
               .then((res) => {
                 ProjectService.handleMessage("add");
@@ -259,8 +378,8 @@ const ProjectForm = (props) => {
                 <label className="control-label">Client Name</label>
                 <select
                   className="form-control"
-                  value={props.values.client}
-                  onChange={props.handleChange("client")}
+                  value={props.values.clientName}
+                  onChange={props.handleChange("clientName")}
                 >
                   {client.map((item, index) => {
                     return (
@@ -270,7 +389,7 @@ const ProjectForm = (props) => {
                     );
                   })}
                 </select>
-                <span id="err">{props.errors.client}</span>
+                <span id="err">{props.errors.clientName}</span>
               </div>
             </div>
           </div>
@@ -335,8 +454,8 @@ const ProjectForm = (props) => {
                 <label className="control-label">Services Type</label>
                 <select
                   className="form-control"
-                  value={props.values.service}
-                  onChange={props.handleChange("service")}
+                  value={props.values.serviceType}
+                  onChange={props.handleChange("serviceType")}
                 >
                   {service.map((item, index) => {
                     return (
@@ -346,7 +465,7 @@ const ProjectForm = (props) => {
                     );
                   })}
                 </select>
-                <span id="err">{props.errors.service}</span>
+                <span id="err">{props.errors.serviceType}</span>
               </div>
             </div>
           </div>
@@ -355,11 +474,20 @@ const ProjectForm = (props) => {
               <div className="form-group">
                 <label className="control-label">Status</label>
 
-                <Select
+                <select
+                  className="form-control"
                   value={props.values.status}
                   onChange={props.handleChange("status")}
-                  options={["PAksitan", "China"]}
-                />
+                >
+                  {status.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
+                <span id="err">{props.errors.status}</span>
               </div>
             </div>
             <div className="col">
@@ -368,8 +496,8 @@ const ProjectForm = (props) => {
 
                 <select
                   className="form-control"
-                  value={props.values.nature}
-                  onChange={props.handleChange("nature")}
+                  value={props.values.projectNature}
+                  onChange={props.handleChange("projectNature")}
                 >
                   {nature.map((item, index) => {
                     return (
@@ -379,7 +507,7 @@ const ProjectForm = (props) => {
                     );
                   })}
                 </select>
-                <span id="err">{props.errors.nature}</span>
+                <span id="err">{props.errors.projectNature}</span>
               </div>
             </div>
           </div>
@@ -424,8 +552,8 @@ const ProjectForm = (props) => {
 
                 <select
                   className="form-control"
-                  value={props.values.users}
-                  onChange={props.handleChange("users")}
+                  value={props.values.projectManager}
+                  onChange={props.handleChange("projectManager")}
                 >
                   {users.map((item, index) => {
                     return (
@@ -435,7 +563,7 @@ const ProjectForm = (props) => {
                     );
                   })}
                 </select>
-                <span id="err">{props.errors.users}</span>
+                <span id="err">{props.errors.projectManager}</span>
               </div>
             </div>
             <div className="col">
@@ -444,13 +572,17 @@ const ProjectForm = (props) => {
                 <Select
                   value={props.values.teamMembers}
                   onChange={(val) => {
+                    
                     props.setFieldValue("teamMembers", val);
                     console.log("team change", val);
+                    setTeamMember(val)
+                    console.log("team Members", teamMember)
+                    
                   }}
                   options={users}
                   isMulti={true}
                 />
-                <span id="err">{props.errors.assignedUser}</span>
+                <span id="err">{props.errors.teamMembers}</span>
               </div>
             </div>
           </div>
@@ -470,15 +602,21 @@ const ProjectForm = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
-                <label>Reserve Profit</label>
-                <input
-                  type="text"
+                <label>Currency</label>
+                <select
                   className="form-control"
-                  value={props.values.Rprofit}
-                  onChange={props.handleChange("Rprofit")}
-                  placeholder="Enter Preserve Profit"
-                />
-                <span id="err">{props.errors.Rprofit}</span>
+                  value={props.values.currency}
+                  onChange={props.handleChange("currency")}
+                >
+                  {currency.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
+                <span id="err">{props.errors.currency}</span>
               </div>
             </div>
           </div>
@@ -498,8 +636,38 @@ const ProjectForm = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
-                <label>Percentage</label>
+                <label>Reserve Profit</label>
                 <input
+                  type="text"
+                  className="form-control"
+                  value={props.values.Rprofit}
+                  onChange={props.handleChange("Rprofit")}
+                  placeholder="Enter Preserve Profit"
+                />
+                <span id="err">{props.errors.Rprofit}</span>
+              </div>
+            </div>
+          </div>
+          <div className="container">
+          {/* <form>
+            <div className="row">
+            <div className="col">
+              <div className="form-group">
+                <label>Fixed Cost</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={props.values.fCost}
+                  onChange={props.handleChange("fCost")}
+                  placeholder="Enter Cost"
+                />
+                <span id="err">{props.errors.fCost}</span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label>Percentage</label>
+                <input1
                   type="text"
                   className="form-control"
                   value={props.values.percentage}
@@ -509,6 +677,9 @@ const ProjectForm = (props) => {
                 <span id="err">{props.errors.percentage}</span>
               </div>
             </div>
+            </div>
+          </form> */}
+          
           </div>
           <div className="row">
           <div className="col-12">
@@ -521,11 +692,150 @@ const ProjectForm = (props) => {
                                         <Editor
                                 toolbarClassName="toolbarClassName"
                                 wrapperClassName="wrapperClassName"
-                                editorClassName="editorClassName" />
+                                editorClassName="editorClassName" 
+                                onEditorStateChange={onEditorStateChange}
+                                />
+                                
                                 </div>
                             </div>
                         </div>
           </div>
+          {/* <ProjectFormTable /> */}
+          <div className="page-content-wrapper">
+            <div className="container-fluid">
+
+                <div className="row">
+                    <div className="col-12">
+                        <div className="card m-b-20">
+                            <div className="card-body">
+
+                               
+
+                                    <table className="table table-striped mb-0">
+                                <thead>
+                                <tr>
+                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Name</th>
+                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Nature</th>
+                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Est. Hours</th>
+                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Est. Cost</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  {teamMember.map((item, index) => {
+                                    
+                                    return(
+                                      <tr>
+                                      <td>{teamMember[index].value}</td>
+                                      {console.log("team Member Name", teamMember[index].value)}
+                                      <td>
+                                     
+                                        <Editable
+                                          name="Nature"
+                                          dataType="select"
+                                          mode="inline"
+                                          title="Select Nature"
+                                          options={toShow}
+                                            value="Not Selected"
+                                          />
+                                      </td>
+                                      <td>
+                                        <Editable
+                                          name="Hours"
+                                          dataType="text"
+                                          mode="inline"
+                                          display={(value)=>{
+                                            console.log("value inside editable=",value);
+                                            setThours(value);
+                                            
+                                            return (<strong>{value}</strong>);
+                                          }}
+                                          title="Please enter Hours"
+                                          // value="0"
+                                          />
+                                      </td>
+                                      <td>
+                                        <Editable
+                                          name="Cost"
+                                          dataType="text"
+                                          mode="inline"
+                                          title="Please enter Cost"
+                                          value="0"
+                                          />
+                                      </td>
+                                      
+                                  </tr>
+                                    )
+                                  })}
+                                 
+                                  
+                                 
+                                  <tr>
+                                    <td style={{fontSize: "14px", fontWeight: "bold"}}>Total Est. Hours/Cost</td>
+                                    <td></td>
+                                   <td>{totalHours}</td>
+                                   <td>75000</td>
+                                </tr>
+                               
+                               
+                               
+                                <tr>
+                                    <td style={{fontSize: "14px", fontWeight: "bold"}}>Start Date</td>
+                                    <td>
+                                      <Editable
+                                      
+                                        name="username"
+                                        dataType="date"
+                                        mode="inline"
+                                        title="Please enter username"      
+                                        value={`${defaultProjectDate}`}
+                                        display={(value) => {
+                                          setDefaultProjectDate(value)
+                                          return (
+                                            <>
+                                          <strong>{value}</strong>
+                                            {console.log("date", defaultProjectDate)}
+                                            </>
+                                            );
+                                          
+                                        }}
+                                      />
+                                    </td>
+                                    <td style={{fontSize: "14px", fontWeight: "bold"}}>Deadline</td>
+                                    <td>
+                                      <Editable
+                                      
+                                        name="username"
+                                        dataType="date"
+                                        mode="inline"
+                                        title="Please enter username"      
+                                        value={`${endProjectDate}`}
+                                        display={(value) => {
+                                          setEndProjectDate(value)
+                                          return (
+                                            <>
+                                          <strong>{value}</strong>
+                                            {console.log("end date", endProjectDate)}
+                                            </>
+                                            );
+                                          
+                                        }}
+                                      />
+                                    </td>
+                                </tr>
+                               
+                              
+                                </tbody>
+                                <div className="button" style={{paddingLeft: "0px"}}>
+                                <Button outline color="info"><i className="fa fa-plus fa-2x"></i></Button>{' '}
+                                </div>
+                                
+                            </table>
+                            </div>
+                        </div>
+                    </div> 
+                </div>     
+            </div> 
+        </div>
           <div className="row">
             <div className="col">
               <Button

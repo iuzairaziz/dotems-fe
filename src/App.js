@@ -8,6 +8,8 @@ import AUX from "./hoc/Aux_";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Auth from "./containers/MainContent/Auth/Auth";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 class App extends Component {
   render() {
