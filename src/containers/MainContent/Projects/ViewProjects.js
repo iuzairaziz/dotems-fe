@@ -31,7 +31,6 @@ const ViewProjects = () => {
   const [applystatusfilter, setApplyStatusFilter] = useState("");
   const [applyTechnologyfilter, setApplyTechnologyFilter] = useState("");
   const [cStart, setcStart] = useState("");
-  const [cEnd, setcEnd] = useState("");
 
   const [dataa, setData] = useState({
     columns: [
@@ -192,7 +191,6 @@ const ViewProjects = () => {
     applystatusfilter,
     applyTechnologyfilter,
     cStart,
-    cEnd,
   ]);
   useEffect(() => {
     getPlatform();
@@ -260,8 +258,7 @@ const ViewProjects = () => {
       applyfilter,
       applystatusfilter,
       applyTechnologyfilter,
-      cStart,
-      cEnd
+      cStart
     )
       .then((res) => {
         let data = { ...dataa };
@@ -287,8 +284,12 @@ const ViewProjects = () => {
             // ),
             status: item.status ? item.status.name : "none",
 
-            startDate: item.cStartDate ? item.cStartDate : "none",
-            endDate: item.cEndDate ? item.cEndDate : "none",
+            startDate: moment(item.cStartDate).format("MMM Do YY")
+              ? moment(item.cStartDate).format("MMM Do YY")
+              : "none",
+            endDate: moment(item.cEndDate).format("MMM Do YY")
+              ? moment(item.cEndDate).format("MMM Do YY")
+              : "none",
             cost: item.cost ? item.cost : "none",
             Rprofit: item.Rprofit ? item.Rprofit : "none",
             action: (
@@ -349,7 +350,7 @@ const ViewProjects = () => {
                 <div className="card-body">
                   <h4 className="mt-0 header-title">Projects</h4>
                   <div className="row">
-                    <div className="col-2">
+                    <div className="col-3">
                       <label>Platform Filter</label>
                       <select
                         className="form-control"
@@ -369,7 +370,7 @@ const ViewProjects = () => {
                         })}
                       </select>
                     </div>
-                    <div className="col-2">
+                    <div className="col-3">
                       <label>Status Filter</label>
                       <select
                         className="form-control"
@@ -389,7 +390,7 @@ const ViewProjects = () => {
                         })}
                       </select>
                     </div>
-                    <div className="col-2">
+                    <div className="col-3">
                       <label>Technology Filter</label>
                       <select
                         className="form-control"
@@ -411,23 +412,14 @@ const ViewProjects = () => {
                     </div>
                     <div className="col-3">
                       <label>Start Date Filter</label>
+
                       <DatePicker
                         className="form-control"
+                        value={cStart}
                         selected={cStart}
                         onChange={(cStart) => {
                           setcStart(cStart);
                           console.log("datepicker", cStart);
-                        }}
-                      />
-                    </div>
-                    <div className="col-3">
-                      <label>End Date Filter</label>
-                      <DatePicker
-                        className="form-control"
-                        selected={cEnd}
-                        onChange={(cEnd) => {
-                          setcEnd(cEnd);
-                          console.log("datepicker", cEnd);
                         }}
                       />
                     </div>
