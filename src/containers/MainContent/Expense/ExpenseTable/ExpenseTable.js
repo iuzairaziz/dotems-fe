@@ -19,20 +19,32 @@ import ClientService from "../../../../services/ClientService";
 const ExpensForm = (props) => {
   const [data, setData] = useState([]);
   const [dbValues, setDBValues] = useState({});
-  const [obj, setObj] = useState([{}]);
+  const [multioptions, setMultioptions] = useState([{}]);
 
   const user = props.user;
   const editable = props.editable;
   console.log("from project form ", user);
   useEffect(() => {
+    getExpense();
     getExpenseCategory();
   }, []);
+
+  const getExpense = () => {
+    ExpenseCategoryService.getAllExpenseCategory().then((res) => {
+      let multiOption = [];
+      res.data.map((item, index) => {
+        multiOption.push(item.name);
+      });
+      setMultioptions(multiOption);
+      console.log("Multi Select options", multioptions);
+    });
+  };
 
   const getExpenseCategory = () => {
     ExpenseCategoryService.getAllExpenseCategory().then((res) => {
       let options = [];
       let initialValues = {};
-      res.data.map((item, index) => {
+      multioptions.map((item, index) => {
         options.push(item.name);
         initialValues[item.name] = "";
       });
@@ -49,7 +61,11 @@ const ExpensForm = (props) => {
         let keys = Object.keys(values);
         let toSend = [];
         keys.map((item) => {
-          toSend.push({ name: item, cost: values[item] });
+          toSend.push({
+            name: item,
+            cost: values[item],
+            date: props.date,
+          });
         });
         console.log(toSend);
         console.log(values);
@@ -77,6 +93,11 @@ const ExpensForm = (props) => {
     >
       {(props) => (
         <>
+          <div className="form-group mb-0">
+            <label className="control-label">Select Expenses</label>
+            <Select onChange={() => {}} options={multioptions} isMulti={true} />
+            {/* <span id="err">{props.errors.teamMembers}</span> */}
+          </div>
           {data.map((item, index) => {
             return (
               <>

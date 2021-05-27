@@ -22,8 +22,11 @@ class ProjectService {
     return axios.put(this.config.apiBaseUrl + "projects/" + id, formData);
   }
 
-  getAllProject() {
-    return axios.get(this.config.apiBaseUrl + "projects/show-projects");
+  getAllProject(filter, status, technology, startDate, endDate) {
+    return axios.get(
+      this.config.apiBaseUrl +
+        `projects/show-projects?status=${status}&platForm=${filter}&technology=${technology}&startDate=${startDate}&endDate=${endDate}`
+    );
   }
 
   deleteProject(id) {
@@ -35,8 +38,6 @@ class ProjectService {
       this.config.apiBaseUrl + "projects/whereEmployee/" + employeeId
     );
   }
-
-
 
   handleMessage(type) {
     if (type === "add") toast("Successfully added Project");
