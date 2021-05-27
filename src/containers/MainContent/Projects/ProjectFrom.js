@@ -15,7 +15,6 @@ import userService from "../../../services/UserService";
 import ClientService from "../../../services/ClientService";
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import ProjectFormTable from "../Projects/ProjectFormTable"
 import StatusService from "../../../services/StatusService"
 import CurrencyService from "../../../services/CurrencyService"
 import { EditorState } from 'draft-js';

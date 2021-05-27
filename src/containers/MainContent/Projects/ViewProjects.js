@@ -162,12 +162,17 @@ const ViewProjects = () => {
         
       // },
       {
+        label: "View Details",
+        field: "details",
+        sort: "disabled",
+        // width: 150,
+      },
+      {
         label: "Action",
         field: "action",
         sort: "disabled",
         // width: 150,
       },
-
 
     ],
     rows: [],
@@ -221,8 +226,10 @@ const ViewProjects = () => {
             endDate: item.endDate ? item.endDate : "none",
             cost: item.cost ? item.cost : "none",
             Rprofit: item.Rprofit ? item.Rprofit : "none",
-            action: (
+            details: (
               <div className="row flex-nowrap">
+
+                <Link  to={{pathname: "/projectdetails" , projectProps: item}}>
                 <Button
                   color="info"
                   size="sm"
@@ -234,6 +241,13 @@ const ViewProjects = () => {
                 >
                   View Details
                 </Button>
+                </Link>
+                 
+              </div>
+            ),
+            action: (
+              <div className="row flex-nowrap">
+               
                  <Button
                   color="info"
                   size="sm"
