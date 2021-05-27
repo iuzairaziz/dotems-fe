@@ -11,14 +11,16 @@ class TaskService {
     return axios.post(this.config.apiBaseUrl + "tasks/create-task", formData);
   }
 
-  getTaskById(orderId) {
-    return axios.get(this.config.apiBaseUrl + "tasks/" + orderId);
+  getTaskDetailsById(id) {
+    return axios.get(this.config.apiBaseUrl + "tasks/" + id);
   }
 
   getAllTask() {
     return axios.get(this.config.apiBaseUrl + "tasks/show-task");
   }
-
+  getParentTasks() {
+    return axios.get(this.config.apiBaseUrl + "tasks/parents");
+  }
   updateTask(id, formData) {
     return axios.put(this.config.apiBaseUrl + "tasks/" + id, formData);
   }

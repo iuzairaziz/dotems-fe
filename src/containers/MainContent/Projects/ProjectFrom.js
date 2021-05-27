@@ -23,8 +23,10 @@ import Editable from 'react-x-editable';
 
 
 const ProjectForm = (props) => {
-  const [default_date, set_default_date] = useState(0);
-  const [end_date, set_end_date] = useState(0);
+  // const [default_date, set_default_date] = useState(0);
+  // const [end_date, set_end_date] = useState(0);
+  // const [pm_date, set_PM_date] = useState(0);
+  // const [pmend_date, set_PMend_date] = useState(0);
   const [default_option, set_default_option] = useState(0);
   const [country, setCountry] = useState([]);
   const [platform, setPlatform] = useState([]);
@@ -74,14 +76,23 @@ const ProjectForm = (props) => {
     set_default_option(opt);
   };
 
-  const handleDefault = (date) => {
-    console.log(date);
-    set_default_date(date);
-  };
-  const handleEnd = (datee) => {
-    console.log(datee);
-    set_end_date(datee);
-  };
+  // const handleDefault = (date) => {
+  //   console.log(date);
+  //   set_default_date(date);
+  // };
+  // const handleEnd = (datee) => {
+  //   console.log(datee);
+  //   set_end_date(datee);
+  // };
+
+  // const handleDefault = (date1) => {
+  //   console.log(date1);
+  //   set_PM_date(date1);
+  // };
+  // const handleEnd = (date2) => {
+  //   console.log(date2);
+  //   set_PMend_date(date2);
+  // };
   useEffect(() => {
     getCountry();
     getPlatform();
@@ -272,8 +283,10 @@ const ProjectForm = (props) => {
           editable && project.service && project.service.service_name,
         projectNature: editable && project.nature && project.nature.nature_name,
         currency: editable && project.currency && project.currency.currency_name,
-        startDate: editable && project.startDate,
-        endDate: editable && project.endDate,
+        cStartDate: editable && project.cStartDate,
+        cEndDate: editable && project.cEndDate,
+        pmStartDate: editable && project.pmStartDate,
+        pmEndDate: editable && project.pmEndDate,
         projectManager:
           editable &&
           project.projectManager &&
@@ -304,8 +317,10 @@ const ProjectForm = (props) => {
               service: values.serviceType,
               status: values.status,
               nature: values.projectNature,
-              startDate: values.startDate,
-              endDate: values.endDate,
+              cStartDate: values.cStartDate,
+              cEndDate: values.cEndDate,
+              pmStartDate: values.pmStartDate,
+              pmEndDate: values.pmEndDate,
               projectManager: values.projectManager,
               assignedUser: usrs,
               cost: values.cost,
@@ -314,6 +329,7 @@ const ProjectForm = (props) => {
               percentage: values.percentage,
               fCost: values.fCost,
               currency: values.currency,
+
             })
               .then((res) => {
                 ProjectService.handleMessage("update");
@@ -332,8 +348,10 @@ const ProjectForm = (props) => {
               service: values.serviceType,
               status: values.status,
               nature: values.projectNature,
-              startDate: values.startDate,
-              endDate: values.endDate,
+              cStartDate: values.cStartDate,
+              cEndDate: values.cEndDate,
+              pmStartDate: values.pmStartDate,
+              pmEndDate: values.pmEndDate,
               projectManager: values.projectManager,
               assignedUser: usrs,
               cost: values.cost,
@@ -515,13 +533,13 @@ const ProjectForm = (props) => {
             <div className="col">
               {" "}
               <div className="form-group">
-                <label>Start Date</label>
+                <label>Client Start Date</label>
                 <div>
                   <DatePicker
                     className="form-control"
-                    selected={props.values.startDate}
+                    selected={props.values.cStartDate}
                     onChange={(date) => {
-                      props.setFieldValue("startDate", date);
+                      props.setFieldValue("cStartDate", date);
                       console.log("datepicker", date);
                     }}
                   />
@@ -531,14 +549,48 @@ const ProjectForm = (props) => {
             <div className="col">
               {" "}
               <div className="form-group">
-                <label>Deadline</label>
+                <label>Client Deadline</label>
                 <div>
                   <DatePicker
                     className="form-control"
-                    selected={props.values.endDate}
+                    selected={props.values.cEndDate}
                     onChange={(datee) => {
-                      props.setFieldValue("endDate", datee);
+                      props.setFieldValue("cEndDate", datee);
                       console.log("datepicker", datee);
+                    }}
+                  />
+                </div>
+              </div>{" "}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              {" "}
+              <div className="form-group">
+                <label>PM Start Date</label>
+                <div>
+                  <DatePicker
+                    className="form-control"
+                    selected={props.values.pmStartDate}
+                    onChange={(date1) => {
+                      props.setFieldValue("pmStartDate", date1);
+                      console.log("datepicker", date1);
+                    }}
+                  />
+                </div>
+              </div>{" "}
+            </div>
+            <div className="col">
+              {" "}
+              <div className="form-group">
+                <label>PM End Date</label>
+                <div>
+                  <DatePicker
+                    className="form-control"
+                    selected={props.values.pmEndDate}
+                    onChange={(date2) => {
+                      props.setFieldValue("pmEndDate", date2);
+                      console.log("datepicker", date2);
                     }}
                   />
                 </div>
@@ -714,14 +766,141 @@ const ProjectForm = (props) => {
                                     <table className="table table-striped mb-0">
                                 <thead>
                                 <tr>
-                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Name</th>
-                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Nature</th>
-                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Est. Hours</th>
-                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Est. Cost</th>
+                                    
+                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Project Phase</th>
+                                    <th style={{fontSize: "17px", fontWeight: "bold"}}>Estimate Hours</th>
+                                   
                                 </tr>
                                 </thead>
                                 <tbody>
-                                  {teamMember.map((item, index) => {
+                                  <tr>
+                                    <td>Requirement Analysis</td>
+                                    <td>
+                                        <Editable
+                                          name="Hours"
+                                          dataType="text"
+                                          mode="inline"
+                                          display={(value)=>{
+                                            console.log("value inside editable=",value);
+                                            setThours(value);
+                                            
+                                            return (<strong>{value}</strong>);
+                                          }}
+                                          title="Please enter Hours"
+                                          // value="0"
+                                          />
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                    <td>Design</td>
+                                    <td>
+                                        <Editable
+                                          name="Hours"
+                                          dataType="text"
+                                          mode="inline"
+                                          display={(value)=>{
+                                            console.log("value inside editable=",value);
+                                            setThours(value);
+                                            
+                                            return (<strong>{value}</strong>);
+                                          }}
+                                          title="Please enter Hours"
+                                          // value="0"
+                                          />
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                    <td>Development </td>
+                                    <td>
+                                        <Editable
+                                          name="Hours"
+                                          dataType="text"
+                                          mode="inline"
+                                          display={(value)=>{
+                                            console.log("value inside editable=",value);
+                                            setThours(value);
+                                            
+                                            return (<strong>{value}</strong>);
+                                          }}
+                                          title="Please enter Hours"
+                                          // value="0"
+                                          />
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                    <td>Testing </td>
+                                    <td>
+                                        <Editable
+                                          name="Hours"
+                                          dataType="text"
+                                          mode="inline"
+                                          display={(value)=>{
+                                            console.log("value inside editable=",value);
+                                            setThours(value);
+                                            
+                                            return (<strong>{value}</strong>);
+                                          }}
+                                          title="Please enter Hours"
+                                          // value="0"
+                                          />
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                    <td>Implementation </td>
+                                    <td>
+                                        <Editable
+                                          name="Hours"
+                                          dataType="text"
+                                          mode="inline"
+                                          display={(value)=>{
+                                            console.log("value inside editable=",value);
+                                            setThours(value);
+                                            
+                                            return (<strong>{value}</strong>);
+                                          }}
+                                          title="Please enter Hours"
+                                          // value="0"
+                                          />
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                    <td>Documentation </td>
+                                    <td>
+                                        <Editable
+                                          name="Hours"
+                                          dataType="text"
+                                          mode="inline"
+                                          display={(value)=>{
+                                            console.log("value inside editable=",value);
+                                            setThours(value);
+                                            
+                                            return (<strong>{value}</strong>);
+                                          }}
+                                          title="Please enter Hours"
+                                          // value="0"
+                                          />
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                    <td>Evaluation </td>
+                                    <td>
+                                        <Editable
+                                          name="Hours"
+                                          dataType="text"
+                                          mode="inline"
+                                          display={(value)=>{
+                                            console.log("value inside editable=",value);
+                                            setThours(value);
+                                            
+                                            return (<strong>{value}</strong>);
+                                          }}
+                                          title="Please enter Hours"
+                                          // value="0"
+                                          />
+                                      </td>
+                                  </tr>
+
+                                  {/* {teamMember.map((item, index) => {
                                     
                                     return(
                                       <tr>
@@ -765,20 +944,18 @@ const ProjectForm = (props) => {
                                       
                                   </tr>
                                     )
-                                  })}
+                                  })} */}
                                  
                                   
                                  
                                   <tr>
-                                    <td style={{fontSize: "14px", fontWeight: "bold"}}>Total Est. Hours/Cost</td>
-                                    <td></td>
+                                    <td style={{fontSize: "14px", fontWeight: "bold"}}>Total Est. Hours</td>
                                    <td>{totalHours}</td>
-                                   <td>75000</td>
                                 </tr>
                                
                                
                                
-                                <tr>
+                                {/* <tr>
                                     <td style={{fontSize: "14px", fontWeight: "bold"}}>Start Date</td>
                                     <td>
                                       <Editable
@@ -821,14 +998,10 @@ const ProjectForm = (props) => {
                                         }}
                                       />
                                     </td>
-                                </tr>
+                                </tr> */}
                                
                               
                                 </tbody>
-                                <div className="button" style={{paddingLeft: "0px"}}>
-                                <Button outline color="info"><i className="fa fa-plus fa-2x"></i></Button>{' '}
-                                </div>
-                                
                             </table>
                             </div>
                         </div>

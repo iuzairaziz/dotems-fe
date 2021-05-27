@@ -96,6 +96,18 @@ const ViewProjects = () => {
         sort: "disabled",
         width: 100,
       },
+      {
+        label: "Total Estimate Hrs",
+        field: "Est. Hrs",
+        sort: "disabled",
+        // width: 100,
+      },
+      {
+        label: "Total Actual Hrs",
+        field: "ActHrs",
+        sort: "disabled",
+        // width: 100,
+      },
       // {
       //   label: "Project Manager",
       //   field: "projectManager",
@@ -281,6 +293,15 @@ const ViewProjects = () => {
             Rprofit: item.Rprofit ? item.Rprofit : "none",
             action: (
               <div className="row flex-nowrap">
+                <Button
+                  color="info"
+                  size="sm"
+                  data-toggle="modal"
+                  data-target="#myModal"
+                  onClick={() => {}}
+                >
+                  View Details
+                </Button>
                 <Button
                   color="info"
                   size="sm"
