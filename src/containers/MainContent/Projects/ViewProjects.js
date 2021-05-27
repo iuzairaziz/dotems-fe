@@ -3,6 +3,8 @@ import AUX from "../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import ClientValidation from "../../../validations/client-validations";
+import DatePicker from "react-datepicker";
+import moment from "moment";
 import {
   Progress,
   Button,
@@ -13,12 +15,23 @@ import {
 } from "reactstrap";
 import ProjectForm from "../Projects/ProjectFrom";
 import ProjectService from "../../../services/ProjectService";
+import PlatformService from "../../../services/PlatformService";
+import StatusService from "../../../services/StatusService";
+import TechnologyService from "../../../services/TechnologyService";
 
 const ViewProjects = () => {
   const [editTask, setEditTask] = useState();
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [selectedProject, setSelectedProject] = useState({ name: "" });
+  const [filter, setFilter] = useState([]);
+  const [statusfilter, setStatusFilter] = useState([]);
+  const [technologyfilter, setTechnologyFilter] = useState([]);
+  const [applyfilter, setApplyFilter] = useState("");
+  const [applystatusfilter, setApplyStatusFilter] = useState("");
+  const [applyTechnologyfilter, setApplyTechnologyFilter] = useState("");
+  const [cStart, setcStart] = useState("");
+  const [cEnd, setcEnd] = useState("");
 
   const [dataa, setData] = useState({
     columns: [
@@ -117,49 +130,48 @@ const ViewProjects = () => {
       //   label: "Reserve Profit",
       //   field: "Rprofit",
       //   sort: "disabled",
-        
+
       // },
       //  {
       //    label: "Estimate Hours",
       //    field: "EstHrs",
       //    sort: "disabled",
-        
+
       //  },
       //  {
       //    label: "Actual Hours",
       //    field: "ActHrs",
       //   sort: "disabled",
-        
+
       //  },
-       {
+      {
         label: "Work Done",
         field: "wrkdone",
-       sort: "disabled",
-       
+        sort: "disabled",
       },
       // {
       //   label: "Project Income Rs.",
       //   field: "Pincome",
       //   sort: "disabled",
-        
+
       // },
       // {
       //   label: "Platform Deduction",
       //   field: "Pdeduction",
       //   sort: "disabled",
-        
+
       // },
       // {
       //   label: "Resource Expense",
       //   field: "Rprofit",
       //   sort: "disabled",
-        
+
       // },
       // {
       //   label: "Total Profit",
       //   field: "Tprofit",
       //   sort: "disabled",
-        
+
       // },
       {
         label: "View Details",
@@ -173,14 +185,26 @@ const ViewProjects = () => {
         sort: "disabled",
         // width: 150,
       },
-
     ],
     rows: [],
   });
 
   useEffect(() => {
     getData();
-  }, [modalEdit, modalDelete]);
+  }, [
+    modalEdit,
+    modalDelete,
+    applyfilter,
+    applystatusfilter,
+    applyTechnologyfilter,
+    cStart,
+    cEnd,
+  ]);
+  useEffect(() => {
+    getPlatform();
+    getStatus();
+    getTechnology();
+  }, []);
 
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
@@ -196,8 +220,55 @@ const ViewProjects = () => {
         toggleDelete();
       });
   };
+
+  const getPlatform = () => {
+    PlatformService.getAllPlatform().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setFilter(options);
+      });
+    });
+  };
+
+  const getStatus = () => {
+    StatusService.getAllStatus().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setStatusFilter(options);
+      });
+    });
+  };
+  const getTechnology = () => {
+    TechnologyService.getAllTechnologies().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setTechnologyFilter(options);
+      });
+    });
+  };
   const getData = () => {
-    ProjectService.getAllProject()
+    ProjectService.getAllProject(
+      applyfilter,
+      applystatusfilter,
+      applyTechnologyfilter,
+      cStart,
+      cEnd
+    )
       .then((res) => {
         let data = { ...dataa };
         data.rows = [];
@@ -218,12 +289,12 @@ const ViewProjects = () => {
             //   <span className="badge badge-teal">
             //     {item.status ? item.status : "none"}
             //   </span>
-              
+
             // ),
             status: item.status ? item.status.name : "none",
-            
-            startDate: item.startDate ? item.startDate : "none",
-            endDate: item.endDate ? item.endDate : "none",
+
+            startDate: item.cStartDate ? item.cStartDate : "none",
+            endDate: item.cEndDate ? item.cEndDate : "none",
             cost: item.cost ? item.cost : "none",
             Rprofit: item.Rprofit ? item.Rprofit : "none",
             details: (
@@ -235,20 +306,11 @@ const ViewProjects = () => {
                   size="sm"
                   data-toggle="modal"
                   data-target="#myModal"
-                  onClick={() => {
-                    
-                  }}
+                  onClick={() => {}}
                 >
                   View Details
                 </Button>
-                </Link>
-                 
-              </div>
-            ),
-            action: (
-              <div className="row flex-nowrap">
-               
-                 <Button
+                <Button
                   color="info"
                   size="sm"
                   data-toggle="modal"
@@ -279,7 +341,6 @@ const ViewProjects = () => {
         console.log("state data", dataa);
         console.log("my project data", data);
         console.log("res data", res.data);
-        
       })
       .catch((err) => {
         console.log(err);
@@ -295,6 +356,90 @@ const ViewProjects = () => {
               <div className="card m-b-20">
                 <div className="card-body">
                   <h4 className="mt-0 header-title">Projects</h4>
+                  <div className="row">
+                    <div className="col-2">
+                      <label>Platform Filter</label>
+                      <select
+                        className="form-control"
+                        onChange={(e) => {
+                          setApplyFilter(e.target.value);
+                        }}
+                      >
+                        <option key={1} value={""}>
+                          All
+                        </option>
+                        {filter.map((item, index) => {
+                          return (
+                            <option key={index} value={item.id}>
+                              {item.label}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                    <div className="col-2">
+                      <label>Status Filter</label>
+                      <select
+                        className="form-control"
+                        onChange={(e) => {
+                          setApplyStatusFilter(e.target.value);
+                        }}
+                      >
+                        <option key={1} value={""}>
+                          All
+                        </option>
+                        {statusfilter.map((item, index) => {
+                          return (
+                            <option key={index} value={item.id}>
+                              {item.label}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                    <div className="col-2">
+                      <label>Technology Filter</label>
+                      <select
+                        className="form-control"
+                        onChange={(e) => {
+                          setApplyTechnologyFilter(e.target.value);
+                        }}
+                      >
+                        <option key={1} value={""}>
+                          All
+                        </option>
+                        {technologyfilter.map((item, index) => {
+                          return (
+                            <option key={index} value={item.id}>
+                              {item.label}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                    <div className="col-3">
+                      <label>Start Date Filter</label>
+                      <DatePicker
+                        className="form-control"
+                        selected={cStart}
+                        onChange={(cStart) => {
+                          setcStart(cStart);
+                          console.log("datepicker", cStart);
+                        }}
+                      />
+                    </div>
+                    <div className="col-3">
+                      <label>End Date Filter</label>
+                      <DatePicker
+                        className="form-control"
+                        selected={cEnd}
+                        onChange={(cEnd) => {
+                          setcEnd(cEnd);
+                          console.log("datepicker", cEnd);
+                        }}
+                      />
+                    </div>
+                  </div>
 
                   <MDBDataTableV5
                     // scrollX
