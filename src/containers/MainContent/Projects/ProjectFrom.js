@@ -38,10 +38,7 @@ const ProjectForm = (props) => {
   const [currency, setCurrency] = useState([]);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());  
   const [toShow,setToShow] = useState([])
-  const [newNature, setNewNature] = useState([{}]);
   const [teamMember, setTeamMember] = useState([])
-  const [defaultProjectDate, setDefaultProjectDate] = useState("2017-12-31");
-  const [endProjectDate, setEndProjectDate] = useState("2017-12-31");
   const [totalHours, setTotalHours] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
   let tHours = 0;
@@ -280,7 +277,7 @@ const ProjectForm = (props) => {
           editable && project.technology && project.technology.technology_name,
         serviceType:
           editable && project.service && project.service.service_name,
-        projectNature: editable && project.nature && project.nature.nature_name,
+          nature: editable && project.nature && project.nature.nature_name,
         currency: editable && project.currency && project.currency.currency_name,
         cStartDate: editable && project.cStartDate,
         cEndDate: editable && project.cEndDate,
@@ -315,7 +312,7 @@ const ProjectForm = (props) => {
               technology: values.technology,
               service: values.serviceType,
               status: values.status,
-              nature: values.projectNature,
+              nature: values.nature,
               cStartDate: values.cStartDate,
               cEndDate: values.cEndDate,
               pmStartDate: values.pmStartDate,
@@ -346,7 +343,7 @@ const ProjectForm = (props) => {
               technology: values.technology,
               service: values.serviceType,
               status: values.status,
-              nature: values.projectNature,
+              nature: values.nature,
               cStartDate: values.cStartDate,
               cEndDate: values.cEndDate,
               pmStartDate: values.pmStartDate,
@@ -510,11 +507,10 @@ const ProjectForm = (props) => {
             <div className="col">
               <div className="form-group">
                 <label className="control-label">Project Nature</label>
-
                 <select
                   className="form-control"
-                  value={props.values.projectNature}
-                  onChange={props.handleChange("projectNature")}
+                  value={props.values.nature}
+                  onChange={props.handleChange("nature")}
                 >
                   {nature.map((item, index) => {
                     return (
@@ -524,7 +520,7 @@ const ProjectForm = (props) => {
                     );
                   })}
                 </select>
-                <span id="err">{props.errors.projectNature}</span>
+                <span id="err">{props.errors.nature}</span>
               </div>
             </div>
           </div>
