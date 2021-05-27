@@ -18,6 +18,11 @@ class UserValidation {
         .required("Required!")
         .min(6)
         .max(20),
+        workingHrs: Yup.number(),
+        machineNo: Yup.number(),
+        technology: Yup.array(),
+        workingDays: Yup.number(),
+        userRole: Yup.object().required("Required!"),
     });
   };
 

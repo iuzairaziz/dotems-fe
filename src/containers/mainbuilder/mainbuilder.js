@@ -133,6 +133,9 @@ import ExpenseList from "../MainContent/Expense/AddExpense/Expense";
 import ViewProjectsTask from "../MainContent/Projects/ViewProjectTask";
 import SubTask from "../MainContent/Tasks/TaskList/SubTask";
 import SubTaskDetails from "../MainContent/Tasks/TaskList/SubTaskDetails"
+import UpdateUser from "../MainContent/User/AddUserForm/UpdateUserForm";
+import ViewUsers from "../MainContent/User/UserList/UserList";
+import updateUsers from "../MainContent/User/AddNewUser/UpdateUser";
 
 class mainbuilder extends Component {
   render() {
@@ -155,6 +158,9 @@ class mainbuilder extends Component {
         <Route exact path="/project-task-form" component={ViewProjectsTask} />
         <Route exact path="/subtask" component={SubTask} />
         <Route exact path="/subtask-details" component={SubTaskDetails}/>
+        <Route exact path="/update-profile" component={UpdateUser}/>
+        <Route exact path="/viewuser" component={ViewUsers} />
+        <Route exact path="/updateuser" component={updateUsers}/>
    
         //nehal routes
         <Route exact path="/add-time" component={AddTime} />

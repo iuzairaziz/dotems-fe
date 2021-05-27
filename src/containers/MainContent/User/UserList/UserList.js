@@ -2,69 +2,87 @@ import React, { Component, useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
-import TaskForm from "../TaskForm/TaskForm";
-import taskService from "../../../../services/TaskService";
-import {
-  Progress,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
+import UserService from "../../../../services/UserService";
+import UserForm from "../AddUserForm/AddUserForm"
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-const Tables_datatable = () => {
+const ViewUsers = () => {
+  const [editTask, setEditTask] = useState();
+  const [selectedUser, setSelectedUser] = useState({ name: "" });
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
-  const [selectedTask, setSelectedTask] = useState({ name: "" });
+
   const [dataa, setData] = useState({
     columns: [
       {
         label: "Name",
         field: "name",
         sort: "asc",
-        // width: 150,
+        width: 125,
       },
       {
-        label: "User Name",
-        field: "email",
+        label: "UserName",
+        field: "username",
         sort: "asc",
-        // width: 270,
+        width: 125,
       },
       {
-        label: "Gender",
-        field: "gender",
-        sort: "asc",
-        // width: 200,
+        label: "Date of Joining",
+        field: "dateOfJoin",
+        sort: "disabled",
+        width: 150,
       },
       {
-        label: "Joining Date",
-        field: "joiningDate",
-        sort: "asc",
-        // width: 100,
-      },
-      {
-        label: "Status",
-        field: "status",
-        sort: "asc",
-        // width: 100,
+        label: "Machine Number",
+        field: "machinenum",
+        sort: "disabled",
+        width: 200,
       },
       {
         label: "Salary",
         field: "salary",
-        sort: "asc",
-        // width: 100,
+        sort: "disabled",
+        width: 200,
       },
       {
-        label: "Parent Task",
-        field: "parentTask",
+        label: "Status",
+        field: "status",
+        sort: "disabled",
+        width: 125,
+      },
+      {
+        label: "Gender",
+        field: "gender",
+        sort: "disabled",
+        width: 150,
+      },
+      {
+        label: "Role",
+        field: "role",
         sort: "asc",
-        // width: 150,
+        width: 75,
+      },
+      {
+        label: "Working Hours",
+        field: "workingHrs",
+        sort: "asc",
+        width: 75,
+      },
+      {
+        label: "Working Days",
+        field: "workingDays",
+        sort: "asc",
+        width: 75,
+      },
+      {
+        label: "Action",
+        field: "action",
+        sort: "disabled",
+        width: 150,
       },
     ],
     rows: [],
   });
-
   useEffect(() => {
     getData();
   }, [modalEdit, modalDelete]);
@@ -73,59 +91,44 @@ const Tables_datatable = () => {
   const toggleDelete = () => setModalDelete(!modalDelete);
 
   const handleDelete = (id) => {
-    taskService
-      .deleteTask(id)
+    UserService.deleteUsers(id)
       .then((res) => {
-        taskService.handleMessage("delete");
+        UserService.handleMessage("delete");
         toggleDelete();
       })
       .catch((err) => {
-        taskService.handleError();
+        UserService.handleError();
         toggleDelete();
       });
   };
 
   const getData = () => {
-    taskService
-      .getAllTask()
+    UserService.getUsers()
       .then((res) => {
-        let data = { ...dataa };
-        data.rows = [];
+        let updatedData = { ...dataa };
+        updatedData.rows = [];
         res.data.map((item, index) => {
-          data.rows.push({
-            title: item.name ? item.name : "none",
-            project: item.project ? item.project.name : "none",
-            estimatedHrs: item.estHrs ? item.estHrs : "none",
-            projectRatio: item.projectRatio ? (
-              <Progress color="teal" value={item.projectRatio}>
-                {item.projectRatio + "%"}
-              </Progress>
-            ) : (
-              "none"
-            ),
-            status: (
-              <span className="badge badge-teal">
-                {item.status ? item.status : "none"}
-              </span>
-            ),
-            teamLead: item.teamLead ? item.teamLead.name : "None",
-            parentTask: item.parentTask ? item.parentTask.name : "None",
-            addedBy: item.addedBy ? item.addedBy : "none",
-            approvedBy: item.approvedBy ? item.approvedBy.name : "none",
-            startTime: item.startTime ? item.startTime : "none",
-            endTime: item.endTime ? item.endTime : "none",
+          updatedData.rows.push({
+            name: item.name ? item.name : "none",
+            username: item.email ? item.email : "none",
+            dateOfJoin: item.joiningDate ? item.joiningDate : "none",
+            machinenum: item.machineNo ? item.machineNo : "none",
+            salary: item.salary ? item.salary : "none",
+            status: item.status ? item.status : "none",
+            gender: item.gender ? item.gender : "none",
+            role: item.userRole ? item.userRole : "none",
+            workingHrs: item.workingHrs ? item.workingHrs : "none",
+            workingDays: item.workingDays ? item.workingDays : "none",
+            
             action: (
               <div className="row flex-nowrap">
-                {/* <div className="col"> */}
                 <Button
-                  color="info"
-                  size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
                   onClick={() => {
-                    setSelectedTask(item);
+                    setSelectedUser(item);
                     toggleEdit();
                   }}
+                  color="info"
+                  size="sm"
                 >
                   Edit
                 </Button>
@@ -134,7 +137,7 @@ const Tables_datatable = () => {
                   color="danger"
                   size="sm"
                   onClick={() => {
-                    setSelectedTask(item);
+                    setSelectedUser(item);
                     toggleDelete();
                   }}
                 >
@@ -144,14 +147,10 @@ const Tables_datatable = () => {
             ),
           });
         });
-        setData(data);
-        console.log("state data", dataa);
-        console.log("my task data", data);
-        console.log("res data", res.data);
+        console.log("clients", updatedData);
+        setData(updatedData);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -162,10 +161,7 @@ const Tables_datatable = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">All Tasks View</h4>
-                  <p className="text-muted m-b-30 font-14">
-                    Below are all tasks of all projects
-                  </p>
+                  <h4 className="mt-0 header-title">All Employees</h4>
 
                   <MDBDataTableV5
                     // scrollX
@@ -182,28 +178,29 @@ const Tables_datatable = () => {
                 </div>
               </div>
             </div>
+
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>
-                <ModalHeader toggle={toggleEdit}>Edit Task</ModalHeader>
+                <ModalHeader toggle={toggleEdit}>Edit User</ModalHeader>
                 <ModalBody>
-                  <TaskForm
+                  <UserForm
                     editable={true}
-                    task={selectedTask}
+                    client={selectedUser}
                     toggle={toggleEdit}
                   />
                 </ModalBody>
               </Modal>
               <Modal isOpen={modalDelete} toggle={toggleDelete}>
-                <ModalHeader toggle={toggleDelete}>Delete Task ?</ModalHeader>
+                <ModalHeader toggle={toggleDelete}>Delete User?</ModalHeader>
                 <ModalBody>
-                  Are you sure you want to delete the Task "{selectedTask.name}"
-                  ?
+                  Are you sure you want to delete the client 
+                  {selectedUser.name}" ?
                 </ModalBody>
                 <ModalFooter>
                   <Button
                     color="primary"
                     onClick={() => {
-                      handleDelete(selectedTask._id);
+                      handleDelete(selectedUser._id);
                     }}
                   >
                     Yes
@@ -221,4 +218,4 @@ const Tables_datatable = () => {
   );
 };
 
-export default Tables_datatable;
+export default ViewUsers;
