@@ -31,7 +31,6 @@ const ViewProjects = () => {
   const [applystatusfilter, setApplyStatusFilter] = useState("");
   const [applyTechnologyfilter, setApplyTechnologyFilter] = useState("");
   const [cStart, setcStart] = useState("");
-  const [cEnd, setcEnd] = useState("");
 
   const [dataa, setData] = useState({
     columns: [
@@ -204,7 +203,6 @@ const ViewProjects = () => {
     applystatusfilter,
     applyTechnologyfilter,
     cStart,
-    cEnd,
   ]);
   useEffect(() => {
     getPlatform();
@@ -272,8 +270,7 @@ const ViewProjects = () => {
       applyfilter,
       applystatusfilter,
       applyTechnologyfilter,
-      cStart,
-      cEnd
+      cStart
     )
       .then((res) => {
         let data = { ...dataa };
@@ -299,26 +296,25 @@ const ViewProjects = () => {
             currency: item.currency ? item.currency.name : "none",
             cost: item.cost ? item.cost : "none",
             Rprofit: item.Rprofit ? item.Rprofit : "none",
-            pDeduction : item.Pdeduction ? item.Pdeduction : "none",
+            pDeduction: item.Pdeduction ? item.Pdeduction : "none",
             details: (
               <div className="row flex-nowrap">
-
-                <Link  to={{pathname: "/projectdetails" , projectProps: item}}>
-                <Button
-                  color="info"
-                  size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
-                  onClick={() => {}}
-                >
-                  View Details
-                </Button>
-                </ Link>
-               </ div>
+                <Link to={{ pathname: "/projectdetails", projectProps: item }}>
+                  <Button
+                    color="info"
+                    size="sm"
+                    data-toggle="modal"
+                    data-target="#myModal"
+                    onClick={() => {}}
+                  >
+                    View Details
+                  </Button>
+                </Link>
+              </div>
             ),
             action: (
               <div className="row flex-nowrap">
-              <Button
+                <Button
                   color="info"
                   size="sm"
                   data-toggle="modal"
@@ -365,7 +361,7 @@ const ViewProjects = () => {
                 <div className="card-body">
                   <h4 className="mt-0 header-title">Projects</h4>
                   <div className="row">
-                    <div className="col-2">
+                    <div className="col-3">
                       <label>Platform Filter</label>
                       <select
                         className="form-control"
@@ -385,7 +381,7 @@ const ViewProjects = () => {
                         })}
                       </select>
                     </div>
-                    <div className="col-2">
+                    <div className="col-3">
                       <label>Status Filter</label>
                       <select
                         className="form-control"
@@ -405,7 +401,7 @@ const ViewProjects = () => {
                         })}
                       </select>
                     </div>
-                    <div className="col-2">
+                    <div className="col-3">
                       <label>Technology Filter</label>
                       <select
                         className="form-control"
@@ -427,23 +423,14 @@ const ViewProjects = () => {
                     </div>
                     <div className="col-3">
                       <label>Start Date Filter</label>
+
                       <DatePicker
                         className="form-control"
+                        value={cStart}
                         selected={cStart}
                         onChange={(cStart) => {
                           setcStart(cStart);
                           console.log("datepicker", cStart);
-                        }}
-                      />
-                    </div>
-                    <div className="col-3">
-                      <label>End Date Filter</label>
-                      <DatePicker
-                        className="form-control"
-                        selected={cEnd}
-                        onChange={(cEnd) => {
-                          setcEnd(cEnd);
-                          console.log("datepicker", cEnd);
                         }}
                       />
                     </div>
