@@ -173,6 +173,12 @@ const ViewProjects = () => {
       //   sort: "disabled",
 
       // },
+      // {
+      //   label: "Currency",
+      //   field: "currency",
+      //   sort: "disabled",
+      //   // width: 150,
+      // },
       {
         label: "View Details",
         field: "details",
@@ -278,25 +284,22 @@ const ViewProjects = () => {
             clientName: item.client ? item.client.name : "none",
             orderNum: item.orderNum ? item.orderNum : "none",
             platform: item.platform ? item.platform.name : "none",
-            serviceType: item.service ? item.service.name : "none",
-            projectNature: item.nature ? item.nature.name : "none",
             technology: item.technology ? item.technology.name : "none",
+            serviceType: item.service ? item.service.name : "none",
+            status: item.status ? item.status.name : "none",
+            projectNature: item.nature ? item.nature.name : "none",
+            CstartDate: item.cStartDate ? item.cStartDate : "none",
+            CendDate: item.cEndDate ? item.cEndDate : "none",
+            startDate: item.pmStartDate ? item.pmStartDate : "none",
+            endDate: item.pmEndDate ? item.pmEndDate : "none",
             projectManager: item.projectManager
               ? item.projectManager.name
               : "none",
             teamMember: item.assignedUser ? item.assignedUser.name : "none",
-            // status: (
-            //   <span className="badge badge-teal">
-            //     {item.status ? item.status : "none"}
-            //   </span>
-
-            // ),
-            status: item.status ? item.status.name : "none",
-
-            startDate: item.cStartDate ? item.cStartDate : "none",
-            endDate: item.cEndDate ? item.cEndDate : "none",
+            currency: item.currency ? item.currency.name : "none",
             cost: item.cost ? item.cost : "none",
             Rprofit: item.Rprofit ? item.Rprofit : "none",
+            pDeduction : item.Pdeduction ? item.Pdeduction : "none",
             details: (
               <div className="row flex-nowrap">
 
@@ -310,7 +313,12 @@ const ViewProjects = () => {
                 >
                   View Details
                 </Button>
-                <Button
+                </ Link>
+               </ div>
+            ),
+            action: (
+              <div className="row flex-nowrap">
+              <Button
                   color="info"
                   size="sm"
                   data-toggle="modal"

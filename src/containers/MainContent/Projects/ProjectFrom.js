@@ -294,12 +294,12 @@ const ProjectForm = (props) => {
           editable &&
           project.assignedUser &&
           project.assignedUser.assignedUser_name,
-        orderNum: editable && project.orderNumber,
+        orderNum: editable && project.orderNum,
         Pdeduction: editable && project.Pdeduction,
         percentage: editable && project.percentage,
         fCost: editable && project.fCost
       }}
-      validationSchema={projectValidation.newProjectValidation}
+      // validationSchema={projectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
         let usrs = [];
         console.log("team members", values.teamMembers);
@@ -310,7 +310,7 @@ const ProjectForm = (props) => {
           ? ProjectService.updateProject(project._id, {
               name: values.projectName,
               client: values.clientName,
-              orderNumber: values.orderNum,
+              orderNum: values.orderNum,
               platform: values.platform,
               technology: values.technology,
               service: values.serviceType,
@@ -341,7 +341,7 @@ const ProjectForm = (props) => {
           : ProjectService.addProject({
               name: values.projectName,
               client: values.clientName,
-              orderNumber: values.orderNum,
+              orderNum: values.orderNum,
               platform: values.platform,
               technology: values.technology,
               service: values.serviceType,

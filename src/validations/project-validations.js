@@ -8,9 +8,6 @@ class ProjectValidation {
         .min(2)
         .max(100),
       clientName: Yup.string().required(),
-      orderNum: Yup.string()
-        .required()
-        .max(100, "Required"),
       // status: Yup.string(),
       cost: Yup.string(),
       platform: Yup.string().required("Required!"),
