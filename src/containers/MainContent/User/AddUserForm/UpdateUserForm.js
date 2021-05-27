@@ -107,7 +107,7 @@ const UpdateUser = (props) => {
           <div className="row">
           <div className="col">
               <div className="form-group">
-                <label>User Name</label>
+                <label>Gender</label>
                 <input
                   className="form-control"
                     value={users.gender}
