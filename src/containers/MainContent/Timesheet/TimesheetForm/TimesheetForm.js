@@ -10,15 +10,26 @@ import TaskService from "../../../../services/TaskService";
 import userService from "../../../../services/UserService";
 import ProjectService from "../../../../services/ProjectService";
 import DatePicker from "react-datepicker";
+import WeeklyCalendar from "../../../../components/MyComponents/WeeklyCalendar/WeeklyCalendar";
+import "./TimesheetForm.scss";
 
 const TaskForm = (props) => {
-  const [tasks, setTasks] = useState([]);
-  const [projects, setProjects] = useState([]);
+  const [employeeData, setEmployeeData] = useState([]);
+  const [selectedDays, setSelectedDays] = useState([1,2,3,4,5,6,7]);
+  const [toUpdate,setToUpdate] = useState(false);
+  const [inputs, setInputs] = useState({
+    r1:[1,2,3,4,5,6,7],
+    r2:[1,2,3,4,5,6,7],
+  });
 
   const user = userService.userLoggedInInfo();
   useEffect(() => {
-    getEmployeeProjects(user._id);
+    getEmployeeTasksGroupByProject(user._id);
   }, []);
+
+  useEffect(() => {
+    console.log("s days in form", selectedDays);
+  }, selectedDays);
 
   const isEmptyObj = (obj) => {
     for (var x in obj) {
@@ -27,51 +38,46 @@ const TaskForm = (props) => {
     return true;
   };
 
-  const getEmployeeProjectTasks = ({ projectId, empId }) => {
-    TaskService.getEmployeeProjectTasks({ projectId, empId })
+  const getEmployeeTasksGroupByProject = (empId) => {
+    TaskService.getEmployeeTasksGroupByProject(empId)
       .then((res) => {
-        if (isEmptyObj(res.data)) {
-          TaskService.handleCustomMessage("No Tasks are assigned to you!");
-          return;
-        }
-        let options = [];
-        res.data.map((item, index) => {
-          options.push({ label: item.name, value: item._id });
-        });
-        setTasks(options);
+        // if (isEmptyObj(res.data)) {
+        //   TaskService.handleCustomMessage("No Tasks are assigned to you!");
+        //   return;
+        // }
+        console.log("tasks by projects", res.data);
+        let inputs={};
+        // res.data.map((item,pIndx)=>{
+        //   item.tasks.map((task,tIndx)=>{
+        //     task.ts.map((ts,tsIndx)=>{
+        //       ts.map((sts,stsIndx)=>{
+        //         input[`${tIndx}`]
+        //       })
+        //     })
+        //   })
+        // })
+        setEmployeeData(res.data);
       })
       .catch((err) => {
         TaskService.handleError();
       });
   };
 
-  const getEmployeeProjects = (empID) => {
-    ProjectService.getEmployeeProject(empID)
-      .then((res) => {
-        let options = [];
-        res.data.map((item, index) => {
-          if (item.name) {
-            options.push({
-              value: item._id,
-              label: item.name,
-            });
-          }
-          console.log("project options", options);
-        });
-        setProjects(options);
-      })
-      .catch((err) => {
-        TaskService.handleError();
-        console.log(err);
-      });
+  const getWeeklyTimesheetByTask = ({ startDate, endDate, taskId }) => {
+    TimesheetService.getWeeklyTimesheetByTask({
+      startDate,
+      endDate,
+      taskId,
+    }).then((res) => {});
   };
+
   const timesheet = props.timesheet;
   const editable = props.editable;
   console.log("from timesheet form ", timesheet);
-
+  let counter=0;
   return (
-    // <>
-    <Formik
+    <>
+      {/* <Formik
       initialValues={{
         task: editable && timesheet.task.name,
         project: editable && timesheet.task.project.name,
@@ -213,8 +219,128 @@ const TaskForm = (props) => {
           </>
         );
       }}
-    </Formik>
-    // </>
+    </Formik> */}
+
+      <form action="http://localhost:8080/timesheet/weekly" method="post" >
+        <button type="submit">submit</button>
+        <table class="table table-bordered" id="timesheet-form">
+          <thead>
+            <tr>
+              <th scope="col" colSpan={9}>
+                <WeeklyCalendar
+                  setWeekNum={() => console.log("week number")}
+                  setSelectedDays={setSelectedDays}
+                />
+              </th>
+            </tr>
+            <tr>
+              <th scope="col" className="col-8">
+                Task Details
+              </th>
+              <th scope="col">MON</th>
+              <th scope="col">Tue</th>
+              <th scope="col">Wed</th>
+              <th scope="col">ThR</th>
+              <th scope="col">FRI</th>
+              <th scope="col">SAT</th>
+              <th scope="col">SUN</th>
+              <th scope="col">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <input name="empId" value={user._id} type="hidden" />
+            
+            {employeeData.map((project, pIndex) => {
+              
+              return (
+                <>
+                  <tr key={pIndex}>
+                    <td className="table-info">
+                      <strong>{project.project.name}</strong>
+                    </td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  {project.tasks.map((task, tIndex) => {
+                    counter+=1;
+                    return (
+                      <tr key={tIndex}>
+                        <input name={`task${counter}taskId`} value={task._id} type="hidden" />
+                        <td style={{ paddingLeft: "25px" }}>{task.name}</td>
+                        <td>
+                          <input name={`task${counter}day0hrs`}  placeholder={123}  />
+                          <input name={`task${counter}day0date`} value={selectedDays[0]} type="hidden" />
+                          
+                        </td>
+                        <td>
+                          <input name={`task${counter}day1hrs`} />
+                          <input name={`task${counter}day1date`} value={selectedDays[1]} type="hidden"/>        
+                        </td>
+                        <td>
+                          <input name={`task${counter}day2hrs`} />
+                          <input name={`task${counter}day2date`} value={selectedDays[2]} type="hidden"/>
+                        </td>
+                        <td>
+                          <input name={`task${counter}day3hrs`} />
+                          <input name={`task${counter}day3date`} value={selectedDays[3]} type="hidden"/>
+                        </td>
+                        <td>
+                          <input name={`task${counter}day4hrs`} />
+                          <input name={`task${counter}day4date`} value={selectedDays[4]} type="hidden"/>
+                        </td>
+                        <td>
+                          <input name={`task${counter}day5hrs`} />
+                          <input name={`task${counter}day5date`} value={selectedDays[5]} type="hidden"/>
+                        </td>
+                        <td>
+                          <input name={`task${counter}day6hrs`} />
+                          <input name={`task${counter}day6date`} value={selectedDays[6]} type="hidden"/>
+                        </td>
+                        <td>
+                          {/* <input
+                            name={`d1t${task._id}`}
+                            
+                          /> */}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </>
+              );
+            })}
+            <input name="counter" value={counter} type="hidden" />
+            <tr>
+              <td>Mark</td>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+              <td>Mark</td>
+              <td>Otto</td>
+            </tr>
+            <tr>
+              <td>Mark</td>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+              <td>Mark</td>
+              <td>Otto</td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </>
   );
 };
 

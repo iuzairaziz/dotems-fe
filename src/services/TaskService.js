@@ -40,6 +40,10 @@ class TaskService {
     );
   }
 
+  getEmployeeTasksGroupByProject(empId) {
+    return axios.get(this.config.apiBaseUrl + "tasks/employee/" + empId);
+  }
+
   handleMessage(type) {
     if (type === "add") toast("Successfully added Task");
     else if (type === "update") toast("Successfully updated Task");

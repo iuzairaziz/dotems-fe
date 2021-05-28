@@ -27,6 +27,15 @@ class TimesheetService {
     return axios.delete(this.config.apiBaseUrl + "timesheet/" + id);
   }
 
+  getWeeklyTimesheetByTask(data) {
+    return axios.get(
+      this.config.apiBaseUrl +
+        `timesheet/weekly?start=${data.startDate}&end=${data.endDate}&task=${
+          data.taskId
+        }`
+    );
+  }
+
   handleMessage(type) {
     if (type === "add") toast("Successfully added Timesheet");
     else if (type === "update") toast("Successfully updated Timesheet");
