@@ -11,7 +11,18 @@ class userServices {
     this.config = new Configuration();
   }
 
-  register = (name, email, status, gender, salary, password, joiningDate, userRole, workingDays, machineNo) =>
+  register = (
+    name,
+    email,
+    status,
+    gender,
+    salary,
+    password,
+    joiningDate,
+    userRole,
+    workingDays,
+    machineNo
+  ) =>
     new Promise((resolve, reject) => {
       axios
         .post(
@@ -25,7 +36,7 @@ class userServices {
           gender,
           userRole,
           workingDays,
-          machineNo,
+          machineNo
         )
         .then((token) => {
           localStorage.setItem("token", token.data);
@@ -86,9 +97,8 @@ class userServices {
     return axios.delete(this.config.apiBaseUrl + "users/" + id);
   }
 
-  updateUsers(id, formData) {
-    return axios.put(this.config.apiBaseUrl + "users/" + id, formData);
-  }
+  updateUser = (technology, id) =>
+    axios.put(`http://localhost:8080/users/${id}`, technology);
 
   handleMessage(type) {
     if (type === "add") toast("Successfully Registered!");
