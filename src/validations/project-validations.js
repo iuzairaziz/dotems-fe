@@ -13,7 +13,7 @@ class ProjectValidation {
       platform: Yup.string().required("Required!"),
       technology: Yup.string().required("Required!"),
       serviceType: Yup.string().required("Required!"),
-      projectNature: Yup.string().required("Required!"),
+      nature: Yup.string().required("Required!"),
       cStartDate: Yup.string().required("Required!"),
       cEndDate: Yup.string().required("Required!"),
       pmStartDate: Yup.string().required("Required!"),

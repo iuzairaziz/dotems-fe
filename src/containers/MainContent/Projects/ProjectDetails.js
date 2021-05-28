@@ -29,43 +29,43 @@ const ProjectDetails = (props) =>{
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Client Name</label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text"  id="example-text-input" value={project.client.name}/>
+                                                <input className="form-control" type="text"  id="example-text-input" value={project.client.name} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Order Number</label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text" id="example-text-input" value={project.orderNum} />
+                                                <input className="form-control" type="text" id="example-text-input" value={project.orderNum} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Platform</label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text"  id="example-text-input" value={project.platform.name}/>
+                                                <input className="form-control" type="text"  id="example-text-input" value={project.platform.name} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Technology </label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text"  id="example-text-input" value={project.technology.name}/>
+                                                <input className="form-control" type="text"  id="example-text-input" value={project.technology.name} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Service Type </label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text" id="example-text-input" value={project.service.name}/>
+                                                <input className="form-control" type="text" id="example-text-input" value={project.service.name} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Status </label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text" id="example-text-input" value={project.status.name}/>
+                                                <input className="form-control" type="text" id="example-text-input" value={project.status.name} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Project Nature</label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text"  id="example-text-input" value={project.nature.name}/>
+                                                <input className="form-control" type="text"  id="example-text-input" value={project.nature.name} readOnly = {true}/>
                                             </div>
                                         </div>
                                         {/* <div className="form-group row">
@@ -77,61 +77,63 @@ const ProjectDetails = (props) =>{
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Client Start Date </label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text" id="example-text-input" value={project.cStartDate} />
+                                                <input className="form-control" type="text" id="example-text-input" value={project.cStartDate} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Client Deadline </label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text"  id="example-text-input" value={project.cEndDate}/>
+                                                <input className="form-control" type="text"  id="example-text-input" value={project.cEndDate} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">PM Start Date </label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text"  id="example-text-input" value={project.pmStartDate}/>
+                                                <input className="form-control" type="text"  id="example-text-input" value={project.pmStartDate} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">PM End Date </label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text"  id="example-text-input" value={project.pmEndDate}/>
+                                                <input className="form-control" type="text"  id="example-text-input" value={project.pmEndDate} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Project Manager </label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text" id="example-text-input" value={project.projectManager.name}/>
+                                                <input className="form-control" type="text" id="example-text-input" value={project.projectManager.name} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Team Members </label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text" id="example-text-input" value={project.assignedUser.name}/>
+                                                <input className="form-control" type="text" id="example-text-input" value={project.assignedUser.map((item)=>{
+                                                        return item.name
+                                                })} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Cost </label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text"  id="example-text-input" value={project.cost}/>
+                                                <input className="form-control" type="text"  id="example-text-input" value={project.cost} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Currency </label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text" id="example-text-input" value={project.currency.name}/>
+                                                <input className="form-control" type="text" id="example-text-input" value={project.currency.name} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Platform Deduction </label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text" id="example-text-input" value={project.Pdeduction}/>
+                                                <input className="form-control" type="text" id="example-text-input" value={project.Pdeduction} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label for="example-text-input" className="col-sm-2 col-form-label">Reserve Profit </label>
                                             <div className="col-sm-10">
-                                                <input className="form-control" type="text"  id="example-text-input" value={project.Rprofit} />
+                                                <input className="form-control" type="text"  id="example-text-input" value={project.Rprofit} readOnly = {true}/>
                                             </div>
                                         </div>
                                         <div className="form-group">
