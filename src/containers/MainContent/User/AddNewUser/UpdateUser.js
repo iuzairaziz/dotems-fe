@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import AUX from "../../../../hoc/Aux_";
-import UserForm from "../AddUserForm/AddUserForm";
+import UpdateUserForm from "../AddUserForm/UpdateUserForm";
 
-class AddProjects extends Component {
+class updateUsers extends Component {
   constructor() {
     super();
     this.state = {};
@@ -17,8 +17,8 @@ class AddProjects extends Component {
               <div className="col-lg-12">
                 <div className="card m-b-20">
                   <div className="card-body">
-                    <h4 className="mt-0 header-title">Add New User</h4>
-                    <UserForm />
+                    <h4 className="mt-0 header-title">Update User Profile</h4>
+                    <UpdateUserForm />
                   </div>
                 </div>
               </div>
@@ -30,4 +30,4 @@ class AddProjects extends Component {
   }
 }
 
-export default AddProjects;
+export default updateUsers;

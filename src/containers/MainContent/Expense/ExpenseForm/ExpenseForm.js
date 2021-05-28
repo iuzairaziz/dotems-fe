@@ -1,7 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import { Formik } from "formik";
 import expenseValidation from "../../../../validations/expense-validations";
-import Select from "react-select";
 import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

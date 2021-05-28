@@ -30,6 +30,11 @@ const UserForm = (props) => {
         status: editable && user.status,
         salary: editable && user.salary,
         password: editable && user.password,
+        workingHrs: editable && user.workingHrs,
+        machineNo: editable && user.machineNo,
+        workingDays: editable && user.workingDays,
+        userRole: editable && user.userRole,
+        
       }}
       validationSchema={userValidation.newUserValidation}
       onSubmit={(values, actions) => {
@@ -64,6 +69,11 @@ const UserForm = (props) => {
               password: values.password,
               salary: values.salary,
               joiningDate: values.joiningDate,
+              workingHrs: values.workingHrs,
+              machineNo: values.machineNo,
+              workingDays: values.workingDays,
+              userRole: values.userRole.value,
+             
             })
               .then((res) => {
                 UserService.handleMessage("add");
@@ -111,23 +121,7 @@ const UserForm = (props) => {
           </div>
 
           <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label className="control-label">Gender</label>
-                <Select
-                  value={props.values.project}
-                  onChange={(selected) => {
-                    props.setFieldValue("gender", selected);
-                  }}
-                  options={[
-                    { value: "Male", label: "Male" },
-                    { value: "Female", label: "Female" },
-                    { value: "Others", label: "Others" },
-                  ]}
-                />
-                <span id="err">{props.errors.gender}</span>
-              </div>
-            </div>
+           
 
             <div className="col">
               {" "}
@@ -144,26 +138,23 @@ const UserForm = (props) => {
                 </div>
               </div>{" "}
             </div>
-          </div>
 
-          <div className="row">
             <div className="col">
               <div className="form-group">
-                <label className="control-label">Status</label>
-                <Select
-                  value={props.values.satus}
-                  onChange={(selected) => {
-                    props.setFieldValue("status", selected);
-                  }}
-                  options={[
-                    { value: "Single", label: "Single" },
-                    { value: "Married", label: "Married" },
-                  ]}
+                <label>Machine Number</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={props.values.machineNo}
+                  onChange={props.handleChange("machineNo")}
+                  placeholder="Enter Machine Number"
                 />
-                <span id="err">{props.errors.status}</span>
+                <span id="err">{props.errors.machineNo}</span>
               </div>
             </div>
+          </div>
 
+          <div className="row">          
             <div className="col">
               <div className="form-group">
                 <label>Salary</label>
@@ -191,6 +182,87 @@ const UserForm = (props) => {
               </div>
             </div>
           </div>
+          <div className="row">
+          <div className="col">
+              <div className="form-group">
+                <label className="control-label">Status</label>
+                <Select
+                  value={props.values.satus}
+                  onChange={(selected) => {
+                    props.setFieldValue("status", selected);
+                  }}
+                  options={[
+                    { value: "Single", label: "Single" },
+                    { value: "Married", label: "Married" },
+                  ]}
+                />
+                <span id="err">{props.errors.status}</span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label className="control-label">Gender</label>
+                <Select
+                  value={props.values.project}
+                  onChange={(selected) => {
+                    props.setFieldValue("gender", selected);
+                  }}
+                  options={[
+                    { value: "Male", label: "Male" },
+                    { value: "Female", label: "Female" },
+                    { value: "Others", label: "Others" },
+                  ]}
+                />
+                <span id="err">{props.errors.gender}</span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label className="control-label">Role</label>
+                <Select
+                  value={props.values.userRole}
+                  onChange={(selected) => {
+                    props.setFieldValue("userRole", selected);
+                  }}
+                  options={[
+                    { value: "Internee", label: "Internee" },
+                    { value: "Probation", label: "Probation" },
+                    { value: "Employee", label: "Employee" },
+                  ]}
+                />
+                <span id="err">{props.errors.userRole}</span>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div className="form-group">
+                <label>Working Hours</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={props.values.workingHrs}
+                  onChange={props.handleChange("workingHrs")}
+                  placeholder="Enter Working Hours"
+                />
+                <span id="err">{props.errors.workingHrs}</span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label>Working Days </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={props.values.workingDays}
+                  onChange={props.handleChange("workingDays")}
+                  placeholder="Enter Working Days"
+                />
+                <span id="err">{props.errors.workingDays}</span>
+              </div>
+            </div>
+          </div>
+          
           <div className="row">
             <div className="col">
               <Button

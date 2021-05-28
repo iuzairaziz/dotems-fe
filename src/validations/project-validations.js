@@ -8,17 +8,16 @@ class ProjectValidation {
         .min(2)
         .max(100),
       clientName: Yup.string().required(),
-      orderNum: Yup.string()
-        .required()
-        .max(100, "Required"),
       // status: Yup.string(),
       cost: Yup.string(),
       platform: Yup.string().required("Required!"),
       technology: Yup.string().required("Required!"),
       serviceType: Yup.string().required("Required!"),
-      projectNature: Yup.string().required("Required!"),
-      startDate: Yup.string().required("Required!"),
-      endDate: Yup.string().required("Required!"),
+      nature: Yup.string().required("Required!"),
+      cStartDate: Yup.string().required("Required!"),
+      cEndDate: Yup.string().required("Required!"),
+      pmStartDate: Yup.string().required("Required!"),
+      pmEndDate: Yup.string().required("Required!"),
       projectManager: Yup.string().required("Required!"),
       teamMembers: Yup.array(),
       orderNum: Yup.string().required("Required!"),

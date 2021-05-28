@@ -18,7 +18,7 @@ const ViewClients = () => {
       {
         label: "Client Name",
         field: "clientName",
-        sort: "asc",
+        sort: "asc", 
         width: 125,
       },
       {

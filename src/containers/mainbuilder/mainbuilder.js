@@ -130,9 +130,12 @@ import AddStatus from "../MainContent/Status/AddStatus/AddStatus"
 import StatusList from "../MainContent/Status/StatusList/StatusList"
 import CurrencyList from "../MainContent/Currency/ViewCurrency";
 import ExpenseList from "../MainContent/Expense/AddExpense/Expense";
-import ViewProjectsTask from "../MainContent/Projects/ViewProjectTask";
 import SubTask from "../MainContent/Tasks/TaskList/SubTask";
 import SubTaskDetails from "../MainContent/Tasks/TaskList/SubTaskDetails"
+import UpdateUser from "../MainContent/User/AddUserForm/UpdateUserForm";
+import ViewUsers from "../MainContent/User/UserList/UserList";
+import updateUsers from "../MainContent/User/AddNewUser/UpdateUser";
+import ProjectDetails from "../MainContent/Projects/ProjectDetails";
 
 class mainbuilder extends Component {
   render() {
@@ -152,10 +155,12 @@ class mainbuilder extends Component {
         <Route exact path="/addstatus" component={AddStatus} />
         <Route exact path="/viewstatus" component={StatusList} />
         <Route exact path="/viewcurrency" component={CurrencyList} />
-        <Route exact path="/project-task-form" component={ViewProjectsTask} />
         <Route exact path="/subtask" component={SubTask} />
         <Route exact path="/subtask-details" component={SubTaskDetails}/>
-   
+        <Route exact path="/update-profile" component={UpdateUser}/>
+        <Route exact path="/viewuser" component={ViewUsers} />
+        <Route exact path="/updateuser" component={updateUsers}/>
+        <Route exact path="/projectdetails" component={ProjectDetails} />
         //nehal routes
         <Route exact path="/add-time" component={AddTime} />
         <Route exact path="/login" component={Login} />
