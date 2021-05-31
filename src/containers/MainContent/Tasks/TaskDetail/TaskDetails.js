@@ -14,10 +14,122 @@ import ServiceService from "../../../../services/ServiceService";
 import NatureService from "../../../../services/NatureService";
 import ClientService from "../../../../services/ClientService";
 import TaskService from "../../../../services/TaskService";
+import { MDBDataTableV5, MDBBtn } from "mdbreact";
+import TaskForm from "../TaskForm/TaskForm";
+import { Redirect } from "react-router-dom";
+import taskService from "../../../../services/TaskService";
+import {
+  Progress,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 
 const TaskDetail = (props) => {
   const [taskData, setTaskData] = useState({});
   const [subTasks, setSubTask] = useState();
+  const [modalEdit, setModalEdit] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+  const [selectedTask, setSelectedTask] = useState({ name: "" });
+  const [subTaskId, setSubTaskId] = useState({ name: "" });
+  const [dataa, setData] = useState({
+    columns: [
+      {
+        label: "Title",
+        field: "title",
+        sort: "asc",
+        // width: 150,
+      },
+      {
+        label: "Project",
+        field: "project",
+        sort: "asc",
+        // width: 270,
+      },
+      {
+        label: "Estimated Hours",
+        field: "estimatedHrs",
+        sort: "asc",
+        // width: 200,
+      },
+      {
+        label: "Project Ratio",
+        field: "projectRatio",
+        sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Status",
+        field: "status",
+        sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Team Lead",
+        field: "teamLead",
+        sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Parent Task",
+        field: "parentTask",
+        sort: "asc",
+        // width: 150,
+      },
+      {
+        label: "Added By",
+        field: "addedBy",
+        sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Approved By",
+        field: "approvedBy",
+        sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Start Time",
+        field: "startTime",
+        sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "End Time",
+        field: "endTime",
+        sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Action",
+        field: "action",
+        sort: "disabled",
+        width: 450,
+      },
+    ],
+    rows: [],
+  });
+
+  useEffect(() => {
+    getData();
+  }, [modalEdit, modalDelete, subTaskId]);
+
+  const toggleEdit = () => setModalEdit(!modalEdit);
+  const toggleDelete = () => setModalDelete(!modalDelete);
+
+  const handleDelete = (id) => {
+    taskService
+      .deleteTask(id)
+      .then((res) => {
+        taskService.handleMessage("delete");
+        toggleDelete();
+      })
+      .catch((err) => {
+        taskService.handleError();
+        toggleDelete();
+      });
+  };
 
   useEffect(() => {
     getData();
@@ -30,6 +142,75 @@ const TaskDetail = (props) => {
         console.log(task);
         setTaskData(task);
         setSubTask(subTasks);
+        let data = { ...dataa };
+        data.rows = [];
+        subTasks.map((item, index) => {
+          data.rows.push({
+            title: item.name ? item.name : "none",
+            project: item.project ? item.project.name : "none",
+            estimatedHrs: item.estHrs ? item.estHrs : "none",
+            projectRatio: item.projectRatio ? (
+              <Progress color="teal" value={item.projectRatio}>
+                {item.projectRatio + "%"}
+              </Progress>
+            ) : (
+              "none"
+            ),
+            status: (
+              <span className="badge badge-teal">
+                {item.status ? item.status : "none"}
+              </span>
+            ),
+            teamLead: item.teamLead ? item.teamLead.name : "None",
+            parentTask: item.parentTask ? item.parentTask.name : "None",
+            addedBy: item.addedBy ? item.addedBy : "none",
+            approvedBy: item.approvedBy ? item.approvedBy.name : "none",
+            startTime: item.startTime ? item.startTime : "none",
+            endTime: item.endTime ? item.endTime : "none",
+            action: (
+              <div className="row flex-nowrap">
+                {/* <div className="col"> */}
+                <Button
+                  color="primary"
+                  size="sm"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/subtask-details",
+                      taskId: item._id,
+                    });
+                    setSubTaskId(item._id);
+                  }}
+                >
+                  View
+                </Button>
+                <Button
+                  color="info"
+                  size="sm"
+                  data-toggle="modal"
+                  data-target="#myModal"
+                  onClick={() => {
+                    setSelectedTask(item);
+                    toggleEdit();
+                  }}
+                >
+                  Edit
+                </Button>
+
+                <Button
+                  color="danger"
+                  size="sm"
+                  onClick={() => {
+                    setSelectedTask(item);
+                    toggleDelete();
+                  }}
+                >
+                  Delete
+                </Button>
+              </div>
+            ),
+          });
+        });
+        setData(data);
       })
       .catch((err) => {
         TaskService.handleError();
@@ -58,7 +239,7 @@ const TaskDetail = (props) => {
               <div className="form-group">
                 <label>Project</label>
                 <input
-                  value={taskData.project}
+                  value={taskData.project ? taskData.project.name : "None"}
                   className="form-control"
                   readOnly={true}
                 />
@@ -107,7 +288,7 @@ const TaskDetail = (props) => {
               <div className="form-group">
                 <label>Team Lead</label>
                 <input
-                  value={taskData.teamLead}
+                  value={taskData.teamLead ? taskData.teamLead.name : "None"}
                   className="form-control"
                   readOnly={true}
                 />
@@ -119,7 +300,9 @@ const TaskDetail = (props) => {
               <div className="form-group">
                 <label className="control-label">Parent Task</label>
                 <input
-                  value={taskData.parentTask}
+                  value={
+                    taskData.parentTask ? taskData.parentTask.name : "None"
+                  }
                   className="form-control"
                   readOnly={true}
                 />
@@ -151,7 +334,13 @@ const TaskDetail = (props) => {
               <div className="form-group">
                 <label>Team Members</label>{" "}
                 <input
-                  value={taskData.assignedTo}
+                  value={
+                    taskData.assignedTo
+                      ? taskData.assignedTo.map((item) => {
+                          return item.name;
+                        })
+                      : "None"
+                  }
                   className="form-control"
                   readOnly={true}
                 />
@@ -190,6 +379,70 @@ const TaskDetail = (props) => {
                   readOnly={true}
                 />
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="page-content-wrapper">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12">
+              <div className="card m-b-20">
+                <div className="card-body">
+                  <h4 className="mt-0 header-title">Sub Tasks View</h4>
+                  <p className="text-muted m-b-30 font-14">
+                    Below are sub tasks of this task
+                  </p>
+
+                  <MDBDataTableV5
+                    // scrollX
+                    fixedHeader={true}
+                    responsive
+                    striped
+                    bordered
+                    searchTop
+                    hover
+                    autoWidth
+                    data={dataa}
+                    theadColor="#000"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <Modal isOpen={modalEdit} toggle={toggleEdit}>
+                <ModalHeader toggle={toggleEdit}>Edit Task</ModalHeader>
+                <ModalBody>
+                  <TaskForm
+                    editable={true}
+                    task={selectedTask}
+                    toggle={toggleEdit}
+                  />
+                </ModalBody>
+              </Modal>
+              <Modal isOpen={modalDelete} toggle={toggleDelete}>
+                <ModalHeader toggle={toggleDelete}>
+                  Delete Sub Task ?
+                </ModalHeader>
+                <ModalBody>
+                  Are you sure you want to delete the Task "{selectedTask.name}"
+                  ?
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    color="primary"
+                    onClick={() => {
+                      handleDelete(selectedTask._id);
+                    }}
+                  >
+                    Yes
+                  </Button>{" "}
+                  <Button color="secondary" onClick={toggleDelete}>
+                    No
+                  </Button>
+                </ModalFooter>
+              </Modal>
             </div>
           </div>
         </div>

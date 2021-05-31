@@ -146,6 +146,7 @@ class mainbuilder extends Component {
         <Route exact path="/add-user" component={AddUser} />
         <Route exact path="/add-expense" component={ExpenseList} />
         <Route exact path="/task-details" component={TaskDetails} />
+        <Route exact path="/subtask-details" component={TaskDetails} />
         // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />
