@@ -272,7 +272,8 @@ const TaskForm = (props) => {
                       <tr key={tIndex}>
                         <input name={`task${counter}taskId`} value={task._id} type="hidden" />
                         <td style={{ paddingLeft: "25px" }}>{task.name}</td>
-                        {for(let i=0;i<7;i++){
+                        {task.timesheet.map((ts,tsIndx)=>{
+                          return(
                             <td className="inputCol">
                           <input type="number" name={`task${counter}day0hrs`}  value={ts.workedHrs} onChange={(e)=>handleChange(e,pIndex,tIndex,tsIndx)}/>
                           <input name={`task${counter}day0date`} value={selectedDays[0]} type="hidden" />
