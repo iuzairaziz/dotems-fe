@@ -152,7 +152,10 @@ const Tables_datatable = (props) => {
                   color="primary"
                   size="sm"
                   onClick={() => {
-                    props.history.push(`/task/${item._id}`);
+                    props.history.push({
+                      pathname: "/task-details",
+                      taskId: item._id,
+                    });
                   }}
                 >
                   View
