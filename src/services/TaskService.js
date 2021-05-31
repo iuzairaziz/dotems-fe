@@ -40,8 +40,8 @@ class TaskService {
     );
   }
 
-  getEmployeeTasksGroupByProject(empId) {
-    return axios.get(this.config.apiBaseUrl + "tasks/employee/" + empId);
+  getEmployeeTasksGroupByProject(data) {
+    return axios.post(this.config.apiBaseUrl + "tasks/employee/",data);
   }
 
   handleMessage(type) {

@@ -27,6 +27,13 @@ function getWeekRange(date) {
   };
 }
 
+function setToIsoFormat(days) {
+    let isoDates =[];
+    days.map(d=>(
+        isoDates.push(moment(d).format("YYYY-MM-DDTHH:mm:ss")+".000Z")
+    ))
+    return isoDates;
+  }
 export default class WeeklyCalendar extends React.Component {
   state = {
     hoverRange: undefined,
@@ -34,16 +41,29 @@ export default class WeeklyCalendar extends React.Component {
     show: false,
   };
 
-  handleDayChange = (date) => {
+  componentDidMount(){
+    let days = getWeekDays(moment().startOf('isoWeek').toDate())
+    this.setState({selectedDays:days},
+        () => {
+        //   console.log("selected days", moment(this.state.selectedDays[0]).format("LL"));
+          this.props.setSelectedDays(setToIsoFormat(this.state.selectedDays));
+        })
+  }
+
+  handleDayChange = (date,mod) => {
+    let Date = moment(date).format();
+    console.log("day change",Date);
     this.setState(
       {
-        selectedDays: getWeekDays(getWeekRange(date).from),
+        selectedDays: getWeekDays(getWeekRange(Date).from),
       },
       () => {
-        console.log("selected days", this.state.selectedDays);
-        this.props.setSelectedDays(this.state.selectedDays);
+        console.log("selected days", moment(this.state.selectedDays[0]).format("LL"));
+        this.props.setSelectedDays(setToIsoFormat(this.state.selectedDays));
+        this.setState({ show: false })
       }
     );
+    
   };
 
   handleDayEnter = (date) => {
@@ -74,32 +94,34 @@ export default class WeeklyCalendar extends React.Component {
     const modifiers = {
       hoverRange,
       selectedRange: daysAreSelected && {
-        from: selectedDays[1],
+        from: selectedDays[0],
         to: selectedDays[6],
       },
       hoverRangeStart: hoverRange && hoverRange.from,
       hoverRangeEnd: hoverRange && hoverRange.to,
-      selectedRangeStart: daysAreSelected && selectedDays[1],
+      selectedRangeStart: daysAreSelected && selectedDays[0],
       selectedRangeEnd: daysAreSelected && selectedDays[6],
     };
 
     return (
-      <div className="SelectedWeekExample">
+      <div className="SelectedWeekExample" onB>
+        <label>Select Week</label>  
         <input
           value={
             moment(selectedDays[0]).format("LL") +
-            "-" +
+            "  To  " +
             moment(selectedDays[6]).format("LL")
           }
-          onFocus={() => this.setState({ show: true })}
-          style={{ width: "200px" }}
+        //   onBlur={() => this.setState({ show: false })}
+          onClick={() => this.setState({ show: true })}
+          style={{ width: "250px",height:"40px",textAlign:"center",marginLeft:"30px" }}
         />
         <DayPicker
-          className={`${this.state.show ? "" : "d-none"} position-absolute`}
-          style={{ background: "#fff" }}
+          className={`${this.state.show ? "" : "d-none"} position-absolute `}
+          style={{ border: "solid 1px #a6a8ab"}}
           selectedDays={selectedDays}
           showWeekNumbers
-          onBlur={() => this.setState({ show: false })}
+        //   onBlur={() => this.setState({ show: false })}
           showOutsideDays
           firstDayOfWeek={1}
           modifiers={modifiers}
@@ -110,7 +132,7 @@ export default class WeeklyCalendar extends React.Component {
         />
         {selectedDays.length === 7 && (
           <div className="d-none">
-            {moment(selectedDays[0]).format("LL")} –{" "}
+            {moment(selectedDays[0]).format("LL")}to{" "}
             {moment(selectedDays[6]).format("LL")}
           </div>
         )}
@@ -131,7 +153,7 @@ export default class WeeklyCalendar extends React.Component {
               border: 1px solid transparent;
             }
             .SelectedWeekExample .DayPicker-Day--hoverRange {
-              background-color: #EFEFEF !important;
+              background-color: #fff7ba !important;
             }
 
             .SelectedWeekExample .DayPicker-Day--selectedRange {

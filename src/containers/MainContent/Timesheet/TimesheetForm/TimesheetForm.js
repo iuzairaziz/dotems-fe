@@ -5,6 +5,7 @@ import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Button } from "reactstrap";
 import Select from "react-select";
+import moment from "moment";
 import TimesheetService from "../../../../services/TimesheetService";
 import TaskService from "../../../../services/TaskService";
 import userService from "../../../../services/UserService";
@@ -15,21 +16,18 @@ import "./TimesheetForm.scss";
 
 const TaskForm = (props) => {
   const [employeeData, setEmployeeData] = useState([]);
-  const [selectedDays, setSelectedDays] = useState([1,2,3,4,5,6,7]);
+  const [selectedDays, setSelectedDays] = useState([]);
   const [toUpdate,setToUpdate] = useState(false);
-  const [inputs, setInputs] = useState({
-    r1:[1,2,3,4,5,6,7],
-    r2:[1,2,3,4,5,6,7],
-  });
+  const [inputs, setInputs] = useState([{}]);
 
   const user = userService.userLoggedInInfo();
   useEffect(() => {
-    getEmployeeTasksGroupByProject(user._id);
-  }, []);
+    getEmployeeTasksGroupByProject(user._id,selectedDays[0],selectedDays[6]);
+  }, [selectedDays]);
 
   useEffect(() => {
     console.log("s days in form", selectedDays);
-  }, selectedDays);
+  }, [selectedDays]);
 
   const isEmptyObj = (obj) => {
     for (var x in obj) {
@@ -38,22 +36,25 @@ const TaskForm = (props) => {
     return true;
   };
 
-  const getEmployeeTasksGroupByProject = (empId) => {
-    TaskService.getEmployeeTasksGroupByProject(empId)
+  const handleChange = (e,projectIndx,taskIndx,timesheetIndx)=>{
+    console.log("handle chnge",e.target.value,projectIndx,taskIndx,timesheetIndx);
+    let arr = employeeData;
+    arr[projectIndx].tasks[taskIndx].timesheet[timesheetIndx]={...arr[projectIndx].tasks[taskIndx].timesheet[timesheetIndx],workedHrs:Number(e.target.value)};
+    console.log("updated arr",arr);
+    setEmployeeData(arr);
+  }
+
+  const getEmployeeTasksGroupByProject = (empId,startDate,endDate) => {
+    TaskService.getEmployeeTasksGroupByProject({empId,startDate,endDate})
       .then((res) => {
-        // if (isEmptyObj(res.data)) {
-        //   TaskService.handleCustomMessage("No Tasks are assigned to you!");
-        //   return;
-        // }
-        console.log("tasks by projects", res.data);
-        let inputs={};
+        // let counter=0;
+        // let inputs={};
         // res.data.map((item,pIndx)=>{
         //   item.tasks.map((task,tIndx)=>{
-        //     task.ts.map((ts,tsIndx)=>{
-        //       ts.map((sts,stsIndx)=>{
-        //         input[`${tIndx}`]
-        //       })
-        //     })
+        //     counter+=1;
+        //     input[`${task._id}`] = task.timesheet[0]?task.timesheet[0].workedHrs:'';
+        //     input[`task${counter}day0hrs`] = task.timesheet[0]?task.timesheet[0].workedHrs:'';
+            
         //   })
         // })
         setEmployeeData(res.data);
@@ -71,10 +72,8 @@ const TaskForm = (props) => {
     }).then((res) => {});
   };
 
-  const timesheet = props.timesheet;
-  const editable = props.editable;
-  console.log("from timesheet form ", timesheet);
   let counter=0;
+  let rowTotal=0;
   return (
     <>
       {/* <Formik
@@ -222,7 +221,7 @@ const TaskForm = (props) => {
     </Formik> */}
 
       <form action="http://localhost:8080/timesheet/weekly" method="post" >
-        <button type="submit">submit</button>
+        
         <table class="table table-bordered" id="timesheet-form">
           <thead>
             <tr>
@@ -237,14 +236,14 @@ const TaskForm = (props) => {
               <th scope="col" className="col-8">
                 Task Details
               </th>
-              <th scope="col">MON</th>
-              <th scope="col">Tue</th>
-              <th scope="col">Wed</th>
-              <th scope="col">ThR</th>
-              <th scope="col">FRI</th>
-              <th scope="col">SAT</th>
-              <th scope="col">SUN</th>
-              <th scope="col">TOTAL</th>
+              <th scope="col" className="dayDisplay">{moment(selectedDays[0]).format("ddd MMM/DD")}</th>
+              <th scope="col" className="dayDisplay">{moment(selectedDays[1]).format("ddd MMM/DD")}</th>
+              <th scope="col" className="dayDisplay">{moment(selectedDays[2]).format("ddd MMM/DD")}</th>
+              <th scope="col" className="dayDisplay">{moment(selectedDays[3]).format("ddd MMM/DD")}</th>
+              <th scope="col" className="dayDisplay">{moment(selectedDays[4]).format("ddd MMM/DD")}</th>
+              <th scope="col" className="dayDisplay">{moment(selectedDays[5]).format("ddd MMM/DD")}</th>
+              <th scope="col" className="dayDisplay">{moment(selectedDays[6]).format("ddd MMM/DD")}</th>
+              <th scope="col" className="dayDisplay">TOTAL</th>
             </tr>
           </thead>
           <tbody>
@@ -255,17 +254,10 @@ const TaskForm = (props) => {
               return (
                 <>
                   <tr key={pIndex}>
-                    <td className="table-info">
+                    <td className="table-info" colSpan="9">
                       <strong>{project.project.name}</strong>
                     </td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
+                    
                   </tr>
                   {project.tasks.map((task, tIndex) => {
                     counter+=1;
@@ -273,40 +265,42 @@ const TaskForm = (props) => {
                       <tr key={tIndex}>
                         <input name={`task${counter}taskId`} value={task._id} type="hidden" />
                         <td style={{ paddingLeft: "25px" }}>{task.name}</td>
-                        <td>
-                          <input name={`task${counter}day0hrs`}  placeholder={123}  />
+                        <td className="inputCol">
+                          <input name={`task${counter}day0hrs`}  value={task.timesheet[0]?task.timesheet[0].workedHrs:''} onChange={(e)=>handleChange(e,pIndex,tIndex,0)}/>
                           <input name={`task${counter}day0date`} value={selectedDays[0]} type="hidden" />
                           
                         </td>
-                        <td>
-                          <input name={`task${counter}day1hrs`} />
+                        <td className="inputCol">
+                          <input name={`task${counter}day1hrs`} defaultValue={task.timesheet[1]?task.timesheet[1].workedHrs:''}/>
                           <input name={`task${counter}day1date`} value={selectedDays[1]} type="hidden"/>        
                         </td>
-                        <td>
-                          <input name={`task${counter}day2hrs`} />
+                        <td className="inputCol">
+                          <input name={`task${counter}day2hrs`} defaultValue={task.timesheet[2]?task.timesheet[2].workedHrs:''}/>
                           <input name={`task${counter}day2date`} value={selectedDays[2]} type="hidden"/>
                         </td>
-                        <td>
-                          <input name={`task${counter}day3hrs`} />
+                        <td className="inputCol">
+                          <input name={`task${counter}day3hrs`} defaultValue={task.timesheet[3]?task.timesheet[3].workedHrs:''}/>
                           <input name={`task${counter}day3date`} value={selectedDays[3]} type="hidden"/>
                         </td>
-                        <td>
-                          <input name={`task${counter}day4hrs`} />
+                        <td className="inputCol">
+                          <input name={`task${counter}day4hrs`} defaultValue={task.timesheet[4]?task.timesheet[4].workedHrs:''}/>
                           <input name={`task${counter}day4date`} value={selectedDays[4]} type="hidden"/>
                         </td>
-                        <td>
-                          <input name={`task${counter}day5hrs`} />
+                        <td className="inputCol">
+                          <input name={`task${counter}day5hrs`} defaultValue={task.timesheet[5]?task.timesheet[5].workedHrs:''}/>
                           <input name={`task${counter}day5date`} value={selectedDays[5]} type="hidden"/>
                         </td>
-                        <td>
-                          <input name={`task${counter}day6hrs`} />
+                        <td className="inputCol">
+                          <input name={`task${counter}day6hrs`} defaultValue={task.timesheet[6]?task.timesheet[6].workedHrs:''}/>
                           <input name={`task${counter}day6date`} value={selectedDays[6]} type="hidden"/>
                         </td>
-                        <td>
-                          {/* <input
-                            name={`d1t${task._id}`}
-                            
-                          /> */}
+                        <td className="inputCol">
+                          
+                          {task.timesheet.map((t,index)=>{
+                            if(index===0)rowTotal=0
+                            rowTotal+=t.workedHrs;
+                            if(index===task.timesheet.length-1)return rowTotal
+                          })}
                         </td>
                       </tr>
                     );
@@ -315,30 +309,10 @@ const TaskForm = (props) => {
               );
             })}
             <input name="counter" value={counter} type="hidden" />
-            <tr>
-              <td>Mark</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>Mark</td>
-              <td>Otto</td>
-            </tr>
-            <tr>
-              <td>Mark</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>Mark</td>
-              <td>Otto</td>
-            </tr>
+            
           </tbody>
         </table>
+        <button type="submit" className="btn btn-primary">Save</button>
       </form>
     </>
   );
