@@ -54,7 +54,7 @@ const TaskForm = (props) => {
   };
 
   const getProjects = () => {
-    ProjectService.getAllProject()
+    ProjectService.getAllProject("","","","","")
       .then((res) => {
         let options = [];
         res.data.map((item, index) => {
