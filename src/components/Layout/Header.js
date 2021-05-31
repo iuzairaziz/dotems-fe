@@ -274,9 +274,12 @@ class header extends Component {
                   />
                 </DropdownToggle>
                 <DropdownMenu>
+                  <Link to="/updateuser">
                   <DropdownItem>
                     <i className="mdi mdi-account-circle m-r-5" /> Profile
                   </DropdownItem>
+                  </Link>
+                 
                   <DropdownItem>
                     <i className="mdi mdi-wallet m-r-5" /> My Wallet
                   </DropdownItem>

@@ -122,6 +122,23 @@ const UpdateUser = (props) => {
               </div>
             </div>
           </div>
+          <div className="row">
+            <div className="col">
+            <label>Add Image</label>
+            <div className="input-group">
+               <div className="custom-file">
+                  <input
+                    type="file"
+                    className="custom-file-input"
+                    id="inputGroupFile01"
+                    aria-describedby="inputGroupFileAddon01" />
+                    <label className="custom-file-label" htmlFor="inputGroupFile01">
+                    Choose file
+                    </label>
+              </div>
+                 </div>
+            </div>
+          </div>
 
           <div className="row">
             <div className="col">
