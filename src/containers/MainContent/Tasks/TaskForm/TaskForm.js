@@ -54,7 +54,7 @@ const TaskForm = (props) => {
   };
 
   const getProjects = () => {
-    ProjectService.getAllProject()
+    ProjectService.getAllProject("", "", "", "", "")
       .then((res) => {
         let options = [];
         res.data.map((item, index) => {
@@ -87,13 +87,24 @@ const TaskForm = (props) => {
     <Formik
       initialValues={{
         title: editable && task.name,
-        project: editable && task.project && task.project.project_name,
+        project: editable &&
+          task.project && { label: task.project.name, value: task.project._id },
         estimatedHrs: editable && task.estHrs,
         projectRatio: editable && task.projectRatio,
         description: editable && task.description,
-        parentTask: editable && task.parentTask && task.parentTask.name,
+        parentTask:
+          editable && task.parentTask
+            ? {
+                label: task.parentTask.name,
+                value: task.parentTask._id,
+              }
+            : { label: "None", value: null },
         assignedTo: editable && assignedUsers,
-        teamLead: editable && task.teamLead,
+        teamLead: editable &&
+          task.teamLead && {
+            label: task.teamLead.name,
+            value: task.teamLead._id,
+          },
       }}
       validationSchema={tasksValidations.newTaskValidation}
       onSubmit={(values, actions) => {

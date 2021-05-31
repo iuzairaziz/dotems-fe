@@ -29,19 +29,26 @@ const TaskForm = (props) => {
     console.log("s days in form", selectedDays);
   }, [selectedDays]);
 
+
+  useEffect(() => {
+    console.log("updated emplyee data", employeeData);
+  }, [employeeData]);
+
   const isEmptyObj = (obj) => {
     for (var x in obj) {
       return false;
     }
     return true;
   };
+  
 
   const handleChange = (e,projectIndx,taskIndx,timesheetIndx)=>{
     console.log("handle chnge",e.target.value,projectIndx,taskIndx,timesheetIndx);
     let arr = employeeData;
-    arr[projectIndx].tasks[taskIndx].timesheet[timesheetIndx]={...arr[projectIndx].tasks[taskIndx].timesheet[timesheetIndx],workedHrs:Number(e.target.value)};
-    console.log("updated arr",arr);
-    setEmployeeData(arr);
+    let ts = arr[projectIndx].tasks[taskIndx].timesheet[timesheetIndx];
+    arr[projectIndx].tasks[taskIndx].timesheet[timesheetIndx]={...ts,workedHrs:Number(e.target.value)};
+    // console.log("typeof arr",typeof(arr));
+    setEmployeeData([...arr]);
   }
 
   const getEmployeeTasksGroupByProject = (empId,startDate,endDate) => {
@@ -265,35 +272,44 @@ const TaskForm = (props) => {
                       <tr key={tIndex}>
                         <input name={`task${counter}taskId`} value={task._id} type="hidden" />
                         <td style={{ paddingLeft: "25px" }}>{task.name}</td>
-                        <td className="inputCol">
-                          <input name={`task${counter}day0hrs`}  value={task.timesheet[0]?task.timesheet[0].workedHrs:''} onChange={(e)=>handleChange(e,pIndex,tIndex,0)}/>
+                        {task.timesheet.map((ts,tsIndx)=>{
+                          return(
+                            <td className="inputCol">
+                          <input type="number" name={`task${counter}day0hrs`}  value={ts.workedHrs} onChange={(e)=>handleChange(e,pIndex,tIndex,tsIndx)}/>
+                          <input name={`task${counter}day0date`} value={selectedDays[0]} type="hidden" />
+                          
+                        </td>
+                          )
+                        })}
+                        {/* <td className="inputCol">
+                          <input type="number" name={`task${counter}day0hrs`}  value={task.timesheet[0]?task.timesheet[0].workedHrs:''} onChange={(e)=>handleChange(e,pIndex,tIndex,0)}/>
                           <input name={`task${counter}day0date`} value={selectedDays[0]} type="hidden" />
                           
                         </td>
                         <td className="inputCol">
-                          <input name={`task${counter}day1hrs`} defaultValue={task.timesheet[1]?task.timesheet[1].workedHrs:''}/>
+                          <input name={`task${counter}day1hrs`} value={task.timesheet[1]?task.timesheet[1].workedHrs:''} onChange={(e)=>handleChange(e,pIndex,tIndex,1)}/>
                           <input name={`task${counter}day1date`} value={selectedDays[1]} type="hidden"/>        
                         </td>
                         <td className="inputCol">
-                          <input name={`task${counter}day2hrs`} defaultValue={task.timesheet[2]?task.timesheet[2].workedHrs:''}/>
+                          <input name={`task${counter}day2hrs`} value={task.timesheet[2]?task.timesheet[2].workedHrs:''} onChange={(e)=>handleChange(e,pIndex,tIndex,2)}/>
                           <input name={`task${counter}day2date`} value={selectedDays[2]} type="hidden"/>
                         </td>
                         <td className="inputCol">
-                          <input name={`task${counter}day3hrs`} defaultValue={task.timesheet[3]?task.timesheet[3].workedHrs:''}/>
+                          <input name={`task${counter}day3hrs`} value={task.timesheet[3]?task.timesheet[3].workedHrs:''} onChange={(e)=>handleChange(e,pIndex,tIndex,3)}/>
                           <input name={`task${counter}day3date`} value={selectedDays[3]} type="hidden"/>
                         </td>
                         <td className="inputCol">
-                          <input name={`task${counter}day4hrs`} defaultValue={task.timesheet[4]?task.timesheet[4].workedHrs:''}/>
+                          <input name={`task${counter}day4hrs`} value={task.timesheet[4]?task.timesheet[4].workedHrs:''} onChange={(e)=>handleChange(e,pIndex,tIndex,4)}/>
                           <input name={`task${counter}day4date`} value={selectedDays[4]} type="hidden"/>
                         </td>
                         <td className="inputCol">
-                          <input name={`task${counter}day5hrs`} defaultValue={task.timesheet[5]?task.timesheet[5].workedHrs:''}/>
+                          <input name={`task${counter}day5hrs`} value={task.timesheet[5]?task.timesheet[5].workedHrs:''} onChange={(e)=>handleChange(e,pIndex,tIndex,5)}/>
                           <input name={`task${counter}day5date`} value={selectedDays[5]} type="hidden"/>
                         </td>
                         <td className="inputCol">
-                          <input name={`task${counter}day6hrs`} defaultValue={task.timesheet[6]?task.timesheet[6].workedHrs:''}/>
+                          <input name={`task${counter}day6hrs`} value={task.timesheet[6]?task.timesheet[6].workedHrs:''} onChange={(e)=>handleChange(e,pIndex,tIndex,6)}/>
                           <input name={`task${counter}day6date`} value={selectedDays[6]} type="hidden"/>
-                        </td>
+                        </td> */}
                         <td className="inputCol">
                           
                           {task.timesheet.map((t,index)=>{
