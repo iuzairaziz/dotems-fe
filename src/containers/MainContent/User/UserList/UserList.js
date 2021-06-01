@@ -211,7 +211,7 @@ const ViewUsers = () => {
                 <ModalBody>
                   <UserForm
                     editable={true}
-                    client={selectedUser}
+                    user={selectedUser}
                     toggle={toggleEdit}
                   />
                 </ModalBody>
@@ -219,7 +219,7 @@ const ViewUsers = () => {
               <Modal isOpen={modalDelete} toggle={toggleDelete}>
                 <ModalHeader toggle={toggleDelete}>Delete User?</ModalHeader>
                 <ModalBody>
-                  Are you sure you want to delete the client 
+                  Are you sure you want to delete the users 
                   {selectedUser.name}" ?
                 </ModalBody>
                 <ModalFooter>

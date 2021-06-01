@@ -134,6 +134,7 @@ const ViewClients = () => {
           });
         });
         console.log("clients", updatedData);
+
         setData(updatedData);
       })
       .catch((err) => console.log(err));

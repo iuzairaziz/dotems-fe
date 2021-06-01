@@ -137,6 +137,7 @@ import ViewUsers from "../MainContent/User/UserList/UserList";
 import updateUsers from "../MainContent/User/AddNewUser/UpdateUser";
 import ProjectDetails from "../MainContent/Projects/ProjectDetails";
 import TaskDetails from "../MainContent/Tasks/TaskDetail/TaskDetails";
+import UserDetails from "../MainContent/User/UserList/UserDetails"
 
 class mainbuilder extends Component {
   render() {
