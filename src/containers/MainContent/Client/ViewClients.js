@@ -105,6 +105,7 @@ const ViewClients = () => {
             contactNum: item.mobileNo ? item.mobileNo : "none",
             URL: item.url ? item.url : "none",
             dateOfJoin: item.dateOfJoin ? item.dateOfJoin : "none",
+            country: item.country ? item.country.name : "none",
             action: (
               <div className="row flex-nowrap">
                 <Button
@@ -133,6 +134,7 @@ const ViewClients = () => {
           });
         });
         console.log("clients", updatedData);
+
         setData(updatedData);
       })
       .catch((err) => console.log(err));

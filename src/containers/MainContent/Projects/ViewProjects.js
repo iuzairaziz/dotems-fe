@@ -301,7 +301,7 @@ const ViewProjects = () => {
               <div className="row flex-nowrap">
                 <Link to={{ pathname: "/projectdetails", projectProps: item }}>
                   <Button
-                    color="info"
+                    color="purple"
                     size="sm"
                     data-toggle="modal"
                     data-target="#myModal"

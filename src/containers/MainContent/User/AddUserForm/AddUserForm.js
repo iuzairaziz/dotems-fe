@@ -12,7 +12,6 @@ import PlatformService from "../../../../services/PlatformService";
 import TechnologyService from "../../../../services/TechnologyService";
 import ServiceService from "../../../../services/ServiceService";
 import NatureService from "../../../../services/NatureService";
-import userService from "../../../../services/UserService";
 import ClientService from "../../../../services/ClientService";
 
 const UserForm = (props) => {
@@ -24,41 +23,40 @@ const UserForm = (props) => {
     <Formik
       initialValues={{
         name: editable && user.name,
-        userName: editable && user.userName,
-        gender: editable && user.status,
-        joiningDate: editable && user.cost,
-        status: editable && user.status,
+        userName: editable && user.email,
+        gender: editable && user.gender && {label : user.gender , value : user.gender},
+        joiningDate: editable && user.joiningDate,
+        status: editable && user.status && {label : user.status , value : user.status},
         salary: editable && user.salary,
         password: editable && user.password,
         workingHrs: editable && user.workingHrs,
         machineNo: editable && user.machineNo,
         workingDays: editable && user.workingDays,
-        userRole: editable && user.userRole,
+        userRole: editable && user.userRole && {label : user.userRole , value : user.userRole},
         
       }}
       validationSchema={userValidation.newUserValidation}
       onSubmit={(values, actions) => {
         editable
-          ? ProjectService.updateProject(user._id, {
-              name: values.projectName,
-              client: values.clientName,
-              orderNumber: values.orderNum,
-              platform: values.platform,
-              technology: values.technology,
-              service: values.serviceType,
-              status: values.status,
-              nature: values.projectNature,
-              startDate: values.startDate,
-              endDate: values.endDate,
-              projectManager: values.projectManager,
-              cost: values.cost,
+          ? UserService.updateUser(user._id, {
+            name: values.name,
+            email: values.userName,
+            gender: values.gender.value,
+            status: values.status.value,
+            password: values.password,
+            salary: values.salary,
+            joiningDate: values.joiningDate,
+            workingHrs: values.workingHrs,
+            machineNo: values.machineNo,
+            workingDays: values.workingDays,
+            userRole: values.userRole.value,
             })
               .then((res) => {
-                ProjectService.handleMessage("update");
+                UserService.handleMessage("update");
                 props.toggle();
               })
               .catch((err) => {
-                ProjectService.handleError();
+                UserService.handleError();
                 props.toggle();
               })
           : UserService.register({
@@ -187,7 +185,7 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label className="control-label">Status</label>
                 <Select
-                  value={props.values.satus}
+                  value={props.values.status}
                   onChange={(selected) => {
                     props.setFieldValue("status", selected);
                   }}
@@ -203,7 +201,7 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label className="control-label">Gender</label>
                 <Select
-                  value={props.values.project}
+                  value={props.values.gender}
                   onChange={(selected) => {
                     props.setFieldValue("gender", selected);
                   }}

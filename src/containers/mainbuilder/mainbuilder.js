@@ -137,6 +137,7 @@ import ViewUsers from "../MainContent/User/UserList/UserList";
 import updateUsers from "../MainContent/User/AddNewUser/UpdateUser";
 import ProjectDetails from "../MainContent/Projects/ProjectDetails";
 import TaskDetails from "../MainContent/Tasks/TaskDetail/TaskDetails";
+import UserDetails from "../MainContent/User/UserList/UserDetails"
 
 class mainbuilder extends Component {
   render() {
@@ -146,6 +147,7 @@ class mainbuilder extends Component {
         <Route exact path="/add-user" component={AddUser} />
         <Route exact path="/add-expense" component={ExpenseList} />
         <Route exact path="/task-details" component={TaskDetails} />
+        <Route exact path="/subtask-details" component={TaskDetails} />
         // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />
@@ -163,6 +165,7 @@ class mainbuilder extends Component {
         <Route exact path="/viewuser" component={ViewUsers} />
         <Route exact path="/updateuser" component={updateUsers} />
         <Route exact path="/projectdetails" component={ProjectDetails} />
+        <Route exact path="/userdetails" component={UserDetails} />
         //nehal routes
         <Route exact path="/add-time" component={AddTime} />
         <Route exact path="/login" component={Login} />

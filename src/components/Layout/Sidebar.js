@@ -34,7 +34,7 @@ class sidebar extends Component {
       tab: "user",
       subMenus: [
         { routeName: "add-user", label: "Add New User" },
-        { routeName: "updateuser", label: "View User Details" },
+        { routeName: "viewuser", label: "View Users" },
       ],
     },
     {

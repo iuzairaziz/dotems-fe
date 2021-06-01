@@ -20,12 +20,12 @@ const ViewUsers = () => {
         sort: "asc",
         width: 125,
       },
-      {
-        label: "UserName",
-        field: "username",
-        sort: "asc",
-        width: 125,
-      },
+      // {
+      //   label: "UserName",
+      //   field: "username",
+      //   sort: "asc",
+      //   width: 125,
+      // },
       {
         label: "Date of Joining",
         field: "dateOfJoin",
@@ -50,29 +50,37 @@ const ViewUsers = () => {
         sort: "disabled",
         width: 125,
       },
-      {
-        label: "Gender",
-        field: "gender",
-        sort: "disabled",
-        width: 150,
-      },
+      // {
+      //   label: "Gender",
+      //   field: "gender",
+      //   sort: "disabled",
+      //   width: 150,
+      // },
       {
         label: "Role",
         field: "role",
         sort: "asc",
         width: 75,
       },
+      // {
+      //   label: "Working Hours",
+      //   field: "workingHrs",
+      //   sort: "asc",
+      //   width: 75,
+      // },
       {
-        label: "Working Hours",
-        field: "workingHrs",
-        sort: "asc",
-        width: 75,
+        label: "Technology",
+        field: "technology",
       },
+      // {
+      //   label: "Working Days",
+      //   field: "workingDays",
+      //   sort: "asc",
+      //   width: 75,
+      // },
       {
-        label: "Working Days",
-        field: "workingDays",
-        sort: "asc",
-        width: 75,
+        label: "View Details",
+        field: "details"
       },
       {
         label: "Action",
@@ -80,6 +88,7 @@ const ViewUsers = () => {
         sort: "disabled",
         width: 150,
       },
+
     ],
     rows: [],
   });
@@ -101,6 +110,7 @@ const ViewUsers = () => {
         toggleDelete();
       });
   };
+ 
 
   const getData = () => {
     UserService.getUsers()
@@ -119,7 +129,23 @@ const ViewUsers = () => {
             role: item.userRole ? item.userRole : "none",
             workingHrs: item.workingHrs ? item.workingHrs : "none",
             workingDays: item.workingDays ? item.workingDays : "none",
-            
+            technology: item.technology ? item.technology.map((item,index) => {
+              if(index === 0 ){
+              return item.name
+            }else if(index >= 0){ return `, ${item.name} `} } ): "none",
+            details: (   <div className="row flex-nowrap">
+            <Link to={{ pathname: "/userdetails", UserProps: item }}>
+              <Button
+                color="purple"
+                size="sm"
+                data-toggle="modal"
+                data-target="#myModal"
+                onClick={() => {}}
+              >
+                View Details
+              </Button>
+            </Link>
+          </div>),
             action: (
               <div className="row flex-nowrap">
                 <Button
@@ -185,7 +211,7 @@ const ViewUsers = () => {
                 <ModalBody>
                   <UserForm
                     editable={true}
-                    client={selectedUser}
+                    user={selectedUser}
                     toggle={toggleEdit}
                   />
                 </ModalBody>
@@ -193,7 +219,7 @@ const ViewUsers = () => {
               <Modal isOpen={modalDelete} toggle={toggleDelete}>
                 <ModalHeader toggle={toggleDelete}>Delete User?</ModalHeader>
                 <ModalBody>
-                  Are you sure you want to delete the client 
+                  Are you sure you want to delete the users 
                   {selectedUser.name}" ?
                 </ModalBody>
                 <ModalFooter>
