@@ -1,4 +1,9 @@
 #timesheet-form {
+  .DayPicker{
+    background-color: white;
+    border: solid 1px;
+    z-index: 2;
+  }
   tbody {
 
     .inputCol{
@@ -6,12 +11,115 @@
         padding: 0px;
     }
     td {
-      
+      position: relative;
       vertical-align: middle;
       
+      &:hover {
+        .remarksBtn {
+            display: block;
+        }
+        .remarksModal{
+          
+          display:block
+          
+        }
+        .worked{
+          display: block;
+        }
+        
+      }
+
+      .worked{
+        border-left: 1px solid #b3b1b1;
+        padding-left: 5px;
+        padding-top: 2px;
+        vertical-align: middle;
+        bottom: 0;
+        right: 0;
+        background-color: white;
+        position: absolute;
+        display: none;
+        width: 200px;
+        height: 100%;
+        // border-radius: 5px;
+        &:hover{
+
+          .workedVal{
+            display: block;
+          }
+        }
+        .workedVal{
+          position: absolute;
+          background-color: black;
+          color: blanchedalmond;
+          right: 5%;
+          // bottom: 5px;
+          bottom: 50%;
+          padding: 1px;
+          border-radius: 2px;display: none;
+        }
+        input{  
+          min-width: 100%;   
+        }
+      }
+
       input {
         max-width: 52px;
         text-align: center;
+      }
+      .remarksModal{
+        background-color: white;
+        padding: 5px;
+        // width: ;
+        // height: 50px;
+        border:solid 1px #969494;
+        display:none;
+        position: absolute;
+        bottom: 44px;
+        z-index: 2;
+        border-radius: 5px;
+        textarea{
+          width: 200px;
+          height: 100px;
+          border: none;
+          border-top:solid 1px #dddcdc;
+          padding: 5px;
+
+          // border-radius: 5px;
+
+        }
+
+        
+        
+          // &:active{
+          //   display: block;
+          // }
+        
+      }
+      .remarksBtn{
+        display: none;
+        padding-left: 3px;
+        padding-right: 3px;
+        position: absolute;
+        z-index: 1;
+        bottom: 0;
+        margin: 0px;
+        border-radius: 8px;
+        right: 0px;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        background-color: rgb(172, 171, 170) !important;
+        &:hover{
+          background-color: green !important;
+          
+        }
+
+        // &:focus-within +.remarksModal{
+          
+        //   display:block
+          
+        // }
+        
       }
     }
   }

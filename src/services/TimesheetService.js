@@ -36,6 +36,10 @@ class TimesheetService {
     );
   }
 
+  submitWeeklyTimesheet(formData) {
+    return axios.post(this.config.apiBaseUrl + "timesheet/weekly/", formData);
+  }
+
   handleMessage(type) {
     if (type === "add") toast("Successfully added Timesheet");
     else if (type === "update") toast("Successfully updated Timesheet");
