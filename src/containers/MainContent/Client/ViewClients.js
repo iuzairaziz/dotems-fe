@@ -181,7 +181,7 @@ const ViewClients = () => {
                 <ModalHeader toggle={toggleDelete}>Delete Client ?</ModalHeader>
                 <ModalBody>
                   Are you sure you want to delete the client "
-                  {selectedClient.clientName}" ?
+                  {selectedClient.name}" ?
                 </ModalBody>
                 <ModalFooter>
                   <Button
