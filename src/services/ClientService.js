@@ -27,7 +27,7 @@ class ClientService {
   }
 
   deleteClient(id) {
-    return axios.delete(this.config.apiBaseUrl + "client/:id", id);
+    return axios.delete(this.config.apiBaseUrl + "client/" + id);
   }
 
   handleError(error) {
