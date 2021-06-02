@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import AUX from "../../../hoc/Aux_";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import ClientValidation from "../../../validations/client-validations";
 import DatePicker from "react-datepicker";
@@ -20,6 +20,7 @@ import StatusService from "../../../services/StatusService";
 import TechnologyService from "../../../services/TechnologyService";
 
 const ViewProjects = () => {
+  let history = useHistory();
   const [editTask, setEditTask] = useState();
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
@@ -344,7 +345,7 @@ const ViewProjects = () => {
         setData(data);
         console.log("state data", dataa);
         console.log("my project data", data);
-        console.log("res data", res.data);
+        console.log("res data", res);
       })
       .catch((err) => {
         console.log(err);

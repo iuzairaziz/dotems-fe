@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Layout from "./components/Layout/Layout";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import mainbuilder from "./containers/mainbuilder/mainbuilder";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -8,33 +8,33 @@ import AUX from "./hoc/Aux_";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Auth from "./containers/MainContent/Auth/Auth";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import httpIntercept from "../src/interceptor/interceptor";
 
+const App = (props) => {
+  httpIntercept();
 
-class App extends Component {
-  render() {
-    let layout = null;
+  let layout = null;
 
-    layout = (
-      <Layout
-        header={this.props.header}
-        sidebar={this.props.sidebar}
-        footer={this.props.footer}
-        loginpage={this.props.loginpage}
-      >
-        <Switch>
-          <Route path="/" component={mainbuilder} />
-        </Switch>
-      </Layout>
-    );
-    return (
-      <AUX>
-        <ToastContainer />
-        {layout}
-      </AUX>
-    );
-  }
-}
+  layout = (
+    <Layout
+      header={props.header}
+      sidebar={props.sidebar}
+      footer={props.footer}
+      loginpage={props.loginpage}
+    >
+      <Switch>
+        <Route path="/" component={mainbuilder} />
+      </Switch>
+    </Layout>
+  );
+  return (
+    <AUX>
+      <ToastContainer />
+      {layout}
+    </AUX>
+  );
+};
 const mapStatetoProps = (state) => {
   return {
     header: state.ui_red.header,
