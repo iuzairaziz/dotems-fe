@@ -109,7 +109,6 @@ class sidebar extends Component {
         { routeName: "addproject", label: "New Project" },
         { routeName: "viewproject", label: "View Projects" },
         { routeName: "projectreport", label: "Project Report" },
-        { routeName: "project-task-form", label: "Project/Task"},
       ],
     },
     {
