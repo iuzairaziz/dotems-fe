@@ -134,7 +134,7 @@ const ProjectReports = () => {
 
 
       const getData = () => {
-        ProjectService.getAllProject("","","","","")
+        ProjectService.getProjectReport("","","","","")
           .then((res) => {
             let data = { ...dataa };
             data.rows = [];
@@ -145,8 +145,10 @@ const ProjectReports = () => {
                 Rprofit: item.Rprofit ? (item.Rprofit/100 * item.cost ): "none",
                 Pdeduction: item.Pdeduction ? (item.Pdeduction/100 *item.cost ): "none",
                 PCB : (item.cost - ((item.Pdeduction/100 *item.cost )+ (item.Rprofit/100 * item.cost ))),
-                // Pincome: (item.currency.exchangeRate * (item.cost - ((item.Pdeduction/100 *item.cost )+ (item.Rprofit/100 * item.cost ))))
              Pincome: item.currency ? (item.currency.exchangeRate * (item.cost - ((item.Pdeduction/100 *item.cost )+ (item.Rprofit/100 * item.cost )))): "none",
+             ActHrs: item.actualHrs ? item.actualHrs : "none",
+             wrkdone: item.workDone ? item.workDone : "none",
+             EstHrs: item.phase ? item.phase : "none", 
               });
             });
             setData(data);

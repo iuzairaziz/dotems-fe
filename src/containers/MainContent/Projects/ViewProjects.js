@@ -19,7 +19,7 @@ import PlatformService from "../../../services/PlatformService";
 import StatusService from "../../../services/StatusService";
 import TechnologyService from "../../../services/TechnologyService";
 
-const ViewProjects = () => {
+const ViewProjects = (props) => {
   let history = useHistory();
   const [editTask, setEditTask] = useState();
   const [modalEdit, setModalEdit] = useState(false);
@@ -300,17 +300,22 @@ const ViewProjects = () => {
             pDeduction: item.Pdeduction ? item.Pdeduction : "none",
             details: (
               <div className="row flex-nowrap">
-                <Link to={{ pathname: "/projectdetails", projectProps: item }}>
+              
                   <Button
                     color="purple"
                     size="sm"
                     data-toggle="modal"
                     data-target="#myModal"
-                    onClick={() => {}}
+                    onClick={() => {
+                      props.history.push({
+                        pathname: "/projectdetails",
+                        projectProps: item._id,
+                      });
+                    }}
                   >
                     View Details
                   </Button>
-                </Link>
+               
               </div>
             ),
             action: (
