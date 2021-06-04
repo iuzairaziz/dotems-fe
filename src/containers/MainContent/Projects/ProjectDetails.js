@@ -364,7 +364,7 @@ const ProjectDetails = (props) =>{
                     <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">All Employees</h4>
+                  <h4 className="mt-0 header-title">Project Tasks</h4>
 
                   <MDBDataTableV5
                     // scrollX

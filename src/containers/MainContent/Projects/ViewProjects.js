@@ -275,6 +275,7 @@ const ViewProjects = (props) => {
     )
       .then((res) => {
         let data = { ...dataa };
+        let EstTime = 0;
         data.rows = [];
         res.data.map((item, index) => {
           data.rows.push({
@@ -300,8 +301,16 @@ const ViewProjects = (props) => {
             pDeduction: item.Pdeduction ? item.Pdeduction : "none",
             ActHrs: item.actualHrs ? item.actualHrs : "none",
             wrkdone: item.workDone ? item.workDone : "none",
-            // EstHrs: item.phase ? item.phase : "none", 
-            details: (
+            EstHrs: item.phase ? item.phase.map((item1, index , key) => {
+              if(index === 0)
+              EstTime=0
+              EstTime+=Number(item1.estTime)
+               
+               if(index === item.phase.length-1){
+                 return EstTime
+               }
+             }) : "none", 
+              details: (
               <div className="row flex-nowrap">
               
                   <Button
