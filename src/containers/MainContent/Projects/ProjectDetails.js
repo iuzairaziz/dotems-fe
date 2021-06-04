@@ -1,14 +1,135 @@
-import React , {Component } from 'react';
+import React , {Component , useState,useEffect } from 'react';
 import AUX from '../../../hoc/Aux_';
 import { Link } from 'react-router-dom';
 import Editable from 'react-x-editable';
+import ProjectService from "../../../services/ProjectService";
+import { MDBDataTableV5, MDBBtn } from "mdbreact";
+import {Button} from "reactstrap";
+
+
 
 const ProjectDetails = (props) =>{
  
 {
+  // const [data, setData] = useState();
+  const [projectData, setData] = useState();
+
+  const [tabledata, setTableData] = useState({
+    columns: [
+      {
+        label: "Task Name",
+        field: "taskname",
+        sort: "asc",
+      },
+      {
+        label: "Team Member",
+        field: "teamMember",
+        sort: "disabled",
+        width: 125,
+      },
+      {
+        label: "Start Date",
+        field: "startDate",
+        sort: "disabled",
+      },
+      {
+        label: "End Date",
+        field: "endDate",
+        sort: "disabled",
+      },
+      {
+        label: "Estimate Hrs",
+        field: "EstHrs",
+        sort: "disabled",
+        // width: 100,
+      },
+      {
+        label: "Actual Hrs",
+        field: "ActHrs",
+        sort: "disabled",
+        // width: 100,
+      },
+      {
+        label: "Work Done",
+        field: "wrkdone",
+        sort: "disabled",
+      },
+      {
+        label: "Status",
+        field: "status",
+        sort: "disabled",
+        // width: 150,
+      },
+      {
+        label: "Action",
+        field: "action",
+        sort: "disabled",
+        // width: 150,
+      },
+    ],
+    rows: [],
+  });
+
+ 
     console.log("props", props.location.projectProps)
-    const project = props.location.projectProps;
-    console.log("Project Name", project.name)
+    const projectId = props.location.projectProps;
+    // console.log("Project Name", project.id)
+
+    useEffect(() => {
+     getData(projectId);
+    }, []);
+
+    useEffect(() => {
+      getTableData();
+    },[projectData]);
+
+    const getData = (id) => {
+      ProjectService.getProjectAndTask(id).then((res) => {
+        setData(res.data[0]);
+      }).catch((err) => {
+        console.log("error",err);
+      });
+    }
+
+    console.log("data", projectData);
+
+    const getTableData = () => {
+      let data = { ...tabledata }
+      data.rows=[];
+      projectData && projectData.tasks.map((item, index) => {
+        data.rows.push({
+          taskname: item.name ? item.name : "none", 
+          teamMember: item.assignedTo  ? item.assignedTo.map((item,index) => {
+            if(index === 0 ){
+            return item.name
+          }else if(index >= 0){ return `, ${item.name} `} } ): "none",
+          startDate: item.startTime  ? item.startTime : "none",
+          // endDate: item.  ? item. : "none",
+          EstHrs: item.estHrs  ? item.estHrs : "none",
+          ActHrs: item.actualHrs  ? item.actualHrs : "none",
+          wrkdone: item.workDone  ? item.workDone : "none",
+          status: item.status  ? item.status : "none",
+          action: ( <div className="row flex-nowrap">   
+              <Button
+                  color="primary"
+                  size="sm"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/task-details",
+                      taskId: item._id,
+                    });
+                  }}
+                >
+                  View
+                </Button>
+      </div>)
+        })
+      })
+      setTableData(data)
+    }
+
+    
+    
 
     return(
            <AUX>
@@ -26,7 +147,7 @@ const ProjectDetails = (props) =>{
                 <input
                   type="text"
                   className="form-control"
-                  value={project.name}
+                  value={projectData && projectData.name}
                   readOnly={true}
                 />
               </div>
@@ -36,7 +157,7 @@ const ProjectDetails = (props) =>{
                 <label>Client Name</label>
                 <input
                   className="form-control"
-                  value={project.client.name}
+                  value={projectData && projectData.client.name}
                   readOnly={true}
                 />
               </div>
@@ -49,7 +170,7 @@ const ProjectDetails = (props) =>{
                 <input
                   type="text"
                   className="form-control"
-                  value={project.orderNum}
+                  value={projectData && projectData.orderNum}
                   readOnly={true}
                 />
               </div>
@@ -59,7 +180,7 @@ const ProjectDetails = (props) =>{
                 <label>Platform</label>
                 <input
                   className="form-control"
-                  value={project.platform.name}
+                  value={projectData && projectData.platform.name}
                   readOnly={true}
                 />
               </div>
@@ -72,7 +193,7 @@ const ProjectDetails = (props) =>{
                 <input
                   type="text"
                   className="form-control"
-                  value={project.service.name}
+                  value={projectData && projectData.service.name}
                   readOnly={true}
                 />
               </div>
@@ -82,7 +203,7 @@ const ProjectDetails = (props) =>{
                 <label>Technology</label>
                 <input
                   className="form-control"
-                  value={project.technology.name}
+                  value={projectData && projectData.technology.name}
                   readOnly={true}
                 />
               </div>
@@ -95,7 +216,7 @@ const ProjectDetails = (props) =>{
                 <input
                   type="text"
                   className="form-control"
-                  value={project.status.name}
+                  value={projectData && projectData.status}
                   readOnly={true}
                 />
               </div>
@@ -105,7 +226,7 @@ const ProjectDetails = (props) =>{
                 <label>Project Nature</label>
                 <input
                   className="form-control"
-                  value={project.nature.name}
+                  value={projectData && projectData.nature.name}
                   readOnly={true}
                 />
               </div>
@@ -118,7 +239,7 @@ const ProjectDetails = (props) =>{
                 <input
                   type="text"
                   className="form-control"
-                  value={project.cStartDate}
+                  value={projectData && projectData.cStartDate}
                   readOnly={true}
                 />
               </div>
@@ -128,7 +249,7 @@ const ProjectDetails = (props) =>{
                 <label>Client Deadline</label>
                 <input
                   className="form-control"
-                  value={project.cEndDate}
+                  value={projectData && projectData.cEndDate}
                   readOnly={true}
                 />
               </div>
@@ -141,7 +262,7 @@ const ProjectDetails = (props) =>{
                 <input
                   type="text"
                   className="form-control"
-                  value={project.pmStartDate}
+                  value={projectData && projectData.pmStartDate}
                   readOnly={true}
                 />
               </div>
@@ -151,7 +272,7 @@ const ProjectDetails = (props) =>{
                 <label>PM Deadline</label>
                 <input
                   className="form-control"
-                  value={project.pmEndDate}
+                  value={projectData && projectData.pmEndDate}
                   readOnly={true}
                 />
               </div>
@@ -164,7 +285,7 @@ const ProjectDetails = (props) =>{
                 <input
                   type="text"
                   className="form-control"
-                  value={project.projectManager.name}
+                  value={projectData && projectData.projectManager.name}
                   readOnly={true}
                 />
               </div>
@@ -174,7 +295,7 @@ const ProjectDetails = (props) =>{
                 <label> Team Members</label>
                 <input
                   className="form-control"
-                  value={project.assignedUser.map((item)=>{
+                  value={projectData && projectData.assignedUser.map((item)=>{
                     return item.name
             })}
                   readOnly={true}
@@ -189,7 +310,7 @@ const ProjectDetails = (props) =>{
                 <input
                   type="text"
                   className="form-control"
-                  value={project.cost}
+                  value={projectData && projectData.cost}
                   readOnly={true}
                 />
               </div>
@@ -199,7 +320,7 @@ const ProjectDetails = (props) =>{
                 <label> Currency </label>
                 <input
                   className="form-control"
-                  value={project.currency.name}
+                  value={projectData && projectData.currency.name}
                   readOnly={true}
                 />
               </div>
@@ -212,7 +333,7 @@ const ProjectDetails = (props) =>{
                 <input
                   type="text"
                   className="form-control"
-                  value={project.Pdeduction}
+                  value={projectData && projectData.Pdeduction}
                   readOnly={true}
                 />
               </div>
@@ -222,7 +343,7 @@ const ProjectDetails = (props) =>{
                 <label> Reserve Profit </label>
                 <input
                   className="form-control"
-                  value={project.Rprofit}
+                  value={projectData && projectData.Rprofit}
                   readOnly={true}
                 />
               </div>
@@ -238,62 +359,28 @@ const ProjectDetails = (props) =>{
                     </div>
                         </div>
                         </div>
-                        <table className="table table-striped mb-0">
-                                <thead>
-                                <tr>
-                                <td style={{fontSize: "14px", fontWeight: "bold"}}>Task Name</td>
-                                <td style={{fontSize: "14px", fontWeight: "bold"}}>Team Member</td>
-                                <td style={{fontSize: "14px", fontWeight: "bold"}}>Nature</td>
-                                <td style={{fontSize: "14px", fontWeight: "bold"}}>Start Date</td>
-                                <td style={{fontSize: "14px", fontWeight: "bold"}}>End Date</td>
-                                <td style={{fontSize: "14px", fontWeight: "bold"}}>Est. Hours</td>
-                                <td style={{fontSize: "14px", fontWeight: "bold"}}>Actual Hours</td>
-                                <td style={{fontSize: "14px", fontWeight: "bold"}}>Work Done</td>
-                                <td style={{fontSize: "14px", fontWeight: "bold"}}>Status</td>
-                                <td style={{fontSize: "14px", fontWeight: "bold"}}>Est. Cost</td>
-                                <td style={{fontSize: "14px", fontWeight: "bold"}}>Actual Cost</td>
-                                <td style={{fontSize: "14px", fontWeight: "bold"}}>Action</td>    
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    {project.assignedUser.map((item, index) => {
-                                        return (
-                                            <tr>
-                                    <td>Simple Text Field</td>
-                                    <td>{item.name}</td>
-                                    {console.log("team Member Name", project.assignedUser[index].value)}
-                                    {console.log("team Member Nameeee", item.name)}
-                                    <td>
-                                      <Editable
-                                        name="username"
-                                        dataType="text"
-                                        mode="inline"
-                                        title="Please enter username"
-                                        value="superuser"
-                                        />
-                                    </td>
-                                </tr>
-                                        )
-                                    })}
-                                <tr>
-                                    <td>Simple Text Field</td>
-                                    <td>
-                                      <Editable
-                                        name="username"
-                                        dataType="text"
-                                        mode="inline"
-                                        title="Please enter username"
-                                        value="superuser"
-                                        />
-                                    </td>
-                                </tr>
-                               
-                               
-                              
-                              
-                                </tbody>
-                            </table>
+                        
                     </div>
+                    <div className="col-12">
+              <div className="card m-b-20">
+                <div className="card-body">
+                  <h4 className="mt-0 header-title">Project Tasks</h4>
+
+                  <MDBDataTableV5
+                    // scrollX
+                    fixedHeader={true}
+                    responsive
+                    striped
+                    bordered
+                    searchTop
+                    hover
+                    autoWidth
+                    data={tabledata}
+                    theadColor="#000"
+                  />
+                </div>
+              </div>
+            </div>
                 </div>
            </AUX>
         );

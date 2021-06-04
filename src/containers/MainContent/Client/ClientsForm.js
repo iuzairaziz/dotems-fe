@@ -49,7 +49,7 @@ const ClientsForm = (props) => {
         conNum: editable && client.mobileNo,
         ul: editable && client.url,
         dateOfJoin: editable && client.dateOfJoin,
-        country: editable && client.country && client.country.country_name,
+        country: editable && client.country && {label: client.country.name , value : client.country._id},
       }}
       validationSchema={clientValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
@@ -198,7 +198,12 @@ const ClientsForm = (props) => {
             <div className="col">
               <div className="form-group">
                 <label className="control-label">Country</label>
-                <select
+                <Select
+                    value={props.values.country}
+                    onChange={(val) => props.setFieldValue("country", val)}
+                    options={country}
+                  />
+                {/* <select
                   className="form-control"
                   value={props.values.country}
                   onChange={props.handleChange("country")}
@@ -210,7 +215,7 @@ const ClientsForm = (props) => {
                       </option>
                     );
                   })}
-                </select>
+                </select> */}
                 <span id="err">{props.errors.country}</span>
               </div>
             </div>

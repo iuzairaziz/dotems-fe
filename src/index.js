@@ -10,17 +10,21 @@ import { Provider } from "react-redux";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
+import httpIntercept from "../src/interceptor/interceptor";
 
 const rootReducer = combineReducers({
   ui_red: UIreducer,
 });
 const store = createStore(rootReducer);
+
 const app = (
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>
+  <>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </>
 );
 
 ReactDOM.render(app, document.getElementById("root"));

@@ -78,10 +78,10 @@ const ViewUsers = () => {
       //   sort: "asc",
       //   width: 75,
       // },
-      {
-        label: "View Details",
-        field: "details"
-      },
+      // {
+      //   label: "View Details",
+      //   field: "details"
+      // },
       {
         label: "Action",
         field: "action",
@@ -133,10 +133,12 @@ const ViewUsers = () => {
               if(index === 0 ){
               return item.name
             }else if(index >= 0){ return `, ${item.name} `} } ): "none",
-            details: (   <div className="row flex-nowrap">
-            <Link to={{ pathname: "/userdetails", UserProps: item }}>
+            
+            action: (
+              <div className="row flex-nowrap">
+                <Link to={{ pathname: "/userdetails", UserProps: item }}>
               <Button
-                color="purple"
+                color="primary"
                 size="sm"
                 data-toggle="modal"
                 data-target="#myModal"
@@ -145,9 +147,6 @@ const ViewUsers = () => {
                 View Details
               </Button>
             </Link>
-          </div>),
-            action: (
-              <div className="row flex-nowrap">
                 <Button
                   onClick={() => {
                     setSelectedUser(item);

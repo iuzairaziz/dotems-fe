@@ -3,6 +3,9 @@ import AUX from "../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import ClientValidation from "../../../validations/client-validations";
+import DatePicker from "react-datepicker";
+import moment from "moment";
+import CurrencyService from "../../../services/CurrencyService"
 import {
   Progress,
   Button,
@@ -11,15 +14,15 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
-import ProjectForm from "../Projects/ProjectFrom";
 import ProjectService from "../../../services/ProjectService";
 
 const ProjectReports = () => {
-    const [modalEdit, setModalEdit] = useState(false);
-    const [modalDelete, setModalDelete] = useState(false);
-    const [selectedProject, setSelectedProject] = useState({ name: "" });
-
-    const [dataa, setData] = useState({
+  const [modalEdit, setModalEdit] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+  const [selectedProject, setSelectedProject] = useState({ name: "" });
+  const [selectedCurrency, SetSelectedCurrency] = useState("");
+    
+  const [dataa, setData] = useState({
         columns: [
           {
             label: "Project Name",
@@ -57,12 +60,12 @@ const ProjectReports = () => {
             sort: "disabled",
             
           },
-          {
-            label: "Percent Deduction",
-            field: "percentage",
-            sort: "disabled",
+          // {
+          //   label: "Percent Deduction",
+          //   field: "percentage",
+          //   sort: "disabled",
             
-          },
+          // },
           {
             label: "Reserve Profit",
             field: "Rprofit",
@@ -86,7 +89,7 @@ const ProjectReports = () => {
           
           {
             label: "Resource Expense",
-            field: "Rprofit",
+            field: "Rexpense",
             sort: "disabled",
             
           },
@@ -121,41 +124,48 @@ const ProjectReports = () => {
             toggleDelete();
           });
       };
+        const getExchangeRate = (id) => {
+          
+          CurrencyService.getCurrencyById(id).then ((res) => {
+            return res.data;
+            console.log("currency", res.data);
+          })
+        }
+
 
       const getData = () => {
-        ProjectService.getAllProject()
+        ProjectService.getProjectReport("","","","","")
           .then((res) => {
             let data = { ...dataa };
+            let EstTime = 0;
             data.rows = [];
             res.data.map((item, index) => {
+              console.log(item.phase)
               data.rows.push({
                 projectName: item.name ? item.name : "none",
-                // clientName: item.client ? item.client.name : "none",
-                // orderNum: item.orderNum ? item.orderNum : "none",
-                // platform: item.platform ? item.platform.name : "none",
-                // serviceType: item.service ? item.service.name : "none",
-                // projectNature: item.nature ? item.nature.name : "none",
-                // technology: item.technology ? item.technology.name : "none",
-                // projectManager: item.projectManager
-                //   ? item.projectManager.name
-                //   : "none",
-                // teamMember: item.assignedUser ? item.assignedUser.name : "none",
-                // status: (
-                //   <span className="badge badge-teal">
-                //     {item.status ? item.status : "none"}
-                //   </span>
-                // ),
-                // startDate: item.startDate ? item.startDate : "none",
-                // endDate: item.endDate ? item.endDate : "none",
                 cost: item.cost ? item.cost : "none",
-                Rprofit: item.Rprofit ? item.Rprofit : "none",
-                pDeduction: item.Pdeduction ? item.Pdeduction : "none",
+                Rprofit: item.Rprofit ? (item.Rprofit/100 * item.cost ): "none",
+                Pdeduction: item.Pdeduction ? (item.Pdeduction/100 *item.cost ): "none",
+                PCB : (item.cost - ((item.Pdeduction/100 *item.cost )+ (item.Rprofit/100 * item.cost ))),
+             Pincome: item.currency ? (item.currency.exchangeRate * (item.cost - ((item.Pdeduction/100 *item.cost )+ (item.Rprofit/100 * item.cost )))): "none",
+             ActHrs: item.actualHrs ? item.actualHrs : "none",
+             wrkdone: item.workDone ? item.workDone : "none",
+             EstHrs: item.phase ? item.phase.map((item1, index , key) => {
+               if(index === 0)
+               EstTime=0
+               EstTime+=Number(item1.estTime)
+                
+                if(index === item.phase.length-1){
+                  return EstTime
+                }
+              }) : "none", 
               });
             });
             setData(data);
             console.log("state data", dataa);
             console.log("my project data", data);
             console.log("res data", res.data);
+            console.log("EstHrs", EstTime)
           })
           .catch((err) => {
             console.log(err);
@@ -187,36 +197,6 @@ const ProjectReports = () => {
                   </div>
                 </div>
               </div>
-              <Modal isOpen={modalEdit} toggle={toggleEdit}>
-                <ModalHeader toggle={toggleEdit}>Edit Project</ModalHeader>
-                <ModalBody>
-                  <ProjectForm
-                    editable={true}
-                    project={selectedProject}
-                    toggle={toggleEdit}
-                  />
-                </ModalBody>
-              </Modal>
-              <Modal isOpen={modalDelete} toggle={toggleDelete}>
-                <ModalHeader toggle={toggleDelete}>Delete Project?</ModalHeader>
-                <ModalBody>
-                  Are you sure you want to delete the Project? "
-                  {selectedProject.projectName}" ?
-                </ModalBody>
-                <ModalFooter>
-                  <Button
-                    color="primary"
-                    onClick={() => {
-                      handleDelete(selectedProject._id);
-                    }}
-                  >
-                    Yes
-                  </Button>{" "}
-                  <Button color="secondary" onClick={toggleDelete}>
-                    No
-                  </Button>
-                </ModalFooter>
-              </Modal>
             </div>
           </div>
         </div>
