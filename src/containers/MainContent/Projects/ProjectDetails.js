@@ -101,7 +101,7 @@ const ProjectDetails = (props) =>{
           taskname: item.name ? item.name : "none", 
           teamMember: item.assignedTo  ? item.assignedTo.map((item,index) => {
             if(index === 0 ){
-            return item
+            return item.name
           }else if(index >= 0){ return `, ${item.name} `} } ): "none",
           startDate: item.startTime  ? item.startTime : "none",
           // endDate: item.  ? item. : "none",
@@ -157,7 +157,7 @@ const ProjectDetails = (props) =>{
                 <label>Client Name</label>
                 <input
                   className="form-control"
-                  value={projectData && projectData.client}
+                  value={projectData && projectData.client.name}
                   readOnly={true}
                 />
               </div>
@@ -180,7 +180,7 @@ const ProjectDetails = (props) =>{
                 <label>Platform</label>
                 <input
                   className="form-control"
-                  value={projectData && projectData.platform}
+                  value={projectData && projectData.platform.name}
                   readOnly={true}
                 />
               </div>
@@ -193,7 +193,7 @@ const ProjectDetails = (props) =>{
                 <input
                   type="text"
                   className="form-control"
-                  value={projectData && projectData.service}
+                  value={projectData && projectData.service.name}
                   readOnly={true}
                 />
               </div>
@@ -203,7 +203,7 @@ const ProjectDetails = (props) =>{
                 <label>Technology</label>
                 <input
                   className="form-control"
-                  value={projectData && projectData.technology}
+                  value={projectData && projectData.technology.name}
                   readOnly={true}
                 />
               </div>
@@ -226,7 +226,7 @@ const ProjectDetails = (props) =>{
                 <label>Project Nature</label>
                 <input
                   className="form-control"
-                  value={projectData && projectData.nature}
+                  value={projectData && projectData.nature.name}
                   readOnly={true}
                 />
               </div>
@@ -285,7 +285,7 @@ const ProjectDetails = (props) =>{
                 <input
                   type="text"
                   className="form-control"
-                  value={projectData && projectData.projectManager}
+                  value={projectData && projectData.projectManager.name}
                   readOnly={true}
                 />
               </div>
@@ -296,7 +296,7 @@ const ProjectDetails = (props) =>{
                 <input
                   className="form-control"
                   value={projectData && projectData.assignedUser.map((item)=>{
-                    return item
+                    return item.name
             })}
                   readOnly={true}
                 />
@@ -320,7 +320,7 @@ const ProjectDetails = (props) =>{
                 <label> Currency </label>
                 <input
                   className="form-control"
-                  value={projectData && projectData.currency}
+                  value={projectData && projectData.currency.name}
                   readOnly={true}
                 />
               </div>

@@ -39,7 +39,7 @@ const ViewProjects = (props) => {
         label: "Project Name",
         field: "projectName",
         sort: "asc",
-        width: 150,
+        
       },
       // {
       //   label: "Client Name",
@@ -58,13 +58,13 @@ const ViewProjects = (props) => {
         label: "Platform",
         field: "platform",
         sort: "disabled",
-        width: 125,
+        
       },
       {
         label: "Technology ",
         field: "technology",
         sort: "disabled",
-        width: 125,
+      
       },
       // {
       //   label: "Service Type",
@@ -82,23 +82,23 @@ const ViewProjects = (props) => {
         label: "Status",
         field: "status",
         sort: "disabled",
-        width: 100,
+        
       },
       {
         label: "Start Date",
         field: "startDate",
         sort: "disabled",
-        width: 100,
+       
       },
       {
         label: "End Date",
         field: "endDate",
         sort: "disabled",
-        width: 100,
+       
       },
       {
         label: "Total Estimate Hrs",
-        field: "Est. Hrs",
+        field: "EstHrs",
         sort: "disabled",
         // width: 100,
       },
@@ -267,7 +267,7 @@ const ViewProjects = (props) => {
     });
   };
   const getData = () => {
-    ProjectService.getAllProject(
+    ProjectService.getProjectReport(
       applyfilter,
       applystatusfilter,
       applyTechnologyfilter,
@@ -298,6 +298,9 @@ const ViewProjects = (props) => {
             cost: item.cost ? item.cost : "none",
             Rprofit: item.Rprofit ? item.Rprofit : "none",
             pDeduction: item.Pdeduction ? item.Pdeduction : "none",
+            ActHrs: item.actualHrs ? item.actualHrs : "none",
+            wrkdone: item.workDone ? item.workDone : "none",
+            // EstHrs: item.phase ? item.phase : "none", 
             details: (
               <div className="row flex-nowrap">
               
