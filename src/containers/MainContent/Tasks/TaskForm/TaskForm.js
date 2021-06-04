@@ -8,10 +8,16 @@ import Select from "react-select";
 import TaskService from "../../../../services/TaskService";
 import userService from "../../../../services/UserService";
 import ProjectService from "../../../../services/ProjectService";
+import { Editor } from "react-draft-wysiwyg";
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import "./TaskForm.scss";
+
 const TaskForm = (props) => {
   const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [description, setDescription] = useState(EditorState.createEmpty());
 
   useEffect(() => {
     getUsers();
@@ -91,7 +97,7 @@ const TaskForm = (props) => {
           task.project && { label: task.project.name, value: task.project._id },
         estimatedHrs: editable && task.estHrs,
         projectRatio: editable && task.projectRatio,
-        description: editable && task.description,
+        description: editable?EditorState.createWithContent(convertFromRaw(JSON.parse(task.description))):EditorState.createEmpty(),
         parentTask:
           editable && task.parentTask
             ? {
@@ -116,7 +122,7 @@ const TaskForm = (props) => {
         editable
           ? TaskService.updateTask(task._id, {
               name: values.title,
-              description: values.description,
+              description: JSON.stringify(convertToRaw(values.description.getCurrentContent())),
               estHrs: values.estimatedHrs,
               projectRatio: values.projectRatio,
               project: values.project.value,
@@ -135,7 +141,7 @@ const TaskForm = (props) => {
           : TaskService.addTask({
               name: values.title,
               startTime: new Date(),
-              description: values.description,
+              description:JSON.stringify(convertToRaw(values.description.getCurrentContent())),
               estHrs: values.estimatedHrs,
               projectRatio: values.projectRatio,
               project: values.project.value,
@@ -158,7 +164,7 @@ const TaskForm = (props) => {
 
         return (
           <>
-            <div className="row">
+            <div className="row task-form">
               <div className="col-6">
                 <div className="form-group">
                   <label>Title</label>
@@ -248,21 +254,6 @@ const TaskForm = (props) => {
               </div>
               <div className="col-6">
                 <div className="form-group">
-                  <label>Description</label>
-                  <textarea
-                    id="textarea"
-                    className="form-control"
-                    onChange={props.handleChange("description")}
-                    rows="2"
-                    placeholder="Description"
-                  >
-                    {props.values.description}
-                  </textarea>
-                  <span id="err">{props.errors.description}</span>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
                   <label>Assign Task</label>
                   <Select
                     value={props.values.assignedTo}
@@ -282,6 +273,20 @@ const TaskForm = (props) => {
                     options={users}
                   />
                   <span id="err">{props.errors.teamLead}</span>
+                </div>
+              </div>
+              <div className="col-12">
+                <div className="form-group">
+                  <label>Description</label>
+                  <Editor
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorClassName="editor" 
+                    editorState={props.values.description}
+                    // editorStyle={{minHeight:"500px",overflowY:"scroll !important"}}
+                    onEditorStateChange={(val)=>{props.setFieldValue("description",val)}}
+                  />
+                  <span id="err">{props.errors.description}</span>
                 </div>
               </div>
             </div>
