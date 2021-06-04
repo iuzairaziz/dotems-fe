@@ -134,25 +134,38 @@ const ProjectReports = () => {
 
 
       const getData = () => {
-        ProjectService.getAllProject("","","","","")
+        ProjectService.getProjectReport("","","","","")
           .then((res) => {
             let data = { ...dataa };
+            let EstTime = 0;
             data.rows = [];
             res.data.map((item, index) => {
+              console.log(item.phase)
               data.rows.push({
                 projectName: item.name ? item.name : "none",
                 cost: item.cost ? item.cost : "none",
                 Rprofit: item.Rprofit ? (item.Rprofit/100 * item.cost ): "none",
                 Pdeduction: item.Pdeduction ? (item.Pdeduction/100 *item.cost ): "none",
                 PCB : (item.cost - ((item.Pdeduction/100 *item.cost )+ (item.Rprofit/100 * item.cost ))),
-                // Pincome: (item.currency.exchangeRate * (item.cost - ((item.Pdeduction/100 *item.cost )+ (item.Rprofit/100 * item.cost ))))
              Pincome: item.currency ? (item.currency.exchangeRate * (item.cost - ((item.Pdeduction/100 *item.cost )+ (item.Rprofit/100 * item.cost )))): "none",
+             ActHrs: item.actualHrs ? item.actualHrs : "none",
+             wrkdone: item.workDone ? item.workDone : "none",
+             EstHrs: item.phase ? item.phase.map((item1, index , key) => {
+               if(index === 0)
+               EstTime=0
+               EstTime+=Number(item1.estTime)
+                
+                if(index === item.phase.length-1){
+                  return EstTime
+                }
+              }) : "none", 
               });
             });
             setData(data);
             console.log("state data", dataa);
             console.log("my project data", data);
             console.log("res data", res.data);
+            console.log("EstHrs", EstTime)
           })
           .catch((err) => {
             console.log(err);

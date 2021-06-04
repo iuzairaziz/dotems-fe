@@ -39,6 +39,16 @@ class ProjectService {
     );
   }
 
+  getProjectAndTask(id){
+    return axios.get(
+      this.config.apiBaseUrl + "projects/project-with-tasks/" + id);
+  }
+
+  getProjectReport(){
+    return axios.get (
+      this.config.apiBaseUrl + "projects/report");
+  }
+
   handleMessage(type) {
     if (type === "add") toast("Successfully added Project");
     else if (type === "update") toast("Successfully updated Project");

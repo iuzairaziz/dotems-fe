@@ -19,7 +19,7 @@ import PlatformService from "../../../services/PlatformService";
 import StatusService from "../../../services/StatusService";
 import TechnologyService from "../../../services/TechnologyService";
 
-const ViewProjects = () => {
+const ViewProjects = (props) => {
   let history = useHistory();
   const [editTask, setEditTask] = useState();
   const [modalEdit, setModalEdit] = useState(false);
@@ -39,7 +39,7 @@ const ViewProjects = () => {
         label: "Project Name",
         field: "projectName",
         sort: "asc",
-        width: 150,
+        
       },
       // {
       //   label: "Client Name",
@@ -58,13 +58,13 @@ const ViewProjects = () => {
         label: "Platform",
         field: "platform",
         sort: "disabled",
-        width: 125,
+        
       },
       {
         label: "Technology ",
         field: "technology",
         sort: "disabled",
-        width: 125,
+      
       },
       // {
       //   label: "Service Type",
@@ -82,23 +82,23 @@ const ViewProjects = () => {
         label: "Status",
         field: "status",
         sort: "disabled",
-        width: 100,
+        
       },
       {
         label: "Start Date",
         field: "startDate",
         sort: "disabled",
-        width: 100,
+       
       },
       {
         label: "End Date",
         field: "endDate",
         sort: "disabled",
-        width: 100,
+       
       },
       {
         label: "Total Estimate Hrs",
-        field: "Est. Hrs",
+        field: "EstHrs",
         sort: "disabled",
         // width: 100,
       },
@@ -267,7 +267,7 @@ const ViewProjects = () => {
     });
   };
   const getData = () => {
-    ProjectService.getAllProject(
+    ProjectService.getProjectReport(
       applyfilter,
       applystatusfilter,
       applyTechnologyfilter,
@@ -275,6 +275,7 @@ const ViewProjects = () => {
     )
       .then((res) => {
         let data = { ...dataa };
+        let EstTime = 0;
         data.rows = [];
         res.data.map((item, index) => {
           data.rows.push({
@@ -298,19 +299,35 @@ const ViewProjects = () => {
             cost: item.cost ? item.cost : "none",
             Rprofit: item.Rprofit ? item.Rprofit : "none",
             pDeduction: item.Pdeduction ? item.Pdeduction : "none",
-            details: (
+            ActHrs: item.actualHrs ? item.actualHrs : "none",
+            wrkdone: item.workDone ? item.workDone : "none",
+            EstHrs: item.phase ? item.phase.map((item1, index , key) => {
+              if(index === 0)
+              EstTime=0
+              EstTime+=Number(item1.estTime)
+               
+               if(index === item.phase.length-1){
+                 return EstTime
+               }
+             }) : "none", 
+              details: (
               <div className="row flex-nowrap">
-                <Link to={{ pathname: "/projectdetails", projectProps: item }}>
+              
                   <Button
                     color="purple"
                     size="sm"
                     data-toggle="modal"
                     data-target="#myModal"
-                    onClick={() => {}}
+                    onClick={() => {
+                      props.history.push({
+                        pathname: "/projectdetails",
+                        projectProps: item._id,
+                      });
+                    }}
                   >
                     View Details
                   </Button>
-                </Link>
+               
               </div>
             ),
             action: (

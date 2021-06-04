@@ -199,7 +199,7 @@ const Tables_datatable = (props) => {
 
   return (
     <AUX>
-      <div className="page-content-wrapper">
+      <div className="page-content-wrapper task-list">
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
@@ -226,7 +226,7 @@ const Tables_datatable = (props) => {
               </div>
             </div>
             <div>
-              <Modal isOpen={modalEdit} toggle={toggleEdit}>
+              <Modal style={{maxWidth:"90%"}}  isOpen={modalEdit} toggle={toggleEdit}>
                 <ModalHeader toggle={toggleEdit}>Edit Task</ModalHeader>
                 <ModalBody>
                   <TaskForm
