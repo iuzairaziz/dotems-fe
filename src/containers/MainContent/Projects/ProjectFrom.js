@@ -17,9 +17,9 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import StatusService from "../../../services/StatusService";
 import CurrencyService from "../../../services/CurrencyService";
-import { EditorState } from "draft-js";
+import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import Editable from "react-x-editable";
-
+import "./ProjectForm.scss";
 const ProjectForm = (props) => {
   // const [default_date, set_default_date] = useState(0);
   // const [end_date, set_end_date] = useState(0);
@@ -271,6 +271,11 @@ const ProjectForm = (props) => {
             label: project.status.name,
             value: project.status._id,
           },
+        description: editable
+          ? EditorState.createWithContent(
+              convertFromRaw(JSON.parse(project.description))
+            )
+          : EditorState.createEmpty(),
         cost: editable && project.cost,
         Rprofit: editable && project.Rprofit,
         platform: editable &&
@@ -333,6 +338,9 @@ const ProjectForm = (props) => {
               technology: values.technology.value,
               service: values.serviceType.value,
               status: values.status.value,
+              description: JSON.stringify(
+                convertToRaw(values.description.getCurrentContent())
+              ),
               nature: values.nature.value,
               cStartDate: values.cStartDate,
               cEndDate: values.cEndDate,
@@ -364,6 +372,9 @@ const ProjectForm = (props) => {
               technology: values.technology.value,
               service: values.serviceType.value,
               status: values.status.value,
+              description: JSON.stringify(
+                convertToRaw(values.description.getCurrentContent())
+              ),
               nature: values.nature.value,
               cStartDate: values.cStartDate,
               cEndDate: values.cEndDate,
@@ -394,7 +405,7 @@ const ProjectForm = (props) => {
       }}
     >
       {(props) => (
-        <>
+        <div className="project-form">
           <div className="row">
             <div className="col">
               <div className="form-group">
@@ -703,12 +714,14 @@ const ProjectForm = (props) => {
               <div className="card m-b-20">
                 <div className="card-body">
                   <h4 className="mt-0 header-title">Description</h4>
-
                   <Editor
                     toolbarClassName="toolbarClassName"
                     wrapperClassName="wrapperClassName"
-                    editorClassName="editorClassName"
-                    onEditorStateChange={onEditorStateChange}
+                    editorClassName="editor"
+                    editorState={props.values.description}
+                    onEditorStateChange={(val) => {
+                      props.setFieldValue("description", val);
+                    }}
                   />
                 </div>
               </div>
@@ -989,7 +1002,7 @@ const ProjectForm = (props) => {
               </Button>
             </div>
           </div>
-        </>
+        </div>
       )}
     </Formik>
   );
