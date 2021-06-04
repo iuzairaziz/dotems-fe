@@ -19,7 +19,8 @@ import ClientService from "../../../../services/ClientService";
 const ExpensForm = (props) => {
   const [data, setData] = useState([]);
   const [dbValues, setDBValues] = useState({});
-  const [multioptions, setMultioptions] = useState([{}]);
+  const [multioptions, setMultioptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState([{}]);
 
   const user = props.user;
   const editable = props.editable;
@@ -33,7 +34,10 @@ const ExpensForm = (props) => {
     ExpenseCategoryService.getAllExpenseCategory().then((res) => {
       let multiOption = [];
       res.data.map((item, index) => {
-        multiOption.push(item.name);
+        multiOption.push({
+          label: item.name,
+          value: item.name,
+        });
       });
       setMultioptions(multiOption);
       console.log("Multi Select options", multioptions);
@@ -58,6 +62,7 @@ const ExpensForm = (props) => {
     <Formik
       initialValues={dbValues}
       onSubmit={(values, actions) => {
+        console.log("slected Option", selectedOption);
         let keys = Object.keys(values);
         let toSend = [];
         keys.map((item) => {
@@ -95,16 +100,23 @@ const ExpensForm = (props) => {
         <>
           <div className="form-group mb-0">
             <label className="control-label">Select Expenses</label>
-            <Select onChange={() => {}} options={multioptions} isMulti={true} />
+            <Select
+              onChange={(val) => {
+                setSelectedOption(val);
+              }}
+              // value={selectedOption}
+              options={multioptions}
+              isMulti={true}
+            />
             {/* <span id="err">{props.errors.teamMembers}</span> */}
           </div>
-          {data.map((item, index) => {
+          {selectedOption.map((item, index) => {
             return (
               <>
-                <div className="row">
+                <div className="row" key={index}>
                   <div className="col">
                     <div className="form-group">
-                      <label>{item}</label>
+                      <label>{item.value}</label>
                       <input
                         type="Number"
                         className="form-control"
@@ -112,7 +124,7 @@ const ExpensForm = (props) => {
                         value={props.values[item]}
                         placeholder="Enter Cost"
                         onChange={(e) =>
-                          props.setFieldValue(`${item}`, e.target.value)
+                          props.setFieldValue(`${item.label}`, e.target.value)
                         }
                       />
                       <span id="err">{props.errors.name}</span>

@@ -4,6 +4,7 @@ import ExpenseForm from "../ExpenseForm/ExpenseForm";
 import ExpenseTable from "../ExpenseTable/ExpenseTable";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
+import moment from "moment";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -30,13 +31,18 @@ const Expense = (props) => {
                 <div className="card-body">
                   <h4 className="mt-0 header-title">Expense Table</h4>
                   <div className="form-group">
-                    <label>Start Date</label>
+                    <label>Expense Date</label>
                     <div>
                       <DatePicker
                         className="form-control"
                         selected={date}
+                        value={null}
                         onChange={(date) => {
-                          setDate(date);
+                          console.log(
+                            "Date Format Check",
+                            moment(date).format("YYYY-MM-DD")
+                          );
+                          setDate(moment(date).format("YYYY-MM-DD"));
                           console.log("datepicker", date);
                         }}
                       />
