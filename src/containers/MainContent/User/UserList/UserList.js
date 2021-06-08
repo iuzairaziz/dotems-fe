@@ -1,9 +1,11 @@
 import React, { Component, useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
+import TechnologyService from "../../../../services/TechnologyService";
+
 import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import UserService from "../../../../services/UserService";
-import UserForm from "../AddUserForm/AddUserForm"
+import UserForm from "../AddUserForm/AddUserForm";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 const ViewUsers = () => {
@@ -11,6 +13,11 @@ const ViewUsers = () => {
   const [selectedUser, setSelectedUser] = useState({ name: "" });
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
+  const [technologyfilter, setTechnologyFilter] = useState([]);
+  const [applyTechnologyfilter, setApplyTechnologyFilter] = useState("");
+  const [applyRolefilter, setApplyRoleFilter] = useState("");
+  const [minimumSalary, setMinimumSalary] = useState("");
+  const [maximumSalary, setMaximumSalary] = useState("");
 
   const [dataa, setData] = useState({
     columns: [
@@ -88,14 +95,36 @@ const ViewUsers = () => {
         sort: "disabled",
         width: 150,
       },
-
     ],
     rows: [],
   });
   useEffect(() => {
     getData();
-  }, [modalEdit, modalDelete]);
+  }, [
+    modalEdit,
+    modalDelete,
+    applyTechnologyfilter,
+    applyRolefilter,
+    minimumSalary,
+    maximumSalary,
+  ]);
+  useEffect(() => {
+    getTechnology();
+  }, []);
 
+  const getTechnology = () => {
+    TechnologyService.getAllTechnologies().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setTechnologyFilter(options);
+      });
+    });
+  };
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
 
@@ -110,10 +139,14 @@ const ViewUsers = () => {
         toggleDelete();
       });
   };
- 
 
   const getData = () => {
-    UserService.getUsers()
+    UserService.getUsers(
+      applyTechnologyfilter,
+      applyRolefilter,
+      minimumSalary,
+      maximumSalary
+    )
       .then((res) => {
         let updatedData = { ...dataa };
         updatedData.rows = [];
@@ -129,24 +162,29 @@ const ViewUsers = () => {
             role: item.userRole ? item.userRole : "none",
             workingHrs: item.workingHrs ? item.workingHrs : "none",
             workingDays: item.workingDays ? item.workingDays : "none",
-            technology: item.technology ? item.technology.map((item,index) => {
-              if(index === 0 ){
-              return item.name
-            }else if(index >= 0){ return `, ${item.name} `} } ): "none",
-            
+            technology: item.technology
+              ? item.technology.map((item, index) => {
+                  if (index === 0) {
+                    return item.name;
+                  } else if (index >= 0) {
+                    return `, ${item.name} `;
+                  }
+                })
+              : "none",
+
             action: (
               <div className="row flex-nowrap">
                 <Link to={{ pathname: "/userdetails", UserProps: item }}>
-              <Button
-                color="primary"
-                size="sm"
-                data-toggle="modal"
-                data-target="#myModal"
-                onClick={() => {}}
-              >
-                View Details
-              </Button>
-            </Link>
+                  <Button
+                    color="primary"
+                    size="sm"
+                    data-toggle="modal"
+                    data-target="#myModal"
+                    onClick={() => {}}
+                  >
+                    View Details
+                  </Button>
+                </Link>
                 <Button
                   onClick={() => {
                     setSelectedUser(item);
@@ -187,6 +225,70 @@ const ViewUsers = () => {
               <div className="card m-b-20">
                 <div className="card-body">
                   <h4 className="mt-0 header-title">All Employees</h4>
+                  <div className="row">
+                    <div className="col-3">
+                      <label>Technology Filter</label>
+                      <select
+                        className="form-control"
+                        onChange={(e) => {
+                          setApplyTechnologyFilter(e.target.value);
+                        }}
+                      >
+                        <option key={1} value={""}>
+                          All
+                        </option>
+                        {technologyfilter.map((item, index) => {
+                          return (
+                            <option key={index} value={item.id}>
+                              {item.label}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                    <div className="col-3">
+                      <label>Role Filter</label>
+                      <select
+                        className="form-control"
+                        onChange={(e) => {
+                          setApplyRoleFilter(e.target.value);
+                        }}
+                      >
+                        <option key={1} value={""}>
+                          All
+                        </option>
+                        <option key={2} value={"Internee"}>
+                          Internee
+                        </option>
+                        <option key={3} value={"Probation"}>
+                          Probation
+                        </option>
+                        <option key={4} value={"Employee"}>
+                          Employee
+                        </option>
+                      </select>
+                    </div>
+                    <div className="col-3">
+                      <label>Minimum Salary</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        onChange={(e) => {
+                          setMinimumSalary(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="col-3">
+                      <label>Maximum Salary</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        onChange={(e) => {
+                          setMaximumSalary(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </div>
 
                   <MDBDataTableV5
                     // scrollX
@@ -218,7 +320,7 @@ const ViewUsers = () => {
               <Modal isOpen={modalDelete} toggle={toggleDelete}>
                 <ModalHeader toggle={toggleDelete}>Delete User?</ModalHeader>
                 <ModalBody>
-                  Are you sure you want to delete the users 
+                  Are you sure you want to delete the users
                   {selectedUser.name}" ?
                 </ModalBody>
                 <ModalFooter>

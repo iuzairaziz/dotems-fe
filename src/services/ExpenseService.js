@@ -18,8 +18,10 @@ class ExpenseService {
     return axios.get(this.config.apiBaseUrl + "expense/" + orderId);
   }
 
-  getAllExpense() {
-    return axios.get(this.config.apiBaseUrl + "expense/show-expense");
+  getAllExpense(startDate) {
+    return axios.get(
+      this.config.apiBaseUrl + `expense/show-expense?startDate=${startDate}`
+    );
   }
 
   updateExpense(id, formData) {
@@ -27,7 +29,7 @@ class ExpenseService {
   }
 
   deleteExpense(id) {
-    return axios.delete(this.config.apiBaseUrl + "expense/:id", id);
+    return axios.delete(this.config.apiBaseUrl + `expense/${id}`);
   }
 
   handleError(error) {

@@ -91,7 +91,7 @@ class sidebar extends Component {
       subMenus: [
         { routeName: "add-task", label: "New Tasks" },
         { routeName: "task", label: "View Tasks" },
-        { routeName: "subtask", label: "View subtask"},
+        { routeName: "subtask", label: "View subtask" },
       ],
     },
     {
@@ -132,7 +132,15 @@ class sidebar extends Component {
       tab: "expense",
       subMenus: [
         { routeName: "add-expense", label: "New Expense" },
-        { routeName: "viewexpense", label: "View Expense" },
+        { routeName: "view-expense", label: "View Expense" },
+      ],
+    },
+    {
+      name: "machine_menu",
+      tab: "Machine",
+      subMenus: [
+        { routeName: "add-machine", label: "Add New Machine" },
+        { routeName: "view-machine", label: "View Machine Details" },
       ],
     },
   ];
