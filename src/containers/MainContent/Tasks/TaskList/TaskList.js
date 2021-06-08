@@ -149,7 +149,7 @@ const Tables_datatable = (props) => {
               <div className="row flex-nowrap">
                 {/* <div className="col"> */}
                 <Button
-                  color="primary"
+                  className="my-seconday-button"
                   size="sm"
                   onClick={() => {
                     props.history.push({
@@ -161,7 +161,7 @@ const Tables_datatable = (props) => {
                   View
                 </Button>
                 <Button
-                  color="info"
+                  className="my-primary-button"
                   size="sm"
                   data-toggle="modal"
                   data-target="#myModal"
@@ -174,7 +174,7 @@ const Tables_datatable = (props) => {
                 </Button>
 
                 <Button
-                  color="danger"
+                  className="my-danger-button"
                   size="sm"
                   onClick={() => {
                     setSelectedTask(item);
@@ -226,7 +226,11 @@ const Tables_datatable = (props) => {
               </div>
             </div>
             <div>
-              <Modal style={{maxWidth:"90%"}}  isOpen={modalEdit} toggle={toggleEdit}>
+              <Modal
+                style={{ maxWidth: "90%" }}
+                isOpen={modalEdit}
+                toggle={toggleEdit}
+              >
                 <ModalHeader toggle={toggleEdit}>Edit Task</ModalHeader>
                 <ModalBody>
                   <TaskForm

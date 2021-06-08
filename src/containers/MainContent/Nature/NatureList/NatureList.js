@@ -61,14 +61,14 @@ const NatureList = () => {
                     setSelectedNature(item);
                     toggleEdit();
                   }}
-                  color="info"
+                  className="my-primary-button"
                   size="sm"
                 >
                   Edit
                 </Button>
 
                 <Button
-                  color="danger"
+                  className="my-danger-button"
                   size="sm"
                   onClick={() => {
                     setSelectedNature(item);

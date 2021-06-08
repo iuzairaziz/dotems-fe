@@ -11,6 +11,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import httpIntercept from "../src/interceptor/interceptor";
+import "./Theming/theming.scss";
 
 const rootReducer = combineReducers({
   ui_red: UIreducer,

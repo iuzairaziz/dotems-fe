@@ -988,11 +988,10 @@ const ProjectForm = (props) => {
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col">
+          <div className="row ">
+            <div className="primary-button">
               <Button
-                color="success"
-                className="mt-3"
+                className="mt-3 my-primary-button"
                 onClick={props.handleSubmit}
               >
                 Submit

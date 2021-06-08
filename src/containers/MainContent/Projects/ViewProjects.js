@@ -39,7 +39,6 @@ const ViewProjects = (props) => {
         label: "Project Name",
         field: "projectName",
         sort: "asc",
-        
       },
       // {
       //   label: "Client Name",
@@ -58,13 +57,11 @@ const ViewProjects = (props) => {
         label: "Platform",
         field: "platform",
         sort: "disabled",
-        
       },
       {
         label: "Technology ",
         field: "technology",
         sort: "disabled",
-      
       },
       // {
       //   label: "Service Type",
@@ -82,19 +79,16 @@ const ViewProjects = (props) => {
         label: "Status",
         field: "status",
         sort: "disabled",
-        
       },
       {
         label: "Start Date",
         field: "startDate",
         sort: "disabled",
-       
       },
       {
         label: "End Date",
         field: "endDate",
         sort: "disabled",
-       
       },
       {
         label: "Total Estimate Hrs",
@@ -179,12 +173,12 @@ const ViewProjects = (props) => {
       //   sort: "disabled",
       //   // width: 150,
       // },
-      {
-        label: "View Details",
-        field: "details",
-        sort: "disabled",
-        // width: 150,
-      },
+      // {
+      //   label: "View Details",
+      //   field: "details",
+      //   sort: "disabled",
+      //   // width: 150,
+      // },
       {
         label: "Action",
         field: "action",
@@ -301,39 +295,35 @@ const ViewProjects = (props) => {
             pDeduction: item.Pdeduction ? item.Pdeduction : "none",
             ActHrs: item.actualHrs ? item.actualHrs : "none",
             wrkdone: item.workDone ? item.workDone : "none",
-            EstHrs: item.phase ? item.phase.map((item1, index , key) => {
-              if(index === 0)
-              EstTime=0
-              EstTime+=Number(item1.estTime)
-               
-               if(index === item.phase.length-1){
-                 return EstTime
-               }
-             }) : "none", 
-              details: (
-              <div className="row flex-nowrap">
-              
-                  <Button
-                    color="purple"
-                    size="sm"
-                    data-toggle="modal"
-                    data-target="#myModal"
-                    onClick={() => {
-                      props.history.push({
-                        pathname: "/projectdetails",
-                        projectProps: item._id,
-                      });
-                    }}
-                  >
-                    View Details
-                  </Button>
-               
-              </div>
-            ),
+            EstHrs: item.phase
+              ? item.phase.map((item1, index, key) => {
+                  if (index === 0) EstTime = 0;
+                  EstTime += Number(item1.estTime);
+
+                  if (index === item.phase.length - 1) {
+                    return EstTime;
+                  }
+                })
+              : "none",
             action: (
               <div className="row flex-nowrap">
                 <Button
-                  color="info"
+                  className="my-seconday-button"
+                  size="sm"
+                  data-toggle="modal"
+                  data-target="#myModal"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/projectdetails",
+                      projectProps: item._id,
+                    });
+                  }}
+                >
+                  View
+                </Button>
+
+                <Button
+                  className="my-primary-button"
                   size="sm"
                   data-toggle="modal"
                   data-target="#myModal"
@@ -346,7 +336,7 @@ const ViewProjects = (props) => {
                 </Button>
 
                 <Button
-                  color="danger"
+                  className="my-danger-button"
                   size="sm"
                   onClick={() => {
                     setSelectedProject(item);
@@ -469,7 +459,11 @@ const ViewProjects = (props) => {
                 </div>
               </div>
             </div>
-            <Modal style={{maxWidth:"90%"}} isOpen={modalEdit} toggle={toggleEdit}>
+            <Modal
+              style={{ maxWidth: "90%" }}
+              isOpen={modalEdit}
+              toggle={toggleEdit}
+            >
               <ModalHeader toggle={toggleEdit}>Edit Project</ModalHeader>
               <ModalBody>
                 <ProjectForm

@@ -3,7 +3,7 @@ import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import UserService from "../../../../services/UserService";
-import UserForm from "../AddUserForm/AddUserForm"
+import UserForm from "../AddUserForm/AddUserForm";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 const ViewUsers = () => {
@@ -88,7 +88,6 @@ const ViewUsers = () => {
         sort: "disabled",
         width: 150,
       },
-
     ],
     rows: [],
   });
@@ -110,7 +109,6 @@ const ViewUsers = () => {
         toggleDelete();
       });
   };
- 
 
   const getData = () => {
     UserService.getUsers()
@@ -129,25 +127,31 @@ const ViewUsers = () => {
             role: item.userRole ? item.userRole : "none",
             workingHrs: item.workingHrs ? item.workingHrs : "none",
             workingDays: item.workingDays ? item.workingDays : "none",
-            technology: item.technology ? item.technology.map((item,index) => {
-              if(index === 0 ){
-              return item.name
-            }else if(index >= 0){ return `, ${item.name} `} } ): "none",
-            
+            technology: item.technology
+              ? item.technology.map((item, index) => {
+                  if (index === 0) {
+                    return item.name;
+                  } else if (index >= 0) {
+                    return `, ${item.name} `;
+                  }
+                })
+              : "none",
+
             action: (
               <div className="row flex-nowrap">
                 <Link to={{ pathname: "/userdetails", UserProps: item }}>
-              <Button
-                color="primary"
-                size="sm"
-                data-toggle="modal"
-                data-target="#myModal"
-                onClick={() => {}}
-              >
-                View Details
-              </Button>
-            </Link>
+                  <Button
+                    className="my-seconday-button"
+                    size="sm"
+                    data-toggle="modal"
+                    data-target="#myModal"
+                    onClick={() => {}}
+                  >
+                    View
+                  </Button>
+                </Link>
                 <Button
+                  className="my-primary-button"
                   onClick={() => {
                     setSelectedUser(item);
                     toggleEdit();
@@ -159,7 +163,7 @@ const ViewUsers = () => {
                 </Button>
 
                 <Button
-                  color="danger"
+                  className="my-danger-button"
                   size="sm"
                   onClick={() => {
                     setSelectedUser(item);
@@ -218,7 +222,7 @@ const ViewUsers = () => {
               <Modal isOpen={modalDelete} toggle={toggleDelete}>
                 <ModalHeader toggle={toggleDelete}>Delete User?</ModalHeader>
                 <ModalBody>
-                  Are you sure you want to delete the users 
+                  Are you sure you want to delete the users
                   {selectedUser.name}" ?
                 </ModalBody>
                 <ModalFooter>

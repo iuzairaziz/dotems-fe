@@ -9,8 +9,8 @@ import TaskService from "../../../../services/TaskService";
 import userService from "../../../../services/UserService";
 import ProjectService from "../../../../services/ProjectService";
 import { Editor } from "react-draft-wysiwyg";
-import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./TaskForm.scss";
 
 const TaskForm = (props) => {
@@ -97,7 +97,11 @@ const TaskForm = (props) => {
           task.project && { label: task.project.name, value: task.project._id },
         estimatedHrs: editable && task.estHrs,
         projectRatio: editable && task.projectRatio,
-        description: editable?EditorState.createWithContent(convertFromRaw(JSON.parse(task.description))):EditorState.createEmpty(),
+        description: editable
+          ? EditorState.createWithContent(
+              convertFromRaw(JSON.parse(task.description))
+            )
+          : EditorState.createEmpty(),
         parentTask:
           editable && task.parentTask
             ? {
@@ -122,7 +126,9 @@ const TaskForm = (props) => {
         editable
           ? TaskService.updateTask(task._id, {
               name: values.title,
-              description: JSON.stringify(convertToRaw(values.description.getCurrentContent())),
+              description: JSON.stringify(
+                convertToRaw(values.description.getCurrentContent())
+              ),
               estHrs: values.estimatedHrs,
               projectRatio: values.projectRatio,
               project: values.project.value,
@@ -141,7 +147,9 @@ const TaskForm = (props) => {
           : TaskService.addTask({
               name: values.title,
               startTime: new Date(),
-              description:JSON.stringify(convertToRaw(values.description.getCurrentContent())),
+              description: JSON.stringify(
+                convertToRaw(values.description.getCurrentContent())
+              ),
               estHrs: values.estimatedHrs,
               projectRatio: values.projectRatio,
               project: values.project.value,
@@ -281,10 +289,12 @@ const TaskForm = (props) => {
                   <Editor
                     toolbarClassName="toolbarClassName"
                     wrapperClassName="wrapperClassName"
-                    editorClassName="editor" 
+                    editorClassName="editor"
                     editorState={props.values.description}
                     // editorStyle={{minHeight:"500px",overflowY:"scroll !important"}}
-                    onEditorStateChange={(val)=>{props.setFieldValue("description",val)}}
+                    onEditorStateChange={(val) => {
+                      props.setFieldValue("description", val);
+                    }}
                   />
                   <span id="err">{props.errors.description}</span>
                 </div>
@@ -294,7 +304,7 @@ const TaskForm = (props) => {
               <div className="col-6">
                 <Button
                   color="success"
-                  className="mt-3"
+                  className="mt-3 my-primary-button"
                   onClick={props.handleSubmit}
                 >
                   Submit

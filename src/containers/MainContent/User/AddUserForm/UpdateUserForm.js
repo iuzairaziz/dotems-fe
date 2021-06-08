@@ -124,19 +124,23 @@ const UpdateUser = (props) => {
           </div>
           <div className="row">
             <div className="col">
-            <label>Add Image</label>
-            <div className="input-group">
-               <div className="custom-file">
+              <label>Add Image</label>
+              <div className="input-group">
+                <div className="custom-file">
                   <input
                     type="file"
                     className="custom-file-input"
                     id="inputGroupFile01"
-                    aria-describedby="inputGroupFileAddon01" />
-                    <label className="custom-file-label" htmlFor="inputGroupFile01">
+                    aria-describedby="inputGroupFileAddon01"
+                  />
+                  <label
+                    className="custom-file-label"
+                    htmlFor="inputGroupFile01"
+                  >
                     Choose file
-                    </label>
+                  </label>
+                </div>
               </div>
-                 </div>
             </div>
           </div>
 
@@ -261,8 +265,7 @@ const UpdateUser = (props) => {
           <div className="row">
             <div className="col">
               <Button
-                color="success"
-                className="mt-3"
+                className="mt-3 my-primary-button"
                 onClick={props.handleSubmit}
               >
                 Submit
