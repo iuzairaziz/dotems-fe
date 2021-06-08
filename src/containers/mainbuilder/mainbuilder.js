@@ -167,6 +167,7 @@ class mainbuilder extends Component {
         <Route exact path="/projectdetails" component={ProjectDetails} />
         <Route exact path="/userdetails" component={UserDetails} />
         //nehal routes
+        <Route exact path="/project-settings" component={AddTime} />
         <Route exact path="/add-time" component={AddTime} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
