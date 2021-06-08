@@ -45,7 +45,7 @@ const ExpensForm = (props) => {
   };
 
   const getExpenseCategory = () => {
-    ExpenseCategoryService.getAllExpenseCategory().then((res) => {
+    ExpenseCategoryService.getAllExpenseCategory("").then((res) => {
       let options = [];
       let initialValues = {};
       multioptions.map((item, index) => {

@@ -139,6 +139,7 @@ import ProjectDetails from "../MainContent/Projects/ProjectDetails";
 import TaskDetails from "../MainContent/Tasks/TaskDetail/TaskDetails";
 import UserDetails from "../MainContent/User/UserList/UserDetails";
 import ViewExpense from "../MainContent/Expense/ViewExpense/ViewExpense";
+import AddMachine from "../MainContent/Machine/AddMachine/AddMachine";
 
 class mainbuilder extends Component {
   render() {
@@ -150,6 +151,7 @@ class mainbuilder extends Component {
         <Route exact path="/task-details" component={TaskDetails} />
         <Route exact path="/subtask-details" component={TaskDetails} />
         <Route exact path="/view-expense" component={ViewExpense} />
+        <Route exact path="/add-machine" component={AddMachine} />
         // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />
