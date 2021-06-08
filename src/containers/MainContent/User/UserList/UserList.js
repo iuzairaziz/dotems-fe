@@ -1,5 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
+import TechnologyService from "../../../../services/TechnologyService";
+
 import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import UserService from "../../../../services/UserService";
@@ -11,6 +13,11 @@ const ViewUsers = () => {
   const [selectedUser, setSelectedUser] = useState({ name: "" });
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
+  const [technologyfilter, setTechnologyFilter] = useState([]);
+  const [applyTechnologyfilter, setApplyTechnologyFilter] = useState("");
+  const [applyRolefilter, setApplyRoleFilter] = useState("");
+  const [minimumSalary, setMinimumSalary] = useState("");
+  const [maximumSalary, setMaximumSalary] = useState("");
 
   const [dataa, setData] = useState({
     columns: [
@@ -93,8 +100,31 @@ const ViewUsers = () => {
   });
   useEffect(() => {
     getData();
-  }, [modalEdit, modalDelete]);
+  }, [
+    modalEdit,
+    modalDelete,
+    applyTechnologyfilter,
+    applyRolefilter,
+    minimumSalary,
+    maximumSalary,
+  ]);
+  useEffect(() => {
+    getTechnology();
+  }, []);
 
+  const getTechnology = () => {
+    TechnologyService.getAllTechnologies().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setTechnologyFilter(options);
+      });
+    });
+  };
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
 
@@ -111,7 +141,12 @@ const ViewUsers = () => {
   };
 
   const getData = () => {
-    UserService.getUsers()
+    UserService.getUsers(
+      applyTechnologyfilter,
+      applyRolefilter,
+      minimumSalary,
+      maximumSalary
+    )
       .then((res) => {
         let updatedData = { ...dataa };
         updatedData.rows = [];
@@ -191,6 +226,70 @@ const ViewUsers = () => {
               <div className="card m-b-20">
                 <div className="card-body">
                   <h4 className="mt-0 header-title">All Employees</h4>
+                  <div className="row">
+                    <div className="col-3">
+                      <label>Technology Filter</label>
+                      <select
+                        className="form-control"
+                        onChange={(e) => {
+                          setApplyTechnologyFilter(e.target.value);
+                        }}
+                      >
+                        <option key={1} value={""}>
+                          All
+                        </option>
+                        {technologyfilter.map((item, index) => {
+                          return (
+                            <option key={index} value={item.id}>
+                              {item.label}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                    <div className="col-3">
+                      <label>Role Filter</label>
+                      <select
+                        className="form-control"
+                        onChange={(e) => {
+                          setApplyRoleFilter(e.target.value);
+                        }}
+                      >
+                        <option key={1} value={""}>
+                          All
+                        </option>
+                        <option key={2} value={"Internee"}>
+                          Internee
+                        </option>
+                        <option key={3} value={"Probation"}>
+                          Probation
+                        </option>
+                        <option key={4} value={"Employee"}>
+                          Employee
+                        </option>
+                      </select>
+                    </div>
+                    <div className="col-3">
+                      <label>Minimum Salary</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        onChange={(e) => {
+                          setMinimumSalary(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="col-3">
+                      <label>Maximum Salary</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        onChange={(e) => {
+                          setMaximumSalary(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </div>
 
                   <MDBDataTableV5
                     // scrollX

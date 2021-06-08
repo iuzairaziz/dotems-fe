@@ -85,8 +85,11 @@ class userServices {
     }
   };
 
-  getUsers = () => {
-    return axios.get(this.config.apiBaseUrl + "users/");
+  getUsers = (technology, role, minSalary, maxSalary) => {
+    return axios.get(
+      this.config.apiBaseUrl +
+        `users/?technology=${technology}&role=${role}&minSalary=${minSalary}&maxSalary=${maxSalary}`
+    );
   };
 
   getUserById(id) {

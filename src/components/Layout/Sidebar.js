@@ -133,7 +133,15 @@ class sidebar extends Component {
       tab: "expense",
       subMenus: [
         { routeName: "add-expense", label: "New Expense" },
-        { routeName: "viewexpense", label: "View Expense" },
+        { routeName: "view-expense", label: "View Expense" },
+      ],
+    },
+    {
+      name: "machine_menu",
+      tab: "Machine",
+      subMenus: [
+        { routeName: "add-machine", label: "Add New Machine" },
+        { routeName: "view-machine", label: "View Machine Details" },
       ],
     },
   ];
