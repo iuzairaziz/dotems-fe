@@ -469,7 +469,7 @@ const ViewProjects = (props) => {
                 </div>
               </div>
             </div>
-            <Modal isOpen={modalEdit} toggle={toggleEdit}>
+            <Modal style={{maxWidth:"90%"}} isOpen={modalEdit} toggle={toggleEdit}>
               <ModalHeader toggle={toggleEdit}>Edit Project</ModalHeader>
               <ModalBody>
                 <ProjectForm

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import $ from "jquery";
+import "./Sidebar.scss";
 
 class sidebar extends Component {
   state = {
@@ -91,7 +92,7 @@ class sidebar extends Component {
       subMenus: [
         { routeName: "add-task", label: "New Tasks" },
         { routeName: "task", label: "View Tasks" },
-        { routeName: "subtask", label: "View subtask"},
+        { routeName: "subtask", label: "View subtask" },
       ],
     },
     {
