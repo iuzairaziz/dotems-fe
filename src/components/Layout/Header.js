@@ -9,6 +9,7 @@ import {
 } from "reactstrap";
 import { Scrollbars } from "react-custom-scrollbars";
 import UserService from "../../services/UserService";
+import "./Header.scss";
 
 class header extends Component {
   constructor(props) {
@@ -80,7 +81,7 @@ class header extends Component {
 
   render() {
     return (
-      <div className="topbar">
+      <div className="topbar header">
         <nav className="navbar-custom">
           <div className="search-wrap" id="search-wrap">
             <div className="search-bar">
@@ -275,11 +276,11 @@ class header extends Component {
                 </DropdownToggle>
                 <DropdownMenu>
                   <Link to="/updateuser">
-                  <DropdownItem>
-                    <i className="mdi mdi-account-circle m-r-5" /> Profile
-                  </DropdownItem>
+                    <DropdownItem>
+                      <i className="mdi mdi-account-circle m-r-5" /> Profile
+                    </DropdownItem>
                   </Link>
-                 
+
                   <DropdownItem>
                     <i className="mdi mdi-wallet m-r-5" /> My Wallet
                   </DropdownItem>
@@ -304,7 +305,7 @@ class header extends Component {
             </li>
           </ul>
 
-          <ul className="list-inline menu-left mb-0">
+          <ul className="list-inline menu-left mb-0 opener">
             <li className="list-inline-item">
               <button
                 type="button"
