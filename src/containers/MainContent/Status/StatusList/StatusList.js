@@ -4,12 +4,11 @@ import { Link } from "react-router-dom";
 import { MDBDataTable, MDBBtn } from "mdbreact";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import StatusForm from "../StatusForm/StatusForm";
-import StatusService from "../../../../services/StatusService"
+import StatusService from "../../../../services/StatusService";
 
 const StatusList = () => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
-
 
   const [selectedStatus, setSelectedStatus] = useState({ name: "" });
   const [data, setData] = useState({
@@ -18,7 +17,7 @@ const StatusList = () => {
         label: "Title",
         field: "status",
         sort: "asc",
-        // width: 150,
+        width: 350,
       },
       {
         label: "Action",
@@ -64,14 +63,14 @@ const StatusList = () => {
                     setSelectedStatus(item);
                     toggleEdit();
                   }}
-                  color="info"
+                  className="my-primary-button"
                   size="sm"
                 >
                   Edit
                 </Button>
 
                 <Button
-                  color="danger"
+                  className="my-danger-button"
                   size="sm"
                   onClick={() => {
                     setSelectedStatus(item);
@@ -125,9 +124,7 @@ const StatusList = () => {
                 </ModalBody>
               </Modal>
               <Modal isOpen={modalDelete} toggle={toggleDelete}>
-                <ModalHeader toggle={toggleDelete}>
-                  Delete Status ?
-                </ModalHeader>
+                <ModalHeader toggle={toggleDelete}>Delete Status ?</ModalHeader>
                 <ModalBody>
                   Are you sure you want to delete the Status "
                   {selectedStatus.name}" ?

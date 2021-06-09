@@ -63,14 +63,14 @@ const CountryList = () => {
                     setSelectedCountry(item);
                     toggleEdit();
                   }}
-                  color="info"
+                  className="my-primary-button"
                   size="sm"
                 >
                   Edit
                 </Button>
 
                 <Button
-                  color="danger"
+                  className="my-danger-button"
                   size="sm"
                   onClick={() => {
                     setSelectedCountry(item);

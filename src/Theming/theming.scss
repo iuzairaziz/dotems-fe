@@ -1,0 +1,22 @@
+:root {
+  --color-primary: #f69a1d;
+  --color-secondary1: #121a37;
+  --color-secondary2: #226194;
+  --color-white: #ffffff;
+  --color-danger: #ff0000;
+}
+
+.my-primary-button {
+  background: var(--color-primary) !important;
+  color: var(--color-white);
+}
+
+.my-seconday-button {
+  background: var(--color-secondary2) !important;
+  color: var(--color-white);
+}
+
+.my-danger-button {
+  background: var(--color-danger) !important;
+  color: var(--color-white);
+}

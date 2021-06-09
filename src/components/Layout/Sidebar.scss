@@ -1,0 +1,24 @@
+.sidebar {
+  background-color: var(--color-secondary1) !important;
+  // color: var(--color-white);
+  .leftbar {
+    background-color: var(--color-secondary1) !important;
+    // color: var(--color-white);
+  }
+  .options {
+    background-color: var(--color-secondary1) !important;
+    // color: var(--color-white);
+    ul {
+      li {
+        background-color: var(--color-secondary1) !important;
+        color: var(--color-white);
+        a {
+          background-color: var(--color-secondary1) !important;
+          span {
+            color: var(--color-white);
+          }
+        }
+      }
+    }
+  }
+}
