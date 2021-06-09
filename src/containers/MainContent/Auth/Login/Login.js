@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actionTypes from "../../../../store/action";
 import UserService from "../../../../services/UserService";
+import "./Login.scss";
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -21,9 +23,9 @@ class Login extends Component {
   render() {
     return (
       <AUX>
-        <div className="accountbg" />
-        <div className="wrapper-page">
-          <div className="card">
+        <div className="accountbg background-picture " />
+        <div className="wrapper-page login-screen">
+          <div className="card login-model">
             <div className="card-body">
               <h3 className="text-center m-0">
                 <Link
@@ -31,14 +33,18 @@ class Login extends Component {
                   onClick={() => this.props.UpdateLoginAgain()}
                   className="logo logo-admin"
                 >
-                  <img src="assets/images/logo.png" height="30" alt="logo" />
+                  <img
+                    src="assets/images/doto-white-small.png"
+                    height="60"
+                    alt="logo"
+                  />
                 </Link>
               </h3>
 
               <div className="p-3">
                 <h4 className="font-18 m-b-5 text-center">Welcome Back !</h4>
                 <p className="text-muted text-center">
-                  Sign in to continue to Admiria.
+                  Sign in to continue to DOT.
                 </p>
 
                 <form className="form-horizontal m-t-30">
@@ -86,7 +92,7 @@ class Login extends Component {
                     </div>
                     <div className="col-sm-6 text-right">
                       <button
-                        className="btn btn-primary w-md waves-effect waves-light"
+                        className="btn btn-primary w-md waves-effect waves-light my-primary-button"
                         type="button"
                         onClick={async () => {
                           UserService.login(
@@ -132,9 +138,8 @@ class Login extends Component {
               </Link>{" "}
             </p>
             <p className="text-white">
-              © {new Date().getFullYear() - 1} - {new Date().getFullYear()}{" "}
-              Admiria. Crafted with <i className="mdi mdi-heart text-danger" />{" "}
-              by Themesbrand
+              © {new Date().getFullYear() - 1} - {new Date().getFullYear()} DOT.
+              Crafted with <i className="mdi mdi-heart text-danger" /> by SUN
             </p>
           </div>
         </div>
