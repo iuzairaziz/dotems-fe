@@ -29,7 +29,7 @@ const ClientsForm = (props) => {
         options.push({
           // value: item._id,
           label: item.name,
-          id: item._id,
+          value: item._id,
         });
         setCountry(options);
       });
@@ -49,7 +49,11 @@ const ClientsForm = (props) => {
         conNum: editable && client.mobileNo,
         ul: editable && client.url,
         dateOfJoin: editable && client.dateOfJoin,
-        country: editable && client.country && {label: client.country.name , value : client.country._id},
+        country: editable &&
+          client.country && {
+            label: client.country.name,
+            value: client.country._id,
+          },
       }}
       validationSchema={clientValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
@@ -63,7 +67,7 @@ const ClientsForm = (props) => {
               mobileNo: values.conNum,
               dateOfJoin: values.dateOfJoin,
               url: values.ul,
-              country: values.country,
+              country: values.country.value,
             })
               .then((res) => {
                 ClientService.handleMessage("update");
@@ -81,7 +85,7 @@ const ClientsForm = (props) => {
               mobileNo: values.conNum,
               dateOfJoin: values.dateOfJoin,
               url: values.ul,
-              country: values.country,
+              country: values.country.value,
             })
               .then((res) => {
                 ClientService.handleMessage("add");
@@ -199,10 +203,10 @@ const ClientsForm = (props) => {
               <div className="form-group">
                 <label className="control-label">Country</label>
                 <Select
-                    value={props.values.country}
-                    onChange={(val) => props.setFieldValue("country", val)}
-                    options={country}
-                  />
+                  value={props.values.country}
+                  onChange={(val) => props.setFieldValue("country", val)}
+                  options={country}
+                />
                 {/* <select
                   className="form-control"
                   value={props.values.country}

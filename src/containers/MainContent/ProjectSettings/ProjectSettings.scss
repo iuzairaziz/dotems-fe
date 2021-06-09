@@ -1,0 +1,21 @@
+.project-settings {
+  .setting-card {
+    .inner-col {
+      position: relative;
+      & div:last-child {
+        position: absolute !important;
+        bottom: 0;
+        right: 0;
+        i {
+          font-size: 40px;
+          //   background-color: brown;
+          color: rgb(170, 169, 169);
+          &:hover {
+            color: green;
+          }
+        }
+        // background-color: blueviolet;
+      }
+    }
+  }
+}

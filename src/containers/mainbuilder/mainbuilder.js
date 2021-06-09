@@ -140,6 +140,7 @@ import TaskDetails from "../MainContent/Tasks/TaskDetail/TaskDetails";
 import UserDetails from "../MainContent/User/UserList/UserDetails";
 import ViewExpense from "../MainContent/Expense/ViewExpense/ViewExpense";
 import AddMachine from "../MainContent/Machine/AddMachine/AddMachine";
+import ProjectSettings from "../MainContent/ProjectSettings/ProjectSettings";
 
 class mainbuilder extends Component {
   render() {
@@ -171,7 +172,7 @@ class mainbuilder extends Component {
         <Route exact path="/projectdetails" component={ProjectDetails} />
         <Route exact path="/userdetails" component={UserDetails} />
         //nehal routes
-        <Route exact path="/project-settings" component={AddTime} />
+        <Route exact path="/project-settings" component={ProjectSettings} />
         <Route exact path="/add-time" component={AddTime} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />

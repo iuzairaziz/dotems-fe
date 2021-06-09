@@ -10,20 +10,12 @@ class sidebar extends Component {
     Tab: "index",
     SubTab: "",
     MoreTab: "",
-    country_menu: false,
     dashboard_menu: false,
-    nature_menu: false,
-    platform_menu: false,
-    service_menu: false,
-    technology_menu: false,
     task_menu: false,
     timesheet_menu: false,
-    client_menu: false,
     project_menu: false,
     user_menu: false,
-    currency_menu: false,
-    status_menu: false,
-    expense_menu: false,
+    project_settings_menu: false,
   };
 
   stateKeys = Object.keys(this.state);
@@ -46,60 +38,12 @@ class sidebar extends Component {
       ],
     },
     {
-      name: "country_menu",
-      tab: "country",
-      subMenus: [
-        { routeName: "add-country", label: "New Country" },
-        { routeName: "country", label: "View Country" },
-      ],
-    },
-    {
-      name: "nature_menu",
-      tab: "nature",
-      subMenus: [
-        { routeName: "add-nature", label: "New Nature" },
-        { routeName: "nature", label: "View Nature" },
-      ],
-    },
-    {
-      name: "platform_menu",
-      tab: "platform",
-      subMenus: [
-        { routeName: "add-platform", label: "New Platform" },
-        { routeName: "platform", label: "View Platforms" },
-      ],
-    },
-    {
-      name: "service_menu",
-      tab: "service",
-      subMenus: [
-        { routeName: "add-service", label: "New Service" },
-        { routeName: "service", label: "View Services" },
-      ],
-    },
-    {
-      name: "technology_menu",
-      tab: "technology",
-      subMenus: [
-        { routeName: "add-technology", label: "New Technology" },
-        { routeName: "technology", label: "View Technologys" },
-      ],
-    },
-    {
       name: "task_menu",
       tab: "task",
       subMenus: [
         { routeName: "add-task", label: "New Tasks" },
         { routeName: "task", label: "View Tasks" },
         { routeName: "subtask", label: "View subtask" },
-      ],
-    },
-    {
-      name: "client_menu",
-      tab: "client",
-      subMenus: [
-        { routeName: "addclient", label: "New Client" },
-        { routeName: "viewclient", label: "View Clients" },
       ],
     },
     {
@@ -112,28 +56,9 @@ class sidebar extends Component {
       ],
     },
     {
-      name: "currency_menu",
-      tab: "currency",
-      subMenus: [
-        { routeName: "addcurrency", label: "New Currency" },
-        { routeName: "viewcurrency", label: "View Currency" },
-      ],
-    },
-    {
-      name: "status_menu",
-      tab: "status",
-      subMenus: [
-        { routeName: "addstatus", label: "Add Status" },
-        { routeName: "viewstatus", label: "View Status" },
-      ],
-    },
-    {
-      name: "expense_menu",
-      tab: "expense",
-      subMenus: [
-        { routeName: "add-expense", label: "New Expense" },
-        { routeName: "view-expense", label: "View Expense" },
-      ],
+      name: "project_settings_menu",
+      tab: "project-settings",
+      subMenus: [{ routeName: "project-settings", label: "Menus" }],
     },
     {
       name: "machine_menu",
