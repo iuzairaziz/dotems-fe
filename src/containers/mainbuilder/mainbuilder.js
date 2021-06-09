@@ -140,6 +140,9 @@ import TaskDetails from "../MainContent/Tasks/TaskDetail/TaskDetails";
 import UserDetails from "../MainContent/User/UserList/UserDetails";
 import ViewExpense from "../MainContent/Expense/ViewExpense/ViewExpense";
 import AddMachine from "../MainContent/Machine/AddMachine/AddMachine";
+import MachineList from "../MainContent/Machine/MachineList/MachineList";
+import AddAccessory from "../MainContent/Accessories/AddAccessories/AddAccessories";
+import AccessoryList from "../MainContent/Accessories/AccessoryList/AccessoryList";
 
 class mainbuilder extends Component {
   render() {
@@ -152,6 +155,9 @@ class mainbuilder extends Component {
         <Route exact path="/subtask-details" component={TaskDetails} />
         <Route exact path="/view-expense" component={ViewExpense} />
         <Route exact path="/add-machine" component={AddMachine} />
+        <Route exact path="/add-accessory" component={AddAccessory} />
+        <Route exact path="/view-accessory" component={AccessoryList} />
+        <Route exact path="/view-machine" component={MachineList} />
         // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />
