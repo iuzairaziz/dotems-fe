@@ -304,7 +304,7 @@ const TaskForm = (props) => {
               <div className="col-6">
                 <Button
                   color="success"
-                  className="mt-3"
+                  className="mt-3 my-primary-button"
                   onClick={props.handleSubmit}
                 >
                   Submit

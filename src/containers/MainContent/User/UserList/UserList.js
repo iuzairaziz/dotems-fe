@@ -176,16 +176,17 @@ const ViewUsers = () => {
               <div className="row flex-nowrap">
                 <Link to={{ pathname: "/userdetails", UserProps: item }}>
                   <Button
-                    color="primary"
+                    className="my-seconday-button"
                     size="sm"
                     data-toggle="modal"
                     data-target="#myModal"
                     onClick={() => {}}
                   >
-                    View Details
+                    View
                   </Button>
                 </Link>
                 <Button
+                  className="my-primary-button"
                   onClick={() => {
                     setSelectedUser(item);
                     toggleEdit();
@@ -197,7 +198,7 @@ const ViewUsers = () => {
                 </Button>
 
                 <Button
-                  color="danger"
+                  className="my-danger-button"
                   size="sm"
                   onClick={() => {
                     setSelectedUser(item);

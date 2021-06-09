@@ -13,29 +13,23 @@ import ProjectService from "../../../../services/ProjectService";
 import DatePicker from "react-datepicker";
 import WeeklyCalendar from "../../../../components/MyComponents/WeeklyCalendar/WeeklyCalendar";
 import "./TimesheetForm.scss";
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 const TaskForm = (props) => {
   const [employeeData, setEmployeeData] = useState([]);
   const [selectedDays, setSelectedDays] = useState([]);
-  const [toUpdate,setToUpdate] = useState(false);
+  const [toUpdate, setToUpdate] = useState(false);
   const [inputs, setInputs] = useState([{}]);
 
   const user = userService.userLoggedInInfo();
   useEffect(() => {
     // console.log("employyee data",employeeData);
-    getEmployeeTasksGroupByProject(user._id,selectedDays[0],selectedDays[6]);
+    getEmployeeTasksGroupByProject(user._id, selectedDays[0], selectedDays[6]);
   }, [selectedDays]);
 
   useEffect(() => {
     console.log("s days in form", selectedDays);
   }, [selectedDays]);
-
 
   useEffect(() => {
     console.log("updated emplyee data", employeeData);
@@ -47,27 +41,51 @@ const TaskForm = (props) => {
     }
     return true;
   };
-  
 
-  const handleChange = (e,projectIndx,taskIndx,timesheetIndx,date,toChange)=>{
-    console.log("handle chnge",e.target.value,projectIndx,taskIndx,timesheetIndx);
+  const handleChange = (
+    e,
+    projectIndx,
+    taskIndx,
+    timesheetIndx,
+    date,
+    toChange
+  ) => {
+    console.log(
+      "handle chnge",
+      e.target.value,
+      projectIndx,
+      taskIndx,
+      timesheetIndx
+    );
     let arr = employeeData;
-    if(toChange==="completedWork"){
-      arr[projectIndx].tasks[taskIndx]={...arr[projectIndx].tasks[taskIndx],workDone:e.target.value};
-    }
-    else{
+    if (toChange === "completedWork") {
+      arr[projectIndx].tasks[taskIndx] = {
+        ...arr[projectIndx].tasks[taskIndx],
+        workDone: e.target.value,
+      };
+    } else {
       let ts = arr[projectIndx].tasks[taskIndx].timesheet[timesheetIndx];
-      if(toChange==="hours")
-        {arr[projectIndx].tasks[taskIndx].timesheet[timesheetIndx]={...ts,workedHrs:Number(e.target.value),date:date};}
-      if(toChange==="remarks")
-        {arr[projectIndx].tasks[taskIndx].timesheet[timesheetIndx]={...ts,remarks:e.target.value,date:date};}
+      if (toChange === "hours") {
+        arr[projectIndx].tasks[taskIndx].timesheet[timesheetIndx] = {
+          ...ts,
+          workedHrs: Number(e.target.value),
+          date: date,
+        };
+      }
+      if (toChange === "remarks") {
+        arr[projectIndx].tasks[taskIndx].timesheet[timesheetIndx] = {
+          ...ts,
+          remarks: e.target.value,
+          date: date,
+        };
+      }
     }
     // console.log("typeof arr",typeof(arr));
     setEmployeeData([...arr]);
-  }
+  };
 
-  const getEmployeeTasksGroupByProject = (empId,startDate,endDate) => {
-    TaskService.getEmployeeTasksGroupByProject({empId,startDate,endDate})
+  const getEmployeeTasksGroupByProject = (empId, startDate, endDate) => {
+    TaskService.getEmployeeTasksGroupByProject({ empId, startDate, endDate })
       .then((res) => {
         setEmployeeData(res.data);
       })
@@ -84,21 +102,28 @@ const TaskForm = (props) => {
     }).then((res) => {});
   };
 
-  let counter=0;
-  let rowTotal=0;
+  let counter = 0;
+  let rowTotal = 0;
   return (
     <>
-      
-      <form onSubmit={(e)=>{
-        e.preventDefault()
-        console.log("event",e);
-        TimesheetService.submitWeeklyTimesheet({employeeData:employeeData,empId:user._id,days:selectedDays}).then((res)=>{
-          TimesheetService.handleMessage("add");
-        }).catch((err)=>{
-          TimesheetService.handleError();
-        })
-      }} method="post" >
-        
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          console.log("event", e);
+          TimesheetService.submitWeeklyTimesheet({
+            employeeData: employeeData,
+            empId: user._id,
+            days: selectedDays,
+          })
+            .then((res) => {
+              TimesheetService.handleMessage("add");
+            })
+            .catch((err) => {
+              TimesheetService.handleError();
+            });
+        }}
+        method="post"
+      >
         <table class="table table-bordered" id="timesheet-form">
           <thead>
             <tr>
@@ -113,54 +138,138 @@ const TaskForm = (props) => {
               <th scope="col" className="col-8">
                 Task Details
               </th>
-              <th scope="col" className="dayDisplay">{moment(selectedDays[0]).format("ddd MMM/DD")}</th>
-              <th scope="col" className="dayDisplay">{moment(selectedDays[1]).format("ddd MMM/DD")}</th>
-              <th scope="col" className="dayDisplay">{moment(selectedDays[2]).format("ddd MMM/DD")}</th>
-              <th scope="col" className="dayDisplay">{moment(selectedDays[3]).format("ddd MMM/DD")}</th>
-              <th scope="col" className="dayDisplay">{moment(selectedDays[4]).format("ddd MMM/DD")}</th>
-              <th scope="col" className="dayDisplay">{moment(selectedDays[5]).format("ddd MMM/DD")}</th>
-              <th scope="col" className="dayDisplay">{moment(selectedDays[6]).format("ddd MMM/DD")}</th>
-              <th scope="col" className="dayDisplay">TOTAL</th>
+              <th scope="col" className="dayDisplay">
+                {moment(selectedDays[0]).format("ddd MMM/DD")}
+              </th>
+              <th scope="col" className="dayDisplay">
+                {moment(selectedDays[1]).format("ddd MMM/DD")}
+              </th>
+              <th scope="col" className="dayDisplay">
+                {moment(selectedDays[2]).format("ddd MMM/DD")}
+              </th>
+              <th scope="col" className="dayDisplay">
+                {moment(selectedDays[3]).format("ddd MMM/DD")}
+              </th>
+              <th scope="col" className="dayDisplay">
+                {moment(selectedDays[4]).format("ddd MMM/DD")}
+              </th>
+              <th scope="col" className="dayDisplay">
+                {moment(selectedDays[5]).format("ddd MMM/DD")}
+              </th>
+              <th scope="col" className="dayDisplay">
+                {moment(selectedDays[6]).format("ddd MMM/DD")}
+              </th>
+              <th scope="col" className="dayDisplay">
+                TOTAL
+              </th>
             </tr>
           </thead>
           <tbody>
             <input name="empId" value={user._id} type="hidden" />
-            
+
             {employeeData.map((project, pIndex) => {
-              
               return (
                 <>
                   <tr key={pIndex}>
                     <td className="table-info" colSpan="9">
                       <strong>{project.project.name}</strong>
                     </td>
-                    
                   </tr>
                   {project.tasks.map((task, tIndex) => {
-                    counter+=1;
+                    counter += 1;
                     return (
                       <tr key={tIndex}>
-                        <input name={`task${counter}taskId`} value={task._id} type="hidden" />
-                        <td style={{ paddingLeft: "25px" }}>{task.name}<div className="float-right worked"><div>Completed %</div><span className="workedVal">{task.workDone?task.workDone+'%':0+'%'}</span><input type="range" className="form-range float-right" min="0" max="100" value={task.workDone?task.workDone:0} onChange={(e)=>handleChange(e,pIndex,tIndex,'','',"completedWork")} step="1" id="customRange3"/></div></td>
-                        {[0,1,2,3,4,5,6].map((item,tsIndx)=>{
-                          return(
-                            <td className="inputCol">
-                          <input type="number" name={`task${counter}day${tsIndx}hrs`}  value={task.timesheet[tsIndx]?task.timesheet[tsIndx].workedHrs:''} onChange={(e)=>handleChange(e,pIndex,tIndex,tsIndx,selectedDays[tsIndx],"hours")}/>
-                          <input name={`task${counter}day${tsIndx}date`} value={selectedDays[tsIndx]} type="hidden" />
-                          {/* <button onClick={(e)=>{e.preventDefault()}} className="btn btn-primary remarksBtn">+</button> */}
-                          <div className="remarksModal">
-                            <label>Remarks</label>
-                            <textarea placeholder="Write some remarks about this..." value={task.timesheet[tsIndx]?task.timesheet[tsIndx].remarks:''} onChange={(e)=>handleChange(e,pIndex,tIndex,tsIndx,selectedDays[tsIndx],"remarks")}/>
+                        <input
+                          name={`task${counter}taskId`}
+                          value={task._id}
+                          type="hidden"
+                        />
+                        <td style={{ paddingLeft: "25px" }}>
+                          {task.name}
+                          <div className="float-right worked">
+                            <div>Completed %</div>
+                            <span className="workedVal">
+                              {task.workDone ? task.workDone + "%" : 0 + "%"}
+                            </span>
+                            <input
+                              type="range"
+                              className="form-range float-right"
+                              min="0"
+                              max="100"
+                              value={task.workDone ? task.workDone : 0}
+                              onChange={(e) =>
+                                handleChange(
+                                  e,
+                                  pIndex,
+                                  tIndex,
+                                  "",
+                                  "",
+                                  "completedWork"
+                                )
+                              }
+                              step="1"
+                              id="customRange3"
+                            />
                           </div>
                         </td>
-                          )
+                        {[0, 1, 2, 3, 4, 5, 6].map((item, tsIndx) => {
+                          return (
+                            <td className="inputCol">
+                              <input
+                                type="number"
+                                name={`task${counter}day${tsIndx}hrs`}
+                                value={
+                                  task.timesheet[tsIndx]
+                                    ? task.timesheet[tsIndx].workedHrs
+                                    : ""
+                                }
+                                onChange={(e) =>
+                                  handleChange(
+                                    e,
+                                    pIndex,
+                                    tIndex,
+                                    tsIndx,
+                                    selectedDays[tsIndx],
+                                    "hours"
+                                  )
+                                }
+                              />
+                              <input
+                                name={`task${counter}day${tsIndx}date`}
+                                value={selectedDays[tsIndx]}
+                                type="hidden"
+                              />
+                              {/* <button onClick={(e)=>{e.preventDefault()}} className="btn btn-primary remarksBtn">+</button> */}
+                              <div className="remarksModal">
+                                <label>Remarks</label>
+                                <textarea
+                                  placeholder="Write some remarks about this..."
+                                  value={
+                                    task.timesheet[tsIndx]
+                                      ? task.timesheet[tsIndx].remarks
+                                      : ""
+                                  }
+                                  onChange={(e) =>
+                                    handleChange(
+                                      e,
+                                      pIndex,
+                                      tIndex,
+                                      tsIndx,
+                                      selectedDays[tsIndx],
+                                      "remarks"
+                                    )
+                                  }
+                                />
+                              </div>
+                            </td>
+                          );
                         })}
                         <td className="inputCol">
-                          
-                          {task.timesheet.map((t,index)=>{
-                            if(index===0)rowTotal=0
-                            rowTotal+=t.workedHrs;
-                            if(index===task.timesheet.length-1)return rowTotal
+                          {task.timesheet.map((t, index) => {
+                            if (index === 0) rowTotal = 0;
+                            rowTotal += t.workedHrs;
+                            if (index === task.timesheet.length - 1)
+                              return rowTotal;
                           })}
                         </td>
                       </tr>
@@ -170,10 +279,11 @@ const TaskForm = (props) => {
               );
             })}
             <input name="counter" value={counter} type="hidden" />
-            
           </tbody>
         </table>
-        <button type="submit" className="btn btn-primary">Save</button>
+        <button type="submit" className="btn btn-primary my-primary-button">
+          Save
+        </button>
       </form>
     </>
   );

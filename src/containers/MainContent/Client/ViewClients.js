@@ -18,7 +18,7 @@ const ViewClients = () => {
       {
         label: "Client Name",
         field: "clientName",
-        sort: "asc", 
+        sort: "asc",
         width: 125,
       },
       {
@@ -109,6 +109,7 @@ const ViewClients = () => {
             action: (
               <div className="row flex-nowrap">
                 <Button
+                  className="my-primary-button"
                   onClick={() => {
                     setSelectedClient(item);
                     toggleEdit();
@@ -120,7 +121,7 @@ const ViewClients = () => {
                 </Button>
 
                 <Button
-                  color="danger"
+                  className="my-danger-button"
                   size="sm"
                   onClick={() => {
                     setSelectedClient(item);

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import $ from "jquery";
+import "./Sidebar.scss";
 
 class sidebar extends Component {
   state = {
@@ -121,20 +122,21 @@ class sidebar extends Component {
 
   render() {
     return (
-      <div className="left side-menu">
-        <div className="topbar-left">
-          <div className="">
+      // <div className="sidebar">
+      <div className="left side-menu sidebar">
+        <div className="topbar-left ">
+          <div className="sidebar-options ">
             <Link to="/" className="logo">
-              <img src="assets/images/logo-sm.png" height="36" alt="logo" />
+              <img src="assets/images/ftr-logo.png" height="36" alt="logo" />
             </Link>
           </div>
         </div>
 
-        <div className="sidebar-inner slimscrollleft">
+        <div className="sidebar-inner slimscrollleft ">
           <PerfectScrollbar>
-            <div id="sidebar-menu">
+            <div id="sidebar-menu" className="options">
               <ul>
-                <li className="menu-title">Main</li>
+                <li className="menu-title leftbar">Main</li>
                 <li
                   className={
                     this.state.dashboard_menu
@@ -293,6 +295,7 @@ class sidebar extends Component {
           </PerfectScrollbar>
         </div>
       </div>
+      // </div>
     );
   }
 }

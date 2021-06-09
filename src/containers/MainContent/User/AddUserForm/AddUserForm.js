@@ -24,32 +24,34 @@ const UserForm = (props) => {
       initialValues={{
         name: editable && user.name,
         userName: editable && user.email,
-        gender: editable && user.gender && {label : user.gender , value : user.gender},
+        gender: editable &&
+          user.gender && { label: user.gender, value: user.gender },
         joiningDate: editable && user.joiningDate,
-        status: editable && user.status && {label : user.status , value : user.status},
+        status: editable &&
+          user.status && { label: user.status, value: user.status },
         salary: editable && user.salary,
         password: editable && user.password,
         workingHrs: editable && user.workingHrs,
         machineNo: editable && user.machineNo,
         workingDays: editable && user.workingDays,
-        userRole: editable && user.userRole && {label : user.userRole , value : user.userRole},
-        
+        userRole: editable &&
+          user.userRole && { label: user.userRole, value: user.userRole },
       }}
       validationSchema={userValidation.newUserValidation}
       onSubmit={(values, actions) => {
         editable
           ? UserService.updateUser(user._id, {
-            name: values.name,
-            email: values.userName,
-            gender: values.gender.value,
-            status: values.status.value,
-            password: values.password,
-            salary: values.salary,
-            joiningDate: values.joiningDate,
-            workingHrs: values.workingHrs,
-            machineNo: values.machineNo,
-            workingDays: values.workingDays,
-            userRole: values.userRole.value,
+              name: values.name,
+              email: values.userName,
+              gender: values.gender.value,
+              status: values.status.value,
+              password: values.password,
+              salary: values.salary,
+              joiningDate: values.joiningDate,
+              workingHrs: values.workingHrs,
+              machineNo: values.machineNo,
+              workingDays: values.workingDays,
+              userRole: values.userRole.value,
             })
               .then((res) => {
                 UserService.handleMessage("update");
@@ -71,7 +73,6 @@ const UserForm = (props) => {
               machineNo: values.machineNo,
               workingDays: values.workingDays,
               userRole: values.userRole.value,
-             
             })
               .then((res) => {
                 UserService.handleMessage("add");
@@ -119,8 +120,6 @@ const UserForm = (props) => {
           </div>
 
           <div className="row">
-           
-
             <div className="col">
               {" "}
               <div className="form-group">
@@ -152,7 +151,7 @@ const UserForm = (props) => {
             </div>
           </div>
 
-          <div className="row">          
+          <div className="row">
             <div className="col">
               <div className="form-group">
                 <label>Salary</label>
@@ -181,7 +180,7 @@ const UserForm = (props) => {
             </div>
           </div>
           <div className="row">
-          <div className="col">
+            <div className="col">
               <div className="form-group">
                 <label className="control-label">Status</label>
                 <Select
@@ -260,12 +259,11 @@ const UserForm = (props) => {
               </div>
             </div>
           </div>
-          
+
           <div className="row">
             <div className="col">
               <Button
-                color="success"
-                className="mt-3"
+                className="mt-3 my-primary-button"
                 onClick={props.handleSubmit}
               >
                 Submit

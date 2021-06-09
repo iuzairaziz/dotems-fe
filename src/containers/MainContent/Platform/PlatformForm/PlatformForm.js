@@ -55,8 +55,7 @@ const PlatformForm = (props) => {
             <div className="row">
               <div className="col">
                 <Button
-                  color="success"
-                  className="mt-3"
+                  className="mt-3 my-primary-button"
                   onClick={props.handleSubmit}
                 >
                   Submit
