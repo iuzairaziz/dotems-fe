@@ -6,7 +6,9 @@ import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CountryService from "../../../../services/CountryService";
+import Select from "react-select";
 import UserService from "../../../../services/UserService";
+import MachineService from "../../../../services/MachineService";
 import ProjectService from "../../../../services/ProjectService";
 import PlatformService from "../../../../services/PlatformService";
 import TechnologyService from "../../../../services/TechnologyService";
@@ -139,13 +141,7 @@ const UserForm = (props) => {
             <div className="col">
               <div className="form-group">
                 <label>Machine Number</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={props.values.machineNo}
-                  onChange={props.handleChange("machineNo")}
-                  placeholder="Enter Machine Number"
-                />
+                <Select />
                 <span id="err">{props.errors.machineNo}</span>
               </div>
             </div>

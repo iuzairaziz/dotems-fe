@@ -5,6 +5,7 @@ import Select from "react-select";
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import shortValidations from "../../../../validations/short-validations";
+import "../MachineForm/MachineForm.scss";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import MachineService from "../../../../services/MachineService";
 import AccessoryService from "../../../../services/AccessoryService";
@@ -18,38 +19,25 @@ const MachineForm = (props) => {
   const editable = props.editable;
 
   useEffect(() => {
-    getUsers();
     getAccessories();
   }, []);
 
   const statusOption = [
     { value: "In-Use", label: "In-Use" },
-    { value: "Personal", label: "Personal" },
     { value: "Faulty", label: "Faulty" },
     { value: "Free", label: "Free" },
-    { value: "Put", label: "Put" },
-    { value: "In", label: "In" },
-    { value: "Get", label: "Get" },
-    { value: "Del", label: "Del" },
-    { value: "Hp", label: "Hp" },
-    { value: "Cute", label: "Cute" },
-    { value: "Old", label: "Old" },
+    { value: "Sold", label: "Sold" },
+  ];
+  const owenershipOptions = [
+    { value: "Personal", label: "Personal" },
+    { value: "Company", label: "Company" },
   ];
 
-  const getUsers = () => {
-    userService.getUsers("", "", "", "").then((res) => {
-      let options = [];
-      res.data.map((item, index) => {
-        options.push({ value: item._id, label: item.name });
-      });
-      setUsers(options);
-    });
-  };
   const getAccessories = () => {
     AccessoryService.getAllaccessory().then((res) => {
       let options = [];
       res.data.map((item, index) => {
-        options.push({ label: item.name, value: item.name });
+        options.push({ label: item.name, value: item._id });
       });
       console.log("Accesory", options);
       setAccessory(options);
@@ -63,10 +51,10 @@ const MachineForm = (props) => {
   return (
     <Formik
       initialValues={{
-        resourceName: props.editable &&
-          acc.resourceName && {
-            label: acc.resourceName.name,
-            value: acc.resourceName._id,
+        ownership: props.editable &&
+          acc.ownership && {
+            label: acc.ownership,
+            value: acc.ownership,
           },
         serialno: props.editable && acc.serialNo,
         status: props.editable &&
@@ -103,7 +91,7 @@ const MachineForm = (props) => {
               Notes: JSON.stringify(
                 convertToRaw(values.notes.getCurrentContent())
               ),
-              resourceName: values.resourceName.value,
+              ownership: values.ownership,
               serialNo: values.serialno,
             })
               .then((res) => {
@@ -123,11 +111,10 @@ const MachineForm = (props) => {
               Graphics: values.graphics,
               Accessory: arr,
               Status: values.status.label,
-              Display: values.status,
               Notes: JSON.stringify(
                 convertToRaw(values.notes.getCurrentContent())
               ),
-              resourceName: values.resourceName.value,
+              Ownership: values.ownership.label,
               serialNo: values.serialno,
             })
               .then((res) => {
@@ -140,7 +127,7 @@ const MachineForm = (props) => {
     >
       {(props) => {
         return (
-          <>
+          <div className="machineform">
             <div className="row">
               <div className="col">
                 <div className="form-group">
@@ -157,13 +144,13 @@ const MachineForm = (props) => {
               </div>
               <div className="col">
                 <div className="form-group">
-                  <label className="control-label">Resource Name</label>
+                  <label className="control-label">Ownsership</label>
                   <Select
-                    value={props.values.resourceName}
-                    onChange={(val) => props.setFieldValue("resourceName", val)}
-                    options={users}
+                    value={props.values.ownership}
+                    onChange={(val) => props.setFieldValue("ownership", val)}
+                    options={owenershipOptions}
                   />
-                  <span id="err">{props.errors.resourceName}</span>
+                  <span id="err">{props.errors.ownership}</span>
                 </div>
               </div>
             </div>
@@ -270,6 +257,7 @@ const MachineForm = (props) => {
                 <div className="form-group">
                   <label>Accessories</label>
                   <Select
+                    className="select-override"
                     value={props.values.accessories}
                     onChange={(val) => props.setFieldValue("accessories", val)}
                     options={accessory}
@@ -309,7 +297,7 @@ const MachineForm = (props) => {
                 </Button>
               </div>
             </div>
-          </>
+          </div>
         );
       }}
     </Formik>
