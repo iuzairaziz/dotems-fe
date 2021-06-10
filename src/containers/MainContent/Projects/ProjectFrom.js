@@ -156,7 +156,7 @@ const ProjectForm = (props) => {
   };
 
   const getUsers = () => {
-    userService.getUsers().then((res) => {
+    userService.getUsers("", "", "", "").then((res) => {
       let options = [];
       res.data.map((item, index) => {
         options.push({ value: item._id, label: item.name });

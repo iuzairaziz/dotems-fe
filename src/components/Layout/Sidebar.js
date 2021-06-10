@@ -69,6 +69,14 @@ class sidebar extends Component {
         { routeName: "view-machine", label: "View Machine Details" },
       ],
     },
+    {
+      name: "accessory_menu",
+      tab: "Accessory",
+      subMenus: [
+        { routeName: "add-accessory", label: "Add New Accessory" },
+        { routeName: "view-accessory", label: "View Accessory " },
+      ],
+    },
   ];
 
   capitalize = (string) => {
