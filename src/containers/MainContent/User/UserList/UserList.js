@@ -155,7 +155,7 @@ const ViewUsers = () => {
             name: item.name ? item.name : "none",
             username: item.email ? item.email : "none",
             dateOfJoin: item.joiningDate ? item.joiningDate : "none",
-            machinenum: item.machineNo ? item.machineNo : "none",
+            machinenum: item.machineNo ? item.machineNo.machineNo : "none",
             salary: item.salary ? item.salary : "none",
             status: item.status ? item.status : "none",
             gender: item.gender ? item.gender : "none",

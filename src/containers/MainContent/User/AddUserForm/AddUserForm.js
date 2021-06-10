@@ -6,7 +6,6 @@ import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CountryService from "../../../../services/CountryService";
-import Select from "react-select";
 import UserService from "../../../../services/UserService";
 import MachineService from "../../../../services/MachineService";
 import ProjectService from "../../../../services/ProjectService";
@@ -17,9 +16,26 @@ import NatureService from "../../../../services/NatureService";
 import ClientService from "../../../../services/ClientService";
 
 const UserForm = (props) => {
+  const [machineNo, setMachineNo] = useState([]);
+
+  useEffect(() => {
+    getMachines();
+  }, []);
+
   const user = props.user;
   const editable = props.editable;
   console.log("from project form ", user);
+
+  const getMachines = () => {
+    MachineService.getAllMachines().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.machineNo, value: item._id });
+      });
+      console.log("Machine", options);
+      setMachineNo(options);
+    });
+  };
 
   return (
     <Formik
@@ -34,13 +50,18 @@ const UserForm = (props) => {
         salary: editable && user.salary,
         password: editable && user.password,
         workingHrs: editable && user.workingHrs,
-        machineNo: editable && user.machineNo,
+        machineNo: editable &&
+          user.machineNo && {
+            label: user.machineNo.machineNo,
+            value: user.machineNo._id,
+          },
         workingDays: editable && user.workingDays,
         userRole: editable &&
           user.userRole && { label: user.userRole, value: user.userRole },
       }}
-      validationSchema={userValidation.newUserValidation}
+      // validationSchema={userValidation.newUserValidation}
       onSubmit={(values, actions) => {
+        console.log(values);
         editable
           ? UserService.updateUser(user._id, {
               name: values.name,
@@ -51,7 +72,7 @@ const UserForm = (props) => {
               salary: values.salary,
               joiningDate: values.joiningDate,
               workingHrs: values.workingHrs,
-              machineNo: values.machineNo,
+              machineNo: values.machineNo.value,
               workingDays: values.workingDays,
               userRole: values.userRole.value,
             })
@@ -72,7 +93,7 @@ const UserForm = (props) => {
               salary: values.salary,
               joiningDate: values.joiningDate,
               workingHrs: values.workingHrs,
-              machineNo: values.machineNo,
+              machineNo: values.machineNo.value,
               workingDays: values.workingDays,
               userRole: values.userRole.value,
             })
@@ -141,7 +162,11 @@ const UserForm = (props) => {
             <div className="col">
               <div className="form-group">
                 <label>Machine Number</label>
-                <Select />
+                <Select
+                  value={props.values.machineNo}
+                  onChange={(val) => props.setFieldValue("machineNo", val)}
+                  options={machineNo}
+                />
                 <span id="err">{props.errors.machineNo}</span>
               </div>
             </div>
