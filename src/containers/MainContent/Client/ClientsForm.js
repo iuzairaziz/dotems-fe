@@ -29,7 +29,7 @@ const ClientsForm = (props) => {
         options.push({
           // value: item._id,
           label: item.name,
-          id: item._id,
+          value: item._id,
         });
         setCountry(options);
       });
@@ -67,7 +67,7 @@ const ClientsForm = (props) => {
               mobileNo: values.conNum,
               dateOfJoin: values.dateOfJoin,
               url: values.ul,
-              country: values.country,
+              country: values.country.value,
             })
               .then((res) => {
                 ClientService.handleMessage("update");
@@ -85,7 +85,7 @@ const ClientsForm = (props) => {
               mobileNo: values.conNum,
               dateOfJoin: values.dateOfJoin,
               url: values.ul,
-              country: values.country,
+              country: values.country.value,
             })
               .then((res) => {
                 ClientService.handleMessage("add");

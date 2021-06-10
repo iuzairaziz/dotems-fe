@@ -30,9 +30,6 @@ class ClientService {
     return axios.delete(this.config.apiBaseUrl + "client/" + id);
   }
 
-  handleError(error) {
-    console.log(error.message);
-  }
   handleMessage(type) {
     if (type === "add") toast("Successfully added Client");
     else if (type === "update") toast("Successfully updated Client");

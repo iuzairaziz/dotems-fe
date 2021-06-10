@@ -21,7 +21,7 @@ class ClientValidation {
         .max(100, "Required"),
       // otherContact: Yup.string().max(100, ""),
       ul: Yup.string().max(1000, ""),
-      country: Yup.string().required("Required!"),
+      country: Yup.object().required("Required!"),
       // dateOfJoin: Yup.date().required("Required!"),
     });
   };
