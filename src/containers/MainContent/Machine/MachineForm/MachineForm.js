@@ -30,16 +30,6 @@ const MachineForm = (props) => {
     { value: "Sold", label: "Sold" },
   ];
 
-  const getAccessories = () => {
-    AccessoryService.getAllaccessory().then((res) => {
-      let options = [];
-      res.data.map((item, index) => {
-        options.push({ value: item._id, label: item.name });
-      });
-      setAccessory(options);
-    });
-  };
-
   const getUsers = () => {
     userService.getUsers("", "", "", "").then((res) => {
       let options = [];
@@ -49,10 +39,20 @@ const MachineForm = (props) => {
       setUsers(options);
     });
   };
+  const getAccessories = () => {
+    AccessoryService.getAllaccessory().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item.name });
+      });
+      console.log("Accesory", options);
+      setAccessory(options);
+    });
+  };
   var AccessoriesArray = [];
   editable &&
     acc.Accessory.map((item) =>
-      AccessoriesArray.push({ label: item.name, value: item._id })
+      AccessoriesArray.push({ label: item.name, value: item._id, id: item._id })
     );
   return (
     <Formik
@@ -76,7 +76,7 @@ const MachineForm = (props) => {
           ? EditorState.createWithContent(convertFromRaw(JSON.parse(acc.Notes)))
           : EditorState.createEmpty(),
       }}
-      validationSchema={MachineValidation.newMachineValidation}
+      // validationSchema={MachineValidation.newMachineValidation}
       onSubmit={(values, actions) => {
         console.log("dhsghdhgsdhgsghd", values);
         let arr = [];
