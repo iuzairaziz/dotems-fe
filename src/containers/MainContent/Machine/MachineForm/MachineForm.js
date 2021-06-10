@@ -27,7 +27,13 @@ const MachineForm = (props) => {
     { value: "Personal", label: "Personal" },
     { value: "Faulty", label: "Faulty" },
     { value: "Free", label: "Free" },
-    { value: "Sold", label: "Sold" },
+    { value: "Put", label: "Put" },
+    { value: "In", label: "In" },
+    { value: "Get", label: "Get" },
+    { value: "Del", label: "Del" },
+    { value: "Hp", label: "Hp" },
+    { value: "Cute", label: "Cute" },
+    { value: "Old", label: "Old" },
   ];
 
   const getUsers = () => {
