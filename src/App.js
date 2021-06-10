@@ -10,11 +10,18 @@ import "react-toastify/dist/ReactToastify.css";
 import Auth from "./containers/MainContent/Auth/Auth";
 import "bootstrap/dist/css/bootstrap.min.css";
 import httpIntercept from "../src/interceptor/interceptor";
+import Configuration from "./config/configuration";
+import io from "socket.io-client";
 
 const App = (props) => {
   httpIntercept();
 
   let layout = null;
+  let config = new Configuration();
+  let socket = io(config.apiBaseUrl);
+  socket.on("connect", () => {
+    console.log("Connected");
+  });
 
   layout = (
     <Layout

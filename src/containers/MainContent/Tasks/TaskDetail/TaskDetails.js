@@ -1,23 +1,12 @@
 import React, { Component, useState, useEffect } from "react";
-import { Formik } from "formik";
-import userValidation from "../../../../validations/user-validations";
-import Select from "react-select";
 import { Dropdown, Button } from "reactstrap";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import CountryService from "../../../../services/CountryService";
-import UserService from "../../../../services/UserService";
-import ProjectService from "../../../../services/ProjectService";
-import PlatformService from "../../../../services/PlatformService";
-import TechnologyService from "../../../../services/TechnologyService";
-import ServiceService from "../../../../services/ServiceService";
-import NatureService from "../../../../services/NatureService";
-import ClientService from "../../../../services/ClientService";
 import TaskService from "../../../../services/TaskService";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import TaskForm from "../TaskForm/TaskForm";
-import { Redirect } from "react-router-dom";
+import Comments from "./Comments/Comments";
 import taskService from "../../../../services/TaskService";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "./TaskDetail.scss";
 import {
   Progress,
   Modal,
@@ -25,6 +14,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
+import { convertFromRaw, Editor, EditorState } from "draft-js";
 
 const TaskDetail = (props) => {
   const [taskData, setTaskData] = useState({});
@@ -219,7 +209,7 @@ const TaskDetail = (props) => {
   };
 
   return (
-    <>
+    <div className="task-detail">
       <div className="page-content-wrapper">
         <div className="container-fluid">
           <div className="row" />
@@ -373,11 +363,23 @@ const TaskDetail = (props) => {
             <div className="col">
               <div className="form-group">
                 <label>Description</label>
-                <input
-                  value={taskData.description}
-                  className="form-control"
-                  readOnly={true}
-                />
+                {taskData.description ? (
+                  <Editor
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorClassName="editorClass"
+                    readOnly
+                    editorState={
+                      // taskData.description &&
+                      EditorState.createWithContent(
+                        convertFromRaw(JSON.parse(taskData.description))
+                      )
+                    }
+                    // editorStyle={{minHeight:"500px",overflowY:"scroll !important"}}
+                  />
+                ) : (
+                  "none"
+                )}
               </div>
             </div>
           </div>
@@ -444,10 +446,13 @@ const TaskDetail = (props) => {
                 </ModalFooter>
               </Modal>
             </div>
+            <div className="task-comments col-12">
+              <Comments taskId={taskData._id} />
+            </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
