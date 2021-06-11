@@ -23,6 +23,7 @@ const UserForm = (props) => {
   }, []);
 
   const user = props.user;
+  console.log("dsasaasasasdsadsdwdwdw", user);
   const editable = props.editable;
   console.log("from project form ", user);
 
@@ -63,7 +64,7 @@ const UserForm = (props) => {
       onSubmit={(values, actions) => {
         console.log(values);
         editable
-          ? UserService.updateUser(user._id, {
+          ? UserService.updateAllUserFields(user._id, {
               name: values.name,
               email: values.userName,
               gender: values.gender.value,

@@ -103,6 +103,33 @@ class userServices {
   updateUser = (technology, id) =>
     axios.put(`http://localhost:8080/users/${id}`, technology);
 
+  updateAllUserFields = (
+    id,
+    name,
+    email,
+    salary,
+    password,
+    joiningDate,
+    status,
+    gender,
+    userRole,
+    workingDays,
+    machineNo
+  ) =>
+    axios.put(
+      `http://localhost:8080/users/update-user/${id}`,
+      name,
+      email,
+      salary,
+      password,
+      joiningDate,
+      status,
+      gender,
+      userRole,
+      workingDays,
+      machineNo
+    );
+
   handleMessage(type) {
     if (type === "add") toast("Successfully Registered!");
     else if (type === "update") toast("Successfully updated User");
