@@ -62,7 +62,7 @@ const UpdateUser = (props) => {
       setUser(res.data);
     });
 
-    console.log(users);
+    console.log("usersssss", users);
   };
 
   // const getLogin = () => {
