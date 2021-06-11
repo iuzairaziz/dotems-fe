@@ -18,6 +18,10 @@ class MachineService {
     return axios.get(this.config.apiBaseUrl + "machine/show-machine");
   }
 
+  getSingleMachine(id) {
+    return axios.get(this.config.apiBaseUrl + `machine/single-machine/${id}`);
+  }
+
   updateMachine(id, formData) {
     return axios.put(this.config.apiBaseUrl + "machine/" + id, formData);
   }
