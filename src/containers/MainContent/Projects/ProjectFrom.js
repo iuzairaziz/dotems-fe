@@ -320,6 +320,7 @@ const ProjectForm = (props) => {
         Pdeduction: editable && project.Pdeduction,
         percentage: editable && project.percentage,
         fCost: editable && project.fCost,
+        otherDeduction: editable && project.otherDeduction,
         phase: editable && phases,
       }}
       // validationSchema={projectValidation.newProjectValidation}
@@ -357,6 +358,7 @@ const ProjectForm = (props) => {
               percentage: values.percentage,
               fCost: values.fCost,
               currency: values.currency.value,
+              otherDeduction: values.otherDeduction,
               phase: phases,
             })
 
@@ -678,6 +680,21 @@ const ProjectForm = (props) => {
                   <span className="input-group-text">%</span>
                 </div>
                 <span id="err">{props.errors.Rprofit}</span>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div className="form-group">
+                <label>Other Deductions</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={props.values.otherDeduction}
+                  onChange={props.handleChange("otherDeduction")}
+                  placeholder="Enter Other Deductions"
+                />
+                <span id="err">{props.errors.otherDeduction}</span>
               </div>
             </div>
           </div>
