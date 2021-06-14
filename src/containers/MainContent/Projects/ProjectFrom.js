@@ -393,6 +393,7 @@ const ProjectForm = (props) => {
               Pdeduction: values.Pdeduction,
               percentage: values.percentage,
               fCost: values.fCost,
+              otherDeduction: values.otherDeduction,
               phase: phases,
               currency: values.currency.value,
             })

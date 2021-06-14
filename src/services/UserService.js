@@ -100,6 +100,9 @@ class userServices {
     return axios.delete(this.config.apiBaseUrl + "users/" + id);
   }
 
+  updatePasswrod = (id, password) =>
+    axios.put(this.config.apiBaseUrl + `users/update-password/${id}`, password);
+
   updateUser = (technology, id) =>
     axios.put(`http://localhost:8080/users/${id}`, technology);
 
