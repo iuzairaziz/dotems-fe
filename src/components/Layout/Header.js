@@ -280,10 +280,11 @@ class header extends Component {
                       <i className="mdi mdi-account-circle m-r-5" /> Profile
                     </DropdownItem>
                   </Link>
-
-                  <DropdownItem>
-                    <i className="mdi mdi-wallet m-r-5" /> My Wallet
-                  </DropdownItem>
+                  <Link to="/changepass">
+                    <DropdownItem>
+                      <i className="mdi mdi-wallet m-r-5" /> Change Password
+                    </DropdownItem>
+                  </Link>
                   <DropdownItem>
                     <span className="badge badge-success float-right">11</span>
                     <i className="mdi mdi-settings m-r-5" /> Settings

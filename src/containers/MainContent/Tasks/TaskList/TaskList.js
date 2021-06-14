@@ -125,7 +125,12 @@ const Tables_datatable = (props) => {
         res.data.map((item, index) => {
           data.rows.push({
             title: item.name ? item.name : "none",
-            project: item.project ? item.project.name : "none",
+            project: (
+              <Link to={`/projectdetails/${item.project._id}`}>
+                {" "}
+                {item.project ? item.project.name : "none"}{" "}
+              </Link>
+            ),
             estimatedHrs: item.estHrs ? item.estHrs : "none",
             projectRatio: item.projectRatio ? (
               <Progress color="teal" value={item.projectRatio}>

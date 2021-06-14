@@ -314,8 +314,7 @@ const ViewProjects = (props) => {
                   data-target="#myModal"
                   onClick={() => {
                     props.history.push({
-                      pathname: "/projectdetails",
-                      projectProps: item._id,
+                      pathname: "/projectdetails/" + item._id,
                     });
                   }}
                 >

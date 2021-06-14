@@ -25,7 +25,15 @@ class UserValidation {
       userRole: Yup.object().required("Required!"),
     });
   };
-
+  changePassword = () => {
+    return Yup.object({
+      password: Yup.string().required("Password is required"),
+      confirmPassword: Yup.string().oneOf(
+        [Yup.ref("password"), null],
+        "Passwords must match"
+      ),
+    });
+  };
   // loginSchemaValidation = () => {
   //   return Yup.object({
   //     username: Yup.string()
