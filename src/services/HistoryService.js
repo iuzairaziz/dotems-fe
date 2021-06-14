@@ -14,7 +14,7 @@ class HistoryService {
     );
   }
 
-  getAllaccessory() {
+  getAllHistory() {
     return axios.get(this.config.apiBaseUrl + "history/show-history");
   }
 
