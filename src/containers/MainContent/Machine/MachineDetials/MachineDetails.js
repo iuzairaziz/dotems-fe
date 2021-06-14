@@ -6,6 +6,7 @@ import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import MachineService from "../../../../services/MachineService";
+import HistoryService from "../../../../services/HistoryService";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import { Button } from "reactstrap";
 
@@ -13,9 +14,10 @@ const MachineDetails = (props) => {
   {
     // const [data, setData] = useState();
     const [projectData, setProjectData] = useState();
+    const [historyDoc, setHistoryDoc] = useState();
     const [editor, setEditor] = useState();
 
-    const [tabledata, setTableData] = useState({
+    const [dataa, setData] = useState({
       columns: [
         {
           label: "Machine Name",
@@ -82,12 +84,69 @@ const MachineDetails = (props) => {
 
     useEffect(() => {
       getData(machineId);
+      getHistory(machineId);
     }, []);
 
     const getData = (id) => {
       MachineService.getSingleMachine(id)
         .then((res) => {
           setProjectData(res.data);
+        })
+        .catch((err) => {
+          console.log("error", err);
+        });
+    };
+
+    const getHistory = (id) => {
+      HistoryService.getSingleHistory(id)
+        .then((res) => {
+          let data = { ...dataa };
+          data.rows = [];
+          res.data.map((item) => {
+            let history = item.document;
+            let historyParsedData = JSON.parse(history);
+            console.log("dsdsdsdsadwedwdewd", historyParsedData);
+            data.rows.push({
+              machinename: historyParsedData.name
+                ? historyParsedData.name
+                : "none",
+              ownership: historyParsedData.Ownership
+                ? historyParsedData.Ownership
+                : "none",
+              serialno: historyParsedData.serialNo
+                ? historyParsedData.serialNo
+                : "none",
+              status: historyParsedData.Status
+                ? historyParsedData.Status
+                : "none",
+              machineNo: historyParsedData.machineNo
+                ? historyParsedData.machineNo
+                : "none",
+              processor: historyParsedData.Processor
+                ? historyParsedData.Processor
+                : "none",
+              storage: historyParsedData.Storage
+                ? historyParsedData.Storage
+                : "none",
+              memory: historyParsedData.Memory
+                ? historyParsedData.Memory
+                : "none",
+              graphics: historyParsedData.Graphics
+                ? historyParsedData.Graphics
+                : "none",
+              accessory: historyParsedData.Accessory
+                ? historyParsedData.Accessory.map((item, index) => {
+                    if (index === 0) {
+                      return item;
+                    } else if (index >= 0) {
+                      return `, ${item} `;
+                    }
+                  })
+                : "none",
+            });
+          });
+          setData(data);
+          console.log("Historyyyyyyyyy", res.data);
         })
         .catch((err) => {
           console.log("error", err);
@@ -257,7 +316,7 @@ const MachineDetails = (props) => {
                   searchTop
                   hover
                   autoWidth
-                  data={tabledata}
+                  data={dataa}
                   theadColor="#000"
                 />
               </div>
