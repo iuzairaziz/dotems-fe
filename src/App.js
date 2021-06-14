@@ -17,11 +17,11 @@ const App = (props) => {
   httpIntercept();
 
   let layout = null;
-  let config = new Configuration();
-  let socket = io(config.apiBaseUrl);
-  socket.on("connect", () => {
-    console.log("Connected");
-  });
+  // let config = new Configuration();
+  // let socket = io(config.apiBaseUrl);
+  // socket.on("connect", () => {
+  //   console.log("Connected");
+  // });
 
   layout = (
     <Layout

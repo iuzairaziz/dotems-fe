@@ -2,6 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import jwt_decode from "jwt-decode";
 import Configuration from "../config/configuration";
+import io from "socket.io-client";
 
 axios.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
 axios.defaults.headers.common["Content-Type"] = "multipart/form-data";
@@ -106,6 +107,10 @@ class userServices {
   updateUser = (technology, id) =>
     axios.put(`http://localhost:8080/users/${id}`, technology);
 
+  getSocket = () => {
+    const socket = io(this.config.apiBaseUrl);
+    return socket;
+  };
   updateAllUserFields = (
     id,
     name,

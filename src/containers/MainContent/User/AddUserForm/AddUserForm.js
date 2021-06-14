@@ -247,6 +247,9 @@ const UserForm = (props) => {
                     { value: "Internee", label: "Internee" },
                     { value: "Probation", label: "Probation" },
                     { value: "Employee", label: "Employee" },
+                    { value: "Admin", label: "Admin" },
+                    { value: "CEO", label: "CEO" },
+                    { value: "HR", label: "HR" },
                   ]}
                 />
                 <span id="err">{props.errors.userRole}</span>
