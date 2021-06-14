@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import Editable from "react-x-editable";
-
+import moment from "moment";
 const UserDetails = (props) => {
   {
     console.log("props", props.location.UserProps);
@@ -47,7 +47,7 @@ const UserDetails = (props) => {
                           <input
                             type="text"
                             className="form-control"
-                            value={user.joiningDate}
+                            value={moment(user.joiningDate).format("LL")}
                             readOnly={true}
                           />
                         </div>

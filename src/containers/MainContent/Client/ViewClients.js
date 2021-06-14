@@ -6,6 +6,7 @@ import clientValidation from "../../../validations/client-validations";
 import ClientsForm from "../Client/ClientsForm";
 import ClientService from "../../../services/ClientService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import moment from "moment";
 
 const ViewClients = () => {
   const [editTask, setEditTask] = useState();
@@ -104,7 +105,9 @@ const ViewClients = () => {
             Address: item.address ? item.address : "none",
             contactNum: item.mobileNo ? item.mobileNo : "none",
             URL: item.url ? item.url : "none",
-            dateOfJoin: item.dateOfJoin ? item.dateOfJoin : "none",
+            dateOfJoin: item.dateOfJoin
+              ? moment(item.dateOfJoin).format("LL")
+              : "none",
             country: item.country ? item.country.name : "none",
             action: (
               <div className="row flex-nowrap">

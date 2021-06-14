@@ -15,6 +15,7 @@ import {
   ModalFooter,
 } from "reactstrap";
 import { convertFromRaw, Editor, EditorState } from "draft-js";
+import moment from "moment";
 
 const TaskDetail = (props) => {
   const [taskData, setTaskData] = useState({});
@@ -138,7 +139,7 @@ const TaskDetail = (props) => {
           data.rows.push({
             title: item.name ? item.name : "none",
             project: item.project ? item.project.name : "none",
-            estimatedHrs: item.estHrs ? item.estHrs : "none",
+            estimatedHrs: item.estHrs ? item.estHrs.toFixed(2) : "none",
             projectRatio: item.projectRatio ? (
               <Progress color="teal" value={item.projectRatio}>
                 {item.projectRatio + "%"}
@@ -155,8 +156,10 @@ const TaskDetail = (props) => {
             parentTask: item.parentTask ? item.parentTask.name : "None",
             addedBy: item.addedBy ? item.addedBy : "none",
             approvedBy: item.approvedBy ? item.approvedBy.name : "none",
-            startTime: item.startTime ? item.startTime : "none",
-            endTime: item.endTime ? item.endTime : "none",
+            startTime: item.startTime
+              ? moment(item.startTime).format("LL")
+              : "none",
+            endTime: item.endTime ? moment(item.endTime).format("LL") : "none",
             action: (
               <div className="row flex-nowrap">
                 {/* <div className="col"> */}
@@ -342,7 +345,7 @@ const TaskDetail = (props) => {
               <div className="form-group">
                 <label>Start Time</label>
                 <input
-                  value={taskData.startTime}
+                  value={moment(taskData.startTime).format("LL")}
                   className="form-control"
                   readOnly={true}
                 />

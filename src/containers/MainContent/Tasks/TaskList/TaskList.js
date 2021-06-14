@@ -13,6 +13,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
+import moment from "moment";
 
 const Tables_datatable = (props) => {
   const [modalEdit, setModalEdit] = useState(false);
@@ -148,7 +149,9 @@ const Tables_datatable = (props) => {
             parentTask: item.parentTask ? item.parentTask.name : "None",
             addedBy: item.addedBy ? item.addedBy : "none",
             approvedBy: item.approvedBy ? item.approvedBy.name : "none",
-            startTime: item.startTime ? item.startTime : "none",
+            startTime: item.startTime
+              ? moment(item.startTime).format("LL")
+              : "none",
             endTime: item.endTime ? item.endTime : "none",
             action: (
               <div className="row flex-nowrap">

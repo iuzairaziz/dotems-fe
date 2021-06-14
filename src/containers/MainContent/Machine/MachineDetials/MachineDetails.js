@@ -79,8 +79,7 @@ const MachineDetails = (props) => {
     });
 
     console.log("props", props.location.machineProps);
-    const machineId = props.location.machineProps;
-    // console.log("Project Name", project.id)
+    const machineId = props.match.params.id;
 
     useEffect(() => {
       getData(machineId);
