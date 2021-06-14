@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import { Formik } from "formik";
-import projectValidation from "../../../validations/project-validations";
+import ProjectValidation from "../../../validations/project-validations";
 import Select from "react-select";
 import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
@@ -20,11 +20,8 @@ import CurrencyService from "../../../services/CurrencyService";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import Editable from "react-x-editable";
 import "./ProjectForm.scss";
+
 const ProjectForm = (props) => {
-  // const [default_date, set_default_date] = useState(0);
-  // const [end_date, set_end_date] = useState(0);
-  // const [pm_date, set_PM_date] = useState(0);
-  // const [pmend_date, set_PMend_date] = useState(0);
   const [default_option, set_default_option] = useState(0);
   const [country, setCountry] = useState([]);
   const [platform, setPlatform] = useState([]);
@@ -74,6 +71,7 @@ const ProjectForm = (props) => {
       estTime: editable ? project.phase[6].estTime : "0",
     },
   ]);
+
   let tHours = 0;
 
   useEffect(() => {
@@ -84,41 +82,12 @@ const ProjectForm = (props) => {
   const setThours = (value) => {
     tHours += value;
   };
-  // setTimeout(tHours=2, 4000);
-  //   const [inEditMode, setInEditMode] = useState({
-  //     status: false,
-  //     rowKey: null
-  // });
 
-  //   const onEdit = ({id, totalHours}) => {
-  //     setInEditMode({
-  //         status: true,
-  //         rowKey: id
-  //     })
-  //     setTotalHours(totalHours);
-  // }
   const handleOption = (opt) => {
     console.log(opt);
     set_default_option(opt);
   };
 
-  // const handleDefault = (date) => {
-  //   console.log(date);
-  //   set_default_date(date);
-  // };
-  // const handleEnd = (datee) => {
-  //   console.log(datee);
-  //   set_end_date(datee);
-  // };
-
-  // const handleDefault = (date1) => {
-  //   console.log(date1);
-  //   set_PM_date(date1);
-  // };
-  // const handleEnd = (date2) => {
-  //   console.log(date2);
-  //   set_PMend_date(date2);
-  // };
   useEffect(() => {
     getCountry();
     getPlatform();
@@ -227,8 +196,6 @@ const ProjectForm = (props) => {
 
   console.log(project);
 
-  // console.log("from project form ", project);
-
   const toShowData = () => {
     let options = [];
     let natre = nature;
@@ -243,17 +210,10 @@ const ProjectForm = (props) => {
     console.log("User Nature", nature);
   };
 
-  // const ControlledEditor = () => {
-  //   constructor((props) => {
-  //     super(props);
-  //     this.state = {
-  //       editorState: EditorState.createEmpty(),
-  //     };
-  //   })
-
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
   };
+
   var TeamMembers = [];
   editable &&
     project.assignedUser.map((item) =>
@@ -323,7 +283,7 @@ const ProjectForm = (props) => {
         otherDeduction: editable && project.otherDeduction,
         phase: editable && phases,
       }}
-      // validationSchema={projectValidation.newProjectValidation}
+      validationSchema={ProjectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
         console.log(phases);
         const usrs = [];
@@ -435,19 +395,6 @@ const ProjectForm = (props) => {
                   onChange={(val) => props.setFieldValue("clientName", val)}
                   options={client}
                 />
-                {/* <select
-                  className="form-control"
-                  value={props.values.clientName}
-                  onChange={props.handleChange("clientName")}
-                >
-                  {client.map((item, index) => {
-                    return (
-                      <option key={index} value={item.id}>
-                        {item.label}
-                      </option>
-                    );
-                  })}
-                </select> */}
                 <span id="err">{props.errors.clientName}</span>
               </div>
             </div>
@@ -745,7 +692,6 @@ const ProjectForm = (props) => {
               />
             </div>
           </div>
-          {/* <ProjectFormTable /> */}
           <div className="page-content-wrapper">
             <div className="container-fluid">
               <div className="row">
@@ -903,103 +849,12 @@ const ProjectForm = (props) => {
                         </td>
                       </tr>
 
-                      {/* {teamMember.map((item, index) => {
-                                    
-                                    return(
-                                      <tr>
-                                      <td>{teamMember[index].value}</td>
-                                      {console.log("team Member Name", teamMember[index].value)}
-                                      <td>
-                                     
-                                        <Editable
-                                          name="Nature"
-                                          dataType="select"
-                                          mode="inline"
-                                          title="Select Nature"
-                                          options={toShow}
-                                            value="Not Selected"
-                                          />
-                                      </td>
-                                      <td>
-                                        <Editable
-                                          name="Hours"
-                                          dataType="text"
-                                          mode="inline"
-                                          display={(value)=>{
-                                            console.log("value inside editable=",value);
-                                            setThours(value);
-                                            
-                                            return (<strong>{value}</strong>);
-                                          }}
-                                          title="Please enter Hours"
-                                          // value="0"
-                                          />
-                                      </td>
-                                      <td>
-                                        <Editable
-                                          name="Cost"
-                                          dataType="text"
-                                          mode="inline"
-                                          title="Please enter Cost"
-                                          value="0"
-                                          />
-                                      </td>
-                                      
-                                  </tr>
-                                    )
-                                  })} */}
-
                       <tr>
                         <td style={{ fontSize: "14px", fontWeight: "bold" }}>
                           Total Est. Hours
                         </td>
                         <td>{totalHours}</td>
                       </tr>
-
-                      {/* <tr>
-                                    <td style={{fontSize: "14px", fontWeight: "bold"}}>Start Date</td>
-                                    <td>
-                                      <Editable
-                                      
-                                        name="username"
-                                        dataType="date"
-                                        mode="inline"
-                                        title="Please enter username"      
-                                        value={`${defaultProjectDate}`}
-                                        display={(value) => {
-                                          setDefaultProjectDate(value)
-                                          return (
-                                            <>
-                                          <strong>{value}</strong>
-                                            {console.log("date", defaultProjectDate)}
-                                            </>
-                                            );
-                                          
-                                        }}
-                                      />
-                                    </td>
-                                    <td style={{fontSize: "14px", fontWeight: "bold"}}>Deadline</td>
-                                    <td>
-                                      <Editable
-                                      
-                                        name="username"
-                                        dataType="date"
-                                        mode="inline"
-                                        title="Please enter username"      
-                                        value={`${endProjectDate}`}
-                                        display={(value) => {
-                                          setEndProjectDate(value)
-                                          return (
-                                            <>
-                                          <strong>{value}</strong>
-                                            {console.log("end date", endProjectDate)}
-                                            </>
-                                            );
-                                          
-                                        }}
-                                      />
-                                    </td>
-                                </tr> */}
                     </tbody>
                   </table>
                 </div>
