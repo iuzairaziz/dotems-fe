@@ -4,11 +4,14 @@ import CommentService from "../../../../../services/CommentService";
 import userService from "../../../../../services/UserService";
 import tasksValidations from "../../../../../validations/tasks-validations";
 import "./Comments.scss";
+// import SOCKET from "../../../../../socket/socket"
 
 const Comments = (props) => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  //   const [socket, setSocket] = useState([]);
   const loggedInUser = userService.userLoggedInInfo();
+  //   const socket = userService.getSocket();
 
   useEffect(() => {
     getTaskComments(props.taskId);

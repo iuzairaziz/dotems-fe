@@ -326,10 +326,10 @@ const ProjectForm = (props) => {
       // validationSchema={projectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
         console.log(phases);
-        let usrs = [];
+        const usrs = [];
         console.log("team members", values.teamMembers);
         values.teamMembers.map((item) => {
-          usrs.push(item.id);
+          usrs.push(item.value);
           console.log("users", usrs);
         });
         console.log("valuesss", values);
@@ -351,7 +351,7 @@ const ProjectForm = (props) => {
               pmStartDate: values.pmStartDate,
               pmEndDate: values.pmEndDate,
               projectManager: values.projectManager.value,
-              teamMembers: usrs,
+              assignedUser: usrs,
               cost: values.cost,
               Rprofit: values.Rprofit,
               Pdeduction: values.Pdeduction,
@@ -387,7 +387,7 @@ const ProjectForm = (props) => {
               pmStartDate: values.pmStartDate,
               pmEndDate: values.pmEndDate,
               projectManager: values.projectManager.value,
-              teamMembers: usrs,
+              assignedUser: usrs,
               cost: values.cost,
               Rprofit: values.Rprofit,
               Pdeduction: values.Pdeduction,

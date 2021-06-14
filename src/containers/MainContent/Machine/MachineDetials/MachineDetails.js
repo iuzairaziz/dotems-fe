@@ -18,52 +18,57 @@ const MachineDetails = (props) => {
     const [tabledata, setTableData] = useState({
       columns: [
         {
-          label: "Task Name",
-          field: "taskname",
+          label: "Machine Name",
+          field: "machinename",
           sort: "asc",
         },
         {
-          label: "Team Member",
-          field: "teamMember",
-          sort: "disabled",
-          width: 125,
-        },
-        {
-          label: "Start Date",
-          field: "startDate",
+          label: "Ownership",
+          field: "ownership",
           sort: "disabled",
         },
         {
-          label: "End Date",
-          field: "endDate",
-          sort: "disabled",
-        },
-        {
-          label: "Estimate Hrs",
-          field: "EstHrs",
-          sort: "disabled",
-          // width: 100,
-        },
-        {
-          label: "Actual Hrs",
-          field: "ActHrs",
-          sort: "disabled",
-          // width: 100,
-        },
-        {
-          label: "Work Done",
-          field: "wrkdone",
+          label: "Serial No",
+          field: "serialno",
           sort: "disabled",
         },
         {
           label: "Status",
           field: "status",
           sort: "disabled",
+        },
+        {
+          label: "Machine No",
+          field: "machineNo",
+          sort: "disabled",
+          // width: 100,
+        },
+        {
+          label: "Processor",
+          field: "processor",
+          sort: "disabled",
+        },
+        {
+          label: "Storage",
+          field: "storage",
+          sort: "disabled",
           // width: 150,
         },
         {
-          label: "Action",
-          field: "action",
+          label: "Memory",
+          field: "memory",
+          sort: "disabled",
+          // width: 150,
+        },
+        {
+          label: "Graphics",
+          field: "graphics",
+          sort: "disabled",
+          // width: 150,
+        },
+        {
+          label: "Accessories",
+          field: "accessory",
           sort: "disabled",
           // width: 150,
         },
@@ -207,7 +212,12 @@ const MachineDetails = (props) => {
                           <label>Accessories</label>
                           <input
                             className="form-control"
-                            value={projectData && projectData.Accessory}
+                            value={
+                              projectData &&
+                              projectData.Accessory.map((item) => {
+                                return item.name;
+                              })
+                            }
                             readOnly={true}
                           />
                         </div>
@@ -233,10 +243,10 @@ const MachineDetails = (props) => {
               </div>
             </div>
           </div>
-          {/* <div className="col-12">
+          <div className="col-12">
             <div className="card m-b-20">
               <div className="card-body">
-                <h4 className="mt-0 header-title">Project Tasks</h4>
+                <h4 className="mt-0 header-title">Machine History</h4>
 
                 <MDBDataTableV5
                   // scrollX
@@ -252,7 +262,7 @@ const MachineDetails = (props) => {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       </AUX>
     );
