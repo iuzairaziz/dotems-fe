@@ -144,6 +144,7 @@ import ProjectSettings from "../MainContent/ProjectSettings/ProjectSettings";
 import MachineList from "../MainContent/Machine/MachineList/MachineList";
 import AddAccessory from "../MainContent/Accessories/AddAccessories/AddAccessories";
 import AccessoryList from "../MainContent/Accessories/AccessoryList/AccessoryList";
+import MachineDetails from "../MainContent/Machine/MachineDetials/MachineDetails";
 import ChangePassword from "../MainContent/User/AddNewUser/ChangePasswrod";
 import ChangePasswordForm from "../MainContent/User/AddUserForm/ChangePasswordForm";
 
@@ -161,6 +162,7 @@ class mainbuilder extends Component {
         <Route exact path="/add-accessory" component={AddAccessory} />
         <Route exact path="/view-accessory" component={AccessoryList} />
         <Route exact path="/view-machine" component={MachineList} />
+        <Route exact path="/machine-details" component={MachineDetails} />
         // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />

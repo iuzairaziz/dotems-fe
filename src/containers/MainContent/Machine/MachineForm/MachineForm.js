@@ -8,6 +8,7 @@ import shortValidations from "../../../../validations/short-validations";
 import "../MachineForm/MachineForm.scss";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import MachineService from "../../../../services/MachineService";
+import HistoryService from "../../../../services/HistoryService";
 import AccessoryService from "../../../../services/AccessoryService";
 import userService from "../../../../services/UserService";
 import MachineValidation from "../../../../validations/machine-validations";
@@ -16,6 +17,7 @@ const MachineForm = (props) => {
   const [accessory, setAccessory] = useState([]);
 
   const acc = props.machine;
+  console.log("deatils", acc);
   const editable = props.editable;
 
   useEffect(() => {
@@ -52,9 +54,9 @@ const MachineForm = (props) => {
     <Formik
       initialValues={{
         ownership: props.editable &&
-          acc.ownership && {
-            label: acc.ownership,
-            value: acc.ownership,
+          acc.Ownership && {
+            label: acc.Ownership,
+            value: acc.Ownership,
           },
         serialno: props.editable && acc.serialNo,
         status: props.editable &&
@@ -84,6 +86,7 @@ const MachineForm = (props) => {
               Storage: values.storage,
               Memory: values.memory,
               Processor: values.processor,
+              Ownership: values.ownership.label,
               Graphics: values.graphics,
               Accessory: arr,
               Status: values.status.label,
@@ -91,12 +94,21 @@ const MachineForm = (props) => {
               Notes: JSON.stringify(
                 convertToRaw(values.notes.getCurrentContent())
               ),
-              ownership: values.ownership,
               serialNo: values.serialno,
             })
               .then((res) => {
                 props.toggle();
                 MachineService.handleMessage("update");
+                HistoryService.addHistory({
+                  onModel: "Machine",
+                  document: JSON.stringify(res.data),
+                })
+                  .then((res) => {
+                    props.toggle();
+                  })
+                  .catch((err) => {
+                    props.toggle();
+                  });
               })
               .catch((err) => {
                 props.toggle();
@@ -119,6 +131,12 @@ const MachineForm = (props) => {
             })
               .then((res) => {
                 MachineService.handleMessage("add");
+                HistoryService.addHistory({
+                  onModel: "Machine",
+                  document: JSON.stringify(res.data),
+                })
+                  .then((res) => {})
+                  .catch((err) => {});
               })
               .catch((err) => {
                 MachineService.handleError();
