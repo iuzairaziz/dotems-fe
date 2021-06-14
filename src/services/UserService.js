@@ -101,6 +101,9 @@ class userServices {
     return axios.delete(this.config.apiBaseUrl + "users/" + id);
   }
 
+  updatePasswrod = (id, password) =>
+    axios.put(this.config.apiBaseUrl + `users/update-password/${id}`, password);
+
   updateUser = (technology, id) =>
     axios.put(`http://localhost:8080/users/${id}`, technology);
 
@@ -108,6 +111,32 @@ class userServices {
     const socket = io(this.config.apiBaseUrl);
     return socket;
   };
+  updateAllUserFields = (
+    id,
+    name,
+    email,
+    salary,
+    password,
+    joiningDate,
+    status,
+    gender,
+    userRole,
+    workingDays,
+    machineNo
+  ) =>
+    axios.put(
+      `http://localhost:8080/users/update-user/${id}`,
+      name,
+      email,
+      salary,
+      password,
+      joiningDate,
+      status,
+      gender,
+      userRole,
+      workingDays,
+      machineNo
+    );
 
   handleMessage(type) {
     if (type === "add") toast("Successfully Registered!");

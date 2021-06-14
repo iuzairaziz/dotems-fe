@@ -62,7 +62,7 @@ const UpdateUser = (props) => {
       setUser(res.data);
     });
 
-    console.log(users);
+    console.log("usersssss", users);
   };
 
   // const getLogin = () => {
@@ -246,7 +246,13 @@ const UpdateUser = (props) => {
                 <label>Machine Number</label>
                 <input
                   className="form-control"
-                  value={users.machineNo}
+                  // value={
+                  //   users &&
+                  //   users.assignedUser.map((item) => {
+                  //     return item.name;
+                  //   })
+                  // }
+                  value={users && users.machineNo}
                   readOnly={true}
                 />
               </div>

@@ -16,6 +16,7 @@ class MachineValidation {
       machineNo: Yup.number("Enter A Number").required("Required!"),
       storage: Yup.string().required("Required!"),
       status: Yup.object().required("Required!"),
+      ownership: Yup.object().required("Required!"),
       serialno: Yup.string().required("Required!"),
     });
   };

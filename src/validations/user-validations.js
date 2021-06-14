@@ -18,14 +18,22 @@ class UserValidation {
         .required("Required!")
         .min(6)
         .max(20),
-        workingHrs: Yup.number(),
-        machineNo: Yup.number(),
-        technology: Yup.array(),
-        workingDays: Yup.number(),
-        userRole: Yup.object().required("Required!"),
+      workingHrs: Yup.number(),
+      machineNo: Yup.object(),
+      technology: Yup.array(),
+      workingDays: Yup.number(),
+      userRole: Yup.object().required("Required!"),
     });
   };
-
+  changePassword = () => {
+    return Yup.object({
+      password: Yup.string().required("Password is required"),
+      confirmPassword: Yup.string().oneOf(
+        [Yup.ref("password"), null],
+        "Passwords must match"
+      ),
+    });
+  };
   // loginSchemaValidation = () => {
   //   return Yup.object({
   //     username: Yup.string()

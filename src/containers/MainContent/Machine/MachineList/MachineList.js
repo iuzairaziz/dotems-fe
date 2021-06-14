@@ -102,6 +102,21 @@ const ViewMachines = (props) => {
             action: (
               <div className="row flex-nowrap">
                 <Button
+                  className="my-seconday-button"
+                  size="sm"
+                  data-toggle="modal"
+                  data-target="#myModal"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/machine-details",
+                      machineProps: item._id,
+                    });
+                  }}
+                >
+                  View
+                </Button>
+
+                <Button
                   color="info"
                   size="sm"
                   data-toggle="modal"

@@ -144,6 +144,9 @@ import ProjectSettings from "../MainContent/ProjectSettings/ProjectSettings";
 import MachineList from "../MainContent/Machine/MachineList/MachineList";
 import AddAccessory from "../MainContent/Accessories/AddAccessories/AddAccessories";
 import AccessoryList from "../MainContent/Accessories/AccessoryList/AccessoryList";
+import MachineDetails from "../MainContent/Machine/MachineDetials/MachineDetails";
+import ChangePassword from "../MainContent/User/AddNewUser/ChangePasswrod";
+import ChangePasswordForm from "../MainContent/User/AddUserForm/ChangePasswordForm";
 
 class mainbuilder extends Component {
   render() {
@@ -159,6 +162,7 @@ class mainbuilder extends Component {
         <Route exact path="/add-accessory" component={AddAccessory} />
         <Route exact path="/view-accessory" component={AccessoryList} />
         <Route exact path="/view-machine" component={MachineList} />
+        <Route exact path="/machine-details" component={MachineDetails} />
         // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />
@@ -175,8 +179,10 @@ class mainbuilder extends Component {
         <Route exact path="/update-profile" component={UpdateUser} />
         <Route exact path="/viewuser" component={ViewUsers} />
         <Route exact path="/updateuser" component={updateUsers} />
-        <Route exact path="/projectdetails" component={ProjectDetails} />
+        <Route exact path="/projectdetails/:id" component={ProjectDetails} />
         <Route exact path="/userdetails" component={UserDetails} />
+        <Route exact path="/changepass" component={ChangePassword} />
+        <Route exact path="/changepassword" component={ChangePasswordForm} />
         //nehal routes
         <Route exact path="/project-settings" component={ProjectSettings} />
         <Route exact path="/add-time" component={AddTime} />

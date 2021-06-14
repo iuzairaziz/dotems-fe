@@ -5,8 +5,10 @@ import Select from "react-select";
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import shortValidations from "../../../../validations/short-validations";
+import "../MachineForm/MachineForm.scss";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import MachineService from "../../../../services/MachineService";
+import HistoryService from "../../../../services/HistoryService";
 import AccessoryService from "../../../../services/AccessoryService";
 import userService from "../../../../services/UserService";
 import MachineValidation from "../../../../validations/machine-validations";
@@ -15,35 +17,29 @@ const MachineForm = (props) => {
   const [accessory, setAccessory] = useState([]);
 
   const acc = props.machine;
+  console.log("deatils", acc);
   const editable = props.editable;
 
   useEffect(() => {
-    getUsers();
     getAccessories();
   }, []);
 
   const statusOption = [
     { value: "In-Use", label: "In-Use" },
-    { value: "Personal", label: "Personal" },
     { value: "Faulty", label: "Faulty" },
     { value: "Free", label: "Free" },
     { value: "Sold", label: "Sold" },
   ];
+  const owenershipOptions = [
+    { value: "Personal", label: "Personal" },
+    { value: "Company", label: "Company" },
+  ];
 
-  const getUsers = () => {
-    userService.getUsers("", "", "", "").then((res) => {
-      let options = [];
-      res.data.map((item, index) => {
-        options.push({ value: item._id, label: item.name });
-      });
-      setUsers(options);
-    });
-  };
   const getAccessories = () => {
     AccessoryService.getAllaccessory().then((res) => {
       let options = [];
       res.data.map((item, index) => {
-        options.push({ label: item.name, value: item.name });
+        options.push({ label: item.name, value: item._id });
       });
       console.log("Accesory", options);
       setAccessory(options);
@@ -57,10 +53,10 @@ const MachineForm = (props) => {
   return (
     <Formik
       initialValues={{
-        resourceName: props.editable &&
-          acc.resourceName && {
-            label: acc.resourceName.name,
-            value: acc.resourceName._id,
+        ownership: props.editable &&
+          acc.Ownership && {
+            label: acc.Ownership,
+            value: acc.Ownership,
           },
         serialno: props.editable && acc.serialNo,
         status: props.editable &&
@@ -90,6 +86,7 @@ const MachineForm = (props) => {
               Storage: values.storage,
               Memory: values.memory,
               Processor: values.processor,
+              Ownership: values.ownership.label,
               Graphics: values.graphics,
               Accessory: arr,
               Status: values.status.label,
@@ -97,12 +94,21 @@ const MachineForm = (props) => {
               Notes: JSON.stringify(
                 convertToRaw(values.notes.getCurrentContent())
               ),
-              resourceName: values.resourceName.value,
               serialNo: values.serialno,
             })
               .then((res) => {
                 props.toggle();
                 MachineService.handleMessage("update");
+                HistoryService.addHistory({
+                  onModel: "Machine",
+                  document: JSON.stringify(res.data),
+                })
+                  .then((res) => {
+                    props.toggle();
+                  })
+                  .catch((err) => {
+                    props.toggle();
+                  });
               })
               .catch((err) => {
                 props.toggle();
@@ -117,15 +123,20 @@ const MachineForm = (props) => {
               Graphics: values.graphics,
               Accessory: arr,
               Status: values.status.label,
-              Display: values.status,
               Notes: JSON.stringify(
                 convertToRaw(values.notes.getCurrentContent())
               ),
-              resourceName: values.resourceName.value,
+              Ownership: values.ownership.label,
               serialNo: values.serialno,
             })
               .then((res) => {
                 MachineService.handleMessage("add");
+                HistoryService.addHistory({
+                  onModel: "Machine",
+                  document: JSON.stringify(res.data),
+                })
+                  .then((res) => {})
+                  .catch((err) => {});
               })
               .catch((err) => {
                 MachineService.handleError();
@@ -134,7 +145,7 @@ const MachineForm = (props) => {
     >
       {(props) => {
         return (
-          <>
+          <div className="machineform">
             <div className="row">
               <div className="col">
                 <div className="form-group">
@@ -151,13 +162,13 @@ const MachineForm = (props) => {
               </div>
               <div className="col">
                 <div className="form-group">
-                  <label className="control-label">Resource Name</label>
+                  <label className="control-label">Ownsership</label>
                   <Select
-                    value={props.values.resourceName}
-                    onChange={(val) => props.setFieldValue("resourceName", val)}
-                    options={users}
+                    value={props.values.ownership}
+                    onChange={(val) => props.setFieldValue("ownership", val)}
+                    options={owenershipOptions}
                   />
-                  <span id="err">{props.errors.resourceName}</span>
+                  <span id="err">{props.errors.ownership}</span>
                 </div>
               </div>
             </div>
@@ -264,6 +275,7 @@ const MachineForm = (props) => {
                 <div className="form-group">
                   <label>Accessories</label>
                   <Select
+                    className="select-override"
                     value={props.values.accessories}
                     onChange={(val) => props.setFieldValue("accessories", val)}
                     options={accessory}
@@ -303,7 +315,7 @@ const MachineForm = (props) => {
                 </Button>
               </div>
             </div>
-          </>
+          </div>
         );
       }}
     </Formik>
