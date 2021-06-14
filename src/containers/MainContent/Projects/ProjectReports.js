@@ -139,20 +139,25 @@ const ProjectReports = () => {
               </Link>
             ),
             cost: item.cost ? item.cost : "none",
-            Rprofit: item.Rprofit ? (item.Rprofit / 100) * item.cost : "none",
-            Pdeduction: item.Pdeduction
-              ? (item.Pdeduction / 100) * item.cost
+            Rprofit: item.Rprofit
+              ? ((item.Rprofit / 100) * item.cost).toFixed(2)
               : "none",
-            PCB:
+            Pdeduction: item.Pdeduction
+              ? ((item.Pdeduction / 100) * item.cost).toFixed(2)
+              : "none",
+            PCB: (
               item.cost -
               (item.otherDeduction +
                 (item.Pdeduction / 100) * item.cost +
-                (item.Rprofit / 100) * item.cost),
+                (item.Rprofit / 100) * item.cost)
+            ).toFixed(2),
             Pincome: item.currency
-              ? item.currency.exchangeRate *
-                (item.cost -
-                  ((item.Pdeduction / 100) * item.cost +
-                    (item.Rprofit / 100) * item.cost))
+              ? (
+                  item.currency.exchangeRate *
+                  (item.cost -
+                    ((item.Pdeduction / 100) * item.cost +
+                      (item.Rprofit / 100) * item.cost))
+                ).toFixed(2)
               : "none",
             Odeduction: item.otherDeduction ? item.otherDeduction : "none",
             ActHrs: (
@@ -160,7 +165,7 @@ const ProjectReports = () => {
                 {item.actualHrs ? item.actualHrs : "none"}
               </Link>
             ),
-            wrkdone: item.workDone ? item.workDone : "none",
+            wrkdone: item.workDone ? item.workDone.toFixed(2) : "none",
             EstHrs: item.phase
               ? item.phase.map((item1, index, key) => {
                   if (index === 0) EstTime = 0;
@@ -170,6 +175,18 @@ const ProjectReports = () => {
                     return EstTime;
                   }
                 })
+              : "none",
+            Rexpense: item.assignedUser
+              ? item.assignedUser.allResourcesExpense.toFixed(2)
+              : "none",
+            Tprofit: item.assignedUser
+              ? (
+                  item.currency.exchangeRate *
+                    (item.cost -
+                      ((item.Pdeduction / 100) * item.cost +
+                        (item.Rprofit / 100) * item.cost)) -
+                  item.assignedUser.allResourcesExpense
+                ).toFixed(2)
               : "none",
           });
         });

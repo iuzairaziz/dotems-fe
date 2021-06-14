@@ -282,9 +282,15 @@ const ViewProjects = (props) => {
             status: item.status ? item.status.name : "none",
             projectNature: item.nature ? item.nature.name : "none",
             CstartDate: item.cStartDate ? item.cStartDate : "none",
-            CendDate: item.cEndDate ? item.cEndDate : "none",
-            startDate: item.pmStartDate ? item.pmStartDate : "none",
-            endDate: item.pmEndDate ? item.pmEndDate : "none",
+            CendDate: item.cEndDate
+              ? moment(item.cEndDate).format("LL")
+              : "none",
+            startDate: item.pmStartDate
+              ? moment(item.pmStartDate).format("LL")
+              : "none",
+            endDate: item.pmEndDate
+              ? moment(item.pmEndDate).format("LL")
+              : "none",
             projectManager: item.projectManager
               ? item.projectManager.name
               : "none",
@@ -294,7 +300,7 @@ const ViewProjects = (props) => {
             Rprofit: item.Rprofit ? item.Rprofit : "none",
             pDeduction: item.Pdeduction ? item.Pdeduction : "none",
             ActHrs: item.actualHrs ? item.actualHrs : "none",
-            wrkdone: item.workDone ? item.workDone : "none",
+            wrkdone: item.workDone ? item.workDone.toFixed(2) : "none",
             EstHrs: item.phase
               ? item.phase.map((item1, index, key) => {
                   if (index === 0) EstTime = 0;

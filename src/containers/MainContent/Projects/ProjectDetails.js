@@ -6,6 +6,7 @@ import ProjectService from "../../../services/ProjectService";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import { Button } from "reactstrap";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import moment from "moment";
 import { convertFromRaw, Editor, EditorState } from "draft-js";
 
 const ProjectDetails = (props) => {
@@ -109,7 +110,9 @@ const ProjectDetails = (props) => {
                   }
                 })
               : "none",
-            startDate: item.startTime ? item.startTime : "none",
+            startDate: item.startTime
+              ? moment(item.startTime).format("LL")
+              : "none",
             // endDate: item.  ? item. : "none",
             EstHrs: item.estHrs ? item.estHrs : "none",
             ActHrs: item.actualHrs ? item.actualHrs : "none",
@@ -244,7 +247,10 @@ const ProjectDetails = (props) => {
                           <input
                             type="text"
                             className="form-control"
-                            value={projectData && projectData.cStartDate}
+                            value={
+                              projectData &&
+                              moment(projectData.cStartDate).format("LL")
+                            }
                             readOnly={true}
                           />
                         </div>
@@ -254,7 +260,10 @@ const ProjectDetails = (props) => {
                           <label>Client Deadline</label>
                           <input
                             className="form-control"
-                            value={projectData && projectData.cEndDate}
+                            value={
+                              projectData &&
+                              moment(projectData.cEndDate).format("LL")
+                            }
                             readOnly={true}
                           />
                         </div>
@@ -267,7 +276,10 @@ const ProjectDetails = (props) => {
                           <input
                             type="text"
                             className="form-control"
-                            value={projectData && projectData.pmStartDate}
+                            value={
+                              projectData &&
+                              moment(projectData.pmStartDate).format("LL")
+                            }
                             readOnly={true}
                           />
                         </div>
@@ -277,7 +289,10 @@ const ProjectDetails = (props) => {
                           <label>PM Deadline</label>
                           <input
                             className="form-control"
-                            value={projectData && projectData.pmEndDate}
+                            value={
+                              projectData &&
+                              moment(projectData.pmEndDate).format("LL")
+                            }
                             readOnly={true}
                           />
                         </div>

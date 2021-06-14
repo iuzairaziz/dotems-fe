@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
 import TechnologyService from "../../../../services/TechnologyService";
-
+import moment from "moment";
 import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import UserService from "../../../../services/UserService";
@@ -154,7 +154,9 @@ const ViewUsers = () => {
           updatedData.rows.push({
             name: item.name ? item.name : "none",
             username: item.email ? item.email : "none",
-            dateOfJoin: item.joiningDate ? item.joiningDate : "none",
+            dateOfJoin: item.joiningDate
+              ? moment(item.joiningDate).format("LL")
+              : "none",
             machinenum: item.machineNo ? item.machineNo.machineNo : "none",
             salary: item.salary ? item.salary : "none",
             status: item.status ? item.status : "none",
