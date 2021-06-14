@@ -47,9 +47,13 @@ const MachineForm = (props) => {
   };
   var AccessoriesArray = [];
   editable &&
-    acc.Accessory.map((item) =>
-      AccessoriesArray.push({ label: item.name, value: item._id, id: item._id })
-    );
+    acc.Accessory.map((item) => {
+      AccessoriesArray.push({
+        label: item.name,
+        value: item._id,
+        id: item._id,
+      });
+    });
   return (
     <Formik
       initialValues={{
@@ -74,10 +78,12 @@ const MachineForm = (props) => {
       }}
       // validationSchema={MachineValidation.newMachineValidation}
       onSubmit={(values, actions) => {
-        console.log("dhsghdhgsdhgsghd", values);
         let arr = [];
+        var historyAccessoriesArray = [];
+
         values.accessories.map((item) => {
           arr.push(item.value);
+          historyAccessoriesArray.push(item.label);
         });
         props.editable
           ? MachineService.updateMachine(acc._id, {
@@ -98,10 +104,23 @@ const MachineForm = (props) => {
             })
               .then((res) => {
                 props.toggle();
+                console.log("response data sasasasasres", res.data);
                 MachineService.handleMessage("update");
                 HistoryService.addHistory({
+                  docId: acc._id,
                   onModel: "Machine",
-                  document: JSON.stringify(res.data),
+                  document: JSON.stringify({
+                    Graphics: res.data.Graphics,
+                    Memory: res.data.Memory,
+                    Ownership: res.data.Ownership,
+                    Processor: res.data.Processor,
+                    Status: res.data.Status,
+                    Storage: res.data.Storage,
+                    machineNo: res.data.machineNo,
+                    name: res.data.name,
+                    serialNo: res.data.serialNo,
+                    Accessory: historyAccessoriesArray,
+                  }),
                 })
                   .then((res) => {
                     props.toggle();

@@ -13,7 +13,11 @@ class HistoryService {
       formData
     );
   }
-
+  getSingleHistory(id) {
+    return axios.get(
+      this.config.apiBaseUrl + `history/show-single-history/${id}`
+    );
+  }
   getAllHistory() {
     return axios.get(this.config.apiBaseUrl + "history/show-history");
   }
