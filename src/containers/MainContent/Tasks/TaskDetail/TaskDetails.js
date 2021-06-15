@@ -157,9 +157,11 @@ const TaskDetail = (props) => {
             addedBy: item.addedBy ? item.addedBy : "none",
             approvedBy: item.approvedBy ? item.approvedBy.name : "none",
             startTime: item.startTime
-              ? moment(item.startTime).format("LL")
+              ? moment(item.startTime).format("DD/MMM/YYYY")
               : "none",
-            endTime: item.endTime ? moment(item.endTime).format("LL") : "none",
+            endTime: item.endTime
+              ? moment(item.endTime).format("DD/MMM/YYYY")
+              : "none",
             action: (
               <div className="row flex-nowrap">
                 {/* <div className="col"> */}

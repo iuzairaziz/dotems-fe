@@ -76,7 +76,7 @@ class header extends Component {
     }
   }
   componentDidMount() {
-    this.setState({ now_route: this.props.location.pathname });
+    // this.setState({ now_route: this.props.location.pathname });
   }
 
   render() {

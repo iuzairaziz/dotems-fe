@@ -152,18 +152,18 @@ const ViewUsers = () => {
         updatedData.rows = [];
         res.data.map((item, index) => {
           updatedData.rows.push({
-            name: item.name ? item.name : "none",
-            username: item.email ? item.email : "none",
+            name: item.name ? item.name : "N/A",
+            username: item.email ? item.email : "N/A",
             dateOfJoin: item.joiningDate
-              ? moment(item.joiningDate).format("LL")
-              : "none",
-            machinenum: item.machineNo ? item.machineNo.machineNo : "none",
-            salary: item.salary ? item.salary : "none",
-            status: item.status ? item.status : "none",
-            gender: item.gender ? item.gender : "none",
-            role: item.userRole ? item.userRole : "none",
-            workingHrs: item.workingHrs ? item.workingHrs : "none",
-            workingDays: item.workingDays ? item.workingDays : "none",
+              ? moment(item.joiningDate).format("DD/MMM/YYYY")
+              : "N/A",
+            machinenum: item.machineNo ? item.machineNo.machineNo : "N/A",
+            salary: item.salary ? item.salary : "N/A",
+            status: item.status ? item.status : "N/A",
+            gender: item.gender ? item.gender : "N/A",
+            role: item.userRole ? item.userRole : "N/A",
+            workingHrs: item.workingHrs ? item.workingHrs : "N/A",
+            workingDays: item.workingDays ? item.workingDays : "N/A",
             technology: item.technology
               ? item.technology.map((item, index) => {
                   if (index === 0) {

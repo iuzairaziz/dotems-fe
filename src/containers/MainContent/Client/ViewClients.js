@@ -99,16 +99,16 @@ const ViewClients = () => {
         updatedData.rows = [];
         res.data.map((item, index) => {
           updatedData.rows.push({
-            clientName: item.name ? item.name : "none",
-            companyName: item.companyName ? item.companyName : "none",
-            Email: item.email ? item.email : "none",
-            Address: item.address ? item.address : "none",
-            contactNum: item.mobileNo ? item.mobileNo : "none",
-            URL: item.url ? item.url : "none",
+            clientName: item.name ? item.name : "N/A",
+            companyName: item.companyName ? item.companyName : "N/A",
+            Email: item.email ? item.email : "N/A",
+            Address: item.address ? item.address : "N/A",
+            contactNum: item.mobileNo ? item.mobileNo : "N/A",
+            URL: item.url ? item.url : "N/A",
             dateOfJoin: item.dateOfJoin
-              ? moment(item.dateOfJoin).format("LL")
-              : "none",
-            country: item.country ? item.country.name : "none",
+              ? moment(item.dateOfJoin).format("DD/MMM/YYYY")
+              : "N/A",
+            country: item.country ? item.country.name : "N/A",
             action: (
               <div className="row flex-nowrap">
                 <Button

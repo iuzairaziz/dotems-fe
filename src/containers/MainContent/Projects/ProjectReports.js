@@ -135,16 +135,16 @@ const ProjectReports = () => {
           data.rows.push({
             projectName: (
               <Link to={`/projectdetails/${item._id}`}>
-                {item.name ? item.name : "none"}
+                {item.name ? item.name : "N/A"}
               </Link>
             ),
-            cost: item.cost ? item.cost : "none",
+            cost: item.cost ? item.cost : "N/A",
             Rprofit: item.Rprofit
               ? ((item.Rprofit / 100) * item.cost).toFixed(2)
-              : "none",
+              : "N/A",
             Pdeduction: item.Pdeduction
               ? ((item.Pdeduction / 100) * item.cost).toFixed(2)
-              : "none",
+              : "N/A",
             PCB: (
               item.cost -
               (item.otherDeduction +
@@ -158,14 +158,14 @@ const ProjectReports = () => {
                     ((item.Pdeduction / 100) * item.cost +
                       (item.Rprofit / 100) * item.cost))
                 ).toFixed(2)
-              : "none",
-            Odeduction: item.otherDeduction ? item.otherDeduction : "none",
+              : "N/A",
+            Odeduction: item.otherDeduction ? item.otherDeduction : "N/A",
             ActHrs: (
               <Link to={`/projectdetails/${item._id}`}>
-                {item.actualHrs ? item.actualHrs : "none"}
+                {item.actualHrs ? item.actualHrs : "N/A"}
               </Link>
             ),
-            wrkdone: item.workDone ? item.workDone.toFixed(2) : "none",
+            wrkdone: item.workDone ? item.workDone.toFixed(2) : "N/A",
             EstHrs: item.phase
               ? item.phase.map((item1, index, key) => {
                   if (index === 0) EstTime = 0;
@@ -175,10 +175,10 @@ const ProjectReports = () => {
                     return EstTime;
                   }
                 })
-              : "none",
+              : "N/A",
             Rexpense: item.assignedUser
               ? item.assignedUser.allResourcesExpense.toFixed(2)
-              : "none",
+              : "N/A",
             Tprofit: item.assignedUser
               ? (
                   item.currency.exchangeRate *
@@ -187,7 +187,7 @@ const ProjectReports = () => {
                         (item.Rprofit / 100) * item.cost)) -
                   item.assignedUser.allResourcesExpense
                 ).toFixed(2)
-              : "none",
+              : "N/A",
           });
         });
         setData(data);

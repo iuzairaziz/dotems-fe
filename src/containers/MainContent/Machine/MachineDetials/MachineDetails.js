@@ -78,7 +78,7 @@ const MachineDetails = (props) => {
       rows: [],
     });
 
-    console.log("props", props.location.machineProps);
+    // console.log("props", props.location.machineProps);
     const machineId = props.match.params.id;
 
     useEffect(() => {

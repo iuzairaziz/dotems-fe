@@ -125,34 +125,34 @@ const Tables_datatable = (props) => {
         data.rows = [];
         res.data.map((item, index) => {
           data.rows.push({
-            title: item.name ? item.name : "none",
+            title: item.name ? item.name : "N/A",
             project: (
               <Link to={`/projectdetails/${item.project._id}`}>
                 {" "}
-                {item.project ? item.project.name : "none"}{" "}
+                {item.project ? item.project.name : "N/A"}{" "}
               </Link>
             ),
-            estimatedHrs: item.estHrs ? item.estHrs : "none",
+            estimatedHrs: item.estHrs ? item.estHrs : "N/A",
             projectRatio: item.projectRatio ? (
               <Progress color="teal" value={item.projectRatio}>
                 {item.projectRatio + "%"}
               </Progress>
             ) : (
-              "none"
+              "N/A"
             ),
             status: (
               <span className="badge badge-teal">
-                {item.status ? item.status : "none"}
+                {item.status ? item.status : "N/A"}
               </span>
             ),
-            teamLead: item.teamLead ? item.teamLead.name : "None",
-            parentTask: item.parentTask ? item.parentTask.name : "None",
-            addedBy: item.addedBy ? item.addedBy : "none",
-            approvedBy: item.approvedBy ? item.approvedBy.name : "none",
+            teamLead: item.teamLead ? item.teamLead.name : "N/A",
+            parentTask: item.parentTask ? item.parentTask.name : "N/A",
+            addedBy: item.addedBy ? item.addedBy : "N/A",
+            approvedBy: item.approvedBy ? item.approvedBy.name : "N/A",
             startTime: item.startTime
-              ? moment(item.startTime).format("LL")
-              : "none",
-            endTime: item.endTime ? item.endTime : "none",
+              ? moment(item.startTime).format("DD/MMM/YYYY")
+              : "N/A",
+            endTime: item.endTime ? item.endTime : "N/A",
             action: (
               <div className="row flex-nowrap">
                 {/* <div className="col"> */}
