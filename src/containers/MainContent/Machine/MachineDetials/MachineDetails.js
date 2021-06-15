@@ -230,6 +230,8 @@ const MachineDetails = (props) => {
                         toolbarClassName="toolbarClassName"
                         wrapperClassName="wrapperClassName"
                         editorClassName="editor"
+                        toolbarStyle={{ display: "none" }}
+                        readOnly
                         editorState={
                           projectData &&
                           EditorState.createWithContent(

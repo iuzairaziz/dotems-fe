@@ -14,7 +14,8 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
-import { convertFromRaw, Editor, EditorState } from "draft-js";
+import { convertFromRaw, EditorState } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
 
 const TaskDetail = (props) => {
   const [taskData, setTaskData] = useState({});
@@ -369,6 +370,10 @@ const TaskDetail = (props) => {
                     wrapperClassName="wrapperClassName"
                     editorClassName="editorClass"
                     readOnly
+                    toolbarStyle={{ display: "none" }}
+                    editorStyle={{
+                      minHeight: "300px",
+                    }}
                     editorState={
                       // taskData.description &&
                       EditorState.createWithContent(

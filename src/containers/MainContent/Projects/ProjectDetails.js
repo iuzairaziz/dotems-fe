@@ -5,6 +5,8 @@ import Editable from "react-x-editable";
 import ProjectService from "../../../services/ProjectService";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import { Button } from "reactstrap";
+import { Editor } from "react-draft-wysiwyg";
+import { convertFromRaw, EditorState } from "draft-js";
 
 const ProjectDetails = (props) => {
   {
@@ -372,7 +374,24 @@ const ProjectDetails = (props) => {
                     <div className="form-group">
                       <label>Description</label>
                       <div>
-                        <textarea className="form-control" rows="5" />
+                        <Editor
+                          toolbarClassName="toolbarClassName"
+                          wrapperClassName="wrapperClassName"
+                          editorClassName="editorClass"
+                          toolbarStyle={{ display: "none" }}
+                          readOnly
+                          editorStyle={{
+                            minHeight: "300px",
+                          }}
+                          editorState={
+                            projectData &&
+                            EditorState.createWithContent(
+                              convertFromRaw(
+                                JSON.parse(projectData.description)
+                              )
+                            )
+                          }
+                        />
                       </div>
                     </div>
                   </div>
