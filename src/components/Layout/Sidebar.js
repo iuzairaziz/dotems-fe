@@ -33,10 +33,7 @@ class sidebar extends Component {
     {
       name: "timesheet_menu",
       tab: "timesheet",
-      subMenus: [
-        { routeName: "add-time", label: "New Time" },
-        { routeName: "timesheet", label: "View Timesheet" },
-      ],
+      subMenus: [{ routeName: "add-time", label: "New Time" }],
     },
     {
       name: "task_menu",
@@ -44,7 +41,6 @@ class sidebar extends Component {
       subMenus: [
         { routeName: "add-task", label: "New Tasks" },
         { routeName: "task", label: "View Tasks" },
-        { routeName: "subtask", label: "View subtask" },
       ],
     },
     {

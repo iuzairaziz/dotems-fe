@@ -76,7 +76,7 @@ class header extends Component {
     }
   }
   componentDidMount() {
-    this.setState({ now_route: this.props.location.pathname });
+    // this.setState({ now_route: this.props.location.pathname });
   }
 
   render() {
@@ -285,14 +285,7 @@ class header extends Component {
                       <i className="mdi mdi-wallet m-r-5" /> Change Password
                     </DropdownItem>
                   </Link>
-                  <DropdownItem>
-                    <span className="badge badge-success float-right">11</span>
-                    <i className="mdi mdi-settings m-r-5" /> Settings
-                  </DropdownItem>
-                  <DropdownItem>
-                    <i className="mdi mdi-lock-open-outline m-r-5" /> Lock
-                    screen
-                  </DropdownItem>
+
                   <DropdownItem
                     onClick={() => {
                       UserService.logout();

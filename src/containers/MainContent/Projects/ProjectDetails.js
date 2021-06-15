@@ -6,6 +6,8 @@ import ProjectService from "../../../services/ProjectService";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import { Button } from "reactstrap";
 import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import moment from "moment";
 import { convertFromRaw, EditorState } from "draft-js";
 
 const ProjectDetails = (props) => {
@@ -99,7 +101,7 @@ const ProjectDetails = (props) => {
       projectData &&
         projectData.tasks.map((item, index) => {
           data.rows.push({
-            taskname: item.name ? item.name : "none",
+            taskname: item.name ? item.name : "N/A ",
             teamMember: item.assignedTo
               ? item.assignedTo.map((item, index) => {
                   if (index === 0) {
@@ -108,14 +110,16 @@ const ProjectDetails = (props) => {
                     return `, ${item.name} `;
                   }
                 })
-              : "none",
-            startDate: item.startTime ? item.startTime : "none",
-            // endDate: item.  ? item. : "none",
-            EstHrs: item.estHrs ? item.estHrs : "none",
-            ActHrs: item.actualHrs ? item.actualHrs : "none",
-            wrkdone: item.workDone ? item.workDone : "none",
-            status: item.status ? item.status : "none",
-            otherDeduction: item.otherDeduction ? item.otherDeduction : "none",
+              : "N/A ",
+            startDate: item.startTime
+              ? moment(item.startTime).format("DD/MMM/YYYY")
+              : "N/A ",
+            // endDate: item.  ? item. : "N/A ",
+            EstHrs: item.estHrs ? item.estHrs : "N/A ",
+            ActHrs: item.actualHrs ? item.actualHrs : "N/A ",
+            wrkdone: item.workDone ? item.workDone : "N/A ",
+            status: item.status ? item.status : "N/A ",
+            otherDeduction: item.otherDeduction ? item.otherDeduction : "N/A ",
             action: (
               <div className="row flex-nowrap">
                 <Button
@@ -244,7 +248,12 @@ const ProjectDetails = (props) => {
                           <input
                             type="text"
                             className="form-control"
-                            value={projectData && projectData.cStartDate}
+                            value={
+                              projectData &&
+                              moment(projectData.cStartDate).format(
+                                "DD/MMM/YYYY"
+                              )
+                            }
                             readOnly={true}
                           />
                         </div>
@@ -254,7 +263,10 @@ const ProjectDetails = (props) => {
                           <label>Client Deadline</label>
                           <input
                             className="form-control"
-                            value={projectData && projectData.cEndDate}
+                            value={
+                              projectData &&
+                              moment(projectData.cEndDate).format("DD/MMM/YYYY")
+                            }
                             readOnly={true}
                           />
                         </div>
@@ -267,7 +279,12 @@ const ProjectDetails = (props) => {
                           <input
                             type="text"
                             className="form-control"
-                            value={projectData && projectData.pmStartDate}
+                            value={
+                              projectData &&
+                              moment(projectData.pmStartDate).format(
+                                "DD/MMM/YYYY"
+                              )
+                            }
                             readOnly={true}
                           />
                         </div>
@@ -277,7 +294,12 @@ const ProjectDetails = (props) => {
                           <label>PM Deadline</label>
                           <input
                             className="form-control"
-                            value={projectData && projectData.pmEndDate}
+                            value={
+                              projectData &&
+                              moment(projectData.pmEndDate).format(
+                                "DD/MMM/YYYY"
+                              )
+                            }
                             readOnly={true}
                           />
                         </div>

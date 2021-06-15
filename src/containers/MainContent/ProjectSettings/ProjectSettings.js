@@ -28,7 +28,7 @@ const ProjectSettings = () => {
     {
       name: "Platform",
       addRoute: "add-platform",
-      viewRoute: "viewproject",
+      viewRoute: "platform",
     },
     {
       name: "Currencies",

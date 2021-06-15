@@ -273,28 +273,34 @@ const ViewProjects = (props) => {
         data.rows = [];
         res.data.map((item, index) => {
           data.rows.push({
-            projectName: item.name ? item.name : "none",
-            clientName: item.client ? item.client.name : "none",
-            orderNum: item.orderNum ? item.orderNum : "none",
-            platform: item.platform ? item.platform.name : "none",
-            technology: item.technology ? item.technology.name : "none",
-            serviceType: item.service ? item.service.name : "none",
-            status: item.status ? item.status.name : "none",
-            projectNature: item.nature ? item.nature.name : "none",
-            CstartDate: item.cStartDate ? item.cStartDate : "none",
-            CendDate: item.cEndDate ? item.cEndDate : "none",
-            startDate: item.pmStartDate ? item.pmStartDate : "none",
-            endDate: item.pmEndDate ? item.pmEndDate : "none",
+            projectName: item.name ? item.name : "N/A",
+            clientName: item.client ? item.client.name : "N/A",
+            orderNum: item.orderNum ? item.orderNum : "N/A",
+            platform: item.platform ? item.platform.name : "N/A",
+            technology: item.technology ? item.technology.name : "N/A",
+            serviceType: item.service ? item.service.name : "N/A",
+            status: item.status ? item.status.name : "N/A",
+            projectNature: item.nature ? item.nature.name : "N/A",
+            CstartDate: item.cStartDate ? item.cStartDate : "N/A",
+            CendDate: item.cEndDate
+              ? moment(item.cEndDate).format("DD/MMM/YYYY")
+              : "N/A",
+            startDate: item.pmStartDate
+              ? moment(item.pmStartDate).format("DD/MMM/YYYY")
+              : "N/A",
+            endDate: item.pmEndDate
+              ? moment(item.pmEndDate).format("DD/MMM/YYYY")
+              : "N/A",
             projectManager: item.projectManager
               ? item.projectManager.name
-              : "none",
-            teamMember: item.assignedUser ? item.assignedUser.name : "none",
-            currency: item.currency ? item.currency.name : "none",
-            cost: item.cost ? item.cost : "none",
-            Rprofit: item.Rprofit ? item.Rprofit : "none",
-            pDeduction: item.Pdeduction ? item.Pdeduction : "none",
-            ActHrs: item.actualHrs ? item.actualHrs : "none",
-            wrkdone: item.workDone ? item.workDone : "none",
+              : "N/A",
+            teamMember: item.assignedUser ? item.assignedUser.name : "N/A",
+            currency: item.currency ? item.currency.name : "N/A",
+            cost: item.cost ? item.cost : "N/A",
+            Rprofit: item.Rprofit ? item.Rprofit : "N/A",
+            pDeduction: item.Pdeduction ? item.Pdeduction : "N/A",
+            ActHrs: item.actualHrs ? item.actualHrs : "N/A",
+            wrkdone: item.workDone ? item.workDone.toFixed(2) : "N/A",
             EstHrs: item.phase
               ? item.phase.map((item1, index, key) => {
                   if (index === 0) EstTime = 0;
@@ -304,7 +310,7 @@ const ViewProjects = (props) => {
                     return EstTime;
                   }
                 })
-              : "none",
+              : "N/A",
             action: (
               <div className="row flex-nowrap">
                 <Button

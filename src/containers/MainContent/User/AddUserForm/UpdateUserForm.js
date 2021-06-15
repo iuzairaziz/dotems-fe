@@ -252,7 +252,7 @@ const UpdateUser = (props) => {
                   //     return item.name;
                   //   })
                   // }
-                  value={users && users.machineNo}
+                  value={users && users.machineNo && users.machineNo.machineNo}
                   readOnly={true}
                 />
               </div>

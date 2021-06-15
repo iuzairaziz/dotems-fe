@@ -162,7 +162,7 @@ class mainbuilder extends Component {
         <Route exact path="/add-accessory" component={AddAccessory} />
         <Route exact path="/view-accessory" component={AccessoryList} />
         <Route exact path="/view-machine" component={MachineList} />
-        <Route exact path="/machine-details" component={MachineDetails} />
+        <Route exact path="/machine-details/:id" component={MachineDetails} />
         // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />

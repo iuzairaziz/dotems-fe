@@ -59,18 +59,18 @@ const CountryList = () => {
             action: (
               <div className="row flex-nowrap">
                 <Button
+                  className="my-primary-button"
                   onClick={() => {
                     setSelectedAccessory(item);
                     toggleEdit();
                   }}
-                  color="info"
                   size="sm"
                 >
                   Edit
                 </Button>
 
                 <Button
-                  color="danger"
+                  className="my-danger-button"
                   size="sm"
                   onClick={() => {
                     setSelectedAccessory(item);
