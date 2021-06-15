@@ -40,12 +40,12 @@ const ViewProjects = (props) => {
         field: "projectName",
         sort: "asc",
       },
-      // {
-      //   label: "Client Name",
-      //   field: "clientName",
-      //   sort: "asc",
-      //   width: 150,
-      // },
+      {
+        label: "Client Name",
+        field: "clientName",
+        sort: "asc",
+        width: 150,
+      },
       // {
       //   label: "Order Num",
       //   field: "orderNum",
@@ -274,7 +274,12 @@ const ViewProjects = (props) => {
         res.data.map((item, index) => {
           data.rows.push({
             projectName: item.name ? item.name : "N/A",
-            clientName: item.client ? item.client.name : "N/A",
+            clientName: (
+              <Link to={`/client-details/${item.client._id}`}>
+                {" "}
+                {item.client ? item.client.name : "N/A"}
+              </Link>
+            ),
             orderNum: item.orderNum ? item.orderNum : "N/A",
             platform: item.platform ? item.platform.name : "N/A",
             technology: item.technology ? item.technology.name : "N/A",

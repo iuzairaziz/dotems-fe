@@ -8,7 +8,7 @@ import ClientService from "../../../services/ClientService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import moment from "moment";
 
-const ViewClients = () => {
+const ViewClients = (props) => {
   const [editTask, setEditTask] = useState();
   const [selectedClient, setSelectedClient] = useState({ name: "" });
   const [modalEdit, setModalEdit] = useState(false);
@@ -111,6 +111,19 @@ const ViewClients = () => {
             country: item.country ? item.country.name : "N/A",
             action: (
               <div className="row flex-nowrap">
+                <Button
+                  className="my-seconday-button"
+                  size="sm"
+                  data-toggle="modal"
+                  data-target="#myModal"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/client-details/" + item._id,
+                    });
+                  }}
+                >
+                  View
+                </Button>
                 <Button
                   className="my-primary-button"
                   onClick={() => {

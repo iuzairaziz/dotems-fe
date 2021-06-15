@@ -176,17 +176,15 @@ const ProjectReports = () => {
                   }
                 })
               : "N/A",
-            Rexpense: item.assignedUser
-              ? item.assignedUser.allResourcesExpense.toFixed(2)
+            Rexpense: item.projectResourcesExpense
+              ? item.projectResourcesExpense.allResourcesExpense.toFixed(2)
               : "N/A",
             Tprofit: item.assignedUser
-              ? (
-                  item.currency.exchangeRate *
-                    (item.cost -
-                      ((item.Pdeduction / 100) * item.cost +
-                        (item.Rprofit / 100) * item.cost)) -
-                  item.assignedUser.allResourcesExpense
-                ).toFixed(2)
+              ? item.currency.exchangeRate *
+                  (item.cost -
+                    ((item.Pdeduction / 100) * item.cost +
+                      (item.Rprofit / 100) * item.cost)) -
+                item.projectResourcesExpense.allResourcesExpense.toFixed(2)
               : "N/A",
           });
         });

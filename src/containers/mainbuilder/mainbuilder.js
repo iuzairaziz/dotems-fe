@@ -147,6 +147,7 @@ import AccessoryList from "../MainContent/Accessories/AccessoryList/AccessoryLis
 import MachineDetails from "../MainContent/Machine/MachineDetials/MachineDetails";
 import ChangePassword from "../MainContent/User/AddNewUser/ChangePasswrod";
 import ChangePasswordForm from "../MainContent/User/AddUserForm/ChangePasswordForm";
+import ClientDetails from "../MainContent/Client/ClientDetail";
 
 class mainbuilder extends Component {
   render() {
@@ -180,6 +181,7 @@ class mainbuilder extends Component {
         <Route exact path="/viewuser" component={ViewUsers} />
         <Route exact path="/updateuser" component={updateUsers} />
         <Route exact path="/projectdetails/:id" component={ProjectDetails} />
+        <Route exact path="/client-details/:id" component={ClientDetails} />
         <Route exact path="/userdetails" component={UserDetails} />
         <Route exact path="/changepass" component={ChangePassword} />
         <Route exact path="/changepassword" component={ChangePasswordForm} />

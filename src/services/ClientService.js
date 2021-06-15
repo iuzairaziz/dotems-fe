@@ -14,8 +14,8 @@ class ClientService {
     );
   }
 
-  getClientById(orderId) {
-    return axios.get(this.config.apiBaseUrl + "client/" + orderId);
+  getClientById(id) {
+    return axios.get(this.config.apiBaseUrl + "client/" + id);
   }
 
   getAllClient() {
