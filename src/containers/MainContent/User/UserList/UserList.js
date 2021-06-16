@@ -8,7 +8,7 @@ import UserService from "../../../../services/UserService";
 import UserForm from "../AddUserForm/AddUserForm";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-const ViewUsers = () => {
+const ViewUsers = (props) => {
   const [editTask, setEditTask] = useState();
   const [selectedUser, setSelectedUser] = useState({ name: "" });
   const [modalEdit, setModalEdit] = useState(false);
@@ -157,7 +157,20 @@ const ViewUsers = () => {
             dateOfJoin: item.joiningDate
               ? moment(item.joiningDate).format("DD/MMM/YYYY")
               : "N/A",
-            machinenum: item.machineNo ? item.machineNo.machineNo : "N/A",
+            // machinenum: (
+            //   <Link to={`/machine-details/${item.machineNo._id}`}>
+            //     {" "}
+            //     {item.machineNo ? item.machineNo.machineNo : "N/A"}{" "}
+            //   </Link>
+            // ),
+            machinenum: item.machineNo ? (
+              <Link to={`/machine-details/${item.machineNo._id}`}>
+                {" "}
+                {item.machineNo.machineNo}{" "}
+              </Link>
+            ) : (
+              "none"
+            ),
             salary: item.salary ? item.salary : "N/A",
             status: item.status ? item.status : "N/A",
             gender: item.gender ? item.gender : "N/A",
@@ -176,17 +189,19 @@ const ViewUsers = () => {
 
             action: (
               <div className="row flex-nowrap">
-                <Link to={{ pathname: "/userdetails", UserProps: item }}>
-                  <Button
-                    className="my-seconday-button"
-                    size="sm"
-                    data-toggle="modal"
-                    data-target="#myModal"
-                    onClick={() => {}}
-                  >
-                    View
-                  </Button>
-                </Link>
+                <Button
+                  className="my-seconday-button"
+                  size="sm"
+                  data-toggle="modal"
+                  data-target="#myModal"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/userdetails/" + item._id,
+                    });
+                  }}
+                >
+                  View
+                </Button>
                 <Button
                   className="my-primary-button"
                   onClick={() => {

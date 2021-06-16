@@ -91,7 +91,7 @@ const ViewProjects = (props, match) => {
         sort: "disabled",
       },
       {
-        label: "Total Estimate Hrs",
+        label: "Total Est. Hrs",
         field: "EstHrs",
         sort: "disabled",
         // width: 100,

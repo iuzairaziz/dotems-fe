@@ -184,7 +184,7 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label>Salary</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   value={props.values.salary}
                   onChange={props.handleChange("salary")}
