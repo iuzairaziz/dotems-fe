@@ -8,7 +8,7 @@ import UserService from "../../../../services/UserService";
 import UserForm from "../AddUserForm/AddUserForm";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-const ViewUsers = () => {
+const ViewUsers = (props) => {
   const [editTask, setEditTask] = useState();
   const [selectedUser, setSelectedUser] = useState({ name: "" });
   const [modalEdit, setModalEdit] = useState(false);
@@ -181,17 +181,19 @@ const ViewUsers = () => {
 
             action: (
               <div className="row flex-nowrap">
-                <Link to={{ pathname: "/userdetails", UserProps: item }}>
-                  <Button
-                    className="my-seconday-button"
-                    size="sm"
-                    data-toggle="modal"
-                    data-target="#myModal"
-                    onClick={() => {}}
-                  >
-                    View
-                  </Button>
-                </Link>
+                <Button
+                  className="my-seconday-button"
+                  size="sm"
+                  data-toggle="modal"
+                  data-target="#myModal"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/userdetails/" + item._id,
+                    });
+                  }}
+                >
+                  View
+                </Button>
                 <Button
                   className="my-primary-button"
                   onClick={() => {

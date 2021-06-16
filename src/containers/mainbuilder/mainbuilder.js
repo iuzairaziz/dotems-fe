@@ -148,6 +148,7 @@ import MachineDetails from "../MainContent/Machine/MachineDetials/MachineDetails
 import ChangePassword from "../MainContent/User/AddNewUser/ChangePasswrod";
 import ChangePasswordForm from "../MainContent/User/AddUserForm/ChangePasswordForm";
 import ClientDetails from "../MainContent/Client/ClientDetail";
+import MyTasks from "../MainContent/Tasks/TaskList/MyTaskList";
 
 class mainbuilder extends Component {
   render() {
@@ -182,9 +183,10 @@ class mainbuilder extends Component {
         <Route exact path="/updateuser" component={updateUsers} />
         <Route exact path="/projectdetails/:id" component={ProjectDetails} />
         <Route exact path="/client-details/:id" component={ClientDetails} />
-        <Route exact path="/userdetails" component={UserDetails} />
+        <Route exact path="/userdetails/:id" component={UserDetails} />
         <Route exact path="/changepass" component={ChangePassword} />
         <Route exact path="/changepassword" component={ChangePasswordForm} />
+        <Route exact path="/my-tasks" component={MyTasks} />
         //nehal routes
         <Route exact path="/project-settings" component={ProjectSettings} />
         <Route exact path="/add-time" component={AddTime} />

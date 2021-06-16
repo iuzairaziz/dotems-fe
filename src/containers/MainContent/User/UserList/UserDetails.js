@@ -1,13 +1,110 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import Editable from "react-x-editable";
 import moment from "moment";
+import { MDBDataTableV5, MDBBtn } from "mdbreact";
+import UserService from "../../../../services/UserService";
+
 const UserDetails = (props) => {
   {
-    console.log("props", props.location.UserProps);
-    const user = props.location.UserProps;
-    console.log("Project Name", user.name);
+    const [userData, setDataa] = useState();
+
+    const [dataa, setData] = useState({
+      columns: [
+        {
+          label: "Title",
+          field: "title",
+          sort: "asc",
+          // width: 150,
+        },
+        {
+          label: "Project",
+          field: "project",
+          sort: "asc",
+          // width: 270,
+        },
+        {
+          label: "Estimated Hours",
+          field: "estimatedHrs",
+          sort: "asc",
+          // width: 200,
+        },
+        {
+          label: "Project Ratio",
+          field: "projectRatio",
+          sort: "asc",
+          // width: 100,
+        },
+        {
+          label: "Status",
+          field: "status",
+          sort: "asc",
+          // width: 100,
+        },
+        {
+          label: "Team Lead",
+          field: "teamLead",
+          sort: "asc",
+          // width: 100,
+        },
+        {
+          label: "Parent Task",
+          field: "parentTask",
+          sort: "asc",
+          // width: 150,
+        },
+        {
+          label: "Added By",
+          field: "addedBy",
+          sort: "asc",
+          // width: 100,
+        },
+        {
+          label: "Approved By",
+          field: "approvedBy",
+          sort: "asc",
+          // width: 100,
+        },
+        {
+          label: "Start Time",
+          field: "startTime",
+          sort: "asc",
+          // width: 100,
+        },
+        {
+          label: "End Time",
+          field: "endTime",
+          sort: "asc",
+          // width: 100,
+        },
+        {
+          label: "Action",
+          field: "action",
+          sort: "disabled",
+          width: 450,
+        },
+      ],
+      rows: [],
+    });
+
+    console.log("props", props.match.params.id);
+    const userID = props.match.params.id;
+
+    useEffect(() => {
+      getData(userID);
+    }, []);
+
+    const getData = (id) => {
+      UserService.getUserById(id)
+        .then((res) => {
+          setDataa(res.data);
+        })
+        .catch((err) => {
+          console.log("error", err);
+        });
+    };
+    console.log("Users", userData);
 
     return (
       <AUX>
@@ -24,7 +121,7 @@ const UserDetails = (props) => {
                           <input
                             type="text"
                             className="form-control"
-                            value={user.name}
+                            value={userData && userData.name}
                             readOnly={true}
                           />
                         </div>
@@ -34,7 +131,7 @@ const UserDetails = (props) => {
                           <label>UserName</label>
                           <input
                             className="form-control"
-                            value={user.email}
+                            value={userData && userData.email}
                             readOnly={true}
                           />
                         </div>
@@ -47,7 +144,9 @@ const UserDetails = (props) => {
                           <input
                             type="text"
                             className="form-control"
-                            value={moment(user.joiningDate).format("LL")}
+                            value={moment(
+                              userData && userData.joiningDate
+                            ).format("LL")}
                             readOnly={true}
                           />
                         </div>
@@ -57,7 +156,7 @@ const UserDetails = (props) => {
                           <label>Machine Number</label>
                           <input
                             className="form-control"
-                            value={user.machineNo.machineNo}
+                            value={userData && userData.machineNo.machineNo}
                             readOnly={true}
                           />
                         </div>
@@ -70,7 +169,7 @@ const UserDetails = (props) => {
                           <input
                             type="text"
                             className="form-control"
-                            value={user.salary}
+                            value={userData && userData.salary}
                             readOnly={true}
                           />
                         </div>
@@ -80,7 +179,7 @@ const UserDetails = (props) => {
                           <label>Status</label>
                           <input
                             className="form-control"
-                            value={user.status}
+                            value={userData && userData.status}
                             readOnly={true}
                           />
                         </div>
@@ -93,7 +192,7 @@ const UserDetails = (props) => {
                           <input
                             type="text"
                             className="form-control"
-                            value={user.gender}
+                            value={userData && userData.gender}
                             readOnly={true}
                           />
                         </div>
@@ -103,7 +202,7 @@ const UserDetails = (props) => {
                           <label>Role</label>
                           <input
                             className="form-control"
-                            value={user.userRole}
+                            value={userData && userData.userRole}
                             readOnly={true}
                           />
                         </div>
@@ -116,7 +215,7 @@ const UserDetails = (props) => {
                           <input
                             type="text"
                             className="form-control"
-                            value={user.workingHrs}
+                            value={userData && userData.workingHrs}
                             readOnly={true}
                           />
                         </div>
@@ -126,7 +225,7 @@ const UserDetails = (props) => {
                           <label>Working Days</label>
                           <input
                             className="form-control"
-                            value={user.workingDays}
+                            value={userData && userData.workingDays}
                             readOnly={true}
                           />
                         </div>
@@ -139,12 +238,15 @@ const UserDetails = (props) => {
                           <input
                             type="text"
                             className="form-control"
-                            value={user.technology.map((item) => {
-                              return item.name;
-                              {
-                                console.log("tech name", item.name);
-                              }
-                            })}
+                            value={
+                              userData &&
+                              userData.technology.map((item) => {
+                                return item.name;
+                                {
+                                  console.log("tech name", item.name);
+                                }
+                              })
+                            }
                             readOnly={true}
                           />
                         </div>
@@ -152,6 +254,26 @@ const UserDetails = (props) => {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="card m-b-20">
+              <div className="card-body">
+                <h4 className="mt-0 header-title">User Tasks</h4>
+
+                <MDBDataTableV5
+                  // scrollX
+                  fixedHeader={true}
+                  responsive
+                  striped
+                  bordered
+                  searchTop
+                  hover
+                  autoWidth
+                  data={dataa}
+                  theadColor="#000"
+                />
               </div>
             </div>
           </div>

@@ -41,6 +41,7 @@ class sidebar extends Component {
       subMenus: [
         { routeName: "add-task", label: "New Tasks" },
         { routeName: "task", label: "View Tasks" },
+        { routeName: "my-tasks", label: "My Tasks" },
       ],
     },
     {
