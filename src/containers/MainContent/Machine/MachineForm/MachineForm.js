@@ -149,15 +149,26 @@ const MachineForm = (props) => {
               serialNo: values.serialno,
             })
               .then((res) => {
-                MachineService.handleMessage("add");
                 HistoryService.addHistory({
+                  docId: res.data._id,
                   onModel: "Machine",
-                  document: JSON.stringify(res.data),
-                })
-                  .then((res) => {})
-                  .catch((err) => {});
+                  document: JSON.stringify({
+                    Graphics: res.data.Graphics,
+                    Memory: res.data.Memory,
+                    Ownership: res.data.Ownership,
+                    Processor: res.data.Processor,
+                    Status: res.data.Status,
+                    Storage: res.data.Storage,
+                    machineNo: res.data.machineNo,
+                    name: res.data.name,
+                    serialNo: res.data.serialNo,
+                    Accessory: historyAccessoriesArray,
+                  }),
+                });
+                MachineService.handleMessage("add");
               })
               .catch((err) => {
+                console.log("machine err", err);
                 MachineService.handleError();
               });
       }}

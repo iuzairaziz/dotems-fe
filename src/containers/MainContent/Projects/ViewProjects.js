@@ -19,7 +19,7 @@ import PlatformService from "../../../services/PlatformService";
 import StatusService from "../../../services/StatusService";
 import TechnologyService from "../../../services/TechnologyService";
 
-const ViewProjects = (props) => {
+const ViewProjects = (props, match) => {
   let history = useHistory();
   const [editTask, setEditTask] = useState();
   const [modalEdit, setModalEdit] = useState(false);
@@ -325,7 +325,7 @@ const ViewProjects = (props) => {
                   data-target="#myModal"
                   onClick={() => {
                     props.history.push({
-                      pathname: "/projectdetails/" + item._id,
+                      pathname: "/viewproject/" + item._id,
                     });
                   }}
                 >
