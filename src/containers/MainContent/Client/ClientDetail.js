@@ -53,7 +53,7 @@ const ClientDetails = (props) => {
           sort: "disabled",
         },
         {
-          label: "Total Estimate Hrs",
+          label: "Total Est. Hrs",
           field: "EstHrs",
           sort: "disabled",
           // width: 100,
@@ -84,14 +84,19 @@ const ClientDetails = (props) => {
               projectName: (
                 <Link to={`/projectdetails/${item._id}`}>
                   {" "}
-                  {item.name ? item.name : "none"}{" "}
+                  {item.name ? item.name : "none"}
+                  {"  "}
                 </Link>
               ),
               platform: item.platform ? item.platform.name : "none",
               technology: item.technology ? item.technology.name : "none",
               status: item.status ? item.status.name : "none",
-              startDate: item.cStartDate ? item.cStartDate : "none",
-              endDate: item.cEndDate ? item.cEndDate : "none",
+              startDate: item.cStartDate
+                ? moment(item.cStartDate).format("DD/MMM/YYYY")
+                : "none",
+              endDate: item.cEndDate
+                ? moment(item.cEndDate).format("DD/MMM/YYYY")
+                : "none",
               EstHrs: item.phase
                 ? item.phase.map((item1, index, key) => {
                     if (index === 0) EstTime = 0;

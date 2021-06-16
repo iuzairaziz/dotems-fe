@@ -157,11 +157,19 @@ const ViewUsers = (props) => {
             dateOfJoin: item.joiningDate
               ? moment(item.joiningDate).format("DD/MMM/YYYY")
               : "N/A",
-            machinenum: (
+            // machinenum: (
+            //   <Link to={`/machine-details/${item.machineNo._id}`}>
+            //     {" "}
+            //     {item.machineNo ? item.machineNo.machineNo : "N/A"}{" "}
+            //   </Link>
+            // ),
+            machinenum: item.machineNo ? (
               <Link to={`/machine-details/${item.machineNo._id}`}>
                 {" "}
-                {item.machineNo ? item.machineNo.machineNo : "N/A"}{" "}
+                {item.machineNo.machineNo}{" "}
               </Link>
+            ) : (
+              "none"
             ),
             salary: item.salary ? item.salary : "N/A",
             status: item.status ? item.status : "N/A",

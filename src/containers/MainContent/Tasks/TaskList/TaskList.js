@@ -57,21 +57,10 @@ const Tables_datatable = (props) => {
         sort: "asc",
         // width: 100,
       },
-      {
-        label: "Parent Task",
-        field: "parentTask",
-        sort: "asc",
-        // width: 150,
-      },
+
       {
         label: "Added By",
         field: "addedBy",
-        sort: "asc",
-        // width: 100,
-      },
-      {
-        label: "Approved By",
-        field: "approvedBy",
         sort: "asc",
         // width: 100,
       },
@@ -132,7 +121,7 @@ const Tables_datatable = (props) => {
                 {item.project ? item.project.name : "N/A"}{" "}
               </Link>
             ),
-            estimatedHrs: item.estHrs ? item.estHrs : "N/A",
+            estimatedHrs: item.estHrs ? item.estHrs.toFixed(2) : "N/A",
             projectRatio: item.projectRatio ? (
               <Progress color="teal" value={item.projectRatio}>
                 {item.projectRatio + "%"}
@@ -145,14 +134,21 @@ const Tables_datatable = (props) => {
                 {item.status ? item.status : "N/A"}
               </span>
             ),
-            teamLead: item.teamLead ? item.teamLead.name : "N/A",
+            teamLead: (
+              <Link to={`/userdetails/${item.teamLead._id}`}>
+                {" "}
+                {item.teamLead ? item.teamLead.name : "N/A"}{" "}
+              </Link>
+            ),
             parentTask: item.parentTask ? item.parentTask.name : "N/A",
             addedBy: item.addedBy ? item.addedBy : "N/A",
             approvedBy: item.approvedBy ? item.approvedBy.name : "N/A",
             startTime: item.startTime
               ? moment(item.startTime).format("DD/MMM/YYYY")
               : "N/A",
-            endTime: item.endTime ? item.endTime : "N/A",
+            endTime: item.endTime
+              ? moment(item.endTime).format("DD/MMM/YYYY")
+              : "N/A",
             action: (
               <div className="row flex-nowrap">
                 {/* <div className="col"> */}

@@ -5,10 +5,12 @@ import Editable from "react-x-editable";
 import moment from "moment";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import UserService from "../../../../services/UserService";
+import { Progress } from "reactstrap";
 
 const UserDetails = (props) => {
   {
-    const [userData, setDataa] = useState();
+    const [userData, setUserData] = useState();
+    const [taskData, setTaskData] = useState([]);
 
     const [dataa, setData] = useState({
       columns: [
@@ -49,20 +51,8 @@ const UserDetails = (props) => {
           // width: 100,
         },
         {
-          label: "Parent Task",
-          field: "parentTask",
-          sort: "asc",
-          // width: 150,
-        },
-        {
           label: "Added By",
           field: "addedBy",
-          sort: "asc",
-          // width: 100,
-        },
-        {
-          label: "Approved By",
-          field: "approvedBy",
           sort: "asc",
           // width: 100,
         },
@@ -78,12 +68,6 @@ const UserDetails = (props) => {
           sort: "asc",
           // width: 100,
         },
-        {
-          label: "Action",
-          field: "action",
-          sort: "disabled",
-          width: 450,
-        },
       ],
       rows: [],
     });
@@ -98,13 +82,47 @@ const UserDetails = (props) => {
     const getData = (id) => {
       UserService.getUserById(id)
         .then((res) => {
-          setDataa(res.data);
+          const { tasks, user } = res.data;
+          console.log(tasks);
+          setUserData(user);
+          setTaskData(tasks);
+          let data = { ...dataa };
+          data.rows = [];
+          tasks.map((item, index) => {
+            data.rows.push({
+              title: item.name ? item.name : "none",
+              project: (
+                <Link to={`/projectdetails/${item.project._id}`}>
+                  {" "}
+                  {item.project ? item.project.name : "none"}{" "}
+                </Link>
+              ),
+              estimatedHrs: item.estHrs ? item.estHrs.toFixed(2) : "none",
+              projectRatio: item.projectRatio ? (
+                <Progress color="teal" value={item.projectRatio}>
+                  {item.projectRatio + "%"}
+                </Progress>
+              ) : (
+                "N/A"
+              ),
+              status: item.status ? item.status : "none",
+              teamLead: item.teamLead ? item.teamLead.name : "none",
+              addedBy: item.addedBy ? item.addedBy : "none",
+              startTime: item.startTime
+                ? moment(item.startTime).format("DD/MMM/YYYY")
+                : "none",
+              endTime: item.endTime
+                ? moment(item.endTime).format("DD/MMM/YYYY")
+                : "none",
+            });
+          });
+          setData(data);
         })
         .catch((err) => {
           console.log("error", err);
         });
     };
-    console.log("Users", userData);
+    console.log("Tasks", taskData);
 
     return (
       <AUX>
@@ -156,7 +174,11 @@ const UserDetails = (props) => {
                           <label>Machine Number</label>
                           <input
                             className="form-control"
-                            value={userData && userData.machineNo.machineNo}
+                            value={
+                              userData &&
+                              userData.machineNo &&
+                              userData.machineNo.machineNo
+                            }
                             readOnly={true}
                           />
                         </div>
@@ -257,26 +279,28 @@ const UserDetails = (props) => {
               </div>
             </div>
           </div>
-          <div className="col-12">
-            <div className="card m-b-20">
-              <div className="card-body">
-                <h4 className="mt-0 header-title">User Tasks</h4>
+          {taskData.length != 0 && (
+            <div className="col-12">
+              <div className="card m-b-20">
+                <div className="card-body">
+                  <h4 className="mt-0 header-title">User Tasks</h4>
 
-                <MDBDataTableV5
-                  // scrollX
-                  fixedHeader={true}
-                  responsive
-                  striped
-                  bordered
-                  searchTop
-                  hover
-                  autoWidth
-                  data={dataa}
-                  theadColor="#000"
-                />
+                  <MDBDataTableV5
+                    // scrollX
+                    fixedHeader={true}
+                    responsive
+                    striped
+                    bordered
+                    searchTop
+                    hover
+                    autoWidth
+                    data={dataa}
+                    theadColor="#000"
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </AUX>
     );
