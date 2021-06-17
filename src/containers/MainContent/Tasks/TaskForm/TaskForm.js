@@ -8,6 +8,8 @@ import Select from "react-select";
 import TaskService from "../../../../services/TaskService";
 import userService from "../../../../services/UserService";
 import ProjectService from "../../../../services/ProjectService";
+import DatePicker from "react-datepicker";
+import moment from "moment";
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -20,28 +22,17 @@ const TaskForm = (props) => {
   const [description, setDescription] = useState(EditorState.createEmpty());
 
   useEffect(() => {
-    getUsers();
     getProjects();
-    // getTasks();
   }, []);
 
-  const getUsers = () => {
-    userService.getUsers("", "", "", "").then((res) => {
+  const loogedInUser = userService.userLoggedInInfo();
+  const getProjectUsers = (projectId) => {
+    userService.getProjectUsers(projectId).then((res) => {
       let options = [];
       res.data.map((item, index) => {
         options.push({ value: item._id, label: item.name, id: item._id });
       });
       setUsers(options);
-    });
-  };
-
-  const getTasks = () => {
-    TaskService.getAllTask().then((res) => {
-      let options = [];
-      res.data.map((item, index) => {
-        options.push({ label: item.name, id: item._id });
-      });
-      setTasks(options);
     });
   };
 
@@ -110,6 +101,8 @@ const TaskForm = (props) => {
               }
             : { label: "None", value: null },
         assignedTo: editable && assignedUsers,
+        startTime: editable && task.startTime,
+        endTime: editable && task.endTime,
         teamLead: editable &&
           task.teamLead && {
             label: task.teamLead.name,
@@ -118,6 +111,7 @@ const TaskForm = (props) => {
       }}
       validationSchema={tasksValidations.newTaskValidation}
       onSubmit={(values, actions) => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
         let usrs = [];
         values.assignedTo.map((item) => {
           usrs.push(item.id);
@@ -126,6 +120,8 @@ const TaskForm = (props) => {
         editable
           ? TaskService.updateTask(task._id, {
               name: values.title,
+              startTime: values.startTime,
+              endTime: values.endTime,
               description: JSON.stringify(
                 convertToRaw(values.description.getCurrentContent())
               ),
@@ -146,7 +142,8 @@ const TaskForm = (props) => {
               })
           : TaskService.addTask({
               name: values.title,
-              startTime: new Date(),
+              startTime: values.startTime,
+              endTime: values.endTime,
               description: JSON.stringify(
                 convertToRaw(values.description.getCurrentContent())
               ),
@@ -156,6 +153,7 @@ const TaskForm = (props) => {
               parentTask: values.parentTask.value,
               assignedTo: usrs,
               teamLead: values.teamLead.value,
+              addedBy: loogedInUser._id,
             })
               .then((res) => {
                 TaskService.handleMessage("add");
@@ -194,10 +192,13 @@ const TaskForm = (props) => {
                     onChange={(selected) => {
                       props.setFieldValue("project", selected);
                       getTasksByProjectId(selected.value);
+                      getProjectUsers(selected.value);
                     }}
                     options={projects}
                   />
-                  <span id="err">{props.errors.project}</span>
+                  <span id="err">
+                    {props.touched.project && props.errors.project}
+                  </span>
                 </div>
               </div>
 
@@ -215,10 +216,24 @@ const TaskForm = (props) => {
                     format={formatHrs}
                     value={props.values.estimatedHrs}
                     onChange={(value) => {
-                      props.setFieldValue("estimatedHrs", value);
+                      props.setFieldValue("estimatedHrs", value.toFixed(1));
                     }}
                   />
-                  <span id="err">{props.errors.estimatedHrs}</span>
+                  {/* <input
+                    type="range"
+                    className="form-range float-right"
+                    min="0"
+                    max="100"
+                    value={props.values.estimatedHrs}
+                    onChange={(e) => {
+                      props.setFieldValue("estimatedHrs", e.target.value);
+                    }}
+                    step="0.1"
+                    id="customRange3"
+                  /> */}
+                  <span id="err">
+                    {props.touched.estimatedHrs && props.errors.estimatedHrs}
+                  </span>
                 </div>
               </div>
               <div className="col-6">
@@ -231,7 +246,9 @@ const TaskForm = (props) => {
                     }}
                     options={tasks}
                   />
-                  <span id="err">{props.errors.parentTask}</span>
+                  <span id="err">
+                    {props.touched.parentTask && props.errors.parentTask}
+                  </span>
                 </div>
               </div>
 
@@ -254,10 +271,12 @@ const TaskForm = (props) => {
                     value={props.values.projectRatio}
                     onChange={(value) => {
                       // console.log("valueee==", value);
-                      props.setFieldValue("projectRatio", value);
+                      props.setFieldValue("projectRatio", value.toFixed(1));
                     }}
                   />
-                  <span id="err">{props.errors.projectRatio}</span>
+                  <span id="err">
+                    {props.touched.projectRatio && props.errors.projectRatio}
+                  </span>
                 </div>
               </div>
               <div className="col-6">
@@ -269,7 +288,9 @@ const TaskForm = (props) => {
                     options={users}
                     isMulti={true}
                   />
-                  <span id="err">{props.errors.assignedTo}</span>
+                  <span id="err">
+                    {props.touched.assignedTo && props.errors.assignedTo}
+                  </span>
                 </div>
               </div>
               <div className="col-6">
@@ -280,7 +301,41 @@ const TaskForm = (props) => {
                     onChange={(val) => props.setFieldValue("teamLead", val)}
                     options={users}
                   />
-                  <span id="err">{props.errors.teamLead}</span>
+                  <span id="err">
+                    {props.touched.teamLead && props.errors.teamLead}
+                  </span>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="form-group">
+                  <label>Start Time</label>
+                  <DatePicker
+                    className="form-control"
+                    selected={props.values.startTime}
+                    onChange={(date) => {
+                      props.setFieldValue("startTime", date);
+                      console.log("datepicker", date);
+                    }}
+                  />
+                  <span id="err">
+                    {props.touched.startTime && props.errors.startTime}
+                  </span>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="form-group">
+                  <label>End Time</label>
+                  <DatePicker
+                    className="form-control"
+                    selected={props.values.endTime}
+                    onChange={(date) => {
+                      props.setFieldValue("endTime", date);
+                      console.log("datepicker", date);
+                    }}
+                  />
+                  <span id="err">
+                    {props.touched.endTime && props.errors.endTime}
+                  </span>
                 </div>
               </div>
               <div className="col-12">
@@ -296,7 +351,9 @@ const TaskForm = (props) => {
                       props.setFieldValue("description", val);
                     }}
                   />
-                  <span id="err">{props.errors.description}</span>
+                  <span id="err">
+                    {props.touched.description && props.errors.description}
+                  </span>
                 </div>
               </div>
             </div>
