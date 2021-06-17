@@ -28,7 +28,7 @@ const UserForm = (props) => {
   console.log("from project form ", user);
 
   const getMachines = () => {
-    MachineService.getAllMachines().then((res) => {
+    MachineService.getFreeMachines().then((res) => {
       let options = [];
       res.data.map((item, index) => {
         options.push({ label: item.machineNo, value: item._id });
@@ -78,6 +78,9 @@ const UserForm = (props) => {
               userRole: values.userRole.value,
             })
               .then((res) => {
+                MachineService.updateMachine(user._id, {
+                  Status: "In-Use",
+                });
                 UserService.handleMessage("update");
                 props.toggle();
               })
@@ -100,6 +103,9 @@ const UserForm = (props) => {
             })
               .then((res) => {
                 UserService.handleMessage("add");
+                MachineService.updateMachine(values.machineNo.value, {
+                  Status: "In-Use",
+                });
               })
               .catch((err) => {
                 UserService.handleError();
@@ -178,7 +184,7 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label>Salary</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   value={props.values.salary}
                   onChange={props.handleChange("salary")}

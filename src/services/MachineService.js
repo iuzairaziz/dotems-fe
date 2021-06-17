@@ -17,6 +17,9 @@ class MachineService {
   getAllMachines() {
     return axios.get(this.config.apiBaseUrl + "machine/show-machine");
   }
+  getFreeMachines() {
+    return axios.get(this.config.apiBaseUrl + "machine/show-free-machine");
+  }
 
   getSingleMachine(id) {
     return axios.get(this.config.apiBaseUrl + `machine/single-machine/${id}`);
@@ -30,9 +33,6 @@ class MachineService {
     return axios.delete(this.config.apiBaseUrl + "machine/" + id);
   }
 
-  handleError(error) {
-    console.log(error.message);
-  }
   handleMessage(type) {
     if (type === "add") toast("Successfully added Machine");
     else if (type === "update") toast("Successfully updated Machine");

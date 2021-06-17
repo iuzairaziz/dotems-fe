@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import Editable from "react-x-editable";
+import moment from "moment";
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -19,6 +20,11 @@ const MachineDetails = (props) => {
 
     const [dataa, setData] = useState({
       columns: [
+        {
+          label: "Date",
+          field: "date",
+          sort: "asc",
+        },
         {
           label: "Machine Name",
           field: "machinename",
@@ -106,6 +112,9 @@ const MachineDetails = (props) => {
             let historyParsedData = JSON.parse(history);
             console.log("dsdsdsdsadwedwdewd", historyParsedData);
             data.rows.push({
+              date: item.createdAt
+                ? moment(item.createdAt).format("MMM Do YY")
+                : "none",
               machinename: historyParsedData.name
                 ? historyParsedData.name
                 : "none",
