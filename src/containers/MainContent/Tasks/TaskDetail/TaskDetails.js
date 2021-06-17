@@ -20,7 +20,7 @@ import moment from "moment";
 
 const TaskDetail = (props) => {
   const [taskData, setTaskData] = useState({});
-  const [subTasks, setSubTask] = useState();
+  const [subTasks, setSubTask] = useState([]);
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [selectedTask, setSelectedTask] = useState({ name: "" });
@@ -393,34 +393,32 @@ const TaskDetail = (props) => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="page-content-wrapper">
-        <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <h4 className="mt-0 header-title">Sub Tasks View</h4>
-                  <p className="text-muted m-b-30 font-14">
-                    Below are sub tasks of this task
-                  </p>
+              {subTasks.length != 0 && (
+                <div className="card m-b-20">
+                  <div className="card-body">
+                    <h4 className="mt-0 header-title">Sub Tasks View</h4>
+                    <p className="text-muted m-b-30 font-14">
+                      Below are sub tasks of this task
+                    </p>
 
-                  <MDBDataTableV5
-                    // scrollX
-                    fixedHeader={true}
-                    responsive
-                    striped
-                    bordered
-                    searchTop
-                    hover
-                    autoWidth
-                    data={dataa}
-                    theadColor="#000"
-                  />
+                    <MDBDataTableV5
+                      // scrollX
+                      fixedHeader={true}
+                      responsive
+                      striped
+                      bordered
+                      searchTop
+                      hover
+                      autoWidth
+                      data={dataa}
+                      theadColor="#000"
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>
@@ -462,6 +460,12 @@ const TaskDetail = (props) => {
           </div>
         </div>
       </div>
+
+      {/* <div className="page-content-wrapper">
+        <div className="container-fluid">
+        
+        </div>
+      </div> */}
     </div>
   );
 };

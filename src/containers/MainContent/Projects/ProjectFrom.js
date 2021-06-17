@@ -575,7 +575,7 @@ const ProjectForm = (props) => {
               <div className="form-group">
                 <label>Cost</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   value={props.values.cost}
                   onChange={props.handleChange("cost")}
@@ -603,7 +603,7 @@ const ProjectForm = (props) => {
                 <label>Platform Deduction</label>
                 <div className="input-group">
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
                     value={props.values.Pdeduction}
                     onChange={props.handleChange("Pdeduction")}
@@ -619,7 +619,7 @@ const ProjectForm = (props) => {
                 <label>Reserve Profit</label>
                 <div className="input-group">
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
                     value={props.values.Rprofit}
                     onChange={props.handleChange("Rprofit")}
@@ -636,7 +636,7 @@ const ProjectForm = (props) => {
               <div className="form-group">
                 <label>Other Deductions</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   value={props.values.otherDeduction}
                   onChange={props.handleChange("otherDeduction")}

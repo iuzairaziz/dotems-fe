@@ -267,7 +267,7 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label>Working Hours</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   value={props.values.workingHrs}
                   onChange={props.handleChange("workingHrs")}
@@ -280,7 +280,7 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label>Working Days </label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   value={props.values.workingDays}
                   onChange={props.handleChange("workingDays")}
