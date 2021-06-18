@@ -13,7 +13,7 @@ class UserValidation {
       gender: Yup.object().required(),
       joiningDate: Yup.string().required("Required!"),
       status: Yup.object().required("Required!"),
-      salary: Yup.string().required("Required!"),
+      salary: Yup.number().required("Required!"),
       password: Yup.string()
         .required("Required!")
         .min(6)

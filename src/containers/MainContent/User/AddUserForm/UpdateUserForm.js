@@ -58,8 +58,8 @@ const UpdateUser = (props) => {
     let loggedUser = UserService.userLoggedInInfo();
     console.log("logged user", loggedUser);
     UserService.getUserById(loggedUser._id).then((res) => {
-      console.log("userssss", res.data);
-      setUser(res.data);
+      console.log("userssss", res.data.user);
+      setUser(res.data.user);
     });
 
     console.log("usersssss", users);
@@ -214,7 +214,9 @@ const UpdateUser = (props) => {
                   options={technology}
                   isMulti={true}
                 />
-                <span id="err">{props.errors.technology}</span>
+                <span id="err">
+                  {props.touched.technology && props.errors.technology}
+                </span>
               </div>
             </div>
           </div>

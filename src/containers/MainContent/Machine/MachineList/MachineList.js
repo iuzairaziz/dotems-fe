@@ -81,24 +81,6 @@ const ViewMachines = (props) => {
             machineNo: item.machineNo ? item.machineNo : "none",
             resourceName: item.resourceName ? item.resourceName.name : "none",
 
-            // details: (
-            //   <div className="row flex-nowrap">
-            //     <Button
-            //       color="purple"
-            //       size="sm"
-            //       data-toggle="modal"
-            //       data-target="#myModal"
-            //       onClick={() => {
-            //         props.history.push({
-            //           pathname: "/projectdetails",
-            //           projectProps: item._id,
-            //         });
-            //       }}
-            //     >
-            //       View Details
-            //     </Button>
-            //   </div>
-            // ),
             action: (
               <div className="row flex-nowrap">
                 <Button

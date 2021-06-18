@@ -14,6 +14,7 @@ import TechnologyService from "../../../../services/TechnologyService";
 import ServiceService from "../../../../services/ServiceService";
 import NatureService from "../../../../services/NatureService";
 import ClientService from "../../../../services/ClientService";
+import userService from "../../../../services/UserService";
 
 const UserForm = (props) => {
   const [machineNo, setMachineNo] = useState([]);
@@ -29,7 +30,7 @@ const UserForm = (props) => {
 
   const getMachines = () => {
     MachineService.getFreeMachines().then((res) => {
-      let options = [];
+      let options = [{ label: "None", value: null }];
       res.data.map((item, index) => {
         options.push({ label: item.machineNo, value: item._id });
       });
@@ -60,7 +61,7 @@ const UserForm = (props) => {
         userRole: editable &&
           user.userRole && { label: user.userRole, value: user.userRole },
       }}
-      // validationSchema={userValidation.newUserValidation}
+      validationSchema={userValidation.newUserValidation}
       onSubmit={(values, actions) => {
         console.log(values);
         editable
@@ -78,7 +79,7 @@ const UserForm = (props) => {
               userRole: values.userRole.value,
             })
               .then((res) => {
-                MachineService.updateMachine(user._id, {
+                MachineService.updateMachine(values.machineNo.value, {
                   Status: "In-Use",
                 });
                 UserService.handleMessage("update");
@@ -105,7 +106,9 @@ const UserForm = (props) => {
                 UserService.handleMessage("add");
                 MachineService.updateMachine(values.machineNo.value, {
                   Status: "In-Use",
-                });
+                }).catch((err) =>
+                  UserService.handleMessage("Machine Not Assigned to the user")
+                );
               })
               .catch((err) => {
                 UserService.handleError();
@@ -131,7 +134,7 @@ const UserForm = (props) => {
                   onChange={props.handleChange("name")}
                   placeholder="Enter Name"
                 />
-                <span id="err">{props.errors.name}</span>
+                <span id="err">{props.touched.name && props.errors.name}</span>
               </div>
             </div>
             <div className="col">
@@ -144,7 +147,9 @@ const UserForm = (props) => {
                   onChange={props.handleChange("userName")}
                   placeholder="Enter user name / email"
                 />
-                <span id="err">{props.errors.userName}</span>
+                <span id="err">
+                  {props.touched.userName && props.errors.userName}
+                </span>
               </div>
             </div>
           </div>
@@ -174,7 +179,9 @@ const UserForm = (props) => {
                   onChange={(val) => props.setFieldValue("machineNo", val)}
                   options={machineNo}
                 />
-                <span id="err">{props.errors.machineNo}</span>
+                <span id="err">
+                  {props.touched.machineNo && props.errors.machineNo}
+                </span>
               </div>
             </div>
           </div>
@@ -190,7 +197,9 @@ const UserForm = (props) => {
                   onChange={props.handleChange("salary")}
                   placeholder="Enter Salary"
                 />
-                <span id="err">{props.errors.salary}</span>
+                <span id="err">
+                  {props.touched.salary && props.errors.salary}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -203,7 +212,9 @@ const UserForm = (props) => {
                   onChange={props.handleChange("password")}
                   placeholder="Enter Password"
                 />
-                <span id="err">{props.errors.salary}</span>
+                <span id="err">
+                  {props.touched.password && props.errors.password}
+                </span>
               </div>
             </div>
           </div>
@@ -221,7 +232,9 @@ const UserForm = (props) => {
                     { value: "Married", label: "Married" },
                   ]}
                 />
-                <span id="err">{props.errors.status}</span>
+                <span id="err">
+                  {props.touched.status && props.errors.status}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -238,7 +251,9 @@ const UserForm = (props) => {
                     { value: "Others", label: "Others" },
                   ]}
                 />
-                <span id="err">{props.errors.gender}</span>
+                <span id="err">
+                  {props.touched.gender && props.errors.gender}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -258,7 +273,9 @@ const UserForm = (props) => {
                     { value: "HR", label: "HR" },
                   ]}
                 />
-                <span id="err">{props.errors.userRole}</span>
+                <span id="err">
+                  {props.touched.userRole && props.errors.userRole}
+                </span>
               </div>
             </div>
           </div>
@@ -273,7 +290,9 @@ const UserForm = (props) => {
                   onChange={props.handleChange("workingHrs")}
                   placeholder="Enter Working Hours"
                 />
-                <span id="err">{props.errors.workingHrs}</span>
+                <span id="err">
+                  {props.touched.workingHrs && props.errors.workingHrs}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -286,7 +305,9 @@ const UserForm = (props) => {
                   onChange={props.handleChange("workingDays")}
                   placeholder="Enter Working Days"
                 />
-                <span id="err">{props.errors.workingDays}</span>
+                <span id="err">
+                  {props.touched.workingDays && props.errors.workingDays}
+                </span>
               </div>
             </div>
           </div>
