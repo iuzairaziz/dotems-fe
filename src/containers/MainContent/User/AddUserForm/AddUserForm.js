@@ -78,7 +78,7 @@ const UserForm = (props) => {
               userRole: values.userRole.value,
             })
               .then((res) => {
-                MachineService.updateMachine(user._id, {
+                MachineService.updateMachine(values.machineNo.value, {
                   Status: "In-Use",
                 });
                 UserService.handleMessage("update");
