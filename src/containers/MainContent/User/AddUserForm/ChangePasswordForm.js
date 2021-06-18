@@ -46,7 +46,9 @@ const ChangePasswordForm = (props) => {
                   onChange={props.handleChange("password")}
                   placeholder="Enter Password"
                 />
-                <span id="err">{props.errors.salary}</span>
+                <span id="err">
+                  {props.touched.password && props.errors.password}
+                </span>
               </div>
             </div>
           </div>
@@ -62,7 +64,10 @@ const ChangePasswordForm = (props) => {
                   onChange={props.handleChange("confirmPassword")}
                   placeholder="Enter confirmPassword"
                 />
-                <span id="err">{props.errors.confirmPassword}</span>
+                <span id="err">
+                  {props.touched.confirmPassword &&
+                    props.errors.confirmPassword}
+                </span>
               </div>
             </div>
           </div>

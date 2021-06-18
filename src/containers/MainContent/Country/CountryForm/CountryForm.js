@@ -48,7 +48,9 @@ const CountryForm = (props) => {
                     onChange={props.handleChange("title")}
                     placeholder="Enter Name"
                   />
-                  <span id="err">{props.errors.title}</span>
+                  <span id="err">
+                    {props.touched.title && props.errors.title}
+                  </span>
                 </div>
               </div>
             </div>

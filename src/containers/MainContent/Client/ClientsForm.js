@@ -109,7 +109,9 @@ const ClientsForm = (props) => {
                   onChange={props.handleChange("title")}
                   placeholder="Enter Name"
                 />
-                <span id="err">{props.errors.title}</span>
+                <span id="err">
+                  {props.touched.title && props.errors.title}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -122,7 +124,9 @@ const ClientsForm = (props) => {
                   onChange={props.handleChange("compName")}
                   placeholder="Enter Name"
                 />
-                <span id="err">{props.errors.compName}</span>
+                <span id="err">
+                  {props.touched.compName && props.errors.compName}
+                </span>
               </div>
             </div>
           </div>
@@ -137,7 +141,9 @@ const ClientsForm = (props) => {
                   onChange={props.handleChange("email")}
                   placeholder="Enter Email"
                 />
-                <span id="err">{props.errors.email}</span>
+                <span id="err">
+                  {props.touched.email && props.errors.email}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -150,7 +156,7 @@ const ClientsForm = (props) => {
                   onChange={props.handleChange("adrs")}
                   placeholder="Enter Address"
                 />
-                <span id="err">{props.errors.adrs}</span>
+                <span id="err">{props.touched.adrs && props.errors.adrs}</span>
               </div>
             </div>
           </div>
@@ -165,7 +171,9 @@ const ClientsForm = (props) => {
                   onChange={props.handleChange("conNum")}
                   placeholder="Enter Number"
                 />
-                <span id="err">{props.errors.conNum}</span>
+                <span id="err">
+                  {props.touched.conNum && props.errors.conNum}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -196,7 +204,7 @@ const ClientsForm = (props) => {
                   onChange={props.handleChange("ul")}
                   placeholder="Enter URL"
                 />
-                <span id="err">{props.errors.ul}</span>
+                <span id="err">{props.touched.ul && props.errors.ul}</span>
               </div>
             </div>
             <div className="col">
@@ -207,20 +215,9 @@ const ClientsForm = (props) => {
                   onChange={(val) => props.setFieldValue("country", val)}
                   options={country}
                 />
-                {/* <select
-                  className="form-control"
-                  value={props.values.country}
-                  onChange={props.handleChange("country")}
-                >
-                  {country.map((item, index) => {
-                    return (
-                      <option key={index} value={item.id}>
-                        {item.label}
-                      </option>
-                    );
-                  })}
-                </select> */}
-                <span id="err">{props.errors.country}</span>
+                <span id="err">
+                  {props.touched.country && props.errors.country}
+                </span>
               </div>
             </div>
           </div>

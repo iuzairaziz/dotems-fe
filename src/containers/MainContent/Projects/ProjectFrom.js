@@ -384,7 +384,9 @@ const ProjectForm = (props) => {
                   onChange={props.handleChange("projectName")}
                   placeholder="Enter Name"
                 />
-                <span id="err">{props.errors.projectName}</span>
+                <span id="err">
+                  {props.touched.projectName && props.errors.projectName}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -395,7 +397,9 @@ const ProjectForm = (props) => {
                   onChange={(val) => props.setFieldValue("clientName", val)}
                   options={client}
                 />
-                <span id="err">{props.errors.clientName}</span>
+                <span id="err">
+                  {props.touched.clientName && props.errors.clientName}
+                </span>
               </div>
             </div>
           </div>
@@ -410,7 +414,9 @@ const ProjectForm = (props) => {
                   onChange={props.handleChange("orderNum")}
                   placeholder="Enter Order Number"
                 />
-                <span id="err">{props.errors.orderNum}</span>
+                <span id="err">
+                  {props.touched.orderNum && props.errors.orderNum}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -422,7 +428,9 @@ const ProjectForm = (props) => {
                   options={platform}
                 />
 
-                <span id="err">{props.errors.platform}</span>
+                <span id="err">
+                  {props.touched.platform && props.errors.platform}
+                </span>
               </div>
             </div>
           </div>
@@ -436,7 +444,9 @@ const ProjectForm = (props) => {
                   options={technology}
                 />
 
-                <span id="err">{props.errors.technology}</span>
+                <span id="err">
+                  {props.touched.technology && props.errors.technology}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -447,7 +457,9 @@ const ProjectForm = (props) => {
                   onChange={(val) => props.setFieldValue("serviceType", val)}
                   options={service}
                 />
-                <span id="err">{props.errors.serviceType}</span>
+                <span id="err">
+                  {props.touched.serviceType && props.errors.serviceType}
+                </span>
               </div>
             </div>
           </div>
@@ -461,7 +473,9 @@ const ProjectForm = (props) => {
                   onChange={(val) => props.setFieldValue("status", val)}
                   options={status}
                 />
-                <span id="err">{props.errors.status}</span>
+                <span id="err">
+                  {props.touched.status && props.errors.status}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -472,7 +486,9 @@ const ProjectForm = (props) => {
                   onChange={(val) => props.setFieldValue("nature", val)}
                   options={nature}
                 />
-                <span id="err">{props.errors.nature}</span>
+                <span id="err">
+                  {props.touched.nature && props.errors.nature}
+                </span>
               </div>
             </div>
           </div>
@@ -554,7 +570,9 @@ const ProjectForm = (props) => {
                   onChange={(val) => props.setFieldValue("projectManager", val)}
                   options={users}
                 />
-                <span id="err">{props.errors.projectManager}</span>
+                <span id="err">
+                  {props.touched.projectManager && props.errors.projectManager}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -566,7 +584,9 @@ const ProjectForm = (props) => {
                   options={users}
                   isMulti={true}
                 />
-                <span id="err">{props.errors.teamMembers}</span>
+                <span id="err">
+                  {props.touched.teamMembers && props.errors.teamMembers}
+                </span>
               </div>
             </div>
           </div>
@@ -581,7 +601,7 @@ const ProjectForm = (props) => {
                   onChange={props.handleChange("cost")}
                   placeholder="Enter Amount"
                 />
-                <span id="err">{props.errors.cost}</span>
+                <span id="err">{props.touched.cost && props.errors.cost}</span>
               </div>
             </div>
             <div className="col">
@@ -593,7 +613,9 @@ const ProjectForm = (props) => {
                   onChange={(val) => props.setFieldValue("currency", val)}
                   options={currency}
                 />
-                <span id="err">{props.errors.currency}</span>
+                <span id="err">
+                  {props.touched.currency && props.errors.currency}
+                </span>
               </div>
             </div>
           </div>
@@ -611,7 +633,9 @@ const ProjectForm = (props) => {
                   />
                   <span className="input-group-text">%</span>
                 </div>
-                <span id="err">{props.errors.Pdeduction}</span>
+                <span id="err">
+                  {props.touched.Rprofit && props.errors.Rprofit}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -627,7 +651,9 @@ const ProjectForm = (props) => {
                   />
                   <span className="input-group-text">%</span>
                 </div>
-                <span id="err">{props.errors.Rprofit}</span>
+                <span id="err">
+                  {props.touched.Rprofit && props.errors.Rprofit}
+                </span>
               </div>
             </div>
           </div>
@@ -642,7 +668,9 @@ const ProjectForm = (props) => {
                   onChange={props.handleChange("otherDeduction")}
                   placeholder="Enter Other Deductions"
                 />
-                <span id="err">{props.errors.otherDeduction}</span>
+                <span id="err">
+                  {props.touched.otherDeduction && props.errors.otherDeduction}
+                </span>
               </div>
             </div>
           </div>
@@ -690,6 +718,9 @@ const ProjectForm = (props) => {
                   props.setFieldValue("description", val);
                 }}
               />
+              <span id="err">
+                {props.touched.description && props.errors.description}
+              </span>
             </div>
           </div>
           <div className="page-content-wrapper">

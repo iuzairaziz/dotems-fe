@@ -54,7 +54,9 @@ const CurrencyForm = (props) => {
                     onChange={props.handleChange("name")}
                     placeholder="Enter Name"
                   />
-                  <span id="err">{props.errors.name}</span>
+                  <span id="err">
+                    {props.touched.name && props.errors.name}
+                  </span>
                 </div>
               </div>
               <div className="col">
@@ -67,7 +69,9 @@ const CurrencyForm = (props) => {
                     onChange={props.handleChange("exchangeRate")}
                     placeholder="Enter Exchange Rate"
                   />
-                  <span id="err">{props.errors.exchangeRate}</span>
+                  <span id="err">
+                    {props.touched.exchangeRate && props.errors.exchangeRate}
+                  </span>
                 </div>
               </div>
             </div>

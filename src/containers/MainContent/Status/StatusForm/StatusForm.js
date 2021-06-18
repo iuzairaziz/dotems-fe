@@ -49,7 +49,9 @@ const StatusForm = (props) => {
                     onChange={props.handleChange("status")}
                     placeholder="Enter Name"
                   />
-                  <span id="err">{props.errors.status}</span>
+                  <span id="err">
+                    {props.touched.status && props.errors.status}
+                  </span>
                 </div>
               </div>
             </div>

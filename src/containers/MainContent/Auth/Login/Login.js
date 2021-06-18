@@ -128,16 +128,6 @@ class Login extends Component {
 
           <div className="m-t-40 text-center">
             <p className="text-white">
-              Don't have an account ?{" "}
-              <Link
-                to="pages_register"
-                className="font-500 font-14 text-white font-secondary"
-              >
-                {" "}
-                Signup Now{" "}
-              </Link>{" "}
-            </p>
-            <p className="text-white">
               © {new Date().getFullYear() - 1} - {new Date().getFullYear()} DOT.
               Crafted with <i className="mdi mdi-heart text-danger" /> by SUN
             </p>

@@ -62,7 +62,7 @@ const ExpensForm = (props) => {
                   onChange={props.handleChange("name")}
                   placeholder="Enter Name"
                 />
-                <span id="err">{props.errors.name}</span>
+                <span id="err">{props.touched.name && props.errors.name}</span>
               </div>
             </div>
           </div>
