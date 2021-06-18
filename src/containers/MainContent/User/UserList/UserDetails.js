@@ -114,7 +114,7 @@ const UserDetails = (props) => {
               ) : (
                 "none"
               ),
-              addedBy: item.addedBy ? item.addedBy : "none",
+              addedBy: item.addedBy ? item.addedBy.name : "none",
               startTime: item.startTime
                 ? moment(item.startTime).format("DD/MMM/YYYY")
                 : "none",
