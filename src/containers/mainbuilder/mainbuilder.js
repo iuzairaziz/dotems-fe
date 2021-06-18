@@ -56,6 +56,7 @@ import Machine from "../MainContent/Machine/Machine";
 import MyTasks from "../MainContent/Tasks/TaskList/MyTaskList";
 
 class mainbuilder extends Component {
+  baseUrl = this.props.match.url;
   render() {
     return (
       <Switch>
@@ -70,7 +71,7 @@ class mainbuilder extends Component {
         <Route exact path="/view-accessory" component={AccessoryList} />
         <Route exact path="/view-machine" component={MachineList} />
         <Route exact path="/machine-details/:id" component={MachineDetails} />
-        <Route exact path="/machine" component={Machine} />
+        {/* <Route exact path="/machine" component={Machine} /> */}
         // uzair routes
         <Route exact path="/addclient" component={AddClients} />
         <Route exact path="/viewclient" component={ViewClients} />
