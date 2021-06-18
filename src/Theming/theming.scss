@@ -24,3 +24,18 @@
 .editorClass {
   overflow-y: scroll !important;
 }
+
+#err {
+  color: chocolate;
+}
+input:focus {
+  border-color: var(--color-secondary2) !important;
+}
+
+.form-range {
+  min-width: 100%;
+}
+
+.rangeslider__fill {
+  background-color: var(--color-primary) !important;
+}

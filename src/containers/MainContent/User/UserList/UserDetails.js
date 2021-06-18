@@ -106,7 +106,14 @@ const UserDetails = (props) => {
                 "N/A"
               ),
               status: item.status ? item.status : "none",
-              teamLead: item.teamLead ? item.teamLead.name : "none",
+              teamLead: item.teamLead ? (
+                <Link to={`/userdetails/${item.teamLead._id}`}>
+                  {" "}
+                  {item.teamLead.name}{" "}
+                </Link>
+              ) : (
+                "none"
+              ),
               addedBy: item.addedBy ? item.addedBy : "none",
               startTime: item.startTime
                 ? moment(item.startTime).format("DD/MMM/YYYY")

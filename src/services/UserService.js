@@ -93,6 +93,10 @@ class userServices {
     );
   };
 
+  getProjectUsers = (projectId) => {
+    return axios.get(this.config.apiBaseUrl + `users/by-project/${projectId}`);
+  };
+
   getUserById(id) {
     return axios.get(this.config.apiBaseUrl + "users/" + id);
   }

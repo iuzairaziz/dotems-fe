@@ -141,7 +141,7 @@ const Tables_datatable = (props) => {
               </Link>
             ),
             parentTask: item.parentTask ? item.parentTask.name : "N/A",
-            addedBy: item.addedBy ? item.addedBy : "N/A",
+            addedBy: item.addedBy ? item.addedBy.name : "N/A",
             approvedBy: item.approvedBy ? item.approvedBy.name : "N/A",
             startTime: item.startTime
               ? moment(item.startTime).format("DD/MMM/YYYY")

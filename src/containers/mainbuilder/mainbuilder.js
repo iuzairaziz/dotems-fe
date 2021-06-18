@@ -148,6 +148,10 @@ import MachineDetails from "../MainContent/Machine/MachineDetials/MachineDetails
 import ChangePassword from "../MainContent/User/AddNewUser/ChangePasswrod";
 import ChangePasswordForm from "../MainContent/User/AddUserForm/ChangePasswordForm";
 import ClientDetails from "../MainContent/Client/ClientDetail";
+<<<<<<< HEAD
+=======
+import Machine from "../MainContent/Machine/Machine";
+>>>>>>> f192fb86847ef089b78faffc4871147456af41e8
 import MyTasks from "../MainContent/Tasks/TaskList/MyTaskList";
 
 class mainbuilder extends Component {
