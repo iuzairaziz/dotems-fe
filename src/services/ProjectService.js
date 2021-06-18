@@ -39,14 +39,17 @@ class ProjectService {
     );
   }
 
-  getProjectAndTask(id){
+  getProjectAndTask(id) {
     return axios.get(
-      this.config.apiBaseUrl + "projects/project-with-tasks/" + id);
+      this.config.apiBaseUrl + "projects/project-with-tasks/" + id
+    );
   }
 
-  getProjectReport(){
-    return axios.get (
-      this.config.apiBaseUrl + "projects/report");
+  getProjectReport(filter, status, technology, startDate, endDate) {
+    return axios.get(
+      this.config.apiBaseUrl +
+        `projects/report/?status=${status}&platForm=${filter}&technology=${technology}&startDate=${startDate}&endDate=${endDate}`
+    );
   }
 
   handleMessage(type) {
