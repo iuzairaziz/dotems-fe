@@ -11,7 +11,11 @@ class Machine extends Component {
       <>
         <h1>machine</h1>
         <Switch>
-          <Route path={`${this.props.match.url}/add`} component={AddMachine} />
+          <Route
+            exact
+            path={`${this.props.match.url}/add`}
+            component={AddMachine}
+          />
         </Switch>
       </>
     );

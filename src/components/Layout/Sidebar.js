@@ -20,58 +20,70 @@ class sidebar extends Component {
   };
 
   stateKeys = Object.keys(this.state);
+  baseUrl = this.props.match.url;
 
   menus = [
     {
       name: "user_menu",
       tab: "user",
       subMenus: [
-        { routeName: "add-user", label: "Add New User" },
-        { routeName: "viewuser", label: "View Users" },
+        { routeName: this.baseUrl + "add-user", label: "Add New User" },
+        { routeName: this.baseUrl + "viewuser", label: "View Users" },
       ],
     },
     {
       name: "timesheet_menu",
       tab: "timesheet",
-      subMenus: [{ routeName: "add-time", label: "New Time" }],
+      subMenus: [{ routeName: this.baseUrl + "add-time", label: "New Time" }],
     },
     {
       name: "task_menu",
       tab: "task",
       subMenus: [
-        { routeName: "add-task", label: "New Tasks" },
-        { routeName: "task", label: "View Tasks" },
-        { routeName: "my-tasks", label: "My Tasks" },
+        { routeName: this.baseUrl + "add-task", label: "New Tasks" },
+        { routeName: this.baseUrl + "task", label: "View Tasks" },
+        { routeName: this.baseUrl + "my-tasks", label: "My Tasks" },
       ],
     },
     {
       name: "project_menu",
       tab: "project",
       subMenus: [
-        { routeName: "addproject", label: "New Project" },
-        { routeName: "viewproject", label: "View Projects" },
-        { routeName: "projectreport", label: "Project Report" },
+        { routeName: this.baseUrl + "addproject", label: "New Project" },
+        { routeName: this.baseUrl + "viewproject", label: "View Projects" },
+        { routeName: this.baseUrl + "projectreport", label: "Project Report" },
       ],
     },
     {
       name: "project_settings_menu",
       tab: "project-settings",
-      subMenus: [{ routeName: "project-settings", label: "Menus" }],
+      subMenus: [
+        { routeName: this.baseUrl + "project-settings", label: "Menus" },
+      ],
     },
     {
       name: "machine_menu",
       tab: "Machine",
       subMenus: [
-        { routeName: "add-machine", label: "Add New Machine" },
-        { routeName: "view-machine", label: "View Machine Details" },
+        { routeName: this.baseUrl + "add-machine", label: "Add New Machine" },
+        {
+          routeName: this.baseUrl + "view-machine",
+          label: "View Machine Details",
+        },
       ],
     },
     {
       name: "accessory_menu",
       tab: "Accessory",
       subMenus: [
-        { routeName: "add-accessory", label: "Add New Accessory" },
-        { routeName: "view-accessory", label: "View Accessory " },
+        {
+          routeName: this.baseUrl + "add-accessory",
+          label: "Add New Accessory",
+        },
+        {
+          routeName: this.baseUrl + "view-accessory",
+          label: "View Accessory ",
+        },
       ],
     },
   ];
