@@ -1,8 +1,13 @@
 import React, { Component, useEffect, useState } from "react";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import AUX from "../../../../hoc/Aux_";
+import TaskService from "../../../../services/TaskService";
+import { Progress, Button } from "reactstrap";
+import { Link } from "react-router-dom";
+import moment from "moment";
+import UserService from "../../../../services/UserService";
 
-const MyTasks = () => {
+const MyTasks = (props) => {
   const [dataa, setData] = useState({
     columns: [
       {
@@ -74,6 +79,77 @@ const MyTasks = () => {
     ],
     rows: [],
   });
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  let loggedUser = UserService.userLoggedInInfo();
+
+  const getData = () => {
+    TaskService.getAllEmployeeTasks(loggedUser._id)
+      .then((res) => {
+        let data = { ...dataa };
+        data.rows = [];
+        res.data.map((item, index) => {
+          data.rows.push({
+            title: item.name ? item.name : "N/A",
+            project: item.project ? item.project.name : "N/A",
+            estimatedHrs: item.estHrs ? item.estHrs.toFixed(2) : "N/A",
+            projectRatio: item.projectRatio ? (
+              <Progress color="teal" value={item.projectRatio}>
+                {item.projectRatio + "%"}
+              </Progress>
+            ) : (
+              "N/A"
+            ),
+            status: (
+              <span className="badge badge-teal">
+                {item.status ? item.status : "N/A"}
+              </span>
+            ),
+            teamLead: item.teamLead ? item.teamLead.name : "N/A",
+            parentTask: item.parentTask ? item.parentTask.name : "N/A",
+            addedBy: item.addedBy ? (
+              <Link to={`/userdetails/${item.addedBy._id}`}>
+                {item.addedBy.name}{" "}
+              </Link>
+            ) : (
+              "N/A"
+            ),
+            startTime: item.startTime
+              ? moment(item.startTime).format("DD/MMM/YYYY")
+              : "N/A",
+            endTime: item.endTime
+              ? moment(item.endTime).format("DD/MMM/YYYY")
+              : "N/A",
+            action: (
+              <div className="row flex-nowrap">
+                <Button
+                  className="my-seconday-button"
+                  size="sm"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/task-details",
+                      taskId: item._id,
+                    });
+                  }}
+                >
+                  View
+                </Button>
+              </div>
+            ),
+          });
+        });
+        setData(data);
+        console.log("state data", dataa);
+        console.log("my task data", data);
+        console.log("res data", res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <AUX>
