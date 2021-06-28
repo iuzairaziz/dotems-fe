@@ -69,6 +69,7 @@ const mainbuilder = (props) => {
   return (
     <>
       <Switch>
+        <Route exact path="/login" component={Login} />
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/add-user" component={AddUser} />
           <Route exact path="/task-details" component={TaskDetails} />
@@ -126,7 +127,7 @@ const mainbuilder = (props) => {
             <Route exact path="/viewcurrency" component={CurrencyList} />
           </RoleAuth>
           <Route exact path="/add-time" component={AddTime} />
-          <Route exact path="/login" component={Login} />
+
           <Route exact path="/register" component={Register} />
 
           <Route exact path="/task" component={TaskList} />
