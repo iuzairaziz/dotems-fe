@@ -142,7 +142,7 @@ class Login extends Component {
                         </form>
                       </div>
                     </div>
-                    <div className="col-sm-6 text-right">
+                    {/* <div className="col-sm-6 text-right">
                       <button
                         className="btn btn-primary w-md waves-effect waves-light my-primary-button"
                         type="button"
@@ -167,7 +167,7 @@ class Login extends Component {
                       >
                         Log In
                       </button>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="m-t-40 text-center">

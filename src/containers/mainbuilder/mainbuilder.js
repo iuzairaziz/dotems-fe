@@ -69,6 +69,7 @@ const mainbuilder = (props) => {
   return (
     <>
       <Switch>
+        <Route exact path="/" component={Dashboard1} />
         <Route exact path="/login" component={Login} />
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/add-user" component={AddUser} />
@@ -134,7 +135,6 @@ const mainbuilder = (props) => {
 
           <Route exact path="/dashboard2" component={Dashboard2} />
 
-          <Route exact path="/" component={Dashboard1} />
           <Route exact path="/not-found" component={Pages_400} />
           {/* <Redirect to="/not-found" component={Pages_400} /> */}
         </RoleAuth>
