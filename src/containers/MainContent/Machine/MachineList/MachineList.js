@@ -3,6 +3,8 @@ import AUX from "../../../../hoc/Aux_";
 import { Link, useHistory } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import DatePicker from "react-datepicker";
+import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
+
 import moment from "moment";
 import {
   Progress,
@@ -142,7 +144,7 @@ const ViewMachines = (props) => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Machines</h4>
+                  <h4 className="mt-0 header-title">Machines </h4>
                   <MDBDataTableV5
                     // scrollX
                     fixedHeader={true}

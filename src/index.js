@@ -12,6 +12,7 @@ import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import httpIntercept from "../src/interceptor/interceptor";
 import "./Theming/theming.scss";
+import { ThroughProvider } from "react-through";
 
 const rootReducer = combineReducers({
   ui_red: UIreducer,
@@ -21,9 +22,11 @@ const store = createStore(rootReducer);
 const app = (
   <>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ThroughProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThroughProvider>
     </Provider>
   </>
 );
