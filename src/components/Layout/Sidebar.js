@@ -48,8 +48,13 @@ class sidebar extends Component {
       name: "task_menu",
       tab: "task",
       subMenus: [
-        { routeName: this.baseUrl + "add-task", label: "New Tasks" },
-        { routeName: this.baseUrl + "task", label: "View Tasks" },
+        ...(this.isRole([this.roles.PM, this.roles.ADMIN, this.roles.CEO])
+          ? [
+              { routeName: this.baseUrl + "add-task", label: "New Tasks" },
+              { routeName: this.baseUrl + "task", label: "View Tasks" },
+            ]
+          : []),
+
         { routeName: this.baseUrl + "my-tasks", label: "My Tasks" },
       ],
     },
