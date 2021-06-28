@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actionTypes from "../../../../store/action";
 import UserService from "../../../../services/UserService";
+import { actions } from "../../../../store/actions/index";
 import "./Login.scss";
 
 class Login extends Component {
@@ -100,8 +101,12 @@ class Login extends Component {
                             this.state.password
                           )
                             .then((res) => {
+                              this.props.UpdateLoginAgain();
+                              this.props.setAuthInfo(
+                                UserService.userLoggedInInfo()
+                              );
                               this.props.history.push("/");
-                              console.log(res);
+                              console.log(res.data);
                               window.location.reload();
                             })
                             .catch((err) => {
@@ -140,12 +145,13 @@ class Login extends Component {
 
 const mapStatetoProps = (state) => {
   return {
-    loginpage: state.ui_red.loginpage,
+    loginpage: state.layout.loginpage,
   };
 };
 
 const mapDispatchtoProps = (dispatch) => {
   return {
+    setAuthInfo: (user) => dispatch(actions.setAuthInfo(user)),
     UpdateLogin: () => dispatch({ type: actionTypes.LOGINPAGE, value: true }),
     UpdateLoginAgain: () =>
       dispatch({ type: actionTypes.LOGINPAGE, value: false }),

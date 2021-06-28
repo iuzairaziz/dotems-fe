@@ -146,6 +146,14 @@ class userServices {
       machineNo
     );
 
+  isUserRole = (array) => {
+    let user = this.userLoggedInInfo();
+    console.log("role ", user);
+    console.log("roles", array);
+    console.log("role auth", array.includes(user.userRole));
+    return array.includes(user.userRole);
+  };
+
   handleMessage(type) {
     if (type === "add") toast("Successfully Registered!");
     else if (type === "update") toast("Successfully updated User");

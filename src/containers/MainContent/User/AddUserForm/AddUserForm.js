@@ -15,9 +15,13 @@ import ServiceService from "../../../../services/ServiceService";
 import NatureService from "../../../../services/NatureService";
 import ClientService from "../../../../services/ClientService";
 import userService from "../../../../services/UserService";
+import Configuration from "../../../../config/configuration";
 
 const UserForm = (props) => {
   const [machineNo, setMachineNo] = useState([]);
+
+  const config = new Configuration();
+  const roles = config.Roles;
 
   useEffect(() => {
     getMachines();
@@ -265,12 +269,13 @@ const UserForm = (props) => {
                     props.setFieldValue("userRole", selected);
                   }}
                   options={[
-                    { value: "Internee", label: "Internee" },
-                    { value: "Probation", label: "Probation" },
-                    { value: "Employee", label: "Employee" },
-                    { value: "Admin", label: "Admin" },
-                    { value: "CEO", label: "CEO" },
-                    { value: "HR", label: "HR" },
+                    { value: roles.INTERNEE, label: roles.INTERNEE },
+                    { value: roles.PROBATION, label: roles.PROBATION },
+                    { value: roles.EMPLOYEE, label: roles.EMPLOYEE },
+                    { value: roles.PM, label: roles.PM },
+                    { value: roles.ADMIN, label: roles.ADMIN },
+                    { value: roles.CEO, label: roles.CEO },
+                    { value: roles.HR, label: roles.HR },
                   ]}
                 />
                 <span id="err">

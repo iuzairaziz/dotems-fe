@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Layout from "./components/Layout/Layout";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import mainbuilder from "./containers/mainbuilder/mainbuilder";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -32,6 +32,7 @@ const App = (props) => {
     >
       <Switch>
         <Route path="/" component={mainbuilder} />
+        <Redirect to="/not-found" />
       </Switch>
     </Layout>
   );
@@ -44,10 +45,10 @@ const App = (props) => {
 };
 const mapStatetoProps = (state) => {
   return {
-    header: state.ui_red.header,
-    sidebar: state.ui_red.sidebar,
-    footer: state.ui_red.footer,
-    loginpage: state.ui_red.loginpage,
+    header: state.layout.header,
+    sidebar: state.layout.sidebar,
+    footer: state.layout.footer,
+    loginpage: state.layout.loginpage,
   };
 };
 

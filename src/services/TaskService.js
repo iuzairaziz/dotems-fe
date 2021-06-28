@@ -18,6 +18,10 @@ class TaskService {
   getAllTask() {
     return axios.get(this.config.apiBaseUrl + "tasks/show-task");
   }
+
+  getAllEmployeeTasks(empId) {
+    return axios.get(this.config.apiBaseUrl + "tasks/by-employee/" + empId);
+  }
   getParentTasks() {
     return axios.get(this.config.apiBaseUrl + "tasks/parents");
   }
@@ -41,7 +45,7 @@ class TaskService {
   }
 
   getEmployeeTasksGroupByProject(data) {
-    return axios.post(this.config.apiBaseUrl + "tasks/employee/",data);
+    return axios.post(this.config.apiBaseUrl + "tasks/employee/", data);
   }
 
   handleMessage(type) {

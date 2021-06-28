@@ -3,8 +3,8 @@ import { Formik } from "formik";
 import timesheetValidations from "../../../../validations/timesheet-validations";
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
-import { Button } from "reactstrap";
 import Select from "react-select";
+import { Button } from "reactstrap";
 import moment from "moment";
 import TimesheetService from "../../../../services/TimesheetService";
 import TaskService from "../../../../services/TaskService";
@@ -14,18 +14,27 @@ import DatePicker from "react-datepicker";
 import WeeklyCalendar from "../../../../components/MyComponents/WeeklyCalendar/WeeklyCalendar";
 import "./TimesheetForm.scss";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import Configuration from "../../../../config/configuration";
 
 const TaskForm = (props) => {
   const [employeeData, setEmployeeData] = useState([]);
   const [selectedDays, setSelectedDays] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState({});
   const [toUpdate, setToUpdate] = useState(false);
   const [inputs, setInputs] = useState([{}]);
 
   const user = userService.userLoggedInInfo();
+  const { PM, ADMIN, CEO } = new Configuration().Roles;
   useEffect(() => {
     // console.log("employyee data",employeeData);
-    getEmployeeTasksGroupByProject(user._id, selectedDays[0], selectedDays[6]);
-  }, [selectedDays]);
+    getEmployeeTasksGroupByProject(
+      isRole([ADMIN, PM, CEO]) ? selectedUser.value : user._id,
+      selectedDays[0],
+      selectedDays[6]
+    );
+    getAllUsers();
+  }, [selectedDays, selectedUser]);
 
   useEffect(() => {
     console.log("s days in form", selectedDays);
@@ -40,6 +49,16 @@ const TaskForm = (props) => {
       return false;
     }
     return true;
+  };
+
+  const getAllUsers = () => {
+    userService.getUsers("", "", "", "").then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ value: item._id, label: item.name });
+      });
+      setUsers(options);
+    });
   };
 
   const handleChange = (
@@ -104,6 +123,7 @@ const TaskForm = (props) => {
 
   let counter = 0;
   let rowTotal = 0;
+  const isRole = userService.isUserRole;
   return (
     <>
       <form
@@ -112,7 +132,7 @@ const TaskForm = (props) => {
           console.log("event", e);
           TimesheetService.submitWeeklyTimesheet({
             employeeData: employeeData,
-            empId: user._id,
+            empId: isRole([ADMIN, PM, CEO]) ? selectedUser.value : user._id,
             days: selectedDays,
           })
             .then((res) => {
@@ -127,12 +147,25 @@ const TaskForm = (props) => {
         <table class="table table-bordered" id="timesheet-form">
           <thead>
             <tr>
-              <th scope="col" colSpan={9}>
+              <th scope="col" colSpan={isRole([ADMIN, PM, CEO]) ? 5 : 9}>
                 <WeeklyCalendar
                   setWeekNum={() => console.log("week number")}
                   setSelectedDays={setSelectedDays}
                 />
               </th>
+              {isRole([ADMIN, PM, CEO]) && (
+                <th colSpan={4}>
+                  <Select
+                    placeholder="Select Employee"
+                    // value={selectedUser.label}
+                    onChange={(obj) => {
+                      setSelectedUser(obj);
+                      console.log("object", obj);
+                    }}
+                    options={users}
+                  />
+                </th>
+              )}
             </tr>
             <tr>
               <th scope="col" className="col-8">
@@ -281,9 +314,17 @@ const TaskForm = (props) => {
             <input name="counter" value={counter} type="hidden" />
           </tbody>
         </table>
-        <button type="submit" className="btn btn-primary my-primary-button">
-          Save
-        </button>
+        {isRole([ADMIN, PM, CEO]) ? (
+          selectedUser.value && (
+            <button type="submit" className="btn btn-primary my-primary-button">
+              Save
+            </button>
+          )
+        ) : (
+          <button type="submit" className="btn btn-primary my-primary-button">
+            Save
+          </button>
+        )}
       </form>
     </>
   );

@@ -17,6 +17,7 @@ class layout extends Component {
               <div className="content-page">
                 <div className="content">
                   {this.props.header ? <Header /> : null}
+                  <div>breadcrumbs...........</div>
                   {this.props.children}
                 </div>
                 {this.props.footer ? <Footer /> : null}

@@ -5,6 +5,8 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import $ from "jquery";
 import "./Sidebar.scss";
+import userService from "../../services/UserService";
+import Configuration from "../../config/configuration";
 
 class sidebar extends Component {
   state = {
@@ -18,23 +20,29 @@ class sidebar extends Component {
     user_menu: false,
     project_settings_menu: false,
   };
-
+  roles = new Configuration().Roles;
   stateKeys = Object.keys(this.state);
   baseUrl = this.props.match.url;
-
+  isRole = userService.isUserRole;
   menus = [
-    {
-      name: "user_menu",
-      tab: "user",
-      subMenus: [
-        { routeName: this.baseUrl + "add-user", label: "Add New User" },
-        { routeName: this.baseUrl + "viewuser", label: "View Users" },
-      ],
-    },
+    ...(this.isRole([this.roles.PM, this.roles.ADMIN, this.roles.CEO])
+      ? [
+          {
+            name: "user_menu",
+            tab: "user",
+            subMenus: [
+              { routeName: this.baseUrl + "add-user", label: "Add New User" },
+              { routeName: this.baseUrl + "viewuser", label: "View Users" },
+            ],
+          },
+        ]
+      : []), // if false spread operator will return nothing as array elements
     {
       name: "timesheet_menu",
       tab: "timesheet",
-      subMenus: [{ routeName: this.baseUrl + "add-time", label: "New Time" }],
+      subMenus: [
+        { routeName: this.baseUrl + "add-time", label: "Weekly Timesheet" },
+      ],
     },
     {
       name: "task_menu",
@@ -45,47 +53,61 @@ class sidebar extends Component {
         { routeName: this.baseUrl + "my-tasks", label: "My Tasks" },
       ],
     },
-    {
-      name: "project_menu",
-      tab: "project",
-      subMenus: [
-        { routeName: this.baseUrl + "addproject", label: "New Project" },
-        { routeName: this.baseUrl + "viewproject", label: "View Projects" },
-        { routeName: this.baseUrl + "projectreport", label: "Project Report" },
-      ],
-    },
-    {
-      name: "project_settings_menu",
-      tab: "project-settings",
-      subMenus: [
-        { routeName: this.baseUrl + "project-settings", label: "Menus" },
-      ],
-    },
-    {
-      name: "machine_menu",
-      tab: "Machine",
-      subMenus: [
-        { routeName: this.baseUrl + "add-machine", label: "Add New Machine" },
-        {
-          routeName: this.baseUrl + "view-machine",
-          label: "View Machine Details",
-        },
-      ],
-    },
-    {
-      name: "accessory_menu",
-      tab: "Accessory",
-      subMenus: [
-        {
-          routeName: this.baseUrl + "add-accessory",
-          label: "Add New Accessory",
-        },
-        {
-          routeName: this.baseUrl + "view-accessory",
-          label: "View Accessory ",
-        },
-      ],
-    },
+
+    ...(this.isRole([this.roles.PM, this.roles.ADMIN, this.roles.CEO])
+      ? [
+          {
+            name: "project_menu",
+            tab: "project",
+            subMenus: [
+              { routeName: this.baseUrl + "addproject", label: "New Project" },
+              {
+                routeName: this.baseUrl + "viewproject",
+                label: "View Projects",
+              },
+              {
+                routeName: this.baseUrl + "projectreport",
+                label: "Project Report",
+              },
+            ],
+          },
+          {
+            name: "project_settings_menu",
+            tab: "project-settings",
+            subMenus: [
+              { routeName: this.baseUrl + "project-settings", label: "Menus" },
+            ],
+          },
+          {
+            name: "machine_menu",
+            tab: "Machine",
+            subMenus: [
+              {
+                routeName: this.baseUrl + "add-machine",
+                label: "Add New Machine",
+              },
+              {
+                routeName: this.baseUrl + "view-machine",
+                label: "View Machine Details",
+              },
+            ],
+          },
+          {
+            name: "accessory_menu",
+            tab: "Accessory",
+            subMenus: [
+              {
+                routeName: this.baseUrl + "add-accessory",
+                label: "Add New Accessory",
+              },
+              {
+                routeName: this.baseUrl + "view-accessory",
+                label: "View Accessory ",
+              },
+            ],
+          },
+        ]
+      : []),
   ];
 
   capitalize = (string) => {

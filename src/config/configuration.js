@@ -4,6 +4,15 @@ class Configuration {
   // apiBaseUrl = 'http://localhost:4000/';
   // hostUrl = 'http://localhost:3000';
   hostUrl = "https://autodeals-web.firebaseapp.com";
+  Roles = {
+    ADMIN: "Admin",
+    PM: "Project Manager",
+    HR: "HR",
+    EMPLOYEE: "Employee",
+    CEO: "CEO",
+    PROBATION: "Probation",
+    INTERNEE: "Internee",
+  };
 }
 
 export default Configuration;

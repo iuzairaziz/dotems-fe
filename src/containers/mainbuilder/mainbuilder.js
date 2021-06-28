@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Dashboard1 from "../MainContent/Dashboard/Dashboard1";
 import Dashboard2 from "../MainContent/Dashboard/Dashboard2";
 
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 //nehal defined routes
 import AddUser from "../MainContent/User/AddNewUser/AddUser";
@@ -54,70 +54,92 @@ import ChangePasswordForm from "../MainContent/User/AddUserForm/ChangePasswordFo
 import ClientDetails from "../MainContent/Client/ClientDetail";
 import Machine from "../MainContent/Machine/Machine";
 import MyTasks from "../MainContent/Tasks/TaskList/MyTaskList";
+import Configuration from "../../config/configuration";
+import userService from "../../services/UserService";
+import RoleAuth from "../../components/MyComponents/Auth/RoleAuth";
+import Pages_400 from "../../components/MyComponents/Pages/Pages_400";
 
-class mainbuilder extends Component {
-  baseUrl = this.props.match.url;
-  render() {
-    return (
+const mainbuilder = (props) => {
+  const baseUrl = props.match.url;
+  const roles = new Configuration().Roles;
+
+  const { ADMIN, PM, HR, CEO, EMPLOYEE, INTERNEE, PROBATION } = roles;
+  const ALL_ROLES = [ADMIN, PM, HR, CEO, EMPLOYEE, INTERNEE, PROBATION];
+  console.log("all roles", ALL_ROLES);
+  return (
+    <>
       <Switch>
-        // Sarosh Routes
-        <Route exact path="/add-user" component={AddUser} />
-        <Route exact path="/add-expense" component={ExpenseList} />
-        <Route exact path="/task-details" component={TaskDetails} />
-        <Route exact path="/subtask-details" component={TaskDetails} />
-        <Route exact path="/view-expense" component={ViewExpense} />
-        <Route exact path="/add-machine" component={AddMachine} />
-        <Route exact path="/add-accessory" component={AddAccessory} />
-        <Route exact path="/view-accessory" component={AccessoryList} />
-        <Route exact path="/view-machine" component={MachineList} />
-        <Route exact path="/machine-details/:id" component={MachineDetails} />
-        {/* <Route exact path="/machine" component={Machine} /> */}
-        // uzair routes
-        <Route exact path="/addclient" component={AddClients} />
-        <Route exact path="/viewclient" component={ViewClients} />
-        <Route exact path="/viewproject/:id" component={ProjectDetails} />
-        <Route exact path="/viewproject" component={ViewProjects} />
-        <Route exact path="/addproject" component={AddProjects} />
-        <Route exact path="/clientform" component={ClientsForm} />
-        <Route exact path="/projectreport" component={ProjectReports} />
-        <Route exact path="/addcurrency" component={AddCurrency} />
-        <Route exact path="/addstatus" component={AddStatus} />
-        <Route exact path="/viewstatus" component={StatusList} />
-        <Route exact path="/viewcurrency" component={CurrencyList} />
-        <Route exact path="/subtask" component={SubTask} />
-        <Route exact path="/subtask-details" component={SubTaskDetails} />
-        <Route exact path="/update-profile" component={UpdateUser} />
-        <Route exact path="/viewuser" component={ViewUsers} />
-        <Route exact path="/updateuser" component={updateUsers} />
-        <Route exact path="/client-details/:id" component={ClientDetails} />
-        <Route exact path="/userdetails/:id" component={UserDetails} />
-        <Route exact path="/changepass" component={ChangePassword} />
-        <Route exact path="/changepassword" component={ChangePasswordForm} />
-        <Route exact path="/my-tasks" component={MyTasks} />
-        //nehal routes
-        <Route exact path="/project-settings" component={ProjectSettings} />
-        <Route exact path="/add-time" component={AddTime} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/platform" component={PlatformList} />
-        <Route exact path="/add-platform" component={AddPlatform} />
-        <Route exact path="/service" component={ServiceList} />
-        <Route exact path="/add-service" component={AddService} />
-        <Route exact path="/country" component={CountryList} />
-        <Route exact path="/add-country" component={AddCountry} />
-        <Route exact path="/technology" component={TechnologyList} />
-        <Route exact path="/add-technology" component={AddTechnology} />
-        <Route exact path="/nature" component={NatureList} />
-        <Route exact path="/add-nature" component={AddNature} />
-        <Route exact path="/add-task" component={NewTask} />
-        {/* <Route exact path="/task/:id" component={TaskList} /> */}
-        <Route exact path="/task" component={TaskList} />
-        //===================================================================
-        <Route path="/dashboard2" component={Dashboard2} />
-        <Route path="/" component={Dashboard1} />
+        <RoleAuth roles={ALL_ROLES}>
+          <Route exact path="/add-user" component={AddUser} />
+          <Route exact path="/task-details" component={TaskDetails} />
+          <Route exact path="/subtask-details" component={TaskDetails} />
+
+          <Route exact path="/subtask" component={SubTask} />
+          <Route exact path="/subtask-details" component={SubTaskDetails} />
+          <Route exact path="/update-profile" component={UpdateUser} />
+          <RoleAuth roles={[ADMIN, PM, HR, CEO]}>
+            <Route exact path="/viewuser" component={ViewUsers} />
+          </RoleAuth>
+          <Route exact path="/updateuser" component={updateUsers} />
+          <Route exact path="/userdetails/:id" component={UserDetails} />
+          <Route exact path="/changepass" component={ChangePassword} />
+          <Route exact path="/changepassword" component={ChangePasswordForm} />
+          <Route exact path="/my-tasks" component={MyTasks} />
+          <RoleAuth roles={[ADMIN, PM, CEO]}>
+            <Route exact path="/add-task" component={NewTask} />
+          </RoleAuth>
+          <RoleAuth roles={[CEO, PM, ADMIN]}>
+            <Route exact path="/platform" component={PlatformList} />
+            <Route exact path="/add-platform" component={AddPlatform} />
+            <Route exact path="/service" component={ServiceList} />
+            <Route exact path="/add-service" component={AddService} />
+            <Route exact path="/country" component={CountryList} />
+            <Route exact path="/add-country" component={AddCountry} />
+            <Route exact path="/technology" component={TechnologyList} />
+            <Route exact path="/add-technology" component={AddTechnology} />
+            <Route exact path="/nature" component={NatureList} />
+            <Route exact path="/add-nature" component={AddNature} />
+
+            <Route exact path="/addcurrency" component={AddCurrency} />
+            <Route exact path="/addstatus" component={AddStatus} />
+            <Route exact path="/project-settings" component={ProjectSettings} />
+            <Route exact path="/viewproject/:id" component={ProjectDetails} />
+            <Route exact path="/viewproject" component={ViewProjects} />
+            <Route exact path="/addproject" component={AddProjects} />
+            <Route exact path="/projectreport" component={ProjectReports} />
+            <Route exact path="/add-machine" component={AddMachine} />
+            <Route exact path="/add-accessory" component={AddAccessory} />
+            <Route exact path="/view-accessory" component={AccessoryList} />
+            <Route exact path="/view-machine" component={MachineList} />
+            <Route exact path="/add-expense" component={ExpenseList} />
+            <Route exact path="/view-expense" component={ViewExpense} />
+            <Route exact path="/addclient" component={AddClients} />
+            <Route exact path="/clientform" component={ClientsForm} />
+            <Route exact path="/viewclient" component={ViewClients} />
+            <Route exact path="/client-details/:id" component={ClientDetails} />
+            <Route
+              exact
+              path="/machine-details/:id"
+              component={MachineDetails}
+            />
+            <Route exact path="/viewstatus" component={StatusList} />
+            <Route exact path="/viewcurrency" component={CurrencyList} />
+          </RoleAuth>
+          <Route exact path="/add-time" component={AddTime} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+
+          <Route exact path="/task" component={TaskList} />
+
+          <Route exact path="/dashboard2" component={Dashboard2} />
+
+          <Route exact path="/" component={Dashboard1} />
+          <Route exact path="/not-found" component={Pages_400} />
+          {/* <Redirect to="/not-found" component={Pages_400} /> */}
+        </RoleAuth>
       </Switch>
-    );
-  }
-}
+    </>
+  );
+};
 
 export default mainbuilder;
