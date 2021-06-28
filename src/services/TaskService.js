@@ -15,6 +15,10 @@ class TaskService {
     return axios.get(this.config.apiBaseUrl + "tasks/" + id);
   }
 
+  getAllEmployeeTasks(empID) {
+    return axios.get(this.config.apiBaseUrl + "tasks/by-employee/" + empID);
+  }
+
   getAllTask() {
     return axios.get(this.config.apiBaseUrl + "tasks/show-task");
   }
@@ -41,7 +45,7 @@ class TaskService {
   }
 
   getEmployeeTasksGroupByProject(data) {
-    return axios.post(this.config.apiBaseUrl + "tasks/employee/",data);
+    return axios.post(this.config.apiBaseUrl + "tasks/employee/", data);
   }
 
   handleMessage(type) {
