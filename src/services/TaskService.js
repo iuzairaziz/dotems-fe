@@ -15,6 +15,10 @@ class TaskService {
     return axios.get(this.config.apiBaseUrl + "tasks/" + id);
   }
 
+  getAllEmployeeTasks(empID) {
+    return axios.get(this.config.apiBaseUrl + "tasks/by-employee/" + empID);
+  }
+
   getAllTask() {
     return axios.get(this.config.apiBaseUrl + "tasks/show-task");
   }

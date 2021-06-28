@@ -18,6 +18,7 @@ import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import httpIntercept from "../src/interceptor/interceptor";
 import "./Theming/theming.scss";
+import { ThroughProvider } from "react-through";
 
 const rootReducer = combineReducers({
   layout: reducers.layout,
@@ -42,11 +43,16 @@ const store = createStore(
 const app = (
   <>
     <Provider store={store}>
-      {/* <PersistGate loading={null} persistor={persistor}> */}
+      {/* <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-      {/* </PersistGate> */}
+      </PersistGate> */}
+      <ThroughProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThroughProvider>
     </Provider>
   </>
 );
