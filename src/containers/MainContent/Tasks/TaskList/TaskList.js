@@ -116,7 +116,7 @@ const Tables_datatable = (props) => {
           data.rows.push({
             title: item.name ? item.name : "N/A",
             project: (
-              <Link to={`/projectdetails/${item.project._id}`}>
+              <Link to={`/viewproject/${item.project._id}`}>
                 {" "}
                 {item.project ? item.project.name : "N/A"}{" "}
               </Link>
