@@ -5,7 +5,21 @@ import Select from "react-select";
 import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  Progress,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 import CountryService from "../../../services/CountryService";
+import AddClientForm from "../Client/ClientsForm";
+import AddPlatform from "../Platform/PlatformForm/PlatformForm";
+import AddTechnology from "../Technology/TechnologyForm/TechnologyForm";
+import AddService from "../Service/ServiceForm/ServiceForm";
+import AddStatus from "../Status/StatusForm/StatusForm";
+import AddProjectNature from "../Nature/NatureForm/NatureForm";
+import AddCurrency from "../Currency/CurrencyForm";
 import ProjectService from "../../../services/ProjectService";
 import PlatformService from "../../../services/PlatformService";
 import TechnologyService from "../../../services/TechnologyService";
@@ -23,6 +37,13 @@ import "./ProjectForm.scss";
 
 const ProjectForm = (props) => {
   const [default_option, set_default_option] = useState(0);
+  const [clientModal, setClientModal] = useState(false);
+  const [platformModal, setPlatformModal] = useState(false);
+  const [technologyModal, setTechnologyModal] = useState(false);
+  const [serviceModal, setServiceModal] = useState(false);
+  const [statusModal, setStatusModal] = useState(false);
+  const [natureModal, setNatureModal] = useState(false);
+  const [currencyModal, setCurrencyModal] = useState(false);
   const [country, setCountry] = useState([]);
   const [platform, setPlatform] = useState([]);
   const [technology, setTechnology] = useState([]);
@@ -88,6 +109,14 @@ const ProjectForm = (props) => {
     set_default_option(opt);
   };
 
+  const toggleClientEdit = () => setClientModal(!clientModal);
+  const togglePlatformEdit = () => setPlatformModal(!platformModal);
+  const toggleTechnologyEdit = () => setTechnologyModal(!technologyModal);
+  const toggleServiceEdit = () => setServiceModal(!serviceModal);
+  const toggleStatusEdit = () => setStatusModal(!statusModal);
+  const toggleNatureEdit = () => setNatureModal(!natureModal);
+  const toggleCurrencyEdit = () => setCurrencyModal(!currencyModal);
+
   useEffect(() => {
     getCountry();
     getPlatform();
@@ -98,7 +127,15 @@ const ProjectForm = (props) => {
     getClient();
     getStatus();
     getCurrency();
-  }, []);
+  }, [
+    clientModal,
+    platformModal,
+    technologyModal,
+    serviceModal,
+    statusModal,
+    natureModal,
+    currencyModal,
+  ]);
 
   useEffect(() => {
     toShowData();
@@ -391,7 +428,22 @@ const ProjectForm = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
-                <label className="control-label">Client Name</label>
+                <div className="row">
+                  <div className="col">
+                    <label className="control-label">Client Name</label>
+                  </div>
+                  <div className="col">
+                    <div
+                      className="d-flex justify-content-end"
+                      id="add-new-Buttonm "
+                      onClick={() => {
+                        toggleClientEdit();
+                      }}
+                    >
+                      <i className="mdi mdi-plus-circle icon-add" />
+                    </div>
+                  </div>
+                </div>
                 <Select
                   value={props.values.clientName}
                   onChange={(val) => props.setFieldValue("clientName", val)}
@@ -421,7 +473,22 @@ const ProjectForm = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
-                <label className="control-label">Platform</label>
+                <div className="row">
+                  <div className="col">
+                    <label className="control-label">Platform</label>
+                  </div>
+                  <div className="col">
+                    <div
+                      className="d-flex justify-content-end"
+                      id="add-new-Buttonm "
+                      onClick={() => {
+                        togglePlatformEdit();
+                      }}
+                    >
+                      <i className="mdi mdi-plus-circle icon-add" />
+                    </div>
+                  </div>
+                </div>
                 <Select
                   value={props.values.platform}
                   onChange={(val) => props.setFieldValue("platform", val)}
@@ -437,7 +504,22 @@ const ProjectForm = (props) => {
           <div className="row">
             <div className="col">
               <div className="form-group">
-                <label className="control-label">Technology</label>
+                <div className="row">
+                  <div className="col">
+                    <label className="control-label">Technology</label>
+                  </div>
+                  <div className="col">
+                    <div
+                      className="d-flex justify-content-end"
+                      id="add-new-Buttonm "
+                      onClick={() => {
+                        toggleTechnologyEdit();
+                      }}
+                    >
+                      <i className="mdi mdi-plus-circle icon-add" />
+                    </div>
+                  </div>
+                </div>
                 <Select
                   value={props.values.technology}
                   onChange={(val) => props.setFieldValue("technology", val)}
@@ -451,7 +533,22 @@ const ProjectForm = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
-                <label className="control-label">Services Type</label>
+                <div className="row">
+                  <div className="col">
+                    <label className="control-label">Service Type</label>
+                  </div>
+                  <div className="col">
+                    <div
+                      className="d-flex justify-content-end"
+                      id="add-new-Buttonm "
+                      onClick={() => {
+                        toggleServiceEdit();
+                      }}
+                    >
+                      <i className="mdi mdi-plus-circle icon-add" />
+                    </div>
+                  </div>
+                </div>
                 <Select
                   value={props.values.serviceType}
                   onChange={(val) => props.setFieldValue("serviceType", val)}
@@ -466,7 +563,22 @@ const ProjectForm = (props) => {
           <div className="row">
             <div className="col">
               <div className="form-group">
-                <label className="control-label">Status</label>
+                <div className="row">
+                  <div className="col">
+                    <label className="control-label">Status</label>
+                  </div>
+                  <div className="col">
+                    <div
+                      className="d-flex justify-content-end"
+                      id="add-new-Buttonm "
+                      onClick={() => {
+                        toggleStatusEdit();
+                      }}
+                    >
+                      <i className="mdi mdi-plus-circle icon-add" />
+                    </div>
+                  </div>
+                </div>
 
                 <Select
                   value={props.values.status}
@@ -480,7 +592,22 @@ const ProjectForm = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
-                <label className="control-label">Project Nature</label>
+                <div className="row">
+                  <div className="col">
+                    <label className="control-label">Project Nature</label>
+                  </div>
+                  <div className="col">
+                    <div
+                      className="d-flex justify-content-end"
+                      id="add-new-Buttonm "
+                      onClick={() => {
+                        toggleNatureEdit();
+                      }}
+                    >
+                      <i className="mdi mdi-plus-circle icon-add" />
+                    </div>
+                  </div>
+                </div>
                 <Select
                   value={props.values.nature}
                   onChange={(val) => props.setFieldValue("nature", val)}
@@ -526,40 +653,7 @@ const ProjectForm = (props) => {
               </div>{" "}
             </div>
           </div>
-          <div className="row">
-            <div className="col">
-              {" "}
-              <div className="form-group">
-                <label>PM Start Date</label>
-                <div>
-                  <DatePicker
-                    className="form-control"
-                    selected={props.values.pmStartDate}
-                    onChange={(date1) => {
-                      props.setFieldValue("pmStartDate", date1);
-                      console.log("datepicker", date1);
-                    }}
-                  />
-                </div>
-              </div>{" "}
-            </div>
-            <div className="col">
-              {" "}
-              <div className="form-group">
-                <label>PM End Date</label>
-                <div>
-                  <DatePicker
-                    className="form-control"
-                    selected={props.values.pmEndDate}
-                    onChange={(date2) => {
-                      props.setFieldValue("pmEndDate", date2);
-                      console.log("datepicker", date2);
-                    }}
-                  />
-                </div>
-              </div>{" "}
-            </div>
-          </div>
+
           <div className="row">
             <div className="col">
               <div className="form-group">
@@ -606,7 +700,22 @@ const ProjectForm = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
-                <label>Currency</label>
+                <div className="row">
+                  <div className="col">
+                    <label className="control-label">Currency</label>
+                  </div>
+                  <div className="col">
+                    <div
+                      className="d-flex justify-content-end"
+                      id="add-new-Buttonm "
+                      onClick={() => {
+                        toggleCurrencyEdit();
+                      }}
+                    >
+                      <i className="mdi mdi-plus-circle icon-add" />
+                    </div>
+                  </div>
+                </div>
 
                 <Select
                   value={props.values.currency}
@@ -723,171 +832,209 @@ const ProjectForm = (props) => {
               </span>
             </div>
           </div>
-          <div className="page-content-wrapper">
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col-12">
-                  <table className="table table-striped mb-0">
-                    <thead>
-                      <tr>
-                        <th style={{ fontSize: "17px", fontWeight: "bold" }}>
-                          Project Phase
-                        </th>
-                        <th style={{ fontSize: "17px", fontWeight: "bold" }}>
-                          Estimate Hours
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Requirement Analysis</td>
-                        <td>
-                          <Editable
-                            name="Hours"
-                            dataType="text"
-                            mode="inline"
-                            value={phases[0].estTime}
-                            display={(value) => {
-                              phases[0].estTime = value;
-                              console.log("value inside editable=", value);
-                              setThours(value);
+          <div className="PMArea">
+            <h4>Project Manager Area</h4>
+            <div className="row">
+              <div className="col">
+                {" "}
+                <div className="form-group">
+                  <label>PM Start Date</label>
+                  <div>
+                    <DatePicker
+                      className="form-control"
+                      selected={props.values.pmStartDate}
+                      onChange={(date1) => {
+                        props.setFieldValue("pmStartDate", date1);
+                        console.log("datepicker", date1);
+                      }}
+                    />
+                  </div>
+                </div>{" "}
+              </div>
+              <div className="col">
+                {" "}
+                <div className="form-group">
+                  <label>PM End Date</label>
+                  <div>
+                    <DatePicker
+                      className="form-control"
+                      selected={props.values.pmEndDate}
+                      onChange={(date2) => {
+                        props.setFieldValue("pmEndDate", date2);
+                        console.log("datepicker", date2);
+                      }}
+                    />
+                  </div>
+                </div>{" "}
+              </div>
+            </div>
 
-                              return <strong>{value}</strong>;
-                            }}
-                            title="Please enter Hours"
-                            // value="0"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Design</td>
-                        <td>
-                          <Editable
-                            name="Hours"
-                            dataType="text"
-                            mode="inline"
-                            value={phases[1].estTime}
-                            display={(value) => {
-                              phases[1].estTime = value;
-                              console.log("value inside editable=", value);
-                              setThours(value);
+            <div className="page-content-wrapper">
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col-12">
+                    <table className="table table-striped mb-0">
+                      <thead>
+                        <tr>
+                          <th style={{ fontSize: "17px", fontWeight: "bold" }}>
+                            Project Phase
+                          </th>
+                          <th style={{ fontSize: "17px", fontWeight: "bold" }}>
+                            Estimate Hours
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Requirement Analysis</td>
+                          <td>
+                            <Editable
+                              name="Hours"
+                              dataType="text"
+                              mode="inline"
+                              value={phases[0].estTime}
+                              display={(value) => {
+                                phases[0].estTime = value;
+                                console.log("value inside editable=", value);
+                                setThours(value);
 
-                              return <strong>{value}</strong>;
-                            }}
-                            title="Please enter Hours"
-                            // value="0"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Development </td>
-                        <td>
-                          <Editable
-                            name="Hours"
-                            dataType="text"
-                            mode="inline"
-                            value={phases[2].estTime}
-                            display={(value) => {
-                              phases[2].estTime = value;
-                              console.log("value inside editable=", value);
-                              setThours(value);
+                                return <strong>{value}</strong>;
+                              }}
+                              title="Please enter Hours"
+                              // value="0"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Design</td>
+                          <td>
+                            <Editable
+                              name="Hours"
+                              dataType="text"
+                              mode="inline"
+                              value={phases[1].estTime}
+                              display={(value) => {
+                                phases[1].estTime = value;
+                                console.log("value inside editable=", value);
+                                setThours(value);
 
-                              return <strong>{value}</strong>;
-                            }}
-                            title="Please enter Hours"
-                            // value="0"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Testing </td>
-                        <td>
-                          <Editable
-                            name="Hours"
-                            dataType="text"
-                            mode="inline"
-                            value={phases[3].estTime}
-                            display={(value) => {
-                              phases[3].estTime = value;
-                              console.log("value inside editable=", value);
-                              setThours(value);
+                                return <strong>{value}</strong>;
+                              }}
+                              title="Please enter Hours"
+                              // value="0"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Development </td>
+                          <td>
+                            <Editable
+                              name="Hours"
+                              dataType="text"
+                              mode="inline"
+                              value={phases[2].estTime}
+                              display={(value) => {
+                                phases[2].estTime = value;
+                                console.log("value inside editable=", value);
+                                setThours(value);
 
-                              return <strong>{value}</strong>;
-                            }}
-                            title="Please enter Hours"
-                            // value="0"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Implementation </td>
-                        <td>
-                          <Editable
-                            name="Hours"
-                            dataType="text"
-                            mode="inline"
-                            value={phases[4].estTime}
-                            display={(value) => {
-                              phases[4].estTime = value;
-                              console.log("value inside editable=", value);
-                              setThours(value);
+                                return <strong>{value}</strong>;
+                              }}
+                              title="Please enter Hours"
+                              // value="0"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Testing </td>
+                          <td>
+                            <Editable
+                              name="Hours"
+                              dataType="text"
+                              mode="inline"
+                              value={phases[3].estTime}
+                              display={(value) => {
+                                phases[3].estTime = value;
+                                console.log("value inside editable=", value);
+                                setThours(value);
 
-                              return <strong>{value}</strong>;
-                            }}
-                            title="Please enter Hours"
-                            // value="0"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Documentation </td>
-                        <td>
-                          <Editable
-                            name="Hours"
-                            dataType="text"
-                            mode="inline"
-                            value={phases[5].estTime}
-                            display={(value) => {
-                              phases[5].estTime = value;
-                              console.log("value inside editable=", value);
-                              setThours(value);
+                                return <strong>{value}</strong>;
+                              }}
+                              title="Please enter Hours"
+                              // value="0"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Implementation </td>
+                          <td>
+                            <Editable
+                              name="Hours"
+                              dataType="text"
+                              mode="inline"
+                              value={phases[4].estTime}
+                              display={(value) => {
+                                phases[4].estTime = value;
+                                console.log("value inside editable=", value);
+                                setThours(value);
 
-                              return <strong>{value}</strong>;
-                            }}
-                            title="Please enter Hours"
-                            // value="0"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Evaluation </td>
-                        <td>
-                          <Editable
-                            name="Hours"
-                            dataType="text"
-                            mode="inline"
-                            value={phases[6].estTime}
-                            display={(value) => {
-                              phases[6].estTime = value;
-                              console.log("value inside editable=", value);
-                              setThours(value);
+                                return <strong>{value}</strong>;
+                              }}
+                              title="Please enter Hours"
+                              // value="0"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Documentation </td>
+                          <td>
+                            <Editable
+                              name="Hours"
+                              dataType="text"
+                              mode="inline"
+                              value={phases[5].estTime}
+                              display={(value) => {
+                                phases[5].estTime = value;
+                                console.log("value inside editable=", value);
+                                setThours(value);
 
-                              return <strong>{value}</strong>;
-                            }}
-                            title="Please enter Hours"
-                            // value="0"
-                          />
-                        </td>
-                      </tr>
+                                return <strong>{value}</strong>;
+                              }}
+                              title="Please enter Hours"
+                              // value="0"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Evaluation </td>
+                          <td>
+                            <Editable
+                              name="Hours"
+                              dataType="text"
+                              mode="inline"
+                              value={phases[6].estTime}
+                              display={(value) => {
+                                phases[6].estTime = value;
+                                console.log("value inside editable=", value);
+                                setThours(value);
 
-                      <tr>
-                        <td style={{ fontSize: "14px", fontWeight: "bold" }}>
-                          Total Est. Hours
-                        </td>
-                        <td>{totalHours}</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                                return <strong>{value}</strong>;
+                              }}
+                              title="Please enter Hours"
+                              // value="0"
+                            />
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td style={{ fontSize: "14px", fontWeight: "bold" }}>
+                            Total Est. Hours
+                          </td>
+                          <td>{totalHours}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -902,6 +1049,82 @@ const ProjectForm = (props) => {
               </Button>
             </div>
           </div>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={clientModal}
+            toggle={toggleClientEdit}
+          >
+            <ModalHeader toggle={toggleClientEdit}>New Client</ModalHeader>
+            <ModalBody>
+              <AddClientForm toggle={toggleClientEdit} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={platformModal}
+            toggle={togglePlatformEdit}
+          >
+            <ModalHeader toggle={togglePlatformEdit}>Add Platform</ModalHeader>
+            <ModalBody>
+              <AddPlatform toggle={togglePlatformEdit} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={technologyModal}
+            toggle={toggleTechnologyEdit}
+          >
+            <ModalHeader toggle={toggleTechnologyEdit}>
+              Add Technology
+            </ModalHeader>
+            <ModalBody>
+              <AddTechnology toggle={toggleTechnologyEdit} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={serviceModal}
+            toggle={toggleServiceEdit}
+          >
+            <ModalHeader toggle={toggleServiceEdit}>Add Service</ModalHeader>
+            <ModalBody>
+              <AddService toggle={toggleServiceEdit} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={statusModal}
+            toggle={toggleStatusEdit}
+          >
+            <ModalHeader toggle={toggleStatusEdit}>Add Status</ModalHeader>
+            <ModalBody>
+              <AddStatus toggle={toggleStatusEdit} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={natureModal}
+            toggle={toggleNatureEdit}
+          >
+            <ModalHeader toggle={toggleNatureEdit}>
+              Add Project Nature
+            </ModalHeader>
+            <ModalBody>
+              <AddProjectNature toggle={toggleNatureEdit} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={currencyModal}
+            toggle={toggleCurrencyEdit}
+          >
+            <ModalHeader toggle={toggleCurrencyEdit}>
+              Add New Currency
+            </ModalHeader>
+            <ModalBody>
+              <AddCurrency toggle={toggleCurrencyEdit} />
+            </ModalBody>
+          </Modal>
         </div>
       )}
     </Formik>

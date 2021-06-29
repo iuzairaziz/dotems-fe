@@ -26,6 +26,7 @@ const PlatformForm = (props) => {
               })
           : PlatformService.addPlatform({ name: values.title })
               .then((res) => {
+                props.toggle && props.toggle();
                 PlatformService.handleMessage("add");
                 actions.setFieldValue("title", "");
               })

@@ -5,7 +5,15 @@ import Select from "react-select";
 import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  Progress,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 import CountryService from "../../../../services/CountryService";
+import MachineForm from "../../Machine/MachineForm/MachineForm";
 import UserService from "../../../../services/UserService";
 import MachineService from "../../../../services/MachineService";
 import ProjectService from "../../../../services/ProjectService";
@@ -19,13 +27,16 @@ import Configuration from "../../../../config/configuration";
 
 const UserForm = (props) => {
   const [machineNo, setMachineNo] = useState([]);
+  const [machineModal, setMachineModal] = useState(false);
 
   const config = new Configuration();
   const roles = config.Roles;
 
   useEffect(() => {
     getMachines();
-  }, []);
+  }, [machineModal]);
+
+  const toggleMachineEdit = () => setMachineModal(!machineModal);
 
   const user = props.user;
   console.log("dsasaasasasdsadsdwdwdw", user);
@@ -177,7 +188,22 @@ const UserForm = (props) => {
 
             <div className="col">
               <div className="form-group">
-                <label>Machine Number</label>
+                <div className="row">
+                  <div className="col">
+                    <label className="control-label">Machine No</label>
+                  </div>
+                  <div className="col">
+                    <div
+                      className="d-flex justify-content-end"
+                      id="add-new-Buttonm "
+                      onClick={() => {
+                        toggleMachineEdit();
+                      }}
+                    >
+                      <i className="mdi mdi-plus-circle icon-add" />
+                    </div>
+                  </div>
+                </div>
                 <Select
                   value={props.values.machineNo}
                   onChange={(val) => props.setFieldValue("machineNo", val)}
@@ -328,6 +354,18 @@ const UserForm = (props) => {
               </Button>
             </div>
           </div>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={machineModal}
+            toggle={toggleMachineEdit}
+          >
+            <ModalHeader toggle={toggleMachineEdit}>
+              Add New Machone
+            </ModalHeader>
+            <ModalBody>
+              <MachineForm toggle={toggleMachineEdit} />
+            </ModalBody>
+          </Modal>
         </>
       )}
     </Formik>

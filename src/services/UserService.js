@@ -40,7 +40,7 @@ class userServices {
           machineNo
         )
         .then((token) => {
-          localStorage.setItem("token", token.data);
+          // localStorage.setItem("token", token.data);
           resolve(token);
         })
         .catch((err) => {

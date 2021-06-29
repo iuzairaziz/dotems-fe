@@ -79,6 +79,8 @@ const UserDetails = (props) => {
       getData(userID);
     }, []);
 
+    console.log("User", userData);
+
     const getData = (id) => {
       UserService.getUserById(id)
         .then((res) => {
@@ -260,6 +262,7 @@ const UserDetails = (props) => {
                         </div>
                       </div>
                     </div>
+
                     <div className="row">
                       <div className="col">
                         <div className="form-group">
@@ -276,6 +279,75 @@ const UserDetails = (props) => {
                                 }
                               })
                             }
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col">
+                        <div className="form-group">
+                          <label> Contact Number </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={userData && userData.contact}
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="form-group">
+                          <label>Other Contact </label>
+                          <input
+                            className="form-control"
+                            value={userData && userData.otherContact}
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col">
+                        <div className="form-group">
+                          <label> Address </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={userData && userData.address}
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="form-group">
+                          <label>Personal E-mail</label>
+                          <input
+                            className="form-control"
+                            value={userData && userData.emailPersonal}
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col">
+                        <div className="form-group">
+                          <label> Guardian Name </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={userData && userData.nameEmergency}
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="form-group">
+                          <label>Guardian Number</label>
+                          <input
+                            className="form-control"
+                            value={userData && userData.contactEmergency}
                             readOnly={true}
                           />
                         </div>

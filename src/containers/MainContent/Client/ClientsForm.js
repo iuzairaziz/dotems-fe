@@ -88,6 +88,7 @@ const ClientsForm = (props) => {
               country: values.country.value,
             })
               .then((res) => {
+                props.toggle && props.toggle();
                 ClientService.handleMessage("add");
               })
               .catch((err) => {

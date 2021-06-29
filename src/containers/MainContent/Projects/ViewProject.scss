@@ -1,0 +1,56 @@
+@mixin tag($tag) {
+  $ampersand: & + "";
+  $selectors: simple-selectors(str-replace($ampersand, " ", ""));
+
+  $main-selector: nth($selectors, -1);
+  $previous-selectors: str-replace($ampersand, $main-selector, "");
+
+  @at-root {
+    #{$previous-selectors}#{$tag}#{$main-selector} {
+      @content;
+    }
+  }
+}
+
+@function str-replace($string, $search, $replace: "") {
+  $index: str-index($string, $search);
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace +
+      str-replace(
+        str-slice($string, $index + str-length($search)),
+        $search,
+        $replace
+      );
+  }
+  @return $string;
+}
+
+.project-list-view {
+  td {
+    // $p: &;
+    // &div {
+    //   #{$p} {
+    //     background-color: rgb(230, 54, 54);
+    //   }
+    // }
+    div {
+      @include tag(td) {
+        color: red;
+      }
+    }
+  }
+}
+
+.Parent {
+  $p: &;
+
+  &-Child {
+    #{$p}:focus & {
+      border: 1px solid red;
+    }
+
+    #{$p}--disabled & {
+      background-color: grey;
+    }
+  }
+}

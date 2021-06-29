@@ -26,6 +26,7 @@ const ServiceForm = (props) => {
               })
           : ServiceServices.addService({ name: values.title })
               .then((res) => {
+                props.toggle && props.toggle();
                 ServiceServices.handleMessage("add");
                 actions.setFieldValue("title", "");
               })

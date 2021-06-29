@@ -26,6 +26,7 @@ const NatureForm = (props) => {
               })
           : NatureService.addNature({ name: values.title })
               .then((res) => {
+                props.toggle && props.toggle();
                 NatureService.handleMessage("add");
                 actions.setFieldValue("title", "");
               })
