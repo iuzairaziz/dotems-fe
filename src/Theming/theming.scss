@@ -52,3 +52,9 @@ input:focus {
   margin: 0 -10px;
   padding-top: 15px !important;
 }
+.icon-add {
+  cursor: pointer;
+  &:hover {
+    color: var(--color-primary);
+  }
+}

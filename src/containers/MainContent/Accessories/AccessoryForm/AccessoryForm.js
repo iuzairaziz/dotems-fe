@@ -26,6 +26,7 @@ const AccessoryForm = (props) => {
               })
           : AccessoryService.addAccessory({ name: values.title })
               .then((res) => {
+                props.toggle && props.toggle();
                 AccessoryService.handleMessage("add");
                 actions.setFieldValue("title", "");
               })

@@ -63,9 +63,10 @@ class userServices {
           resolve(token);
         })
         .catch((err) => {
-          toast.error(err.response.data, {
-            position: toast.POSITION.TOP_CENTER,
-          });
+          // toast.error(err.response.data, {
+          //   position: toast.POSITION.TOP_CENTER,
+          // });
+          // this.handleError();
           reject(err);
         });
     });

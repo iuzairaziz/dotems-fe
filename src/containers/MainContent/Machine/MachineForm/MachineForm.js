@@ -2,12 +2,20 @@ import React, { useState, useEffect } from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
 import Select from "react-select";
+import {
+  Progress,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import shortValidations from "../../../../validations/short-validations";
 import "../MachineForm/MachineForm.scss";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import MachineService from "../../../../services/MachineService";
+import AccessoryForm from "../../Accessories/AccessoryForm/AccessoryForm";
 import HistoryService from "../../../../services/HistoryService";
 import AccessoryService from "../../../../services/AccessoryService";
 import userService from "../../../../services/UserService";
@@ -15,6 +23,7 @@ import MachineValidation from "../../../../validations/machine-validations";
 const MachineForm = (props) => {
   const [users, setUsers] = useState([]);
   const [accessory, setAccessory] = useState([]);
+  const [accessoryModal, setAccessoryModal] = useState(false);
 
   const acc = props.machine;
   console.log("deatils", acc);
@@ -22,7 +31,9 @@ const MachineForm = (props) => {
 
   useEffect(() => {
     getAccessories();
-  }, []);
+  }, [accessoryModal]);
+
+  const toggleAccessoryEdit = () => setAccessoryModal(!accessoryModal);
 
   const statusOption = [
     { value: "In-Use", label: "In-Use" },
@@ -149,6 +160,7 @@ const MachineForm = (props) => {
               serialNo: values.serialno,
             })
               .then((res) => {
+                props.toggle && props.toggle();
                 HistoryService.addHistory({
                   docId: res.data._id,
                   onModel: "Machine",
@@ -303,7 +315,22 @@ const MachineForm = (props) => {
               </div>
               <div className="col">
                 <div className="form-group">
-                  <label>Accessories</label>
+                  <div className="row">
+                    <div className="col">
+                      <label className="control-label">Accessories</label>
+                    </div>
+                    <div className="col">
+                      <div
+                        className="d-flex justify-content-end"
+                        id="add-new-Buttonm "
+                        onClick={() => {
+                          toggleAccessoryEdit();
+                        }}
+                      >
+                        <i className="mdi mdi-plus-circle icon-add" />
+                      </div>
+                    </div>
+                  </div>
                   <Select
                     className="select-override"
                     value={props.values.accessories}
@@ -344,6 +371,18 @@ const MachineForm = (props) => {
                 </Button>
               </div>
             </div>
+            <Modal
+              style={{ maxWidth: "70%" }}
+              isOpen={accessoryModal}
+              toggle={toggleAccessoryEdit}
+            >
+              <ModalHeader toggle={toggleAccessoryEdit}>
+                Add New Accessory
+              </ModalHeader>
+              <ModalBody>
+                <AccessoryForm toggle={toggleAccessoryEdit} />
+              </ModalBody>
+            </Modal>
           </div>
         );
       }}

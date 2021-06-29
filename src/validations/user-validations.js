@@ -17,7 +17,7 @@ class UserValidation {
       password: Yup.string()
         .required("Required!")
         .min(6)
-        .max(20),
+        .max(200),
       workingHrs: Yup.number(),
       machineNo: Yup.object(),
       technology: Yup.array(),

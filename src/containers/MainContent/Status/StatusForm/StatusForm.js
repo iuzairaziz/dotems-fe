@@ -27,6 +27,7 @@ const StatusForm = (props) => {
               })
           : StatusService.addStatus({ name: values.status })
               .then((res) => {
+                props.toggle && props.toggle();
                 StatusService.handleMessage("add");
                 actions.setFieldValue("status", "");
               })
