@@ -32,6 +32,7 @@ const CurrencyForm = (props) => {
               exchangeRate: values.exchangeRate,
             })
               .then((res) => {
+                props.toggle && props.toggle();
                 CurrencyService.handleMessage("add");
                 actions.setFieldValue("title", "");
               })

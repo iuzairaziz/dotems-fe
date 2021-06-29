@@ -23,7 +23,7 @@ class layout extends Component {
                         className="mdi mdi-arrow-left-bold icon-back"
                         onClick={this.props.history.goBack}
                       />
-                      <div>{this.props.location.pathname}</div>
+                      <span className="go-back-text">Back</span>
                     </div>
                     {this.props.children}
                   </div>

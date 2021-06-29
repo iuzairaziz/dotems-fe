@@ -27,6 +27,7 @@ const TechnologyForm = (props) => {
               })
           : TechnologyService.addTechnology({ name: values.title })
               .then((res) => {
+                props.toggle && props.toggle();
                 TechnologyService.handleMessage("add");
                 actions.setFieldValue("title", "");
               })

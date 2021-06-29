@@ -184,7 +184,7 @@ const UpdateUser = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
-                <label>Password</label>
+                <label>Password </label>
                 <input
                   type="password"
                   className="form-control"
