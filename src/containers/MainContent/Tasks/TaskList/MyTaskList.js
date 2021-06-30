@@ -71,6 +71,18 @@ const MyTasks = (props) => {
         // width: 100,
       },
       {
+        label: "Work Done",
+        field: "wrkdone",
+        sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Actual Hours",
+        field: "actHrs",
+        sort: "asc",
+        // width: 100,
+      },
+      {
         label: "Action",
         field: "action",
         sort: "disabled",
@@ -110,6 +122,7 @@ const MyTasks = (props) => {
             ),
             teamLead: item.teamLead ? item.teamLead.name : "N/A",
             parentTask: item.parentTask ? item.parentTask.name : "N/A",
+            wrkdone: item.workDone ? item.workDone : "N/A",
             addedBy: item.addedBy ? (
               <Link to={`/userdetails/${item.addedBy._id}`}>
                 {item.addedBy.name}{" "}

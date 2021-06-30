@@ -261,12 +261,12 @@ const ViewProjects = (props, match) => {
     });
   };
   const getData = () => {
-    ProjectService.getProjectReport(
+    ProjectService.getProjectReport({
       applyfilter,
       applystatusfilter,
       applyTechnologyfilter,
-      cStart
-    )
+      cStart,
+    })
       .then((res) => {
         let data = { ...dataa };
         let EstTime = 0;

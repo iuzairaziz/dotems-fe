@@ -308,9 +308,15 @@ class header extends Component {
                 <i className="ion-navicon" />
               </button>
             </li>
-            <li className="hide-phone list-inline-item app-search">
-              <h3 className="page-title" id="now_routing" />
-            </li>
+            <Link to="/" className="logo">
+              <img src="assets/images/ftr-logo.png" height="36" alt="logo" />
+            </Link>
+            {/* <li className="hide-phone list-inline-item app-search">
+              <h3
+                className="page-title d-flex justify-content-center"
+                id="now_routing"
+              />
+            </li> */}
           </ul>
           <div className="clearfix" />
         </nav>
