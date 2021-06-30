@@ -16,6 +16,7 @@ const ChangePasswordForm = (props) => {
   return (
     <Formik
       initialValues={{
+        oldPassword: "",
         password: "",
         confirmPassword: "",
       }}
@@ -23,10 +24,11 @@ const ChangePasswordForm = (props) => {
       onSubmit={(values, actions) => {
         console.log(values);
         UserService.updatePasswrod(loggedUser._id, {
+          oldPassword: values.oldPassword,
           password: values.password,
         })
           .then((res) => {
-            UserService.handleMessage("update");
+            UserService.handleCustomMessage(res.data);
           })
           .catch((err) => {
             UserService.handleError();
@@ -35,6 +37,23 @@ const ChangePasswordForm = (props) => {
     >
       {(props) => (
         <>
+          <div className="row">
+            <div className="col">
+              <div className="form-group">
+                <label>Enter Old Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  value={props.values.oldPassword}
+                  onChange={props.handleChange("oldPassword")}
+                  placeholder="Enter Password"
+                />
+                <span id="err">
+                  {props.touched.password && props.errors.password}
+                </span>
+              </div>
+            </div>
+          </div>
           <div className="row">
             <div className="col">
               <div className="form-group">
@@ -62,7 +81,7 @@ const ChangePasswordForm = (props) => {
                   className="form-control"
                   value={props.values.confirmPassword}
                   onChange={props.handleChange("confirmPassword")}
-                  placeholder="Enter confirmPassword"
+                  placeholder="Enter Confirm Password"
                 />
                 <span id="err">
                   {props.touched.confirmPassword &&

@@ -15,12 +15,17 @@ import {
   ModalFooter,
 } from "reactstrap";
 import ProjectService from "../../../services/ProjectService";
+import StatusService from "../../../services/StatusService";
 
 const ProjectReports = () => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [selectedProject, setSelectedProject] = useState({ name: "" });
   const [selectedCurrency, SetSelectedCurrency] = useState("");
+  const [statusfilter, setStatusFilter] = useState([]);
+  const [applystatusfilter, setApplyStatusFilter] = useState("");
+  const [clientStart, setClientStart] = useState("");
+  const [clientDeadline, setClientDeadline] = useState("");
 
   const [dataa, setData] = useState({
     columns: [
@@ -101,7 +106,25 @@ const ProjectReports = () => {
   });
   useEffect(() => {
     getData();
-  }, [modalEdit, modalDelete]);
+  }, [modalEdit, modalDelete, applystatusfilter, clientStart, clientDeadline]);
+
+  useEffect(() => {
+    getStatus();
+  }, []);
+
+  const getStatus = () => {
+    StatusService.getAllStatus().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({
+          // value: item._id,
+          label: item.name,
+          id: item._id,
+        });
+        setStatusFilter(options);
+      });
+    });
+  };
 
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
@@ -125,7 +148,11 @@ const ProjectReports = () => {
   };
 
   const getData = () => {
-    ProjectService.getProjectReport("", "", "", "", "")
+    ProjectService.getProjectReport({
+      applystatusfilter,
+      clientStart,
+      clientDeadline,
+    })
       .then((res) => {
         let data = { ...dataa };
         let EstTime = 0;
@@ -208,6 +235,55 @@ const ProjectReports = () => {
               <div className="card m-b-20">
                 <div className="card-body">
                   <h4 className="mt-0 header-title">Projects</h4>
+                  <div className="row">
+                    <div className="col-4">
+                      <label>Status Filter</label>
+                      <select
+                        className="form-control"
+                        onChange={(e) => {
+                          setApplyStatusFilter(e.target.value);
+                        }}
+                      >
+                        <option key={1} value={""}>
+                          All
+                        </option>
+                        {statusfilter.map((item, index) => {
+                          return (
+                            <option key={index} value={item.id}>
+                              {item.label}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+
+                    <div className="col-4">
+                      <label>Client Start Date</label>
+
+                      <DatePicker
+                        className="form-control"
+                        value={clientStart}
+                        selected={clientStart}
+                        onChange={(clientStart) => {
+                          setClientStart(clientStart);
+                          console.log("datepicker", clientStart);
+                        }}
+                      />
+                    </div>
+                    <div className="col-4">
+                      <label>Client Deadline</label>
+
+                      <DatePicker
+                        className="form-control"
+                        value={clientDeadline}
+                        selected={clientDeadline}
+                        onChange={(clientDeadline) => {
+                          setClientDeadline(clientDeadline);
+                          console.log("datepicker", clientDeadline);
+                        }}
+                      />
+                    </div>
+                  </div>
 
                   <MDBDataTableV5
                     // scrollX

@@ -6,7 +6,9 @@
   --color-white: #ffffff;
   --color-danger: #ff0000;
 }
-
+.row-red {
+  background-color: var(--color-danger) !important;
+}
 .my-primary-button {
   background: var(--color-primary) !important;
   color: var(--color-white);

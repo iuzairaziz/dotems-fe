@@ -19,6 +19,7 @@ import PlatformService from "../../../services/PlatformService";
 import StatusService from "../../../services/StatusService";
 import TechnologyService from "../../../services/TechnologyService";
 import "./ViewProject.scss";
+import $ from "jquery";
 
 const ViewProjects = (props, match) => {
   let history = useHistory();
@@ -211,6 +212,15 @@ const ViewProjects = (props, match) => {
     getTechnology();
   }, []);
 
+  useEffect(() => {
+    dataa.rows.map((item, index) => {
+      if (item.wrkdone > item.EstHrs) {
+        $("tr:nth-child(3n)").toggleClass("row-red");
+      }
+    });
+    console.log(dataa);
+  }, [dataa]);
+
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
 
@@ -277,18 +287,19 @@ const ViewProjects = (props, match) => {
   };
 
   const getData = () => {
-    ProjectService.getProjectReport(
+    ProjectService.getProjectReport({
       applyfilter,
       applystatusfilter,
       applyTechnologyfilter,
-      cStart
-    )
+      cStart,
+    })
       .then((res) => {
         let data = { ...dataa };
         let EstTime = 0;
         data.rows = [];
         res.data.map((item, index) => {
           data.rows.push({
+            index: index,
             projectName: item.name ? item.name : "N/A",
             clientName: (
               <Link to={`/client-details/${item.client._id}`}>
@@ -472,6 +483,7 @@ const ViewProjects = (props, match) => {
                     autoWidth
                     data={dataa}
                     theadColor="#000"
+                    c
                   />
                 </div>
               </div>

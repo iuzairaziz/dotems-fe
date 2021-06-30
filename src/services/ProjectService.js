@@ -44,11 +44,24 @@ class ProjectService {
       this.config.apiBaseUrl + "projects/project-with-tasks/" + id
     );
   }
-
-  getProjectReport(filter, status, technology, startDate, endDate) {
+  getProjectReport(filterQuery) {
+    let {
+      applystatusfilter,
+      applyfilter,
+      applyTechnologyfilter,
+      cStart,
+      clientStart,
+      clientDeadline,
+    } = filterQuery;
     return axios.get(
       this.config.apiBaseUrl +
-        `projects/report/?status=${status}&platForm=${filter}&technology=${technology}&startDate=${startDate}&endDate=${endDate}`
+        `projects/report/?status=${
+          applystatusfilter ? applystatusfilter : ""
+        }&platForm=${applyfilter ? applyfilter : ""}&technology=${
+          applyTechnologyfilter ? applyTechnologyfilter : ""
+        }&startDate=${cStart ? cStart : ""}&clientStartDate=${
+          clientStart ? clientStart : ""
+        }&clientDeadline=${clientDeadline ? clientDeadline : ""}`
     );
   }
 

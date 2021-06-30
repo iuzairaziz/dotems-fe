@@ -110,11 +110,15 @@ class userServices {
     return axios.delete(this.config.apiBaseUrl + "users/" + id);
   }
 
-  updatePasswrod = (id, password) =>
-    axios.put(this.config.apiBaseUrl + `users/update-password/${id}`, password);
+  updatePasswrod = (id, password, oldPassword) =>
+    axios.put(
+      this.config.apiBaseUrl + `users/update-password/${id}`,
+      password,
+      oldPassword
+    );
 
-  updateUser = (technology, id) =>
-    axios.put(`http://localhost:8080/users/${id}`, technology);
+  updateUserProfile = (data, id) =>
+    axios.put(`http://localhost:8080/users/${id}`, data);
 
   getSocket = () => {
     const socket = io(this.config.apiBaseUrl);
@@ -160,7 +164,9 @@ class userServices {
     else if (type === "update") toast("Successfully updated User");
     else if (type === "delete") toast("Successfully deleted User");
   }
-
+  handleCustomMessage(message) {
+    toast(message.toString());
+  }
   handleError() {
     toast("Something went wrong!");
   }
