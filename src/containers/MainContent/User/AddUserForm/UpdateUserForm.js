@@ -18,12 +18,6 @@ const UpdateUser = (props) => {
   const [technology, setTechnology] = useState([]);
   const [users, setUser] = useState({});
   const [viewTech, setViewTech] = useState([]);
-  const [Contact, setContact] = useState("");
-  const [Ocontact, setOcontact] = useState("");
-  const [Pmail, setPmail] = useState("");
-  const [Address, setAddress] = useState("");
-  const [Gname, setGname] = useState("");
-  const [Gnumber, setGnumber] = useState("");
 
   useEffect(() => {
     getTechnology();
@@ -80,8 +74,7 @@ const UpdateUser = (props) => {
         contactEmergency: users && users.contactEmergency,
         nameEmergency: users && users.nameEmergency,
       }}
-      // validationSchema={userValidation.newUserValidation}
-
+      validationSchema={userValidation.UpdateProfile}
       onSubmit={async (values, actions) => {
         console.log("TechNologies", values.technologies);
         let loggedUser = UserService.userLoggedInInfo();
@@ -89,15 +82,15 @@ const UpdateUser = (props) => {
         values.technologies.map((item, index) => {
           techId.push(item.value);
         });
-        const techObject = {};
-        techObject.technology = techId;
-        techObject.contact = Contact;
-        techObject.otherContact = Ocontact;
-        techObject.emailPersonal = Pmail;
-        techObject.address = Address;
-        techObject.contactEmergency = Gnumber;
-        techObject.nameEmergency = Gname;
-        UserService.updateUser(techObject, loggedUser._id)
+        const profileData = {};
+        profileData.technology = techId;
+        profileData.contact = values.contact;
+        profileData.otherContact = values.otherContact;
+        profileData.emailPersonal = values.emailPersonal;
+        profileData.address = values.address;
+        profileData.contactEmergency = values.contactEmergency;
+        profileData.nameEmergency = values.nameEmergency;
+        UserService.updateUserProfile(profileData, loggedUser._id)
           .then((res) => {
             UserService.handleMessage("update");
           })
@@ -282,9 +275,9 @@ const UpdateUser = (props) => {
                 <input
                   type="text"
                   className="form-control"
-                  defaultValue={props.values.contact}
-                  // value={props.values.contact}
-                  onChange={(e) => setContact(e.target.value)}
+                  // defaultValue={props.values.contact}
+                  value={props.values.contact}
+                  onChange={props.handleChange("contact")}
                   placeholder="Enter Contact Number"
                 />
                 <span id="err">
@@ -298,9 +291,9 @@ const UpdateUser = (props) => {
                 <input
                   type="text"
                   className="form-control"
-                  defaultValue={props.values.otherContact}
-                  // value={props.values.otherContact}
-                  onChange={(e) => setOcontact(e.target.value)}
+                  // defaultValue={props.values.otherContact}
+                  value={props.values.otherContact}
+                  onChange={props.handleChange("otherContact")}
                   placeholder="Enter Contact Number"
                 />
                 <span id="err">
@@ -316,9 +309,9 @@ const UpdateUser = (props) => {
                 <input
                   type="text"
                   className="form-control"
-                  defaultValue={props.values.emailPersonal}
-                  // value={props.values.emailPersonal}
-                  onChange={(e) => setPmail(e.target.value)}
+                  // defaultValue={props.values.emailPersonal}
+                  value={props.values.emailPersonal}
+                  onChange={props.handleChange("emailPersonal")}
                   placeholder="Enter Personal Email"
                 />
                 <span id="err">
@@ -332,9 +325,9 @@ const UpdateUser = (props) => {
                 <input
                   type="text"
                   className="form-control"
-                  defaultValue={props.values.address}
-                  // value={props.values.address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  // defaultValue={props.values.address}
+                  value={props.values.address}
+                  onChange={props.handleChange("address")}
                   placeholder="Enter Address "
                 />
                 <span id="err">
@@ -350,8 +343,9 @@ const UpdateUser = (props) => {
                 <input
                   type="text"
                   className="form-control"
-                  defaultValue={props.values.nameEmergency}
-                  onChange={(e) => setGname(e.target.value)}
+                  // defaultValue={props.values.nameEmergency}
+                  value={props.values.nameEmergency}
+                  onChange={props.handleChange("nameEmergency")}
                   placeholder="Enter Guardian Name "
                 />
                 <span id="err">
@@ -365,9 +359,9 @@ const UpdateUser = (props) => {
                 <input
                   type="text"
                   className="form-control"
-                  defaultValue={props.values.contactEmergency}
-                  // value={props.values.contactEmergency}
-                  onChange={(e) => setGnumber(e.target.value)}
+                  // defaultValue={props.values.contactEmergency}
+                  value={props.values.contactEmergency}
+                  onChange={props.handleChange("contactEmergency")}
                   placeholder="Enter Guardian Contact Number"
                 />
                 <span id="err">

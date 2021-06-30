@@ -113,8 +113,8 @@ class userServices {
   updatePasswrod = (id, password) =>
     axios.put(this.config.apiBaseUrl + `users/update-password/${id}`, password);
 
-  updateUser = (technology, id) =>
-    axios.put(`http://localhost:8080/users/${id}`, technology);
+  updateUserProfile = (data, id) =>
+    axios.put(`http://localhost:8080/users/${id}`, data);
 
   getSocket = () => {
     const socket = io(this.config.apiBaseUrl);

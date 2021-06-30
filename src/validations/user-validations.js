@@ -1,3 +1,4 @@
+import { yupToFormErrors } from "formik";
 import * as Yup from "yup";
 
 class UserValidation {
@@ -20,9 +21,21 @@ class UserValidation {
         .max(200),
       workingHrs: Yup.number(),
       machineNo: Yup.object(),
-      technology: Yup.array(),
+
       workingDays: Yup.number(),
       userRole: Yup.object().required("Required!"),
+    });
+  };
+
+  UpdateProfile = () => {
+    return Yup.object({
+      contact: Yup.string(),
+      otherContact: Yup.string(),
+      emailPersonal: Yup.string(),
+      address: Yup.string(),
+      contactEmergency: Yup.string(),
+      nameEmergency: Yup.string(),
+      technology: Yup.array(),
     });
   };
   changePassword = () => {
