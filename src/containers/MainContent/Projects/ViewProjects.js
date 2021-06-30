@@ -18,6 +18,8 @@ import ProjectService from "../../../services/ProjectService";
 import PlatformService from "../../../services/PlatformService";
 import StatusService from "../../../services/StatusService";
 import TechnologyService from "../../../services/TechnologyService";
+import "./ViewProject.scss";
+import $ from "jquery";
 
 const ViewProjects = (props, match) => {
   let history = useHistory();
@@ -88,6 +90,11 @@ const ViewProjects = (props, match) => {
       {
         label: "End Date",
         field: "endDate",
+        sort: "disabled",
+      },
+      {
+        label: "Deadline",
+        field: "CendDate",
         sort: "disabled",
       },
       {
@@ -205,6 +212,15 @@ const ViewProjects = (props, match) => {
     getTechnology();
   }, []);
 
+  useEffect(() => {
+    dataa.rows.map((item, index) => {
+      if (item.wrkdone > item.EstHrs) {
+        $("tr:nth-child(3n)").toggleClass("row-red");
+      }
+    });
+    console.log(dataa);
+  }, [dataa]);
+
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
 
@@ -260,6 +276,16 @@ const ViewProjects = (props, match) => {
       });
     });
   };
+
+  const calEstHrs = (project) => {
+    let EstTime = 0;
+    project.phase.map((item1, index) => {
+      if (index === 0) EstTime = 0;
+      EstTime += Number(item1.estTime);
+    });
+    return EstTime;
+  };
+
   const getData = () => {
     ProjectService.getProjectReport({
       applyfilter,
@@ -273,6 +299,7 @@ const ViewProjects = (props, match) => {
         data.rows = [];
         res.data.map((item, index) => {
           data.rows.push({
+            index: index,
             projectName: item.name ? item.name : "N/A",
             clientName: (
               <Link to={`/client-details/${item.client._id}`}>
@@ -304,18 +331,9 @@ const ViewProjects = (props, match) => {
             cost: item.cost ? item.cost : "N/A",
             Rprofit: item.Rprofit ? item.Rprofit : "N/A",
             pDeduction: item.Pdeduction ? item.Pdeduction : "N/A",
-            ActHrs: item.actualHrs ? item.actualHrs : "N/A",
+            ActHrs: item.actualHrs ? <div>{item.actualHrs}</div> : "N/A",
             wrkdone: item.workDone ? item.workDone.toFixed(2) : "N/A",
-            EstHrs: item.phase
-              ? item.phase.map((item1, index, key) => {
-                  if (index === 0) EstTime = 0;
-                  EstTime += Number(item1.estTime);
-
-                  if (index === item.phase.length - 1) {
-                    return EstTime;
-                  }
-                })
-              : "N/A",
+            EstHrs: item.phase ? calEstHrs(item) : "N/A",
             action: (
               <div className="row flex-nowrap">
                 <Button
@@ -371,7 +389,7 @@ const ViewProjects = (props, match) => {
 
   return (
     <AUX>
-      <div className="page-content-wrapper">
+      <div className="page-content-wrapper project-list-view">
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
@@ -465,6 +483,7 @@ const ViewProjects = (props, match) => {
                     autoWidth
                     data={dataa}
                     theadColor="#000"
+                    c
                   />
                 </div>
               </div>

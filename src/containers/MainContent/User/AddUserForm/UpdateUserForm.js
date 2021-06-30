@@ -19,9 +19,6 @@ const UpdateUser = (props) => {
   const [users, setUser] = useState({});
   const [viewTech, setViewTech] = useState([]);
 
-  const user = props.user;
-  const editable = props.editable;
-
   useEffect(() => {
     getTechnology();
     getData();
@@ -65,19 +62,19 @@ const UpdateUser = (props) => {
     console.log("usersssss", users);
   };
 
-  // const getLogin = () => {
-  //   let userprofile = UserService.userLoggedInInfo();
-  //   console.log("userprofile", userprofile)
-  // };
-
   return (
     <Formik
       enableReinitialize
       initialValues={{
         technologies: viewTech,
+        contact: users && users.contact,
+        otherContact: users && users.otherContact,
+        emailPersonal: users && users.emailPersonal,
+        address: users && users.address,
+        contactEmergency: users && users.contactEmergency,
+        nameEmergency: users && users.nameEmergency,
       }}
-      // validationSchema={userValidation.newUserValidation}
-
+      validationSchema={userValidation.UpdateProfile}
       onSubmit={async (values, actions) => {
         console.log("TechNologies", values.technologies);
         let loggedUser = UserService.userLoggedInInfo();
@@ -85,9 +82,15 @@ const UpdateUser = (props) => {
         values.technologies.map((item, index) => {
           techId.push(item.value);
         });
-        const techObject = {};
-        techObject.technology = techId;
-        UserService.updateUser(techObject, loggedUser._id)
+        const profileData = {};
+        profileData.technology = techId;
+        profileData.contact = values.contact;
+        profileData.otherContact = values.otherContact;
+        profileData.emailPersonal = values.emailPersonal;
+        profileData.address = values.address;
+        profileData.contactEmergency = values.contactEmergency;
+        profileData.nameEmergency = values.nameEmergency;
+        UserService.updateUserProfile(profileData, loggedUser._id)
           .then((res) => {
             UserService.handleMessage("update");
           })
@@ -242,18 +245,13 @@ const UpdateUser = (props) => {
               </div>
             </div>
           </div>
+
           <div className="row">
             <div className="col">
               <div className="form-group">
                 <label>Machine Number</label>
                 <input
                   className="form-control"
-                  // value={
-                  //   users &&
-                  //   users.assignedUser.map((item) => {
-                  //     return item.name;
-                  //   })
-                  // }
                   value={users && users.machineNo && users.machineNo.machineNo}
                   readOnly={true}
                 />
@@ -270,6 +268,110 @@ const UpdateUser = (props) => {
               </div>
             </div>
           </div>
+          <div className="row">
+            <div className="col">
+              <div className="form-group">
+                <label>Contact Number</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  // defaultValue={props.values.contact}
+                  value={props.values.contact}
+                  onChange={props.handleChange("contact")}
+                  placeholder="Enter Contact Number"
+                />
+                <span id="err">
+                  {props.touched.contact && props.errors.contact}
+                </span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label>Other Contact </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  // defaultValue={props.values.otherContact}
+                  value={props.values.otherContact}
+                  onChange={props.handleChange("otherContact")}
+                  placeholder="Enter Contact Number"
+                />
+                <span id="err">
+                  {props.touched.otherContact && props.errors.otherContact}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div className="form-group">
+                <label>Personal Email</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  // defaultValue={props.values.emailPersonal}
+                  value={props.values.emailPersonal}
+                  onChange={props.handleChange("emailPersonal")}
+                  placeholder="Enter Personal Email"
+                />
+                <span id="err">
+                  {props.touched.emailPersonal && props.errors.emailPersonal}
+                </span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label>Address </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  // defaultValue={props.values.address}
+                  value={props.values.address}
+                  onChange={props.handleChange("address")}
+                  placeholder="Enter Address "
+                />
+                <span id="err">
+                  {props.touched.address && props.errors.address}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div className="form-group">
+                <label>Guardian Name </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  // defaultValue={props.values.nameEmergency}
+                  value={props.values.nameEmergency}
+                  onChange={props.handleChange("nameEmergency")}
+                  placeholder="Enter Guardian Name "
+                />
+                <span id="err">
+                  {props.touched.nameEmergency && props.errors.nameEmergency}
+                </span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label>Guardian Contact</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  // defaultValue={props.values.contactEmergency}
+                  value={props.values.contactEmergency}
+                  onChange={props.handleChange("contactEmergency")}
+                  placeholder="Enter Guardian Contact Number"
+                />
+                <span id="err">
+                  {props.touched.contactEmergency &&
+                    props.errors.contactEmergency}
+                </span>
+              </div>
+            </div>
+          </div>
+
           <div className="row">
             <div className="col">
               <Button

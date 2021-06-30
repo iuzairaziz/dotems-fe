@@ -87,7 +87,7 @@ const MachineForm = (props) => {
           ? EditorState.createWithContent(convertFromRaw(JSON.parse(acc.Notes)))
           : EditorState.createEmpty(),
       }}
-      // validationSchema={MachineValidation.newMachineValidation}
+      validationSchema={MachineValidation.newMachineValidation}
       onSubmit={(values, actions) => {
         let arr = [];
         var historyAccessoriesArray = [];

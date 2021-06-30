@@ -40,7 +40,7 @@ class userServices {
           machineNo
         )
         .then((token) => {
-          localStorage.setItem("token", token.data);
+          // localStorage.setItem("token", token.data);
           resolve(token);
         })
         .catch((err) => {
@@ -117,8 +117,8 @@ class userServices {
       oldPassword
     );
 
-  updateUser = (technology, id) =>
-    axios.put(`http://localhost:8080/users/${id}`, technology);
+  updateUserProfile = (data, id) =>
+    axios.put(`http://localhost:8080/users/${id}`, data);
 
   getSocket = () => {
     const socket = io(this.config.apiBaseUrl);
