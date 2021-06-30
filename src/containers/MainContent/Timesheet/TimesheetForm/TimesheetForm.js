@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Formik } from "formik";
-import timesheetValidations from "../../../../validations/timesheet-validations";
-import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import Select from "react-select";
-import { Button } from "reactstrap";
 import moment from "moment";
 import TimesheetService from "../../../../services/TimesheetService";
 import TaskService from "../../../../services/TaskService";
 import userService from "../../../../services/UserService";
-import ProjectService from "../../../../services/ProjectService";
-import DatePicker from "react-datepicker";
 import WeeklyCalendar from "../../../../components/MyComponents/WeeklyCalendar/WeeklyCalendar";
 import "./TimesheetForm.scss";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Configuration from "../../../../config/configuration";
 
 const TaskForm = (props) => {
@@ -21,8 +14,6 @@ const TaskForm = (props) => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState({});
-  const [toUpdate, setToUpdate] = useState(false);
-  const [inputs, setInputs] = useState([{}]);
 
   const user = userService.userLoggedInInfo();
   const { PM, ADMIN, CEO } = new Configuration().Roles;
@@ -106,7 +97,7 @@ const TaskForm = (props) => {
   const getEmployeeTasksGroupByProject = (empId, startDate, endDate) => {
     TaskService.getEmployeeTasksGroupByProject({ empId, startDate, endDate })
       .then((res) => {
-        setEmployeeData(res.data);
+        setEmployeeData(() => res.data);
       })
       .catch((err) => {
         TaskService.handleError();
@@ -144,20 +135,27 @@ const TaskForm = (props) => {
         }}
         method="post"
       >
-        <table class="table table-bordered" id="timesheet-form">
+        <table className="table table-bordered" id="timesheet-form">
           <thead>
             <tr>
-              <th scope="col" colSpan={isRole([ADMIN, PM, CEO]) ? 5 : 9}>
-                <WeeklyCalendar
-                  setWeekNum={() => console.log("week number")}
-                  setSelectedDays={setSelectedDays}
-                />
+              <th
+                scope="col"
+                className="calendars"
+                colSpan={isRole([ADMIN, PM, CEO]) ? 5 : 9}
+              >
+                <span className="my-calendar">
+                  <WeeklyCalendar
+                    setWeekNum={() => console.log("week number")}
+                    setSelectedDays={setSelectedDays}
+                  />
+                </span>
               </th>
               {isRole([ADMIN, PM, CEO]) && (
                 <th colSpan={4}>
                   <Select
                     placeholder="Select Employee"
                     // value={selectedUser.label}
+                    className="emp-select"
                     onChange={(obj) => {
                       setSelectedUser(obj);
                       console.log("object", obj);
@@ -198,13 +196,23 @@ const TaskForm = (props) => {
             </tr>
           </thead>
           <tbody>
-            <input name="empId" value={user._id} type="hidden" />
+            {/* <input name="empId" value={user._id} type="hidden" /> */}
+            <tr>
+              <td colSpan="9" className="not-found-icon">
+                {employeeData.length === 0 && (
+                  <>
+                    <i class="mdi mdi-library-books" />
+                    <p>No Records Found</p>
+                  </>
+                )}
+              </td>
+            </tr>
 
             {employeeData.map((project, pIndex) => {
               return (
                 <>
                   <tr key={pIndex}>
-                    <td className="table-info" colSpan="9">
+                    <td className="project-name" colSpan="9">
                       <strong>{project.project.name}</strong>
                     </td>
                   </tr>
@@ -212,11 +220,11 @@ const TaskForm = (props) => {
                     counter += 1;
                     return (
                       <tr key={tIndex}>
-                        <input
+                        {/* <input
                           name={`task${counter}taskId`}
                           value={task._id}
                           type="hidden"
-                        />
+                        /> */}
                         <td style={{ paddingLeft: "25px" }}>
                           {task.name}
                           <div className="float-right worked">
@@ -241,19 +249,21 @@ const TaskForm = (props) => {
                                 )
                               }
                               step="1"
-                              id="customRange3"
+                              // id="customRange3"
                             />
                           </div>
                         </td>
                         {[0, 1, 2, 3, 4, 5, 6].map((item, tsIndx) => {
                           return (
-                            <td className="inputCol">
+                            <td key={tsIndx} className="inputCol">
                               <input
                                 type="number"
                                 name={`task${counter}day${tsIndx}hrs`}
                                 value={
                                   task.timesheet[tsIndx]
                                     ? task.timesheet[tsIndx].workedHrs
+                                      ? task.timesheet[tsIndx].workedHrs
+                                      : ""
                                     : ""
                                 }
                                 onChange={(e) =>
@@ -267,11 +277,11 @@ const TaskForm = (props) => {
                                   )
                                 }
                               />
-                              <input
+                              {/* <input
                                 name={`task${counter}day${tsIndx}date`}
                                 value={selectedDays[tsIndx]}
                                 type="hidden"
-                              />
+                              /> */}
                               {/* <button onClick={(e)=>{e.preventDefault()}} className="btn btn-primary remarksBtn">+</button> */}
                               <div className="remarksModal">
                                 <label>Remarks</label>
@@ -280,6 +290,8 @@ const TaskForm = (props) => {
                                   value={
                                     task.timesheet[tsIndx]
                                       ? task.timesheet[tsIndx].remarks
+                                        ? task.timesheet[tsIndx].remarks
+                                        : ""
                                       : ""
                                   }
                                   onChange={(e) =>
@@ -311,7 +323,7 @@ const TaskForm = (props) => {
                 </>
               );
             })}
-            <input name="counter" value={counter} type="hidden" />
+            {/* <input name="counter" value={counter} type="hidden" /> */}
           </tbody>
         </table>
         {isRole([ADMIN, PM, CEO]) ? (

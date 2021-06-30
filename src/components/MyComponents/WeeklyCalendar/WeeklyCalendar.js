@@ -28,12 +28,12 @@ function getWeekRange(date) {
 }
 
 function setToIsoFormat(days) {
-    let isoDates =[];
-    days.map(d=>(
-        isoDates.push(moment(d).format("YYYY-MM-DDTHH:mm:ss")+".000Z")
-    ))
-    return isoDates;
-  }
+  let isoDates = [];
+  days.map((d) =>
+    isoDates.push(moment(d).format("YYYY-MM-DDTHH:mm:ss") + ".000Z")
+  );
+  return isoDates;
+}
 export default class WeeklyCalendar extends React.Component {
   state = {
     hoverRange: undefined,
@@ -41,29 +41,34 @@ export default class WeeklyCalendar extends React.Component {
     show: false,
   };
 
-  componentDidMount(){
-    let days = getWeekDays(moment().startOf('isoWeek').toDate())
-    this.setState({selectedDays:days},
-        () => {
-        //   console.log("selected days", moment(this.state.selectedDays[0]).format("LL"));
-          this.props.setSelectedDays(setToIsoFormat(this.state.selectedDays));
-        })
+  componentDidMount() {
+    let days = getWeekDays(
+      moment()
+        .startOf("isoWeek")
+        .toDate()
+    );
+    this.setState({ selectedDays: days }, () => {
+      //   console.log("selected days", moment(this.state.selectedDays[0]).format("LL"));
+      this.props.setSelectedDays(setToIsoFormat(this.state.selectedDays));
+    });
   }
 
-  handleDayChange = (date,mod) => {
+  handleDayChange = (date, mod) => {
     let Date = moment(date).format();
-    console.log("day change",Date);
+    console.log("day change", Date);
     this.setState(
       {
         selectedDays: getWeekDays(getWeekRange(Date).from),
       },
       () => {
-        console.log("selected days", moment(this.state.selectedDays[0]).format("LL"));
+        console.log(
+          "selected days",
+          moment(this.state.selectedDays[0]).format("LL")
+        );
         this.props.setSelectedDays(setToIsoFormat(this.state.selectedDays));
-        this.setState({ show: false })
+        this.setState({ show: false });
       }
     );
-    
   };
 
   handleDayEnter = (date) => {
@@ -104,24 +109,30 @@ export default class WeeklyCalendar extends React.Component {
     };
 
     return (
-      <div className="SelectedWeekExample" onB>
-        <label>Select Week</label>  
+      <div className="SelectedWeekExample">
+        <label className="select-week-label">Select Week</label>
         <input
           value={
             moment(selectedDays[0]).format("LL") +
             "  To  " +
             moment(selectedDays[6]).format("LL")
           }
-        //   onBlur={() => this.setState({ show: false })}
+          readOnly
+          //   onBlur={() => this.setState({ show: false })}
           onClick={() => this.setState({ show: true })}
-          style={{ width: "250px",height:"40px",textAlign:"center",marginLeft:"30px" }}
+          style={{
+            width: "250px",
+            height: "40px",
+            textAlign: "center",
+            marginLeft: "30px",
+          }}
         />
         <DayPicker
           className={`${this.state.show ? "" : "d-none"} position-absolute `}
-          style={{ border: "solid 1px #a6a8ab"}}
+          style={{ border: "solid 1px #a6a8ab" }}
           selectedDays={selectedDays}
           showWeekNumbers
-        //   onBlur={() => this.setState({ show: false })}
+          //   onBlur={() => this.setState({ show: false })}
           showOutsideDays
           firstDayOfWeek={1}
           modifiers={modifiers}

@@ -5,13 +5,13 @@ import Footer from "./Footer";
 import React, { Component } from "react";
 import { withRouter, Redirect } from "react-router-dom";
 import UserService from "../../services/UserService";
-import "./Pathname.scss";
+import "./Layout.scss";
 class layout extends Component {
   render() {
     return (
       <Aux>
         {!this.props.loginpage && UserService.isLoggedIn() ? (
-          <main>
+          <main className="app-main">
             <div id="wrapper">
               {this.props.sidebar ? <Sidebar /> : null}
               <div className="content-page">
