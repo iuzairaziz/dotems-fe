@@ -123,12 +123,13 @@ const ProjectDetails = (props) => {
             action: (
               <div className="row flex-nowrap">
                 <Button
-                  color="primary"
+                  className="my-seconday-button"
                   size="sm"
+                  data-toggle="modal"
+                  data-target="#myModal"
                   onClick={() => {
                     props.history.push({
-                      pathname: "/task-details",
-                      taskId: item._id,
+                      pathname: "/task-details/" + item._id,
                     });
                   }}
                 >
@@ -434,7 +435,7 @@ const ProjectDetails = (props) => {
                   bordered
                   searchTop
                   hover
-                  autoWidth
+                  // autoWidth
                   data={tabledata}
                   theadColor="#000"
                 />

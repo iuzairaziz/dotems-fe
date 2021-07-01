@@ -205,20 +205,16 @@ const TaskDetail = (props) => {
               <div className="row flex-nowrap">
                 {/* <div className="col"> */}
                 <Button
-                  color="primary"
+                  className="my-seconday-button"
                   size="sm"
                   onClick={() => {
-                    props.history.push({
-                      pathname: "/subtask-details",
-                      taskId: item._id,
-                    });
-                    setSubTaskId(item._id);
+                    props.history.push("/task-details/" + item._id);
                   }}
                 >
                   View
                 </Button>
                 <Button
-                  color="info"
+                  className="my-primary-button"
                   size="sm"
                   data-toggle="modal"
                   data-target="#myModal"
@@ -231,7 +227,7 @@ const TaskDetail = (props) => {
                 </Button>
 
                 <Button
-                  color="danger"
+                  className="my-danger-button"
                   size="sm"
                   onClick={() => {
                     setSelectedTask(item);
@@ -472,7 +468,7 @@ const TaskDetail = (props) => {
                       bordered
                       searchTop
                       hover
-                      autoWidth
+                      // autoWidth
                       data={dataa}
                       theadColor="#000"
                     />

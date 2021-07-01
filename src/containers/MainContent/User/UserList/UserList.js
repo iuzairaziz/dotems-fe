@@ -316,7 +316,7 @@ const ViewUsers = (props) => {
                     bordered
                     searchTop
                     hover
-                    autoWidth
+                    // autoWidth
                     data={dataa}
                     theadColor="#000"
                   />
@@ -338,7 +338,7 @@ const ViewUsers = (props) => {
               <Modal isOpen={modalDelete} toggle={toggleDelete}>
                 <ModalHeader toggle={toggleDelete}>Delete User?</ModalHeader>
                 <ModalBody>
-                  Are you sure you want to delete the users
+                  Are you sure you want to delete the user
                   {selectedUser.name}" ?
                 </ModalBody>
                 <ModalFooter>
