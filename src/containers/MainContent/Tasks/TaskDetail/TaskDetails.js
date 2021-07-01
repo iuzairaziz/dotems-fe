@@ -17,6 +17,7 @@ import {
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, EditorState } from "draft-js";
 import moment from "moment";
+import { Redirect } from "react-router";
 
 const TaskDetail = (props) => {
   const [taskData, setTaskData] = useState({});
@@ -24,7 +25,7 @@ const TaskDetail = (props) => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [selectedTask, setSelectedTask] = useState({ name: "" });
-  const [subTaskId, setSubTaskId] = useState({ name: "" });
+
   const [dataa, setData] = useState({
     columns: [
       {
@@ -103,9 +104,33 @@ const TaskDetail = (props) => {
     rows: [],
   });
 
+  const [remarks, setRemarks] = useState({
+    columns: [
+      {
+        label: "Date",
+        field: "date",
+        sort: "asc",
+        // width: 250,
+      },
+      {
+        label: "Name",
+        field: "name",
+        sort: "asc",
+        // width: 270,
+      },
+      {
+        label: "Remarks ",
+        field: "remarks",
+        sort: "asc",
+        // width: 270,
+      },
+    ],
+    rows: [],
+  });
+
   useEffect(() => {
     getData();
-  }, [modalEdit, modalDelete, subTaskId]);
+  }, [modalEdit, modalDelete, props.match.url]);
 
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
@@ -123,12 +148,8 @@ const TaskDetail = (props) => {
       });
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
-
   const getData = () => {
-    TaskService.getTaskDetailsById(props.location.taskId)
+    TaskService.getTaskDetailsById(props.match.params.id)
       .then((res) => {
         const { task, subTasks } = res.data;
         console.log(task);
@@ -167,20 +188,18 @@ const TaskDetail = (props) => {
               <div className="row flex-nowrap">
                 {/* <div className="col"> */}
                 <Button
-                  color="primary"
+                  className="my-seconday-button"
                   size="sm"
                   onClick={() => {
                     props.history.push({
-                      pathname: "/subtask-details",
-                      taskId: item._id,
+                      pathname: "/task-details/" + item._id,
                     });
-                    setSubTaskId(item._id);
                   }}
                 >
                   View
                 </Button>
                 <Button
-                  color="info"
+                  className="my-primary-button"
                   size="sm"
                   data-toggle="modal"
                   data-target="#myModal"
@@ -193,7 +212,7 @@ const TaskDetail = (props) => {
                 </Button>
 
                 <Button
-                  color="danger"
+                  className="my-danger-button"
                   size="sm"
                   onClick={() => {
                     setSelectedTask(item);
@@ -207,6 +226,16 @@ const TaskDetail = (props) => {
           });
         });
         setData(data);
+        let rData = { ...remarks };
+        rData.rows = [];
+        task.taskRemarks.map((item, index) => {
+          rData.rows.push({
+            date: item.date ? moment(item.date).format("DD/MM/YY") : "none",
+            name: item.employee ? item.employee.name : "none",
+            remarks: item.remarks ? item.remarks : "none",
+          });
+        });
+        setRemarks(rData);
       })
       .catch((err) => {
         TaskService.handleError();
@@ -225,7 +254,7 @@ const TaskDetail = (props) => {
                 <label>Task Title</label>
                 <input
                   type="text"
-                  value={taskData.name}
+                  value={taskData && taskData.name}
                   className="form-control"
                   readOnly={true}
                 />
@@ -235,7 +264,11 @@ const TaskDetail = (props) => {
               <div className="form-group">
                 <label>Project</label>
                 <input
-                  value={taskData.project ? taskData.project.name : "None"}
+                  value={
+                    taskData && taskData.project
+                      ? taskData.project.name
+                      : "None"
+                  }
                   className="form-control"
                   readOnly={true}
                 />
@@ -249,7 +282,7 @@ const TaskDetail = (props) => {
                 <label>Est Hrs</label>
 
                 <input
-                  value={taskData.estHrs}
+                  value={taskData && taskData.estHrs}
                   className="form-control"
                   readOnly={true}
                 />
@@ -261,7 +294,7 @@ const TaskDetail = (props) => {
               <div className="form-group">
                 <label>Project Ratio</label>
                 <input
-                  value={`${taskData.projectRatio}%`}
+                  value={taskData && `${taskData.projectRatio}%`}
                   className="form-control"
                   readOnly={true}
                 />
@@ -274,7 +307,7 @@ const TaskDetail = (props) => {
               <div className="form-group">
                 <label>Status</label>
                 <input
-                  value={taskData.status}
+                  value={taskData && taskData.status}
                   className="form-control"
                   readOnly={true}
                 />
@@ -284,7 +317,11 @@ const TaskDetail = (props) => {
               <div className="form-group">
                 <label>Team Lead</label>
                 <input
-                  value={taskData.teamLead ? taskData.teamLead.name : "None"}
+                  value={
+                    taskData && taskData.teamLead
+                      ? taskData.teamLead.name
+                      : "None"
+                  }
                   className="form-control"
                   readOnly={true}
                 />
@@ -297,7 +334,9 @@ const TaskDetail = (props) => {
                 <label className="control-label">Parent Task</label>
                 <input
                   value={
-                    taskData.parentTask ? taskData.parentTask.name : "None"
+                    taskData && taskData.parentTask
+                      ? taskData.parentTask.name
+                      : "None"
                   }
                   className="form-control"
                   readOnly={true}
@@ -308,7 +347,11 @@ const TaskDetail = (props) => {
               <div className="form-group">
                 <label className="control-label">Added By</label>
                 <input
-                  value={taskData.addedBy}
+                  value={
+                    taskData && taskData.addedBy
+                      ? taskData.addedBy.name
+                      : "None"
+                  }
                   className="form-control"
                   readOnly={true}
                 />
@@ -320,7 +363,11 @@ const TaskDetail = (props) => {
               <div className="form-group">
                 <label>Approved By</label>
                 <input
-                  value={taskData.approvedBy}
+                  value={
+                    taskData && taskData.approvedBy
+                      ? taskData.approvedBy.name
+                      : "None"
+                  }
                   className="form-control"
                   readOnly={true}
                 />
@@ -331,7 +378,7 @@ const TaskDetail = (props) => {
                 <label>Team Members</label>{" "}
                 <input
                   value={
-                    taskData.assignedTo
+                    taskData && taskData.assignedTo
                       ? taskData.assignedTo.map((item) => {
                           return item.name;
                         })
@@ -348,7 +395,9 @@ const TaskDetail = (props) => {
               <div className="form-group">
                 <label>Start Time</label>
                 <input
-                  value={moment(taskData.startTime).format("LL")}
+                  value={
+                    taskData && moment(taskData.startTime).format("DD/MM/YY")
+                  }
                   className="form-control"
                   readOnly={true}
                 />
@@ -358,7 +407,9 @@ const TaskDetail = (props) => {
               <div className="form-group">
                 <label>End Time</label>
                 <input
-                  value={taskData.endTime}
+                  value={
+                    taskData && moment(taskData.endTime).format("DD/MM/YY")
+                  }
                   className="form-control"
                   readOnly={true}
                 />
@@ -369,7 +420,7 @@ const TaskDetail = (props) => {
             <div className="col">
               <div className="form-group">
                 <label>Description</label>
-                {taskData.description ? (
+                {taskData && taskData.description ? (
                   <Editor
                     toolbarClassName="toolbarClassName"
                     wrapperClassName="wrapperClassName"
@@ -412,7 +463,7 @@ const TaskDetail = (props) => {
                       bordered
                       searchTop
                       hover
-                      autoWidth
+                      // autoWidth
                       data={dataa}
                       theadColor="#000"
                     />
@@ -455,7 +506,27 @@ const TaskDetail = (props) => {
               </Modal>
             </div>
             <div className="task-comments col-12">
-              <Comments taskId={taskData._id} />
+              <Comments taskId={taskData && taskData._id} />
+            </div>
+
+            <div className="task-remarks col-12">
+              <div className="card m-b-20">
+                <div className="card-body">
+                  <h4 className="mt-0 header-title">Remarks</h4>
+                  <MDBDataTableV5
+                    // scrollX
+                    fixedHeader={true}
+                    responsive
+                    striped
+                    bordered
+                    searchTop
+                    hover
+                    // autoWidth
+                    data={remarks}
+                    theadColor="#000"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>

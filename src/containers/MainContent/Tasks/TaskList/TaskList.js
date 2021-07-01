@@ -40,6 +40,12 @@ const Tables_datatable = (props) => {
         // width: 200,
       },
       {
+        label: "Actual Hours",
+        field: "actHrs",
+        sort: "asc",
+        // width: 100,
+      },
+      {
         label: "Project Ratio",
         field: "projectRatio",
         sort: "asc",
@@ -122,6 +128,7 @@ const Tables_datatable = (props) => {
               </Link>
             ),
             estimatedHrs: item.estHrs ? item.estHrs.toFixed(2) : "N/A",
+            actHrs: item.timesheet ? item.timesheet.actualHrs : "N/A",
             projectRatio: item.projectRatio ? (
               <Progress color="teal" value={item.projectRatio}>
                 {item.projectRatio + "%"}
@@ -157,18 +164,21 @@ const Tables_datatable = (props) => {
             action: (
               <div className="row flex-nowrap">
                 {/* <div className="col"> */}
+
                 <Button
                   className="my-seconday-button"
                   size="sm"
+                  data-toggle="modal"
+                  data-target="#myModal"
                   onClick={() => {
                     props.history.push({
-                      pathname: "/task-details",
-                      taskId: item._id,
+                      pathname: "/task-details/" + item._id,
                     });
                   }}
                 >
                   View
                 </Button>
+
                 <Button
                   className="my-primary-button"
                   size="sm"

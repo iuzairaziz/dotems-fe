@@ -34,8 +34,6 @@ import AddStatus from "../MainContent/Status/AddStatus/AddStatus";
 import StatusList from "../MainContent/Status/StatusList/StatusList";
 import CurrencyList from "../MainContent/Currency/ViewCurrency";
 import ExpenseList from "../MainContent/Expense/AddExpense/Expense";
-import SubTask from "../MainContent/Tasks/TaskList/SubTask";
-import SubTaskDetails from "../MainContent/Tasks/TaskList/SubTaskDetails";
 import UpdateUser from "../MainContent/User/AddUserForm/UpdateUserForm";
 import ViewUsers from "../MainContent/User/UserList/UserList";
 import updateUsers from "../MainContent/User/AddNewUser/UpdateUser";
@@ -73,11 +71,9 @@ const mainbuilder = (props) => {
         <Route exact path="/login" component={Login} />
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/add-user" component={AddUser} />
-          <Route exact path="/task-details" component={TaskDetails} />
+          <Route exact path="/task-details/:id" component={TaskDetails} />
           <Route exact path="/subtask-details" component={TaskDetails} />
 
-          <Route exact path="/subtask" component={SubTask} />
-          <Route exact path="/subtask-details" component={SubTaskDetails} />
           <Route exact path="/update-profile" component={UpdateUser} />
           <RoleAuth roles={[ADMIN, PM, HR, CEO]}>
             <Route exact path="/viewuser" component={ViewUsers} />
