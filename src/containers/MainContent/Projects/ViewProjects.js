@@ -480,7 +480,7 @@ const ViewProjects = (props, match) => {
                     bordered
                     searchTop
                     hover
-                    autoWidth
+                    // autoWidth
                     data={dataa}
                     theadColor="#000"
                     c

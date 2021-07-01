@@ -73,7 +73,7 @@ const mainbuilder = (props) => {
         <Route exact path="/login" component={Login} />
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/add-user" component={AddUser} />
-          <Route exact path="/task-details" component={TaskDetails} />
+          <Route exact path="/task-details/:id" component={TaskDetails} />
           <Route exact path="/subtask-details" component={TaskDetails} />
 
           <Route exact path="/subtask" component={SubTask} />
