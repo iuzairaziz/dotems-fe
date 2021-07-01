@@ -17,15 +17,15 @@ import {
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, EditorState } from "draft-js";
 import moment from "moment";
+import { Redirect } from "react-router";
 
 const TaskDetail = (props) => {
   const [taskData, setTaskData] = useState({});
-  const [taskDataa, setTaskDataa] = useState();
   const [subTasks, setSubTask] = useState([]);
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [selectedTask, setSelectedTask] = useState({ name: "" });
-  const [subTaskId, setSubTaskId] = useState({ name: "" });
+
   const [dataa, setData] = useState({
     columns: [
       {
@@ -128,26 +128,9 @@ const TaskDetail = (props) => {
     rows: [],
   });
 
-  const taskID = props.match.params.id;
-
-  useEffect(() => {
-    getDataa(taskID);
-  }, []);
-
-  const getDataa = (id) => {
-    TaskService.getTaskDetailsById(id)
-      .then((res) => {
-        setTaskDataa(res.data[0]);
-        console.log("tasks", taskDataa);
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
-  };
-
   useEffect(() => {
     getData();
-  }, [modalEdit, modalDelete, subTaskId]);
+  }, [modalEdit, modalDelete, props.match.url]);
 
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
@@ -208,7 +191,9 @@ const TaskDetail = (props) => {
                   className="my-seconday-button"
                   size="sm"
                   onClick={() => {
-                    props.history.push("/task-details/" + item._id);
+                    props.history.push({
+                      pathname: "/task-details/" + item._id,
+                    });
                   }}
                 >
                   View
@@ -241,6 +226,16 @@ const TaskDetail = (props) => {
           });
         });
         setData(data);
+        let rData = { ...remarks };
+        rData.rows = [];
+        task.taskRemarks.map((item, index) => {
+          rData.rows.push({
+            date: item.date ? moment(item.date).format("DD/MM/YY") : "none",
+            name: item.employee ? item.employee.name : "none",
+            remarks: item.remarks ? item.remarks : "none",
+          });
+        });
+        setRemarks(rData);
       })
       .catch((err) => {
         TaskService.handleError();
