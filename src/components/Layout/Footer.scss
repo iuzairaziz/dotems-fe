@@ -1,4 +1,12 @@
 .footnote {
-  background: var(--color-secondary1) !important;
+  // background: var(--color-secondary1) !important;
+  background-image: linear-gradient(
+    to top left,
+    var(--color-secondary2),
+    var(--color-secondary1)
+  );
   color: var(--color-white);
+  span {
+    color: var(--color-white) !important;
+  }
 }

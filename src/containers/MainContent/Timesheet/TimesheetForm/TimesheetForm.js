@@ -14,6 +14,8 @@ const TaskForm = (props) => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState({});
+  const [finalSwitch, setFinalSwitch] = useState(false);
+  const [finalSheet, setFinalSheet] = useState(false);
 
   const user = userService.userLoggedInInfo();
   const { PM, ADMIN, CEO } = new Configuration().Roles;
@@ -98,6 +100,13 @@ const TaskForm = (props) => {
     TaskService.getEmployeeTasksGroupByProject({ empId, startDate, endDate })
       .then((res) => {
         setEmployeeData(() => res.data);
+        if (res.data[0] && res.data[0].tasks[0].timesheet[0].final) {
+          setFinalSheet(true);
+          setFinalSwitch(true);
+        } else {
+          setFinalSheet(false);
+          setFinalSwitch(false);
+        }
       })
       .catch((err) => {
         TaskService.handleError();
@@ -118,6 +127,7 @@ const TaskForm = (props) => {
   return (
     <>
       <form
+        id="timesheet-form"
         onSubmit={(e) => {
           e.preventDefault();
           console.log("event", e);
@@ -125,9 +135,15 @@ const TaskForm = (props) => {
             employeeData: employeeData,
             empId: isRole([ADMIN, PM, CEO]) ? selectedUser.value : user._id,
             days: selectedDays,
+            final: finalSwitch,
           })
             .then((res) => {
               TimesheetService.handleMessage("add");
+              getEmployeeTasksGroupByProject(
+                isRole([ADMIN, PM, CEO]) ? selectedUser.value : user._id,
+                selectedDays[0],
+                selectedDays[6]
+              );
             })
             .catch((err) => {
               TimesheetService.handleError();
@@ -135,7 +151,7 @@ const TaskForm = (props) => {
         }}
         method="post"
       >
-        <table className="table table-bordered" id="timesheet-form">
+        <table className="table table-bordered">
           <thead>
             <tr>
               <th
@@ -249,6 +265,9 @@ const TaskForm = (props) => {
                                 )
                               }
                               step="1"
+                              disabled={
+                                isRole([ADMIN, PM, CEO]) ? true : finalSheet
+                              }
                               // id="customRange3"
                             />
                           </div>
@@ -258,6 +277,12 @@ const TaskForm = (props) => {
                             <td key={tsIndx} className="inputCol">
                               <input
                                 type="number"
+                                readOnly={
+                                  isRole([ADMIN, PM, CEO])
+                                    ? true
+                                    : task.timesheet[tsIndx] &&
+                                      task.timesheet[tsIndx].final
+                                }
                                 name={`task${counter}day${tsIndx}hrs`}
                                 value={
                                   task.timesheet[tsIndx]
@@ -287,6 +312,12 @@ const TaskForm = (props) => {
                                 <label>Remarks</label>
                                 <textarea
                                   placeholder="Write some remarks about this..."
+                                  readOnly={
+                                    isRole([ADMIN, PM, CEO])
+                                      ? true
+                                      : task.timesheet[tsIndx] &&
+                                        task.timesheet[tsIndx].final
+                                  }
                                   value={
                                     task.timesheet[tsIndx]
                                       ? task.timesheet[tsIndx].remarks
@@ -326,14 +357,52 @@ const TaskForm = (props) => {
             {/* <input name="counter" value={counter} type="hidden" /> */}
           </tbody>
         </table>
+        <div className="d-flex align-items-start justify-contsent-between">
+          <div className="d-flex align-items-center mr-3">
+            <label className="mr-3">Save As Final</label>
+            <input
+              type="checkbox"
+              id="switch1"
+              switch="danger"
+              disabled={isRole([ADMIN, PM, CEO]) ? false : finalSheet}
+              checked={finalSwitch ? "checked" : ""}
+              onChange={() => {
+                setFinalSwitch(!finalSwitch);
+              }}
+            />
+            <label for="switch1" data-on-label="YES" data-off-label="NO" />
+          </div>
+          <div>
+            <b>
+              Status :{" "}
+              {finalSheet ? (
+                <span className="status-closed">CLOSED</span>
+              ) : (
+                <span className="status-open">OPEN</span>
+              )}
+            </b>
+          </div>
+        </div>
+        {finalSwitch && (
+          <div className="status-closed mb-3">
+            Warning : You wont be able to edit this week's timesheet after this
+            save.
+          </div>
+        )}
         {isRole([ADMIN, PM, CEO]) ? (
           selectedUser.value && (
-            <button type="submit" className="btn btn-primary my-primary-button">
+            <button
+              type="submit"
+              className="btn btn-primary my-primary-button m-0"
+            >
               Save
             </button>
           )
         ) : (
-          <button type="submit" className="btn btn-primary my-primary-button">
+          <button
+            type="submit"
+            className="btn btn-primary my-primary-button m-0"
+          >
             Save
           </button>
         )}
