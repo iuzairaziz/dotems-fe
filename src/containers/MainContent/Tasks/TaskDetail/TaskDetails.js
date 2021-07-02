@@ -6,7 +6,7 @@ import TaskForm from "../TaskForm/TaskForm";
 import Comments from "./Comments/Comments";
 import taskService from "../../../../services/TaskService";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import "./TaskDetail.scss";
+// import "./TaskDetail.scss";
 import {
   Progress,
   Modal,
@@ -250,8 +250,12 @@ const TaskDetail = (props) => {
           <div className="row" />
           <div className="row">
             <div className="col">
+              <div>
+                <span>Title</span>
+                <span>{taskData && taskData.name}</span>
+              </div>
               <div className="form-group">
-                <label>Task Title</label>
+                <label>Task Title </label>
                 <input
                   type="text"
                   value={taskData && taskData.name}
@@ -505,26 +509,67 @@ const TaskDetail = (props) => {
                 </ModalFooter>
               </Modal>
             </div>
-            <div className="task-comments col-12">
-              <Comments taskId={taskData && taskData._id} />
-            </div>
+            <div className="col-12">
+              <div id="accordion">
+                <div className="card">
+                  <div className="card-header p-3" id="headingOne">
+                    <a
+                      href="#collapseOne"
+                      className="text-dark"
+                      data-toggle="collapse"
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    >
+                      <h6 className="m-0">Remarks</h6>
+                    </a>
+                  </div>
 
-            <div className="task-remarks col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <h4 className="mt-0 header-title">Remarks</h4>
-                  <MDBDataTableV5
-                    // scrollX
-                    fixedHeader={true}
-                    responsive
-                    striped
-                    bordered
-                    searchTop
-                    hover
-                    // autoWidth
-                    data={remarks}
-                    theadColor="#000"
-                  />
+                  <div
+                    id="collapseOne"
+                    className="collapse"
+                    aria-labelledby="headingOne"
+                    data-parent="#accordion"
+                  >
+                    <div className="card-body">
+                      <div className="task-remarks col-12">
+                        <MDBDataTableV5
+                          fixedHeader={true}
+                          responsive
+                          striped
+                          bordered
+                          searchTop
+                          hover
+                          data={remarks}
+                          theadColor="#000"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="card">
+                  <div className="card-header p-3" id="headingTwo">
+                    <a
+                      href="#collapseTwo"
+                      className="text-dark collapsed"
+                      data-toggle="collapse"
+                      aria-expanded="false"
+                      aria-controls="collapseTwo"
+                    >
+                      <h6 className="m-0">Comments</h6>
+                    </a>
+                  </div>
+                  <div
+                    id="collapseTwo"
+                    className="collapse"
+                    aria-labelledby="headingTwo"
+                    data-parent="#accordion"
+                  >
+                    <div className="card-body">
+                      <div className="task-comments col-12">
+                        <Comments taskId={taskData && taskData._id} />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
