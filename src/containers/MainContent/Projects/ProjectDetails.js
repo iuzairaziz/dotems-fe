@@ -9,6 +9,7 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import moment from "moment";
 import { convertFromRaw, EditorState } from "draft-js";
+import $ from "jquery";
 
 const ProjectDetails = (props) => {
   {
@@ -82,6 +83,27 @@ const ProjectDetails = (props) => {
     useEffect(() => {
       getTableData();
     }, [projectData]);
+
+    $(document).ready(function() {
+      $("tr").each(function(index) {
+        var four = $(this)
+          .children("td")
+          .eq(4)
+          .text();
+        var five = $(this)
+          .children("td")
+          .eq(5)
+          .text();
+        var finalFour = parseInt(four);
+        var finalFive = parseInt(five);
+        if (finalFive > finalFour) {
+          $(this).css("color", "red");
+          $(this)
+            .find("a")
+            .css("color", "red");
+        }
+      });
+    });
 
     const getData = (id) => {
       ProjectService.getProjectAndTask(id)
