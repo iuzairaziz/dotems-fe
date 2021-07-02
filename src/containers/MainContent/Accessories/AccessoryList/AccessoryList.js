@@ -5,7 +5,7 @@ import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import AccessoryForm from "../AccessoryForm/AccessoryForm";
 import AccessoryService from "../../../../services/AccessoryService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-
+import "./AccessoryList.scss";
 const CountryList = () => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
@@ -58,27 +58,20 @@ const CountryList = () => {
             title: item.name ? item.name : "none",
             action: (
               <div className="row flex-nowrap">
-                <Button
-                  className="my-primary-button"
+                <i
+                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
                   onClick={() => {
                     setSelectedAccessory(item);
                     toggleEdit();
                   }}
-                  size="sm"
-                >
-                  Edit
-                </Button>
-
-                <Button
-                  className="my-danger-button"
-                  size="sm"
+                />
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedAccessory(item);
                     toggleDelete();
                   }}
-                >
-                  Delete
-                </Button>
+                />
               </div>
             ),
           });

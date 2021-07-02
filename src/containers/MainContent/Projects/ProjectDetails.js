@@ -122,19 +122,15 @@ const ProjectDetails = (props) => {
             otherDeduction: item.otherDeduction ? item.otherDeduction : "N/A ",
             action: (
               <div className="row flex-nowrap">
-                <Button
-                  className="my-seconday-button"
-                  size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
+                <i
+                  className="mdi mdi-view-list
+                  iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({
                       pathname: "/task-details/" + item._id,
                     });
                   }}
-                >
-                  View
-                </Button>
+                />
               </div>
             ),
           });

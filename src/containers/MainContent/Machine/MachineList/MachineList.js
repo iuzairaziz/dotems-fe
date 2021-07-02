@@ -16,6 +16,7 @@ import {
 } from "reactstrap";
 import MachineForm from "../MachineForm/MachineForm";
 import MachineService from "../../../../services/MachineService";
+import "./MachineList.scss";
 
 const ViewMachines = (props) => {
   let history = useHistory();
@@ -85,43 +86,29 @@ const ViewMachines = (props) => {
 
             action: (
               <div className="row flex-nowrap">
-                <Button
-                  className="my-seconday-button"
-                  size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
+                <i
+                  className="mdi mdi-view-list
+                  iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({
                       pathname: `/machine-details/${item._id}`,
                     });
                   }}
-                >
-                  View
-                </Button>
-
-                <Button
-                  className="my-primary-button"
-                  size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
+                />
+                <i
+                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
                   onClick={() => {
                     setSelectedMachine(item);
                     toggleEdit();
                   }}
-                >
-                  Edit
-                </Button>
-
-                <Button
-                  className="my-danger-button"
-                  size="sm"
+                />
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedMachine(item);
                     toggleDelete();
                   }}
-                >
-                  Delete
-                </Button>
+                />
               </div>
             ),
           });

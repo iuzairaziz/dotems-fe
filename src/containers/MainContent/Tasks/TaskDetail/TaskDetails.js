@@ -187,40 +187,29 @@ const TaskDetail = (props) => {
             action: (
               <div className="row flex-nowrap">
                 {/* <div className="col"> */}
-                <Button
-                  className="my-seconday-button"
-                  size="sm"
+                <i
+                  className="mdi mdi-view-list
+                  iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({
                       pathname: "/task-details/" + item._id,
                     });
                   }}
-                >
-                  View
-                </Button>
-                <Button
-                  className="my-primary-button"
-                  size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
+                />
+                <i
+                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
                   onClick={() => {
                     setSelectedTask(item);
                     toggleEdit();
                   }}
-                >
-                  Edit
-                </Button>
-
-                <Button
-                  className="my-danger-button"
-                  size="sm"
+                />
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedTask(item);
                     toggleDelete();
                   }}
-                >
-                  Delete
-                </Button>
+                />
               </div>
             ),
           });

@@ -5,6 +5,7 @@ import { MDBDataTable, MDBBtn } from "mdbreact";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import StatusForm from "../StatusForm/StatusForm";
 import StatusService from "../../../../services/StatusService";
+import "./StatusList.scss";
 
 const StatusList = () => {
   const [modalEdit, setModalEdit] = useState(false);
@@ -58,27 +59,20 @@ const StatusList = () => {
             status: item.name ? item.name : "none",
             action: (
               <div className="row flex-nowrap">
-                <Button
+                <i
+                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
                   onClick={() => {
                     setSelectedStatus(item);
                     toggleEdit();
                   }}
-                  className="my-primary-button"
-                  size="sm"
-                >
-                  Edit
-                </Button>
-
-                <Button
-                  className="my-danger-button"
-                  size="sm"
+                />
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedStatus(item);
                     toggleDelete();
                   }}
-                >
-                  Delete
-                </Button>
+                />
               </div>
             ),
           });

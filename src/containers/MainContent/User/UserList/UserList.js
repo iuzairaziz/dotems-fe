@@ -7,6 +7,7 @@ import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import UserService from "../../../../services/UserService";
 import UserForm from "../AddUserForm/AddUserForm";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import "./UserList.scss";
 
 const ViewUsers = (props) => {
   const [editTask, setEditTask] = useState();
@@ -188,42 +189,31 @@ const ViewUsers = (props) => {
               : "none",
 
             action: (
-              <div className="row flex-nowrap">
-                <Button
-                  className="my-seconday-button"
-                  size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
+              <div className="row flex-nowrap align-items-center">
+                <i
+                  className="mdi mdi-view-list
+                  iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({
                       pathname: "/userdetails/" + item._id,
                     });
                   }}
-                >
-                  View
-                </Button>
-                <Button
-                  className="my-primary-button"
+                />
+                <i
+                  className="mdi mdi-pencil-box
+                  iconsS my-seconday-icon"
                   onClick={() => {
                     setSelectedUser(item);
                     toggleEdit();
                   }}
-                  color="info"
-                  size="sm"
-                >
-                  Edit
-                </Button>
-
-                <Button
-                  className="my-danger-button"
-                  size="sm"
+                />
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedUser(item);
                     toggleDelete();
                   }}
-                >
-                  Delete
-                </Button>
+                />
               </div>
             ),
           });

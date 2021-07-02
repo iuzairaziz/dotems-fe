@@ -5,6 +5,7 @@ import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import CountryForm from "../CountryForm/CountryForm";
 import CountryService from "../../../../services/CountryService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import "./CountryList.scss";
 
 const CountryList = () => {
   const [modalEdit, setModalEdit] = useState(false);
@@ -58,27 +59,20 @@ const CountryList = () => {
             title: item.name ? item.name : "none",
             action: (
               <div className="row flex-nowrap">
-                <Button
+                <i
+                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
                   onClick={() => {
                     setSelectedCountry(item);
                     toggleEdit();
                   }}
-                  className="my-primary-button"
-                  size="sm"
-                >
-                  Edit
-                </Button>
-
-                <Button
-                  className="my-danger-button"
-                  size="sm"
+                />
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedCountry(item);
                     toggleDelete();
                   }}
-                >
-                  Delete
-                </Button>
+                />
               </div>
             ),
           });

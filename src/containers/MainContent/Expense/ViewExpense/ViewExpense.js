@@ -274,16 +274,13 @@ const ViewExpense = () => {
               : "none",
             action: (
               <div className="row flex-nowrap">
-                <Button
-                  color="danger"
-                  size="sm"
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedExpense(item);
                     toggleDelete();
                   }}
-                >
-                  Delete
-                </Button>
+                />
               </div>
             ),
           });
