@@ -15,11 +15,13 @@ class TasksValidations {
       estimatedHrs: Yup.number("Please enter a valid number!").required(
         "Required!"
       ),
-      projectRatio: Yup.number("Please enter a valid number!").required(
-        "Required!"
-      ),
+      projectRatio: Yup.number("Please enter a valid number!")
+        .required("Required!")
+        .min(1),
       startTime: Yup.date().required(),
-      endTime: Yup.date().required(),
+      endTime: Yup.date()
+        .required()
+        .min(Yup.ref("startTime"), "End date must be grater than start date"),
       //   projectRatio: Yup.number("Please enter a valid number!").required(
       //     "Required!"
       //   ),

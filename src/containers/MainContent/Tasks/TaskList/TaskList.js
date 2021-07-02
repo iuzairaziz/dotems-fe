@@ -14,6 +14,7 @@ import {
   ModalFooter,
 } from "reactstrap";
 import moment from "moment";
+import $ from "jquery";
 import "./TaskList.scss";
 
 const Tables_datatable = (props) => {
@@ -96,6 +97,27 @@ const Tables_datatable = (props) => {
   useEffect(() => {
     getData();
   }, [modalEdit, modalDelete]);
+
+  $(document).ready(function() {
+    $("tr").each(function(index) {
+      var two = $(this)
+        .children("td")
+        .eq(2)
+        .text();
+      var three = $(this)
+        .children("td")
+        .eq(3)
+        .text();
+      var finalTwo = parseInt(two);
+      var finalThree = parseInt(three);
+      if (finalThree > finalTwo) {
+        $(this).css("color", "red");
+        $(this)
+          .find("a")
+          .css("color", "red");
+      }
+    });
+  });
 
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);

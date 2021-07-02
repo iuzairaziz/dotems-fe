@@ -60,7 +60,13 @@ const TaskForm = (props) => {
             options.push({
               value: item._id,
               label: item.name,
-              id: item._id,
+              // id: item._id,
+              remainingProjectRatio: item.tasks
+                ? item.tasks.remainingProjectRatio
+                : 100,
+              remainingProjectEstHrs: item.projectRemainingEstTime
+                ? item.projectRemainingEstTime
+                : 1000,
             });
           }
           console.log("project options", options);
@@ -83,6 +89,8 @@ const TaskForm = (props) => {
     // <>
     <Formik
       initialValues={{
+        maxProjectRatio: 100,
+        maxEstHrs: 1000,
         title: editable && task.name,
         project: editable &&
           task.project && { label: task.project.name, value: task.project._id },
@@ -178,10 +186,15 @@ const TaskForm = (props) => {
                     type="text"
                     className="form-control"
                     value={props.values.title}
-                    onChange={props.handleChange("title")}
+                    onChange={() => {
+                      props.handleChange("title");
+                      props.setTouched("title");
+                    }}
                     placeholder="Enter Name"
                   />
-                  <span id="err">{props.errors.title}</span>
+                  <span id="err">
+                    {props.touched.title && props.errors.title}
+                  </span>
                 </div>
               </div>
               <div className="col-6">
@@ -191,6 +204,14 @@ const TaskForm = (props) => {
                     value={props.values.project}
                     onChange={(selected) => {
                       props.setFieldValue("project", selected);
+                      props.setFieldValue(
+                        "maxProjectRatio",
+                        selected.remainingProjectRatio
+                      );
+                      props.setFieldValue(
+                        "maxEstHrs",
+                        selected.remainingProjectEstHrs
+                      );
                       getTasksByProjectId(selected.value);
                       getProjectUsers(selected.value);
                     }}
@@ -208,9 +229,14 @@ const TaskForm = (props) => {
                   <span id="right_badge" className="float-right">
                     {props.values.estimatedHrs + " Hours"}
                   </span>
+                  <br />
+                  <span id="left_badge">0</span>
+                  <span id="right_badge" className="float-right">
+                    {props.values.maxEstHrs}
+                  </span>
                   <Slider
                     min={0}
-                    max={100}
+                    max={props.values.maxEstHrs}
                     type="number"
                     step={0.1}
                     format={formatHrs}
@@ -238,6 +264,33 @@ const TaskForm = (props) => {
               </div>
               <div className="col-6">
                 <div className="form-group">
+                  <label>Project Ratio</label>
+                  <span id="right_badge" className="float-right">
+                    {props.values.projectRatio + " %"}
+                  </span>
+                  <br />
+                  <span id="left_badge">0</span>
+                  <span id="right_badge" className="float-right">
+                    {props.values.maxProjectRatio}
+                  </span>
+                  <Slider
+                    min={0}
+                    max={props.values.maxProjectRatio}
+                    type="number"
+                    format={formatPercent}
+                    value={props.values.projectRatio}
+                    onChange={(value) => {
+                      // console.log("valueee==", value);
+                      props.setFieldValue("projectRatio", value.toFixed(1));
+                    }}
+                  />
+                  <span id="err">
+                    {props.touched.projectRatio && props.errors.projectRatio}
+                  </span>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="form-group">
                   <label>Parent Task</label>
                   <Select
                     value={props.values.parentTask}
@@ -252,33 +305,6 @@ const TaskForm = (props) => {
                 </div>
               </div>
 
-              <div className="col-6">
-                <div className="form-group">
-                  <label>Project Ratio</label>
-                  <span id="right_badge" className="float-right">
-                    {props.values.projectRatio + " %"}
-                  </span>
-                  <br />
-                  <span id="left_badge">0</span>
-                  <span id="right_badge" className="float-right">
-                    100
-                  </span>
-                  <Slider
-                    min={0}
-                    max={100}
-                    type="number"
-                    format={formatPercent}
-                    value={props.values.projectRatio}
-                    onChange={(value) => {
-                      // console.log("valueee==", value);
-                      props.setFieldValue("projectRatio", value.toFixed(1));
-                    }}
-                  />
-                  <span id="err">
-                    {props.touched.projectRatio && props.errors.projectRatio}
-                  </span>
-                </div>
-              </div>
               <div className="col-6">
                 <div className="form-group">
                   <label>Assign Task</label>
@@ -329,6 +355,7 @@ const TaskForm = (props) => {
                     className="form-control"
                     selected={props.values.endTime}
                     onChange={(date) => {
+                      props.setTouched("endTime", true);
                       props.setFieldValue("endTime", date);
                       console.log("datepicker", date);
                     }}
