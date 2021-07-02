@@ -76,12 +76,12 @@ const TaskDetail = (props) => {
         sort: "asc",
         // width: 100,
       },
-      {
-        label: "Approved By",
-        field: "approvedBy",
-        sort: "asc",
-        // width: 100,
-      },
+      // {
+      //   label: "Approved By",
+      //   field: "approvedBy",
+      //   sort: "asc",
+      //   // width: 100,
+      // },
       {
         label: "Start Time",
         field: "startTime",
@@ -363,7 +363,7 @@ const TaskDetail = (props) => {
             </div>
           </div>
           <div className="row">
-            <div className="col">
+            {/* <div className="col">
               <div className="form-group">
                 <label>Approved By</label>
                 <input
@@ -376,7 +376,7 @@ const TaskDetail = (props) => {
                   readOnly={true}
                 />
               </div>
-            </div>
+            </div> */}
             <div className="col">
               <div className="form-group">
                 <label>Team Members</label>{" "}

@@ -1,5 +1,6 @@
 :root {
   --color-primary: #f69a1d;
+  --color-primary2: #fdcd05;
   --color-secondary1: #121a37;
   --color-secondary2: #226194;
   --color-white: #ffffff;
@@ -43,7 +44,7 @@ input:focus {
 }
 
 .button-menu-mobile {
-  background-color: var(--color-secondary1);
+  background-color: transparent;
   color: white;
 }
 .navbar-custom {
@@ -59,4 +60,8 @@ input:focus {
   &:hover {
     color: var(--color-primary);
   }
+}
+
+.content-page {
+  min-height: inherit;
 }

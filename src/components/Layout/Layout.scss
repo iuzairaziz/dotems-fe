@@ -1,3 +1,9 @@
+
+.app-main{
+  min-height: inherit;
+  #wrapper{
+    min-height: inherit;
+  }
 .pathname {
   margin-top: 80px;
 }
@@ -9,4 +15,5 @@
   font-size: 18px;
   font-weight: bolder;
   border: 1px;
+}
 }

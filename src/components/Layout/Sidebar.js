@@ -306,7 +306,7 @@ class sidebar extends Component {
                       >
                         {item.subMenus.map((subMenu, index) => {
                           return (
-                            <>
+                            
                               <li key={index}>
                                 <Link
                                   className={
@@ -325,7 +325,7 @@ class sidebar extends Component {
                                   {subMenu.label}
                                 </Link>
                               </li>
-                            </>
+                            
                           );
                         })}
                       </ul>

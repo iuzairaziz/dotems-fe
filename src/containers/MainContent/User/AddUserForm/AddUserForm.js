@@ -302,6 +302,7 @@ const UserForm = (props) => {
                     { value: roles.ADMIN, label: roles.ADMIN },
                     { value: roles.CEO, label: roles.CEO },
                     { value: roles.HR, label: roles.HR },
+                    { value: roles.AM, label: roles.AM },
                   ]}
                 />
                 <span id="err">
