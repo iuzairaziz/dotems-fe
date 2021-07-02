@@ -7,26 +7,34 @@ class ProjectValidation {
         .required("Required!")
         .min(2)
         .max(100),
-      clientName: Yup.object().required(),
+      clientName: Yup.object().required("Required!"),
       status: Yup.object(),
-      cost: Yup.string(),
+      cost: Yup.string().required("Required!"),
       platform: Yup.object().required("Required!"),
       technology: Yup.object().required("Required!"),
       serviceType: Yup.object().required("Required!"),
       nature: Yup.object().required("Required!"),
       cStartDate: Yup.date().required("Required!"),
-      cEndDate: Yup.date().required("Required!"),
+      cEndDate: Yup.date()
+        .required("Required!")
+        .min(
+          Yup.ref("cStartDate"),
+          "Client End date must be grater than Client start date"
+        ),
       pmStartDate: Yup.date(),
-      pmEndDate: Yup.date(),
+      pmEndDate: Yup.date().min(
+        Yup.ref("pmStartDate"),
+        "PM End date must be grater than PM start date"
+      ),
       projectManager: Yup.object().required("Required!"),
       teamMembers: Yup.array(),
       orderNum: Yup.string().required("Required!"),
-      Rprofit: Yup.number(),
-      Pdeduction: Yup.number(),
+      Rprofit: Yup.number().required("Required!"),
+      Pdeduction: Yup.number().required("Required!"),
       // percentage: Yup.string(),
       // fCost: Yup.string(),
-      currency: Yup.object(),
-      otherDeduction: Yup.number(),
+      currency: Yup.object().required("Required!"),
+      otherDeduction: Yup.number().required("Required!"),
     });
   };
 
