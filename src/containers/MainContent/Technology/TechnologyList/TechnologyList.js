@@ -4,6 +4,8 @@ import { MDBDataTable } from "mdbreact";
 import TechnologyForm from "../TechnologyForm/TechnologyForm";
 import TechnologyService from "../../../../services/TechnologyService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import "./TechnologyList.scss";
+
 const TechnologyList = () => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
@@ -56,27 +58,20 @@ const TechnologyList = () => {
             title: item.name ? item.name : "none",
             action: (
               <div className="row flex-nowrap">
-                <Button
+                <i
+                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
                   onClick={() => {
                     setSelectedTechnology(item);
                     toggleEdit();
                   }}
-                  className="my-primary-button"
-                  size="sm"
-                >
-                  Edit
-                </Button>
-
-                <Button
-                  className="my-danger-button"
-                  size="sm"
+                />
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedTechnology(item);
                     toggleDelete();
                   }}
-                >
-                  Delete
-                </Button>
+                />
               </div>
             ),
           });

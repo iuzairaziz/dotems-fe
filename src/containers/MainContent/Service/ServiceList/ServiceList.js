@@ -4,6 +4,7 @@ import { MDBDataTable } from "mdbreact";
 import ServiceForm from "../ServiceForm/ServiceForm";
 import ServiceServices from "../../../../services/ServiceService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import "./ServiceList.scss";
 
 const ServiceList = () => {
   const [modalEdit, setModalEdit] = useState(false);
@@ -57,27 +58,20 @@ const ServiceList = () => {
             title: item.name ? item.name : "none",
             action: (
               <div className="row flex-nowrap">
-                <Button
+                <i
+                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
                   onClick={() => {
                     setSelectedService(item);
                     toggleEdit();
                   }}
-                  className="my-primary-button"
-                  size="sm"
-                >
-                  Edit
-                </Button>
-
-                <Button
-                  className="my-danger-button"
-                  size="sm"
+                />
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedService(item);
                     toggleDelete();
                   }}
-                >
-                  Delete
-                </Button>
+                />
               </div>
             ),
           });

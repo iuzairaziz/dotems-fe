@@ -162,18 +162,15 @@ const MyTasks = (props) => {
               : "N/A",
             action: (
               <div className="row flex-nowrap">
-                <Button
-                  className="my-seconday-button"
-                  size="sm"
+                <i
+                  className="mdi mdi-view-list
+                  iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({
-                      pathname: "/task-details",
-                      taskId: item._id,
+                      pathname: "/task-details/" + item._id,
                     });
                   }}
-                >
-                  View
-                </Button>
+                />
               </div>
             ),
           });

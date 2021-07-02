@@ -179,7 +179,7 @@ const ProjectReports = () => {
           console.log(item.phase);
           data.rows.push({
             projectName: (
-              <Link to={`/projectdetails/${item._id}`}>
+              <Link to={`/viewproject/${item._id}`}>
                 {item.name ? item.name : "N/A"}
               </Link>
             ),

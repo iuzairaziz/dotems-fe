@@ -348,8 +348,18 @@ const ViewProjects = (props, match) => {
             wrkdone: item.workDone ? item.workDone.toFixed(2) : "N/A",
             EstHrs: item.phase ? calEstHrs(item) : "N/A",
             action: (
-              <div className="row flex-nowrap">
-                <Button
+              <div className="row flex-nowrap align-items-center">
+                <i
+                  className="mdi mdi-view-list
+                  iconsS my-primary-icon"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/viewproject/" + item._id,
+                    });
+                  }}
+                />
+
+                {/* <Button
                   className="my-seconday-button"
                   size="sm"
                   data-toggle="modal"
@@ -361,9 +371,16 @@ const ViewProjects = (props, match) => {
                   }}
                 >
                   View
-                </Button>
-
-                <Button
+                </Button> */}
+                <i
+                  className="mdi mdi-pencil-box
+                  iconsS my-seconday-icon"
+                  onClick={() => {
+                    setSelectedProject(item);
+                    toggleEdit();
+                  }}
+                />
+                {/* <Button
                   className="my-primary-button"
                   size="sm"
                   data-toggle="modal"
@@ -374,18 +391,26 @@ const ViewProjects = (props, match) => {
                   }}
                 >
                   Edit
-                </Button>
-
-                <Button
-                  className="my-danger-button"
-                  size="sm"
+                </Button> */}
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedProject(item);
                     toggleDelete();
                   }}
                 >
-                  Delete
-                </Button>
+                  {/* <Button
+                    
+                    className="my-danger-button"
+                    size="sm"
+                    onClick={() => {
+                      setSelectedProject(item);
+                      toggleDelete();
+                    }}
+                  >
+                    Delete
+                  </Button> */}
+                </i>
               </div>
             ),
           });
