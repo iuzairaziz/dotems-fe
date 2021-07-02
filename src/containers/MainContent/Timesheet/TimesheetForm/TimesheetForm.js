@@ -214,7 +214,7 @@ const TaskForm = (props) => {
           <tbody>
             {/* <input name="empId" value={user._id} type="hidden" /> */}
             <tr>
-              <td colSpan="9" className="not-found-icon">
+              <td colSpan="9" className="not-found-icon p-0">
                 {employeeData.length === 0 && (
                   <>
                     <i class="mdi mdi-library-books" />
