@@ -145,8 +145,7 @@ const MyTasks = (props) => {
                   size="sm"
                   onClick={() => {
                     props.history.push({
-                      pathname: "/task-details",
-                      taskId: item._id,
+                      pathname: "/task-details/" + item._id,
                     });
                   }}
                 >
