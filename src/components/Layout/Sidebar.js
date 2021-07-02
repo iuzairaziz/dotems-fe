@@ -29,6 +29,7 @@ class sidebar extends Component {
       ? [
           {
             name: "user_menu",
+            icon: "mdi-account",
             tab: "user",
             subMenus: [
               { routeName: this.baseUrl + "add-user", label: "Add New User" },
@@ -39,6 +40,7 @@ class sidebar extends Component {
       : []), // if false spread operator will return nothing as array elements
     {
       name: "timesheet_menu",
+      icon: "mdi-calendar",
       tab: "timesheet",
       subMenus: [
         { routeName: this.baseUrl + "add-time", label: "Weekly Timesheet" },
@@ -46,6 +48,7 @@ class sidebar extends Component {
     },
     {
       name: "task_menu",
+      icon: "mdi-calendar",
       tab: "task",
       subMenus: [
         ...(this.isRole([this.roles.PM, this.roles.ADMIN, this.roles.CEO])
@@ -63,6 +66,7 @@ class sidebar extends Component {
       ? [
           {
             name: "project_menu",
+            icon: "mdi-calendar",
             tab: "project",
             subMenus: [
               { routeName: this.baseUrl + "addproject", label: "New Project" },
@@ -78,6 +82,7 @@ class sidebar extends Component {
           },
           {
             name: "project_settings_menu",
+            icon: "mdi-settings",
             tab: "project-settings",
             subMenus: [
               { routeName: this.baseUrl + "project-settings", label: "Menus" },
@@ -85,6 +90,7 @@ class sidebar extends Component {
           },
           {
             name: "machine_menu",
+            icon: "mdi-laptop",
             tab: "Machine",
             subMenus: [
               {
@@ -99,6 +105,7 @@ class sidebar extends Component {
           },
           {
             name: "accessory_menu",
+            icon: "mdi-calendar",
             tab: "Accessory",
             subMenus: [
               {
@@ -289,7 +296,7 @@ class sidebar extends Component {
                             : "waves-effect"
                         }
                       >
-                        <i className="mdi mdi-clipboard-outline" />
+                        <i className={`mdi ${item.icon}`} />
                         <span>
                           {" "}
                           {this.capitalize(item.tab)}{" "}
@@ -306,26 +313,24 @@ class sidebar extends Component {
                       >
                         {item.subMenus.map((subMenu, index) => {
                           return (
-                            
-                              <li key={index}>
-                                <Link
-                                  className={
-                                    this.state.SubTab === `${subMenu.routeName}`
-                                      ? "active-menu"
-                                      : ""
-                                  }
-                                  onClick={this.setActiveTab.bind(
-                                    this,
-                                    `${item.tab}`,
-                                    `${subMenu.routeName}`,
-                                    ""
-                                  )}
-                                  to={subMenu.routeName}
-                                >
-                                  {subMenu.label}
-                                </Link>
-                              </li>
-                            
+                            <li key={index}>
+                              <Link
+                                className={
+                                  this.state.SubTab === `${subMenu.routeName}`
+                                    ? "active-menu"
+                                    : ""
+                                }
+                                onClick={this.setActiveTab.bind(
+                                  this,
+                                  `${item.tab}`,
+                                  `${subMenu.routeName}`,
+                                  ""
+                                )}
+                                to={subMenu.routeName}
+                              >
+                                {subMenu.label}
+                              </Link>
+                            </li>
                           );
                         })}
                       </ul>
