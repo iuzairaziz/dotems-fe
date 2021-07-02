@@ -23,6 +23,17 @@
   background: var(--color-danger) !important;
   color: var(--color-white);
 }
+.my-primary-icon {
+  color: var(--color-primary) !important;
+}
+
+.my-seconday-icon {
+  color: var(--color-secondary2) !important;
+}
+
+.my-danger-icon {
+  color: var(--color-danger) !important;
+}
 
 .editorClass {
   overflow-y: scroll !important;

@@ -20,6 +20,7 @@ import StatusService from "../../../services/StatusService";
 import TechnologyService from "../../../services/TechnologyService";
 import "./ViewProject.scss";
 import $ from "jquery";
+import { parse } from "superagent";
 
 const ViewProjects = (props, match) => {
   let history = useHistory();
@@ -212,14 +213,26 @@ const ViewProjects = (props, match) => {
     getTechnology();
   }, []);
 
-  useEffect(() => {
-    dataa.rows.map((item, index) => {
-      if (item.wrkdone > item.EstHrs) {
-        $("tr:nth-child(3n)").toggleClass("row-red");
+  $(document).ready(function() {
+    $("tr").each(function(index) {
+      var ninth = $(this)
+        .children("td")
+        .eq(9)
+        .text();
+      var eight = $(this)
+        .children("td")
+        .eq(8)
+        .text();
+      var finalNinth = parseInt(ninth);
+      var finalEight = parseInt(eight);
+      if (finalNinth > finalEight) {
+        $(this).css("color", "red");
+        $(this)
+          .find("a")
+          .css("color", "red");
       }
     });
-    console.log(dataa);
-  }, [dataa]);
+  });
 
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
@@ -335,8 +348,18 @@ const ViewProjects = (props, match) => {
             wrkdone: item.workDone ? item.workDone.toFixed(2) : "N/A",
             EstHrs: item.phase ? calEstHrs(item) : "N/A",
             action: (
-              <div className="row flex-nowrap">
-                <Button
+              <div className="row flex-nowrap align-items-center">
+                <i
+                  className="mdi mdi-view-list
+                  iconsS my-primary-icon"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/viewproject/" + item._id,
+                    });
+                  }}
+                />
+
+                {/* <Button
                   className="my-seconday-button"
                   size="sm"
                   data-toggle="modal"
@@ -348,9 +371,16 @@ const ViewProjects = (props, match) => {
                   }}
                 >
                   View
-                </Button>
-
-                <Button
+                </Button> */}
+                <i
+                  className="mdi mdi-pencil-box
+                  iconsS my-seconday-icon"
+                  onClick={() => {
+                    setSelectedProject(item);
+                    toggleEdit();
+                  }}
+                />
+                {/* <Button
                   className="my-primary-button"
                   size="sm"
                   data-toggle="modal"
@@ -361,18 +391,26 @@ const ViewProjects = (props, match) => {
                   }}
                 >
                   Edit
-                </Button>
-
-                <Button
-                  className="my-danger-button"
-                  size="sm"
+                </Button> */}
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedProject(item);
                     toggleDelete();
                   }}
                 >
-                  Delete
-                </Button>
+                  {/* <Button
+                    
+                    className="my-danger-button"
+                    size="sm"
+                    onClick={() => {
+                      setSelectedProject(item);
+                      toggleDelete();
+                    }}
+                  >
+                    Delete
+                  </Button> */}
+                </i>
               </div>
             ),
           });
@@ -483,7 +521,6 @@ const ViewProjects = (props, match) => {
                     // autoWidth
                     data={dataa}
                     theadColor="#000"
-                    c
                   />
                 </div>
               </div>

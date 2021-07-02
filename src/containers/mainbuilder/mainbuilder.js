@@ -56,6 +56,7 @@ import Configuration from "../../config/configuration";
 import userService from "../../services/UserService";
 import RoleAuth from "../../components/MyComponents/Auth/RoleAuth";
 import Pages_400 from "../../components/MyComponents/Pages/Pages_400";
+import Ui_tabs_accordions from "../MainContent/UiElements/Ui_tabs_accordions";
 
 const mainbuilder = (props) => {
   const baseUrl = props.match.url;
@@ -73,7 +74,7 @@ const mainbuilder = (props) => {
           <Route exact path="/add-user" component={AddUser} />
           <Route exact path="/task-details/:id" component={TaskDetails} />
           <Route exact path="/subtask-details" component={TaskDetails} />
-
+          <Route exact path="/tabs" component={Ui_tabs_accordions} />
           <Route exact path="/update-profile" component={UpdateUser} />
           <RoleAuth roles={[ADMIN, PM, HR, CEO]}>
             <Route exact path="/viewuser" component={ViewUsers} />

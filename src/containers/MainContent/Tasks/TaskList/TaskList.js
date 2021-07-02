@@ -14,6 +14,8 @@ import {
   ModalFooter,
 } from "reactstrap";
 import moment from "moment";
+import $ from "jquery";
+import "./TaskList.scss";
 
 const Tables_datatable = (props) => {
   const [modalEdit, setModalEdit] = useState(false);
@@ -96,6 +98,27 @@ const Tables_datatable = (props) => {
     getData();
   }, [modalEdit, modalDelete]);
 
+  $(document).ready(function() {
+    $("tr").each(function(index) {
+      var two = $(this)
+        .children("td")
+        .eq(2)
+        .text();
+      var three = $(this)
+        .children("td")
+        .eq(3)
+        .text();
+      var finalTwo = parseInt(two);
+      var finalThree = parseInt(three);
+      if (finalThree > finalTwo) {
+        $(this).css("color", "red");
+        $(this)
+          .find("a")
+          .css("color", "red");
+      }
+    });
+  });
+
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
 
@@ -162,46 +185,31 @@ const Tables_datatable = (props) => {
               ? moment(item.endTime).format("DD/MMM/YYYY")
               : "N/A",
             action: (
-              <div className="row flex-nowrap">
+              <div className="row flex-nowrap align-items-center">
                 {/* <div className="col"> */}
-
-                <Button
-                  className="my-seconday-button"
-                  size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
+                <i
+                  className="mdi mdi-view-list
+                  iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({
                       pathname: "/task-details/" + item._id,
                     });
                   }}
-                >
-                  View
-                </Button>
-
-                <Button
-                  className="my-primary-button"
-                  size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
+                />
+                <i
+                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
                   onClick={() => {
                     setSelectedTask(item);
                     toggleEdit();
                   }}
-                >
-                  Edit
-                </Button>
-
-                <Button
-                  className="my-danger-button"
-                  size="sm"
+                />
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedTask(item);
                     toggleDelete();
                   }}
-                >
-                  Delete
-                </Button>
+                />
               </div>
             ),
           });

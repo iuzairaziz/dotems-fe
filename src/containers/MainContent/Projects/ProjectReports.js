@@ -16,6 +16,7 @@ import {
 } from "reactstrap";
 import ProjectService from "../../../services/ProjectService";
 import StatusService from "../../../services/StatusService";
+import $ from "jquery";
 
 const ProjectReports = () => {
   const [modalEdit, setModalEdit] = useState(false);
@@ -112,6 +113,23 @@ const ProjectReports = () => {
     getStatus();
   }, []);
 
+  $(document).ready(function() {
+    $("tr").each(function(index) {
+      var eleven = $(this)
+        .children("td")
+        .eq(11)
+        .text();
+
+      var finalEleven = parseInt(eleven);
+      if (finalEleven < 0) {
+        $(this).css("color", "red");
+        $(this)
+          .find("a")
+          .css("color", "red");
+      }
+    });
+  });
+
   const getStatus = () => {
     StatusService.getAllStatus().then((res) => {
       let options = [];
@@ -161,7 +179,7 @@ const ProjectReports = () => {
           console.log(item.phase);
           data.rows.push({
             projectName: (
-              <Link to={`/projectdetails/${item._id}`}>
+              <Link to={`/viewproject/${item._id}`}>
                 {item.name ? item.name : "N/A"}
               </Link>
             ),

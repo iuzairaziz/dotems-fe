@@ -6,6 +6,7 @@ import moment from "moment";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import UserService from "../../../../services/UserService";
 import { Progress } from "reactstrap";
+import "./UserDetails.scss";
 
 const UserDetails = (props) => {
   {
@@ -135,251 +136,168 @@ const UserDetails = (props) => {
 
     return (
       <AUX>
-        <div className="page-content-wrapper">
+        <div className="page-content-wrapper userD">
           <div className="container-fluid">
             <div className="row">
-              <div className="col-12">
-                <div className="card m-b-20">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Name</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={userData && userData.name}
-                            readOnly={true}
-                          />
+              <div className="col">
+                <div className="col-12">
+                  <div className="card m-b-20">
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col">
+                          <span className="labell">Name: </span>
+                          <span className="valuee">
+                            {userData && userData.name}
+                          </span>
+                        </div>
+                        <div className="col">
+                          <div>
+                            <span className="labell">UserName: </span>
+                            <span className="valuee">
+                              {userData && userData.email}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="col">
+                          <div>
+                            <span className="labell">Joining Date: </span>
+                            <span className="valuee">
+                              {moment(userData && userData.joiningDate).format(
+                                "DD-MM-YYYY"
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="col">
+                          <div>
+                            <span className="labell">Machine Number: </span>
+                            <span className="valuee">
+                              {userData &&
+                                userData.machineNo &&
+                                userData.machineNo.machineNo}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>UserName</label>
-                          <input
-                            className="form-control"
-                            value={userData && userData.email}
-                            readOnly={true}
-                          />
+                      <div className="row gap">
+                        <div className="col">
+                          <span className="labell">Role: </span>
+                          <span className="valuee">
+                            {userData && userData.userRole}
+                          </span>
+                        </div>
+                        <div className="col">
+                          <span className="labell">Salary: </span>
+                          <span className="valuee">
+                            {userData && userData.salary}
+                          </span>
+                        </div>
+                        <div className="col">
+                          <span className="labell">Status: </span>
+                          <span className="valuee">
+                            {userData && userData.status}
+                          </span>
+                        </div>
+                        <div className="col">
+                          <span className="labell">Gender: </span>
+                          <span className="valuee">
+                            {userData && userData.gender}
+                          </span>
                         </div>
                       </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Joining Date </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={moment(
-                              userData && userData.joiningDate
-                            ).format("LL")}
-                            readOnly={true}
-                          />
+                      <div className="row gap">
+                        <div className="col">
+                          <span className="labell">Contact # </span>
+                          <span className="valuee">
+                            {userData && userData.contact}
+                          </span>
+                        </div>
+                        <div className="col">
+                          <span className="labell">Other Contact: </span>
+                          <span className="valuee">
+                            {userData && userData.otherContact}
+                          </span>
+                        </div>
+                        <div className="col">
+                          <span className="labell">Working Hours: </span>
+                          <span className="valuee">
+                            {userData && userData.workingHrs}
+                          </span>
+                        </div>
+                        <div className="col">
+                          <span className="labell">Working Days: </span>
+                          <span className="valuee">
+                            {userData && userData.workingDays}
+                          </span>
                         </div>
                       </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Machine Number</label>
-                          <input
-                            className="form-control"
-                            value={
-                              userData &&
-                              userData.machineNo &&
-                              userData.machineNo.machineNo
-                            }
-                            readOnly={true}
-                          />
+                      <div className="row gap">
+                        <div className="col">
+                          <span className="labell">Personal Mail: </span>
+                          <span className="valuee">
+                            {userData && userData.emailPersonal}
+                          </span>
+                        </div>
+                        <div className="col">
+                          <span className="labell">Address: </span>
+                          <span className="valuee">
+                            {userData && userData.address}
+                          </span>
                         </div>
                       </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Salary </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={userData && userData.salary}
-                            readOnly={true}
-                          />
+                      <div className="row gap">
+                        <div className="col">
+                          <span className="labell">Guardian Name: </span>
+                          <span className="valuee">
+                            {userData && userData.nameEmergency}
+                          </span>
+                        </div>
+                        <div className="col">
+                          <span className="labell">Guardian Number: </span>
+                          <span className="valuee">
+                            {userData && userData.contactEmergency}
+                          </span>
                         </div>
                       </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Status</label>
-                          <input
-                            className="form-control"
-                            value={userData && userData.status}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Gender </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={userData && userData.gender}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Role</label>
-                          <input
-                            className="form-control"
-                            value={userData && userData.userRole}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Working Hours </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={userData && userData.workingHrs}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Working Days</label>
-                          <input
-                            className="form-control"
-                            value={userData && userData.workingDays}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Technology</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={
-                              userData &&
+                      <div className="row gap">
+                        <div className="col">
+                          <span className="labell">Technology: </span>
+                          <span className="valuee">
+                            {userData &&
                               userData.technology.map((item) => {
                                 return item.name;
                                 {
                                   console.log("tech name", item.name);
                                 }
-                              })
-                            }
-                            readOnly={true}
-                          />
+                              })}
+                          </span>
                         </div>
                       </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Contact Number </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={userData && userData.contact}
-                            readOnly={true}
+
+                      {taskData.length != 0 && (
+                        <div className="col-12 gap">
+                          <h4 className="mt-0 header-title">User Tasks</h4>
+
+                          <MDBDataTableV5
+                            // scrollX
+                            fixedHeader={true}
+                            responsive
+                            striped
+                            bordered
+                            searchTop
+                            hover
+                            // autoWidth
+                            data={dataa}
+                            theadColor="#000"
                           />
                         </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Other Contact </label>
-                          <input
-                            className="form-control"
-                            value={userData && userData.otherContact}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Address </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={userData && userData.address}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Personal E-mail</label>
-                          <input
-                            className="form-control"
-                            value={userData && userData.emailPersonal}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Guardian Name </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={userData && userData.nameEmergency}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Guardian Number</label>
-                          <input
-                            className="form-control"
-                            value={userData && userData.contactEmergency}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          {taskData.length != 0 && (
-            <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <h4 className="mt-0 header-title">User Tasks</h4>
-
-                  <MDBDataTableV5
-                    // scrollX
-                    fixedHeader={true}
-                    responsive
-                    striped
-                    bordered
-                    searchTop
-                    hover
-                    autoWidth
-                    data={dataa}
-                    theadColor="#000"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </AUX>
     );

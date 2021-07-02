@@ -44,7 +44,17 @@ const Comments = (props) => {
 
   return (
     <div class="card comments">
-      <div class="card-header">Comments</div>
+      {/* <div class="card-header">
+        <a
+          href="#collapseTwo"
+          className="text-dark collapsed"
+          data-toggle="collapse"
+          aria-expanded="false"
+          aria-controls="collapseTwo"
+        >
+          Comments
+        </a>
+      </div> */}
       <div class="card-body">
         {comments.map((item, index) => {
           return (

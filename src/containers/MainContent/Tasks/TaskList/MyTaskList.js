@@ -6,6 +6,7 @@ import { Progress, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import UserService from "../../../../services/UserService";
+import $ from "jquery";
 
 const MyTasks = (props) => {
   const [dataa, setData] = useState({
@@ -97,6 +98,27 @@ const MyTasks = (props) => {
     getData();
   }, []);
 
+  $(document).ready(function() {
+    $("tr").each(function(index) {
+      var two = $(this)
+        .children("td")
+        .eq(2)
+        .text();
+      var three = $(this)
+        .children("td")
+        .eq(3)
+        .text();
+      var finalTwo = parseInt(two);
+      var finalThree = parseInt(three);
+      if (finalThree > finalTwo) {
+        $(this).css("color", "red");
+        $(this)
+          .find("a")
+          .css("color", "red");
+      }
+    });
+  });
+
   let loggedUser = UserService.userLoggedInInfo();
 
   const getData = () => {
@@ -140,18 +162,15 @@ const MyTasks = (props) => {
               : "N/A",
             action: (
               <div className="row flex-nowrap">
-                <Button
-                  className="my-seconday-button"
-                  size="sm"
+                <i
+                  className="mdi mdi-view-list
+                  iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({
-                      pathname: "/task-details",
-                      taskId: item._id,
+                      pathname: "/task-details/" + item._id,
                     });
                   }}
-                >
-                  View
-                </Button>
+                />
               </div>
             ),
           });

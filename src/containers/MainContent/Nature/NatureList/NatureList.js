@@ -4,6 +4,8 @@ import { MDBDataTable, MDBBtn } from "mdbreact";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import NatureForm from "../NatureForm/NatureForm";
 import NatureService from "../../../../services/NatureService";
+import "./NatureList.scss";
+
 const NatureList = () => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
@@ -56,27 +58,20 @@ const NatureList = () => {
             title: item.name ? item.name : "none",
             action: (
               <div className="row flex-nowrap">
-                <Button
+                <i
+                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
                   onClick={() => {
                     setSelectedNature(item);
                     toggleEdit();
                   }}
-                  className="my-primary-button"
-                  size="sm"
-                >
-                  Edit
-                </Button>
-
-                <Button
-                  className="my-danger-button"
-                  size="sm"
+                />
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedNature(item);
                     toggleDelete();
                   }}
-                >
-                  Delete
-                </Button>
+                />
               </div>
             ),
           });

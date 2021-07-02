@@ -7,6 +7,7 @@ import ClientsForm from "../Client/ClientsForm";
 import ClientService from "../../../services/ClientService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import moment from "moment";
+import "./ViewClient.scss";
 
 const ViewClients = (props) => {
   const [editTask, setEditTask] = useState();
@@ -110,42 +111,31 @@ const ViewClients = (props) => {
               : "N/A",
             country: item.country ? item.country.name : "N/A",
             action: (
-              <div className="row flex-nowrap">
-                <Button
-                  className="my-seconday-button"
-                  size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
+              <div className="row flex-nowrap align-items-center">
+                <i
+                  className="mdi mdi-view-list
+                  iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({
                       pathname: "/client-details/" + item._id,
                     });
                   }}
-                >
-                  View
-                </Button>
-                <Button
-                  className="my-primary-button"
+                />
+                <i
+                  className="mdi mdi-pencil-box
+                  iconsS my-seconday-icon"
                   onClick={() => {
                     setSelectedClient(item);
                     toggleEdit();
                   }}
-                  color="info"
-                  size="sm"
-                >
-                  Edit
-                </Button>
-
-                <Button
-                  className="my-danger-button"
-                  size="sm"
+                />
+                <i
+                  className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedClient(item);
                     toggleDelete();
                   }}
-                >
-                  Delete
-                </Button>
+                />
               </div>
             ),
           });
