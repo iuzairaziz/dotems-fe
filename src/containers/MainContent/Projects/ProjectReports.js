@@ -183,7 +183,7 @@ const ProjectReports = () => {
                 {item.name ? item.name : "N/A"}
               </Link>
             ),
-            cost: item.cost ? item.cost : "N/A",
+            cost: item.cost ? `${item.cost} (${item.currency.name})` : "N/A",
             Rprofit: item.Rprofit
               ? ((item.Rprofit / 100) * item.cost).toFixed(2)
               : "N/A",
