@@ -104,7 +104,9 @@ const ClientsForm = (props) => {
               <div className="form-group">
                 <label>Client Name</label>
                 <input
-                  type="text"
+                  name="endTime"
+                  onBlur={props.handleBlur}
+                  type="title"
                   className="form-control"
                   value={props.values.title}
                   onChange={props.handleChange("title")}
@@ -119,6 +121,8 @@ const ClientsForm = (props) => {
               <div className="form-group">
                 <label>Company Name</label>
                 <input
+                  name="compName"
+                  onBlur={props.handleBlur}
                   type="text"
                   className="form-control"
                   value={props.values.compName}
@@ -136,6 +140,8 @@ const ClientsForm = (props) => {
               <div className="form-group">
                 <label>Email</label>
                 <input
+                  name="email"
+                  onBlur={props.handleBlur}
                   type="text"
                   className="form-control"
                   value={props.values.email}
@@ -151,6 +157,8 @@ const ClientsForm = (props) => {
               <div className="form-group">
                 <label>Address</label>
                 <input
+                  name="adrs"
+                  onBlur={props.handleBlur}
                   type="text"
                   className="form-control"
                   value={props.values.adrs}
@@ -166,6 +174,8 @@ const ClientsForm = (props) => {
               <div className="form-group">
                 <label>Contact Number</label>
                 <input
+                  name="conNum"
+                  onBlur={props.handleBlur}
                   type="text"
                   className="form-control"
                   value={props.values.conNum}
@@ -183,6 +193,8 @@ const ClientsForm = (props) => {
                 <label>Date of Joining</label>
                 <div>
                   <DatePicker
+                    name="dateOfJoin"
+                    onBlur={props.handleBlur}
                     className="form-control"
                     selected={props.values.dateOfJoin}
                     onChange={(date) => {
@@ -199,6 +211,8 @@ const ClientsForm = (props) => {
               <div className="form-group">
                 <label>URL</label>
                 <input
+                  name="ul"
+                  onBlur={props.handleBlur}
                   type="text"
                   className="form-control"
                   value={props.values.ul}
@@ -212,6 +226,8 @@ const ClientsForm = (props) => {
               <div className="form-group">
                 <label className="control-label">Country</label>
                 <Select
+                  name="country"
+                  onBlur={props.handleBlur}
                   value={props.values.country}
                   onChange={(val) => props.setFieldValue("country", val)}
                   options={country}

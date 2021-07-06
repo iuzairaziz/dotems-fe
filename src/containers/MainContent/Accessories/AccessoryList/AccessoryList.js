@@ -57,9 +57,9 @@ const CountryList = () => {
           updatedData.rows.push({
             title: item.name ? item.name : "none",
             action: (
-              <div className="row flex-nowrap">
+              <div className="row flex-nowrap justify-content-start ">
                 <i
-                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
+                  className="mdi mdi-eye iconsS my-primary-icon"
                   onClick={() => {
                     setSelectedAccessory(item);
                     toggleEdit();

@@ -415,6 +415,8 @@ const ProjectForm = (props) => {
               <div className="form-group">
                 <label>Project Name</label>
                 <input
+                  name="projectName"
+                  onBlur={props.handleBlur}
                   type="text"
                   className="form-control"
                   value={props.values.projectName}
@@ -445,6 +447,8 @@ const ProjectForm = (props) => {
                   </div>
                 </div>
                 <Select
+                  name="clientName"
+                  onBlur={props.handleBlur}
                   value={props.values.clientName}
                   onChange={(val) => props.setFieldValue("clientName", val)}
                   options={client}
@@ -460,6 +464,8 @@ const ProjectForm = (props) => {
               <div className="form-group">
                 <label>Order Number</label>
                 <input
+                  name="orderNum"
+                  onBlur={props.handleBlur}
                   type="text"
                   className="form-control"
                   value={props.values.orderNum}
@@ -490,6 +496,8 @@ const ProjectForm = (props) => {
                   </div>
                 </div>
                 <Select
+                  name="platform"
+                  onBlur={props.handleBlur}
                   value={props.values.platform}
                   onChange={(val) => props.setFieldValue("platform", val)}
                   options={platform}
@@ -522,6 +530,8 @@ const ProjectForm = (props) => {
                   </div>
                 </div>
                 <Select
+                  name="nature"
+                  onBlur={props.handleBlur}
                   value={props.values.nature}
                   onChange={(val) => props.setFieldValue("nature", val)}
                   options={nature}
@@ -536,6 +546,8 @@ const ProjectForm = (props) => {
                 <label className="control-label">Project Manager</label>
 
                 <Select
+                  name="projectManager"
+                  onBlur={props.handleBlur}
                   value={props.values.projectManager}
                   onChange={(val) => props.setFieldValue("projectManager", val)}
                   options={users}
@@ -567,6 +579,8 @@ const ProjectForm = (props) => {
                 </div>
 
                 <Select
+                  name="currency"
+                  onBlur={props.handleBlur}
                   value={props.values.currency}
                   onChange={(val) => props.setFieldValue("currency", val)}
                   options={currency}
@@ -580,6 +594,8 @@ const ProjectForm = (props) => {
               <div className="form-group mb-0">
                 <label className="control-label">Team Members</label>
                 <Select
+                  name="teamMembers"
+                  onBlur={props.handleBlur}
                   value={props.values.teamMembers}
                   onChange={(val) => props.setFieldValue("teamMembers", val)}
                   options={users}
@@ -598,6 +614,8 @@ const ProjectForm = (props) => {
                 <label>Client Start Date</label>
                 <div>
                   <DatePicker
+                    name="cStartDate"
+                    onBlur={props.handleBlur}
                     className="form-control"
                     selected={props.values.cStartDate}
                     onChange={(date) => {
@@ -614,6 +632,8 @@ const ProjectForm = (props) => {
                 <label>Client Deadline</label>
                 <div>
                   <DatePicker
+                    name="cEndDate"
+                    onBlur={props.handleBlur}
                     className="form-control"
                     selected={props.values.cEndDate}
                     onChange={(datee) => {
@@ -628,6 +648,8 @@ const ProjectForm = (props) => {
               <div className="form-group">
                 <label>Cost</label>
                 <input
+                  name="cost"
+                  onBlur={props.handleBlur}
                   type="number"
                   className="form-control"
                   value={props.values.cost}
@@ -659,6 +681,8 @@ const ProjectForm = (props) => {
                   </div>
                 </div>
                 <Select
+                  name="technology"
+                  onBlur={props.handleBlur}
                   value={props.values.technology}
                   onChange={(val) => props.setFieldValue("technology", val)}
                   options={technology}
@@ -688,6 +712,8 @@ const ProjectForm = (props) => {
                   </div>
                 </div>
                 <Select
+                  name="serviceType"
+                  onBlur={props.handleBlur}
                   value={props.values.serviceType}
                   onChange={(val) => props.setFieldValue("serviceType", val)}
                   options={service}
@@ -717,6 +743,8 @@ const ProjectForm = (props) => {
                 </div>
 
                 <Select
+                  name="status"
+                  onBlur={props.handleBlur}
                   value={props.values.status}
                   onChange={(val) => props.setFieldValue("status", val)}
                   options={status}
@@ -733,6 +761,8 @@ const ProjectForm = (props) => {
                 <label>Platform Deduction</label>
                 <div className="input-group">
                   <input
+                    name="Pdeduction"
+                    onBlur={props.handleBlur}
                     type="number"
                     className="form-control"
                     value={props.values.Pdeduction}
@@ -750,6 +780,8 @@ const ProjectForm = (props) => {
               <div className="form-group">
                 <label>Other Deductions</label>
                 <input
+                  name="otherDeduction"
+                  onBlur={props.handleBlur}
                   type="number"
                   className="form-control"
                   value={props.values.otherDeduction}
@@ -766,6 +798,8 @@ const ProjectForm = (props) => {
                 <label>Reserve Profit</label>
                 <div className="input-group">
                   <input
+                    name="Rprofit"
+                    onBlur={props.handleBlur}
                     type="number"
                     className="form-control"
                     value={props.values.Rprofit}
@@ -817,6 +851,8 @@ const ProjectForm = (props) => {
             <div className="col-12">
               <h4 className="mt-0 header-title">Description</h4>
               <Editor
+                name="description"
+                onBlur={props.handleBlur}
                 toolbarClassName="toolbarClassName"
                 wrapperClassName="wrapperClassName"
                 editorClassName="editor"
@@ -839,6 +875,8 @@ const ProjectForm = (props) => {
                   <label>PM Start Date</label>
                   <div>
                     <DatePicker
+                      name="pmStartDate"
+                      onBlur={props.handleBlur}
                       className="form-control"
                       selected={props.values.pmStartDate}
                       onChange={(date1) => {
@@ -855,6 +893,8 @@ const ProjectForm = (props) => {
                   <label>PM End Date</label>
                   <div>
                     <DatePicker
+                      name="pmEndDate"
+                      onBlur={props.handleBlur}
                       className="form-control"
                       selected={props.values.pmEndDate}
                       onChange={(date2) => {

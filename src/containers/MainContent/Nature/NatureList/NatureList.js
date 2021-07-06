@@ -59,7 +59,7 @@ const NatureList = () => {
             action: (
               <div className="row flex-nowrap">
                 <i
-                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
+                  className="mdi mdi-eye iconsS my-primary-icon ml-2"
                   onClick={() => {
                     setSelectedNature(item);
                     toggleEdit();

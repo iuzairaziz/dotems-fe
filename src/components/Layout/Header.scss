@@ -16,7 +16,12 @@
   span {
     color: var(--color-white) !important;
   }
+  .notify-icon {
+    i {
+      color: white !important;
+    }
+  }
   i {
-    color: var(--color-white) !important;
+    color: rgb(170, 169, 169) !important;
   }
 }

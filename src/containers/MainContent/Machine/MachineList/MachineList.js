@@ -87,7 +87,7 @@ const ViewMachines = (props) => {
             action: (
               <div className="row flex-nowrap">
                 <i
-                  className="mdi mdi-view-list
+                  className="mdi mdi-eye
                   iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({
@@ -147,7 +147,7 @@ const ViewMachines = (props) => {
               </div>
             </div>
             <Modal isOpen={modalEdit} toggle={toggleEdit}>
-              <ModalHeader toggle={toggleEdit}>Edit Project</ModalHeader>
+              <ModalHeader toggle={toggleEdit}>Edit Machine</ModalHeader>
               <ModalBody>
                 <MachineForm
                   editable={true}
@@ -157,9 +157,9 @@ const ViewMachines = (props) => {
               </ModalBody>
             </Modal>
             <Modal isOpen={modalDelete} toggle={toggleDelete}>
-              <ModalHeader toggle={toggleDelete}>Delete Project?</ModalHeader>
+              <ModalHeader toggle={toggleDelete}>Delete Machine?</ModalHeader>
               <ModalBody>
-                Are you sure you want to delete the Project?
+                Are you sure you want to delete the Machine?
                 {selectedMachine.name}
               </ModalBody>
               <ModalFooter>

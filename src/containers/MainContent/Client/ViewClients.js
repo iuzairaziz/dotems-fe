@@ -113,7 +113,7 @@ const ViewClients = (props) => {
             action: (
               <div className="row flex-nowrap align-items-center">
                 <i
-                  className="mdi mdi-view-list
+                  className="mdi mdi-eye
                   iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({

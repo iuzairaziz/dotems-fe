@@ -194,24 +194,32 @@ const MachineForm = (props) => {
                 <div className="form-group">
                   <label>Machine Name</label>
                   <input
+                    name="machineName"
+                    onBlur={props.handleBlur}
                     type="text"
                     className="form-control"
                     value={props.values.machineName}
                     onChange={props.handleChange("machineName")}
                     placeholder="Enter Machine Name"
                   />
-                  <span id="err">{props.errors.machineName}</span>
+                  <span id="err">
+                    {props.touched.machineName && props.errors.machineName}
+                  </span>
                 </div>
               </div>
               <div className="col">
                 <div className="form-group">
                   <label className="control-label">Ownsership</label>
                   <Select
+                    name="ownership"
+                    onBlur={props.handleBlur}
                     value={props.values.ownership}
                     onChange={(val) => props.setFieldValue("ownership", val)}
                     options={owenershipOptions}
                   />
-                  <span id="err">{props.errors.ownership}</span>
+                  <span id="err">
+                    {props.touched.ownership && props.errors.ownership}
+                  </span>
                 </div>
               </div>
             </div>
@@ -221,24 +229,32 @@ const MachineForm = (props) => {
                 <div className="form-group">
                   <label>Serial No</label>
                   <input
+                    name="serialno"
+                    onBlur={props.handleBlur}
                     type="text"
                     className="form-control"
                     value={props.values.serialno}
                     onChange={props.handleChange("serialno")}
                     placeholder="Enter Serial No"
                   />
-                  <span id="err">{props.errors.serialno}</span>
+                  <span id="err">
+                    {props.touched.serialno && props.errors.serialno}
+                  </span>
                 </div>
               </div>
               <div className="col">
                 <div className="form-group">
                   <label>Status</label>
                   <Select
+                    name="status"
+                    onBlur={props.handleBlur}
                     value={props.values.status}
                     onChange={(val) => props.setFieldValue("status", val)}
                     options={statusOption}
                   />
-                  <span id="err">{props.errors.status}</span>
+                  <span id="err">
+                    {props.touched.status && props.errors.status}
+                  </span>
                 </div>
               </div>
             </div>
@@ -248,26 +264,34 @@ const MachineForm = (props) => {
                 <div className="form-group">
                   <label>Machine No</label>
                   <input
+                    name="machineNo"
+                    onBlur={props.handleBlur}
                     type="text"
                     className="form-control"
                     value={props.values.machineNo}
                     onChange={props.handleChange("machineNo")}
                     placeholder="Enter Machine Number"
                   />
-                  <span id="err">{props.errors.machineNo}</span>
+                  <span id="err">
+                    {props.touched.machineNo && props.errors.machineNo}
+                  </span>
                 </div>
               </div>
               <div className="col">
                 <div className="form-group">
                   <label>Processor</label>
                   <input
+                    name="processor"
+                    onBlur={props.handleBlur}
                     type="text"
                     className="form-control"
                     value={props.values.processor}
                     onChange={props.handleChange("processor")}
                     placeholder="Enter Processor"
                   />
-                  <span id="err">{props.errors.processor}</span>
+                  <span id="err">
+                    {props.touched.processor && props.errors.processor}
+                  </span>
                 </div>
               </div>
             </div>
@@ -277,26 +301,34 @@ const MachineForm = (props) => {
                 <div className="form-group">
                   <label>Storage</label>
                   <input
+                    name="storage"
+                    onBlur={props.handleBlur}
                     type="text"
                     className="form-control"
                     value={props.values.storage}
                     onChange={props.handleChange("storage")}
                     placeholder="Enter Storage"
                   />
-                  <span id="err">{props.errors.storage}</span>
+                  <span id="err">
+                    {props.touched.storage && props.errors.storage}
+                  </span>
                 </div>
               </div>
               <div className="col">
                 <div className="form-group">
                   <label>Memory</label>
                   <input
+                    name="memory"
+                    onBlur={props.handleBlur}
                     type="text"
                     className="form-control"
                     value={props.values.memory}
                     onChange={props.handleChange("memory")}
                     placeholder="Enter Memory Name"
                   />
-                  <span id="err">{props.errors.memory}</span>
+                  <span id="err">
+                    {props.touched.memory && props.errors.memory}
+                  </span>
                 </div>
               </div>
             </div>
@@ -305,13 +337,17 @@ const MachineForm = (props) => {
                 <div className="form-group">
                   <label>Graphics</label>
                   <input
+                    name="graphics"
+                    onBlur={props.handleBlur}
                     type="text"
                     className="form-control"
                     value={props.values.graphics}
                     onChange={props.handleChange("graphics")}
                     placeholder="Enter Graphics Deatils"
                   />
-                  <span id="err">{props.errors.graphics}</span>
+                  <span id="err">
+                    {props.touched.graphics && props.errors.graphics}
+                  </span>
                 </div>
               </div>
               <div className="col">
@@ -333,13 +369,17 @@ const MachineForm = (props) => {
                     </div>
                   </div>
                   <Select
+                    name="accessories"
+                    onBlur={props.handleBlur}
                     className="select-override"
                     value={props.values.accessories}
                     onChange={(val) => props.setFieldValue("accessories", val)}
                     options={accessory}
                     isMulti={true}
                   />
-                  <span id="err">{props.errors.accessories}</span>
+                  <span id="err">
+                    {props.touched.accessories && props.errors.accessories}
+                  </span>
                 </div>
               </div>
             </div>
@@ -348,6 +388,8 @@ const MachineForm = (props) => {
                 <div className="form-group">
                   <label>Notes</label>
                   <Editor
+                    name="notes"
+                    onBlur={props.handleBlur}
                     toolbarClassName="toolbarClassName"
                     wrapperClassName="wrapperClassName"
                     editorClassName="editor"
@@ -357,7 +399,9 @@ const MachineForm = (props) => {
                       props.setFieldValue("notes", val);
                     }}
                   />
-                  <span id="err">{props.errors.notes}</span>
+                  <span id="err">
+                    {props.touched.notes && props.errors.notes}
+                  </span>
                 </div>
               </div>
             </div>

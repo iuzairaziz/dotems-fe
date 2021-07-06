@@ -198,7 +198,7 @@ const ViewExpense = () => {
 
   useEffect(() => {
     getData();
-  }, [cStart, dataa]);
+  }, [cStart]);
   useEffect(() => {
     getPlatform();
     getStatus();
@@ -273,7 +273,7 @@ const ViewExpense = () => {
               ? moment(item.date).format("Do MMM YY")
               : "none",
             action: (
-              <div className="row flex-nowrap">
+              <div className="row flex-nowrap ml-2">
                 <i
                   className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
