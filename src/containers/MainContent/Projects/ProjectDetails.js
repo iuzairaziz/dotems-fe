@@ -143,7 +143,7 @@ const ProjectDetails = (props) => {
             status: item.status ? item.status : "N/A ",
             otherDeduction: item.otherDeduction ? item.otherDeduction : "N/A ",
             action: (
-              <div className="row flex-nowrap">
+              <div className="row flex-nowrap justify-content-center">
                 <i
                   className="mdi mdi-view-list
                   iconsS my-primary-icon"
