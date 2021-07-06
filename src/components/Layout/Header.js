@@ -238,7 +238,7 @@ class header extends Component {
                         className="dropdown-item notify-item"
                       >
                         <div className="notify-icon bg-info">
-                          <i className="mdi mdi-glass-cocktail" />
+                          <i className="mdi mdi-car" />
                         </div>
                         <p className="notify-details">
                           Your item is shipped
