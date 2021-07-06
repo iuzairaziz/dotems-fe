@@ -501,6 +501,144 @@ const ProjectForm = (props) => {
               </div>
             </div>
           </div>
+
+          <div className="row">
+            <div className="col">
+              <div className="form-group">
+                <div className="row">
+                  <div className="col">
+                    <label className="control-label">Project Nature</label>
+                  </div>
+                  <div className="col">
+                    <div
+                      className="d-flex justify-content-end"
+                      id="add-new-Buttonm "
+                      onClick={() => {
+                        toggleNatureEdit();
+                      }}
+                    >
+                      <i className="mdi mdi-plus-circle icon-add" />
+                    </div>
+                  </div>
+                </div>
+                <Select
+                  value={props.values.nature}
+                  onChange={(val) => props.setFieldValue("nature", val)}
+                  options={nature}
+                />
+                <span id="err">
+                  {props.touched.nature && props.errors.nature}
+                </span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label className="control-label">Project Manager</label>
+
+                <Select
+                  value={props.values.projectManager}
+                  onChange={(val) => props.setFieldValue("projectManager", val)}
+                  options={users}
+                />
+                <span id="err">
+                  {props.touched.projectManager && props.errors.projectManager}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div className="form-group">
+                <div className="row">
+                  <div className="col">
+                    <label className="control-label">Currency</label>
+                  </div>
+                  <div className="col">
+                    <div
+                      className="d-flex justify-content-end"
+                      id="add-new-Buttonm "
+                      onClick={() => {
+                        toggleCurrencyEdit();
+                      }}
+                    >
+                      <i className="mdi mdi-plus-circle icon-add" />
+                    </div>
+                  </div>
+                </div>
+
+                <Select
+                  value={props.values.currency}
+                  onChange={(val) => props.setFieldValue("currency", val)}
+                  options={currency}
+                />
+                <span id="err">
+                  {props.touched.currency && props.errors.currency}
+                </span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group mb-0">
+                <label className="control-label">Team Members</label>
+                <Select
+                  value={props.values.teamMembers}
+                  onChange={(val) => props.setFieldValue("teamMembers", val)}
+                  options={users}
+                  isMulti={true}
+                />
+                <span id="err">
+                  {props.touched.teamMembers && props.errors.teamMembers}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              {" "}
+              <div className="form-group">
+                <label>Client Start Date</label>
+                <div>
+                  <DatePicker
+                    className="form-control"
+                    selected={props.values.cStartDate}
+                    onChange={(date) => {
+                      props.setFieldValue("cStartDate", date);
+                      console.log("datepicker", date);
+                    }}
+                  />
+                </div>
+              </div>{" "}
+            </div>
+            <div className="col">
+              {" "}
+              <div className="form-group">
+                <label>Client Deadline</label>
+                <div>
+                  <DatePicker
+                    className="form-control"
+                    selected={props.values.cEndDate}
+                    onChange={(datee) => {
+                      props.setFieldValue("cEndDate", datee);
+                      console.log("datepicker", datee);
+                    }}
+                  />
+                </div>
+              </div>{" "}
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label>Cost</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={props.values.cost}
+                  onChange={props.handleChange("cost")}
+                  placeholder="Enter Amount"
+                />
+                <span id="err">{props.touched.cost && props.errors.cost}</span>
+              </div>
+            </div>
+          </div>
+
           <div className="row">
             <div className="col">
               <div className="form-group">
@@ -559,8 +697,6 @@ const ProjectForm = (props) => {
                 </span>
               </div>
             </div>
-          </div>
-          <div className="row">
             <div className="col">
               <div className="form-group">
                 <div className="row">
@@ -590,143 +726,6 @@ const ProjectForm = (props) => {
                 </span>
               </div>
             </div>
-            <div className="col">
-              <div className="form-group">
-                <div className="row">
-                  <div className="col">
-                    <label className="control-label">Project Nature</label>
-                  </div>
-                  <div className="col">
-                    <div
-                      className="d-flex justify-content-end"
-                      id="add-new-Buttonm "
-                      onClick={() => {
-                        toggleNatureEdit();
-                      }}
-                    >
-                      <i className="mdi mdi-plus-circle icon-add" />
-                    </div>
-                  </div>
-                </div>
-                <Select
-                  value={props.values.nature}
-                  onChange={(val) => props.setFieldValue("nature", val)}
-                  options={nature}
-                />
-                <span id="err">
-                  {props.touched.nature && props.errors.nature}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              {" "}
-              <div className="form-group">
-                <label>Client Start Date</label>
-                <div>
-                  <DatePicker
-                    className="form-control"
-                    selected={props.values.cStartDate}
-                    onChange={(date) => {
-                      props.setFieldValue("cStartDate", date);
-                      console.log("datepicker", date);
-                    }}
-                  />
-                </div>
-              </div>{" "}
-            </div>
-            <div className="col">
-              {" "}
-              <div className="form-group">
-                <label>Client Deadline</label>
-                <div>
-                  <DatePicker
-                    className="form-control"
-                    selected={props.values.cEndDate}
-                    onChange={(datee) => {
-                      props.setFieldValue("cEndDate", datee);
-                      console.log("datepicker", datee);
-                    }}
-                  />
-                </div>
-              </div>{" "}
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label className="control-label">Project Manager</label>
-
-                <Select
-                  value={props.values.projectManager}
-                  onChange={(val) => props.setFieldValue("projectManager", val)}
-                  options={users}
-                />
-                <span id="err">
-                  {props.touched.projectManager && props.errors.projectManager}
-                </span>
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group mb-0">
-                <label className="control-label">Team Members</label>
-                <Select
-                  value={props.values.teamMembers}
-                  onChange={(val) => props.setFieldValue("teamMembers", val)}
-                  options={users}
-                  isMulti={true}
-                />
-                <span id="err">
-                  {props.touched.teamMembers && props.errors.teamMembers}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label>Cost</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={props.values.cost}
-                  onChange={props.handleChange("cost")}
-                  placeholder="Enter Amount"
-                />
-                <span id="err">{props.touched.cost && props.errors.cost}</span>
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group">
-                <div className="row">
-                  <div className="col">
-                    <label className="control-label">Currency</label>
-                  </div>
-                  <div className="col">
-                    <div
-                      className="d-flex justify-content-end"
-                      id="add-new-Buttonm "
-                      onClick={() => {
-                        toggleCurrencyEdit();
-                      }}
-                    >
-                      <i className="mdi mdi-plus-circle icon-add" />
-                    </div>
-                  </div>
-                </div>
-
-                <Select
-                  value={props.values.currency}
-                  onChange={(val) => props.setFieldValue("currency", val)}
-                  options={currency}
-                />
-                <span id="err">
-                  {props.touched.currency && props.errors.currency}
-                </span>
-              </div>
-            </div>
           </div>
           <div className="row">
             <div className="col">
@@ -749,6 +748,21 @@ const ProjectForm = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
+                <label>Other Deductions</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={props.values.otherDeduction}
+                  onChange={props.handleChange("otherDeduction")}
+                  placeholder="Enter Other Deductions"
+                />
+                <span id="err">
+                  {props.touched.otherDeduction && props.errors.otherDeduction}
+                </span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
                 <label>Reserve Profit</label>
                 <div className="input-group">
                   <input
@@ -766,23 +780,7 @@ const ProjectForm = (props) => {
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label>Other Deductions</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={props.values.otherDeduction}
-                  onChange={props.handleChange("otherDeduction")}
-                  placeholder="Enter Other Deductions"
-                />
-                <span id="err">
-                  {props.touched.otherDeduction && props.errors.otherDeduction}
-                </span>
-              </div>
-            </div>
-          </div>
+
           <div className="container">
             {/* <form>
             <div className="row">

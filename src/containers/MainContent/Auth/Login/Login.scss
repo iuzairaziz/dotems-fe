@@ -1,7 +1,12 @@
 .login-screen {
   color: var(--color-white);
   .login-model {
-    background: var(--color-secondary1) !important;
+    // background: var(--color-secondary1) !important;
+    background-image: linear-gradient(
+      to top,
+      var(--color-secondary2),
+      var(--color-secondary1)
+    );
   }
   // .background-picture {
   //   background-image: url("../images/0006_Defocused1.jpg");

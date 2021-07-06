@@ -117,6 +117,7 @@ const TaskForm = (props) => {
             value: task.teamLead._id,
           },
       }}
+      validateOnChange={true}
       validationSchema={tasksValidations.newTaskValidation}
       onSubmit={(values, actions) => {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -186,9 +187,12 @@ const TaskForm = (props) => {
                     type="text"
                     className="form-control"
                     value={props.values.title}
+                    name="title"
+                    onBlur={props.handleBlur}
                     onChange={() => {
                       props.handleChange("title");
-                      props.setTouched("title");
+
+                      console.log(props);
                     }}
                     placeholder="Enter Name"
                   />
@@ -202,6 +206,8 @@ const TaskForm = (props) => {
                   <label>Project</label>
                   <Select
                     value={props.values.project}
+                    name="project"
+                    onBlur={props.handleBlur}
                     onChange={(selected) => {
                       props.setFieldValue("project", selected);
                       props.setFieldValue(
@@ -240,6 +246,8 @@ const TaskForm = (props) => {
                     type="number"
                     step={0.1}
                     format={formatHrs}
+                    name="estimatedHrs"
+                    onBlur={props.handleBlur}
                     value={props.values.estimatedHrs}
                     onChange={(value) => {
                       props.setFieldValue("estimatedHrs", value.toFixed(1));
@@ -278,6 +286,8 @@ const TaskForm = (props) => {
                     max={props.values.maxProjectRatio}
                     type="number"
                     format={formatPercent}
+                    name="projectRatio"
+                    onBlur={props.handleBlur}
                     value={props.values.projectRatio}
                     onChange={(value) => {
                       // console.log("valueee==", value);
@@ -294,6 +304,8 @@ const TaskForm = (props) => {
                   <label>Parent Task</label>
                   <Select
                     value={props.values.parentTask}
+                    name="parentTask"
+                    onBlur={props.handleBlur}
                     onChange={(selected) => {
                       props.setFieldValue("parentTask", selected);
                     }}
@@ -310,6 +322,8 @@ const TaskForm = (props) => {
                   <label>Assign Task</label>
                   <Select
                     value={props.values.assignedTo}
+                    name="assignedTo"
+                    onBlur={props.handleBlur}
                     onChange={(val) => props.setFieldValue("assignedTo", val)}
                     options={users}
                     isMulti={true}
@@ -324,6 +338,8 @@ const TaskForm = (props) => {
                   <label>Team Lead</label>
                   <Select
                     value={props.values.teamLead}
+                    name="teamLead"
+                    onBlur={props.handleBlur}
                     onChange={(val) => props.setFieldValue("teamLead", val)}
                     options={users}
                   />
@@ -338,6 +354,8 @@ const TaskForm = (props) => {
                   <DatePicker
                     className="form-control"
                     selected={props.values.startTime}
+                    name="startTime"
+                    onBlur={props.handleBlur}
                     onChange={(date) => {
                       props.setFieldValue("startTime", date);
                       console.log("datepicker", date);
@@ -354,8 +372,9 @@ const TaskForm = (props) => {
                   <DatePicker
                     className="form-control"
                     selected={props.values.endTime}
+                    name="endTime"
+                    onBlur={props.handleBlur}
                     onChange={(date) => {
-                      props.setTouched("endTime", true);
                       props.setFieldValue("endTime", date);
                       console.log("datepicker", date);
                     }}
@@ -372,6 +391,8 @@ const TaskForm = (props) => {
                     toolbarClassName="toolbarClassName"
                     wrapperClassName="wrapperClassName"
                     editorClassName="editor"
+                    name="description"
+                    onBlur={() => props.handleBlur("description")}
                     editorState={props.values.description}
                     // editorStyle={{minHeight:"500px",overflowY:"scroll !important"}}
                     onEditorStateChange={(val) => {
