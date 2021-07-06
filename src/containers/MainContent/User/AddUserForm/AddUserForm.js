@@ -143,6 +143,8 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label>Name</label>
                 <input
+                  name="name"
+                  onBlur={props.handleBlur}
                   type="text"
                   className="form-control"
                   value={props.values.name}
@@ -156,6 +158,8 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label>User Name</label>
                 <input
+                  name="userName"
+                  onBlur={props.handleBlur}
                   type="text"
                   className="form-control"
                   value={props.values.userName}
@@ -176,6 +180,8 @@ const UserForm = (props) => {
                 <label>Joining Date</label>
                 <div>
                   <DatePicker
+                    name="joiningDate"
+                    onBlur={props.handleBlur}
                     className="form-control"
                     selected={props.values.joiningDate}
                     onChange={(date) => {
@@ -205,6 +211,8 @@ const UserForm = (props) => {
                   </div>
                 </div>
                 <Select
+                  name="machineNo"
+                  onBlur={props.handleBlur}
                   value={props.values.machineNo}
                   onChange={(val) => props.setFieldValue("machineNo", val)}
                   options={machineNo}
@@ -221,6 +229,8 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label>Salary</label>
                 <input
+                  name="salary"
+                  onBlur={props.handleBlur}
                   type="number"
                   className="form-control"
                   value={props.values.salary}
@@ -236,6 +246,8 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label>Password</label>
                 <input
+                  name="password"
+                  onBlur={props.handleBlur}
                   type="password"
                   className="form-control"
                   value={props.values.password}
@@ -253,6 +265,8 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label className="control-label">Status</label>
                 <Select
+                  name="status"
+                  onBlur={props.handleBlur}
                   value={props.values.status}
                   onChange={(selected) => {
                     props.setFieldValue("status", selected);
@@ -271,6 +285,8 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label className="control-label">Gender</label>
                 <Select
+                  name="gender"
+                  onBlur={props.handleBlur}
                   value={props.values.gender}
                   onChange={(selected) => {
                     props.setFieldValue("gender", selected);
@@ -290,6 +306,8 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label className="control-label">Role</label>
                 <Select
+                  name="userRole"
+                  onBlur={props.handleBlur}
                   value={props.values.userRole}
                   onChange={(selected) => {
                     props.setFieldValue("userRole", selected);
@@ -316,6 +334,8 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label>Working Hours</label>
                 <input
+                  name="workingHrs"
+                  onBlur={props.handleBlur}
                   type="number"
                   className="form-control"
                   value={props.values.workingHrs}
@@ -331,6 +351,8 @@ const UserForm = (props) => {
               <div className="form-group">
                 <label>Working Days </label>
                 <input
+                  name="workingDays"
+                  onBlur={props.handleBlur}
                   type="number"
                   className="form-control"
                   value={props.values.workingDays}
