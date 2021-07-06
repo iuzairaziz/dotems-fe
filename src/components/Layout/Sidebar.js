@@ -40,7 +40,7 @@ class sidebar extends Component {
       : []), // if false spread operator will return nothing as array elements
     {
       name: "timesheet_menu",
-      icon: "mdi-calendar",
+      icon: "mdi-calendar-clock",
       tab: "timesheet",
       subMenus: [
         { routeName: this.baseUrl + "add-time", label: "Weekly Timesheet" },
@@ -48,7 +48,7 @@ class sidebar extends Component {
     },
     {
       name: "task_menu",
-      icon: "mdi-calendar",
+      icon: "mdi-clipboard-text",
       tab: "task",
       subMenus: [
         ...(this.isRole([this.roles.PM, this.roles.ADMIN, this.roles.CEO])
@@ -105,7 +105,7 @@ class sidebar extends Component {
           },
           {
             name: "accessory_menu",
-            icon: "mdi-calendar",
+            icon: "mdi-responsive",
             tab: "Accessory",
             subMenus: [
               {
