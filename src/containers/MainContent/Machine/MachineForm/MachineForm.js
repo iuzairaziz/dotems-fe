@@ -88,10 +88,11 @@ const MachineForm = (props) => {
           : EditorState.createEmpty(),
       }}
       validationSchema={MachineValidation.newMachineValidation}
+      validate={(props, err) => console.log("validate props", props)}
       onSubmit={(values, actions) => {
         let arr = [];
         var historyAccessoriesArray = [];
-
+        console.log("submitting machine");
         values.accessories.map((item) => {
           arr.push(item.value);
           historyAccessoriesArray.push(item.label);

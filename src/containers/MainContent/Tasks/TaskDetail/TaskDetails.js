@@ -232,99 +232,91 @@ const TaskDetail = (props) => {
       });
   };
 
+  const detail = [
+    { label: "Title", value: taskData && taskData.name },
+    {
+      label: "Project",
+      value: taskData && taskData.project ? taskData.project.name : "None",
+    },
+
+    {
+      label: "Estimate Hours",
+      value: taskData && taskData.estHrs,
+    },
+    {
+      label: "Project Ratio",
+      value: taskData && `${taskData.projectRatio}%`,
+    },
+
+    { label: "Status", value: taskData && taskData.status },
+    {
+      label: "Team Lead",
+      value: taskData && taskData.teamLead ? taskData.teamLead.name : "None",
+    },
+    {
+      label: "Parent Task",
+      value:
+        taskData && taskData.parentTask ? taskData.parentTask.name : "None",
+    },
+    {
+      label: "Added By",
+      value: taskData && taskData.addedBy ? taskData.addedBy.name : "None",
+    },
+
+    {
+      label: "Start Time",
+      value: taskData && moment(taskData.startTime).format("DD/MM/YY"),
+    },
+    {
+      label: "End Time",
+      value: taskData && moment(taskData.endTime).format("DD/MM/YY"),
+    },
+    {
+      label: "Team Members",
+      value:
+        taskData && taskData.assignedTo
+          ? taskData.assignedTo.map((item, index) => {
+              if (index === 0) {
+                return item.name;
+              } else if (index >= 0) {
+                return `, ${item.name} `;
+              }
+            })
+          : "None",
+    },
+  ];
+
   return (
     <div className="task-detail">
       <div className="page-content-wrapper">
         <div className="container-fluid">
           <div className="row" />
-          <div className="row ">
-            <div className="col">
-              <div>
-                <span className="labell">Title: </span>
-                <span className="valuee">{taskData && taskData.name}</span>
-              </div>
-            </div>
-            <div className="col">
-              <div>
-                <span className="labell">Project: </span>
-                <span className="valuee">
-                  {taskData && taskData.project
-                    ? taskData.project.name
-                    : "None"}
-                </span>
-              </div>
-            </div>
-            <div className="col">
-              <span className="labell">Estimate Hours: </span>
-              <span className="valuee">{taskData && taskData.estHrs}</span>
-            </div>
-            <div className="col">
-              {" "}
-              <span className="labell">Project Ratio: </span>
-              <span className="valuee">
-                {taskData && `${taskData.projectRatio}%`}
-              </span>
-            </div>
+          <div className="row align-items-center">
+            {detail.map((item, indx) => {
+              return (
+                <>
+                  <div
+                    className={`labell ${
+                      item.label === "Team Members"
+                        ? "col-3 col-md-2"
+                        : "col-3 col-md-2"
+                    } mb-3 d-flex align-items-center align-self-center`}
+                  >
+                    <div>{item.label}</div>
+                  </div>
+                  <div
+                    className={`valuee ${
+                      item.label === "Team Members"
+                        ? "col-9 col-md-6"
+                        : "col-3 col-md-2"
+                    } col-3 col-md-2 mb-3 align-self-center"`}
+                  >
+                    {item.value}
+                  </div>
+                </>
+              );
+            })}
           </div>
-
-          <div className="row gap">
-            <div className="col">
-              <span className="labell">Status: </span>
-              <span className="valuee">{taskData && taskData.status}</span>
-            </div>
-            <div className="col">
-              <span className="labell">Team Lead: </span>
-              <sapn className="valuee">
-                {taskData && taskData.teamLead
-                  ? taskData.teamLead.name
-                  : "None"}
-              </sapn>
-            </div>
-            <div className="col">
-              <span className="labell">Parent Task: </span>
-              <sapn className="valuee">
-                {taskData && taskData.parentTask
-                  ? taskData.parentTask.name
-                  : "None"}
-              </sapn>
-            </div>
-            <div className="col">
-              <span className="labell">Added By: </span>
-              <sapn className="valuee">
-                {taskData && taskData.addedBy ? taskData.addedBy.name : "None"}
-              </sapn>
-            </div>
-          </div>
-
-          <div className="row gap">
-            <div className="col">
-              <span className="labell">Start Time: </span>
-              <sapn className="valuee">
-                {taskData && moment(taskData.startTime).format("DD/MM/YY")}
-              </sapn>
-            </div>
-            <div className="col">
-              <span className="labell">End Time: </span>
-              <sapn className="valuee">
-                {taskData && moment(taskData.endTime).format("DD/MM/YY")}
-              </sapn>
-            </div>
-            <div className="col-6">
-              <span className="labell">Team Members: </span>
-              <sapn className="valuee">
-                {taskData && taskData.assignedTo
-                  ? taskData.assignedTo.map((item, index) => {
-                      if (index === 0) {
-                        return item.name;
-                      } else if (index >= 0) {
-                        return `, ${item.name} `;
-                      }
-                    })
-                  : "None"}
-              </sapn>
-            </div>
-          </div>
-
           <div className="row">
             <div className="col-12">
               <div id="accordion" />

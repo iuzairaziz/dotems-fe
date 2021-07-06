@@ -7,7 +7,6 @@ class MachineValidation {
         .required("Required!")
         .min(2)
         .max(100),
-      resourceName: Yup.object().required("Required!"),
       processor: Yup.string().required("Required!"),
       memory: Yup.string().required("Required!"),
       graphics: Yup.string().required("Required!"),
