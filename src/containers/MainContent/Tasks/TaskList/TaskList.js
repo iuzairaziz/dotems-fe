@@ -188,7 +188,7 @@ const Tables_datatable = (props) => {
               <div className="row flex-nowrap align-items-center">
                 {/* <div className="col"> */}
                 <i
-                  className="mdi mdi-view-list
+                  className="mdi mdi-eye
                   iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({

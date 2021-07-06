@@ -161,9 +161,9 @@ const MyTasks = (props) => {
               ? moment(item.endTime).format("DD/MMM/YYYY")
               : "N/A",
             action: (
-              <div className="row flex-nowrap">
+              <div className="row flex-nowrap justify-content-center">
                 <i
-                  className="mdi mdi-view-list
+                  className="mdi mdi-eye 
                   iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({
