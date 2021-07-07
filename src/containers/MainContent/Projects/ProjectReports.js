@@ -112,21 +112,34 @@ const ProjectReports = () => {
   useEffect(() => {
     getStatus();
   }, []);
+  const changeColor = () => {
+    $(document).ready(function() {
+      $("tr").each(function(index) {
+        var eleven = $(this)
+          .children("td")
+          .eq(11)
+          .text();
+
+        var finalEleven = parseInt(eleven);
+        if (finalEleven < 0) {
+          $(this).css("color", "red");
+          $(this)
+            .find("a")
+            .css("color", "red");
+        } else {
+          $(this).css("color", "black");
+          $(this)
+            .find("a")
+            .css("color", "black");
+        }
+      });
+    });
+  };
 
   $(document).ready(function() {
-    $("tr").each(function(index) {
-      var eleven = $(this)
-        .children("td")
-        .eq(11)
-        .text();
-
-      var finalEleven = parseInt(eleven);
-      if (finalEleven < 0) {
-        $(this).css("color", "red");
-        $(this)
-          .find("a")
-          .css("color", "red");
-      }
+    changeColor();
+    $(document).on("click", "th", function() {
+      changeColor();
     });
   });
 

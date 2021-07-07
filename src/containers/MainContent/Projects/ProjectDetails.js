@@ -83,25 +83,33 @@ const ProjectDetails = (props) => {
     useEffect(() => {
       getTableData();
     }, [projectData]);
+    const changeColor = () => {
+      $(document).ready(function() {
+        $("tr").each(function(index) {
+          var four = $(this)
+            .children("td")
+            .eq(4)
+            .text();
+          var five = $(this)
+            .children("td")
+            .eq(5)
+            .text();
+          var finalFour = parseInt(four);
+          var finalFive = parseInt(five);
+          if (finalFive > finalFour) {
+            $(this).css("color", "red");
+            $(this)
+              .find("a")
+              .css("color", "red");
+          }
+        });
+      });
+    };
 
     $(document).ready(function() {
-      $("tr").each(function(index) {
-        var four = $(this)
-          .children("td")
-          .eq(4)
-          .text();
-        var five = $(this)
-          .children("td")
-          .eq(5)
-          .text();
-        var finalFour = parseInt(four);
-        var finalFive = parseInt(five);
-        if (finalFive > finalFour) {
-          $(this).css("color", "red");
-          $(this)
-            .find("a")
-            .css("color", "red");
-        }
+      changeColor();
+      $(document).on("click", "th", function() {
+        changeColor();
       });
     });
 
