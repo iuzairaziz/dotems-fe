@@ -9,7 +9,7 @@ const LeaveTypeForm = (props) => {
     <Formik
       initialValues={{
         name: props.editable && props.leaveType.name,
-        number: props.editable && props.leaveType.number,
+        number: props.editable && props.leaveType.totalLeaves,
       }}
       validationSchema={shortValidations.leaveTypeValidation}
       onSubmit={(values, actions) => {
@@ -24,7 +24,7 @@ const LeaveTypeForm = (props) => {
               })
               .catch((err) => {
                 props.toggle();
-                LeaveTypeService.handleError();
+                LeaveTypeService.handleCustomMessage(err.response.data);
               })
           : LeaveTypeService.addLeaveType({
               name: values.name,
