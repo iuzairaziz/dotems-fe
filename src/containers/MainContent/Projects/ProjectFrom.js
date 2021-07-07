@@ -623,6 +623,9 @@ const ProjectForm = (props) => {
                       console.log("datepicker", date);
                     }}
                   />
+                  <span id="err">
+                    {props.touched.cStartDate && props.errors.cStartDate}
+                  </span>
                 </div>
               </div>{" "}
             </div>
@@ -641,6 +644,9 @@ const ProjectForm = (props) => {
                       console.log("datepicker", datee);
                     }}
                   />
+                  <span id="err">
+                    {props.touched.cEndDate && props.errors.cEndDate}
+                  </span>
                 </div>
               </div>{" "}
             </div>
@@ -884,6 +890,9 @@ const ProjectForm = (props) => {
                         console.log("datepicker", date1);
                       }}
                     />
+                    <span id="err">
+                      {props.touched.pmStartDate && props.errors.pmStartDate}
+                    </span>
                   </div>
                 </div>{" "}
               </div>
@@ -902,6 +911,9 @@ const ProjectForm = (props) => {
                         console.log("datepicker", date2);
                       }}
                     />
+                    <span id="err">
+                      {props.touched.pmEndDate && props.errors.pmEndDate}
+                    </span>
                   </div>
                 </div>{" "}
               </div>
