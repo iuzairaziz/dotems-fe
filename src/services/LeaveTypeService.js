@@ -22,11 +22,11 @@ class LeaveTypeService {
     return axios.get(this.config.apiBaseUrl + "leave-type/show-leave-type");
   }
 
-  updatePlatform(id, formData) {
+  updateLeaveType(id, formData) {
     return axios.put(this.config.apiBaseUrl + "leave-type/" + id, formData);
   }
 
-  deletePlatform(id) {
+  deleteLeaveType(id) {
     return axios.delete(this.config.apiBaseUrl + "leave-type/" + id);
   }
 
