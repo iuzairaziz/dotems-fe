@@ -1,6 +1,15 @@
 import * as Yup from "yup";
 
 class ShortValidations {
+  leaveTypeValidation = () => {
+    return Yup.object({
+      name: Yup.string()
+        .required("Required!")
+        .min(2)
+        .max(20),
+      number: Yup.number().required("Required!"),
+    });
+  };
   natureValidation = () => {
     return Yup.object({
       title: Yup.string()

@@ -29,12 +29,13 @@ const httpIntercept = (props) => {
       return response;
     },
     (error) => {
-      console.log("interceptor", error);
+      console.log("interceptor error", error);
       loader.fadeOut();
       loader.children(".status").fadeOut();
       if (error.response.data === "Token Invalid") {
         history.push("/login");
       }
+      throw error;
     }
   );
 };
