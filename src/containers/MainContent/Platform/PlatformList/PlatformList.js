@@ -60,7 +60,7 @@ const PlatformList = () => {
             action: (
               <div className="row flex-nowrap">
                 <i
-                  className="mdi mdi-eye iconsS my-primary-icon ml-2"
+                  className="mdi mdi-pencil-box iconsS my-seconday-icon ml-2"
                   onClick={() => {
                     setSelectedPlatform(item);
                     toggleEdit();

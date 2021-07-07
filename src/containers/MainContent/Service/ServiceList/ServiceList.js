@@ -59,7 +59,7 @@ const ServiceList = () => {
             action: (
               <div className="row flex-nowrap">
                 <i
-                  className="mdi mdi-eye iconsS my-primary-icon ml-1"
+                  className="mdi mdi-pencil-box iconsS my-seconday-icon ml-1"
                   onClick={() => {
                     setSelectedService(item);
                     toggleEdit();

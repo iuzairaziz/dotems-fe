@@ -87,7 +87,7 @@ const ViewMachines = (props) => {
             action: (
               <div className="row flex-nowrap">
                 <i
-                  className="mdi mdi-eye
+                  className="mdi mdi-pencil-box
                   iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({
