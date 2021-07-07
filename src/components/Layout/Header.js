@@ -101,7 +101,7 @@ class header extends Component {
           </div>
 
           <ul className="list-inline float-right mb-0">
-            <li className="list-inline-item dropdown notification-list">
+            {/* <li className="list-inline-item dropdown notification-list">
               <Link
                 className="nav-link waves-effect toggle-search"
                 to="#"
@@ -109,7 +109,7 @@ class header extends Component {
               >
                 <i className="mdi mdi-magnify noti-icon" />
               </Link>
-            </li>
+            </li> */}
             <li className="list-inline-item dropdown notification-list hidden-xs-down">
               <Link
                 onClick={() => this.togglescreen()}
@@ -120,7 +120,7 @@ class header extends Component {
                 <i className="mdi mdi-fullscreen noti-icon" />
               </Link>
             </li>
-            <li className="list-inline-item dropdown notification-list hidden-xs-down">
+            {/* <li className="list-inline-item dropdown notification-list hidden-xs-down">
               <Dropdown isOpen={this.state.dropdownOpen1} toggle={this.toggle1}>
                 <DropdownToggle
                   className="nav-link dropdown-toggle arrow-none waves-effect text-muted"
@@ -177,7 +177,7 @@ class header extends Component {
                   </a>
                 </DropdownMenu>
               </Dropdown>
-            </li>
+            </li> */}
             <li className="list-inline-item dropdown notification-list">
               <Dropdown
                 isOpen={this.state.dropdownOpenbadge}
@@ -282,7 +282,8 @@ class header extends Component {
                   </Link>
                   <Link to="/changepass">
                     <DropdownItem>
-                      <i className="mdi mdi-wallet m-r-5" /> Change Password
+                      <i className="mdi mdi-account-key m-r-5" /> Change
+                      Password
                     </DropdownItem>
                   </Link>
 

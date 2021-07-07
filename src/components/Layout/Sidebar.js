@@ -66,7 +66,7 @@ class sidebar extends Component {
       ? [
           {
             name: "project_menu",
-            icon: "mdi-calendar",
+            icon: "mdi-file-powerpoint-box",
             tab: "project",
             subMenus: [
               { routeName: this.baseUrl + "addproject", label: "New Project" },

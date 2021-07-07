@@ -241,7 +241,7 @@ const TaskDetail = (props) => {
 
     {
       label: "Estimate Hours",
-      value: taskData && taskData.estHrs,
+      value: taskData && Number(taskData.estHrs).toFixed(2),
     },
     {
       label: "Project Ratio",

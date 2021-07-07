@@ -19,12 +19,12 @@ class ProjectValidation {
         .required("Required!")
         .min(
           Yup.ref("cStartDate"),
-          "Client End date must be grater than Client start date"
+          "Client End date must be greater than Client start date"
         ),
       pmStartDate: Yup.date(),
       pmEndDate: Yup.date().min(
         Yup.ref("pmStartDate"),
-        "PM End date must be grater than PM start date"
+        "PM End date must be greater than PM start date"
       ),
       projectManager: Yup.object().required("Required!"),
       teamMembers: Yup.array(),
