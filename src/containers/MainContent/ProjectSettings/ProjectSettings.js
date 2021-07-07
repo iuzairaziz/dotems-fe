@@ -59,6 +59,12 @@ const ProjectSettings = () => {
       viewRoute: "view-expense",
       icon: "mdi-cash-multiple",
     },
+    {
+      name: "Leave Type",
+      addRoute: "add-leave-type",
+      viewRoute: "view-leave-type",
+      icon: "mdi-cash-multiple",
+    },
   ];
 
   return (

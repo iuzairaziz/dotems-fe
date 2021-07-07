@@ -50,6 +50,8 @@ import MachineDetails from "../MainContent/Machine/MachineDetials/MachineDetails
 import ChangePassword from "../MainContent/User/AddNewUser/ChangePasswrod";
 import ChangePasswordForm from "../MainContent/User/AddUserForm/ChangePasswordForm";
 import ClientDetails from "../MainContent/Client/ClientDetail";
+import AddLeaveType from "../MainContent/Leaves/LeaveType/AddLeaveType/AddLeaveType";
+import LeaveTypeList from "../MainContent/Leaves/LeaveType/LeaveTypeList/LeaveTypeList";
 import Machine from "../MainContent/Machine/Machine";
 import MyTasks from "../MainContent/Tasks/TaskList/MyTaskList";
 import Configuration from "../../config/configuration";
@@ -73,6 +75,8 @@ const mainbuilder = (props) => {
       <Switch>
         <Route exact path="/" component={Dashboard1} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/add-leave-type" component={AddLeaveType} />
+        <Route exact path="/view-leave-type" component={LeaveTypeList} />
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/leave-form" component={NewLeave} />
           <Route exact path="/leave-details" component={LeaveDetails} />

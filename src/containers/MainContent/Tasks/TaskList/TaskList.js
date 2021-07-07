@@ -97,25 +97,38 @@ const Tables_datatable = (props) => {
   useEffect(() => {
     getData();
   }, [modalEdit, modalDelete]);
+  const changeColor = () => {
+    $(document).ready(function() {
+      $("tbody > tr").each(function(index) {
+        var two = $(this)
+          .children("td")
+          .eq(2)
+          .text();
+        var three = $(this)
+          .children("td")
+          .eq(3)
+          .text();
+        var finalTwo = parseInt(two);
+        var finalThree = parseInt(three);
+        if (finalThree > finalTwo) {
+          $(this).css("color", "red");
+          $(this)
+            .find("a")
+            .css("color", "red");
+        } else {
+          $(this).css("color", "black");
+          $(this)
+            .find("a")
+            .css("color", "black");
+        }
+      });
+    });
+  };
 
   $(document).ready(function() {
-    $("tr").each(function(index) {
-      var two = $(this)
-        .children("td")
-        .eq(2)
-        .text();
-      var three = $(this)
-        .children("td")
-        .eq(3)
-        .text();
-      var finalTwo = parseInt(two);
-      var finalThree = parseInt(three);
-      if (finalThree > finalTwo) {
-        $(this).css("color", "red");
-        $(this)
-          .find("a")
-          .css("color", "red");
-      }
+    changeColor();
+    $(document).on("click", "th", function() {
+      changeColor();
     });
   });
 
