@@ -282,7 +282,8 @@ class header extends Component {
                   </Link>
                   <Link to="/changepass">
                     <DropdownItem>
-                      <i className="mdi mdi-wallet m-r-5" /> Change Password
+                      <i className="mdi mdi-account-key m-r-5" /> Change
+                      Password
                     </DropdownItem>
                   </Link>
 

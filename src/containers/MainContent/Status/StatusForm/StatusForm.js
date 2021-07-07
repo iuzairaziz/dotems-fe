@@ -14,7 +14,7 @@ const StatusForm = (props) => {
       validationSchema={shortValidations.statusValidation}
       onSubmit={(values, actions) => {
         props.editable
-          ? StatusService.AddStatus(props.platform._id, {
+          ? StatusService.updateStatus(props.platform._id, {
               name: values.status,
             })
               .then((res) => {
