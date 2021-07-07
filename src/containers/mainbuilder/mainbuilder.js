@@ -57,6 +57,9 @@ import userService from "../../services/UserService";
 import RoleAuth from "../../components/MyComponents/Auth/RoleAuth";
 import Pages_400 from "../../components/MyComponents/Pages/Pages_400";
 import Ui_tabs_accordions from "../MainContent/UiElements/Ui_tabs_accordions";
+import LeaveForm from "../MainContent/Leaves/LeaveForm/LeaveForm";
+import NewLeave from "../MainContent/Leaves/NewLeave/NewLeave";
+import LeaveDetails from "../MainContent/Leaves/LeaveDetails/LeaveDetails";
 
 const mainbuilder = (props) => {
   const baseUrl = props.match.url;
@@ -71,6 +74,8 @@ const mainbuilder = (props) => {
         <Route exact path="/" component={Dashboard1} />
         <Route exact path="/login" component={Login} />
         <RoleAuth roles={ALL_ROLES}>
+          <Route exact path="/leave-form" component={NewLeave} />
+          <Route exact path="/leave-details" component={LeaveDetails} />
           <Route exact path="/add-user" component={AddUser} />
           <Route exact path="/task-details/:id" component={TaskDetails} />
           <Route exact path="/subtask-details" component={TaskDetails} />
