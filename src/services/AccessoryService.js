@@ -35,6 +35,10 @@ class AccessoryService {
   handleError() {
     toast("Something went wrong!");
   }
+
+  handleCustomMessage(message) {
+    toast(message.toString());
+  }
 }
 
 export default new AccessoryService();

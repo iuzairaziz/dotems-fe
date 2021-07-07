@@ -62,6 +62,7 @@ import Ui_tabs_accordions from "../MainContent/UiElements/Ui_tabs_accordions";
 import LeaveForm from "../MainContent/Leaves/LeaveForm/LeaveForm";
 import NewLeave from "../MainContent/Leaves/NewLeave/NewLeave";
 import LeaveDetails from "../MainContent/Leaves/LeaveDetails/LeaveDetails";
+import LeaveList from "../MainContent/Leaves/LeaveList/LeaveList";
 
 const mainbuilder = (props) => {
   const baseUrl = props.match.url;
@@ -75,9 +76,11 @@ const mainbuilder = (props) => {
       <Switch>
         <Route exact path="/" component={Dashboard1} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/add-leave-type" component={AddLeaveType} />
-        <Route exact path="/view-leave-type" component={LeaveTypeList} />
+
         <RoleAuth roles={ALL_ROLES}>
+          <Route exact path="/add-leave-type" component={AddLeaveType} />
+          <Route exact path="/view-leave-type" component={LeaveTypeList} />
+          <Route exact path="/leave-list" component={LeaveList} />
           <Route exact path="/leave-form" component={NewLeave} />
           <Route exact path="/leave-details" component={LeaveDetails} />
           <Route exact path="/add-user" component={AddUser} />

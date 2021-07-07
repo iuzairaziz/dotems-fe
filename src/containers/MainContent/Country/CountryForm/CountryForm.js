@@ -22,7 +22,7 @@ const CountryForm = (props) => {
               })
               .catch((err) => {
                 props.toggle();
-                CountryService.handleError();
+                CountryService.handleCustomMessage(err.response.data);
               })
           : CountryService.addCountry({ name: values.title })
               .then((res) => {
@@ -30,7 +30,7 @@ const CountryForm = (props) => {
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {
-                CountryService.handleError();
+                CountryService.handleCustomMessage(err.response.data);
               });
       }}
     >

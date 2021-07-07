@@ -43,6 +43,9 @@ class LeaveTypeService {
   handleError() {
     toast("Something Went Wrong!");
   }
+  handleCustomMessage(message) {
+    toast(message.toString());
+  }
 }
 
 export default new LeaveTypeService();
