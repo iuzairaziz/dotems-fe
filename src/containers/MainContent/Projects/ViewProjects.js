@@ -215,7 +215,7 @@ const ViewProjects = (props, match) => {
 
   const changeColor = () => {
     $("tbody > tr").each(function(index) {
-      console.log("trs", this);
+      // console.log("trs", this);
       var ninth = $(this)
         .children("td")
         .eq(9)
