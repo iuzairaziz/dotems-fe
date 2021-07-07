@@ -1,17 +1,27 @@
 .project-settings {
   .setting-card {
     .inner-col {
-      // background-color: var(--color-secondary1) !important;
+      // background-color: var(--color-secondary2) !important;
+      transition: transform 0.2s;
+      &:hover {
+        border-color: var(--color-secondary2);
+        transform: scale(1.1);
+      }
+      &:hover .text-colour {
+        // color: var(--color-primary);
+        transform: scale(1.2);
+      }
+      &:hover .icon-background {
+        background-color: var(--color-primary);
+      }
 
       .icon-background {
-        background-color: #fdcd05;
+        background-color: var(--color-secondary2);
       }
       .text-colour {
         color: black;
       }
-      .text-colour:hover {
-        color: #fdcd05;
-      }
+
       position: relative;
       & div:last-child {
         position: absolute !important;
@@ -22,7 +32,7 @@
           //   background-color: brown;
           color: rgb(170, 169, 169);
           &:hover {
-            color: #fdcd05;
+            color: var(--color-primary);
           }
         }
         // background-color: blueviolet;
