@@ -59,7 +59,7 @@ const CountryList = () => {
             action: (
               <div className="row flex-nowrap justify-content-start ">
                 <i
-                  className="mdi mdi-eye iconsS my-primary-icon"
+                  className="mdi mdi-pencil-box iconsS my-primary-icon"
                   onClick={() => {
                     setSelectedAccessory(item);
                     toggleEdit();
