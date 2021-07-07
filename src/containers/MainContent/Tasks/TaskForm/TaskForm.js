@@ -20,9 +20,13 @@ const TaskForm = (props) => {
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
   const [description, setDescription] = useState(EditorState.createEmpty());
+  const task = props.task;
+  const editable = props.editable;
 
   useEffect(() => {
     getProjects();
+    console.log("editable props", editable && task);
+    editable && task && getProjectUsers(task.project._id);
   }, []);
 
   const loogedInUser = userService.userLoggedInInfo();
@@ -77,8 +81,7 @@ const TaskForm = (props) => {
         console.log(err);
       });
   };
-  const task = props.task;
-  const editable = props.editable;
+
   console.log("from task form ", task);
   var assignedUsers = [];
   editable &&
@@ -117,7 +120,6 @@ const TaskForm = (props) => {
             value: task.teamLead._id,
           },
       }}
-      validateOnChange={true}
       validationSchema={tasksValidations.newTaskValidation}
       onSubmit={(values, actions) => {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -189,8 +191,8 @@ const TaskForm = (props) => {
                     value={props.values.title}
                     name="title"
                     onBlur={props.handleBlur}
-                    onChange={() => {
-                      props.handleChange("title");
+                    onChange={(e) => {
+                      props.setFieldValue("title", e.target.value);
 
                       console.log(props);
                     }}
@@ -220,6 +222,8 @@ const TaskForm = (props) => {
                       );
                       getTasksByProjectId(selected.value);
                       getProjectUsers(selected.value);
+                      props.setFieldValue("assignedTo", []);
+                      props.setFieldValue("teamLead", {});
                     }}
                     options={projects}
                   />

@@ -86,19 +86,19 @@ const ProjectReports = () => {
       },
 
       {
-        label: "Project Income Rs.",
+        label: "Project Income (PKR)",
         field: "Pincome",
         sort: "disabled",
       },
 
       {
-        label: "Resource Expense",
+        label: "Resource Expense (PKR)",
         field: "Rexpense",
         sort: "disabled",
       },
 
       {
-        label: "Total Profit",
+        label: "Total Profit (PKR)",
         field: "Tprofit",
         sort: "disabled",
       },
@@ -185,26 +185,33 @@ const ProjectReports = () => {
             ),
             cost: item.cost ? `${item.cost} (${item.currency.name})` : "N/A",
             Rprofit: item.Rprofit
-              ? ((item.Rprofit / 100) * item.cost).toFixed(2)
+              ? `${((item.Rprofit / 100) * item.cost).toFixed(2)} (${
+                  item.currency.name
+                })`
               : "N/A",
             Pdeduction: item.Pdeduction
-              ? ((item.Pdeduction / 100) * item.cost).toFixed(2)
+              ? `${((item.Pdeduction / 100) * item.cost).toFixed(2)} (${
+                  item.currency.name
+                })`
               : "N/A",
-            PCB: (
+            PCB: `${(
               item.cost -
               (item.otherDeduction +
                 (item.Pdeduction / 100) * item.cost +
                 (item.Rprofit / 100) * item.cost)
-            ).toFixed(2),
+            ).toFixed(2)} (${item.currency.name})`,
             Pincome: item.currency
               ? (
                   item.currency.exchangeRate *
                   (item.cost -
                     ((item.Pdeduction / 100) * item.cost +
-                      (item.Rprofit / 100) * item.cost))
+                      (item.Rprofit / 100) * item.cost) -
+                    item.otherDeduction)
                 ).toFixed(2)
               : "N/A",
-            Odeduction: item.otherDeduction ? item.otherDeduction : "N/A",
+            Odeduction: item.otherDeduction
+              ? `${item.otherDeduction} (${item.currency.name})`
+              : "N/A",
             ActHrs: (
               <Link to={`/projectdetails/${item._id}`}>
                 {item.actualHrs ? item.actualHrs : "N/A"}
@@ -228,7 +235,8 @@ const ProjectReports = () => {
               ? item.currency.exchangeRate *
                   (item.cost -
                     ((item.Pdeduction / 100) * item.cost +
-                      (item.Rprofit / 100) * item.cost)) -
+                      (item.Rprofit / 100) * item.cost) -
+                    item.otherDeduction) -
                 item.projectResourcesExpense.allResourcesExpense.toFixed(2)
               : "N/A",
           });

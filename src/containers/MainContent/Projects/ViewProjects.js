@@ -59,12 +59,12 @@ const ViewProjects = (props, match) => {
       {
         label: "Platform",
         field: "platform",
-        sort: "disabled",
+        sort: "asc",
       },
       {
         label: "Technology ",
         field: "technology",
-        sort: "disabled",
+        sort: "true",
       },
       // {
       //   label: "Service Type",
@@ -81,33 +81,33 @@ const ViewProjects = (props, match) => {
       {
         label: "Status",
         field: "status",
-        sort: "disabled",
+        sort: "asc",
       },
       {
         label: "Start Date",
         field: "startDate",
-        sort: "disabled",
+        sort: "asc",
       },
       {
         label: "End Date",
         field: "endDate",
-        sort: "disabled",
+        sort: "asc",
       },
       {
         label: "Deadline",
         field: "CendDate",
-        sort: "disabled",
+        sort: "asc",
       },
       {
         label: "Total Est. Hrs",
         field: "EstHrs",
-        sort: "disabled",
+        sort: "asc",
         // width: 100,
       },
       {
         label: "Total Actual Hrs",
         field: "ActHrs",
-        sort: "disabled",
+        sort: "asc",
         // width: 100,
       },
       // {
@@ -149,7 +149,7 @@ const ViewProjects = (props, match) => {
       {
         label: "Work Done",
         field: "wrkdone",
-        sort: "disabled",
+        sort: "asc",
       },
       // {
       //   label: "Project Income Rs.",
@@ -213,8 +213,9 @@ const ViewProjects = (props, match) => {
     getTechnology();
   }, []);
 
-  $(document).ready(function() {
-    $("tr").each(function(index) {
+  const changeColor = () => {
+    $("tbody > tr").each(function(index) {
+      console.log("trs", this);
       var ninth = $(this)
         .children("td")
         .eq(9)
@@ -230,7 +231,18 @@ const ViewProjects = (props, match) => {
         $(this)
           .find("a")
           .css("color", "red");
+      } else {
+        $(this).css("color", "black");
+        $(this)
+          .find("a")
+          .css("color", "black");
       }
+    });
+  };
+  $(document).ready(function() {
+    changeColor();
+    $(document).on("click", "th", function() {
+      changeColor();
     });
   });
 
