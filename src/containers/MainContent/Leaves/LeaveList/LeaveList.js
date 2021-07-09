@@ -1,6 +1,8 @@
 import React, { Component, useEffect, useState } from "react";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import AUX from "../../../../hoc/Aux_";
+import LeaveService from "../../../../services/LeaveService";
+import moment from "moment";
 
 const LeaveList = () => {
   const [dataa, setData] = useState({
@@ -23,12 +25,12 @@ const LeaveList = () => {
         // sort: "asc",
         // width: 200,
       },
-      {
-        label: "Description",
-        field: "description",
-        // sort: "asc",
-        // width: 100,
-      },
+      // {
+      //   label: "Description",
+      //   field: "description",
+      //   // sort: "asc",
+      //   // width: 100,
+      // },
 
       {
         label: "Admin Remarks",
@@ -52,6 +54,42 @@ const LeaveList = () => {
     ],
     rows: [],
   });
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    LeaveService.allLeaves()
+      .then((res) => {
+        let updatedData = { ...dataa };
+        updatedData.rows = [];
+        res.data.map((item, index) => {
+          updatedData.rows.push({
+            user: item.user ? item.user.name : "N/A",
+            lType: item.type ? item.type.name : "N/A",
+            dates: item.dates
+              ? item.dates.map((item, index) => {
+                  if (index === 0) {
+                    return moment(item.date).format("DD/MM/YY");
+                  } else if (index >= 0) {
+                    return `, ${moment(item.date).format("DD/MM/YY")} `;
+                  }
+                })
+              : "none",
+            description: item.description ? item.description : "N/A",
+            aReamrks: item.adminRemark ? item.adminRemark : "N/A",
+            aAction: item.adminActionDate ? item.adminActionDate : "N/A",
+            status: item.status ? item.status : "N/A",
+          });
+        });
+        console.log("Leaves", updatedData);
+
+        setData(updatedData);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <AUX>
       <div className="page-content-wrapper">
