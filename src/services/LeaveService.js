@@ -2,10 +2,12 @@ import Configuration from "../config/configuration";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-class LeaveTypeService {
+class LeaveService {
   constructor() {
     this.config = new Configuration();
   }
+
+  // leave types section
 
   addLeaveType(formData) {
     return axios.post(
@@ -30,6 +32,15 @@ class LeaveTypeService {
     return axios.delete(this.config.apiBaseUrl + "leave-type/" + id);
   }
 
+  // leaves section
+
+  newLeave(data) {
+    return axios.post(this.config.apiBaseUrl + "leave/new", data);
+  }
+  allLeaves() {
+    return axios.post(this.config.apiBaseUrl + "leave/");
+  }
+
   handleMessage(type) {
     if (type === "add") toast("Successfully Added Leave Type");
     else if (type === "update") toast("Successfully Updated Leave Type");
@@ -43,9 +54,6 @@ class LeaveTypeService {
   handleError() {
     toast("Something Went Wrong!");
   }
-  handleCustomMessage(message) {
-    toast(message.toString());
-  }
 }
 
-export default new LeaveTypeService();
+export default new LeaveService();

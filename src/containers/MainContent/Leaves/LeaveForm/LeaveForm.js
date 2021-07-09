@@ -6,18 +6,40 @@ import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import { Formik } from "formik";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
-import ClientService from "../../../../services/ClientService";
 import { Dropdown, Button } from "reactstrap";
+import LeaveService from "../../../../services/LeaveService";
+import { useState } from "react";
+import { useEffect } from "react";
+import userService from "../../../../services/UserService";
 
 const LeaveForm = (props) => {
   const editable = props.editable;
   const project = props.project;
+  const [leaveTypes, setLeaveTypes] = useState([]);
+  const loggedInUser = userService.userLoggedInInfo();
+  useEffect(() => {
+    getleaveTypes();
+  }, []);
+
+  const getleaveTypes = () => {
+    LeaveService.getAllLeaveType()
+      .then((res) => {
+        let options = []; // for react select
+        res.data.map((item, index) => {
+          options.push({ label: item.name, value: item._id });
+        });
+        setLeaveTypes(options);
+      })
+      .catch((err) => {
+        LeaveService.handleCustomMessage(err.response.data);
+      });
+  };
 
   return (
     <Formik
       initialValues={{
-        reason: editable && project.reason,
-        leaveDate: editable && project.leaveDate,
+        leaveDates: editable && project.leaveDate,
+        leaveType: editable && project.leaveType,
         description: editable
           ? EditorState.createWithContent(
               convertFromRaw(JSON.parse(project.description))
@@ -27,36 +49,21 @@ const LeaveForm = (props) => {
       //   validationSchema={clientValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
         console.log("countries", values.country);
-        editable
-          ? ClientService.updateClient({
-              reason: values.reason,
-              leaveDate: values.leaveDate,
-              description: JSON.stringify(
-                convertToRaw(values.description.getCurrentContent())
-              ),
-            })
-              .then((res) => {
-                ClientService.handleMessage("update");
-                props.toggle();
-              })
-              .catch((err) => {
-                ClientService.handleError();
-                props.toggle();
-              })
-          : ClientService.addClient({
-              reason: values.reason,
-              leaveDate: values.leaveDate,
-              description: JSON.stringify(
-                convertToRaw(values.description.getCurrentContent())
-              ),
-            })
-              .then((res) => {
-                props.toggle && props.toggle();
-                ClientService.handleMessage("add");
-              })
-              .catch((err) => {
-                ClientService.handleError();
-              });
+        LeaveService.newLeave({
+          user: loggedInUser._id,
+          type: values.leaveType.value,
+          description: JSON.stringify(
+            convertToRaw(values.description.getCurrentContent())
+          ),
+          dates: values.leaveDates,
+        })
+          .then((res) => {
+            props.toggle && props.toggle();
+            LeaveService.handleMessage("add");
+          })
+          .catch((err) => {
+            LeaveService.handleCustomMessage(err.response.data);
+          });
         console.log("country", values.country);
       }}
     >
@@ -69,9 +76,17 @@ const LeaveForm = (props) => {
                 <div>
                   <div className="input-group-multi">
                     <MultipleDatePicker
+                      value={props.values.leaveDates}
                       id="uniqueTxt"
-                      onSubmit={(dates) => console.log("selected date", dates)}
+                      name="leaveDates"
+                      onBlur={props.handleBlur}
+                      onSubmit={(dates) => {
+                        props.setFieldValue("leaveDates", dates);
+                      }}
                     />
+                    <span id="err">
+                      {props.touched.leaveDates && props.errors.leaveDates}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -79,21 +94,18 @@ const LeaveForm = (props) => {
             <div className="col">
               <div className="form-group">
                 <label className="control-label">Leave Type</label>
-                {/* <Select
-                  name="status"
+                <Select
+                  name="leaveType"
                   onBlur={props.handleBlur}
-                  value={props.values.status}
+                  value={props.values.leaveType}
                   onChange={(selected) => {
-                    props.setFieldValue("status", selected);
+                    props.setFieldValue("leaveType", selected);
                   }}
-                  options={[
-                    { value: "Single", label: "Single" },
-                    { value: "Married", label: "Married" },
-                  ]}
+                  options={leaveTypes}
                 />
                 <span id="err">
-                  {props.touched.status && props.errors.status}
-                </span> */}
+                  {props.touched.leaveType && props.errors.leaveType}
+                </span>
               </div>
             </div>
           </div>

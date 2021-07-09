@@ -3,7 +3,7 @@ import AUX from "../../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { MDBDataTable, MDBBtn } from "mdbreact";
 import LeaveTypeForm from "../../LeaveType/LeaveTypeForm/LeaveTypeForm";
-import LeaveTypeService from "../../../../../services/LeaveTypeService";
+import LeaveService from "../../../../../services/LeaveService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 const LeaveTypeList = () => {
@@ -44,19 +44,19 @@ const LeaveTypeList = () => {
   const toggleDelete = () => setModalDelete(!modalDelete);
 
   const handleDelete = (id) => {
-    LeaveTypeService.deleteLeaveType(id)
+    LeaveService.deleteLeaveType(id)
       .then((res) => {
-        LeaveTypeService.handleMessage("delete");
+        LeaveService.handleMessage("delete");
         toggleDelete();
       })
       .catch((err) => {
-        LeaveTypeService.handleCustomMessage(err.response.data);
+        LeaveService.handleCustomMessage(err.response.data);
         toggleDelete();
       });
   };
 
   const getLeaveType = () => {
-    LeaveTypeService.getAllLeaveType()
+    LeaveService.getAllLeaveType()
       .then((res) => {
         let updatedData = { ...data };
         updatedData.rows = [];
