@@ -72,7 +72,24 @@ const LeaveForm = (props) => {
           <div className="row">
             <div className="col">
               <div className="form-group">
-                <label>Multiple Date</label>
+                <label className="control-label">Leave Type</label>
+                <Select
+                  name="leaveType"
+                  onBlur={props.handleBlur}
+                  value={props.values.leaveType}
+                  onChange={(selected) => {
+                    props.setFieldValue("leaveType", selected);
+                  }}
+                  options={leaveTypes}
+                />
+                <span id="err">
+                  {props.touched.leaveType && props.errors.leaveType}
+                </span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label>Leave Dates</label>
                 <div>
                   <div className="input-group-multi">
                     <MultipleDatePicker
@@ -91,26 +108,6 @@ const LeaveForm = (props) => {
                 </div>
               </div>
             </div>
-            <div className="col">
-              <div className="form-group">
-                <label className="control-label">Leave Type</label>
-                <Select
-                  name="leaveType"
-                  onBlur={props.handleBlur}
-                  value={props.values.leaveType}
-                  onChange={(selected) => {
-                    props.setFieldValue("leaveType", selected);
-                  }}
-                  options={leaveTypes}
-                />
-                <span id="err">
-                  {props.touched.leaveType && props.errors.leaveType}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="row">
             <div className="col-12">
               <h4 className="mt-0 header-title">Description</h4>
               <Editor
