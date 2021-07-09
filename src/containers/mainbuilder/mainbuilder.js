@@ -51,7 +51,11 @@ import ChangePassword from "../MainContent/User/AddNewUser/ChangePasswrod";
 import ChangePasswordForm from "../MainContent/User/AddUserForm/ChangePasswordForm";
 import ClientDetails from "../MainContent/Client/ClientDetail";
 import AddLeaveType from "../MainContent/Leaves/LeaveType/AddLeaveType/AddLeaveType";
+import AddRequestType from "../MainContent/RequestType/AddRequestType/AddReuqestType";
+import AddRequest from "../MainContent/Request/AddRequest/AddRequest";
 import LeaveTypeList from "../MainContent/Leaves/LeaveType/LeaveTypeList/LeaveTypeList";
+import RequestTypeList from "../MainContent/RequestType/RequestList/RequestList";
+import RequestList from "../MainContent/Request/ViewRequest/ViewRequest";
 import Machine from "../MainContent/Machine/Machine";
 import MyTasks from "../MainContent/Tasks/TaskList/MyTaskList";
 import Configuration from "../../config/configuration";
@@ -76,7 +80,11 @@ const mainbuilder = (props) => {
         <Route exact path="/" component={Dashboard1} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/add-leave-type" component={AddLeaveType} />
+        <Route exact path="/add-request-type" component={AddRequestType} />
+        <Route exact path="/add-request" component={AddRequest} />
         <Route exact path="/view-leave-type" component={LeaveTypeList} />
+        <Route exact path="/view-request-type" component={RequestTypeList} />
+        <Route exact path="/view-request" component={RequestList} />
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/leave-form" component={NewLeave} />
           <Route exact path="/leave-details" component={LeaveDetails} />
