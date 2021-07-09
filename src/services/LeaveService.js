@@ -38,7 +38,7 @@ class LeaveService {
     return axios.post(this.config.apiBaseUrl + "leave/new", data);
   }
   allLeaves() {
-    return axios.post(this.config.apiBaseUrl + "leave/");
+    return axios.get(this.config.apiBaseUrl + "leave/");
   }
 
   leaveById(id) {

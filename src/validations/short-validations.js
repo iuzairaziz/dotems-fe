@@ -18,6 +18,20 @@ class ShortValidations {
         .max(20),
     });
   };
+  requestTypeValidation = () => {
+    return Yup.object({
+      title: Yup.string()
+        .required("Required!")
+        .min(2)
+        .max(20),
+    });
+  };
+  requestValidation = () => {
+    return Yup.object({
+      requestType: Yup.object().required("Required!"),
+      description: Yup.object().required("Required!"),
+    });
+  };
 
   technologyValidation = () => {
     return Yup.object({

@@ -51,7 +51,11 @@ import ChangePassword from "../MainContent/User/AddNewUser/ChangePasswrod";
 import ChangePasswordForm from "../MainContent/User/AddUserForm/ChangePasswordForm";
 import ClientDetails from "../MainContent/Client/ClientDetail";
 import AddLeaveType from "../MainContent/Leaves/LeaveType/AddLeaveType/AddLeaveType";
+import AddRequestType from "../MainContent/RequestType/AddRequestType/AddReuqestType";
+import AddRequest from "../MainContent/Request/AddRequest/AddRequest";
 import LeaveTypeList from "../MainContent/Leaves/LeaveType/LeaveTypeList/LeaveTypeList";
+import RequestTypeList from "../MainContent/RequestType/RequestList/RequestList";
+import RequestList from "../MainContent/Request/ViewRequest/ViewRequest";
 import Machine from "../MainContent/Machine/Machine";
 import MyTasks from "../MainContent/Tasks/TaskList/MyTaskList";
 import Configuration from "../../config/configuration";
@@ -63,6 +67,7 @@ import LeaveForm from "../MainContent/Leaves/LeaveForm/LeaveForm";
 import NewLeave from "../MainContent/Leaves/NewLeave/NewLeave";
 import LeaveDetails from "../MainContent/Leaves/LeaveDetails/LeaveDetails";
 import LeaveList from "../MainContent/Leaves/LeaveList/LeaveList";
+import SingleDetail from "../MainContent/Leaves/LeaveDetails/SingleDetail/SingleDetail";
 
 const mainbuilder = (props) => {
   const baseUrl = props.match.url;
@@ -76,6 +81,12 @@ const mainbuilder = (props) => {
       <Switch>
         <Route exact path="/" component={Dashboard1} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/add-leave-type" component={AddLeaveType} />
+        <Route exact path="/add-request-type" component={AddRequestType} />
+        <Route exact path="/add-request" component={AddRequest} />
+        <Route exact path="/view-leave-type" component={LeaveTypeList} />
+        <Route exact path="/view-request-type" component={RequestTypeList} />
+        <Route exact path="/view-request" component={RequestList} />
 
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/add-leave-type" component={AddLeaveType} />
@@ -83,6 +94,7 @@ const mainbuilder = (props) => {
           <Route exact path="/leave-list" component={LeaveList} />
           <Route exact path="/leave-form" component={NewLeave} />
           <Route exact path="/leave-details" component={LeaveDetails} />
+          <Route exact path="/single-detail/:id" component={SingleDetail} />
           <Route exact path="/add-user" component={AddUser} />
           <Route exact path="/task-details/:id" component={TaskDetails} />
           <Route exact path="/subtask-details" component={TaskDetails} />

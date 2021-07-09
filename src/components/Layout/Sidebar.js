@@ -119,6 +119,21 @@ class sidebar extends Component {
             ],
           },
           {
+            name: "request_menu",
+            icon: "mdi-responsive",
+            tab: "Request",
+            subMenus: [
+              {
+                routeName: this.baseUrl + "add-request",
+                label: "New Request",
+              },
+              {
+                routeName: this.baseUrl + "view-request",
+                label: "View Request",
+              },
+            ],
+          },
+          {
             name: "leave",
             icon: "mdi-calendar-multiple-check",
             tab: "Leave",
@@ -133,7 +148,7 @@ class sidebar extends Component {
               },
               {
                 routeName: this.baseUrl + "leave-details",
-                label: "My Leave List",
+                label: "My Leaves",
               },
             ],
           },
