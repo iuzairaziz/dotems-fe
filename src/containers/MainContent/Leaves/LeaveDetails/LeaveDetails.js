@@ -22,23 +22,22 @@ const LeaveDetails = () => {
       //     field: "to",
       //     // sort: "asc",
       //   },
-      //   {
-      //     label: "Apply",
-      //     field: "apply",
-      //     sort: "true",
-      //   },
 
-      {
-        label: "Description",
-        field: "description",
-      },
+      // {
+      //   label: "Description",
+      //   field: "description",
+      // },
       {
         label: "Posting Date",
         field: "postingDate",
       },
+      // {
+      //   label: "Admin Remarks",
+      //   field: "aRemarks",
+      // },
       {
-        label: "Admin Remarks",
-        field: "aRemarks",
+        label: "Action",
+        field: "action",
       },
     ],
     rows: [],

@@ -133,7 +133,7 @@ class sidebar extends Component {
               },
               {
                 routeName: this.baseUrl + "leave-details",
-                label: "My Leave List",
+                label: "My Leaves",
               },
             ],
           },

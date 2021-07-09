@@ -1,8 +1,32 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import AUX from "../../../../../hoc/Aux_";
 import "./SingleDetail.scss";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { convertFromRaw, EditorState } from "draft-js";
+import LeaveService from "../../../../../services/LeaveService";
+import moment from "moment";
 
-const SingleDetail = () => {
+const SingleDetail = (props) => {
+  const [leaveData, setData] = useState();
+  const leaveID = props.match.params.id;
+
+  useEffect(() => {
+    getData(leaveID);
+  }, []);
+
+  const getData = (id) => {
+    LeaveService.leaveById(id)
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
+
+  console.log("Leave data", leaveData);
+
   return (
     <AUX>
       <div className="page-content-wrapper">
@@ -16,60 +40,94 @@ const SingleDetail = () => {
                   <hr />
                   <div className="row main">
                     <div className="col-2">
-                      <span>Employee Name:</span>
+                      <span>
+                        <b>Employee Name:</b>
+                      </span>
                     </div>
                     <div className="col-2">
-                      <span>Uzair Aziz</span>
+                      <span>{leaveData && leaveData.user.name}</span>
                     </div>
                     <div className="col-2">
-                      <span>Leave Type: </span>
+                      <span>
+                        <b>Leave Type: </b>
+                      </span>
                     </div>
                     <div className="col-2">
-                      <span>Sick Leave</span>
+                      <span>{leaveData && leaveData.type.name}</span>
                     </div>
                     <div className="col-2 sub">
-                      <span>Leave Date:</span>
+                      <span>
+                        <b>Leave Status: </b>
+                      </span>
                     </div>
                     <div className="col-2">
-                      <span>Uzair Aziz</span>
+                      <span>{leaveData && leaveData.status}</span>
+                    </div>
+
+                    <div className="col-2">
+                      <span>
+                        <b>Posting Date: </b>
+                      </span>
                     </div>
                     <div className="col-2">
-                      <span>Posting Date:</span>
+                      <span>
+                        {leaveData && moment(leaveData.createdAt).format("LL")}
+                      </span>
                     </div>
-                    <div className="col-2">
-                      <span>Uzair Aziz</span>
-                    </div>
-                    <div className="col-2">
-                      <span>Leave Status: </span>
-                    </div>
-                    <div className="col-2">
-                      <span>Uzair Aziz</span>
-                    </div>
-                    <div className="col-2 sub">
+
+                    {/* <div className="col-2 sub">
                       <span>Already Approved: </span>
                     </div>
                     <div className="col-2">
-                      <span>Uzair Aziz</span>
+                      <span>{leaveData && leaveData.user.name}</span>
                     </div>
                     <div className="col-2">
                       <span>Apply For: </span>
                     </div>
                     <div className="col-2">
-                      <span>Uzair Aziz</span>
+                      <span>{leaveData && leaveData.user.name}</span>
                     </div>
                     <div className="col-2">
                       <span>Available: </span>
-                    </div>
+                    </div> */}
+                    {/* <div className="col-2">
+                      <span>{leaveData && leaveData.user.name}</span>
+                    </div> */}
                     <div className="col-2">
-                      <span>Uzair Aziz</span>
-                    </div>
-                    <div className="col-2">
-                      <span>Admin Action Date:</span>
+                      <span>
+                        <b>Admin Action Date:</b>
+                      </span>
                     </div>
                     <div className="col-2 sub">
-                      <span>Uzair Aziz</span>
+                      <span>
+                        {leaveData && leaveData.adminActionDate
+                          ? moment(leaveData.adminActionDate).format("LL")
+                          : "None"}
+                      </span>
                     </div>
-                    <hr />
+                    <div className="col-2 sub">
+                      <span>
+                        <b>Leave Dates: </b>
+                      </span>
+                    </div>
+                    <div className="col-2">
+                      <span>
+                        {leaveData &&
+                          leaveData.dates.map((item, index) => {
+                            return (
+                              <div>
+                                {moment(item.date).format("LL")}
+                                <br />
+                              </div>
+                            );
+                            if (index === 0) {
+                              return moment(item.date).format("LL");
+                            } else if (index >= 0) {
+                              return `, ${moment(item.date).format("LL")} `;
+                            }
+                          })}
+                      </span>
+                    </div>
                     <div className="col-lg-12">
                       <ul
                         className="nav nav-tabs nav-tabs-custom"
@@ -113,36 +171,46 @@ const SingleDetail = () => {
                           id="home1"
                           role="tabpanel"
                         >
-                          <p className="font-14 mb-0">
-                            Raw denim you probably haven't heard of them jean
-                            shorts Austin. Nesciunt tofu stumptown aliqua, retro
-                            synth master cleanse. Mustache cliche tempor,
-                            williamsburg carles vegan helvetica. Reprehenderit
-                            butcher retro keffiyeh dreamcatcher synth. Cosby
-                            sweater eu banh mi, qui irure terry richardson ex
-                            squid. Aliquip placeat salvia cillum iphone. Seitan
-                            aliquip quis cardigan american apparel, butcher
-                            voluptate nisi qui.
-                          </p>
+                          {leaveData && leaveData.description && (
+                            <Editor
+                              toolbarClassName="toolbarClassName"
+                              wrapperClassName="wrapperClassName"
+                              editorClassName="editorClass"
+                              toolbarStyle={{ display: "none" }}
+                              readOnly
+                              editorStyle={{
+                                minHeight: "300px",
+                              }}
+                              editorState={EditorState.createWithContent(
+                                convertFromRaw(
+                                  JSON.parse(leaveData.description)
+                                )
+                              )}
+                            />
+                          )}
                         </div>
                         <div
                           className="tab-pane p-3"
                           id="profile1"
                           role="tabpanel"
                         >
-                          <p className="font-14 mb-0">
-                            Food truck fixie locavore, accusamus mcsweeney's
-                            marfa nulla single-origin coffee squid. Exercitation
-                            +1 labore velit, blog sartorial PBR leggings next
-                            level wes anderson artisan four loko farm-to-table
-                            craft beer twee. Qui photo booth letterpress,
-                            commodo enim craft beer mlkshk aliquip jean shorts
-                            ullamco ad vinyl cillum PBR. Homo nostrud organic,
-                            assumenda labore aesthetic magna delectus mollit.
-                            Keytar helvetica VHS salvia yr, vero magna velit
-                            sapiente labore stumptown. Vegan fanny pack odio
-                            cillum wes anderson 8-bit.
-                          </p>
+                          {leaveData && leaveData.adminRemark && (
+                            <Editor
+                              toolbarClassName="toolbarClassName"
+                              wrapperClassName="wrapperClassName"
+                              editorClassName="editorClass"
+                              toolbarStyle={{ display: "none" }}
+                              readOnly
+                              editorStyle={{
+                                minHeight: "300px",
+                              }}
+                              editorState={EditorState.createWithContent(
+                                convertFromRaw(
+                                  JSON.parse(leaveData.adminRemark)
+                                )
+                              )}
+                            />
+                          )}
                         </div>
                       </div>
                     </div>

@@ -4,7 +4,7 @@ import AUX from "../../../../hoc/Aux_";
 import LeaveService from "../../../../services/LeaveService";
 import moment from "moment";
 
-const LeaveList = () => {
+const LeaveList = (props) => {
   const [dataa, setData] = useState({
     columns: [
       {
@@ -25,22 +25,16 @@ const LeaveList = () => {
         // sort: "asc",
         // width: 200,
       },
+
       // {
-      //   label: "Description",
-      //   field: "description",
+      //   label: "Admin Remarks",
+      //   field: "aReamrks",
       //   // sort: "asc",
       //   // width: 100,
       // },
 
       {
-        label: "Admin Remarks",
-        field: "aReamrks",
-        // sort: "asc",
-        // width: 100,
-      },
-
-      {
-        label: "Admin Action",
+        label: "Admin Action Date",
         field: "aAction",
         // sort: "asc",
         // width: 100,
@@ -48,6 +42,12 @@ const LeaveList = () => {
       {
         label: "Status",
         field: "status",
+        // sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Action",
+        field: "action",
         // sort: "asc",
         // width: 100,
       },
@@ -70,17 +70,40 @@ const LeaveList = () => {
             lType: item.type ? item.type.name : "N/A",
             dates: item.dates
               ? item.dates.map((item, index) => {
-                  if (index === 0) {
-                    return moment(item.date).format("DD/MM/YY");
-                  } else if (index >= 0) {
-                    return `, ${moment(item.date).format("DD/MM/YY")} `;
-                  }
+                  return (
+                    <div>
+                      {moment(item.date).format("LL")}
+                      <br />
+                    </div>
+                  );
+                  // if (index === 0) {
+                  //   return (
+
+                  //   );
+                  // // } else if (index >= 0) {
+                  // //   return `, ${moment(item.date).format("LL")} `;
+                  // // }
                 })
               : "none",
-            description: item.description ? item.description : "N/A",
-            aReamrks: item.adminRemark ? item.adminRemark : "N/A",
-            aAction: item.adminActionDate ? item.adminActionDate : "N/A",
+            // description: item.description ? item.description : "N/A",
+            // aReamrks: item.adminRemark ? item.adminRemark : "N/A",
+            aAction: item.adminActionDate
+              ? moment(item.adminActionDate).format("LL")
+              : "N/A",
             status: item.status ? item.status : "N/A",
+            action: (
+              <div className="row flex-nowrap justify-content-center">
+                <i
+                  className="mdi mdi-eye 
+                  iconsS my-primary-icon"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/single-detail/" + item._id,
+                    });
+                  }}
+                />
+              </div>
+            ),
           });
         });
         console.log("Leaves", updatedData);
