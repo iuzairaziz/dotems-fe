@@ -22,7 +22,7 @@ const NatureForm = (props) => {
               })
               .catch((err) => {
                 props.toggle();
-                NatureService.handleError();
+                NatureService.handleCustomMessage(err.response.data);
               })
           : NatureService.addNature({ name: values.title })
               .then((res) => {
@@ -31,7 +31,7 @@ const NatureForm = (props) => {
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {
-                NatureService.handleError();
+                NatureService.handleCustomMessage(err.response.data);
               });
       }}
     >

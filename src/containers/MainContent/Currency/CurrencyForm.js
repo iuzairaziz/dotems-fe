@@ -25,7 +25,7 @@ const CurrencyForm = (props) => {
               })
               .catch((err) => {
                 props.toggle();
-                CurrencyService.handleError();
+                CurrencyService.handleCustomMessage(err.response.data);
               })
           : CurrencyService.addCurrency({
               name: values.name,
@@ -37,7 +37,7 @@ const CurrencyForm = (props) => {
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {
-                CurrencyService.handleError();
+                CurrencyService.handleCustomMessage(err.response.data);
               });
       }}
     >

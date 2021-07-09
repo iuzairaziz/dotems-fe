@@ -22,7 +22,7 @@ const PlatformForm = (props) => {
               })
               .catch((err) => {
                 props.toggle();
-                PlatformService.handleError();
+                PlatformService.handleCustomMessage(err.response.data);
               })
           : PlatformService.addPlatform({ name: values.title })
               .then((res) => {
@@ -31,7 +31,7 @@ const PlatformForm = (props) => {
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {
-                PlatformService.handleError();
+                PlatformService.handleCustomMessage(err.response.data);
               });
       }}
     >
