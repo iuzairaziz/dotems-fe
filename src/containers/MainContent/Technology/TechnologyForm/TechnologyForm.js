@@ -23,7 +23,7 @@ const TechnologyForm = (props) => {
               })
               .catch((err) => {
                 props.toggle();
-                TechnologyService.handleError();
+                TechnologyService.handleCustomMessage(err.response.data);
               })
           : TechnologyService.addTechnology({ name: values.title })
               .then((res) => {
@@ -32,7 +32,7 @@ const TechnologyForm = (props) => {
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {
-                TechnologyService.handleError();
+                TechnologyService.handleCustomMessage(err.response.data);
               });
       }}
     >

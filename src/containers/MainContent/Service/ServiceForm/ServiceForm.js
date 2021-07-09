@@ -22,7 +22,7 @@ const ServiceForm = (props) => {
               })
               .catch((err) => {
                 props.toggle();
-                ServiceServices.handleError();
+                ServiceServices.handleCustomMessage(err.response.data);
               })
           : ServiceServices.addService({ name: values.title })
               .then((res) => {
@@ -31,7 +31,7 @@ const ServiceForm = (props) => {
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {
-                ServiceServices.handleError();
+                ServiceServices.handleCustomMessage(err.response.data);
               });
       }}
     >

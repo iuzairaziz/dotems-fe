@@ -22,7 +22,7 @@ const AccessoryForm = (props) => {
               })
               .catch((err) => {
                 props.toggle();
-                AccessoryService.handleError();
+                AccessoryService.handleCustomMessage(err.response.data);
               })
           : AccessoryService.addAccessory({ name: values.title })
               .then((res) => {
@@ -31,7 +31,7 @@ const AccessoryForm = (props) => {
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {
-                AccessoryService.handleError();
+                AccessoryService.handleCustomMessage(err.response.data);
               });
       }}
     >

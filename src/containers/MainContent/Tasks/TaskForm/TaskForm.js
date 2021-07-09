@@ -148,7 +148,7 @@ const TaskForm = (props) => {
                 props.toggle();
               })
               .catch((err) => {
-                TaskService.handleError();
+                TaskService.handleCustomMessage(err.response.data);
                 props.toggle();
               })
           : TaskService.addTask({
@@ -170,7 +170,7 @@ const TaskForm = (props) => {
                 TaskService.handleMessage("add");
               })
               .catch((err) => {
-                TaskService.handleError();
+                TaskService.handleCustomMessage(err.response.data);
               });
         console.log("project", values.project);
       }}

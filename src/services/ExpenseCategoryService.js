@@ -47,6 +47,9 @@ class ExpenseService {
   handleError() {
     toast("Something went wrong!");
   }
+  handleCustomMessage(message) {
+    toast(message.toString());
+  }
 }
 
 export default new ExpenseService();

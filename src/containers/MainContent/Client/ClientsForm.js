@@ -74,7 +74,7 @@ const ClientsForm = (props) => {
                 props.toggle();
               })
               .catch((err) => {
-                ClientService.handleError();
+                ClientService.handleCustomMessage(err.response.data);
                 props.toggle();
               })
           : ClientService.addClient({
@@ -92,7 +92,7 @@ const ClientsForm = (props) => {
                 ClientService.handleMessage("add");
               })
               .catch((err) => {
-                ClientService.handleError();
+                ClientService.handleCustomMessage(err.response.data);
               });
         console.log("country", values.country);
       }}

@@ -39,6 +39,9 @@ class ServiceService {
   handleError() {
     toast("Something Went Wrong!");
   }
+  handleCustomMessage(message) {
+    toast(message.toString());
+  }
 }
 
 export default new ServiceService();

@@ -143,7 +143,7 @@ const MachineForm = (props) => {
               })
               .catch((err) => {
                 props.toggle();
-                MachineService.handleError();
+                MachineService.handleCustomMessage(err.response.data);
               })
           : MachineService.addMachine({
               name: values.machineName,
@@ -182,7 +182,7 @@ const MachineForm = (props) => {
               })
               .catch((err) => {
                 console.log("machine err", err);
-                MachineService.handleError();
+                MachineService.handleCustomMessage(err.response.data);
               });
       }}
     >

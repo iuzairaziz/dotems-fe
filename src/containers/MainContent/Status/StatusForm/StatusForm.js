@@ -23,7 +23,7 @@ const StatusForm = (props) => {
               })
               .catch((err) => {
                 props.toggle();
-                StatusService.handleError();
+                StatusService.handleCustomMessage(err.response.data);
               })
           : StatusService.addStatus({ name: values.status })
               .then((res) => {
@@ -32,7 +32,7 @@ const StatusForm = (props) => {
                 actions.setFieldValue("status", "");
               })
               .catch((err) => {
-                StatusService.handleError();
+                StatusService.handleCustomMessage(err.response.data);
               });
       }}
     >
