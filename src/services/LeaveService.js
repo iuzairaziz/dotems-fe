@@ -41,6 +41,10 @@ class LeaveService {
     return axios.post(this.config.apiBaseUrl + "leave/");
   }
 
+  leaveById(id) {
+    return axios.get(this.config.apiBaseUrl + "leave/" + id);
+  }
+
   handleMessage(type) {
     if (type === "add") toast("Successfully Added Leave Type");
     else if (type === "update") toast("Successfully Updated Leave Type");
