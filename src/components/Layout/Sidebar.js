@@ -118,6 +118,25 @@ class sidebar extends Component {
               },
             ],
           },
+          {
+            name: "leave",
+            icon: "mdi-calendar-multiple-check",
+            tab: "Leave",
+            subMenus: [
+              {
+                routeName: this.baseUrl + "leave-form",
+                label: "Apply Leave",
+              },
+              {
+                routeName: this.baseUrl + "leave-list",
+                label: "Leave List",
+              },
+              {
+                routeName: this.baseUrl + "leave-details",
+                label: "My Leave List",
+              },
+            ],
+          },
         ]
       : []),
   ];

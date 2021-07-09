@@ -60,7 +60,7 @@ const LeaveList = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Tasks</h4>
+                  <h4 className="mt-0 header-title">Leaves</h4>
 
                   <MDBDataTableV5
                     // scrollX
