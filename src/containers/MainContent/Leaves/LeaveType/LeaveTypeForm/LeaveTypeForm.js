@@ -3,7 +3,7 @@ import { Button } from "reactstrap";
 import { Formik } from "formik";
 
 import shortValidations from "../../../../../validations/short-validations";
-import LeaveTypeService from "../../../../../services/LeaveTypeService";
+import LeaveService from "../../../../../services/LeaveService";
 const LeaveTypeForm = (props) => {
   return (
     <Formik
@@ -14,30 +14,30 @@ const LeaveTypeForm = (props) => {
       validationSchema={shortValidations.leaveTypeValidation}
       onSubmit={(values, actions) => {
         props.editable
-          ? LeaveTypeService.updateLeaveType(props.leaveType._id, {
+          ? LeaveService.updateLeaveType(props.leaveType._id, {
               name: values.name,
               totalLeaves: values.number,
             })
               .then((res) => {
                 props.toggle();
-                LeaveTypeService.handleMessage("update");
+                LeaveService.handleMessage("update");
               })
               .catch((err) => {
                 props.toggle();
-                LeaveTypeService.handleCustomMessage(err.response.data);
+                LeaveService.handleCustomMessage(err.response.data);
               })
-          : LeaveTypeService.addLeaveType({
+          : LeaveService.addLeaveType({
               name: values.name,
               totalLeaves: values.number,
             })
               .then((res) => {
                 props.toggle && props.toggle();
-                LeaveTypeService.handleMessage("add");
+                LeaveService.handleMessage("add");
                 actions.setFieldValue("name", "");
                 actions.setFieldValue("number", "");
               })
               .catch((err) => {
-                LeaveTypeService.handleCustomMessage(err.response.data);
+                LeaveService.handleCustomMessage(err.response.data);
               });
       }}
     >
