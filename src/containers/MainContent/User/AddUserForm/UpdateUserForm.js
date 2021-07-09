@@ -95,7 +95,7 @@ const UpdateUser = (props) => {
             UserService.handleMessage("update");
           })
           .catch((err) => {
-            UserService.handleError();
+            UserService.handleCustomMessage(err.response.data);
           });
       }}
     >

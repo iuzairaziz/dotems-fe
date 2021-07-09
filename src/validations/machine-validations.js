@@ -10,7 +10,7 @@ class MachineValidation {
       processor: Yup.string().required("Required!"),
       memory: Yup.string().required("Required!"),
       graphics: Yup.string().required("Required!"),
-      accessories: Yup.array().required("Required!"),
+      accessories: Yup.array(),
       notes: Yup.object().required("Required!"),
       machineNo: Yup.number("Enter A Number").required("Required!"),
       storage: Yup.string().required("Required!"),

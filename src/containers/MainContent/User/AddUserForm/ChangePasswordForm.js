@@ -31,7 +31,7 @@ const ChangePasswordForm = (props) => {
             UserService.handleCustomMessage(res.data);
           })
           .catch((err) => {
-            UserService.handleError();
+            UserService.handleCustomMessage(err.response.data);
           });
       }}
     >

@@ -101,7 +101,7 @@ const UserForm = (props) => {
                 props.toggle();
               })
               .catch((err) => {
-                UserService.handleError();
+                UserService.handleCustomMessage(err.response.data);
                 props.toggle();
               })
           : UserService.register({
@@ -126,7 +126,7 @@ const UserForm = (props) => {
                 );
               })
               .catch((err) => {
-                UserService.handleError();
+                UserService.handleCustomMessage(err.response.data);
               });
         console.log("clientName", values.clientName);
         console.log("platform", values.platform);

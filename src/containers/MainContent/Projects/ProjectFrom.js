@@ -364,7 +364,7 @@ const ProjectForm = (props) => {
                 props.toggle();
               })
               .catch((err) => {
-                ProjectService.handleError();
+                ProjectService.handleCustomMessage(err.response.data);
                 props.toggle();
               })
           : ProjectService.addProject({
@@ -398,7 +398,7 @@ const ProjectForm = (props) => {
                 ProjectService.handleMessage("add");
               })
               .catch((err) => {
-                ProjectService.handleError();
+                ProjectService.handleCustomMessage(err.response.data);
               });
         console.log("clientName", values.clientName);
         console.log("platform", values.platform);

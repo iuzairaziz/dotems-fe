@@ -40,7 +40,7 @@ class Login extends Component {
                 window.location.reload();
               })
               .catch((err) => {
-                UserService.handleError();
+                UserService.handleCustomMessage(err.response.data);
               });
           }}
         >

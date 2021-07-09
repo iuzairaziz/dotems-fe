@@ -35,7 +35,7 @@ const ExpensForm = (props) => {
                 props.toggle();
               })
               .catch((err) => {
-                ProjectService.handleError();
+                ProjectService.handleCustomMessage(err.response.data);
                 props.toggle();
               })
           : ExpenseCategoryService.addExpenseCategory({
@@ -45,7 +45,7 @@ const ExpensForm = (props) => {
                 ExpenseCategoryService.handleMessage("add");
               })
               .catch((err) => {
-                ExpenseCategoryService.handleError();
+                ExpenseCategoryService.handleCustomMessage(err.response.data);
               });
       }}
     >
