@@ -22,6 +22,10 @@ class RequestTypeService {
     return axios.get(this.config.apiBaseUrl + "request/show-request");
   }
 
+  requestById(id) {
+    return axios.get(this.config.apiBaseUrl + "request/" + id);
+  }
+
   updateRequest(id, formData) {
     return axios.put(this.config.apiBaseUrl + "request/" + id, formData);
   }

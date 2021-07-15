@@ -68,6 +68,7 @@ import NewLeave from "../MainContent/Leaves/NewLeave/NewLeave";
 import LeaveDetails from "../MainContent/Leaves/LeaveDetails/LeaveDetails";
 import LeaveList from "../MainContent/Leaves/LeaveList/LeaveList";
 import SingleDetail from "../MainContent/Leaves/LeaveDetails/SingleDetail/SingleDetail";
+import SingleRequest from "../MainContent/Request/SingleRequest/SingleRequest";
 
 const mainbuilder = (props) => {
   const baseUrl = props.match.url;
@@ -95,6 +96,11 @@ const mainbuilder = (props) => {
           <Route exact path="/leave-form" component={NewLeave} />
           <Route exact path="/leave-details" component={LeaveDetails} />
           <Route exact path="/single-detail/:id" component={SingleDetail} />
+          <Route
+            exact
+            path="/request-single-detail/:id"
+            component={SingleRequest}
+          />
           <Route exact path="/add-user" component={AddUser} />
           <Route exact path="/task-details/:id" component={TaskDetails} />
           <Route exact path="/subtask-details" component={TaskDetails} />
