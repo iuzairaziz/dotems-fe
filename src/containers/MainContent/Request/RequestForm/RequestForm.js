@@ -57,6 +57,7 @@ const RequestForm = (props) => {
       }}
       validationSchema={shortValidations.requestValidation}
       onSubmit={(values, actions) => {
+        console.log(actions);
         props.editable
           ? RequestService.updateRequest(props.Request._id, {
               requestType: values.requestType.value,
@@ -66,11 +67,11 @@ const RequestForm = (props) => {
             })
               .then((res) => {
                 props.toggle();
-                RequestTypeService.handleMessage("update");
+                RequestService.handleMessage("update");
               })
               .catch((err) => {
                 props.toggle();
-                RequestTypeService.handleCustomMessage(err.response.data);
+                RequestService.handleCustomMessage(err.response.data);
               })
           : RequestService.addRequest({
               user: userId._id,
@@ -81,11 +82,11 @@ const RequestForm = (props) => {
             })
               .then((res) => {
                 props.toggle && props.toggle();
-                RequestTypeService.handleMessage("add");
+                RequestService.handleMessage("add");
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {
-                RequestTypeService.handleCustomMessage(err.response.data);
+                RequestService.handleCustomMessage(err.response.data);
               });
       }}
     >
