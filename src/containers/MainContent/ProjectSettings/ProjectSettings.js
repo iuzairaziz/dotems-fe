@@ -63,13 +63,13 @@ const ProjectSettings = () => {
       name: "Leave Type",
       addRoute: "add-leave-type",
       viewRoute: "view-leave-type",
-      icon: "mdi-cash-multiple",
+      icon: " mdi-calendar-plus",
     },
     {
       name: "Request Type",
       addRoute: "add-request-type",
       viewRoute: "view-request-type",
-      icon: "mdi-cash-multiple",
+      icon: "mdi-shape-plus",
     },
   ];
 

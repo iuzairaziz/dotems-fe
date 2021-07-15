@@ -120,7 +120,7 @@ class sidebar extends Component {
           },
           {
             name: "request_menu",
-            icon: "mdi-responsive",
+            icon: "mdi-message-draw",
             tab: "Request",
             subMenus: [
               {

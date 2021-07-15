@@ -408,7 +408,7 @@ const TaskDetail = (props) => {
               </Modal>
             </div>
             <div className="col-lg-12 gap">
-              <ul className="nav nav-tabs" role="tablist">
+              <ul className="nav nav-tabs nav-tabs-custom" role="tablist">
                 <li className="nav-item">
                   <a
                     className="nav-link active"

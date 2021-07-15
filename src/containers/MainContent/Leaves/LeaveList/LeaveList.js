@@ -92,7 +92,7 @@ const LeaveList = (props) => {
               : "N/A",
             status: item.status ? item.status : "N/A",
             action: (
-              <div className="row flex-nowrap justify-content-center">
+              <div className="row flex-nowrap justify-content-start">
                 <i
                   className="mdi mdi-eye 
                   iconsS my-primary-icon"

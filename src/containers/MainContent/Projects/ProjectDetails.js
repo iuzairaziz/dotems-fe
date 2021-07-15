@@ -420,7 +420,7 @@ const ProjectDetails = (props) => {
                         </div>
                       </div>
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                       <label>Description</label>
                       <div>
                         <Editor
@@ -442,13 +442,95 @@ const ProjectDetails = (props) => {
                           }
                         />
                       </div>
+                    </div> */}
+                    <div className="col-lg-12">
+                      <ul
+                        className="nav nav-tabs nav-tabs-custom"
+                        role="tablist"
+                      >
+                        <li className="nav-item">
+                          <a
+                            className="nav-link active"
+                            data-toggle="tab"
+                            href="#home1"
+                            role="tab"
+                          >
+                            <span className="d-none d-md-block">
+                              Description
+                            </span>
+                            <span className="d-block d-md-none">
+                              <i className="mdi mdi-home-variant h5" />
+                            </span>
+                          </a>
+                        </li>
+                        <li className="nav-item">
+                          <a
+                            className="nav-link"
+                            data-toggle="tab"
+                            href="#profile1"
+                            role="tab"
+                          >
+                            <span className="d-none d-md-block">
+                              Project Tasks
+                            </span>
+                            <span className="d-block d-md-none">
+                              <i className="mdi mdi-account h5" />
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+
+                      <div className="tab-content">
+                        <div
+                          className="tab-pane active p-3"
+                          id="home1"
+                          role="tabpanel"
+                        >
+                          <Editor
+                            toolbarClassName="toolbarClassName"
+                            wrapperClassName="wrapperClassName"
+                            editorClassName="editorClass"
+                            toolbarStyle={{ display: "none" }}
+                            readOnly
+                            editorStyle={{
+                              minHeight: "300px",
+                            }}
+                            editorState={
+                              projectData &&
+                              EditorState.createWithContent(
+                                convertFromRaw(
+                                  JSON.parse(projectData.description)
+                                )
+                              )
+                            }
+                          />
+                        </div>
+                        <div
+                          className="tab-pane p-3"
+                          id="profile1"
+                          role="tabpanel"
+                        >
+                          <MDBDataTableV5
+                            // scrollX
+                            fixedHeader={true}
+                            responsive
+                            striped
+                            bordered
+                            searchTop
+                            hover
+                            // autoWidth
+                            data={tabledata}
+                            theadColor="#000"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-12">
+          {/* <div className="col-12">
             <div className="card m-b-20">
               <div className="card-body">
                 <h4 className="mt-0 header-title">Project Tasks</h4>
@@ -467,7 +549,7 @@ const ProjectDetails = (props) => {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </AUX>
     );
