@@ -2,8 +2,14 @@ import React, { Component, useState, useEffect } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import "./LeaveDetails.scss";
+import LeaveService from "../../../../services/LeaveService";
+import UserService from "../../../../services/UserService";
+import moment from "moment";
 
-const LeaveDetails = () => {
+const LeaveDetails = (props) => {
+  let loggedUser = UserService.userLoggedInInfo();
+  console.log("logged user", loggedUser);
+
   const [dataa, setData] = useState({
     columns: [
       {
@@ -42,6 +48,51 @@ const LeaveDetails = () => {
     ],
     rows: [],
   });
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    LeaveService.allUserLeaves(loggedUser._id)
+      .then((res) => {
+        let updatedData = { ...dataa };
+        updatedData.rows = [];
+        res.data.map((item, index) => {
+          updatedData.rows.push({
+            type: item.type ? item.type.name : "N/A",
+            postingDate: item.createdAt ? item.createdAt : "N/A",
+            dates: item.dates
+              ? item.dates.map((item, index) => {
+                  return (
+                    <div>
+                      {moment(item.date).format("LL")}
+                      <br />
+                    </div>
+                  );
+                })
+              : "none",
+            action: (
+              <div className="row flex-nowrap justify-content-start">
+                <i
+                  className="mdi mdi-eye 
+                  iconsS my-primary-icon"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/single-detail/" + item._id,
+                    });
+                  }}
+                />
+              </div>
+            ),
+          });
+        });
+        console.log("Leaves", updatedData);
+        console.log("Leaves info", dataa);
+        setData(updatedData);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <AUX>
