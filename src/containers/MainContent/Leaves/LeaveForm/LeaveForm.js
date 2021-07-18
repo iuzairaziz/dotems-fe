@@ -17,7 +17,10 @@ const LeaveForm = (props) => {
   const editable = props.editable;
   const project = props.project;
   const [leaveTypes, setLeaveTypes] = useState([]);
+  const [sandwhichSpan, setSandwhichSpan] = useState(false);
+  const [leaveCount, setLeaveCount] = useState(0);
   const loggedInUser = userService.userLoggedInInfo();
+
   useEffect(() => {
     getleaveTypes();
   }, []);
@@ -60,6 +63,7 @@ const LeaveForm = (props) => {
         })
           .then((res) => {
             props.toggle && props.toggle();
+            actions.resetForm();
             LeaveService.handleMessage("add");
           })
           .catch((err) => {
@@ -76,6 +80,7 @@ const LeaveForm = (props) => {
                 <label className="control-label">Leave Type</label>
                 <Select
                   name="leaveType"
+                  className="zIndex"
                   onBlur={props.handleBlur}
                   value={props.values.leaveType}
                   onChange={(selected) => {
@@ -90,18 +95,99 @@ const LeaveForm = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
-                <label>Leave Dates</label>
+                <div className="row">
+                  <div className="col">
+                    <label>Leave Dates</label>
+                  </div>
+                  <div className="col d-flex justify-content-end">
+                    <div>Leave Count :- {leaveCount}</div>
+                  </div>
+                </div>
                 <div>
                   <div className="input-group-multi">
                     <MultipleDatePicker
-                      value={props.values.leaveDates}
                       id="uniqueTxt"
                       name="leaveDates"
                       onBlur={props.handleBlur}
                       onSubmit={(dates) => {
-                        props.setFieldValue("leaveDates", dates);
+                        setSandwhichSpan(false);
+                        let formattedDates = [];
+                        console.log("dass", dates);
+                        dates.map((item) => {
+                          formattedDates.push(
+                            moment(item).format("YYYY-MM-DD")
+                          );
+                        });
+                        console.log(formattedDates);
+                        let arr = [];
+
+                        dates.map((date) => {
+                          var dt = moment(date).format("YYYY-MM-DD");
+                          arr.push(dt);
+                        });
+
+                        let sandwhich = arr.filter(
+                          (item) => moment(item).format("dddd") === "Friday"
+                        );
+                        let sandwhich1 = arr.filter(
+                          (item) => moment(item).format("dddd") === "Monday"
+                        );
+                        console.log("Length", sandwhich.length);
+                        for (
+                          let counter = 0;
+                          counter < sandwhich.length;
+                          counter++
+                        ) {
+                          if (
+                            moment(sandwhich[counter]).format("dddd") ===
+                            "Friday"
+                          ) {
+                            if (
+                              moment(sandwhich1[counter]).format("dddd") ===
+                              "Monday"
+                            ) {
+                              var new_date = moment(
+                                sandwhich[counter],
+                                "YYYY-MM-DD"
+                              )
+                                .add("days", 1)
+                                .format("YYYY-MM-DD");
+                              var new_date1 = moment(
+                                sandwhich[counter],
+                                "YYYY-MM-DD"
+                              )
+                                .add("days", 2)
+                                .format("YYYY-MM-DD");
+                              console.log(new_date);
+                              console.log(new_date1);
+
+                              let finalSandwhich = [];
+                              finalSandwhich.push(new_date, new_date1);
+                              finalSandwhich.map((item) => {
+                                formattedDates.push(item);
+                              });
+                              console.log("Formatted Dates", formattedDates);
+                              setSandwhichSpan(true);
+                            }
+                          } else {
+                            formattedDates.pop();
+                          }
+                        }
+                        let dateObjs = [];
+                        formattedDates.map((item) => {
+                          dateObjs.push(new Date(item));
+                        });
+                        props.setFieldValue("leaveDates", formattedDates);
+                        setLeaveCount(formattedDates.length);
                       }}
                     />
+                    <span
+                      className={`${
+                        sandwhichSpan ? "sandwhich" : "sandwhich2"
+                      }`}
+                    >
+                      It will be considered a sandwhich
+                    </span>
                     <span id="err">
                       {props.touched.leaveDates && props.errors.leaveDates}
                     </span>
