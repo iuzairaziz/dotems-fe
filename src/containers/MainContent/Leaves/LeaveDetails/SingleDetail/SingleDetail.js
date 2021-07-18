@@ -409,6 +409,15 @@ const SingleDetail = (props) => {
                 {props.touched.description && props.errors.description}
               </span> */}
             </div>
+            <Button
+                color="success"
+                className="mt-3 my-primary-button"
+                onClick={() => {
+                 
+                }}
+              >
+                Submit
+              </Button>
                     </form>
                 </ModalBody>
               </Modal>
