@@ -273,6 +273,20 @@ const SingleDetail = (props) => {
                             </span>
                           </a>
                         </li>
+                          
+                        <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    data-toggle="tab"
+                    href="#settings"
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">User Tasks</span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-settings h5" />
+                    </span>
+                  </a>
+                </li>
                         <li className="nav-item">
                           <a
                             className="nav-link"
@@ -288,14 +302,15 @@ const SingleDetail = (props) => {
                             </span>
                           </a>
                         </li>
-                        <li className="nav-item">
+                      
+                <li className="nav-item">
                   <a
                     className="nav-link"
                     data-toggle="tab"
-                    href="#settings"
+                    href="#settings1"
                     role="tab"
                   >
-                    <span className="d-none d-md-block">User Tasks</span>
+                    <span className="d-none d-md-block">PM Remarks</span>
                     <span className="d-block d-md-none">
                       <i className="mdi mdi-settings h5" />
                     </span>
@@ -364,7 +379,25 @@ const SingleDetail = (props) => {
                             theadColor="#000"
                           />
                 </div>
-                       
+                <div className="tab-pane p-3" id="settings1" role="tabpanel">
+                {leaveData && leaveData.adminRemark && (
+                            <Editor
+                              toolbarClassName="toolbarClassName"
+                              wrapperClassName="wrapperClassName"
+                              editorClassName="editorClass"
+                              toolbarStyle={{ display: "none" }}
+                              readOnly
+                              editorStyle={{
+                                minHeight: "300px",
+                              }}
+                              editorState={EditorState.createWithContent(
+                                convertFromRaw(
+                                  JSON.parse(leaveData.adminRemark)
+                                )
+                              )}
+                            />
+                          )}
+                </div>
                       </div>
                     </div>
                     <Modal style={{ maxWidth: "70%" }} isOpen={modalEdit} toggle={toggleEdit}>
