@@ -6,19 +6,139 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertFromRaw, EditorState } from "draft-js";
 import LeaveService from "../../../../../services/LeaveService";
 import moment from "moment";
+import { MDBDataTableV5, MDBBtn } from "mdbreact";
+import { Link } from "react-router-dom";
+import UserService from "../../../../../services/UserService"
+import { Progress } from "reactstrap";
 
 const SingleDetail = (props) => {
-  const [leaveData, setData] = useState();
+  const [leaveData, setDataa] = useState();
   const leaveID = props.match.params.id;
+  let loggedUser = UserService.userLoggedInInfo();
+  console.log("logged user", loggedUser);
+  const [userData, setUserData] = useState();
+    const [taskData, setTaskData] = useState([]);
+
+  const [dataa, setData] = useState({
+    columns: [
+      {
+        label: "Title",
+        field: "title",
+        sort: "asc",
+        // width: 150,
+      },
+      {
+        label: "Project",
+        field: "project",
+        sort: "asc",
+        // width: 270,
+      },
+      {
+        label: "Estimated Hours",
+        field: "estimatedHrs",
+        sort: "asc",
+        // width: 200,
+      },
+      {
+        label: "Project Ratio",
+        field: "projectRatio",
+        sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Status",
+        field: "status",
+        sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Team Lead",
+        field: "teamLead",
+        sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Added By",
+        field: "addedBy",
+        sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Start Time",
+        field: "startTime",
+        sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "End Time",
+        field: "endTime",
+        sort: "asc",
+        // width: 100,
+      },
+    ],
+    rows: [],
+  });
+
+  const getUserTask = (id) => {
+    UserService.getUserById(loggedUser._id)
+      .then((res) => {
+        const { tasks, user } = res.data;
+        console.log(tasks);
+        setUserData(user);
+        setTaskData(tasks);
+        let data = { ...dataa };
+        data.rows = [];
+        tasks.map((item, index) => {
+          data.rows.push({
+            title: item.name ? item.name : "none",
+            project: (
+              <Link to={`/projectdetails/${item.project._id}`}>
+                {" "}
+                {item.project ? item.project.name : "none"}{" "}
+              </Link>
+            ),
+            estimatedHrs: item.estHrs ? item.estHrs.toFixed(2) : "none",
+            projectRatio: item.projectRatio ? (
+              <Progress color="teal" value={item.projectRatio}>
+                {item.projectRatio + "%"}
+              </Progress>
+            ) : (
+              "N/A"
+            ),
+            status: item.status ? item.status : "none",
+            teamLead: item.teamLead ? (
+              <Link to={`/userdetails/${item.teamLead._id}`}>
+                {" "}
+                {item.teamLead.name}{" "}
+              </Link>
+            ) : (
+              "none"
+            ),
+            addedBy: item.addedBy ? item.addedBy.name : "none",
+            startTime: item.startTime
+              ? moment(item.startTime).format("DD/MMM/YYYY")
+              : "none",
+            endTime: item.endTime
+              ? moment(item.endTime).format("DD/MMM/YYYY")
+              : "none",
+          });
+        });
+        setData(data);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
 
   useEffect(() => {
     getData(leaveID);
+    getUserTask()
   }, []);
 
   const getData = (id) => {
     LeaveService.leaveById(id)
       .then((res) => {
-        setData(res.data);
+        setDataa(res.data);
       })
       .catch((err) => {
         console.log("error", err);
@@ -127,6 +247,7 @@ const SingleDetail = (props) => {
                             }
                           })}
                       </span>
+                      
                     </div>
                     <div className="col-lg-12">
                       <ul
@@ -163,6 +284,19 @@ const SingleDetail = (props) => {
                             </span>
                           </a>
                         </li>
+                        <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    data-toggle="tab"
+                    href="#settings"
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">User Tasks</span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-settings h5" />
+                    </span>
+                  </a>
+                </li>
                       </ul>
 
                       <div className="tab-content">
@@ -212,6 +346,21 @@ const SingleDetail = (props) => {
                             />
                           )}
                         </div>
+                        <div className="tab-pane p-3" id="settings" role="tabpanel">
+                        <MDBDataTableV5
+                            // scrollX
+                            fixedHeader={true}
+                            responsive
+                            striped
+                            bordered
+                            searchTop
+                            hover
+                            // autoWidth
+                            data={dataa}
+                            theadColor="#000"
+                          />
+                </div>
+                       
                       </div>
                     </div>
                   </div>

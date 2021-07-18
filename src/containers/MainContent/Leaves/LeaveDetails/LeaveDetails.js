@@ -9,7 +9,7 @@ import moment from "moment";
 const LeaveDetails = (props) => {
   let loggedUser = UserService.userLoggedInInfo();
   console.log("logged user", loggedUser);
-  const [leaveData, setLeaveData] = useState();
+  const [leaveData, setLeaveData] = useState([]);
 
   const [dataa, setData] = useState({
     columns: [
@@ -58,9 +58,9 @@ const LeaveDetails = (props) => {
   const getLeaveData = () => {
     LeaveService.remainingLeaveById(loggedUser._id).then((res) => {
       const leaves = res.data;
-      
-       setLeaveData(leaves);
+      setLeaveData(leaves);
       console.log("leave data", leaves)
+     
     })
   }
 
@@ -105,6 +105,8 @@ const LeaveDetails = (props) => {
       .catch((err) => console.log(err));
   };
 
+  console.log("leave name", leaveData)
+
   return (
     <AUX>
       <div className="LeaveDetails">
@@ -117,14 +119,27 @@ const LeaveDetails = (props) => {
                     <h3>Leave Details</h3>
 
                     <div className="row main">
-                      <div className="col">
-                        <h5>{leaveData && leaveData.name}</h5>
-                        
+                    {leaveData.map ((item, index) => {
+                      return (
+                        <div className="col col-md-3">  
+                        <h5>{ item.name}</h5>
+                        <div className="my-border border-top border-bottom">
+                        <div>
                         <span>Total Leave: </span>
-                        <span className="sub">{leaveData && leaveData.totalLeaves}</span>
+                        <span className="sub">{ item.totalLeaves}</span>
+                        </div>
+                        <div>
+                        <span>Used Leaves: </span>
+                        <span className="sub2">{item.leaves && item.leaves.usedLeaves ? item.leaves.usedLeaves : "0" }</span>
+                        </div>
+                        <div>
                         <span>Remaining Leave: </span>
-                        <span className="sub1">{leaveData && leaveData.remaining}</span>
+                        <span className="sub1">{item.remaining ? item.remaining : item.totalLeaves}</span>
+                        </div></div>
                       </div>
+                      )
+                    })}
+                     
                       {/* <div className="col">
                         <h5>Casual Leave: 12</h5>
                       </div>
@@ -135,7 +150,7 @@ const LeaveDetails = (props) => {
                         <h5>Short Leave: 12</h5>
                       </div> */}
                     </div>
-                    <hr />
+                    {/* <hr /> */}
                     {/* <div className="row">
                       <div className="col">
                         <span>Used Leave: </span>
@@ -172,7 +187,7 @@ const LeaveDetails = (props) => {
                         <span className="sub1">9</span>
                       </div>
                     </div> */}
-                    <hr />
+                    {/* <hr /> */}
                     <h3 className="main">Leave Table</h3>
                     <div className="row">
                       <div className="col-12">
