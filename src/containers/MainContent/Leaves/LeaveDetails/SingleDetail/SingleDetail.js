@@ -10,6 +10,9 @@ import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import { Link } from "react-router-dom";
 import UserService from "../../../../../services/UserService"
 import { Progress } from "reactstrap";
+import Select from "react-select";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+
 
 const SingleDetail = (props) => {
   const [leaveData, setDataa] = useState();
@@ -18,6 +21,7 @@ const SingleDetail = (props) => {
   console.log("logged user", loggedUser);
   const [userData, setUserData] = useState();
     const [taskData, setTaskData] = useState([]);
+    const [modalEdit, setModalEdit] = useState(false);
 
   const [dataa, setData] = useState({
     columns: [
@@ -78,6 +82,8 @@ const SingleDetail = (props) => {
     ],
     rows: [],
   });
+
+  const toggleEdit = () => setModalEdit(!modalEdit);
 
   const getUserTask = (id) => {
     UserService.getUserById(loggedUser._id)
@@ -156,7 +162,22 @@ const SingleDetail = (props) => {
               <div className="card m-b-20">
                 <div className="card-body">
                   <h4 className="mt-0 header-title" />
-                  <h4>Leave Details</h4>
+                  <div className="row">
+                  <div className="col-10">
+                  <h4>Leave Details</h4> </div>
+                  <div className="col approval">
+              <Button
+                color="success"
+                className="mt-3 my-primary-button"
+                onClick={() => {
+                 
+                  toggleEdit();
+                }}
+              >
+                Take Action
+              </Button>
+            </div>
+            </div>
                   <hr />
                   <div className="row main">
                     <div className="col-2">
@@ -195,24 +216,7 @@ const SingleDetail = (props) => {
                       </span>
                     </div>
 
-                    {/* <div className="col-2 sub">
-                      <span>Already Approved: </span>
-                    </div>
-                    <div className="col-2">
-                      <span>{leaveData && leaveData.user.name}</span>
-                    </div>
-                    <div className="col-2">
-                      <span>Apply For: </span>
-                    </div>
-                    <div className="col-2">
-                      <span>{leaveData && leaveData.user.name}</span>
-                    </div>
-                    <div className="col-2">
-                      <span>Available: </span>
-                    </div> */}
-                    {/* <div className="col-2">
-                      <span>{leaveData && leaveData.user.name}</span>
-                    </div> */}
+                
                     <div className="col-2">
                       <span>
                         <b>Admin Action Date:</b>
@@ -363,6 +367,52 @@ const SingleDetail = (props) => {
                        
                       </div>
                     </div>
+                    <Modal style={{ maxWidth: "70%" }} isOpen={modalEdit} toggle={toggleEdit}>
+                <ModalHeader toggle={toggleEdit}>Action</ModalHeader>
+                <ModalBody>
+                <form>
+                    <div className="col">
+              <div className="form-group">
+                <label className="control-label">Action</label>
+                <Select
+                  name="action"
+                  onBlur={props.handleBlur}
+                  // value={props.values.action}
+                  // onChange={(selected) => {
+                  //   props.setFieldValue("action", selected);
+                  // }}
+                  options={[
+                    { value: "Approved", label: "Approved" },
+                    { value: "Rejected", label: "Rejected" },
+                    { value: "Unpaid", label: "Unpaid" },
+                  ]}
+                />
+                {/* <span id="err">
+                  {props.touched.action && props.errors.action}
+                </span> */}
+              </div>
+            </div>
+            <div className="col-12">
+              <h4 className="mt-0 header-title">Description</h4>
+              <Editor
+                name="description"
+                onBlur={props.handleBlur}
+                toolbarClassName="toolbarClassName"
+                wrapperClassName="wrapperClassName"
+                editorClassName="editor"
+                // editorState={props.values.description}
+                onEditorStateChange={(val) => {
+                  props.setFieldValue("description", val);
+                }}
+              />
+              {/* <span id="err">
+                {props.touched.description && props.errors.description}
+              </span> */}
+            </div>
+                    </form>
+                </ModalBody>
+              </Modal>
+                   
                   </div>
                 </div>
               </div>

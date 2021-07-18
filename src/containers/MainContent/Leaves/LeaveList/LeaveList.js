@@ -69,7 +69,7 @@ const LeaveList = (props) => {
         res.data.map((item, index) => {
           updatedData.rows.push({
             
-            user: <Link to={`/userdetails/${item._id}`}> {item.user ? item.user.name : "N/A"}
+            user: <Link to={`/userdetails/${item.user._id}`}> {item.user ? item.user.name : "N/A"}
             </Link>,
             lType: item.type ? item.type.name : "N/A",
             dates: item.dates

@@ -6,6 +6,8 @@ import LeaveService from "../../../../services/LeaveService";
 import UserService from "../../../../services/UserService";
 import moment from "moment";
 
+
+
 const LeaveDetails = (props) => {
   let loggedUser = UserService.userLoggedInInfo();
   console.log("logged user", loggedUser);
@@ -116,8 +118,9 @@ const LeaveDetails = (props) => {
               <div className="col-lg-12">
                 <div className="card m-b-20">
                   <div className="card-body">
+                
                     <h3>Leave Details</h3>
-
+             
                     <div className="row main">
                     {leaveData.map ((item, index) => {
                       return (
@@ -139,55 +142,9 @@ const LeaveDetails = (props) => {
                       </div>
                       )
                     })}
-                     
-                      {/* <div className="col">
-                        <h5>Casual Leave: 12</h5>
-                      </div>
-                      <div className="col">
-                        <h5>Half Day Leave: 12</h5>
-                      </div>
-                      <div className="col">
-                        <h5>Short Leave: 12</h5>
-                      </div> */}
+                    
                     </div>
-                    {/* <hr /> */}
-                    {/* <div className="row">
-                      <div className="col">
-                        <span>Used Leave: </span>
-                        <span className="sub"> 0</span>
-                      </div>
-                      <div className="col">
-                        <span>Used Leave: </span>
-                        <span className="sub"> 0</span>
-                      </div>
-                      <div className="col">
-                        <span>Used Leave: </span>
-                        <span className="sub"> 0</span>
-                      </div>
-                      <div className="col">
-                        <span>Used Leave: </span>
-                        <span className="sub"> 3</span>
-                      </div>
-                    </div> */}
-                    {/* <div className="row">
-                      <div className="col">
-                        <span>Remaining Leave: </span>
-                        <span className="sub1">12</span>
-                      </div>
-                      <div className="col">
-                        <span>Remaining Leave: </span>
-                        <span className="sub1">12</span>
-                      </div>
-                      <div className="col">
-                        <span>Remaining Leave: </span>
-                        <span className="sub1">12</span>
-                      </div>
-                      <div className="col">
-                        <span>Remaining Leave: </span>
-                        <span className="sub1">9</span>
-                      </div>
-                    </div> */}
-                    {/* <hr /> */}
+                    
                     <h3 className="main">Leave Table</h3>
                     <div className="row">
                       <div className="col-12">
@@ -205,6 +162,7 @@ const LeaveDetails = (props) => {
                         />
                       </div>
                     </div>
+                   
                   </div>
                 </div>
               </div>
