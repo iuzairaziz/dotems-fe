@@ -45,6 +45,16 @@ class LeaveService {
     return axios.get(this.config.apiBaseUrl + "leave/" + id);
   }
 
+  remainingLeaveById(id) {
+    return axios.get(
+      this.config.apiBaseUrl + "leave/remaining-leaves-all/" + id
+    );
+  }
+
+  allUserLeaves(id) {
+    return axios.get(this.config.apiBaseUrl + "leave/user-all-leaves/" + id);
+  }
+
   handleMessage(type) {
     if (type === "add") toast("Successfully Added Leave Type");
     else if (type === "update") toast("Successfully Updated Leave Type");
