@@ -3,6 +3,8 @@ import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import AUX from "../../../../hoc/Aux_";
 import LeaveService from "../../../../services/LeaveService";
 import moment from "moment";
+import { Link } from "react-router-dom";
+
 
 const LeaveList = (props) => {
   const [dataa, setData] = useState({
@@ -66,7 +68,9 @@ const LeaveList = (props) => {
         updatedData.rows = [];
         res.data.map((item, index) => {
           updatedData.rows.push({
-            user: item.user ? item.user.name : "N/A",
+            
+            user: <Link to={`/userdetails/${item.user._id}`}> {item.user ? item.user.name : "N/A"}
+            </Link>,
             lType: item.type ? item.type.name : "N/A",
             dates: item.dates
               ? item.dates.map((item, index) => {
