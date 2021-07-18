@@ -18,11 +18,15 @@ const LeaveForm = (props) => {
   const project = props.project;
   const [leaveTypes, setLeaveTypes] = useState([]);
   const [sandwhichSpan, setSandwhichSpan] = useState(false);
+  const [probationSpan, setProbationSpan] = useState(false);
   const [leaveCount, setLeaveCount] = useState(0);
   const loggedInUser = userService.userLoggedInInfo();
 
   useEffect(() => {
     getleaveTypes();
+    if (loggedInUser.userRole === "Probation") {
+      setProbationSpan(true);
+    }
   }, []);
 
   const getleaveTypes = () => {
@@ -32,7 +36,15 @@ const LeaveForm = (props) => {
         res.data.map((item, index) => {
           options.push({ label: item.name, value: item._id });
         });
-        setLeaveTypes(options);
+        if (loggedInUser.status === "Single") {
+          let filterArray = [];
+          filterArray = options.filter((item) => item.label !== "Maternity");
+          console.log("Filter Array", filterArray);
+          setLeaveTypes(filterArray);
+          console.log("admin");
+        } else {
+          setLeaveTypes(options);
+        }
       })
       .catch((err) => {
         LeaveService.handleCustomMessage(err.response.data);
@@ -74,6 +86,9 @@ const LeaveForm = (props) => {
     >
       {(props) => (
         <>
+          <div className={`${probationSpan ? "sandwhich" : "sandwhich2"} mb-3`}>
+            Note:- All Leaves Will Be Paid Leaves
+          </div>
           <div className="row">
             <div className="col">
               <div className="form-group">
@@ -171,6 +186,7 @@ const LeaveForm = (props) => {
                             }
                           } else {
                             formattedDates.pop();
+                            setLeaveCount(0);
                           }
                         }
                         let dateObjs = [];
