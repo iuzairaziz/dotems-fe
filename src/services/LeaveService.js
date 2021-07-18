@@ -27,6 +27,9 @@ class LeaveService {
   updateLeaveType(id, formData) {
     return axios.put(this.config.apiBaseUrl + "leave-type/" + id, formData);
   }
+  updateLeave(id, formData) {
+    return axios.put(this.config.apiBaseUrl + "leave/" + id, formData);
+  }
 
   deleteLeaveType(id) {
     return axios.delete(this.config.apiBaseUrl + "leave-type/" + id);

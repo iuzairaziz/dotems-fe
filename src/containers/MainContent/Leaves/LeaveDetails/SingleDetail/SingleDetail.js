@@ -3,16 +3,18 @@ import AUX from "../../../../../hoc/Aux_";
 import "./SingleDetail.scss";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { convertFromRaw, EditorState } from "draft-js";
+import { convertFromRaw, EditorState, convertToRaw } from "draft-js";
 import LeaveService from "../../../../../services/LeaveService";
 import moment from "moment";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import { Link } from "react-router-dom";
-import UserService from "../../../../../services/UserService"
+import UserService from "../../../../../services/UserService";
 import { Progress } from "reactstrap";
 import Select from "react-select";
+import userService from "../../../../../services/UserService";
+import leaveService from "../../../../../services/LeaveService";
+import configuration from "../../../../../config/configuration";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-
 
 const SingleDetail = (props) => {
   const [leaveData, setDataa] = useState();
@@ -20,8 +22,13 @@ const SingleDetail = (props) => {
   let loggedUser = UserService.userLoggedInInfo();
   console.log("logged user", loggedUser);
   const [userData, setUserData] = useState();
-    const [taskData, setTaskData] = useState([]);
-    const [modalEdit, setModalEdit] = useState(false);
+  const [taskData, setTaskData] = useState([]);
+  const [statusLeave, setStatusLeave] = useState();
+  const [description, setDescription] = useState();
+  const [modalEdit, setModalEdit] = useState(false);
+  const loggedInUser = userService.userLoggedInInfo();
+
+  let config = new configuration();
 
   const [dataa, setData] = useState({
     columns: [
@@ -138,8 +145,8 @@ const SingleDetail = (props) => {
 
   useEffect(() => {
     getData(leaveID);
-    getUserTask()
-  }, []);
+    getUserTask();
+  }, [modalEdit]);
 
   const getData = (id) => {
     LeaveService.leaveById(id)
@@ -163,21 +170,21 @@ const SingleDetail = (props) => {
                 <div className="card-body">
                   <h4 className="mt-0 header-title" />
                   <div className="row">
-                  <div className="col-10">
-                  <h4>Leave Details</h4> </div>
-                  <div className="col approval">
-              <Button
-                color="success"
-                className="mt-3 my-primary-button"
-                onClick={() => {
-                 
-                  toggleEdit();
-                }}
-              >
-                Take Action
-              </Button>
-            </div>
-            </div>
+                    <div className="col-10">
+                      <h4>Leave Details</h4>{" "}
+                    </div>
+                    <div className="col approval">
+                      <Button
+                        color="success"
+                        className="mt-3 my-primary-button"
+                        onClick={() => {
+                          toggleEdit();
+                        }}
+                      >
+                        Take Action
+                      </Button>
+                    </div>
+                  </div>
                   <hr />
                   <div className="row main">
                     <div className="col-2">
@@ -198,11 +205,19 @@ const SingleDetail = (props) => {
                     </div>
                     <div className="col-2 sub">
                       <span>
-                        <b>Leave Status: </b>
+                        <b>PM Leave Status: </b>
                       </span>
                     </div>
                     <div className="col-2">
-                      <span>{leaveData && leaveData.status}</span>
+                      <span>{leaveData && leaveData.pmStatus}</span>
+                    </div>
+                    <div className="col-2 sub">
+                      <span>
+                        <b>Admin Leave Status: </b>
+                      </span>
+                    </div>
+                    <div className="col-2">
+                      <span>{leaveData && leaveData.adminStatus}</span>
                     </div>
 
                     <div className="col-2">
@@ -216,7 +231,6 @@ const SingleDetail = (props) => {
                       </span>
                     </div>
 
-                
                     <div className="col-2">
                       <span>
                         <b>Admin Action Date:</b>
@@ -251,7 +265,6 @@ const SingleDetail = (props) => {
                             }
                           })}
                       </span>
-                      
                     </div>
                     <div className="col-lg-12">
                       <ul
@@ -289,18 +302,20 @@ const SingleDetail = (props) => {
                           </a>
                         </li>
                         <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    data-toggle="tab"
-                    href="#settings"
-                    role="tab"
-                  >
-                    <span className="d-none d-md-block">User Tasks</span>
-                    <span className="d-block d-md-none">
-                      <i className="mdi mdi-settings h5" />
-                    </span>
-                  </a>
-                </li>
+                          <a
+                            className="nav-link"
+                            data-toggle="tab"
+                            href="#settings"
+                            role="tab"
+                          >
+                            <span className="d-none d-md-block">
+                              User Tasks
+                            </span>
+                            <span className="d-block d-md-none">
+                              <i className="mdi mdi-settings h5" />
+                            </span>
+                          </a>
+                        </li>
                       </ul>
 
                       <div className="tab-content">
@@ -350,8 +365,12 @@ const SingleDetail = (props) => {
                             />
                           )}
                         </div>
-                        <div className="tab-pane p-3" id="settings" role="tabpanel">
-                        <MDBDataTableV5
+                        <div
+                          className="tab-pane p-3"
+                          id="settings"
+                          role="tabpanel"
+                        >
+                          <MDBDataTableV5
                             // scrollX
                             fixedHeader={true}
                             responsive
@@ -363,65 +382,94 @@ const SingleDetail = (props) => {
                             data={dataa}
                             theadColor="#000"
                           />
-                </div>
-                       
+                        </div>
                       </div>
                     </div>
-                    <Modal style={{ maxWidth: "70%" }} isOpen={modalEdit} toggle={toggleEdit}>
-                <ModalHeader toggle={toggleEdit}>Action</ModalHeader>
-                <ModalBody>
-                <form>
-                    <div className="col">
-              <div className="form-group">
-                <label className="control-label">Action</label>
-                <Select
-                  name="action"
-                  onBlur={props.handleBlur}
-                  // value={props.values.action}
-                  // onChange={(selected) => {
-                  //   props.setFieldValue("action", selected);
-                  // }}
-                  options={[
-                    { value: "Approved", label: "Approved" },
-                    { value: "Rejected", label: "Rejected" },
-                    { value: "Unpaid", label: "Unpaid" },
-                  ]}
-                />
-                {/* <span id="err">
+                    <Modal
+                      style={{ maxWidth: "70%" }}
+                      isOpen={modalEdit}
+                      toggle={toggleEdit}
+                    >
+                      <ModalHeader toggle={toggleEdit}>Action</ModalHeader>
+                      <ModalBody>
+                        <form>
+                          <div className="col">
+                            <div className="form-group">
+                              <label className="control-label">Action</label>
+                              <Select
+                                name="action"
+                                onBlur={props.handleBlur}
+                                onChange={(selected) => {
+                                  setStatusLeave(selected);
+                                }}
+                                options={[
+                                  { value: "approved", label: "approved" },
+                                  { value: "rejected", label: "rejected" },
+                                  { value: "unpaid", label: "unpaid" },
+                                ]}
+                              />
+                              {/* <span id="err">
                   {props.touched.action && props.errors.action}
                 </span> */}
-              </div>
-            </div>
-            <div className="col-12">
-              <h4 className="mt-0 header-title">Description</h4>
-              <Editor
-                name="description"
-                onBlur={props.handleBlur}
-                toolbarClassName="toolbarClassName"
-                wrapperClassName="wrapperClassName"
-                editorClassName="editor"
-                // editorState={props.values.description}
-                onEditorStateChange={(val) => {
-                  props.setFieldValue("description", val);
-                }}
-              />
-              {/* <span id="err">
+                            </div>
+                          </div>
+                          <div className="col-12">
+                            <h4 className="mt-0 header-title">Description</h4>
+                            <Editor
+                              name="description"
+                              onBlur={props.handleBlur}
+                              toolbarClassName="toolbarClassName"
+                              wrapperClassName="wrapperClassName"
+                              editorClassName="editor"
+                              // editorState={props.values.description}
+                              onEditorStateChange={(val) => {
+                                setDescription(val);
+                              }}
+                            />
+                            {/* <span id="err">
                 {props.touched.description && props.errors.description}
               </span> */}
-            </div>
-            <Button
-                color="success"
-                className="mt-3 my-primary-button"
-                onClick={() => {
-                 
-                }}
-              >
-                Submit
-              </Button>
-                    </form>
-                </ModalBody>
-              </Modal>
-                   
+                          </div>
+                          <Button
+                            color="success"
+                            className="mt-3 my-primary-button"
+                            onClick={() => {
+                              let data = {};
+                              if (loggedInUser.userRole === config.Roles.PM) {
+                                data = {
+                                  pmStatus: statusLeave.value,
+                                  pmActionDate: new Date(),
+                                  pmRemark: JSON.stringify(
+                                    convertToRaw(
+                                      description.getCurrentContent()
+                                    )
+                                  ),
+                                };
+                              }
+
+                              if (
+                                loggedInUser.userRole === config.Roles.ADMIN
+                              ) {
+                                data = {
+                                  adminStatus: statusLeave.value,
+                                  adminActionDate: new Date(),
+                                  adminRemark: JSON.stringify(
+                                    convertToRaw(
+                                      description.getCurrentContent()
+                                    )
+                                  ),
+                                };
+                              }
+
+                              leaveService.updateLeave(leaveID, data);
+                              toggleEdit();
+                            }}
+                          >
+                            Submit
+                          </Button>
+                        </form>
+                      </ModalBody>
+                    </Modal>
                   </div>
                 </div>
               </div>

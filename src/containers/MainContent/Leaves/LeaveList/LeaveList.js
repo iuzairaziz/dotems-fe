@@ -5,7 +5,6 @@ import LeaveService from "../../../../services/LeaveService";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
-
 const LeaveList = (props) => {
   const [dataa, setData] = useState({
     columns: [
@@ -42,8 +41,14 @@ const LeaveList = (props) => {
         // width: 100,
       },
       {
-        label: "Status",
-        field: "status",
+        label: "PM Status",
+        field: "PMStatus",
+        // sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Admin Status",
+        field: "adminStatus",
         // sort: "asc",
         // width: 100,
       },
@@ -68,9 +73,12 @@ const LeaveList = (props) => {
         updatedData.rows = [];
         res.data.map((item, index) => {
           updatedData.rows.push({
-            
-            user: <Link to={`/userdetails/${item.user._id}`}> {item.user ? item.user.name : "N/A"}
-            </Link>,
+            user: (
+              <Link to={`/userdetails/${item.user._id}`}>
+                {" "}
+                {item.user ? item.user.name : "N/A"}
+              </Link>
+            ),
             lType: item.type ? item.type.name : "N/A",
             dates: item.dates
               ? item.dates.map((item, index) => {
@@ -94,7 +102,8 @@ const LeaveList = (props) => {
             aAction: item.adminActionDate
               ? moment(item.adminActionDate).format("LL")
               : "N/A",
-            status: item.status ? item.status : "N/A",
+            PMStatus: item.pmStatus ? item.pmStatus : "N/A",
+            adminStatus: item.adminStatus ? item.adminStatus : "N/A",
             action: (
               <div className="row flex-nowrap justify-content-start">
                 <i
