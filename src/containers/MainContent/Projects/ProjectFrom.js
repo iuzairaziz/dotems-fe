@@ -453,7 +453,7 @@ const ProjectForm = (props) => {
                 <Select
                   name="clientName"
                   blurInputOnSelect={true}
-                  classNamePrefix={` ${
+                  classNamePrefix={`my-select${
                     props.touched.clientName && props.errors.clientName
                       ? "is-invalid"
                       : props.touched.clientName && "is-valid"
