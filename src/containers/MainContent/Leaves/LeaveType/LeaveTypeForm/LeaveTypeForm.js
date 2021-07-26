@@ -64,13 +64,13 @@ const LeaveTypeForm = (props) => {
             <div className="row">
               <div className="col">
                 <div className="form-group">
-                  <label>No Of Leaves</label>
+                  <label>Number of Leaves</label>
                   <input
                     type="text"
                     className="form-control"
                     value={props.values.number}
                     onChange={props.handleChange("number")}
-                    placeholder="Enter No of leaves"
+                    placeholder="Enter number of leaves"
                   />
                   <span id="err">
                     {props.touched.number && props.errors.number}

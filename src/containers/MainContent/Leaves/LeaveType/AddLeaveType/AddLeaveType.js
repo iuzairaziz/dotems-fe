@@ -13,8 +13,7 @@ const AddPlatform = () => {
                 <div className="card-body">
                   <h4 className="mt-0 header-title">Add New Leave Type</h4>
                   <p className="text-muted m-b-30 font-14">
-                    Please fill the form below to add a new Platform for the
-                    projects.
+                    Please fill the form below to add new leave types.
                   </p>
                   <LeaveTypeForm />
                 </div>

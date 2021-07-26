@@ -13,8 +13,7 @@ const AddService = () => {
                 <div className="card-body">
                   <h4 className="mt-0 header-title">Add New Request Type</h4>
                   <p className="text-muted m-b-30 font-14">
-                    Please fill the form below to add a new Request Type for the
-                    projects.
+                    Please fill the form below to add a new request type.
                   </p>
                   <RequestForm />
                 </div>
