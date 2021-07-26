@@ -45,12 +45,15 @@ const TechnologyForm = (props) => {
                   <label>Title</label>
                   <input
                     type="text"
-                    className="form-control"
-                    value={props.values.title}
+                    className={`form-control ${
+                      props.touched.title && props.errors.title
+                        ? "is-invalid"
+                        : props.touched.title && "is-valid"
+                    }`}                      value={props.values.title}
                     onChange={props.handleChange("title")}
                     placeholder="Enter Name"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.title && props.errors.title}
                   </span>
                 </div>

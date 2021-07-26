@@ -187,8 +187,11 @@ const TaskForm = (props) => {
                   <label>Title</label>
                   <input
                     type="text"
-                    className="form-control"
-                    value={props.values.title}
+                    className={`form-control ${
+                      props.touched.title && props.errors.title
+                        ? "is-invalid"
+                        : props.touched.title && "is-valid"
+                    }`}                       value={props.values.title}
                     name="title"
                     onBlur={props.handleBlur}
                     onChange={(e) => {
@@ -198,7 +201,7 @@ const TaskForm = (props) => {
                     }}
                     placeholder="Enter Name"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.title && props.errors.title}
                   </span>
                 </div>
@@ -207,6 +210,11 @@ const TaskForm = (props) => {
                 <div className="form-group">
                   <label>Project</label>
                   <Select
+                   className={`my-select${
+                    props.touched.status && props.errors.status
+                      ? "is-invalid"
+                      : props.touched.status && "is-valid"
+                  }`}
                     value={props.values.project}
                     name="project"
                     onBlur={props.handleBlur}
@@ -227,7 +235,7 @@ const TaskForm = (props) => {
                     }}
                     options={projects}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.project && props.errors.project}
                   </span>
                 </div>
@@ -269,7 +277,7 @@ const TaskForm = (props) => {
                     step="0.1"
                     id="customRange3"
                   /> */}
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.estimatedHrs && props.errors.estimatedHrs}
                   </span>
                 </div>
@@ -298,7 +306,7 @@ const TaskForm = (props) => {
                       props.setFieldValue("projectRatio", value.toFixed(1));
                     }}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.projectRatio && props.errors.projectRatio}
                   </span>
                 </div>
@@ -307,6 +315,11 @@ const TaskForm = (props) => {
                 <div className="form-group">
                   <label>Parent Task</label>
                   <Select
+                   className={`my-select${
+                    props.touched.parentTask && props.errors.parentTask
+                      ? "is-invalid"
+                      : props.touched.parentTask && "is-valid"
+                  }`}
                     value={props.values.parentTask}
                     name="parentTask"
                     onBlur={props.handleBlur}
@@ -315,7 +328,7 @@ const TaskForm = (props) => {
                     }}
                     options={tasks}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.parentTask && props.errors.parentTask}
                   </span>
                 </div>
@@ -325,6 +338,11 @@ const TaskForm = (props) => {
                 <div className="form-group">
                   <label>Assign Task</label>
                   <Select
+                   className={`my-select${
+                    props.touched.assignedTo && props.errors.assignedTo
+                      ? "is-invalid"
+                      : props.touched.assignedTo && "is-valid"
+                  }`}
                     value={props.values.assignedTo}
                     name="assignedTo"
                     onBlur={props.handleBlur}
@@ -332,7 +350,7 @@ const TaskForm = (props) => {
                     options={users}
                     isMulti={true}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.assignedTo && props.errors.assignedTo}
                   </span>
                 </div>
@@ -341,13 +359,18 @@ const TaskForm = (props) => {
                 <div className="form-group">
                   <label>Team Lead</label>
                   <Select
+                   className={`my-select${
+                    props.touched.teamLead && props.errors.teamLead
+                      ? "is-invalid"
+                      : props.touched.teamLead && "is-valid"
+                  }`}
                     value={props.values.teamLead}
                     name="teamLead"
                     onBlur={props.handleBlur}
                     onChange={(val) => props.setFieldValue("teamLead", val)}
                     options={users}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.teamLead && props.errors.teamLead}
                   </span>
                 </div>
@@ -356,8 +379,11 @@ const TaskForm = (props) => {
                 <div className="form-group">
                   <label>Start Time</label>
                   <DatePicker
-                    className="form-control"
-                    selected={props.values.startTime}
+ className={`form-control ${
+  props.touched.startTime && props.errors.startTime
+    ? "is-invalid"
+    : props.touched.startTime && "is-valid"
+}`}                       selected={props.values.startTime}
                     name="startTime"
                     onBlur={props.handleBlur}
                     onChange={(date) => {
@@ -365,7 +391,7 @@ const TaskForm = (props) => {
                       console.log("datepicker", date);
                     }}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.startTime && props.errors.startTime}
                   </span>
                 </div>
@@ -374,8 +400,11 @@ const TaskForm = (props) => {
                 <div className="form-group">
                   <label>End Time</label>
                   <DatePicker
-                    className="form-control"
-                    selected={props.values.endTime}
+ className={`form-control ${
+  props.touched.endTime && props.errors.endTime
+    ? "is-invalid"
+    : props.touched.endTime && "is-valid"
+}`}                       selected={props.values.endTime}
                     name="endTime"
                     onBlur={props.handleBlur}
                     onChange={(date) => {
@@ -383,7 +412,7 @@ const TaskForm = (props) => {
                       console.log("datepicker", date);
                     }}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.endTime && props.errors.endTime}
                   </span>
                 </div>
@@ -403,7 +432,7 @@ const TaskForm = (props) => {
                       props.setFieldValue("description", val);
                     }}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.description && props.errors.description}
                   </span>
                 </div>

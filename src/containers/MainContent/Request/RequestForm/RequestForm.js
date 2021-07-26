@@ -110,6 +110,11 @@ const RequestForm = (props) => {
               </div>
             </div>
             <Select
+             className={`my-select${
+              props.touched.requestType && props.errors.requestType
+                ? "is-invalid"
+                : props.touched.requestType && "is-valid"
+            }`}
               name="requestType"
               onBlur={props.handleBlur}
               className="select-override zIndex"
@@ -117,7 +122,7 @@ const RequestForm = (props) => {
               onChange={(val) => props.setFieldValue("requestType", val)}
               options={requestType}
             />
-            <span id="err">
+            <span id="err" className="invalid-feedback">
               {props.touched.requestType && props.errors.requestType}
             </span>
             <div className="form-group">
@@ -136,7 +141,7 @@ const RequestForm = (props) => {
                       props.setFieldValue("description", val);
                     }}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.description && props.errors.description}
                   </span>
                 </div>

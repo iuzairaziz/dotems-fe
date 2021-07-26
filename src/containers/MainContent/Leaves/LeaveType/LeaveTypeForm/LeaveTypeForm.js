@@ -50,12 +50,17 @@ const LeaveTypeForm = (props) => {
                   <label>Leave Type</label>
                   <input
                     type="text"
+                    className={`form-control ${
+                      props.touched.name && props.errors.name
+                        ? "is-invalid"
+                        : props.touched.name && "is-valid"
+                    }`}  
                     className="form-control"
                     value={props.values.name}
                     onChange={props.handleChange("name")}
                     placeholder="Enter Leave type"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.name && props.errors.name}
                   </span>
                 </div>
@@ -67,12 +72,17 @@ const LeaveTypeForm = (props) => {
                   <label>Number of Leaves</label>
                   <input
                     type="text"
+                    className={`form-control ${
+                      props.touched.number && props.errors.number
+                        ? "is-invalid"
+                        : props.touched.number && "is-valid"
+                    }`}  
                     className="form-control"
                     value={props.values.number}
                     onChange={props.handleChange("number")}
                     placeholder="Enter number of leaves"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.number && props.errors.number}
                   </span>
                 </div>

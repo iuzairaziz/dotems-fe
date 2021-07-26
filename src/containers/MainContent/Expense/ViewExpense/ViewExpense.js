@@ -303,7 +303,7 @@ const ViewExpense = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">All Countries</h4>
+                  <h4 className="mt-0 header-title">All Expenses</h4>
                   <div className="row">
                     <div className="col-12">
                       <label>Expense Date Filter</label>

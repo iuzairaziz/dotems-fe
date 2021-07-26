@@ -94,6 +94,11 @@ const LeaveForm = (props) => {
               <div className="form-group">
                 <label className="control-label">Leave Type</label>
                 <Select
+                 className={`my-select${
+                  props.touched.leaveType && props.errors.leaveType
+                    ? "is-invalid"
+                    : props.touched.leaveType && "is-valid"
+                }`}
                   name="leaveType"
                   className="zIndex"
                   onBlur={props.handleBlur}
@@ -103,7 +108,7 @@ const LeaveForm = (props) => {
                   }}
                   options={leaveTypes}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.leaveType && props.errors.leaveType}
                 </span>
               </div>
@@ -122,6 +127,11 @@ const LeaveForm = (props) => {
                   <div className="input-group-multi">
                     <MultipleDatePicker
                       id="uniqueTxt"
+                      className={`form-control ${
+                        props.touched.leaveDates && props.errors.leaveDates
+                          ? "is-invalid"
+                          : props.touched.leaveDates && "is-valid"
+                      }`}  
                       name="leaveDates"
                       onBlur={props.handleBlur}
                       onSubmit={(dates) => {
@@ -204,7 +214,7 @@ const LeaveForm = (props) => {
                     >
                       It will be considered a sandwhich
                     </span>
-                    <span id="err">
+                    <span id="err" className="invalid-feedback">
                       {props.touched.leaveDates && props.errors.leaveDates}
                     </span>
                   </div>
@@ -224,7 +234,7 @@ const LeaveForm = (props) => {
                   props.setFieldValue("description", val);
                 }}
               />
-              <span id="err">
+              <span id="err" className="invalid-feedback">
                 {props.touched.description && props.errors.description}
               </span>
             </div>

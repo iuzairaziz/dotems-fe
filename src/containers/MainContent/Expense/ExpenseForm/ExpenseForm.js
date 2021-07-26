@@ -57,12 +57,15 @@ const ExpensForm = (props) => {
                 <label>Expense Name</label>
                 <input
                   type="text"
-                  className="form-control"
-                  value={props.values.name}
+                  className={`form-control ${
+                    props.touched.name && props.errors.name
+                      ? "is-invalid"
+                      : props.touched.name && "is-valid"
+                  }`}                    value={props.values.name}
                   onChange={props.handleChange("name")}
                   placeholder="Enter Name"
                 />
-                <span id="err">{props.touched.name && props.errors.name}</span>
+                <span id="err" className="invalid-feedback">{props.touched.name && props.errors.name}</span>
               </div>
             </div>
           </div>

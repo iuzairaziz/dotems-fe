@@ -119,15 +119,18 @@ const ExpensForm = (props) => {
                       <label>{item.value}</label>
                       <input
                         type="Number"
-                        className="form-control"
-                        name={item}
+                        className={`form-control ${
+                          props.touched.name && props.errors.name
+                            ? "is-invalid"
+                            : props.touched.name && "is-valid"
+                        }`}                          name={item}
                         value={props.values[item]}
                         placeholder="Enter Cost"
                         onChange={(e) =>
                           props.setFieldValue(`${item.label}`, e.target.value)
                         }
                       />
-                      <span id="err">{props.errors.name}</span>
+                      <span id="err" className="invalid-feedback">{props.errors.name}</span>
                     </div>
                   </div>
                 </div>

@@ -107,12 +107,15 @@ const ClientsForm = (props) => {
                   name="endTime"
                   onBlur={props.handleBlur}
                   type="title"
-                  className="form-control"
-                  value={props.values.title}
+                  className={`form-control ${
+                    props.touched.title && props.errors.title
+                      ? "is-invalid"
+                      : props.touched.title && "is-valid"
+                  }`}                    value={props.values.title}
                   onChange={props.handleChange("title")}
                   placeholder="Enter Name"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.title && props.errors.title}
                 </span>
               </div>
@@ -124,12 +127,15 @@ const ClientsForm = (props) => {
                   name="compName"
                   onBlur={props.handleBlur}
                   type="text"
-                  className="form-control"
-                  value={props.values.compName}
+                  className={`form-control ${
+                    props.touched.compName && props.errors.compName
+                      ? "is-invalid"
+                      : props.touched.compName && "is-valid"
+                  }`}                    value={props.values.compName}
                   onChange={props.handleChange("compName")}
                   placeholder="Enter Name"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.compName && props.errors.compName}
                 </span>
               </div>
@@ -143,12 +149,15 @@ const ClientsForm = (props) => {
                   name="email"
                   onBlur={props.handleBlur}
                   type="text"
-                  className="form-control"
-                  value={props.values.email}
+                  className={`form-control ${
+                    props.touched.email && props.errors.email
+                      ? "is-invalid"
+                      : props.touched.email && "is-valid"
+                  }`}                    value={props.values.email}
                   onChange={props.handleChange("email")}
                   placeholder="Enter Email"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.email && props.errors.email}
                 </span>
               </div>
@@ -160,12 +169,15 @@ const ClientsForm = (props) => {
                   name="adrs"
                   onBlur={props.handleBlur}
                   type="text"
-                  className="form-control"
-                  value={props.values.adrs}
+                  className={`form-control ${
+                    props.touched.adrs && props.errors.adrs
+                      ? "is-invalid"
+                      : props.touched.adrs && "is-valid"
+                  }`}                    value={props.values.adrs}
                   onChange={props.handleChange("adrs")}
                   placeholder="Enter Address"
                 />
-                <span id="err">{props.touched.adrs && props.errors.adrs}</span>
+                <span id="err" className="invalid-feedback">{props.touched.adrs && props.errors.adrs}</span>
               </div>
             </div>
           </div>
@@ -177,12 +189,15 @@ const ClientsForm = (props) => {
                   name="conNum"
                   onBlur={props.handleBlur}
                   type="text"
-                  className="form-control"
-                  value={props.values.conNum}
+                  className={`form-control ${
+                    props.touched.conNum && props.errors.conNum
+                      ? "is-invalid"
+                      : props.touched.conNum && "is-valid"
+                  }`}                    value={props.values.conNum}
                   onChange={props.handleChange("conNum")}
                   placeholder="Enter Number"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.conNum && props.errors.conNum}
                 </span>
               </div>
@@ -195,8 +210,11 @@ const ClientsForm = (props) => {
                   <DatePicker
                     name="dateOfJoin"
                     onBlur={props.handleBlur}
-                    className="form-control"
-                    selected={props.values.dateOfJoin}
+                    className={`form-control ${
+                      props.touched.dateOfJoin && props.errors.dateOfJoin
+                        ? "is-invalid"
+                        : props.touched.dateOfJoin && "is-valid"
+                    }`}                      selected={props.values.dateOfJoin}
                     onChange={(date) => {
                       props.setFieldValue("dateOfJoin", date);
                       console.log("datepicker", date);
@@ -214,25 +232,33 @@ const ClientsForm = (props) => {
                   name="ul"
                   onBlur={props.handleBlur}
                   type="text"
-                  className="form-control"
-                  value={props.values.ul}
+                  className={`form-control ${
+                    props.touched.ul && props.errors.ul
+                      ? "is-invalid"
+                      : props.touched.ul && "is-valid"
+                  }`}                    value={props.values.ul}
                   onChange={props.handleChange("ul")}
                   placeholder="Enter URL"
                 />
-                <span id="err">{props.touched.ul && props.errors.ul}</span>
+                <span id="err" className="invalid-feedback">{props.touched.ul && props.errors.ul}</span>
               </div>
             </div>
             <div className="col">
               <div className="form-group">
                 <label className="control-label">Country</label>
                 <Select
+                 className={`my-select${
+                  props.touched.country && props.errors.country
+                    ? "is-invalid"
+                    : props.touched.country && "is-valid"
+                }`}
                   name="country"
                   onBlur={props.handleBlur}
                   value={props.values.country}
                   onChange={(val) => props.setFieldValue("country", val)}
                   options={country}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.country && props.errors.country}
                 </span>
               </div>

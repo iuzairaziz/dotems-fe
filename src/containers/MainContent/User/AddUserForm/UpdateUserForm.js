@@ -212,12 +212,17 @@ const UpdateUser = (props) => {
               <div className="form-group">
                 <label className="control-label">Technology</label>
                 <Select
+                 className={`my-select${
+                  props.touched.technologies && props.errors.technologies
+                    ? "is-invalid"
+                    : props.touched.technologies && "is-valid"
+                }`}
                   value={props.values.technologies}
                   onChange={(val) => props.setFieldValue("technologies", val)}
                   options={technology}
                   isMulti={true}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.technology && props.errors.technology}
                 </span>
               </div>
@@ -274,13 +279,16 @@ const UpdateUser = (props) => {
                 <label>Contact Number</label>
                 <input
                   type="text"
-                  className="form-control"
-                  // defaultValue={props.values.contact}
+                  className={`form-control ${
+                    props.touched.contact && props.errors.contact
+                      ? "is-invalid"
+                      : props.touched.contact && "is-valid"
+                  }`}                     // defaultValue={props.values.contact}
                   value={props.values.contact}
                   onChange={props.handleChange("contact")}
                   placeholder="Enter Contact Number"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.contact && props.errors.contact}
                 </span>
               </div>
@@ -290,13 +298,16 @@ const UpdateUser = (props) => {
                 <label>Other Contact </label>
                 <input
                   type="text"
-                  className="form-control"
-                  // defaultValue={props.values.otherContact}
+                  className={`form-control ${
+                    props.touched.otherContact && props.errors.otherContact
+                      ? "is-invalid"
+                      : props.touched.otherContact && "is-valid"
+                  }`}                     // defaultValue={props.values.otherContact}
                   value={props.values.otherContact}
                   onChange={props.handleChange("otherContact")}
                   placeholder="Enter Contact Number"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.otherContact && props.errors.otherContact}
                 </span>
               </div>
@@ -308,13 +319,16 @@ const UpdateUser = (props) => {
                 <label>Personal Email</label>
                 <input
                   type="text"
-                  className="form-control"
-                  // defaultValue={props.values.emailPersonal}
+                  className={`form-control ${
+                    props.touched.emailPersonal && props.errors.emailPersonal
+                      ? "is-invalid"
+                      : props.touched.emailPersonal && "is-valid"
+                  }`}                     // defaultValue={props.values.emailPersonal}
                   value={props.values.emailPersonal}
                   onChange={props.handleChange("emailPersonal")}
                   placeholder="Enter Personal Email"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.emailPersonal && props.errors.emailPersonal}
                 </span>
               </div>
@@ -324,13 +338,16 @@ const UpdateUser = (props) => {
                 <label>Address </label>
                 <input
                   type="text"
-                  className="form-control"
-                  // defaultValue={props.values.address}
+                  className={`form-control ${
+                    props.touched.address && props.errors.address
+                      ? "is-invalid"
+                      : props.touched.address && "is-valid"
+                  }`}                     // defaultValue={props.values.address}
                   value={props.values.address}
                   onChange={props.handleChange("address")}
                   placeholder="Enter Address "
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.address && props.errors.address}
                 </span>
               </div>
@@ -342,13 +359,16 @@ const UpdateUser = (props) => {
                 <label>Guardian Name </label>
                 <input
                   type="text"
-                  className="form-control"
-                  // defaultValue={props.values.nameEmergency}
+                  className={`form-control ${
+                    props.touched.nameEmergency && props.errors.nameEmergency
+                      ? "is-invalid"
+                      : props.touched.nameEmergency && "is-valid"
+                  }`}                     // defaultValue={props.values.nameEmergency}
                   value={props.values.nameEmergency}
                   onChange={props.handleChange("nameEmergency")}
                   placeholder="Enter Guardian Name "
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.nameEmergency && props.errors.nameEmergency}
                 </span>
               </div>
@@ -358,13 +378,16 @@ const UpdateUser = (props) => {
                 <label>Guardian Contact</label>
                 <input
                   type="text"
-                  className="form-control"
-                  // defaultValue={props.values.contactEmergency}
+                  className={`form-control ${
+                    props.touched.contactEmergency && props.errors.contactEmergency
+                      ? "is-invalid"
+                      : props.touched.contactEmergency && "is-valid"
+                  }`}                     // defaultValue={props.values.contactEmergency}
                   value={props.values.contactEmergency}
                   onChange={props.handleChange("contactEmergency")}
                   placeholder="Enter Guardian Contact Number"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.contactEmergency &&
                     props.errors.contactEmergency}
                 </span>

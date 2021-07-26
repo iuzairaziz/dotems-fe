@@ -45,12 +45,15 @@ const StatusForm = (props) => {
                   <label>Status</label>
                   <input
                     type="text"
-                    className="form-control"
-                    value={props.values.status}
+                    className={`form-control ${
+                      props.touched.status && props.errors.status
+                        ? "is-invalid"
+                        : props.touched.status && "is-valid"
+                    }`}                     value={props.values.status}
                     onChange={props.handleChange("status")}
                     placeholder="Enter Name"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.status && props.errors.status}
                   </span>
                 </div>

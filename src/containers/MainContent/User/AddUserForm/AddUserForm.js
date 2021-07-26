@@ -146,12 +146,15 @@ const UserForm = (props) => {
                   name="name"
                   onBlur={props.handleBlur}
                   type="text"
-                  className="form-control"
-                  value={props.values.name}
+                  className={`form-control ${
+                    props.touched.name && props.errors.name
+                      ? "is-invalid"
+                      : props.touched.name && "is-valid"
+                  }`}                   value={props.values.name}
                   onChange={props.handleChange("name")}
                   placeholder="Enter Name"
                 />
-                <span id="err">{props.touched.name && props.errors.name}</span>
+                <span id="err" className="invalid-feedback">{props.touched.name && props.errors.name}</span>
               </div>
             </div>
             <div className="col">
@@ -161,12 +164,15 @@ const UserForm = (props) => {
                   name="userName"
                   onBlur={props.handleBlur}
                   type="text"
-                  className="form-control"
-                  value={props.values.userName}
+                  className={`form-control ${
+                    props.touched.userName && props.errors.userName
+                      ? "is-invalid"
+                      : props.touched.userName && "is-valid"
+                  }`}                   value={props.values.userName}
                   onChange={props.handleChange("userName")}
                   placeholder="Enter user name / email"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.userName && props.errors.userName}
                 </span>
               </div>
@@ -182,8 +188,11 @@ const UserForm = (props) => {
                   <DatePicker
                     name="joiningDate"
                     onBlur={props.handleBlur}
-                    className="form-control"
-                    selected={props.values.joiningDate}
+                    className={`form-control ${
+                      props.touched.joiningDate && props.errors.joiningDate
+                        ? "is-invalid"
+                        : props.touched.joiningDate && "is-valid"
+                    }`}                     selected={props.values.joiningDate}
                     onChange={(date) => {
                       props.setFieldValue("joiningDate", date);
                     }}
@@ -212,12 +221,17 @@ const UserForm = (props) => {
                 </div>
                 <Select
                   name="machineNo"
+                  className={`my-select${
+                    props.touched.machineNo && props.errors.machineNo
+                      ? "is-invalid"
+                      : props.touched.machineNo && "is-valid"
+                  }`}
                   onBlur={props.handleBlur}
                   value={props.values.machineNo}
                   onChange={(val) => props.setFieldValue("machineNo", val)}
                   options={machineNo}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.machineNo && props.errors.machineNo}
                 </span>
               </div>
@@ -232,12 +246,15 @@ const UserForm = (props) => {
                   name="salary"
                   onBlur={props.handleBlur}
                   type="number"
-                  className="form-control"
-                  value={props.values.salary}
+                  className={`form-control ${
+                    props.touched.salary && props.errors.salary
+                      ? "is-invalid"
+                      : props.touched.salary && "is-valid"
+                  }`}                   value={props.values.salary}
                   onChange={props.handleChange("salary")}
                   placeholder="Enter Salary"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.salary && props.errors.salary}
                 </span>
               </div>
@@ -249,12 +266,15 @@ const UserForm = (props) => {
                   name="password"
                   onBlur={props.handleBlur}
                   type="password"
-                  className="form-control"
-                  value={props.values.password}
+                  className={`form-control ${
+                    props.touched.password && props.errors.password
+                      ? "is-invalid"
+                      : props.touched.password && "is-valid"
+                  }`}                   value={props.values.password}
                   onChange={props.handleChange("password")}
                   placeholder="Enter Password"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.password && props.errors.password}
                 </span>
               </div>
@@ -268,6 +288,11 @@ const UserForm = (props) => {
                   name="status"
                   onBlur={props.handleBlur}
                   value={props.values.status}
+                  className={`my-select${
+                    props.touched.status && props.errors.status
+                      ? "is-invalid"
+                      : props.touched.status && "is-valid"
+                  }`}
                   onChange={(selected) => {
                     props.setFieldValue("status", selected);
                   }}
@@ -276,7 +301,7 @@ const UserForm = (props) => {
                     { value: "Married", label: "Married" },
                   ]}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.status && props.errors.status}
                 </span>
               </div>
@@ -287,6 +312,11 @@ const UserForm = (props) => {
                 <Select
                   name="gender"
                   onBlur={props.handleBlur}
+                  className={`my-select${
+                    props.touched.gender && props.errors.gender
+                      ? "is-invalid"
+                      : props.touched.gender && "is-valid"
+                  }`}
                   value={props.values.gender}
                   onChange={(selected) => {
                     props.setFieldValue("gender", selected);
@@ -297,7 +327,7 @@ const UserForm = (props) => {
                     { value: "Others", label: "Others" },
                   ]}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.gender && props.errors.gender}
                 </span>
               </div>
@@ -307,6 +337,11 @@ const UserForm = (props) => {
                 <label className="control-label">Role</label>
                 <Select
                   name="userRole"
+                  className={`my-select${
+                    props.touched.userRole && props.errors.userRole
+                      ? "is-invalid"
+                      : props.touched.userRole && "is-valid"
+                  }`}
                   onBlur={props.handleBlur}
                   value={props.values.userRole}
                   onChange={(selected) => {
@@ -323,7 +358,7 @@ const UserForm = (props) => {
                     { value: roles.AM, label: roles.AM },
                   ]}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.userRole && props.errors.userRole}
                 </span>
               </div>
@@ -337,12 +372,15 @@ const UserForm = (props) => {
                   name="workingHrs"
                   onBlur={props.handleBlur}
                   type="number"
-                  className="form-control"
-                  value={props.values.workingHrs}
+                  className={`form-control ${
+                    props.touched.workingHrs && props.errors.workingHrs
+                      ? "is-invalid"
+                      : props.touched.workingHrs && "is-valid"
+                  }`}                   value={props.values.workingHrs}
                   onChange={props.handleChange("workingHrs")}
                   placeholder="Enter Working Hours"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.workingHrs && props.errors.workingHrs}
                 </span>
               </div>
@@ -354,12 +392,15 @@ const UserForm = (props) => {
                   name="workingDays"
                   onBlur={props.handleBlur}
                   type="number"
-                  className="form-control"
-                  value={props.values.workingDays}
+                  className={`form-control ${
+                    props.touched.workingDays && props.errors.workingDays
+                      ? "is-invalid"
+                      : props.touched.workingDays && "is-valid"
+                  }`}                   value={props.values.workingDays}
                   onChange={props.handleChange("workingDays")}
                   placeholder="Enter Working Days"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.workingDays && props.errors.workingDays}
                 </span>
               </div>
