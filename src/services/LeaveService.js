@@ -59,9 +59,10 @@ class LeaveService {
   }
 
   handleMessage(type) {
-    if (type === "add") toast("Successfully Added Leave Type");
-    else if (type === "update") toast("Successfully Updated Leave Type");
-    else if (type === "delete") toast("Successfully Deleted Leave Type");
+    if (type === "add") toast("Successfully Added");
+    else if (type === "update") toast("Successfully Updated");
+    else if (type === "delete") toast("Successfully Deleted");
+    else if (type === "applied") toast("Successfully Applied");
   }
 
   handleCustomMessage(message) {

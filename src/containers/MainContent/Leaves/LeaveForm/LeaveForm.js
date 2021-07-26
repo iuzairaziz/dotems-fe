@@ -76,7 +76,7 @@ const LeaveForm = (props) => {
           .then((res) => {
             props.toggle && props.toggle();
             actions.resetForm();
-            LeaveService.handleMessage("add");
+            LeaveService.handleMessage("applied");
           })
           .catch((err) => {
             LeaveService.handleCustomMessage(err.response.data);
@@ -87,7 +87,7 @@ const LeaveForm = (props) => {
       {(props) => (
         <>
           <div className={`${probationSpan ? "sandwhich" : "sandwhich2"} mb-3`}>
-            Note:- All Leaves Will Be Paid Leaves
+            Note: All Leaves Will Be Paid Leaves
           </div>
           <div className="row">
             <div className="col">
@@ -115,7 +115,7 @@ const LeaveForm = (props) => {
                     <label>Leave Dates</label>
                   </div>
                   <div className="col d-flex justify-content-end">
-                    <div>Leave Count :- {leaveCount}</div>
+                    <div>Leave Count : {leaveCount}</div>
                   </div>
                 </div>
                 <div>
