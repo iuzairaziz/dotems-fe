@@ -286,7 +286,16 @@ class header extends Component {
                       Password
                     </DropdownItem>
                   </Link>
-
+                  <Link to="/leave-form">
+                    <DropdownItem>
+                      <i className="mdi mdi-clipboard-text m-r-5" /> Apply Leave
+                    </DropdownItem>
+                  </Link>
+                  <Link to="/leave-details">
+                    <DropdownItem>
+                      <i className="mdi mdi-calendar-multiple-check m-r-5" /> My Leaves
+                    </DropdownItem>
+                  </Link>
                   <DropdownItem
                     onClick={() => {
                       UserService.logout();

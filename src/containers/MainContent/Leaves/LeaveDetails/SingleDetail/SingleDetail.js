@@ -441,9 +441,9 @@ const SingleDetail = (props) => {
                                   setStatusLeave(selected);
                                 }}
                                 options={[
-                                  { value: "approved", label: "approved" },
-                                  { value: "rejected", label: "rejected" },
-                                  { value: "unpaid", label: "unpaid" },
+                                  { value: "Approved", label: "Approved" },
+                                  { value: "Rejected", label: "Rejected" },
+                                  { value: "Unpaid", label: "Unpaid" },
                                 ]}
                               />
                               {/* <span id="err">
