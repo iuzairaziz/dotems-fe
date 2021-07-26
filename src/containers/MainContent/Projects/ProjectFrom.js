@@ -418,12 +418,16 @@ const ProjectForm = (props) => {
                   name="projectName"
                   onBlur={props.handleBlur}
                   type="text"
-                  className="form-control"
+                  className={`form-control ${
+                    props.touched.projectName && props.errors.projectName
+                      ? "is-invalid"
+                      : props.touched.projectName && "is-valid"
+                  }`}
                   value={props.values.projectName}
                   onChange={props.handleChange("projectName")}
                   placeholder="Enter Name"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.projectName && props.errors.projectName}
                 </span>
               </div>
@@ -448,12 +452,18 @@ const ProjectForm = (props) => {
                 </div>
                 <Select
                   name="clientName"
+                  blurInputOnSelect={true}
+                  classNamePrefix={` ${
+                    props.touched.clientName && props.errors.clientName
+                      ? "is-invalid"
+                      : props.touched.clientName && "is-valid"
+                  }`}
                   onBlur={props.handleBlur}
                   value={props.values.clientName}
                   onChange={(val) => props.setFieldValue("clientName", val)}
                   options={client}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.clientName && props.errors.clientName}
                 </span>
               </div>

@@ -40,8 +40,12 @@ class LeaveService {
   newLeave(data) {
     return axios.post(this.config.apiBaseUrl + "leave/new", data);
   }
-  allLeaves() {
-    return axios.get(this.config.apiBaseUrl + "leave/");
+
+  allLeavesFiltered({ user, status } = {}) {
+    return axios.get(
+      this.config.apiBaseUrl +
+        `leave/?user=${user || ""}&status=${status || ""}`
+    );
   }
 
   leaveById(id) {
