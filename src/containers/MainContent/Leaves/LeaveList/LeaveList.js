@@ -3,8 +3,20 @@ import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import AUX from "../../../../hoc/Aux_";
 import LeaveService from "../../../../services/LeaveService";
 import moment from "moment";
+import userService from "../../../../services/UserService";
+import Select from "react-select";
 
 const LeaveList = (props) => {
+  const [state, setState] = useState({
+    users: [],
+    statuses: [
+      { label: "Pending", value: "pending" },
+      { label: "Approved", value: "approved" },
+      { label: "Unpaid", value: "unpaid" },
+    ],
+    selectedUser: null,
+    selectedStatus: null,
+  });
   const [dataa, setData] = useState({
     columns: [
       {
@@ -57,10 +69,27 @@ const LeaveList = (props) => {
 
   useEffect(() => {
     getData();
+    getUsers();
   }, []);
 
+  const getUsers = () => {
+    userService.getUsers("", "", "", "").then((res) => {
+      setState((prevState) => ({ ...prevState, users: toOptions(res.data) }));
+    });
+  };
+
+  const toOptions = (arr) => {
+    let options = [{ label: "All", value: "" }];
+    arr.map((item, index) => {
+      options.push({ label: item.name, value: item._id });
+    });
+    return options;
+  };
+
+  const filters = { user: state.selectedUser, status: state.selectedStatus };
+
   const getData = () => {
-    LeaveService.allLeaves()
+    LeaveService.allLeavesFiltered(filters)
       .then((res) => {
         let updatedData = { ...dataa };
         updatedData.rows = [];
@@ -117,26 +146,57 @@ const LeaveList = (props) => {
     <AUX>
       <div className="page-content-wrapper">
         <div className="container-fluid">
+          <h4 className="mt-0 header-title">User</h4>
+          <div className="row my-3">
+            <div className="col col-md-4">
+              {/* <label>Platform Filter</label> */}
+              <Select
+                name="clientName"
+                // onBlur={props.handleBlur}
+                // value={props.values.clientName}
+                // onChange={(val) => props.setFieldValue("clientName", val)}
+                placeholder="Employee..."
+                options={state.users}
+              />
+            </div>
+            <div className="col col-md-4">
+              {/* <label>Platform Filter</label> */}
+              <Select
+                name="clientName"
+                // onBlur={props.handleBlur}
+                // value={props.values.clientName}
+                // onChange={(val) => props.setFieldValue("clientName", val)}
+                placeholder="Status..."
+                options={state.statuses}
+              />
+            </div>
+          </div>
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <h4 className="mt-0 header-title">Leaves</h4>
+              {/* <div className="card m-b-20">
+                <div className="card-body"> */}
 
-                  <MDBDataTableV5
-                    // scrollX
-                    fixedHeader={true}
-                    responsive
-                    striped
-                    bordered
-                    searchTop
-                    hover
-                    // autoWidth
-                    data={dataa}
-                    theadColor="#000"
-                  />
-                </div>
-              </div>
+              <MDBDataTableV5
+                // scrollX
+                // fixedHeader={true}
+                responsive
+                striped
+                small
+                onPageChange={(val) => console.log(val)}
+                bordered={true}
+                materialSearch
+                // searchTop
+                searchTop
+                searchBottom={false}
+                pagingTop
+                barReverse
+                hover
+                // autoWidth
+                data={dataa}
+                theadColor="#000"
+              />
+              {/* </div>
+              </div> */}
             </div>
           </div>
         </div>
