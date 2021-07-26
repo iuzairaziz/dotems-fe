@@ -77,5 +77,12 @@ input:focus {
   min-height: inherit;
 }
 .zIndex {
-  z-index: 10;
+  z-index: 15;
+}
+.sandwhich {
+  display: block;
+  color: red;
+}
+.sandwhich2 {
+  display: none;
 }
