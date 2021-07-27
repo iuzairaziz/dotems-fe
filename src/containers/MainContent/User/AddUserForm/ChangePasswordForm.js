@@ -43,8 +43,11 @@ const ChangePasswordForm = (props) => {
                 <label>Enter Old Password</label>
                 <input
                   type="password"
-                  className="form-control"
-                  value={props.values.oldPassword}
+                  className={`form-control ${
+                    props.touched.password && props.errors.password
+                      ? "is-invalid"
+                      : props.touched.password && "is-valid"
+                  }`}                     value={props.values.oldPassword}
                   onChange={props.handleChange("oldPassword")}
                   placeholder="Enter Old Password"
                 />
@@ -60,8 +63,11 @@ const ChangePasswordForm = (props) => {
                 <label>Enter New Password</label>
                 <input
                   type="password"
-                  className="form-control"
-                  value={props.values.password}
+                  className={`form-control ${
+                    props.touched.password && props.errors.password
+                      ? "is-invalid"
+                      : props.touched.password && "is-valid"
+                  }`}                     value={props.values.password}
                   onChange={props.handleChange("password")}
                   placeholder="Enter New Password"
                 />
@@ -78,8 +84,11 @@ const ChangePasswordForm = (props) => {
                 <label>Confirm Password</label>
                 <input
                   type="password"
-                  className="form-control"
-                  value={props.values.confirmPassword}
+                  className={`form-control ${
+                    props.touched.confirmPassword && props.errors.confirmPassword
+                      ? "is-invalid"
+                      : props.touched.confirmPassword && "is-valid"
+                  }`}                     value={props.values.confirmPassword}
                   onChange={props.handleChange("confirmPassword")}
                   placeholder="Re-Enter New Password"
                 />

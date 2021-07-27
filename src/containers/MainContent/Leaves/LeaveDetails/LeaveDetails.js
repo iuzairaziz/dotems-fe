@@ -26,24 +26,17 @@ const LeaveDetails = (props) => {
         // sort: "asc",
       },
 
-      //   {
-      //     label: "To",
-      //     field: "to",
-      //     // sort: "asc",
-      //   },
+      
 
-      // {
-      //   label: "Description",
-      //   field: "description",
-      // },
+      {
+        label: "Total Days",
+        field: "tDays",
+      },
       {
         label: "Posting Date",
         field: "postingDate",
       },
-      // {
-      //   label: "Admin Remarks",
-      //   field: "aRemarks",
-      // },
+     
       {
         label: "Action",
         field: "action",
@@ -84,6 +77,8 @@ const LeaveDetails = (props) => {
                     </div>
                   );
                 })
+              : "none",
+              tDays: item.dates ? item.dates.length
               : "none",
             action: (
               <div className="row flex-nowrap justify-content-start">

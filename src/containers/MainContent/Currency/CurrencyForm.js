@@ -50,12 +50,15 @@ const CurrencyForm = (props) => {
                   <label>Name</label>
                   <input
                     type="text"
-                    className="form-control"
-                    value={props.values.name}
+                    className={`form-control ${
+                      props.touched.name && props.errors.name
+                        ? "is-invalid"
+                        : props.touched.name && "is-valid"
+                    }`}                     value={props.values.name}
                     onChange={props.handleChange("name")}
                     placeholder="Enter Name"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.name && props.errors.name}
                   </span>
                 </div>
@@ -65,12 +68,15 @@ const CurrencyForm = (props) => {
                   <label>Exchange Rate</label>
                   <input
                     type="text"
-                    className="form-control"
-                    value={props.values.exchangeRate}
+                    className={`form-control ${
+                      props.touched.exchangeRate && props.errors.exchangeRate
+                        ? "is-invalid"
+                        : props.touched.exchangeRate && "is-valid"
+                    }`}                     value={props.values.exchangeRate}
                     onChange={props.handleChange("exchangeRate")}
                     placeholder="Enter Exchange Rate"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.exchangeRate && props.errors.exchangeRate}
                   </span>
                 </div>

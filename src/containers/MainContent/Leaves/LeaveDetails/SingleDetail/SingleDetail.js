@@ -245,6 +245,18 @@ const SingleDetail = (props) => {
                     </div>
                     <div className="col-2 sub">
                       <span>
+                        <b>Total Days : </b>
+                      </span>
+                    </div>
+                    <div className="col-2">
+                      <span>
+                        {leaveData && leaveData.dates.length
+                         
+                          }
+                      </span>
+                    </div>
+                    <div className="col-2 sub">
+                      <span>
                         <b>Leave Dates: </b>
                       </span>
                     </div>
@@ -306,6 +318,21 @@ const SingleDetail = (props) => {
                           <a
                             className="nav-link"
                             data-toggle="tab"
+                            href="#settings1"
+                            role="tab"
+                          >
+                            <span className="d-none d-md-block">
+                              PM Remarks
+                            </span>
+                            <span className="d-block d-md-none">
+                              <i className="mdi mdi-settings h5" />
+                            </span>
+                          </a>
+                        </li>
+                        <li className="nav-item">
+                          <a
+                            className="nav-link"
+                            data-toggle="tab"
                             href="#profile1"
                             role="tab"
                           >
@@ -318,21 +345,7 @@ const SingleDetail = (props) => {
                           </a>
                         </li>
 
-                        <li className="nav-item">
-                          <a
-                            className="nav-link"
-                            data-toggle="tab"
-                            href="#settings1"
-                            role="tab"
-                          >
-                            <span className="d-none d-md-block">
-                              PM Remarks
-                            </span>
-                            <span className="d-block d-md-none">
-                              <i className="mdi mdi-settings h5" />
-                            </span>
-                          </a>
-                        </li>
+                       
                       </ul>
 
                       <div className="tab-content">

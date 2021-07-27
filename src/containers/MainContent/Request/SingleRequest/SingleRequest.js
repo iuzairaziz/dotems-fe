@@ -3,17 +3,33 @@ import AUX from "../../../../hoc/Aux_";
 import "./SingleRequest.scss";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { convertFromRaw, EditorState } from "draft-js";
+import { convertFromRaw, EditorState, convertToRaw } from "draft-js";
 import RequestService from "../../../../services/Request";
 import moment from "moment";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import userService from "../../../../services/UserService";
+import Request from "../../../../services/Request";
+import Select from "react-select";
+import configuration from "../../../../config/configuration";
+
 
 const SingleRequest = (props) => {
   const [requestData, setData] = useState();
+  const [description, setDescription] = useState();
+  const [statusLeave, setStatusLeave] = useState();
+  const [modalEdit, setModalEdit] = useState(false);
   const requestID = props.match.params.id;
+  let config = new configuration();
+
+  let loggedUser = userService.userLoggedInInfo();
+  console.log("logged user", loggedUser);
+  const loggedInUser = userService.userLoggedInInfo();
+
+  const toggleEdit = () => setModalEdit(!modalEdit);
 
   useEffect(() => {
     getData(requestID);
-  }, []);
+  }, [modalEdit]);
 
   const getData = (id) => {
     RequestService.requestById(id)
@@ -35,8 +51,24 @@ const SingleRequest = (props) => {
             <div className="col-lg-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title" />
-                  <h4>Leave Details</h4>
+                  {/* <h4 className="mt-0 header-title" />
+                  <h4>Request Details</h4> */}
+                  <div className="row">
+                    <div className="col-10">
+                      <h4>Request Details</h4>{" "}
+                    </div>
+                    <div className="col approval">
+                      <Button
+                        color="success"
+                        className="mt-3 my-primary-button"
+                        onClick={() => {
+                          toggleEdit();
+                        }}
+                      >
+                         Action
+                      </Button>
+                    </div>
+                  </div>
                   <hr />
                   <div className="row main">
                     <div className="col-2">
@@ -76,24 +108,7 @@ const SingleRequest = (props) => {
                       </span>
                     </div>
 
-                    {/* <div className="col-2 sub">
-                      <span>Already Approved: </span>
-                    </div>
-                    <div className="col-2">
-                      <span>{leaveData && leaveData.user.name}</span>
-                    </div>
-                    <div className="col-2">
-                      <span>Apply For: </span>
-                    </div>
-                    <div className="col-2">
-                      <span>{leaveData && leaveData.user.name}</span>
-                    </div>
-                    <div className="col-2">
-                      <span>Available: </span>
-                    </div> */}
-                    {/* <div className="col-2">
-                      <span>{leaveData && leaveData.user.name}</span>
-                    </div> */}
+               
                     <div className="col-2">
                       <span>
                         <b>Admin Action Date:</b>
@@ -106,29 +121,7 @@ const SingleRequest = (props) => {
                           : "None"}
                       </span>
                     </div>
-                    {/* <div className="col-2 sub">
-                      <span>
-                        <b>Leave Dates: </b>
-                      </span>
-                    </div>
-                    <div className="col-2">
-                      <span>
-                        {leaveData &&
-                          leaveData.dates.map((item, index) => {
-                            return (
-                              <div>
-                                {moment(item.date).format("LL")}
-                                <br />
-                              </div>
-                            );
-                            if (index === 0) {
-                              return moment(item.date).format("LL");
-                            } else if (index >= 0) {
-                              return `, ${moment(item.date).format("LL")} `;
-                            }
-                          })}
-                      </span>
-                    </div> */}
+                  
                     <div className="col-lg-12">
                       <ul
                         className="nav nav-tabs nav-tabs-custom"
@@ -215,6 +208,74 @@ const SingleRequest = (props) => {
                         </div>
                       </div>
                     </div>
+                    <Modal
+                      style={{ maxWidth: "70%" }}
+                      isOpen={modalEdit}
+                      toggle={toggleEdit}
+                    >
+                      <ModalHeader toggle={toggleEdit}>Action</ModalHeader>
+                      <ModalBody>
+                        <form>
+                          <div className="col">
+                            <div className="form-group">
+                              <label className="control-label">Action</label>
+                              <Select
+                                name="action"
+                                onBlur={props.handleBlur}
+                                onChange={(selected) => {
+                                  setStatusLeave(selected);
+                                }}
+                                options={[
+                                  { value: "Resolved", label: "Resolved" },
+                                  { value: "Changed", label: "Changed" },
+                                  { value: "Fixed", label: "Fixed" },
+                                ]}
+                              />
+                          
+                            </div>
+                          </div>
+                          <div className="col-12">
+                            <h4 className="mt-0 header-title">Description</h4>
+                            <Editor
+                              name="description"
+                              onBlur={props.handleBlur}
+                              toolbarClassName="toolbarClassName"
+                              wrapperClassName="wrapperClassName"
+                              editorClassName="editor"
+                              onEditorStateChange={(val) => {
+                                setDescription(val);
+                              }}
+                            />
+                          
+                          </div>
+                          <Button
+                            color="success"
+                            className="mt-3 my-primary-button"
+                            onClick={() => {
+                              let data = {};
+                              if (
+                                loggedInUser.userRole === config.Roles.ADMIN
+                              ) {
+                                data = {
+                                  adminStatus: statusLeave.value,
+                                  adminActionDate: new Date(),
+                                  adminRemark: JSON.stringify(
+                                    convertToRaw(
+                                      description.getCurrentContent()
+                                    )
+                                  ),
+                                };
+                              }
+
+                              Request.updateRequest(requestID, data);
+                              toggleEdit();
+                            }}
+                          >
+                            Submit
+                          </Button>
+                        </form>
+                      </ModalBody>
+                    </Modal>
                   </div>
                 </div>
               </div>

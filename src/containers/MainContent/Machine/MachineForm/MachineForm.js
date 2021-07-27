@@ -197,12 +197,15 @@ const MachineForm = (props) => {
                     name="machineName"
                     onBlur={props.handleBlur}
                     type="text"
-                    className="form-control"
-                    value={props.values.machineName}
+                    className={`form-control ${
+                      props.touched.machineName && props.errors.machineName
+                        ? "is-invalid"
+                        : props.touched.machineName && "is-valid"
+                    }`}                      value={props.values.machineName}
                     onChange={props.handleChange("machineName")}
                     placeholder="Enter Machine Name"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.machineName && props.errors.machineName}
                   </span>
                 </div>
@@ -211,13 +214,18 @@ const MachineForm = (props) => {
                 <div className="form-group">
                   <label className="control-label">Ownsership</label>
                   <Select
+                   className={`my-select${
+                    props.touched.ownership && props.errors.ownership
+                      ? "is-invalid"
+                      : props.touched.ownership && "is-valid"
+                  }`}
                     name="ownership"
                     onBlur={props.handleBlur}
                     value={props.values.ownership}
                     onChange={(val) => props.setFieldValue("ownership", val)}
                     options={owenershipOptions}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.ownership && props.errors.ownership}
                   </span>
                 </div>
@@ -232,12 +240,15 @@ const MachineForm = (props) => {
                     name="serialno"
                     onBlur={props.handleBlur}
                     type="text"
-                    className="form-control"
-                    value={props.values.serialno}
+                    className={`form-control ${
+                      props.touched.serialno && props.errors.serialno
+                        ? "is-invalid"
+                        : props.touched.serialno && "is-valid"
+                    }`}                      value={props.values.serialno}
                     onChange={props.handleChange("serialno")}
                     placeholder="Enter Serial No"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.serialno && props.errors.serialno}
                   </span>
                 </div>
@@ -246,13 +257,18 @@ const MachineForm = (props) => {
                 <div className="form-group">
                   <label>Status</label>
                   <Select
+                   className={`my-select${
+                    props.touched.status && props.errors.status
+                      ? "is-invalid"
+                      : props.touched.status && "is-valid"
+                  }`}
                     name="status"
                     onBlur={props.handleBlur}
                     value={props.values.status}
                     onChange={(val) => props.setFieldValue("status", val)}
                     options={statusOption}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.status && props.errors.status}
                   </span>
                 </div>
@@ -267,12 +283,15 @@ const MachineForm = (props) => {
                     name="machineNo"
                     onBlur={props.handleBlur}
                     type="text"
-                    className="form-control"
-                    value={props.values.machineNo}
+                    className={`form-control ${
+                      props.touched.machineNo && props.errors.machineNo
+                        ? "is-invalid"
+                        : props.touched.machineNo && "is-valid"
+                    }`}                      value={props.values.machineNo}
                     onChange={props.handleChange("machineNo")}
                     placeholder="Enter Machine Number"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.machineNo && props.errors.machineNo}
                   </span>
                 </div>
@@ -284,12 +303,15 @@ const MachineForm = (props) => {
                     name="processor"
                     onBlur={props.handleBlur}
                     type="text"
-                    className="form-control"
-                    value={props.values.processor}
+                    className={`form-control ${
+                      props.touched.processor && props.errors.processor
+                        ? "is-invalid"
+                        : props.touched.processor && "is-valid"
+                    }`}                      value={props.values.processor}
                     onChange={props.handleChange("processor")}
                     placeholder="Enter Processor"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.processor && props.errors.processor}
                   </span>
                 </div>
@@ -304,12 +326,15 @@ const MachineForm = (props) => {
                     name="storage"
                     onBlur={props.handleBlur}
                     type="text"
-                    className="form-control"
-                    value={props.values.storage}
+                    className={`form-control ${
+                      props.touched.storage && props.errors.storage
+                        ? "is-invalid"
+                        : props.touched.storage && "is-valid"
+                    }`}                      value={props.values.storage}
                     onChange={props.handleChange("storage")}
                     placeholder="Enter Storage"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.storage && props.errors.storage}
                   </span>
                 </div>
@@ -321,12 +346,15 @@ const MachineForm = (props) => {
                     name="memory"
                     onBlur={props.handleBlur}
                     type="text"
-                    className="form-control"
-                    value={props.values.memory}
+                    className={`form-control ${
+                      props.touched.memory && props.errors.memory
+                        ? "is-invalid"
+                        : props.touched.memory && "is-valid"
+                    }`}                      value={props.values.memory}
                     onChange={props.handleChange("memory")}
                     placeholder="Enter Memory Name"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.memory && props.errors.memory}
                   </span>
                 </div>
@@ -340,12 +368,15 @@ const MachineForm = (props) => {
                     name="graphics"
                     onBlur={props.handleBlur}
                     type="text"
-                    className="form-control"
-                    value={props.values.graphics}
+                    className={`form-control ${
+                      props.touched.graphics && props.errors.graphics
+                        ? "is-invalid"
+                        : props.touched.graphics && "is-valid"
+                    }`}                      value={props.values.graphics}
                     onChange={props.handleChange("graphics")}
                     placeholder="Enter Graphics Deatils"
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.graphics && props.errors.graphics}
                   </span>
                 </div>
@@ -369,6 +400,11 @@ const MachineForm = (props) => {
                     </div>
                   </div>
                   <Select
+                   className={`my-select${
+                    props.touched.accessories && props.errors.accessories
+                      ? "is-invalid"
+                      : props.touched.accessories && "is-valid"
+                  }`}
                     name="accessories"
                     onBlur={props.handleBlur}
                     className="select-override"
@@ -377,7 +413,7 @@ const MachineForm = (props) => {
                     options={accessory}
                     isMulti={true}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.accessories && props.errors.accessories}
                   </span>
                 </div>
@@ -399,7 +435,7 @@ const MachineForm = (props) => {
                       props.setFieldValue("notes", val);
                     }}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.notes && props.errors.notes}
                   </span>
                 </div>

@@ -453,7 +453,7 @@ const ProjectForm = (props) => {
                 <Select
                   name="clientName"
                   blurInputOnSelect={true}
-                  classNamePrefix={`my-select${
+                  className={`my-select${
                     props.touched.clientName && props.errors.clientName
                       ? "is-invalid"
                       : props.touched.clientName && "is-valid"
@@ -477,12 +477,17 @@ const ProjectForm = (props) => {
                   name="orderNum"
                   onBlur={props.handleBlur}
                   type="text"
-                  className="form-control"
+                  className={`form-control ${
+                    props.touched.orderNum && props.errors.orderNum
+                      ? "is-invalid"
+                      : props.touched.orderNum && "is-valid"
+                  }`}
+                  
                   value={props.values.orderNum}
                   onChange={props.handleChange("orderNum")}
                   placeholder="Enter Order Number"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.orderNum && props.errors.orderNum}
                 </span>
               </div>
@@ -506,6 +511,11 @@ const ProjectForm = (props) => {
                   </div>
                 </div>
                 <Select
+                className={`my-select${
+                  props.touched.platform && props.errors.platform
+                    ? "is-invalid"
+                    : props.touched.platform && "is-valid"
+                }`}
                   name="platform"
                   onBlur={props.handleBlur}
                   value={props.values.platform}
@@ -513,7 +523,7 @@ const ProjectForm = (props) => {
                   options={platform}
                 />
 
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.platform && props.errors.platform}
                 </span>
               </div>
@@ -543,10 +553,15 @@ const ProjectForm = (props) => {
                   name="nature"
                   onBlur={props.handleBlur}
                   value={props.values.nature}
+                  className={`my-select${
+                    props.touched.nature && props.errors.nature
+                      ? "is-invalid"
+                      : props.touched.nature && "is-valid"
+                  }`}
                   onChange={(val) => props.setFieldValue("nature", val)}
                   options={nature}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.nature && props.errors.nature}
                 </span>
               </div>
@@ -558,11 +573,16 @@ const ProjectForm = (props) => {
                 <Select
                   name="projectManager"
                   onBlur={props.handleBlur}
+                  className={`my-select${
+                    props.touched.projectManager && props.errors.projectManager
+                      ? "is-invalid"
+                      : props.touched.projectManager && "is-valid"
+                  }`}
                   value={props.values.projectManager}
                   onChange={(val) => props.setFieldValue("projectManager", val)}
                   options={users}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.projectManager && props.errors.projectManager}
                 </span>
               </div>
@@ -591,11 +611,16 @@ const ProjectForm = (props) => {
                 <Select
                   name="currency"
                   onBlur={props.handleBlur}
+                  className={`my-select${
+                    props.touched.currency && props.errors.currency
+                      ? "is-invalid"
+                      : props.touched.currency && "is-valid"
+                  }`}
                   value={props.values.currency}
                   onChange={(val) => props.setFieldValue("currency", val)}
                   options={currency}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.currency && props.errors.currency}
                 </span>
               </div>
@@ -606,12 +631,17 @@ const ProjectForm = (props) => {
                 <Select
                   name="teamMembers"
                   onBlur={props.handleBlur}
+                  className={`my-select${
+                    props.touched.teamMembers && props.errors.teamMembers
+                      ? "is-invalid"
+                      : props.touched.teamMembers && "is-valid"
+                  }`}
                   value={props.values.teamMembers}
                   onChange={(val) => props.setFieldValue("teamMembers", val)}
                   options={users}
                   isMulti={true}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.teamMembers && props.errors.teamMembers}
                 </span>
               </div>
@@ -626,14 +656,18 @@ const ProjectForm = (props) => {
                   <DatePicker
                     name="cStartDate"
                     onBlur={props.handleBlur}
-                    className="form-control"
+                    className={`form-control ${
+                      props.touched.cStartDate && props.errors.cStartDate
+                        ? "is-invalid"
+                        : props.touched.cStartDate && "is-valid"
+                    }`} 
                     selected={props.values.cStartDate}
                     onChange={(date) => {
                       props.setFieldValue("cStartDate", date);
                       console.log("datepicker", date);
                     }}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.cStartDate && props.errors.cStartDate}
                   </span>
                 </div>
@@ -647,14 +681,18 @@ const ProjectForm = (props) => {
                   <DatePicker
                     name="cEndDate"
                     onBlur={props.handleBlur}
-                    className="form-control"
+                    className={`form-control ${
+                      props.touched.cEndDate && props.errors.cEndDate
+                        ? "is-invalid"
+                        : props.touched.cEndDate && "is-valid"
+                    }`}   
                     selected={props.values.cEndDate}
                     onChange={(datee) => {
                       props.setFieldValue("cEndDate", datee);
                       console.log("datepicker", datee);
                     }}
                   />
-                  <span id="err">
+                  <span id="err" className="invalid-feedback">
                     {props.touched.cEndDate && props.errors.cEndDate}
                   </span>
                 </div>
@@ -667,12 +705,15 @@ const ProjectForm = (props) => {
                   name="cost"
                   onBlur={props.handleBlur}
                   type="number"
-                  className="form-control"
-                  value={props.values.cost}
+                  className={`form-control ${
+                    props.touched.cost && props.errors.cost
+                      ? "is-invalid"
+                      : props.touched.cost && "is-valid"
+                  }`}                  value={props.values.cost}
                   onChange={props.handleChange("cost")}
                   placeholder="Enter Amount"
                 />
-                <span id="err">{props.touched.cost && props.errors.cost}</span>
+                <span id="err" className="invalid-feedback">{props.touched.cost && props.errors.cost}</span>
               </div>
             </div>
           </div>
@@ -699,12 +740,17 @@ const ProjectForm = (props) => {
                 <Select
                   name="technology"
                   onBlur={props.handleBlur}
+                  className={`my-select${
+                    props.touched.technology && props.errors.technology
+                      ? "is-invalid"
+                      : props.touched.technology && "is-valid"
+                  }`}
                   value={props.values.technology}
                   onChange={(val) => props.setFieldValue("technology", val)}
                   options={technology}
                 />
 
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.technology && props.errors.technology}
                 </span>
               </div>
@@ -731,10 +777,15 @@ const ProjectForm = (props) => {
                   name="serviceType"
                   onBlur={props.handleBlur}
                   value={props.values.serviceType}
+                  className={`my-select${
+                    props.touched.serviceType && props.errors.serviceType
+                      ? "is-invalid"
+                      : props.touched.serviceType && "is-valid"
+                  }`}
                   onChange={(val) => props.setFieldValue("serviceType", val)}
                   options={service}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.serviceType && props.errors.serviceType}
                 </span>
               </div>
@@ -762,10 +813,15 @@ const ProjectForm = (props) => {
                   name="status"
                   onBlur={props.handleBlur}
                   value={props.values.status}
+                  className={`my-select${
+                    props.touched.status && props.errors.status
+                      ? "is-invalid"
+                      : props.touched.status && "is-valid"
+                  }`}
                   onChange={(val) => props.setFieldValue("status", val)}
                   options={status}
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.status && props.errors.status}
                 </span>
               </div>
@@ -780,14 +836,17 @@ const ProjectForm = (props) => {
                     name="Pdeduction"
                     onBlur={props.handleBlur}
                     type="number"
-                    className="form-control"
-                    value={props.values.Pdeduction}
+                    className={`form-control ${
+                      props.touched.Pdeduction && props.errors.Pdeduction
+                        ? "is-invalid"
+                        : props.touched.Pdeduction && "is-valid"
+                    }`}                    value={props.values.Pdeduction}
                     onChange={props.handleChange("Pdeduction")}
                     placeholder="Enter Deduction"
                   />
                   <span className="input-group-text">%</span>
                 </div>
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.Rprofit && props.errors.Rprofit}
                 </span>
               </div>
@@ -799,12 +858,15 @@ const ProjectForm = (props) => {
                   name="otherDeduction"
                   onBlur={props.handleBlur}
                   type="number"
-                  className="form-control"
-                  value={props.values.otherDeduction}
+                  className={`form-control ${
+                    props.touched.otherDeduction && props.errors.otherDeduction
+                      ? "is-invalid"
+                      : props.touched.otherDeduction && "is-valid"
+                  }`}                  value={props.values.otherDeduction}
                   onChange={props.handleChange("otherDeduction")}
                   placeholder="Enter Other Deductions"
                 />
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.otherDeduction && props.errors.otherDeduction}
                 </span>
               </div>
@@ -817,14 +879,17 @@ const ProjectForm = (props) => {
                     name="Rprofit"
                     onBlur={props.handleBlur}
                     type="number"
-                    className="form-control"
-                    value={props.values.Rprofit}
+                    className={`form-control ${
+                      props.touched.Rprofit && props.errors.Rprofit
+                        ? "is-invalid"
+                        : props.touched.Rprofit && "is-valid"
+                    }`}                    value={props.values.Rprofit}
                     onChange={props.handleChange("Rprofit")}
                     placeholder="Enter Preserve Profit"
                   />
                   <span className="input-group-text">%</span>
                 </div>
-                <span id="err">
+                <span id="err" className="invalid-feedback">
                   {props.touched.Rprofit && props.errors.Rprofit}
                 </span>
               </div>
@@ -877,7 +942,7 @@ const ProjectForm = (props) => {
                   props.setFieldValue("description", val);
                 }}
               />
-              <span id="err">
+              <span id="err" className="invalid-feedback">
                 {props.touched.description && props.errors.description}
               </span>
             </div>
@@ -893,14 +958,18 @@ const ProjectForm = (props) => {
                     <DatePicker
                       name="pmStartDate"
                       onBlur={props.handleBlur}
-                      className="form-control"
+                      className={`form-control ${
+                        props.touched.pmStartDate && props.errors.pmStartDate
+                          ? "is-invalid"
+                          : props.touched.pmStartDate && "is-valid"
+                      }`} 
                       selected={props.values.pmStartDate}
                       onChange={(date1) => {
                         props.setFieldValue("pmStartDate", date1);
                         console.log("datepicker", date1);
                       }}
                     />
-                    <span id="err">
+                    <span id="err" className="invalid-feedback">
                       {props.touched.pmStartDate && props.errors.pmStartDate}
                     </span>
                   </div>
@@ -914,14 +983,18 @@ const ProjectForm = (props) => {
                     <DatePicker
                       name="pmEndDate"
                       onBlur={props.handleBlur}
-                      className="form-control"
                       selected={props.values.pmEndDate}
+                      className={`form-control ${
+                        props.touched.pmEndDate && props.errors.pmEndDate
+                          ? "is-invalid"
+                          : props.touched.pmEndDate && "is-valid"
+                      }`} 
                       onChange={(date2) => {
                         props.setFieldValue("pmEndDate", date2);
                         console.log("datepicker", date2);
                       }}
                     />
-                    <span id="err">
+                    <span id="err" className="invalid-feedback">
                       {props.touched.pmEndDate && props.errors.pmEndDate}
                     </span>
                   </div>
