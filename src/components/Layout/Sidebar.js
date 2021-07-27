@@ -131,6 +131,10 @@ class sidebar extends Component {
                 routeName: this.baseUrl + "view-request",
                 label: "View Request",
               },
+              {
+                routeName: this.baseUrl + "my-requests",
+                label: "My Requests",
+              },
             ],
           },
           {

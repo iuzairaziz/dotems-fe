@@ -133,7 +133,12 @@ const LeaveDetails = (props) => {
                         <div>
                         <span>Remaining Leave: </span>
                         <span className="sub1">{item.remaining ? item.remaining : item.totalLeaves}</span>
-                        </div></div>
+                        </div>
+                        <div>
+                        <span>Unpaid Leaves: </span>
+                        <span className="sub3">{item.leaves && item.leaves.usedLeaves ? item.leaves.usedLeaves : "0" }</span>
+                        </div>
+                        </div>
                       </div>
                       )
                     })}
