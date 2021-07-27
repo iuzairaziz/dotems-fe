@@ -74,7 +74,7 @@ const LeaveList = (props) => {
   useEffect(() => {
     getData();
     getUsers();
-  }, []);
+  }, [state.selectedUser, state.selectedStatus]);
 
   const getUsers = () => {
     userService.getUsers("", "", "", "").then((res) => {
@@ -159,6 +159,12 @@ const LeaveList = (props) => {
                 // onBlur={props.handleBlur}
                 // value={props.values.clientName}
                 // onChange={(val) => props.setFieldValue("clientName", val)}
+                onChange={(val) =>
+                  setState((prevState) => ({
+                    ...prevState,
+                    selectedUser: val.value,
+                  }))
+                }
                 placeholder="Employee..."
                 options={state.users}
               />
@@ -169,7 +175,12 @@ const LeaveList = (props) => {
                 name="clientName"
                 // onBlur={props.handleBlur}
                 // value={props.values.clientName}
-                // onChange={(val) => props.setFieldValue("clientName", val)}
+                onChange={(val) =>
+                  setState((prevState) => ({
+                    ...prevState,
+                    selectedStatus: val.value,
+                  }))
+                }
                 placeholder="Status..."
                 options={state.statuses}
               />
