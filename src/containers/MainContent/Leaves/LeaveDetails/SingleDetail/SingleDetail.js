@@ -245,6 +245,18 @@ const SingleDetail = (props) => {
                     </div>
                     <div className="col-2 sub">
                       <span>
+                        <b>Total Days : </b>
+                      </span>
+                    </div>
+                    <div className="col-2">
+                      <span>
+                        {leaveData && leaveData.dates.length
+                         
+                          }
+                      </span>
+                    </div>
+                    <div className="col-2 sub">
+                      <span>
                         <b>Leave Dates: </b>
                       </span>
                     </div>
