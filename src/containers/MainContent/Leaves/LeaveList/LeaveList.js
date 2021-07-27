@@ -39,13 +39,10 @@ const LeaveList = (props) => {
         // width: 200,
       },
 
-      // {
-      //   label: "Admin Remarks",
-      //   field: "aReamrks",
-      //   // sort: "asc",
-      //   // width: 100,
-      // },
-
+      {
+        label: "Total Days",
+        field: "tDays",
+      },
       {
         label: "Admin Action Date",
         field: "aAction",
@@ -117,17 +114,11 @@ const LeaveList = (props) => {
                       <br />
                     </div>
                   );
-                  // if (index === 0) {
-                  //   return (
-
-                  //   );
-                  // // } else if (index >= 0) {
-                  // //   return `, ${moment(item.date).format("LL")} `;
-                  // // }
+               
                 })
               : "none",
-            // description: item.description ? item.description : "N/A",
-            // aReamrks: item.adminRemark ? item.adminRemark : "N/A",
+              tDays: item.dates ? item.dates.length
+              : "none",
             aAction: item.adminActionDate
               ? moment(item.adminActionDate).format("LL")
               : "N/A",
