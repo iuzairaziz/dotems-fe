@@ -41,10 +41,12 @@ class LeaveService {
     return axios.post(this.config.apiBaseUrl + "leave/new", data);
   }
 
-  allLeavesFiltered({ user, status } = {}) {
+  allLeavesFiltered({ user, adminStatus, pmStatus, startDate, endDate } = {}) {
     return axios.get(
       this.config.apiBaseUrl +
-        `leave/?user=${user || ""}&status=${status || ""}`
+        `leave/?user=${user || ""}&adminStatus=${adminStatus ||
+          ""}&pmStatus=${pmStatus || ""}&startDate=${startDate ||
+          ""}&endDate=${endDate || ""}`
     );
   }
 
