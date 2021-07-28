@@ -14,7 +14,7 @@ const RequestList = (props) => {
         // width: 150,
       },
       {
-        label: "Reqyest Type",
+        label: "Request Type",
         field: "rType",
         // sort: "asc",
         // width: 270,

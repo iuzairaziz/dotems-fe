@@ -12,7 +12,6 @@ import UserService from "../../../../../services/UserService";
 import { Progress } from "reactstrap";
 import Select from "react-select";
 import userService from "../../../../../services/UserService";
-import leaveService from "../../../../../services/LeaveService";
 import configuration from "../../../../../config/configuration";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
@@ -27,6 +26,7 @@ const SingleDetail = (props) => {
   const [description, setDescription] = useState();
   const [modalEdit, setModalEdit] = useState(false);
   const loggedInUser = userService.userLoggedInInfo();
+  const [remainingLeave, setRemaingLeave] = useState([]);
 
   let config = new configuration();
 
@@ -92,8 +92,10 @@ const SingleDetail = (props) => {
 
   const toggleEdit = () => setModalEdit(!modalEdit);
 
+  
+
   const getUserTask = (id) => {
-    UserService.getUserById(loggedUser._id)
+    UserService.getUserById(id)
       .then((res) => {
         const { tasks, user } = res.data;
         console.log(tasks);
@@ -145,8 +147,15 @@ const SingleDetail = (props) => {
 
   useEffect(() => {
     getData(leaveID);
-    getUserTask();
+    
   }, [modalEdit]);
+
+  useEffect(() => {
+    getRemainingLeave({leaveType : leaveData&&leaveData.type._id||"", user: leaveData&&leaveData.user._id});
+    getUserTask(leaveData&&leaveData.user._id);
+  },[leaveData]);
+
+   
 
   const getData = (id) => {
     LeaveService.leaveById(id)
@@ -158,7 +167,24 @@ const SingleDetail = (props) => {
       });
   };
 
+  const getRemainingLeave = (formData) => {
+    LeaveService.typeRemainingLeaves(formData).then((res) => {
+      const leaves = res.data;
+      setRemaingLeave(leaves);
+      console.log("leave data", leaves)
+    })
+  }
+
+  // const getRemainingLeave = (formData) => {
+  //   LeaveService.typeRemainingLeaves(formData).then((res) => {
+  //     setRemaingLeave(res.data);
+  //   }) .catch((err) => {
+  //     console.log("error", err);
+  //   });
+  // }
+
   console.log("Leave data", leaveData);
+  // console.log("leave type", leaveDataa)
 
   return (
     <AUX>
@@ -203,7 +229,19 @@ const SingleDetail = (props) => {
                     <div className="col-2">
                       <span>{leaveData && leaveData.type.name}</span>
                     </div>
+                    
                     <div className="col-2 sub">
+                      <span>
+                        <b>Posting Date: </b>
+                      </span>
+                    </div>
+                    <div className="col-2">
+                      <span>
+                        {leaveData && moment(leaveData.createdAt).format("LL")}
+                      </span>
+                    </div>
+
+                    <div className="col-2 ">
                       <span>
                         <b>PM Leave Status: </b>
                       </span>
@@ -219,18 +257,6 @@ const SingleDetail = (props) => {
                     <div className="col-2">
                       <span>{leaveData && leaveData.adminStatus}</span>
                     </div>
-
-                    <div className="col-2">
-                      <span>
-                        <b>Posting Date: </b>
-                      </span>
-                    </div>
-                    <div className="col-2">
-                      <span>
-                        {leaveData && moment(leaveData.createdAt).format("LL")}
-                      </span>
-                    </div>
-
                     <div className="col-2">
                       <span>
                         <b>Admin Action Date:</b>
@@ -243,16 +269,46 @@ const SingleDetail = (props) => {
                           : "None"}
                       </span>
                     </div>
+                   
+                   
                     <div className="col-2 sub">
                       <span>
-                        <b>Total Days : </b>
+                        <b>Total Leaves : </b>
                       </span>
                     </div>
                     <div className="col-2">
                       <span>
-                        {leaveData && leaveData.dates.length
-                         
-                          }
+                        {leaveData && leaveData.type.totalLeaves}
+                      </span>
+                    </div>
+                    <div className="col-2 sub">
+                      <span>
+                        <b>Used Leaves : </b>
+                      </span>
+                    </div>
+                    <div className="col-2">
+                      <span>
+                        {remainingLeave && remainingLeave.usedLeaves ? remainingLeave.usedLeaves : "0" }
+                      </span>
+                    </div>
+                    <div className="col-2 sub">
+                      <span>
+                        <b>Remaining Leaves : </b>
+                      </span>
+                    </div>
+                    <div className="col-2">
+                      <span>
+                      {leaveData && leaveData.type.totalLeaves - remainingLeave && remainingLeave.usedLeaves}
+                      </span>
+                    </div>
+                    <div className="col-2 sub">
+                      <span>
+                        <b>Unpaid Leaves : </b>
+                      </span>
+                    </div>
+                    <div className="col-2">
+                      <span>
+                        {remainingLeave.remaining < 0 ? -remainingLeave.remaining : "0"}
                       </span>
                     </div>
                     <div className="col-2 sub">
@@ -278,6 +334,37 @@ const SingleDetail = (props) => {
                           })}
                       </span>
                     </div>
+                    <div className="col-2 sub">
+                      <span>
+                        <b>Total Days : </b>
+                      </span>
+                    </div>
+                    <div className="col-2">
+                      <span>
+                        {leaveData && leaveData.dates.length}
+                      </span>
+                    </div>
+                    {/* <div className="col col-md-3">  
+                        <h5>{ leaveDataa.name}</h5>
+                        
+                        <div>
+                        <span>Total Leave: </span>
+                        <span className="sub">{ leaveDataa.totalLeaves}</span>
+                        </div>
+                        <div>
+                        <span>Used Leaves: </span>
+                        <span className="sub2">{leaveDataa.leaves && leaveDataa.leaves.usedLeaves ? leaveDataa.leaves.usedLeaves : "0" }</span>
+                        </div>
+                        <div>
+                        <span>Remaining Leave: </span>
+                        <span className="sub1">{leaveDataa.remaining ? leaveDataa.remaining <  0 ? "0" : leaveDataa.remaining : leaveDataa.totalLeaves}</span>
+                        </div>
+                        <div>
+                        <span>Unpaid Leaves: </span>
+                        <span className="sub3">{leaveDataa.remaining < 0 ? -leaveDataa.remaining : "0" }</span>
+                        </div>
+                        
+                      </div> */}
                     <div className="col-lg-12">
                       <ul
                         className="nav nav-tabs nav-tabs-custom"
@@ -512,7 +599,7 @@ const SingleDetail = (props) => {
                                 };
                               }
 
-                              leaveService.updateLeave(leaveID, data);
+                              LeaveService.updateLeave(leaveID, data);
                               toggleEdit();
                             }}
                           >

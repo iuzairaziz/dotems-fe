@@ -90,7 +90,7 @@ const LeaveForm = (props) => {
             Note: All Leaves Will Be Paid Leaves
           </div>
           <div className="row">
-            <div className="col">
+            <div className="col-6">
               <div className="form-group">
                 <label className="control-label">Leave Type</label>
                 <Select
@@ -113,7 +113,7 @@ const LeaveForm = (props) => {
                 </span>
               </div>
             </div>
-            <div className="col">
+            <div className="col-6">
               <div className="form-group">
                 <div className="row">
                   <div className="col">
@@ -124,6 +124,7 @@ const LeaveForm = (props) => {
                   </div>
                 </div>
                 <div>
+                  
                   <div className="input-group-multi">
                     <MultipleDatePicker
                       id="uniqueTxt"
@@ -221,6 +222,49 @@ const LeaveForm = (props) => {
                 </div>
               </div>
             </div>
+           
+            <div className="row">
+            <div className="col-1.5 sub">
+                      <span>
+                        <b>Total Leaves : </b>
+                      </span>
+                    </div>
+                    <div className="col-1.5">
+                      <span>
+                        {/* {leaveData && leaveData.type.totalLeaves} */}
+                      </span>
+                    </div>
+                    <div className="col-1.5 sub">
+                      <span>
+                        <b>Used Leaves : </b>
+                      </span>
+                    </div>
+                    <div className="col-1.5">
+                      <span>
+                        {/* {leaveDataa.leaves && leaveDataa.leaves.usedLeaves ? leaveDataa.leaves.usedLeaves : "0" } */}
+                      </span>
+                    </div>
+                    <div className="col-1.5 sub">
+                      <span>
+                        <b>Remaining Leaves : </b>
+                      </span>
+                    </div>
+                    <div className="col-1.5">
+                      <span>
+                      {/* {leaveDataa.remaining ? leaveDataa.remaining <  0 ? "0" : leaveDataa.remaining : leaveDataa.totalLeaves} */}
+                      </span>
+                    </div>
+                    <div className="col-1.5 sub">
+                      <span>
+                        <b>Unpaid Leaves : </b>
+                      </span>
+                    </div>
+                    <div className="col-1.5">
+                      <span>
+                        {/* {leaveDataa.remaining < 0 ? -leaveDataa.remaining : "0"} */}
+                      </span>
+                    </div>
+                    </div>
             <div className="col-12">
               <h4 className="mt-0 header-title">Description</h4>
               <Editor
