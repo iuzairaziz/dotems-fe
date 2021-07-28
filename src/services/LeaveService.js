@@ -42,13 +42,18 @@ class LeaveService {
   }
 
   typeRemainingLeaves(formData) {
-    return axios.post(this.config.apiBaseUrl + "leave/remaining-leaves", formData);
+    return axios.post(
+      this.config.apiBaseUrl + "leave/remaining-leaves",
+      formData
+    );
   }
 
-  allLeavesFiltered({ user, status } = {}) {
+  allLeavesFiltered({ user, adminStatus, pmStatus, startDate, endDate } = {}) {
     return axios.get(
       this.config.apiBaseUrl +
-        `leave/?user=${user || ""}&status=${status || ""}`
+        `leave/?user=${user || ""}&adminStatus=${adminStatus ||
+          ""}&pmStatus=${pmStatus || ""}&startDate=${startDate ||
+          ""}&endDate=${endDate || ""}`
     );
   }
 

@@ -4,6 +4,7 @@ import AUX from "../../../../hoc/Aux_";
 import LeaveService from "../../../../services/LeaveService";
 import moment from "moment";
 import userService from "../../../../services/UserService";
+import DatePicker from "react-datepicker";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 
@@ -11,12 +12,16 @@ const LeaveList = (props) => {
   const [state, setState] = useState({
     users: [],
     statuses: [
+      { label: "All", value: "" },
       { label: "Pending", value: "pending" },
       { label: "Approved", value: "approved" },
       { label: "Unpaid", value: "unpaid" },
     ],
     selectedUser: null,
     selectedStatus: null,
+    selectedPmStatus: null,
+    selectedDateStart: null,
+    selectedDateEnd: null,
   });
   const [dataa, setData] = useState({
     columns: [
@@ -74,7 +79,13 @@ const LeaveList = (props) => {
   useEffect(() => {
     getData();
     getUsers();
-  }, [state.selectedUser, state.selectedStatus]);
+  }, [
+    state.selectedUser,
+    state.selectedStatus,
+    state.selectedPmStatus,
+    state.selectedDateStart,
+    state.selectedDateEnd,
+  ]);
 
   const getUsers = () => {
     userService.getUsers("", "", "", "").then((res) => {
@@ -90,55 +101,61 @@ const LeaveList = (props) => {
     return options;
   };
 
-  const filters = { user: state.selectedUser, status: state.selectedStatus };
+  const filters = {
+    user: state.selectedUser,
+    adminStatus: state.selectedStatus,
+    pmStatus: state.selectedPmStatus,
+    startDate: state.selectedDateStart,
+    endDate: state.selectedDateEnd,
+  };
 
   const getData = () => {
     LeaveService.allLeavesFiltered(filters)
       .then((res) => {
         let updatedData = { ...dataa };
         updatedData.rows = [];
-        res.data.map((item, index) => {
-          updatedData.rows.push({
-            user: (
-              <Link to={`/userdetails/${item.user._id}`}>
-                {" "}
-                {item.user ? item.user.name : "N/A"}
-              </Link>
-            ),
-            lType: item.type ? item.type.name : "N/A",
-            dates: item.dates
-              ? item.dates.map((item, index) => {
-                  return (
-                    <div>
-                      {moment(item.date).format("LL")}
-                      <br />
-                    </div>
-                  );
-               
-                })
-              : "none",
-              tDays: item.dates ? item.dates.length
-              : "none",
-            aAction: item.adminActionDate
-              ? moment(item.adminActionDate).format("LL")
-              : "N/A",
-            PMStatus: item.pmStatus ? item.pmStatus : "N/A",
-            adminStatus: item.adminStatus ? item.adminStatus : "N/A",
-            action: (
-              <div className="row flex-nowrap justify-content-start">
-                <i
-                  className="mdi mdi-eye 
+        res.data
+          .filter((item) => item.dates.length > 0)
+          .map((item, index) => {
+            updatedData.rows.push({
+              user: (
+                <Link to={`/userdetails/${item.user._id}`}>
+                  {" "}
+                  {item.user ? item.user.name : "N/A"}
+                </Link>
+              ),
+              lType: item.type ? item.type.name : "N/A",
+              dates: item.dates
+                ? item.dates.map((item, index) => {
+                    return (
+                      <div>
+                        {moment(item.date).format("LL")}
+                        <br />
+                      </div>
+                    );
+                  })
+                : "none",
+              tDays: item.dates ? item.dates.length : "none",
+              aAction: item.adminActionDate
+                ? moment(item.adminActionDate).format("LL")
+                : "N/A",
+              PMStatus: item.pmStatus ? item.pmStatus : "N/A",
+              adminStatus: item.adminStatus ? item.adminStatus : "N/A",
+              action: (
+                <div className="row flex-nowrap justify-content-start">
+                  <i
+                    className="mdi mdi-eye 
                   iconsS my-primary-icon"
-                  onClick={() => {
-                    props.history.push({
-                      pathname: "/single-detail/" + item._id,
-                    });
-                  }}
-                />
-              </div>
-            ),
+                    onClick={() => {
+                      props.history.push({
+                        pathname: "/single-detail/" + item._id,
+                      });
+                    }}
+                  />
+                </div>
+              ),
+            });
           });
-        });
         console.log("Leaves", updatedData);
 
         setData(updatedData);
@@ -152,8 +169,37 @@ const LeaveList = (props) => {
         <div className="container-fluid">
           <h4 className="mt-0 header-title">User</h4>
           <div className="row my-3">
-            <div className="col col-md-4">
-              {/* <label>Platform Filter</label> */}
+            <div className="col-md-3">
+              <label>Leave Dates Start Range</label>
+
+              <DatePicker
+                className="form-control"
+                value={state.selectedDateStart}
+                selected={state.selectedDateStart}
+                onChange={(val) =>
+                  setState((prevState) => ({
+                    ...prevState,
+                    selectedDateStart: val,
+                  }))
+                }
+              />
+            </div>
+            <div className="col-md-3">
+              <label>Leave Dates End Range</label>
+              <DatePicker
+                className="form-control"
+                value={state.selectedDateEnd}
+                selected={state.selectedDateEnd}
+                onChange={(val) =>
+                  setState((prevState) => ({
+                    ...prevState,
+                    selectedDateEnd: val,
+                  }))
+                }
+              />
+            </div>
+            <div className="col col-md-2">
+              <label>Employee Filter</label>
               <Select
                 name="clientName"
                 // onBlur={props.handleBlur}
@@ -169,8 +215,26 @@ const LeaveList = (props) => {
                 options={state.users}
               />
             </div>
-            <div className="col col-md-4">
-              {/* <label>Platform Filter</label> */}
+
+            <div className="col col-md-2">
+              <label>PM Status Filter</label>
+              <Select
+                name="clientName"
+                // onBlur={props.handleBlur}
+                // value={props.values.clientName}
+                onChange={(val) =>
+                  setState((prevState) => ({
+                    ...prevState,
+                    selectedPmStatus: val.value,
+                  }))
+                }
+                placeholder="Status..."
+                options={state.statuses}
+              />
+            </div>
+
+            <div className="col col-md-2">
+              <label>Admin Status Filter</label>
               <Select
                 name="clientName"
                 // onBlur={props.handleBlur}
