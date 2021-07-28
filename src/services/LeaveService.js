@@ -41,6 +41,10 @@ class LeaveService {
     return axios.post(this.config.apiBaseUrl + "leave/new", data);
   }
 
+  typeRemainingLeaves(formData) {
+    return axios.post(this.config.apiBaseUrl + "leave/remaining-leaves", formData);
+  }
+
   allLeavesFiltered({ user, status } = {}) {
     return axios.get(
       this.config.apiBaseUrl +
