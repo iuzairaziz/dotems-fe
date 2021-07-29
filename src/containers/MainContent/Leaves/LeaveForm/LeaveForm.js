@@ -20,9 +20,11 @@ const LeaveForm = (props) => {
   const [leaveTypes, setLeaveTypes] = useState([]);
   const [sandwhichSpan, setSandwhichSpan] = useState(false);
   const [probationSpan, setProbationSpan] = useState(false);
+  const [pendingLeaveSpan, setPendingLeaveSpan] = useState(false);
   const [leaveCount, setLeaveCount] = useState(0);
   const loggedInUser = userService.userLoggedInInfo();
   const [remainingLeave, setRemaingLeave] = useState([]);
+  const [pendingLeave, setPendingLeave] = useState({});
   const [selectedType, setSelectedType] = useState({});
   const totalLeave =
     leaveTypes &&
@@ -49,9 +51,29 @@ const LeaveForm = (props) => {
         LeaveService.handleCustomMessage(err.response.data);
       });
   };
+  const getPendingLeave = (formData) => {
+    LeaveService.pendingLeaves(formData)
+      .then((res) => {
+        const leaves = res.data;
+        setPendingLeave(leaves);
+        if (leaves.pendingLeaves > 0) {
+          setPendingLeaveSpan(true);
+        } else {
+          setPendingLeaveSpan(false);
+        }
+        console.log("pending leave data", leaves);
+      })
+      .catch((err) => {
+        LeaveService.handleCustomMessage(err.response.data);
+      });
+  };
 
   useEffect(() => {
     getRemainingLeave({
+      leaveType: selectedType && selectedType.value,
+      user: loggedInUser._id,
+    });
+    getPendingLeave({
       leaveType: selectedType && selectedType.value,
       user: loggedInUser._id,
     });
@@ -121,6 +143,11 @@ const LeaveForm = (props) => {
         <>
           <div className={`${probationSpan ? "sandwhich" : "sandwhich2"} mb-3`}>
             Note: All Leaves Will Be Paid Leaves
+          </div>
+          <div
+            className={`${pendingLeaveSpan ? "sandwhich" : "sandwhich2"} mb-3`}
+          >
+            Note: You Have {pendingLeave.pendingLeaves} Pending Leaves
           </div>
           <div className="row">
             <div className="col-6">
