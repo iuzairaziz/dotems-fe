@@ -298,7 +298,7 @@ const SingleDetail = (props) => {
                     </div>
                     <div className="col-2">
                       <span>
-                      {leaveData && leaveData.type.totalLeaves - remainingLeave && remainingLeave.usedLeaves}
+                      {leaveData && leaveData.type ? (leaveData.type.totalLeaves -  remainingLeave.usedLeaves < 0) ?  "0" : leaveData.type.totalLeaves -  remainingLeave.usedLeaves:"0"}
                       </span>
                     </div>
                     <div className="col-2 sub">
@@ -308,8 +308,7 @@ const SingleDetail = (props) => {
                     </div>
                     <div className="col-2">
                       <span>
-                        {remainingLeave.remaining < 0 ? -remainingLeave.remaining : "0"}
-                      </span>
+                      {leaveData && leaveData.type ? (leaveData.type.totalLeaves -  remainingLeave.usedLeaves > 0) ?  "0" : -(leaveData.type.totalLeaves -  remainingLeave.usedLeaves):"0"}                      </span>
                     </div>
                     <div className="col-2 sub">
                       <span>

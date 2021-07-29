@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import userService from "../../../../services/UserService";
 import moment from "moment";
+import Configuration from "../../../../config/configuration";
 
 const LeaveForm = (props) => {
   const editable = props.editable;
@@ -21,20 +22,52 @@ const LeaveForm = (props) => {
   const [probationSpan, setProbationSpan] = useState(false);
   const [leaveCount, setLeaveCount] = useState(0);
   const loggedInUser = userService.userLoggedInInfo();
+  const [remainingLeave, setRemaingLeave] = useState([]);
+  const [selectedType, setSelectedType] = useState({});
+  const totalLeave =
+    leaveTypes &&
+    leaveTypes.filter((item) => item.value === selectedType.value)[0];
+  console.log("Total", totalLeave);
+
+  const Roles = new Configuration().Roles;
 
   useEffect(() => {
     getleaveTypes();
-    if (loggedInUser.userRole === "Probation") {
+    if (loggedInUser.userRole === Roles.Probation) {
       setProbationSpan(true);
     }
   }, []);
+
+  const getRemainingLeave = (formData) => {
+    LeaveService.typeRemainingLeaves(formData)
+      .then((res) => {
+        const leaves = res.data;
+        setRemaingLeave(leaves);
+        console.log("leave data", leaves);
+      })
+      .catch((err) => {
+        LeaveService.handleCustomMessage(err.response.data);
+      });
+  };
+
+  useEffect(() => {
+    getRemainingLeave({
+      leaveType: selectedType && selectedType.value,
+      user: loggedInUser._id,
+    });
+  }, [selectedType]);
 
   const getleaveTypes = () => {
     LeaveService.getAllLeaveType()
       .then((res) => {
         let options = []; // for react select
+
         res.data.map((item, index) => {
-          options.push({ label: item.name, value: item._id });
+          options.push({
+            label: item.name,
+            value: item._id,
+            totalLeaves: item.totalLeaves,
+          });
         });
         if (loggedInUser.status === "Single") {
           let filterArray = [];
@@ -105,6 +138,7 @@ const LeaveForm = (props) => {
                   value={props.values.leaveType}
                   onChange={(selected) => {
                     props.setFieldValue("leaveType", selected);
+                    setSelectedType(selected);
                   }}
                   options={leaveTypes}
                 />
@@ -301,45 +335,68 @@ const LeaveForm = (props) => {
                 </div>
               </div>
             </div>
-
-            <div className="row">
-              <div className="col-1.5 sub">
-                <span>
-                  <b>Total Leaves : </b>
-                </span>
-              </div>
-              <div className="col-1.5">
-                <span>{/* {leaveData && leaveData.type.totalLeaves} */}</span>
-              </div>
-              <div className="col-1.5 sub">
-                <span>
-                  <b>Used Leaves : </b>
-                </span>
-              </div>
-              <div className="col-1.5">
-                <span>
-                  {/* {leaveDataa.leaves && leaveDataa.leaves.usedLeaves ? leaveDataa.leaves.usedLeaves : "0" } */}
-                </span>
-              </div>
-              <div className="col-1.5 sub">
-                <span>
-                  <b>Remaining Leaves : </b>
-                </span>
-              </div>
-              <div className="col-1.5">
-                <span>
-                  {/* {leaveDataa.remaining ? leaveDataa.remaining <  0 ? "0" : leaveDataa.remaining : leaveDataa.totalLeaves} */}
-                </span>
-              </div>
-              <div className="col-1.5 sub">
-                <span>
-                  <b>Unpaid Leaves : </b>
-                </span>
-              </div>
-              <div className="col-1.5">
-                <span>
-                  {/* {leaveDataa.remaining < 0 ? -leaveDataa.remaining : "0"} */}
-                </span>
+            <div className="col-12">
+              <div className="row">
+                <div className="col sub">
+                  <span>
+                    <b>Total Leaves : </b>
+                  </span>
+                </div>
+                <div className="col">
+                  <span>
+                    {/* {leaveData && leaveData.type.totalLeaves} */}
+                    {/* {selectedType && selectedType.totalLeaves} */}
+                    {totalLeave && totalLeave.totalLeaves}
+                  </span>
+                </div>
+                <div className="col sub">
+                  <span>
+                    <b>Used Leaves : </b>
+                  </span>
+                </div>
+                <div className="col">
+                  <span>
+                    {remainingLeave
+                      ? remainingLeave && remainingLeave.usedLeaves
+                      : "0"}
+                  </span>
+                </div>
+                <div className="col sub">
+                  <span>
+                    <b>Remaining Leaves : </b>
+                  </span>
+                </div>
+                <div className="col">
+                  <span>
+                    {totalLeave && totalLeave.totalLeaves
+                      ? totalLeave.totalLeaves - remainingLeave.usedLeaves < 0
+                        ? "0"
+                        : remainingLeave.usedLeaves
+                        ? totalLeave.totalLeaves - remainingLeave.usedLeaves
+                        : "0"
+                      : totalLeave && totalLeave.totalLeaves}
+                  </span>
+                </div>
+                <div className="col sub">
+                  <span>
+                    <b>Unpaid Leaves : </b>
+                  </span>
+                </div>
+                <div className="col">
+                  <span>
+                    {totalLeave && totalLeave.totalLeaves
+                      ? totalLeave &&
+                        totalLeave.totalLeaves - remainingLeave.usedLeaves > 0
+                        ? "0"
+                        : remainingLeave.usedLeaves
+                        ? -(
+                            totalLeave &&
+                            totalLeave.totalLeaves - remainingLeave.usedLeaves
+                          )
+                        : "0"
+                      : totalLeave && totalLeave.totalLeaves}
+                  </span>
+                </div>
               </div>
             </div>
             <div className="col-12">
