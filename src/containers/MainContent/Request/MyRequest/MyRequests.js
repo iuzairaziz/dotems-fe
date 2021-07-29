@@ -2,40 +2,111 @@ import React, { Component, useEffect, useState } from "react";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import AUX from "../../../../hoc/Aux_";
 import RequestService from "../../../../services/Request";
+import UserService from "../../../../services/UserService";
 import moment from "moment";
 
-const MyRequest = (props) => {
+const RequestList = (props) => {
   const [dataa, setData] = useState({
     columns: [
       {
-        label: "Request Type",
-        field: "rType",
+        label: "User",
+        field: "user",
+        // sort: "asc",
+        // width: 150,
       },
       {
-        label: "Status",
-        field: "status",
+        label: "Request Type",
+        field: "rType",
+        // sort: "asc",
+        // width: 270,
       },
       {
         label: "Request Date",
         field: "rDate",
+        // sort: "asc",
+        // width: 200,
       },
+
+      // {
+      //   label: "Admin Remarks",
+      //   field: "aReamrks",
+      //   // sort: "asc",
+      //   // width: 100,
+      // },
+
       {
         label: "Admin Action Date",
-        field: "aAction",     
+        field: "aAction",
+        // sort: "asc",
+        // width: 100,
       },
       {
-        label: "Admin Remarks",
-        field: "aReamrks",   
+        label: "Admin Status",
+        field: "adminStatus",
+        // sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "User Status",
+        field: "userStatus",
+        // sort: "asc",
+        // width: 100,
       },
       {
         label: "Action",
-        field: "action",   
+        field: "action",
+        // sort: "asc",
+        // width: 100,
       },
     ],
     rows: [],
   });
 
+  useEffect(() => {
+    getData();
+  }, []);
 
+  let userInfo = UserService.userLoggedInInfo();
+  console.log("User Info", userInfo);
+
+  const getData = () => {
+    RequestService.myrequest(userInfo._id)
+      .then((res) => {
+        let updatedData = { ...dataa };
+        updatedData.rows = [];
+        res.data.map((item, index) => {
+          updatedData.rows.push({
+            user: item.user ? item.user.name : "N/A",
+            rType: item.requestType ? item.requestType.name : "N/A",
+            rDate: moment(item.createdAt).format("MM-DD-YYYY"),
+            // description: item.description ? item.description : "N/A",
+            // aReamrks: item.adminRemark ? item.adminRemark : "N/A",
+            aAction: item.adminActionDate
+              ? moment(item.adminActionDate).format("LL")
+              : "N/A",
+            adminStatus: item.adminStatus ? item.adminStatus : "N/A",
+            userStatus: item.userStatus ? item.userStatus : "N/A",
+            action: (
+              <div className="row flex-nowrap d-flex justify-content-start">
+                <i
+                  className="mdi mdi-eye 
+                  iconsS my-primary-icon ml-4"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/request-single-detail/" + item._id,
+                    });
+                  }}
+                />
+              </div>
+            ),
+          });
+        });
+        console.log("Leaves", updatedData);
+
+        setData(updatedData);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <AUX>
@@ -45,14 +116,17 @@ const MyRequest = (props) => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">My Requests</h4>
+                  <h4 className="mt-0 header-title">Requests</h4>
+
                   <MDBDataTableV5
+                    // scrollX
                     fixedHeader={true}
                     responsive
                     striped
                     bordered
                     searchTop
                     hover
+                    // autoWidth
                     data={dataa}
                     theadColor="#000"
                   />
@@ -66,4 +140,4 @@ const MyRequest = (props) => {
   );
 };
 
-export default MyRequest;
+export default RequestList;

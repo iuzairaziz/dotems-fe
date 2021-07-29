@@ -94,11 +94,11 @@ const LeaveForm = (props) => {
               <div className="form-group">
                 <label className="control-label">Leave Type</label>
                 <Select
-                 className={`my-select${
-                  props.touched.leaveType && props.errors.leaveType
-                    ? "is-invalid"
-                    : props.touched.leaveType && "is-valid"
-                }`}
+                  className={`my-select${
+                    props.touched.leaveType && props.errors.leaveType
+                      ? "is-invalid"
+                      : props.touched.leaveType && "is-valid"
+                  }`}
                   name="leaveType"
                   className="zIndex"
                   onBlur={props.handleBlur}
@@ -124,7 +124,6 @@ const LeaveForm = (props) => {
                   </div>
                 </div>
                 <div>
-                  
                   <div className="input-group-multi">
                     <MultipleDatePicker
                       id="uniqueTxt"
@@ -132,7 +131,7 @@ const LeaveForm = (props) => {
                         props.touched.leaveDates && props.errors.leaveDates
                           ? "is-invalid"
                           : props.touched.leaveDates && "is-valid"
-                      }`}  
+                      }`}
                       name="leaveDates"
                       onBlur={props.handleBlur}
                       onSubmit={(dates) => {
@@ -158,31 +157,108 @@ const LeaveForm = (props) => {
                         let sandwhich1 = arr.filter(
                           (item) => moment(item).format("dddd") === "Monday"
                         );
-                        console.log("Length", sandwhich.length);
-                        for (
-                          let counter = 0;
-                          counter < sandwhich.length;
-                          counter++
+                        console.log("Length", sandwhich);
+                        if (
+                          sandwhich.length > 0 ||
+                          (sandwhich.length > 0 && sandwhich1.length > 0)
                         ) {
-                          if (
-                            moment(sandwhich[counter]).format("dddd") ===
-                            "Friday"
+                          for (
+                            let counter = 0;
+                            counter < sandwhich.length;
+                            counter++
+                          ) {
+                            if (sandwhich.length > 0 && sandwhich1.length > 0) {
+                              if (
+                                moment(sandwhich[counter]).format("dddd") ===
+                                "Friday"
+                              ) {
+                                if (
+                                  moment(sandwhich1[counter]).format("dddd") ===
+                                  "Monday"
+                                ) {
+                                  var new_date = moment(
+                                    sandwhich[counter],
+                                    "YYYY-MM-DD"
+                                  )
+                                    .add("days", 1)
+                                    .format("YYYY-MM-DD");
+                                  var new_date1 = moment(
+                                    sandwhich[counter],
+                                    "YYYY-MM-DD"
+                                  )
+                                    .add("days", 2)
+                                    .format("YYYY-MM-DD");
+                                  console.log(new_date);
+                                  console.log(new_date1);
+
+                                  let finalSandwhich = [];
+                                  finalSandwhich.push(new_date, new_date1);
+                                  finalSandwhich.map((item) => {
+                                    formattedDates.push(item);
+                                  });
+
+                                  setSandwhichSpan(true);
+                                }
+                              } else {
+                                formattedDates.pop();
+                                setLeaveCount(0);
+                              }
+                            }
+                            if (sandwhich.length > 0) {
+                              if (
+                                moment(sandwhich[counter]).format("dddd") ===
+                                "Friday"
+                              ) {
+                                var new_date = moment(
+                                  sandwhich[counter],
+                                  "YYYY-MM-DD"
+                                )
+                                  .add("days", 1)
+                                  .format("YYYY-MM-DD");
+                                var new_date1 = moment(
+                                  sandwhich[counter],
+                                  "YYYY-MM-DD"
+                                )
+                                  .add("days", 2)
+                                  .format("YYYY-MM-DD");
+                                console.log(new_date);
+                                console.log(new_date1);
+
+                                let finalSandwhich = [];
+                                finalSandwhich.push(new_date, new_date1);
+                                finalSandwhich.map((item) => {
+                                  formattedDates.push(item);
+                                });
+
+                                setSandwhichSpan(true);
+                              } else {
+                                formattedDates.pop();
+                                setLeaveCount(0);
+                              }
+                            }
+                          }
+                        }
+                        if (sandwhich1.length > 0) {
+                          for (
+                            let counter = 0;
+                            counter < sandwhich1.length;
+                            counter++
                           ) {
                             if (
                               moment(sandwhich1[counter]).format("dddd") ===
                               "Monday"
                             ) {
                               var new_date = moment(
-                                sandwhich[counter],
+                                sandwhich1[counter],
                                 "YYYY-MM-DD"
                               )
-                                .add("days", 1)
+                                .subtract("days", 1)
                                 .format("YYYY-MM-DD");
                               var new_date1 = moment(
-                                sandwhich[counter],
+                                sandwhich1[counter],
                                 "YYYY-MM-DD"
                               )
-                                .add("days", 2)
+                                .subtract("days", 2)
                                 .format("YYYY-MM-DD");
                               console.log(new_date);
                               console.log(new_date1);
@@ -192,20 +268,23 @@ const LeaveForm = (props) => {
                               finalSandwhich.map((item) => {
                                 formattedDates.push(item);
                               });
-                              console.log("Formatted Dates", formattedDates);
+
                               setSandwhichSpan(true);
+                            } else {
+                              formattedDates.pop();
+                              setLeaveCount(0);
                             }
-                          } else {
-                            formattedDates.pop();
-                            setLeaveCount(0);
                           }
                         }
                         let dateObjs = [];
                         formattedDates.map((item) => {
                           dateObjs.push(new Date(item));
                         });
-                        props.setFieldValue("leaveDates", formattedDates);
-                        setLeaveCount(formattedDates.length);
+                        const uniqueSet = new Set(formattedDates);
+                        const backToArray = [...uniqueSet];
+                        console.log("Leave Dates Final", backToArray);
+                        props.setFieldValue("leaveDates", backToArray);
+                        setLeaveCount(backToArray.length);
                       }}
                     />
                     <span
@@ -222,49 +301,47 @@ const LeaveForm = (props) => {
                 </div>
               </div>
             </div>
-           
+
             <div className="row">
-            <div className="col-1.5 sub">
-                      <span>
-                        <b>Total Leaves : </b>
-                      </span>
-                    </div>
-                    <div className="col-1.5">
-                      <span>
-                        {/* {leaveData && leaveData.type.totalLeaves} */}
-                      </span>
-                    </div>
-                    <div className="col-1.5 sub">
-                      <span>
-                        <b>Used Leaves : </b>
-                      </span>
-                    </div>
-                    <div className="col-1.5">
-                      <span>
-                        {/* {leaveDataa.leaves && leaveDataa.leaves.usedLeaves ? leaveDataa.leaves.usedLeaves : "0" } */}
-                      </span>
-                    </div>
-                    <div className="col-1.5 sub">
-                      <span>
-                        <b>Remaining Leaves : </b>
-                      </span>
-                    </div>
-                    <div className="col-1.5">
-                      <span>
-                      {/* {leaveDataa.remaining ? leaveDataa.remaining <  0 ? "0" : leaveDataa.remaining : leaveDataa.totalLeaves} */}
-                      </span>
-                    </div>
-                    <div className="col-1.5 sub">
-                      <span>
-                        <b>Unpaid Leaves : </b>
-                      </span>
-                    </div>
-                    <div className="col-1.5">
-                      <span>
-                        {/* {leaveDataa.remaining < 0 ? -leaveDataa.remaining : "0"} */}
-                      </span>
-                    </div>
-                    </div>
+              <div className="col-1.5 sub">
+                <span>
+                  <b>Total Leaves : </b>
+                </span>
+              </div>
+              <div className="col-1.5">
+                <span>{/* {leaveData && leaveData.type.totalLeaves} */}</span>
+              </div>
+              <div className="col-1.5 sub">
+                <span>
+                  <b>Used Leaves : </b>
+                </span>
+              </div>
+              <div className="col-1.5">
+                <span>
+                  {/* {leaveDataa.leaves && leaveDataa.leaves.usedLeaves ? leaveDataa.leaves.usedLeaves : "0" } */}
+                </span>
+              </div>
+              <div className="col-1.5 sub">
+                <span>
+                  <b>Remaining Leaves : </b>
+                </span>
+              </div>
+              <div className="col-1.5">
+                <span>
+                  {/* {leaveDataa.remaining ? leaveDataa.remaining <  0 ? "0" : leaveDataa.remaining : leaveDataa.totalLeaves} */}
+                </span>
+              </div>
+              <div className="col-1.5 sub">
+                <span>
+                  <b>Unpaid Leaves : </b>
+                </span>
+              </div>
+              <div className="col-1.5">
+                <span>
+                  {/* {leaveDataa.remaining < 0 ? -leaveDataa.remaining : "0"} */}
+                </span>
+              </div>
+            </div>
             <div className="col-12">
               <h4 className="mt-0 header-title">Description</h4>
               <Editor

@@ -40,8 +40,14 @@ const RequestList = (props) => {
         // width: 100,
       },
       {
-        label: "Status",
-        field: "status",
+        label: "Admin Status",
+        field: "adminStatus",
+        // sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "User Status",
+        field: "userStatus",
         // sort: "asc",
         // width: 100,
       },
@@ -74,7 +80,8 @@ const RequestList = (props) => {
             aAction: item.adminActionDate
               ? moment(item.adminActionDate).format("LL")
               : "N/A",
-            status: item.status ? item.status : "N/A",
+            adminStatus: item.adminStatus ? item.adminStatus : "N/A",
+            userStatus: item.userStatus ? item.userStatus : "N/A",
             action: (
               <div className="row flex-nowrap d-flex justify-content-start">
                 <i
@@ -105,7 +112,7 @@ const RequestList = (props) => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Requests</h4>
+                  <h4 className="mt-0 header-title">All Requests</h4>
 
                   <MDBDataTableV5
                     // scrollX

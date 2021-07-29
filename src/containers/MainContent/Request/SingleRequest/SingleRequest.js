@@ -12,7 +12,6 @@ import Request from "../../../../services/Request";
 import Select from "react-select";
 import configuration from "../../../../config/configuration";
 
-
 const SingleRequest = (props) => {
   const [requestData, setData] = useState();
   const [description, setDescription] = useState();
@@ -65,7 +64,7 @@ const SingleRequest = (props) => {
                           toggleEdit();
                         }}
                       >
-                         Action
+                        Action
                       </Button>
                     </div>
                   </div>
@@ -89,11 +88,20 @@ const SingleRequest = (props) => {
                     </div>
                     <div className="col-2 sub">
                       <span>
-                        <b>Request Status: </b>
+                        <b>Request Admin Status: </b>
                       </span>
                     </div>
                     <div className="col-2">
-                      <span>{requestData && requestData.status}</span>
+                      <span>{requestData && requestData.adminStatus}</span>
+                    </div>
+
+                    <div className="col-2 sub">
+                      <span>
+                        <b>Request User Status: </b>
+                      </span>
+                    </div>
+                    <div className="col-2">
+                      <span>{requestData && requestData.userStatus}</span>
                     </div>
 
                     <div className="col-2">
@@ -108,7 +116,6 @@ const SingleRequest = (props) => {
                       </span>
                     </div>
 
-               
                     <div className="col-2">
                       <span>
                         <b>Admin Action Date:</b>
@@ -121,7 +128,7 @@ const SingleRequest = (props) => {
                           : "None"}
                       </span>
                     </div>
-                  
+
                     <div className="col-lg-12">
                       <ul
                         className="nav nav-tabs nav-tabs-custom"
@@ -227,27 +234,30 @@ const SingleRequest = (props) => {
                                 }}
                                 options={[
                                   { value: "Resolved", label: "Resolved" },
-                                  { value: "Changed", label: "Changed" },
-                                  { value: "Fixed", label: "Fixed" },
+                                  {
+                                    value: "Not Resolved",
+                                    label: "Not Resolved",
+                                  },
                                 ]}
                               />
-                          
                             </div>
                           </div>
-                          <div className="col-12">
-                            <h4 className="mt-0 header-title">Description</h4>
-                            <Editor
-                              name="description"
-                              onBlur={props.handleBlur}
-                              toolbarClassName="toolbarClassName"
-                              wrapperClassName="wrapperClassName"
-                              editorClassName="editor"
-                              onEditorStateChange={(val) => {
-                                setDescription(val);
-                              }}
-                            />
-                          
-                          </div>
+                          {loggedInUser.userRole === config.Roles.ADMIN ? (
+                            <div className="col-12">
+                              <h4 className="mt-0 header-title">Description</h4>
+                              <Editor
+                                name="description"
+                                onBlur={props.handleBlur}
+                                toolbarClassName="toolbarClassName"
+                                wrapperClassName="wrapperClassName"
+                                editorClassName="editor"
+                                onEditorStateChange={(val) => {
+                                  setDescription(val);
+                                }}
+                              />
+                            </div>
+                          ) : null}
+
                           <Button
                             color="success"
                             className="mt-3 my-primary-button"
@@ -264,6 +274,11 @@ const SingleRequest = (props) => {
                                       description.getCurrentContent()
                                     )
                                   ),
+                                };
+                              }
+                              if (loggedInUser.userRole != config.Roles.ADMIN) {
+                                data = {
+                                  userStatus: statusLeave.value,
                                 };
                               }
 
