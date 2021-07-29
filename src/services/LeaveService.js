@@ -47,6 +47,12 @@ class LeaveService {
       formData
     );
   }
+  pendingLeaves(formData) {
+    return axios.post(
+      this.config.apiBaseUrl + "leave/pending-leaves",
+      formData
+    );
+  }
 
   allLeavesFiltered({ user, adminStatus, pmStatus, startDate, endDate } = {}) {
     return axios.get(
