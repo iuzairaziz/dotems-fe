@@ -550,7 +550,7 @@ const SingleDetail = (props) => {
                                   setStatusLeave(selected);
                                 }}
                                 options={[
-                                  { value: "pending", label: "Approved" },
+                                  { value: "approved", label: "Approved" },
                                   { value: "rejected", label: "Rejected" },
                                   { value: "unpaid", label: "Unpaid" },
                                 ]}
