@@ -92,8 +92,6 @@ const SingleDetail = (props) => {
 
   const toggleEdit = () => setModalEdit(!modalEdit);
 
-  
-
   const getUserTask = (id) => {
     UserService.getUserById(id)
       .then((res) => {
@@ -147,15 +145,15 @@ const SingleDetail = (props) => {
 
   useEffect(() => {
     getData(leaveID);
-    
   }, [modalEdit]);
 
   useEffect(() => {
-    getRemainingLeave({leaveType : leaveData&&leaveData.type._id||"", user: leaveData&&leaveData.user._id});
-    getUserTask(leaveData&&leaveData.user._id);
-  },[leaveData]);
-
-   
+    getRemainingLeave({
+      leaveType: (leaveData && leaveData.type._id) || "",
+      user: leaveData && leaveData.user._id,
+    });
+    getUserTask(leaveData && leaveData.user._id);
+  }, [leaveData]);
 
   const getData = (id) => {
     LeaveService.leaveById(id)
@@ -171,9 +169,9 @@ const SingleDetail = (props) => {
     LeaveService.typeRemainingLeaves(formData).then((res) => {
       const leaves = res.data;
       setRemaingLeave(leaves);
-      console.log("leave data", leaves)
-    })
-  }
+      console.log("leave data", leaves);
+    });
+  };
 
   // const getRemainingLeave = (formData) => {
   //   LeaveService.typeRemainingLeaves(formData).then((res) => {
@@ -229,7 +227,7 @@ const SingleDetail = (props) => {
                     <div className="col-2">
                       <span>{leaveData && leaveData.type.name}</span>
                     </div>
-                    
+
                     <div className="col-2 sub">
                       <span>
                         <b>Posting Date: </b>
@@ -269,17 +267,14 @@ const SingleDetail = (props) => {
                           : "None"}
                       </span>
                     </div>
-                   
-                   
+
                     <div className="col-2 sub">
                       <span>
                         <b>Total Leaves : </b>
                       </span>
                     </div>
                     <div className="col-2">
-                      <span>
-                        {leaveData && leaveData.type.totalLeaves}
-                      </span>
+                      <span>{leaveData && leaveData.type.totalLeaves}</span>
                     </div>
                     <div className="col-2 sub">
                       <span>
@@ -288,7 +283,9 @@ const SingleDetail = (props) => {
                     </div>
                     <div className="col-2">
                       <span>
-                        {remainingLeave && remainingLeave.usedLeaves ? remainingLeave.usedLeaves : "0" }
+                        {remainingLeave && remainingLeave.usedLeaves
+                          ? remainingLeave.usedLeaves
+                          : "0"}
                       </span>
                     </div>
                     <div className="col-2 sub">
@@ -298,7 +295,14 @@ const SingleDetail = (props) => {
                     </div>
                     <div className="col-2">
                       <span>
-                      {leaveData && leaveData.type ? (leaveData.type.totalLeaves -  remainingLeave.usedLeaves < 0) ?  "0" : leaveData.type.totalLeaves -  remainingLeave.usedLeaves:"0"}
+                        {leaveData && leaveData.type
+                          ? leaveData.type.totalLeaves -
+                              remainingLeave.usedLeaves <
+                            0
+                            ? "0"
+                            : leaveData.type.totalLeaves -
+                              remainingLeave.usedLeaves
+                          : "0"}
                       </span>
                     </div>
                     <div className="col-2 sub">
@@ -308,7 +312,17 @@ const SingleDetail = (props) => {
                     </div>
                     <div className="col-2">
                       <span>
-                      {leaveData && leaveData.type ? (leaveData.type.totalLeaves -  remainingLeave.usedLeaves > 0) ?  "0" : -(leaveData.type.totalLeaves -  remainingLeave.usedLeaves):"0"}                      </span>
+                        {leaveData && leaveData.type
+                          ? leaveData.type.totalLeaves -
+                              remainingLeave.usedLeaves >
+                            0
+                            ? "0"
+                            : -(
+                                leaveData.type.totalLeaves -
+                                remainingLeave.usedLeaves
+                              )
+                          : "0"}{" "}
+                      </span>
                     </div>
                     <div className="col-2 sub">
                       <span>
@@ -339,9 +353,7 @@ const SingleDetail = (props) => {
                       </span>
                     </div>
                     <div className="col-2">
-                      <span>
-                        {leaveData && leaveData.dates.length}
-                      </span>
+                      <span>{leaveData && leaveData.dates.length}</span>
                     </div>
                     {/* <div className="col col-md-3">  
                         <h5>{ leaveDataa.name}</h5>
@@ -430,8 +442,6 @@ const SingleDetail = (props) => {
                             </span>
                           </a>
                         </li>
-
-                       
                       </ul>
 
                       <div className="tab-content">
@@ -540,9 +550,9 @@ const SingleDetail = (props) => {
                                   setStatusLeave(selected);
                                 }}
                                 options={[
-                                  { value: "Approved", label: "Approved" },
-                                  { value: "Rejected", label: "Rejected" },
-                                  { value: "Unpaid", label: "Unpaid" },
+                                  { value: "pending", label: "Approved" },
+                                  { value: "rejected", label: "Rejected" },
+                                  { value: "unpaid", label: "Unpaid" },
                                 ]}
                               />
                               {/* <span id="err">
