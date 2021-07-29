@@ -167,7 +167,7 @@ const LeaveList = (props) => {
     <AUX>
       <div className="page-content-wrapper">
         <div className="container-fluid">
-          <h4 className="mt-0 header-title">User</h4>
+          <h4 className="mt-0 header-title">Leave List</h4>
           <div className="row my-3">
             <div className="col-md-3">
               <label>Leave Dates Start Range</label>

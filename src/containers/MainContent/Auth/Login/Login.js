@@ -172,8 +172,8 @@ class Login extends Component {
 
                   <div className="m-t-40 text-center">
                     <p className="text-white">
-                      © {new Date().getFullYear() - 1} -{" "}
-                      {new Date().getFullYear()} DOT. Crafted with{" "}
+                      © {new Date().getFullYear()} -{" "}
+                      {new Date().getFullYear() + 1} DOT. Crafted with{" "}
                       <i className="mdi mdi-heart text-danger" /> by SUN
                     </p>
                   </div>

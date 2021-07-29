@@ -355,26 +355,7 @@ const TaskForm = (props) => {
                   </span>
                 </div>
               </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label>Team Lead</label>
-                  <Select
-                   className={`my-select${
-                    props.touched.teamLead && props.errors.teamLead
-                      ? "is-invalid"
-                      : props.touched.teamLead && "is-valid"
-                  }`}
-                    value={props.values.teamLead}
-                    name="teamLead"
-                    onBlur={props.handleBlur}
-                    onChange={(val) => props.setFieldValue("teamLead", val)}
-                    options={users}
-                  />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.teamLead && props.errors.teamLead}
-                  </span>
-                </div>
-              </div>
+             
               <div className="col-6">
                 <div className="form-group">
                   <label>Start Time</label>
@@ -414,6 +395,26 @@ const TaskForm = (props) => {
                   />
                   <span id="err" className="invalid-feedback">
                     {props.touched.endTime && props.errors.endTime}
+                  </span>
+                </div>
+              </div>
+              <div className="col-6 zIndex">
+                <div className="form-group">
+                  <label>Team Lead</label>
+                  <Select
+                   className={`my-select${
+                    props.touched.teamLead && props.errors.teamLead
+                      ? "is-invalid"
+                      : props.touched.teamLead && "is-valid"
+                  }`}
+                    value={props.values.teamLead}
+                    name="teamLead"
+                    onBlur={props.handleBlur}
+                    onChange={(val) => props.setFieldValue("teamLead", val)}
+                    options={users}
+                  />
+                  <span id="err" className="invalid-feedback">
+                    {props.touched.teamLead && props.errors.teamLead}
                   </span>
                 </div>
               </div>

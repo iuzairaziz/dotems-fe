@@ -125,7 +125,7 @@ const UpdateUser = (props) => {
               </div>
             </div>
           </div>
-          <div className="row">
+          {/* <div className="row">
             <div className="col">
               <label>Add Image</label>
               <div className="input-group">
@@ -145,7 +145,7 @@ const UpdateUser = (props) => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="row">
             <div className="col">
