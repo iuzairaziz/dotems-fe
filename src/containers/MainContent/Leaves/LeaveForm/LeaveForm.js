@@ -362,8 +362,9 @@ const LeaveForm = (props) => {
                 </div>
               </div>
             </div>
-            <div className="col-12">
-              <div className="row">
+            <div className="col-12 border-top border-bottom py-3 my-3">
+          
+              <div className="row ">
                 <div className="col sub">
                   <span>
                     <b>Total Leaves : </b>
@@ -425,6 +426,7 @@ const LeaveForm = (props) => {
                   </span>
                 </div>
               </div>
+
             </div>
             <div className="col-12">
               <h4 className="mt-0 header-title">Description</h4>
