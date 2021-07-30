@@ -147,7 +147,50 @@ const LeaveForm = (props) => {
           <div
             className={`${pendingLeaveSpan ? "sandwhich" : "sandwhich2"} mb-3`}
           >
-            Note: You Have {pendingLeave.pendingLeaves} Pending Leaves
+            {totalLeave && totalLeave.totalLeaves
+              ? totalLeave.totalLeaves - remainingLeave.usedLeaves > 0 ||
+                typeof remainingLeave.usedLeaves === "undefined"
+                ? `${
+                    pendingLeave.pendingLeaves >
+                    totalLeave.totalLeaves - remainingLeave.usedLeaves
+                      ? `Note: You Have ${
+                          pendingLeave.pendingLeaves
+                        } Pending Leaves if ${
+                          totalLeave && totalLeave.totalLeaves
+                            ? totalLeave.totalLeaves -
+                                remainingLeave.usedLeaves <
+                              0
+                              ? "0"
+                              : remainingLeave.usedLeaves
+                              ? totalLeave.totalLeaves -
+                                remainingLeave.usedLeaves
+                              : "0"
+                            : totalLeave && totalLeave.totalLeaves
+                        } Remaining Leaves Are Approved Then ${
+                          totalLeave && totalLeave.totalLeaves
+                            ? totalLeave.totalLeaves -
+                                remainingLeave.usedLeaves <
+                              0
+                              ? "0"
+                              : remainingLeave.usedLeaves
+                              ? Math.abs(
+                                  totalLeave.totalLeaves -
+                                    remainingLeave.usedLeaves -
+                                    pendingLeave.pendingLeaves
+                                )
+                              : "0"
+                            : totalLeave && totalLeave.totalLeaves
+                        } Leaves Will Be Unpaid`
+                      : `Note: You Have ${
+                          pendingLeave.pendingLeaves
+                        } Pending Leaves`
+                  } `
+                : `Note: You Have ${
+                    pendingLeave.pendingLeaves
+                  } Pending Leaves Your  ${
+                    pendingLeave.pendingLeaves
+                  } Leaves Will be Unpaid`
+              : "none 2"}
           </div>
           <div className="row">
             <div className="col-6">
