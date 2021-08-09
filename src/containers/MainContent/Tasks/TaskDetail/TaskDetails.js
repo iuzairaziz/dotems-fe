@@ -317,62 +317,9 @@ const TaskDetail = (props) => {
               );
             })}
           </div>
+          
           <div className="row">
-            <div className="col-12">
-              <div id="accordion" />
-              {/* <div className="form-group">
-                <label>Description</label>
-                {taskData && taskData.description ? (
-                  <Editor
-                    toolbarClassName="toolbarClassName"
-                    wrapperClassName="wrapperClassName"
-                    editorClassName="editorClass"
-                    readOnly
-                    toolbarStyle={{ display: "none" }}
-                    editorStyle={{
-                      minHeight: "300px",
-                    }}
-                    editorState={
-                      // taskData.description &&
-                      EditorState.createWithContent(
-                        convertFromRaw(JSON.parse(taskData.description))
-                      )
-                    }
-                    // editorStyle={{minHeight:"500px",overflowY:"scroll !important"}}
-                  />
-                ) : (
-                  "none"
-                )}
-              </div> */}
-            </div>
-          </div>
-
-          <div className="row">
-            {/* <div className="col-12">
-              {subTasks.length != 0 && (
-                <div className="card m-b-20">
-                  <div className="card-body">
-                    <h4 className="mt-0 header-title">Sub Tasks View</h4>
-                    <p className="text-muted m-b-30 font-14">
-                      Below are sub tasks of this task
-                    </p>
-
-                    <MDBDataTableV5
-                      // scrollX
-                      fixedHeader={true}
-                      responsive
-                      striped
-                      bordered
-                      searchTop
-                      hover
-                      // autoWidth
-                      data={dataa}
-                      theadColor="#000"
-                    />
-                  </div>
-                </div>
-              )} 
-            </div> */}
+         
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>
                 <ModalHeader toggle={toggleEdit}>Edit Task</ModalHeader>

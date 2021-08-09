@@ -134,146 +134,118 @@ const UserDetails = (props) => {
     };
     console.log("Tasks", taskData);
 
+    const detail = [
+      { label: "Name", value: userData && userData.name },
+      {
+        label: "UserName",
+        value: userData && userData.email
+      },
+  
+      {
+        label: "Joining Date",
+        value: userData &&  moment(userData.joiningDate).format(
+          "DD-MM-YYYY"
+        )
+      },
+      {
+        label: "Machine Number",
+        value: userData &&
+        userData.machineNo &&
+        userData.machineNo.machineNo,
+      },
+  
+      { label: "Role", value: userData && userData.userRole },
+      {
+        label: "Salary",
+        value: userData && userData.salary,
+      },
+      {
+        label: "Status",
+        value: userData && userData.status,
+      },
+      {
+        label: "Gender",
+        value: userData && userData.gender,
+      },
+  
+      {
+        label: "Contact Number",
+        value: userData && userData.contact,
+      },
+      {
+        label: "Other Contact",
+        value: userData && userData.otherContact,
+      },
+      {
+        label: "Working Hours",
+        value: userData && userData.workingHrs,
+      },
+      {
+        label: "Working Days",
+        value: userData && userData.workingDays,
+      },
+      {
+        label: "Personal Mail",
+        value: userData && userData.emailPersonal,
+      },
+      {
+        label: "Address",
+        value: userData && userData.address,
+      },
+      {
+        label: "Guardian Name",
+        value: userData && userData.nameEmergency,
+      },
+      {
+        label: "Guardian Address",
+        value: userData && userData.contactEmergency,
+      },
+      {
+        label: "Technology",
+        value:  userData && userData.technology
+        ? userData.technology.map((item, index) => {
+            if (index === 0) {
+              return item.name;
+            } else if (index >= 0) {
+              return `, ${item.name} `;
+            }
+          })
+        : "None",
+      },
+    ];
+
     return (
       <AUX>
         <div className="page-content-wrapper userD">
           <div className="container-fluid">
-            <div className="row">
-              <div className="col">
-                <div className="col-12">
-                  <div className="card m-b-20">
-                    <div className="card-body">
                       <div className="row">
-                        <div className="col">
-                          <span className="labell">Name: </span>
-                          <span className="valuee">
-                            {userData && userData.name}
-                          </span>
-                        </div>
-                        <div className="col">
-                          <div>
-                            <span className="labell">UserName: </span>
-                            <span className="valuee">
-                              {userData && userData.email}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="col">
-                          <div>
-                            <span className="labell">Joining Date: </span>
-                            <span className="valuee">
-                              {moment(userData && userData.joiningDate).format(
-                                "DD-MM-YYYY"
-                              )}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="col">
-                          <div>
-                            <span className="labell">Machine Number: </span>
-                            <span className="valuee">
-                              {userData &&
-                                userData.machineNo &&
-                                userData.machineNo.machineNo}
-                            </span>
-                          </div>
-                        </div>
+                      <div className="row align-items-center gapp">
+            {detail.map((item, indx) => {
+              return (
+                <>
+                  <div
+                    className={`labell ${
+                      item.label === "Team Members"
+                        ? "col-3 col-md-2"
+                        : "col-3 col-md-2"
+                    } mb-3 d-flex align-items-center align-self-center`}
+                  >
+                    <div>{item.label}</div>
+                  </div>
+                  <div
+                    className={`valuee ${
+                      item.label === "Team Members"
+                        ? "col-9 col-md-6"
+                        : "col-3 col-md-2"
+                    } col-3 col-md-2 mb-3 align-self-center"`}
+                  >
+                    {item.value}
+                  </div>
+                </>
+              );
+            })}
+          </div>
                       </div>
-                      <div className="row gap">
-                        <div className="col">
-                          <span className="labell">Role: </span>
-                          <span className="valuee">
-                            {userData && userData.userRole}
-                          </span>
-                        </div>
-                        <div className="col">
-                          <span className="labell">Salary: </span>
-                          <span className="valuee">
-                            {userData && userData.salary}
-                          </span>
-                        </div>
-                        <div className="col">
-                          <span className="labell">Status: </span>
-                          <span className="valuee">
-                            {userData && userData.status}
-                          </span>
-                        </div>
-                        <div className="col">
-                          <span className="labell">Gender: </span>
-                          <span className="valuee">
-                            {userData && userData.gender}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="row gap">
-                        <div className="col">
-                          <span className="labell">Contact # </span>
-                          <span className="valuee">
-                            {userData && userData.contact}
-                          </span>
-                        </div>
-                        <div className="col">
-                          <span className="labell">Other Contact: </span>
-                          <span className="valuee">
-                            {userData && userData.otherContact}
-                          </span>
-                        </div>
-                        <div className="col">
-                          <span className="labell">Working Hours: </span>
-                          <span className="valuee">
-                            {userData && userData.workingHrs}
-                          </span>
-                        </div>
-                        <div className="col">
-                          <span className="labell">Working Days: </span>
-                          <span className="valuee">
-                            {userData && userData.workingDays}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="row gap">
-                        <div className="col">
-                          <span className="labell">Personal Mail: </span>
-                          <span className="valuee">
-                            {userData && userData.emailPersonal}
-                          </span>
-                        </div>
-                        <div className="col">
-                          <span className="labell">Address: </span>
-                          <span className="valuee">
-                            {userData && userData.address}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="row gap">
-                        <div className="col">
-                          <span className="labell">Guardian Name: </span>
-                          <span className="valuee">
-                            {userData && userData.nameEmergency}
-                          </span>
-                        </div>
-                        <div className="col">
-                          <span className="labell">Guardian Number: </span>
-                          <span className="valuee">
-                            {userData && userData.contactEmergency}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="row gap">
-                        <div className="col">
-                          <span className="labell">Technology: </span>
-                          <span className="valuee">
-                            {userData &&
-                              userData.technology.map((item) => {
-                                return item.name;
-                                {
-                                  console.log("tech name", item.name);
-                                }
-                              })}
-                          </span>
-                        </div>
-                      </div>
-
                       {taskData.length != 0 && (
                         <div className="col-12 gap">
                           <h4 className="mt-0 header-title">User Tasks</h4>
@@ -296,11 +268,7 @@ const UserDetails = (props) => {
                           />
                         </div>
                       )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+                    
           </div>
         </div>
       </AUX>
