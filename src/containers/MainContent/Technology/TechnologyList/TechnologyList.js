@@ -89,16 +89,24 @@ const TechnologyList = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">All Tasks View</h4>
+                  <h4 className="mt-0 header-title">All Technologies</h4>
                   <p className="text-muted m-b-30 font-14">
-                    Below are all tasks of all projects
+                    Below are all Technologies
                   </p>
 
                   <MDBDataTable
+                   responsive
+                   striped
+                   small
+                   onPageChange={(val) => console.log(val)}
+                   bordered={true}
+                   materialSearch
+                   searchTop
+                   searchBottom={false}
+                   pagingTop
+                   barReverse
+                   hover
                     // scrollX
-                    striped
-                    bordered
-                    hover
                     // autoWidth
                     data={data}
                   />

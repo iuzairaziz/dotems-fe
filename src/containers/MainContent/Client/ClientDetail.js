@@ -226,31 +226,32 @@ const ClientDetails = (props) => {
                         </div>
                       </div>
                     </div>
+                    <div className="row">
+                    <div className="col-12">          
+                <h4 className="mt-0 header-title">Client Projects</h4>
+                <MDBDataTableV5
+                 responsive
+                 striped
+                 small
+                 onPageChange={(val) => console.log(val)}
+                 bordered={true}
+                 materialSearch
+                 searchTop
+                 searchBottom={false}
+                 pagingTop
+                 barReverse
+                 hover
+                  data={dataa}
+                  theadColor="#000"
+                />            
+          </div>
+          </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-12">
-            <div className="card m-b-20">
-              <div className="card-body">
-                <h4 className="mt-0 header-title">Client Projects</h4>
-
-                <MDBDataTableV5
-                  // scrollX
-                  fixedHeader={true}
-                  responsive
-                  striped
-                  bordered
-                  searchTop
-                  hover
-                  // autoWidth
-                  data={dataa}
-                  theadColor="#000"
-                />
-              </div>
-            </div>
-          </div>
+        
         </div>
       </AUX>
     );

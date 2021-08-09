@@ -1,5 +1,7 @@
-import React , {Component } from 'react';
+import React , {Component, useEffect , useState } from 'react';
 import AUX from '../../../hoc/Aux_';
+import UserService from "../../../services/UserService"
+import RequestService from "../../../services/Request"
 import { Sparklines,SparklinesLine  } from 'react-sparklines';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Link } from 'react-router-dom';
@@ -8,24 +10,49 @@ import Chart from 'react-apexcharts';
 import MixedChart from '../../../containers/Chartstypes/Apex/MixedChart';
 import DonutChart from '../../../containers/Chartstypes/Apex/DonutChart';
 
-class dashboard1 extends Component{
+const dashboard1 = () => {
 
-    constructor(props) {
-        super(props);
+    // constructor(props) {
+    //     super(props);
      
-        this.state = {
-          simple:80, simple68:68, simple37:37, simple72:72,
-        };
-      }
+    //     this.state = {
+    //       simple:80, simple68:68, simple37:37, simple72:72,
+    //     };
+    //   }
+    const [tasks, setTasks] = useState([]);
+    const [requests, setRequests] = useState([]);
+    let loggedUser = UserService.userLoggedInInfo();
 
- 
-render(){
+
+    const getTaskData = (id) => {
+        UserService.getUserById(id).then((res) => {
+          const task = res.data;
+          setTasks(task);
+          console.log("task data", task && task.tasks.length);
+        });
+      };
+      
+      const getRequestData = (id) => {
+        RequestService.myrequest(id).then((res) => {
+          const request = res.data;
+          setRequests(request);
+          console.log("request data", request);
+        });
+      };
+
+      useEffect(() => {
+        getTaskData(loggedUser._id);
+        getRequestData(loggedUser._id)
+      }, []);
+    
+      console.log("Tasks", tasks)
+
     return(
            <AUX>
 			  <div className="page-content-wrapper">
               <div className="container-fluid">
 
-                <div className="row">
+                {/* <div className="row">
                     <div className="col-md-6 col-xl-3">
                         <div className="mini-stat clearfix bg-white">
                             <span className="mini-stat-icon bg-purple mr-0 float-right"><i className="mdi mdi-basket"></i></span>
@@ -70,9 +97,9 @@ render(){
                             <p className="text-muted mb-0 m-t-20">Total income: $22506 <span className="pull-right"><i className="fa fa-caret-up m-r-5"></i>10.25%</span></p>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
-                <div className="row">
+                {/* <div className="row">
 
                     <div className="col-xl-9">
                         <div className="row">
@@ -121,9 +148,9 @@ render(){
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
-                    <div className="col-xl-3">
+                    {/* <div className="col-xl-3">
                         <div className="card m-b-20">
                             <div className="card-body">
                                 <h4 className="mt-0 header-title">Sales Analytics</h4>
@@ -146,37 +173,33 @@ render(){
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
 
                 <div className="row">
                     <div className="col-xl-3">
                         <div className="card m-b-20">
                             <div className="card-body">
-                                <h4 className="mt-0 header-title m-b-30">Recent Stock</h4>
-
+                                <h4 className="mt-0 header-title m-b-30">Total Projects</h4>
+                              
                                 <div className="text-center">
-                                     
-                                    <PieChart
-                                        label
-                                        size={100}
-                                        innerHoleSize={80}
-                                        data={[
-                                        { key: 'A', value: 80, color: '#ffbb44' },
-                                        { key: 'B', value: 20, color: '#fff' },
-                                        ]}
-                                    />
-
+                                <div className=" bg-red d-flex justify-content-center">
+                                <span className="mini-stat-icon bg-primary font-size-100px"><i className="mdi mdi-parking font-size-100px"></i></span>
+                                </div>
                                     <div className="clearfix"></div>
-                                    <a href="#" className="btn btn-sm btn-warning m-t-20">View All Data</a>
+                                    
                                     <ul className="list-inline row m-t-30 clearfix">
-                                        <li className="col-6">
+                                        <li className="col-4">
                                             <p className="m-b-5 font-18 font-600">7,541</p>
-                                            <p className="mb-0">Mobile Phones</p>
+                                            <p className="mb-0">Pending</p>
                                         </li>
-                                        <li className="col-6">
+                                        <li className="col-4">
+                                            <p className="m-b-5 font-18 font-600">7,541</p>
+                                            <p className="mb-0">Working</p>
+                                        </li>
+                                        <li className="col-4">
                                             <p className="m-b-5 font-18 font-600">125</p>
-                                            <p className="mb-0">Desktops</p>
+                                            <p className="mb-0">Completed</p>
                                         </li>
                                     </ul>
 
@@ -188,33 +211,26 @@ render(){
                     <div className="col-xl-3">
                         <div className="card m-b-20">
                             <div className="card-body">
-                                <h4 className="mt-0 header-title m-b-30">Purchase Order</h4>
-
-                                <div className="text-center">
+                                <h4 className="mt-0 header-title m-b-30">Total Tasks :   {tasks && tasks.tasks && tasks.tasks.length}</h4>                                <div className="text-center">
                           
-                                       <PieChart
-                                        label
-                                        size={100}
-                                        innerHoleSize={80}
-                                        data={[
-                                        { key: 'A', value: 68, color: '#4ac18e' },
-                                        { key: 'B', value: 25, color: '#fff' },
-                                        ]}
-                                    />
-
-                                    <div className="clearfix"></div>
-                                    <a href="#" className="btn btn-sm btn-success m-t-20">View All Data</a>
+                                     
+                                    <div className="clearfix">
+                                   
                                     <ul className="list-inline row m-t-30 clearfix">
-                                        <li className="col-6">
-                                            <p className="m-b-5 font-18 font-600">2,541</p>
-                                            <p className="mb-0">Mobile Phones</p>
+                                        <li className="col-4">
+                                            <p className="m-b-5 font-18 font-600">200</p>
+                                            <p className="mb-0">Pending</p>
                                         </li>
-                                        <li className="col-6">
+                                        <li className="col-4">
                                             <p className="m-b-5 font-18 font-600">874</p>
-                                            <p className="mb-0">Desktops</p>
+                                            <p className="mb-0">Working</p>
+                                        </li>
+                                        <li className="col-4">
+                                            <p className="m-b-5 font-18 font-600">874</p>
+                                            <p className="mb-0">Completed</p>
                                         </li>
                                     </ul>
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -223,11 +239,8 @@ render(){
                     <div className="col-xl-3">
                         <div className="card m-b-20">
                             <div className="card-body">
-                                <h4 className="mt-0 header-title m-b-30">Shipped Orders</h4>
-
-                                <div className="text-center">
-                          
-                                        
+                                <h4 className="mt-0 header-title m-b-30">Total Leaves</h4>
+                                   <div className="text-center">          
                                        <PieChart
                                         label
                                         size={100}
@@ -237,20 +250,23 @@ render(){
                                         { key: 'B', value: 30, color: '#fff' },
                                         ]}
                                     />
-
-                                    <div className="clearfix"></div>
+                                 <div className="clearfix">
                                     <a href="#" className="btn btn-sm btn-brown m-t-20">View All Data</a>
                                     <ul className="list-inline row m-t-30 clearfix">
-                                        <li className="col-6">
+                                        <li className="col-4">
                                             <p className="m-b-5 font-18 font-600">1,154</p>
-                                            <p className="mb-0">Mobile Phones</p>
+                                            <p className="mb-0">Approved</p>
                                         </li>
-                                        <li className="col-6">
+                                        <li className="col-4">
                                             <p className="m-b-5 font-18 font-600">89</p>
-                                            <p className="mb-0">Desktops</p>
+                                            <p className="mb-0">Rejected</p>
+                                        </li>
+                                        <li className="col-4">
+                                            <p className="m-b-5 font-18 font-600">89</p>
+                                            <p className="mb-0">Unpaid</p>
                                         </li>
                                     </ul>
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -259,11 +275,8 @@ render(){
                     <div className="col-xl-3">
                         <div className="card m-b-20">
                             <div className="card-body">
-                                <h4 className="mt-0 header-title m-b-30">Cancelled Orders</h4>
-
-                                <div className="text-center">
-                         
-                                        
+                                <h4 className="mt-0 header-title m-b-30">Total Requests:  {requests && requests.length}</h4>
+                                <div className="text-center">                               
                                        <PieChart
                                         label
                                         size={100}
@@ -273,20 +286,23 @@ render(){
                                         { key: 'B', value: 5, color: '#fff' },
                                         ]}
                                     />
-
-                                    <div className="clearfix"></div>
+                                    <div className="clearfix">
                                     <a href="#" className="btn btn-sm btn-blue-grey m-t-20">View All Data</a>
                                     <ul className="list-inline row m-t-30 clearfix">
-                                        <li className="col-6">
+                                        <li className="col-4">
                                             <p className="m-b-5 font-18 font-600">95</p>
-                                            <p className="mb-0">Mobile Phones</p>
+                                            <p className="mb-0">Resolved</p>
                                         </li>
-                                        <li className="col-6">
+                                        <li className="col-4">
+                                            <p className="m-b-5 font-18 font-600">95</p>
+                                            <p className="mb-0">Unresolved</p>
+                                        </li>
+                                        <li className="col-4">
                                             <p className="m-b-5 font-18 font-600">25</p>
-                                            <p className="mb-0">Desktops</p>
+                                            <p className="mb-0">Pending</p>
                                         </li>
                                     </ul>
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -294,11 +310,11 @@ render(){
 
                 </div>
 
-                <div className="row">
+                 <div className="row">
                     <div className="col-xl-6">
                         <div className="card m-b-20">
                             <div className="card-body">
-                                <h4 className="mt-0 m-b-30 header-title">Latest Transactions</h4>
+                                <h4 className="mt-0 m-b-30 header-title font-20 font-600">Tasks due this week</h4>
 
                                 <div className="table-responsive">
                                     <table className="table table-vertical mb-0">
@@ -405,8 +421,59 @@ render(){
                             </div>
                         </div>
                     </div>
+                    <div className="col-md-3 pl-md-1">
+                                <div className="card m-b-20" style={{Height : "446px"}}>
+                                    <div className="card-body">
+                                        <div className="m-b-20">
+                                            <p className="m-b-5 font-18 font-500">Tasks due next week : 2</p>                                            <PieChart
+                                size={70}
+                                innerHoleSize={40}
+                                data={[
+                                { key: 'A', value: 100, color: '#f2f2f2' },
+                                { key: 'B', value: 200, color: '#3bc3e9' },
+                                ]}
+                            />
+                             <div className="clearfix">
+                                    <ul className="list-inline row m-t-30 clearfix">
+                                        <li className="col-6">
+                                            <p className="m-b-5 font-18 font-600">200</p>
+                                            <p className="mb-0">Pending</p>
+                                        </li>
+                                        <li className="col-6">
+                                            <p className="m-b-5 font-18 font-600">874</p>
+                                            <p className="mb-0">Working</p>
+                                        </li>
+                                    </ul>
+                                    </div>
+                                        </div>
+                                        <div className="m-b-20">
+                                            <p className="m-b-5 font-18 font-500">Tasks due this month : 5</p>
+                                            <PieChart 
+                                size={70}
+                                data={[
+                                { key: 'A', value: 100, color: '#f2f2f2' },
+                                { key: 'B', value: 200, color: '#4ac18e' },
+                                ]}
+                            />
+                             <div className="clearfix">
+                                    <ul className="list-inline row m-t-30 clearfix">
+                                        <li className="col-6">
+                                            <p className="m-b-5 font-18 font-600">200</p>
+                                            <p className="mb-0">Pending</p>
+                                        </li>
+                                        <li className="col-6">
+                                            <p className="m-b-5 font-18 font-600">874</p>
+                                            <p className="mb-0">Working</p>
+                                        </li>
+                                    </ul>
+                                    </div>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
 
-                    <div className="col-xl-6">
+                    {/* <div className="col-xl-6">
                         <div className="card m-b-20">
                             <div className="card-body">
                                 <h4 className="mt-0 m-b-30 header-title">Latest Orders</h4>
@@ -510,13 +577,13 @@ render(){
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div> */}
+                </div> 
             </div>
         </div>
            </AUX>
         );
-    }
+    
 }
 
 export default dashboard1;   

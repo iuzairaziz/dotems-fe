@@ -511,14 +511,17 @@ const ProjectDetails = (props) => {
                           role="tabpanel"
                         >
                           <MDBDataTableV5
-                            // scrollX
-                            fixedHeader={true}
-                            responsive
-                            striped
-                            bordered
-                            searchTop
-                            hover
-                            // autoWidth
+                           responsive
+                           striped
+                           small
+                           onPageChange={(val) => console.log(val)}
+                           bordered={true}
+                           materialSearch
+                           searchTop
+                           searchBottom={false}
+                           pagingTop
+                           barReverse
+                           hover
                             data={tabledata}
                             theadColor="#000"
                           />
@@ -530,26 +533,6 @@ const ProjectDetails = (props) => {
               </div>
             </div>
           </div>
-          {/* <div className="col-12">
-            <div className="card m-b-20">
-              <div className="card-body">
-                <h4 className="mt-0 header-title">Project Tasks</h4>
-
-                <MDBDataTableV5
-                  // scrollX
-                  fixedHeader={true}
-                  responsive
-                  striped
-                  bordered
-                  searchTop
-                  hover
-                  // autoWidth
-                  data={tabledata}
-                  theadColor="#000"
-                />
-              </div>
-            </div>
-          </div> */}
         </div>
       </AUX>
     );

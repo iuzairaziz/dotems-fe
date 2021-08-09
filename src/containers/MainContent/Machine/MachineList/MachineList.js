@@ -133,13 +133,18 @@ const ViewMachines = (props) => {
                 <div className="card-body">
                   <h4 className="mt-0 header-title">Machines </h4>
                   <MDBDataTableV5
+                   responsive
+                   striped
+                   small
+                   onPageChange={(val) => console.log(val)}
+                   bordered={true}
+                   materialSearch
+                   searchTop
+                   searchBottom={false}
+                   pagingTop
+                   barReverse
+                   hover
                     // scrollX
-                    fixedHeader={true}
-                    responsive
-                    striped
-                    bordered
-                    searchTop
-                    hover
                     data={dataa}
                     theadColor="#000"
                   />

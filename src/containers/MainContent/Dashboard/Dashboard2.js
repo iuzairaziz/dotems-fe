@@ -32,14 +32,14 @@ render(){
                     <div className="row">
                         <div className="col-md-6 col-xl-3">
                             <div className="mini-stat widget-chart-sm clearfix bg-white">
-                            <PieChart
+                 <PieChart
                                 size={70}
                                 innerHoleSize={50}
                                 data={[
                                 { key: 'A', value: 100, color: '#f2f2f2' },
                                 { key: 'B', value: 200, color: '#3bc3e9' },
                                 ]}
-                            />
+                            />           
 
                                 <div className="mini-stat-info text-right">
                                     <span className="counter text-info">9541</span>

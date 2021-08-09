@@ -264,13 +264,13 @@ const LeaveList = (props) => {
                 onPageChange={(val) => console.log(val)}
                 bordered={true}
                 materialSearch
-                // searchTop
                 searchTop
                 searchBottom={false}
                 pagingTop
                 barReverse
                 hover
                 // autoWidth
+
                 data={dataa}
                 theadColor="#000"
               />

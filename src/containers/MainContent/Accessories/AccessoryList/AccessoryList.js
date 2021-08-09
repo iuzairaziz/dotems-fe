@@ -93,12 +93,21 @@ const CountryList = () => {
                   <h4 className="mt-0 header-title">All Accessories</h4>
 
                   <MDBDataTableV5
-                    // scrollX
+                  
+                   small
+                 
+                   bordered={true}
+                   materialSearch
+                   searchTop
+                   searchBottom={false}
+                   pagingTop
+                   barReverse
+                  
                     striped
                     bordered
                     hover
                     responsive
-                    // autoWidth
+                 
                     data={data}
                   />
                 </div>

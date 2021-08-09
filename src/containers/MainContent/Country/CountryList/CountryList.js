@@ -94,11 +94,17 @@ const CountryList = () => {
                   <h4 className="mt-0 header-title">All Countries</h4>
 
                   <MDBDataTableV5
+                   responsive
+                   striped
+                   small
+                   bordered={true}
+                   materialSearch
+                   searchTop
+                   searchBottom={false}
+                   pagingTop
+                   barReverse
+                   hover
                     // scrollX
-                    striped
-                    bordered
-                    hover
-                    responsive
                     // autoWidth
                     data={data}
                   />

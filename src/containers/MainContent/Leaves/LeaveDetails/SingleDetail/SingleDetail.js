@@ -355,27 +355,7 @@ const SingleDetail = (props) => {
                     <div className="col-2">
                       <span>{leaveData && leaveData.dates.length}</span>
                     </div>
-                    {/* <div className="col col-md-3">  
-                        <h5>{ leaveDataa.name}</h5>
-                        
-                        <div>
-                        <span>Total Leave: </span>
-                        <span className="sub">{ leaveDataa.totalLeaves}</span>
-                        </div>
-                        <div>
-                        <span>Used Leaves: </span>
-                        <span className="sub2">{leaveDataa.leaves && leaveDataa.leaves.usedLeaves ? leaveDataa.leaves.usedLeaves : "0" }</span>
-                        </div>
-                        <div>
-                        <span>Remaining Leave: </span>
-                        <span className="sub1">{leaveDataa.remaining ? leaveDataa.remaining <  0 ? "0" : leaveDataa.remaining : leaveDataa.totalLeaves}</span>
-                        </div>
-                        <div>
-                        <span>Unpaid Leaves: </span>
-                        <span className="sub3">{leaveDataa.remaining < 0 ? -leaveDataa.remaining : "0" }</span>
-                        </div>
-                        
-                      </div> */}
+                 
                     <div className="col-lg-12">
                       <ul
                         className="nav nav-tabs nav-tabs-custom"

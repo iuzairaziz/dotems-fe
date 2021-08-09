@@ -251,13 +251,18 @@ const Tables_datatable = (props) => {
                   </p>
 
                   <MDBDataTableV5
+                   responsive
+                   striped
+                   small
+                   onPageChange={(val) => console.log(val)}
+                   bordered={true}
+                   materialSearch
+                   searchTop
+                   searchBottom={false}
+                   pagingTop
+                   barReverse
+                   hover
                     // scrollX
-                    fixedHeader={true}
-                    responsive
-                    striped
-                    bordered
-                    searchTop
-                    hover
                     // autoWidth
                     data={dataa}
                     theadColor="#000"

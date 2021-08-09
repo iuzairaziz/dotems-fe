@@ -320,11 +320,17 @@ const ViewExpense = () => {
                   </div>
 
                   <MDBDataTableV5
+                   responsive
+                   striped
+                   small
+                   bordered={true}
+                   materialSearch
+                   searchTop
+                   searchBottom={false}
+                   pagingTop
+                   barReverse
+                   hover
                     // scrollX
-                    striped
-                    bordered
-                    hover
-                    responsive
                     // autoWidth
                     data={dataa}
                   />

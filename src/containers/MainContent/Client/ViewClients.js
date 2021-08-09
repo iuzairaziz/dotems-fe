@@ -158,13 +158,24 @@ const ViewClients = (props) => {
                   <h4 className="mt-0 header-title">All Clients</h4>
 
                   <MDBDataTableV5
-                    // scrollX
-                    fixedHeader={true}
-                    responsive
-                    striped
-                    bordered
-                    searchTop
-                    hover
+                   responsive
+                   striped
+                   small
+                   onPageChange={(val) => console.log(val)}
+                   bordered={true}
+                   materialSearch
+                   searchTop
+                   searchBottom={false}
+                   pagingTop
+                   barReverse
+                   hover
+                    // // scrollX
+                    // fixedHeader={true}
+                    // responsive
+                    // striped
+                    // bordered
+                    // searchTop
+                    // hover
                     // autoWidth
                     data={dataa}
                     theadColor="#000"

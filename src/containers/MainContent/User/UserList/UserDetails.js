@@ -279,13 +279,17 @@ const UserDetails = (props) => {
                           <h4 className="mt-0 header-title">User Tasks</h4>
 
                           <MDBDataTableV5
+                           responsive
+                           striped
+                           small
+                           bordered={true}
+                           materialSearch
+                           searchTop
+                           searchBottom={false}
+                           pagingTop
+                           barReverse
+                           hover
                             // scrollX
-                            fixedHeader={true}
-                            responsive
-                            striped
-                            bordered
-                            searchTop
-                            hover
                             // autoWidth
                             data={dataa}
                             theadColor="#000"

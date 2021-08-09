@@ -489,26 +489,34 @@ const TaskDetail = (props) => {
                 </div>
                 <div className="tab-pane p-3" id="profile" role="tabpanel">
                   <MDBDataTableV5
-                    // scrollX
-                    fixedHeader={true}
-                    responsive
-                    striped
-                    bordered
-                    searchTop
-                    hover
-                    // autoWidth
+                   responsive
+                   striped
+                   small
+                   onPageChange={(val) => console.log(val)}
+                   bordered={true}
+                   materialSearch
+                   searchTop
+                   searchBottom={false}
+                   pagingTop
+                   barReverse
+                   hover
                     data={dataa}
                     theadColor="#000"
                   />
                 </div>
                 <div className="tab-pane p-3" id="messages" role="tabpanel">
                   <MDBDataTableV5
-                    fixedHeader={true}
-                    responsive
-                    striped
-                    bordered
-                    searchTop
-                    hover
+                   responsive
+                   striped
+                   small
+                   onPageChange={(val) => console.log(val)}
+                   bordered={true}
+                   materialSearch
+                   searchTop
+                   searchBottom={false}
+                   pagingTop
+                   barReverse
+                   hover
                     data={remarks}
                     theadColor="#000"
                   />
@@ -519,127 +527,10 @@ const TaskDetail = (props) => {
                   </div>
                 </div>
               </div>
-            </div>
-            {/* 
-            <div className="col-12">
-              <div id="accordion">
-                <div className="card">
-                  <div className="card-header p-3" id="headingOne">
-                    <a
-                      href="#collapseOne"
-                      className="text-dark"
-                      data-toggle="collapse"
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                    >
-                      <h6 className="m-0">Description</h6>
-                    </a>
-                  </div>
-
-                  <div
-                    id="collapseOne"
-                    className="collapse"
-                    aria-labelledby="headingOne"
-                    data-parent="#accordion"
-                  >
-                    <div className="card-body">
-                      <div className="task-remarks col-12">
-                        {taskData && taskData.description ? (
-                          <Editor
-                            toolbarClassName="toolbarClassName"
-                            wrapperClassName="wrapperClassName"
-                            editorClassName="editorClass"
-                            readOnly
-                            toolbarStyle={{ display: "none" }}
-                            editorStyle={{
-                              minHeight: "300px",
-                            }}
-                            editorState={
-                              // taskData.description &&
-                              EditorState.createWithContent(
-                                convertFromRaw(JSON.parse(taskData.description))
-                              )
-                            }
-                            // editorStyle={{minHeight:"500px",overflowY:"scroll !important"}}
-                          />
-                        ) : (
-                          "none"
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="card">
-                  <div className="card-header p-3" id="headingOne">
-                    <a
-                      href="#collapseOne"
-                      className="text-dark"
-                      data-toggle="collapse"
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                    >
-                      <h6 className="m-0">Remarks</h6>
-                    </a>
-                  </div>
-
-                  <div
-                    id="collapseOne"
-                    className="collapse"
-                    aria-labelledby="headingOne"
-                    data-parent="#accordion"
-                  >
-                    <div className="card-body">
-                      <div className="task-remarks col-12">
-                        <MDBDataTableV5
-                          fixedHeader={true}
-                          responsive
-                          striped
-                          bordered
-                          searchTop
-                          hover
-                          data={remarks}
-                          theadColor="#000"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="card">
-                  <div className="card-header p-3" id="headingTwo">
-                    <a
-                      href="#collapseTwo"
-                      className="text-dark collapsed"
-                      data-toggle="collapse"
-                      aria-expanded="false"
-                      aria-controls="collapseTwo"
-                    >
-                      <h6 className="m-0">Comments</h6>
-                    </a>
-                  </div>
-                  <div
-                    id="collapseTwo"
-                    className="collapse"
-                    aria-labelledby="headingTwo"
-                    data-parent="#accordion"
-                  >
-                    <div className="card-body">
-                      <div className="task-comments col-12">
-                        <Comments taskId={taskData && taskData._id} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
+            </div> 
           </div>
         </div>
       </div>
-
-      {/* <div className="page-content-wrapper">
-        <div className="container-fluid">
-        
-        </div>
-      </div> */}
     </div>
   );
 };

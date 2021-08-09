@@ -293,7 +293,55 @@ const MachineDetails = (props) => {
                     <div className="form-group">
                       <label>Notes</label>
 
-                      <Editor
+                     
+                    </div>
+                    <div className="col-lg-12">
+                      <ul
+                        className="nav nav-tabs nav-tabs-custom"
+                        role="tablist"
+                      >
+                        <li className="nav-item">
+                          <a
+                            className="nav-link active"
+                            data-toggle="tab"
+                            href="#home1"
+                            role="tab"
+                          >
+                            <span className="d-none d-md-block">
+                            Machine Description
+                            </span>
+                            <span className="d-block d-md-none">
+                              <i className="mdi mdi-home-variant h5" />
+                            </span>
+                          </a>
+                        </li>
+
+                        <li className="nav-item">
+                          <a
+                            className="nav-link"
+                            data-toggle="tab"
+                            href="#settings"
+                            role="tab"
+                          >
+                            <span className="d-none d-md-block">
+                              Machine History
+                            </span>
+                            <span className="d-block d-md-none">
+                              <i className="mdi mdi-settings h5" />
+                            </span>
+                          </a>
+                        </li>
+                       
+                      
+                      </ul>
+
+                      <div className="tab-content">
+                        <div
+                          className="tab-pane active p-3"
+                          id="home1"
+                          role="tabpanel"
+                        >
+                          <Editor
                         toolbarClassName="toolbarClassName"
                         wrapperClassName="wrapperClassName"
                         editorClassName="editor"
@@ -306,32 +354,40 @@ const MachineDetails = (props) => {
                           )
                         }
                       />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-12">
-            <div className="card m-b-20">
-              <div className="card-body">
-                <h4 className="mt-0 header-title">Machine History</h4>
-
+                        </div>
+                        <div
+                          className="tab-pane p-3"
+                          id="settings"
+                          role="tabpanel"
+                        >        
                 <MDBDataTableV5
-                  // scrollX
-                  fixedHeader={true}
-                  responsive
-                  striped
-                  bordered
-                  searchTop
-                  hover
-                  autoWidth
+                 responsive
+                 striped
+                 small
+                 onPageChange={(val) => console.log(val)}
+                 bordered={true}
+                 materialSearch
+                 searchTop
+                 searchBottom={false}
+                 pagingTop
+                 barReverse
+                 hover
                   data={dataa}
                   theadColor="#000"
                 />
-              </div>
+                        </div>
+                      
+                       
+                      </div>
+                    </div>
+                   
             </div>
           </div>
+                  </div>
+                </div>
+              </div>
+             
+         
         </div>
       </AUX>
     );
