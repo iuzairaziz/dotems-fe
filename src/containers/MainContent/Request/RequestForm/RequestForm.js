@@ -110,11 +110,11 @@ const RequestForm = (props) => {
               </div>
             </div>
             <Select
-             className={`my-select${
-              props.touched.requestType && props.errors.requestType
-                ? "is-invalid"
-                : props.touched.requestType && "is-valid"
-            }`}
+              className={`my-select${
+                props.touched.requestType && props.errors.requestType
+                  ? "is-invalid"
+                  : props.touched.requestType && "is-valid"
+              }`}
               name="requestType"
               onBlur={props.handleBlur}
               className="select-override zIndex"
@@ -125,6 +125,25 @@ const RequestForm = (props) => {
             <span id="err" className="invalid-feedback">
               {props.touched.requestType && props.errors.requestType}
             </span>
+            <div className="col">
+              <div className="form-group">
+                <label className="control-label">Send Request To</label>
+                {/* <Select
+                  className={`my-select${
+                    props.touched.technologies && props.errors.technologies
+                      ? "is-invalid"
+                      : props.touched.technologies && "is-valid"
+                  }`}
+                  value={props.values.technologies}
+                  onChange={(val) => props.setFieldValue("technologies", val)}
+                  options={technology}
+                  isMulti={true}
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.technology && props.errors.technology}
+                </span> */}
+              </div>
+            </div>
             <div className="form-group">
               <div className="row">
                 <div className="col mt-4">
