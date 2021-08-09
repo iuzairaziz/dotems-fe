@@ -53,14 +53,38 @@ const dashboard1 = () => {
     //   }
     const [tasks, setTasks] = useState([]);
     const [requests, setRequests] = useState([]);
+    const [pendingStatus, setPendingStatus] = useState([]);
+    const [completedStatus, setCompletedStatus] = useState([]);
+    const [workingStatus, setWorkingStatus] = useState([]);
     let loggedUser = UserService.userLoggedInInfo();
+    
 
 
     const getTaskData = (id) => {
         UserService.getUserById(id).then((res) => {
           const task = res.data;
           setTasks(task);
+          const arr = []
+          task.tasks.filter(tasks => tasks.status==="pending").map(item => {
+            arr.push(item)
+          })  
+          setPendingStatus(arr)
+          const arr1 = []
+          task.tasks.filter(tasks => tasks.status==="completed").map(item => {
+            arr1.push(item)
+          }) 
+          setCompletedStatus(arr1)
+          const arr2 = []
+          task.tasks.filter(tasks => tasks.status==="working").map(item => {
+            arr2.push(item)
+          }) 
+          setWorkingStatus(arr2)
+          console.log("Pending Status", pendingStatus)
+          console.log("Working Status", workingStatus)
+          console.log("Completed Status", completedStatus)
+          console.log("Pending Status lenghth", pendingStatus.length)
           console.log("task data", task && task.tasks.length);
+
         });
       };
       
@@ -78,6 +102,12 @@ const dashboard1 = () => {
       }, []);
     
       console.log("Tasks", tasks)
+    //   const pendingStatus = tasks && tasks.filter(status => status==="pending")
+    //   console.log("Pending Status", pendingStatus)
+
+
+    //   let loggedUser = UserService.userLoggedInInfo();
+
 
     return(
            <AUX>
@@ -218,7 +248,7 @@ const dashboard1 = () => {
                                 <PieChart
                                         
                                         size={100}
-                                        innerHoleSize={90}
+                                        innerHoleSize={75}
                                         data={[
                                         { key: 'A', value: 45, color: '#90a4ae' },
                                         { key: 'B', value: 5, color: '#121a37' },
@@ -256,12 +286,13 @@ const dashboard1 = () => {
                                 <PieChart
                                         
                                         size={100}
-                                        innerHoleSize={75}
+                                        innerHoleSize={50}
                                         data={[
-                                        { key: 'A', value: 25, color: '#90a4ae' },
-                                        { key: 'B', value: 25, color: '#121a37' },
-                                        { key: 'C', value: 50, color: '#226194' },
+                                        { key: 'A', value: pendingStatus && pendingStatus.length, color: '#90a4ae' },
+                                        { key: 'B', value: workingStatus && workingStatus.length, color: '#121a37' },
+                                        { key: 'C', value: completedStatus && completedStatus.length, color: '#226194' },
                                         ]}
+                                        
                                     />
                                 {/* <div className=" bg-red d-flex justify-content-center">
                                 <span className="mini-stat-icon bg-primary font-size-100px"><i className="mdi mdi-clipboard-text font-size-100px"></i></span>
@@ -270,15 +301,15 @@ const dashboard1 = () => {
                                     
                                     <ul className="list-inline row m-t-30 clearfix">
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">7,541</p>
+                                            <p className="m-b-5 font-18 font-600">{pendingStatus && pendingStatus.length}</p>
                                             <p className="mb-0">Pending</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">7,541</p>
+                                            <p className="m-b-5 font-18 font-600">{workingStatus && workingStatus.length}</p>
                                             <p className="mb-0">Working</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">125</p>
+                                            <p className="m-b-5 font-18 font-600">{completedStatus && completedStatus.length}</p>
                                             <p className="mb-0">Completed</p>
                                         </li>
                                     </ul>
@@ -297,7 +328,7 @@ const dashboard1 = () => {
                                 <PieChart
                                         
                                         size={100}
-                                        innerHoleSize={50}
+                                        innerHoleSize={25}
                                         data={[
                                         { key: 'A', value: 35, color: '#90a4ae' },
                                         { key: 'B', value: 35, color: '#121a37' },
@@ -338,7 +369,7 @@ const dashboard1 = () => {
                                     <PieChart
                                         
                                         size={100}
-                                        innerHoleSize={25}
+                                        innerHoleSize={0}
                                         data={[
                                         { key: 'A', value: 25, color: '#90a4ae' },
                                         { key: 'B', value: 25, color: '#121a37' },

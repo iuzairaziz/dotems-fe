@@ -120,115 +120,76 @@ const ClientDetails = (props) => {
 
     console.log("data", ClientData);
 
+    const detail = [
+      { label: "Name", value: ClientData && ClientData.name },
+      {
+        label: "Company Name",
+        value: ClientData && ClientData.companyName,
+      },
+  
+      {
+        label: "Joining Date",
+        value: moment(
+          ClientData && ClientData.dateOfJoin
+        ).format("LL"),
+      },
+      {
+        label: "Address",
+        value: ClientData && ClientData.address,
+      },
+  
+      { label: "Mobile Number", value: ClientData && ClientData.mobileNo},
+      {
+        label: "Email",
+        value:ClientData && ClientData.email,
+      },
+      {
+        label: "URL",
+        value: ClientData && ClientData.url,
+      },
+      {
+        label: "Country",
+        value:  ClientData &&
+        ClientData.country &&
+        ClientData.country.name,
+      },
+    ];
+
     return (
       <AUX>
         <div className="page-content-wrapper">
           <div className="container-fluid">
             <div className="row">
               <div className="col-12">
-                <div className="card m-b-20">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Name</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={ClientData && ClientData.name}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Company Name</label>
-                          <input
-                            className="form-control"
-                            value={ClientData && ClientData.companyName}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Joining Date </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={moment(
-                              ClientData && ClientData.dateOfJoin
-                            ).format("LL")}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Address</label>
-                          <input
-                            className="form-control"
-                            value={ClientData && ClientData.address}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Mobile Number </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={ClientData && ClientData.mobileNo}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Email</label>
-                          <input
-                            className="form-control"
-                            value={ClientData && ClientData.email}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> URL </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={ClientData && ClientData.url}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Country</label>
-                          <input
-                            className="form-control"
-                            value={
-                              ClientData &&
-                              ClientData.country &&
-                              ClientData.country.name
-                            }
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
+              <div className="row align-items-center">
+            {detail.map((item, indx) => {
+              return (
+                <>
+                  <div
+                    className={`labell ${
+                      item.label === "Team Members"
+                        ? "col-3 col-md-2"
+                        : "col-3 col-md-2"
+                    } mb-3 d-flex align-items-center align-self-center`}
+                  >
+                    <div>{item.label}</div>
+                  </div>
+                  <div
+                    className={`valuee ${
+                      item.label === "Team Members"
+                        ? "col-9 col-md-6"
+                        : "col-3 col-md-2"
+                    } col-3 col-md-2 mb-3 align-self-center"`}
+                  >
+                    {item.value}
+                  </div>
+                </>
+              );
+            })}
+          </div>
                     <div className="row">
                     <div className="col-12">          
-                <h4 className="mt-0 header-title">Client Projects</h4>
+                {/* <h4 className="mt-0 header-title">Projects</h4> */}
                 <MDBDataTableV5
                  responsive
                  striped
@@ -246,8 +207,7 @@ const ClientDetails = (props) => {
                 />            
           </div>
           </div>
-                  </div>
-                </div>
+                  
               </div>
             </div>
           </div>

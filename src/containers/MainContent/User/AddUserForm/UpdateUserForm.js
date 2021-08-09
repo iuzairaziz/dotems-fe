@@ -13,6 +13,9 @@ import TechnologyService from "../../../../services/TechnologyService";
 import ServiceService from "../../../../services/ServiceService";
 import NatureService from "../../../../services/NatureService";
 import ClientService from "../../../../services/ClientService";
+import "./UpdateUserForm.scss"
+import moment from "moment";
+
 
 const UpdateUser = (props) => {
   const [technology, setTechnology] = useState([]);
@@ -62,6 +65,46 @@ const UpdateUser = (props) => {
     console.log("usersssss", users);
   };
 
+  const detail = [
+    { label: "Name", value: users.name },
+    {
+      label: "Username",
+      value: users.email,
+    },
+
+    {
+      label: "Gender",
+      value: users.gender,
+    },
+    {
+      label: "Joining Date",
+      value: moment(users.joiningDate).format("LL"),
+    },
+
+    { label: "Salary", value: users.salary },
+    {
+      label: "Status",
+      value: users.status,
+    },
+    {
+      label: "Working Hours",
+      value: users.workingHrs,
+    },
+    {
+      label: "Working Days",
+      value: users.workingDays,
+    },
+
+    {
+      label: "Machine Number",
+      value: users && users.machineNo && users.machineNo.machineNo,
+    },
+    {
+      label: "Designantion",
+      value: users.userRole
+    },
+  ];
+
   return (
     <Formik
       enableReinitialize
@@ -101,113 +144,41 @@ const UpdateUser = (props) => {
     >
       {(props) => (
         <>
-          <div className="row" />
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label>Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={users.name}
-                  readOnly={true}
-                />
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group">
-                <label>User Name</label>
-                <input
-                  className="form-control"
-                  value={users.email}
-                  readOnly={true}
-                />
-              </div>
-            </div>
-          </div>
-          {/* <div className="row">
-            <div className="col">
-              <label>Add Image</label>
-              <div className="input-group">
-                <div className="custom-file">
-                  <input
-                    type="file"
-                    className="custom-file-input"
-                    id="inputGroupFile01"
-                    aria-describedby="inputGroupFileAddon01"
-                  />
-                  <label
-                    className="custom-file-label"
-                    htmlFor="inputGroupFile01"
+          <div className="row UpdateP gap"/>
+          <div className="row gapp">
+          <div className="row align-items-center">
+            {detail.map((item, indx) => {
+              return (
+                <>
+                  <div
+                    className={`labell ${
+                      item.label === "Team Members"
+                        ? "col-3 col-md-2"
+                        : "col-3 col-md-2"
+                    } mb-3 d-flex align-items-center align-self-center`}
                   >
-                    Choose file
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div> */}
-
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label>Gender</label>
-                <input
-                  className="form-control"
-                  value={users.gender}
-                  readOnly={true}
-                />
-              </div>
-            </div>
-
-            <div className="col">
-              {" "}
-              <div className="form-group">
-                <label>Joining Date</label>
-                <div>
-                  <DatePicker
-                    value={users.joiningDate}
-                    className="form-control"
-                    readOnly={true}
-                  />
-                </div>
-              </div>{" "}
-            </div>
+                    <div>{item.label}</div>
+                  </div>
+                  <div
+                    className={`valuee ${
+                      item.label === "Team Members"
+                        ? "col-9 col-md-6"
+                        : "col-3 col-md-2"
+                    } col-3 col-md-2 mb-3 align-self-center"`}
+                  >
+                    {item.value}
+                  </div>
+                </>
+              );
+            })}
+          </div>   
+            
           </div>
+         
+          <div className="card m-b-20">
+                  <div className="card-body">
 
           <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label>Salary</label>
-                <input
-                  className="form-control"
-                  value={users.salary}
-                  readOnly={true}
-                />
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group">
-                <label>Password </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  value={users.password}
-                  readOnly={true}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label className="control-label">Status</label>
-                <input
-                  className="form-control"
-                  value={users.status}
-                  readOnly={true}
-                />
-              </div>
-            </div>
             <div className="col">
               <div className="form-group">
                 <label className="control-label">Technology</label>
@@ -228,51 +199,9 @@ const UpdateUser = (props) => {
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label>Working Hours</label>
-                <input
-                  className="form-control"
-                  value={users.workingHrs}
-                  readOnly={true}
-                />
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group">
-                <label>Working Days</label>
-                <input
-                  className="form-control"
-                  value={users.workingDays}
-                  readOnly={true}
-                />
-              </div>
-            </div>
-          </div>
+         
 
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label>Machine Number</label>
-                <input
-                  className="form-control"
-                  value={users && users.machineNo && users.machineNo.machineNo}
-                  readOnly={true}
-                />
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group">
-                <label>Designantion</label>
-                <input
-                  className="form-control"
-                  value={users.userRole}
-                  readOnly={true}
-                />
-              </div>
-            </div>
-          </div>
+       
           <div className="row">
             <div className="col">
               <div className="form-group">
@@ -405,6 +334,8 @@ const UpdateUser = (props) => {
               </Button>
             </div>
           </div>
+          </div>         
+            </div>
         </>
       )}
     </Formik>

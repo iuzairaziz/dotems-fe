@@ -40,23 +40,44 @@ const SingleRequest = (props) => {
       });
   };
 
+  const detail = [
+    { label: "Employee Name", value: requestData && requestData.user.name },
+    {
+      label: "Request Type",
+      value: requestData && requestData.requestType.name,
+    },
+    {
+      label: "Admin Status",
+      value: requestData && requestData.adminStatus,
+    },
+    {
+      label: "User Status",
+      value:requestData && requestData.userStatus,
+    },
+
+    { label: "Posting Date", value: requestData &&
+    moment(requestData.createdAt).format("LL") },
+    {
+      label: "Admin Action Date",
+      value: requestData && requestData.adminActionDate
+      ? moment(requestData.adminActionDate).format("LL")
+      : "None",
+    },
+  ];
+
   console.log("Request data", requestData);
 
   return (
     <AUX>
       <div className="page-content-wrapper">
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  {/* <h4 className="mt-0 header-title" />
-                  <h4>Request Details</h4> */}
+          <div className="row">  
+          <div className="col-12">
                   <div className="row">
-                    <div className="col-10">
+                    <div className="col-9">
                       <h4>Request Details</h4>{" "}
                     </div>
-                    <div className="col approval">
+                    <div className="col-3 approval">
                       <Button
                         color="success"
                         className="mt-3 my-primary-button"
@@ -68,65 +89,35 @@ const SingleRequest = (props) => {
                       </Button>
                     </div>
                   </div>
+                  </div>
                   <hr />
-                  <div className="row main">
-                    <div className="col-2">
-                      <span>
-                        <b>Employee Name:</b>
-                      </span>
-                    </div>
-                    <div className="col-2">
-                      <span>{requestData && requestData.user.name}</span>
-                    </div>
-                    <div className="col-2">
-                      <span>
-                        <b>Request Type: </b>
-                      </span>
-                    </div>
-                    <div className="col-2">
-                      <span>{requestData && requestData.requestType.name}</span>
-                    </div>
-                    <div className="col-2 sub">
-                      <span>
-                        <b>Request Admin Status: </b>
-                      </span>
-                    </div>
-                    <div className="col-2">
-                      <span>{requestData && requestData.adminStatus}</span>
-                    </div>
-
-                    <div className="col-2 sub">
-                      <span>
-                        <b>Request User Status: </b>
-                      </span>
-                    </div>
-                    <div className="col-2">
-                      <span>{requestData && requestData.userStatus}</span>
-                    </div>
-
-                    <div className="col-2">
-                      <span>
-                        <b>Posting Date: </b>
-                      </span>
-                    </div>
-                    <div className="col-2">
-                      <span>
-                        {requestData &&
-                          moment(requestData.createdAt).format("LL")}
-                      </span>
-                    </div>
-
-                    <div className="col-2">
-                      <span>
-                        <b>Admin Action Date:</b>
-                      </span>
-                    </div>
-                    <div className="col-2 sub">
-                      <span>
-                        {requestData && requestData.adminActionDate
-                          ? moment(requestData.adminActionDate).format("LL")
-                          : "None"}
-                      </span>
+                    <div className="row gapp">
+                    <div className="row align-items-center">
+            {detail.map((item, indx) => {
+              return (
+                <>
+                  <div
+                    className={`labell ${
+                      item.label === "Team Members"
+                        ? "col-3 col-md-2"
+                        : "col-3 col-md-2"
+                    } mb-3 d-flex align-items-center align-self-center`}
+                  >
+                    <div>{item.label}</div>
+                  </div>
+                  <div
+                    className={`valuee ${
+                      item.label === "Team Members"
+                        ? "col-9 col-md-6"
+                        : "col-3 col-md-2"
+                    } col-3 col-md-2 mb-3 align-self-center"`}
+                  >
+                    {item.value}
+                  </div>
+                </>
+              );
+            })}
+          </div>   
                     </div>
 
                     <div className="col-lg-12">
@@ -291,10 +282,7 @@ const SingleRequest = (props) => {
                         </form>
                       </ModalBody>
                     </Modal>
-                  </div>
-                </div>
-              </div>
-            </div>
+                  
           </div>
         </div>
       </div>
