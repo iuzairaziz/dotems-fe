@@ -2,7 +2,11 @@ import React , {Component, useEffect , useState } from 'react';
 import AUX from '../../../hoc/Aux_';
 import UserService from "../../../services/UserService"
 import RequestService from "../../../services/Request"
+import ProjectService from '../../../services/ProjectService';
+import TaskService from '../../../services/TaskService';
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
+import moment from "moment";
+
 import { Sparklines,SparklinesLine  } from 'react-sparklines';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Link } from 'react-router-dom';
@@ -10,8 +14,9 @@ import {PieChart} from 'react-easy-chart';
 import Chart from 'react-apexcharts';
 import MixedChart from '../../../containers/Chartstypes/Apex/MixedChart';
 import DonutChart from '../../../containers/Chartstypes/Apex/DonutChart';
+import { DefaultDraftInlineStyle } from 'draft-js';
 
-const dashboard1 = () => {
+const dashboard1 = (props) => {
 
     const [dataa, setData] = useState({
         columns: [
@@ -33,13 +38,17 @@ const dashboard1 = () => {
             // sort: "asc",
             // width: 100,
           },
-    
+          {
+            label: "Deadline",
+            field: "endTime"
+        },
           {
             label: "Action",
             field: "action",
             sort: "disabled",
             // width: 450,
           },
+         
         ],
         rows: [],
       });
@@ -53,9 +62,25 @@ const dashboard1 = () => {
     //   }
     const [tasks, setTasks] = useState([]);
     const [requests, setRequests] = useState([]);
+    const [projects, setProjects] = useState([]);
+    const [weeklyTasks, setWeeklyTasks] = useState([]);
     const [pendingStatus, setPendingStatus] = useState([]);
     const [completedStatus, setCompletedStatus] = useState([]);
     const [workingStatus, setWorkingStatus] = useState([]);
+    const [pendingRequest, setPendingRequest] = useState([]);
+    const [resolvedRequest, setResolvedRequest] = useState([]);
+    const [nonResolvedRequest, setNonResolvedRequest] = useState([]);
+    const [pendingProject , setPendingProject] = useState([]);
+    const [workingProject , setWorkingProject] = useState([]);
+    const [completeProject , setCompleteProject] = useState([]);
+    const [pendingTask, setPedningTask] = useState([]);
+    const [workingTask, setWorkingTask] = useState([]);
+    const [completedTask, setCompletedTask] = useState([]);
+    const [monthlyTasks, setMonthlyTasks] = useState([]);
+    const [pendingMonthlyTasks, setPendingMonthlyTasks] = useState([]);
+    const [workingMonthlyTasks, setWorkingMonthlyTasks] = useState([]);
+    const [completedMonthlyTasks, setCompletedMonthlyTasks] = useState([]);
+
     let loggedUser = UserService.userLoggedInInfo();
     
 
@@ -79,12 +104,6 @@ const dashboard1 = () => {
             arr2.push(item)
           }) 
           setWorkingStatus(arr2)
-          console.log("Pending Status", pendingStatus)
-          console.log("Working Status", workingStatus)
-          console.log("Completed Status", completedStatus)
-          console.log("Pending Status lenghth", pendingStatus.length)
-          console.log("task data", task && task.tasks.length);
-
         });
       };
       
@@ -92,22 +111,142 @@ const dashboard1 = () => {
         RequestService.myrequest(id).then((res) => {
           const request = res.data;
           setRequests(request);
-          console.log("request data", request);
+          const arr = []
+          request.filter(adminStatus => adminStatus.adminStatus==="Pending").map(item => {
+            arr.push(item)
+          })  
+          setPendingRequest(arr)
+          const arr1 = []
+          request.filter(adminStatus => adminStatus.adminStatus==="Resolved").map(item => {
+            arr1.push(item)
+          }) 
+          setResolvedRequest(arr1)
+          const arr2 = []
+          request.filter(adminStatus => adminStatus.adminStatus==="Not Resolved").map(item => {
+            arr2.push(item)
+          }) 
+          setNonResolvedRequest(arr2)
         });
+      };
+
+      const getProjectsData = (id) => {
+        ProjectService.myprojects(id).then((res) => {
+          const project = res.data;
+          setProjects(project);
+          const arr = []
+          project.filter(status => status.status.name === "Pending").map(item => {
+            arr.push(item)
+          })  
+          setPendingProject(arr)
+          const arr1 = []
+          project.filter(status => status.status.name === "Complete").map(item => {
+            arr1.push(item)
+          }) 
+          setWorkingProject(arr1)
+          const arr2 = []
+          project.filter(status => status.status.name === "Working").map(item => {
+            arr2.push(item)
+          }) 
+          setCompleteProject(arr2)
+        //   console.log("project data", project);
+        //   console.log("pedning project data", arr); 
+        //   console.log("resolved request data", resolvedRequest && resolvedRequest.length); 
+        //   console.log("non-resolved request data", nonResolvedRequest);
+        });
+      };
+
+     const getNextWeekTaskData = () => {
+        TaskService.getNextWeekEmployeeTasks(loggedUser._id).then((res) => {
+            const task = res.data;
+            setWeeklyTasks(task);
+            const arr = []
+          task.filter(status => status.status === "pending").map(item => {
+            arr.push(item)
+          })  
+          setPedningTask(arr)
+          const arr1 = []
+          task.filter(status => status.status === "completed").map(item => {
+            arr1.push(item)
+          }) 
+          setWorkingTask(arr1)
+          const arr2 = []
+          task.filter(status => status.status === "working").map(item => {
+            arr2.push(item)
+          }) 
+          setCompletedTask(arr2)
+            // console.log("next week tasks", arr)
+        })
+      }
+
+      const getNextMonthTaskData = () => {
+        TaskService.getNextMonthEmployeeTasks(loggedUser._id).then((res) => {
+            const taskM = res.data;
+            setMonthlyTasks(taskM);
+            const arr = []
+          taskM.filter(status => status.status === "pending").map(item => {
+            arr.push(item)
+          })  
+          setPendingMonthlyTasks(arr)
+          const arr1 = []
+          taskM.filter(status => status.status === "completed").map(item => {
+            arr1.push(item)
+          }) 
+          setWorkingMonthlyTasks(arr1)
+          const arr2 = []
+          taskM.filter(status => status.status === "working").map(item => {
+            arr2.push(item)
+          }) 
+          setCompletedMonthlyTasks(arr2)
+            console.log("next month taskMs", arr)
+        })
+      }
+
+      const getWeeklyTaskData = () => {
+        TaskService.getWeeklyEmployeeTasks(loggedUser._id)
+          .then((res) => {
+            let data = { ...dataa };
+            data.rows = [];
+            res.data.map((item, index) => {
+              data.rows.push({
+                title: item.name ? item.name : "N/A",
+                project: item.project ? item.project.name : "N/A",
+                wrkdone: item.workDone ? item.workDone : "N/A",
+                endTime: item.endTime
+                  ? moment(item.endTime).format("DD/MMM/YYYY")
+                  : "N/A",
+                action: (
+                  <div className="row flex-nowrap justify-content-center">
+                    <i
+                      className="mdi mdi-eye 
+                      iconsS my-primary-icon"
+                      onClick={() => {
+                        props.history.push({
+                          pathname: "/task-details/" + item._id,
+                        });
+                      }}
+                    />
+                  </div>
+                ),
+              });
+            });
+            setData(data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       };
 
       useEffect(() => {
         getTaskData(loggedUser._id);
         getRequestData(loggedUser._id)
+        getProjectsData(loggedUser._id)
+        getWeeklyTaskData()
+        getNextWeekTaskData()
+        getNextMonthTaskData();
       }, []);
+
+    //   console.log("oroject data", projects && projects.length)
     
-      console.log("Tasks", tasks)
-    //   const pendingStatus = tasks && tasks.filter(status => status==="pending")
-    //   console.log("Pending Status", pendingStatus)
-
-
-    //   let loggedUser = UserService.userLoggedInInfo();
-
 
     return(
            <AUX>
@@ -242,7 +381,7 @@ const dashboard1 = () => {
                     <div className="col-xl-3">
                         <div className="card m-b-20">
                             <div className="card-body">
-                                <h4 className="mt-0 header-title m-b-30">Total Projects</h4>
+                                <h4 className="mt-0 header-title m-b-30">Total Projects: {projects && projects.length}</h4>
                               
                                 <div className="text-center">
                                 <PieChart
@@ -250,24 +389,24 @@ const dashboard1 = () => {
                                         size={100}
                                         innerHoleSize={75}
                                         data={[
-                                        { key: 'A', value: 45, color: '#90a4ae' },
-                                        { key: 'B', value: 5, color: '#121a37' },
-                                        { key: 'C', value: 50, color: '#226194' },
+                                        { key: 'A', value: pendingProject && pendingProject.length, color: '#90a4ae' },
+                                        { key: 'B', value: workingProject && workingProject.length, color: '#121a37' },
+                                        { key: 'C', value: completeProject && completeProject.length, color: '#226194' },
                                         ]}
                                     />
                                     <div className="clearfix"></div>
                                     
                                     <ul className="list-inline row m-t-30 clearfix">
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">7,541</p>
+                                            <p className="m-b-5 font-18 font-600">{pendingProject && pendingProject.length}</p>
                                             <p className="mb-0">Pending</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">7,541</p>
+                                            <p className="m-b-5 font-18 font-600">{workingProject && workingProject.length}</p>
                                             <p className="mb-0">Working</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">125</p>
+                                            <p className="m-b-5 font-18 font-600">{completeProject && completeProject.length}</p>
                                             <p className="mb-0">Completed</p>
                                         </li>
                                     </ul>
@@ -280,7 +419,7 @@ const dashboard1 = () => {
                     <div className="col-xl-3">
                         <div className="card m-b-20">
                             <div className="card-body">
-                                <h4 className="mt-0 header-title m-b-30">Total Tasks :   {tasks && tasks.tasks && tasks.tasks.length}</h4>
+                                <h4 className="mt-0 header-title m-b-30">Total Tasks:   {tasks && tasks.tasks && tasks.tasks.length}</h4>
                               
                                 <div className="text-center">
                                 <PieChart
@@ -371,24 +510,24 @@ const dashboard1 = () => {
                                         size={100}
                                         innerHoleSize={0}
                                         data={[
-                                        { key: 'A', value: 25, color: '#90a4ae' },
-                                        { key: 'B', value: 25, color: '#121a37' },
-                                        { key: 'C', value: 50, color: '#226194' },
+                                        { key: 'A', value: nonResolvedRequest && nonResolvedRequest.length, color: '#90a4ae' },
+                                        { key: 'B', value: resolvedRequest && resolvedRequest.length, color: '#121a37' },
+                                        { key: 'C', value: pendingRequest && pendingRequest.length, color: '#226194' },
                                         ]}
                                     />
                                     <div className="clearfix"></div>
                                     
                                     <ul className="list-inline row m-t-30 clearfix">
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">7,541</p>
+                                            <p className="m-b-5 font-18 font-600">{nonResolvedRequest && nonResolvedRequest.length}</p>
                                             <p className="mb-0">Resolved</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">7,541</p>
+                                            <p className="m-b-5 font-18 font-600">{resolvedRequest && resolvedRequest.length}</p>
                                             <p className="mb-0">Unresolved</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">125</p>
+                                            <p className="m-b-5 font-18 font-600">{pendingRequest && pendingRequest.length}</p>
                                             <p className="mb-0">Pending</p>
                                         </li>
                                     </ul>
@@ -441,12 +580,12 @@ const dashboard1 = () => {
                             <div className="card-body">
                                 <h4 className="mt-0 m-b-30 header-title font-20 font-600">Tasks due this week</h4>
 
-                                <div className="table-responsive">
+                                <div className="">
                                     <table className="table table-vertical mb-0">
 
                                         <tbody>
                                         <MDBDataTableV5
-                   responsive
+                //    responsive
                    striped
                    small
                    onPageChange={(val) => console.log(val)}
@@ -472,30 +611,30 @@ const dashboard1 = () => {
                                 <div className="card m-b-20" style={{Height : "446px"}}>
                                     <div className="card-body">
                                         <div className="m-b-20">
-                                            <p className="m-b-5 font-20 font-400">Tasks due next week : 2</p>  
+                                            <p className="m-b-5 font-20 font-400">Tasks due next week: {weeklyTasks && weeklyTasks.length}</p>  
                                             <div className="d-flex justify-content-center ">
                                             <PieChart 
                                 size={80}
-                                innerHoleSize={50}
+                                innerHoleSize={30}
                                 data={[
-                                { key: 'A', value: 100, color: '#f2f2f2' },
-                                { key: 'B', value: 200, color: '#121a37' },
-                                { key: 'C', value: 500, color: '#226194' },
+                                { key: 'A', value: pendingTask && pendingTask.length, color: '#90a4ae' },
+                                { key: 'B', value: workingTask && workingTask.length, color: '#121a37' },
+                                { key: 'C', value: completedTask && completedTask.length, color: '#226194' },
                                 ]}
                             />
                                             </div>                                             
                              <div className="clearfix">
                                     <ul className="list-inline row m-t-30 clearfix">
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">200</p>
+                                            <p className="m-b-5 font-18 font-600">{pendingTask && pendingTask.length}</p>
                                             <p className="mb-0">Pending</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">874</p>
+                                            <p className="m-b-5 font-18 font-600">{workingTask && workingTask.length}</p>
                                             <p className="mb-0">Working</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">874</p>
+                                            <p className="m-b-5 font-18 font-600">{completedTask && completedTask.length}</p>
                                             <p className="mb-0">Completed</p>
                                         </li>
                                     </ul>
@@ -503,14 +642,14 @@ const dashboard1 = () => {
                                         </div>
                                         <hr />
                                         <div className="m-b-20">
-                                            <p className="m-b-5 font-20 font-400">Tasks due this month : 5</p>
+                                            <p className="m-b-5 font-20 font-400">Tasks due this month : {monthlyTasks && monthlyTasks.length}</p>
                                             <div className="d-flex justify-content-center">
                                             <PieChart 
                                 size={80}
                                 data={[
-                                { key: 'A', value: 100, color: '#f2f2f2' },
-                                { key: 'B', value: 200, color: '#121a37' },
-                                { key: 'C', value: 50, color: '#226194' },
+                                { key: 'A', value: pendingMonthlyTasks && pendingMonthlyTasks.length, color: '#90a4ae' },
+                                { key: 'B', value: workingMonthlyTasks && workingMonthlyTasks.length, color: '#121a37' },
+                                { key: 'C', value: completedMonthlyTasks && completedMonthlyTasks.length, color: '#226194' },
                                 ]}
                             />
                                             </div>
@@ -518,15 +657,15 @@ const dashboard1 = () => {
                              <div className="clearfix">
                                     <ul className="list-inline row m-t-30 clearfix">
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">200</p>
+                                            <p className="m-b-5 font-18 font-600">{pendingMonthlyTasks && pendingMonthlyTasks.length}</p>
                                             <p className="mb-0">Pending</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">874</p>
+                                            <p className="m-b-5 font-18 font-600">{workingMonthlyTasks && workingMonthlyTasks.length}</p>
                                             <p className="mb-0">Working</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">874</p>
+                                            <p className="m-b-5 font-18 font-600">{completedMonthlyTasks && completedMonthlyTasks.length}</p>
                                             <p className="mb-0">Completed</p>
                                         </li>
                                     </ul>
