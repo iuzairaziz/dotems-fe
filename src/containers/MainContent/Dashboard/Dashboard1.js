@@ -2,6 +2,7 @@ import React , {Component, useEffect , useState } from 'react';
 import AUX from '../../../hoc/Aux_';
 import UserService from "../../../services/UserService"
 import RequestService from "../../../services/Request"
+import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import { Sparklines,SparklinesLine  } from 'react-sparklines';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Link } from 'react-router-dom';
@@ -12,6 +13,37 @@ import DonutChart from '../../../containers/Chartstypes/Apex/DonutChart';
 
 const dashboard1 = () => {
 
+    const [dataa, setData] = useState({
+        columns: [
+          {
+            label: "Title",
+            field: "title",
+            sort: "asc",
+            // width: 150,
+          },
+          {
+            label: "Project",
+            field: "project",
+            sort: "asc",
+            // width: 270,
+          },
+          {
+            label: "Work Done",
+            field: "wrkdone",
+            // sort: "asc",
+            // width: 100,
+          },
+    
+          {
+            label: "Action",
+            field: "action",
+            sort: "disabled",
+            // width: 450,
+          },
+        ],
+        rows: [],
+      });
+
     // constructor(props) {
     //     super(props);
      
@@ -21,14 +53,38 @@ const dashboard1 = () => {
     //   }
     const [tasks, setTasks] = useState([]);
     const [requests, setRequests] = useState([]);
+    const [pendingStatus, setPendingStatus] = useState([]);
+    const [completedStatus, setCompletedStatus] = useState([]);
+    const [workingStatus, setWorkingStatus] = useState([]);
     let loggedUser = UserService.userLoggedInInfo();
+    
 
 
     const getTaskData = (id) => {
         UserService.getUserById(id).then((res) => {
           const task = res.data;
           setTasks(task);
+          const arr = []
+          task.tasks.filter(tasks => tasks.status==="pending").map(item => {
+            arr.push(item)
+          })  
+          setPendingStatus(arr)
+          const arr1 = []
+          task.tasks.filter(tasks => tasks.status==="completed").map(item => {
+            arr1.push(item)
+          }) 
+          setCompletedStatus(arr1)
+          const arr2 = []
+          task.tasks.filter(tasks => tasks.status==="working").map(item => {
+            arr2.push(item)
+          }) 
+          setWorkingStatus(arr2)
+          console.log("Pending Status", pendingStatus)
+          console.log("Working Status", workingStatus)
+          console.log("Completed Status", completedStatus)
+          console.log("Pending Status lenghth", pendingStatus.length)
           console.log("task data", task && task.tasks.length);
+
         });
       };
       
@@ -46,6 +102,12 @@ const dashboard1 = () => {
       }, []);
     
       console.log("Tasks", tasks)
+    //   const pendingStatus = tasks && tasks.filter(status => status==="pending")
+    //   console.log("Pending Status", pendingStatus)
+
+
+    //   let loggedUser = UserService.userLoggedInInfo();
+
 
     return(
            <AUX>
@@ -183,9 +245,16 @@ const dashboard1 = () => {
                                 <h4 className="mt-0 header-title m-b-30">Total Projects</h4>
                               
                                 <div className="text-center">
-                                <div className=" bg-red d-flex justify-content-center">
-                                <span className="mini-stat-icon bg-primary font-size-100px"><i className="mdi mdi-parking font-size-100px"></i></span>
-                                </div>
+                                <PieChart
+                                        
+                                        size={100}
+                                        innerHoleSize={75}
+                                        data={[
+                                        { key: 'A', value: 45, color: '#90a4ae' },
+                                        { key: 'B', value: 5, color: '#121a37' },
+                                        { key: 'C', value: 50, color: '#226194' },
+                                        ]}
+                                    />
                                     <div className="clearfix"></div>
                                     
                                     <ul className="list-inline row m-t-30 clearfix">
@@ -211,26 +280,40 @@ const dashboard1 = () => {
                     <div className="col-xl-3">
                         <div className="card m-b-20">
                             <div className="card-body">
-                                <h4 className="mt-0 header-title m-b-30">Total Tasks :   {tasks && tasks.tasks && tasks.tasks.length}</h4>                                <div className="text-center">
-                          
-                                     
-                                    <div className="clearfix">
-                                   
+                                <h4 className="mt-0 header-title m-b-30">Total Tasks :   {tasks && tasks.tasks && tasks.tasks.length}</h4>
+                              
+                                <div className="text-center">
+                                <PieChart
+                                        
+                                        size={100}
+                                        innerHoleSize={50}
+                                        data={[
+                                        { key: 'A', value: pendingStatus && pendingStatus.length, color: '#90a4ae' },
+                                        { key: 'B', value: workingStatus && workingStatus.length, color: '#121a37' },
+                                        { key: 'C', value: completedStatus && completedStatus.length, color: '#226194' },
+                                        ]}
+                                        
+                                    />
+                                {/* <div className=" bg-red d-flex justify-content-center">
+                                <span className="mini-stat-icon bg-primary font-size-100px"><i className="mdi mdi-clipboard-text font-size-100px"></i></span>
+                                </div> */}
+                                    <div className="clearfix"></div>
+                                    
                                     <ul className="list-inline row m-t-30 clearfix">
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">200</p>
+                                            <p className="m-b-5 font-18 font-600">{pendingStatus && pendingStatus.length}</p>
                                             <p className="mb-0">Pending</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">874</p>
+                                            <p className="m-b-5 font-18 font-600">{workingStatus && workingStatus.length}</p>
                                             <p className="mb-0">Working</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">874</p>
+                                            <p className="m-b-5 font-18 font-600">{completedStatus && completedStatus.length}</p>
                                             <p className="mb-0">Completed</p>
                                         </li>
                                     </ul>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -240,39 +323,81 @@ const dashboard1 = () => {
                         <div className="card m-b-20">
                             <div className="card-body">
                                 <h4 className="mt-0 header-title m-b-30">Total Leaves</h4>
-                                   <div className="text-center">          
-                                       <PieChart
-                                        label
+                              
+                                <div className="text-center">
+                                <PieChart
+                                        
                                         size={100}
-                                        innerHoleSize={80}
+                                        innerHoleSize={25}
                                         data={[
-                                        { key: 'A', value: 69, color: '#8d6e63' },
-                                        { key: 'B', value: 30, color: '#fff' },
+                                        { key: 'A', value: 35, color: '#90a4ae' },
+                                        { key: 'B', value: 35, color: '#121a37' },
+                                        { key: 'C', value: 30, color: '#226194' },
                                         ]}
                                     />
-                                 <div className="clearfix">
-                                    <a href="#" className="btn btn-sm btn-brown m-t-20">View All Data</a>
+                                {/* <div className=" bg-red d-flex justify-content-center">
+                                <span className="mini-stat-icon bg-primary font-size-100px"><i className="mdi mdi-calendar-multiple-check font-size-100px"></i></span>
+                                </div> */}
+                                    <div className="clearfix"></div>
+                                    
                                     <ul className="list-inline row m-t-30 clearfix">
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">1,154</p>
-                                            <p className="mb-0">Approved</p>
+                                            <p className="m-b-5 font-18 font-600">7,541</p>
+                                            <p className="mb-0">Pending</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">89</p>
-                                            <p className="mb-0">Rejected</p>
+                                            <p className="m-b-5 font-18 font-600">7,541</p>
+                                            <p className="mb-0">Working</p>
                                         </li>
                                         <li className="col-4">
-                                            <p className="m-b-5 font-18 font-600">89</p>
-                                            <p className="mb-0">Unpaid</p>
+                                            <p className="m-b-5 font-18 font-600">125</p>
+                                            <p className="mb-0">Completed</p>
                                         </li>
                                     </ul>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div className="col-xl-3">
+                        <div className="card m-b-20">
+                            <div className="card-body">
+                                <h4 className="mt-0 header-title m-b-30"> Total Requests:  {requests && requests.length}</h4>
+                              
+                                <div className="text-center">
+                                    <PieChart
+                                        
+                                        size={100}
+                                        innerHoleSize={0}
+                                        data={[
+                                        { key: 'A', value: 25, color: '#90a4ae' },
+                                        { key: 'B', value: 25, color: '#121a37' },
+                                        { key: 'C', value: 50, color: '#226194' },
+                                        ]}
+                                    />
+                                    <div className="clearfix"></div>
+                                    
+                                    <ul className="list-inline row m-t-30 clearfix">
+                                        <li className="col-4">
+                                            <p className="m-b-5 font-18 font-600">7,541</p>
+                                            <p className="mb-0">Resolved</p>
+                                        </li>
+                                        <li className="col-4">
+                                            <p className="m-b-5 font-18 font-600">7,541</p>
+                                            <p className="mb-0">Unresolved</p>
+                                        </li>
+                                        <li className="col-4">
+                                            <p className="m-b-5 font-18 font-600">125</p>
+                                            <p className="mb-0">Pending</p>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* <div className="col-xl-3">
                         <div className="card m-b-20">
                             <div className="card-body">
                                 <h4 className="mt-0 header-title m-b-30">Total Requests:  {requests && requests.length}</h4>
@@ -306,12 +431,12 @@ const dashboard1 = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                 </div>
 
                  <div className="row">
-                    <div className="col-xl-6">
+                    <div className="col-xl-9">
                         <div className="card m-b-20">
                             <div className="card-body">
                                 <h4 className="mt-0 m-b-30 header-title font-20 font-600">Tasks due this week</h4>
@@ -320,101 +445,23 @@ const dashboard1 = () => {
                                     <table className="table table-vertical mb-0">
 
                                         <tbody>
-                                        <tr>
-                                            <td>
-                                                <img src="assets/images/users/avatar-2.jpg" alt="user-image" className="thumb-sm rounded-circle mr-2"/>
-                                                Herbert C. Patton
-                                            </td>
-                                            <td><i className="mdi mdi-checkbox-blank-circle text-success"></i> Confirm</td>
-                                            <td>
-                                                $14,584
-                                                <p className="m-0 text-muted font-14">Amount</p>
-                                            </td>
-                                            <td>
-                                                5/12/2016
-                                                <p className="m-0 text-muted font-14">Date</p>
-                                            </td>
-                                            <td>
-                                                <button type="button" className="btn btn-secondary btn-sm waves-effect">Edit</button>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <img src="assets/images/users/avatar-3.jpg" alt="user-image" className="thumb-sm rounded-circle mr-2"/>
-                                                Mathias N. Klausen
-                                            </td>
-                                            <td><i className="mdi mdi-checkbox-blank-circle text-warning"></i> Waiting payment</td>
-                                            <td>
-                                                $8,541
-                                                <p className="m-0 text-muted font-14">Amount</p>
-                                            </td>
-                                            <td>
-                                                10/11/2016
-                                                <p className="m-0 text-muted font-14">Date</p>
-                                            </td>
-                                            <td>
-                                                <button type="button" className="btn btn-secondary btn-sm waves-effect">Edit</button>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <img src="assets/images/users/avatar-4.jpg" alt="user-image" className="thumb-sm rounded-circle mr-2"/>
-                                                Nikolaj S. Henriksen
-                                            </td>
-                                            <td><i className="mdi mdi-checkbox-blank-circle text-success"></i> Confirm</td>
-                                            <td>
-                                                $954
-                                                <p className="m-0 text-muted font-14">Amount</p>
-                                            </td>
-                                            <td>
-                                                8/11/2016
-                                                <p className="m-0 text-muted font-14">Date</p>
-                                            </td>
-                                            <td>
-                                                <button type="button" className="btn btn-secondary btn-sm waves-effect">Edit</button>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <img src="assets/images/users/avatar-5.jpg" alt="user-image" className="thumb-sm rounded-circle mr-2"/>
-                                                Lasse C. Overgaard
-                                            </td>
-                                            <td><i className="mdi mdi-checkbox-blank-circle text-danger"></i> Payment expired</td>
-                                            <td>
-                                                $44,584
-                                                <p className="m-0 text-muted font-14">Amount</p>
-                                            </td>
-                                            <td>
-                                                7/11/2016
-                                                <p className="m-0 text-muted font-14">Date</p>
-                                            </td>
-                                            <td>
-                                                <button type="button" className="btn btn-secondary btn-sm waves-effect">Edit</button>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <img src="assets/images/users/avatar-6.jpg" alt="user-image" className="thumb-sm rounded-circle mr-2"/>
-                                                Kasper S. Jessen
-                                            </td>
-                                            <td><i className="mdi mdi-checkbox-blank-circle text-success"></i> Confirm</td>
-                                            <td>
-                                                $8,844
-                                                <p className="m-0 text-muted font-14">Amount</p>
-                                            </td>
-                                            <td>
-                                                1/11/2016
-                                                <p className="m-0 text-muted font-14">Date</p>
-                                            </td>
-                                            <td>
-                                                <button type="button" className="btn btn-secondary btn-sm waves-effect">Edit</button>
-                                            </td>
-                                        </tr>
-
+                                        <MDBDataTableV5
+                   responsive
+                   striped
+                   small
+                   onPageChange={(val) => console.log(val)}
+                   bordered={true}
+                   materialSearch
+                   searchTop
+                   searchBottom={false}
+                   pagingTop
+                   barReverse
+                   hover
+                    // scrollX
+                    // autoWidth
+                    data={dataa}
+                    theadColor="#000"
+                  />
                                         </tbody>
                                     </table>
                                 </div>
@@ -425,45 +472,62 @@ const dashboard1 = () => {
                                 <div className="card m-b-20" style={{Height : "446px"}}>
                                     <div className="card-body">
                                         <div className="m-b-20">
-                                            <p className="m-b-5 font-18 font-500">Tasks due next week : 2</p>                                            <PieChart
-                                size={70}
-                                innerHoleSize={40}
+                                            <p className="m-b-5 font-20 font-400">Tasks due next week : 2</p>  
+                                            <div className="d-flex justify-content-center ">
+                                            <PieChart 
+                                size={80}
+                                innerHoleSize={50}
                                 data={[
                                 { key: 'A', value: 100, color: '#f2f2f2' },
-                                { key: 'B', value: 200, color: '#3bc3e9' },
+                                { key: 'B', value: 200, color: '#121a37' },
+                                { key: 'C', value: 500, color: '#226194' },
                                 ]}
                             />
+                                            </div>                                             
                              <div className="clearfix">
                                     <ul className="list-inline row m-t-30 clearfix">
-                                        <li className="col-6">
+                                        <li className="col-4">
                                             <p className="m-b-5 font-18 font-600">200</p>
                                             <p className="mb-0">Pending</p>
                                         </li>
-                                        <li className="col-6">
+                                        <li className="col-4">
                                             <p className="m-b-5 font-18 font-600">874</p>
                                             <p className="mb-0">Working</p>
+                                        </li>
+                                        <li className="col-4">
+                                            <p className="m-b-5 font-18 font-600">874</p>
+                                            <p className="mb-0">Completed</p>
                                         </li>
                                     </ul>
                                     </div>
                                         </div>
+                                        <hr />
                                         <div className="m-b-20">
-                                            <p className="m-b-5 font-18 font-500">Tasks due this month : 5</p>
+                                            <p className="m-b-5 font-20 font-400">Tasks due this month : 5</p>
+                                            <div className="d-flex justify-content-center">
                                             <PieChart 
-                                size={70}
+                                size={80}
                                 data={[
                                 { key: 'A', value: 100, color: '#f2f2f2' },
-                                { key: 'B', value: 200, color: '#4ac18e' },
+                                { key: 'B', value: 200, color: '#121a37' },
+                                { key: 'C', value: 50, color: '#226194' },
                                 ]}
                             />
+                                            </div>
+                                           
                              <div className="clearfix">
                                     <ul className="list-inline row m-t-30 clearfix">
-                                        <li className="col-6">
+                                        <li className="col-4">
                                             <p className="m-b-5 font-18 font-600">200</p>
                                             <p className="mb-0">Pending</p>
                                         </li>
-                                        <li className="col-6">
+                                        <li className="col-4">
                                             <p className="m-b-5 font-18 font-600">874</p>
                                             <p className="mb-0">Working</p>
+                                        </li>
+                                        <li className="col-4">
+                                            <p className="m-b-5 font-18 font-600">874</p>
+                                            <p className="mb-0">Completed</p>
                                         </li>
                                     </ul>
                                     </div>

@@ -10,6 +10,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import moment from "moment";
 import { convertFromRaw, EditorState } from "draft-js";
 import $ from "jquery";
+import "./ProjectDetails.scss"
 
 const ProjectDetails = (props) => {
   {
@@ -168,281 +169,126 @@ const ProjectDetails = (props) => {
       setTableData(data);
     };
 
+    const detail = [
+      { label: "Project Name", value: projectData && projectData.name },
+      {
+        label: "Client Name",
+        value: projectData && projectData.client.name
+      },
+  
+      {
+        label: "Order Number",
+        value: projectData && projectData.orderNum
+      },
+      {
+        label: "Platform",
+        value: projectData && projectData.platform.name
+      },
+      { label: "Service Type", value: projectData && projectData.service.name },
+      {
+        label: "Technology",
+        value: projectData && projectData.technology.name,
+      },
+      {
+        label: "Status",
+        value: projectData && projectData.status.name,
+      },
+      {
+        label: "Project Nature",
+        value: projectData && projectData.nature.name,
+      },
+  
+      {
+        label: "Client Start Date",
+        value: projectData && moment(projectData.cStartDate).format("DD/MMM/YYYY"),
+      },
+      {
+        label: "Cient Deadline",
+        value:  projectData && moment(projectData.cEndDate).format("DD/MMM/YYYY"),
+      },
+      {
+        label: "PM Start Date",
+        value: projectData && moment(projectData.pmStartDate).format("DD/MMM/YYYY"),
+      },
+      {
+        label: "PM Deadline",
+        value:  projectData && moment(projectData.pmEndDate).format("DD/MMM/YYYY"),
+      },
+    
+      {
+        label: "Cost",
+        value: projectData && projectData.cost,
+      },
+      {
+        label: "Currency",
+        value: projectData && projectData.currency.name,
+      },
+      {
+        label: "Platform Deductions",
+        value: projectData && projectData.Pdeduction,
+      },
+      {
+        label: "Reserve Profit",
+        value: projectData && projectData.Rprofit,
+      },
+      {
+        label: "Other Deductions",
+        value: projectData && projectData.otherDeduction,
+      },
+      {
+        label: "Project Manager",
+        value: projectData && projectData.projectManager.name,
+      },
+      {
+        label: "Team Members",
+        value:  projectData && projectData.assignedUser
+        ? projectData.assignedUser.map((item, index) => {
+            if (index === 0) {
+              return item.name;
+            } else if (index >= 0) {
+              return `, ${item.name} `;
+            }
+          })
+        : "None",
+      },
+    ];
+
+
     return (
       <AUX>
-        <div className="page-content-wrapper">
+        <div className="page-content-wrapper projectD">
           <div className="container-fluid">
             <div className="row">
-              <div className="col-12">
-                <div className="card m-b-20">
-                  <div className="card-body">
+             
                     <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Project Name</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={projectData && projectData.name}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Client Name</label>
-                          <input
-                            className="form-control"
-                            value={projectData && projectData.client.name}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
+                    <div className="row align-items-center gapp">
+            {detail.map((item, indx) => {
+              return (
+                <>
+                  <div
+                    className={`labell ${
+                      item.label === "Team Members"
+                        ? "col-3 col-md-2"
+                        : "col-3 col-md-2"
+                    } mb-3 d-flex align-items-center align-self-center`}
+                  >
+                    <div>{item.label}</div>
+                  </div>
+                  <div
+                    className={`valuee ${
+                      item.label === "Team Members"
+                        ? "col-9 col-md-6"
+                        : "col-3 col-md-2"
+                    } col-3 col-md-2 mb-3 align-self-center"`}
+                  >
+                    {item.value}
+                  </div>
+                </>
+              );
+            })}
+          </div>
                     </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Order Number </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={projectData && projectData.orderNum}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Platform</label>
-                          <input
-                            className="form-control"
-                            value={projectData && projectData.platform.name}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Service Type </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={projectData && projectData.service.name}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Technology</label>
-                          <input
-                            className="form-control"
-                            value={projectData && projectData.technology.name}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Status </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={projectData && projectData.status.name}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Project Nature</label>
-                          <input
-                            className="form-control"
-                            value={projectData && projectData.nature.name}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Client Start Date </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={
-                              projectData &&
-                              moment(projectData.cStartDate).format(
-                                "DD/MMM/YYYY"
-                              )
-                            }
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Client Deadline</label>
-                          <input
-                            className="form-control"
-                            value={
-                              projectData &&
-                              moment(projectData.cEndDate).format("DD/MMM/YYYY")
-                            }
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> PM Start Date </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={
-                              projectData &&
-                              moment(projectData.pmStartDate).format(
-                                "DD/MMM/YYYY"
-                              )
-                            }
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>PM Deadline</label>
-                          <input
-                            className="form-control"
-                            value={
-                              projectData &&
-                              moment(projectData.pmEndDate).format(
-                                "DD/MMM/YYYY"
-                              )
-                            }
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Project Manager </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={
-                              projectData && projectData.projectManager.name
-                            }
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Team Members</label>
-                          <input
-                            className="form-control"
-                            value={
-                              projectData &&
-                              projectData.assignedUser.map((item) => {
-                                return item.name;
-                              })
-                            }
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Cost</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={projectData && projectData.cost}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Currency </label>
-                          <input
-                            className="form-control"
-                            value={projectData && projectData.currency.name}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Platform Deduction</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={projectData && projectData.Pdeduction}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Reserve Profit </label>
-                          <input
-                            className="form-control"
-                            value={projectData && projectData.Rprofit}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Other Deductions </label>
-                          <input
-                            className="form-control"
-                            value={projectData && projectData.otherDeduction}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    {/* <div className="form-group">
-                      <label>Description</label>
-                      <div>
-                        <Editor
-                          toolbarClassName="toolbarClassName"
-                          wrapperClassName="wrapperClassName"
-                          editorClassName="editorClass"
-                          toolbarStyle={{ display: "none" }}
-                          readOnly
-                          editorStyle={{
-                            minHeight: "300px",
-                          }}
-                          editorState={
-                            projectData &&
-                            EditorState.createWithContent(
-                              convertFromRaw(
-                                JSON.parse(projectData.description)
-                              )
-                            )
-                          }
-                        />
-                      </div>
-                    </div> */}
+            
                     <div className="col-lg-12">
                       <ul
                         className="nav nav-tabs nav-tabs-custom"
@@ -528,9 +374,6 @@ const ProjectDetails = (props) => {
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

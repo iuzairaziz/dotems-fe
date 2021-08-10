@@ -15,12 +15,10 @@ class updateUsers extends Component {
           <div className="container-fluid">
             <div className="row">
               <div className="col-lg-12">
-                <div className="card m-b-20">
-                  <div className="card-body">
+            
                     <h4 className="mt-0 header-title">Update User Profile</h4>
                     <UpdateUserForm />
-                  </div>
-                </div>
+                
               </div>
             </div>
           </div>

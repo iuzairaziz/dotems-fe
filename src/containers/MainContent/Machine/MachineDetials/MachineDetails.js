@@ -10,6 +10,7 @@ import MachineService from "../../../../services/MachineService";
 import HistoryService from "../../../../services/HistoryService";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import { Button } from "reactstrap";
+import "./MachineDetails.scss"
 
 const MachineDetails = (props) => {
   {
@@ -163,137 +164,87 @@ const MachineDetails = (props) => {
 
     console.log("data", projectData);
 
+    const detail = [
+      { label: "Machine Name", value: projectData && projectData.name },
+      {
+        label: "Ownership",
+        value: projectData && projectData.Ownership,
+      },
+  
+      {
+        label: "Serial Number",
+        value: projectData && projectData.serialNo,
+      },
+      {
+        label: "Machine Number",
+        value: projectData && projectData.machineNo,
+      },
+  
+      { label: "Status", value: projectData && projectData.Status },
+      {
+        label: "Processer",
+        value: projectData && projectData.Processor,
+      },
+      {
+        label: "Storage",
+        value: projectData && projectData.Storage,
+      },
+      {
+        label: "Memory",
+        value: projectData && projectData.Memory,
+      },
+  
+      {
+        label: "Graphics",
+        value: projectData && projectData.Graphic,
+      },
+      {
+        label: "Accessories",
+        value:
+          projectData && projectData.Accessory
+            ? projectData.Accessory.map((item, index) => {
+                if (index === 0) {
+                  return item.name;
+                } else if (index >= 0) {
+                  return `, ${item.name} `;
+                }
+              })
+            : "None",
+      },
+    ];
+
     return (
       <AUX>
-        <div className="page-content-wrapper">
+        <div className="page-content-wrapper MachineD">
           <div className="container-fluid">
             <div className="row">
-              <div className="col-12">
-                <div className="card m-b-20">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Machine Name</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={projectData && projectData.name}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Ownsership</label>
-                          <input
-                            className="form-control"
-                            value={projectData && projectData.Ownership}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Serial No</label>
-                          <input
-                            className="form-control"
-                            value={projectData && projectData.serialNo}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Status </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={projectData && projectData.Status}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Machine No</label>
-                          <input
-                            className="form-control"
-                            value={projectData && projectData.machineNo}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Processor </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={projectData && projectData.Processor}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Storage</label>
-                          <input
-                            className="form-control"
-                            value={projectData && projectData.Storage}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label> Memory </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={projectData && projectData.Memory}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Graphics</label>
-                          <input
-                            className="form-control"
-                            value={projectData && projectData.Graphics}
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Accessories</label>
-                          <input
-                            className="form-control"
-                            value={
-                              projectData &&
-                              projectData.Accessory.map((item) => {
-                                return item.name;
-                              })
-                            }
-                            readOnly={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label>Notes</label>
-
-                     
+                    <div className="row gapp">
+                    <div className="row align-items-center">
+            {detail.map((item, indx) => {
+              return (
+                <>
+                  <div
+                    className={`labell ${
+                      item.label === "Team Members"
+                        ? "col-3 col-md-2"
+                        : "col-3 col-md-2"
+                    } mb-3 d-flex align-items-center align-self-center`}
+                  >
+                    <div>{item.label}</div>
+                  </div>
+                  <div
+                    className={`valuee ${
+                      item.label === "Team Members"
+                        ? "col-9 col-md-6"
+                        : "col-3 col-md-2"
+                    } col-3 col-md-2 mb-3 align-self-center"`}
+                  >
+                    {item.value}
+                  </div>
+                </>
+              );
+            })}
+          </div>   
                     </div>
                     <div className="col-lg-12">
                       <ul
@@ -376,18 +327,10 @@ const MachineDetails = (props) => {
                   theadColor="#000"
                 />
                         </div>
-                      
-                       
                       </div>
                     </div>
-                   
-            </div>
-          </div>
-                  </div>
                 </div>
               </div>
-             
-         
         </div>
       </AUX>
     );
