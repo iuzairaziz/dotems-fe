@@ -21,6 +21,11 @@ class RequestTypeService {
   getAllRequest() {
     return axios.get(this.config.apiBaseUrl + "request/show-request");
   }
+  getRecievedRequest(userId) {
+    return axios.get(
+      this.config.apiBaseUrl + "request/show-recieved-request?userId=" + userId
+    );
+  }
 
   myrequest(id) {
     return axios.get(this.config.apiBaseUrl + "request/myrequest/" + id);

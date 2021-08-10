@@ -132,6 +132,10 @@ class sidebar extends Component {
                 label: "View Request",
               },
               {
+                routeName: this.baseUrl + "view-recieved-request",
+                label: "Recieved Requests",
+              },
+              {
                 routeName: this.baseUrl + "my-requests",
                 label: "My Requests",
               },
