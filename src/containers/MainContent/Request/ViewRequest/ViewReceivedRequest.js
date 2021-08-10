@@ -76,7 +76,7 @@ const RequestList = (props) => {
   const userId = userService.userLoggedInInfo();
 
   const getData = () => {
-    RequestService.getAllRequest(userId._id)
+    RequestService.getRecievedRequest(userId._id)
       .then((res) => {
         let updatedData = { ...dataa };
         updatedData.rows = [];

@@ -23,11 +23,13 @@ import shortValidations from "../../../../validations/short-validations";
 import userService from "../../../../services/UserService";
 const RequestForm = (props) => {
   const [requestType, setRequestType] = useState([]);
+  const [sendRequestTo, setSendRequestTo] = useState([]);
   const [requestTypeModal, setRequestTypeModal] = useState(false);
   const [description, setDescription] = useState(EditorState.createEmpty());
 
   useEffect(() => {
     getRequestType();
+    getRequestUsers();
   }, [requestTypeModal]);
   const toggleRequestTypeEdit = () => setRequestTypeModal(!requestTypeModal);
 
@@ -37,6 +39,7 @@ const RequestForm = (props) => {
   const getRequestType = () => {
     RequestTypeService.getAllRequestType().then((res) => {
       let options = [];
+
       res.data.map((item, index) => {
         options.push({ label: item.name, value: item._id });
       });
@@ -44,11 +47,33 @@ const RequestForm = (props) => {
       setRequestType(options);
     });
   };
+  const getRequestUsers = () => {
+    UserService.getUsers("", "", "", "").then((res) => {
+      let options = [];
+      res.data
+        .filter(
+          (user) =>
+            user.userRole === "Admin" ||
+            user.userRole === "Project Manager" ||
+            user.userRole === "CEO" ||
+            user.userRole === "HR" ||
+            user.userRole === "Accounts Manager"
+        )
+        .map((item, index) => {
+          options.push({
+            label: `${item.name} (${item.userRole})`,
+            value: item._id,
+          });
+        });
+      setSendRequestTo(options);
+    });
+  };
 
   return (
     <Formik
       initialValues={{
-        requestType: props.editable && props.Request._id,
+        requestType: "",
+        sendRequestToUsers: [],
         description: props.editable
           ? EditorState.createWithContent(
               convertFromRaw(JSON.parse(props.Request.description))
@@ -58,9 +83,13 @@ const RequestForm = (props) => {
       validationSchema={shortValidations.requestValidation}
       onSubmit={(values, actions) => {
         console.log(actions);
+        console.log("Valuesssssssssss", values);
+        let array = [];
+        values.sendRequestToUsers.map((item) => array.push(item.value));
         props.editable
           ? RequestService.updateRequest(props.Request._id, {
               requestType: values.requestType.value,
+              requestRecievers: values.sendRequestToUsers,
               description: JSON.stringify(
                 convertToRaw(values.description.getCurrentContent())
               ),
@@ -76,6 +105,7 @@ const RequestForm = (props) => {
           : RequestService.addRequest({
               user: userId._id,
               requestType: values.requestType.value,
+              requestRecievers: array,
               description: JSON.stringify(
                 convertToRaw(values.description.getCurrentContent())
               ),
@@ -125,25 +155,23 @@ const RequestForm = (props) => {
             <span id="err" className="invalid-feedback">
               {props.touched.requestType && props.errors.requestType}
             </span>
-            <div className="col">
-              <div className="form-group">
-                <label className="control-label">Send Request To</label>
-                {/* <Select
-                  className={`my-select${
-                    props.touched.technologies && props.errors.technologies
-                      ? "is-invalid"
-                      : props.touched.technologies && "is-valid"
-                  }`}
-                  value={props.values.technologies}
-                  onChange={(val) => props.setFieldValue("technologies", val)}
-                  options={technology}
-                  isMulti={true}
-                />
-                <span id="err" className="invalid-feedback">
-                  {props.touched.technology && props.errors.technology}
-                </span> */}
-              </div>
+            <div className="mt-2">
+              <label className="control-label">Send Request To</label>
             </div>
+            <Select
+              className={`my-select${
+                props.touched.sendRequestTo && props.errors.sendRequestTo
+                  ? "is-invalid"
+                  : props.touched.sendRequestTo && "is-valid"
+              } zIndex-1`}
+              value={props.values.sendRequestTo}
+              onChange={(val) => props.setFieldValue("sendRequestToUsers", val)}
+              options={sendRequestTo}
+              isMulti={true}
+            />
+            <span id="err" className="invalid-feedback">
+              {props.touched.sendRequestTo && props.errors.sendRequestTo}
+            </span>
             <div className="form-group">
               <div className="row">
                 <div className="col mt-4">

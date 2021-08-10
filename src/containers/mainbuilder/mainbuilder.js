@@ -56,6 +56,7 @@ import AddRequest from "../MainContent/Request/AddRequest/AddRequest";
 import LeaveTypeList from "../MainContent/Leaves/LeaveType/LeaveTypeList/LeaveTypeList";
 import RequestTypeList from "../MainContent/RequestType/RequestList/RequestList";
 import RequestList from "../MainContent/Request/ViewRequest/ViewRequest";
+import RequestRecieved from "../MainContent/Request/ViewRequest/ViewReceivedRequest";
 import Machine from "../MainContent/Machine/Machine";
 import MyTasks from "../MainContent/Tasks/TaskList/MyTaskList";
 import Configuration from "../../config/configuration";
@@ -89,6 +90,11 @@ const mainbuilder = (props) => {
         <Route exact path="/view-leave-type" component={LeaveTypeList} />
         <Route exact path="/view-request-type" component={RequestTypeList} />
         <Route exact path="/view-request" component={RequestList} />
+        <Route
+          exact
+          path="/view-recieved-request"
+          component={RequestRecieved}
+        />
 
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/add-leave-type" component={AddLeaveType} />
@@ -102,7 +108,7 @@ const mainbuilder = (props) => {
             path="/request-single-detail/:id"
             component={SingleRequest}
           />
-          <Route exact path="/my-requests" component={MyRequest}  />
+          <Route exact path="/my-requests" component={MyRequest} />
           <Route exact path="/add-user" component={AddUser} />
           <Route exact path="/task-details/:id" component={TaskDetails} />
           <Route exact path="/subtask-details" component={TaskDetails} />
