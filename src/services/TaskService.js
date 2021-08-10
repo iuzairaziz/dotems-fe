@@ -18,6 +18,15 @@ class TaskService {
   getAllEmployeeTasks(empID) {
     return axios.get(this.config.apiBaseUrl + "tasks/by-employee/" + empID);
   }
+  getWeeklyEmployeeTasks(empID) {
+    return axios.get(this.config.apiBaseUrl + "tasks/by-employee-weekly/" + empID);
+  }
+  getNextWeekEmployeeTasks(empID) {
+    return axios.get(this.config.apiBaseUrl + "tasks/by-employee-next-week/" + empID);
+  }
+  getNextMonthEmployeeTasks(empID) {
+    return axios.get(this.config.apiBaseUrl + "tasks/by-employee-next-month/" + empID);
+  }
 
   getAllTask() {
     return axios.get(this.config.apiBaseUrl + "tasks/show-task");

@@ -22,6 +22,10 @@ class ProjectService {
     return axios.put(this.config.apiBaseUrl + "projects/" + id, formData);
   }
 
+  myprojects(id) {
+    return axios.get(this.config.apiBaseUrl + "projects/myprojects/" + id);
+  }
+
   getAllProject(filter, status, technology, startDate, endDate) {
     return axios.get(
       this.config.apiBaseUrl +
