@@ -27,7 +27,7 @@ class userServices {
     new Promise((resolve, reject) => {
       axios
         .post(
-          "http://localhost:8080/users/register",
+          this.config.apiBaseUrl + "users/register",
           name,
           email,
           salary,
@@ -54,7 +54,7 @@ class userServices {
   login = (email, password) =>
     new Promise((resolve, reject) => {
       axios
-        .post("http://localhost:8080/users/login", {
+        .post(this.config.apiBaseUrl + "users/login", {
           email,
           password,
         })
@@ -118,7 +118,7 @@ class userServices {
     );
 
   updateUserProfile = (data, id) =>
-    axios.put(`http://localhost:8080/users/${id}`, data);
+    axios.put(this.config.apiBaseUrl + `/users/${id}`, data);
 
   getSocket = () => {
     const socket = io(this.config.apiBaseUrl);
@@ -138,7 +138,7 @@ class userServices {
     machineNo
   ) =>
     axios.put(
-      `http://localhost:8080/users/update-user/${id}`,
+      this.config.apiBaseUrl + `users/update-user/${id}`,
       name,
       email,
       salary,
