@@ -1,11 +1,13 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
-
+import { useHistory } from "react-router-dom";
 import shortValidations from "../../../../validations/short-validations";
 import StatusService from "../../../../services/StatusService";
 
 const StatusForm = (props) => {
+  const history = useHistory();
+
   return (
     <Formik
       initialValues={{
@@ -29,6 +31,7 @@ const StatusForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 StatusService.handleMessage("add");
+                history.push("/viewstatus");
                 actions.setFieldValue("status", "");
               })
               .catch((err) => {

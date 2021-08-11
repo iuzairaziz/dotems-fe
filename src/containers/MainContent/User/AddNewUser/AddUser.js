@@ -17,7 +17,7 @@ class AddProjects extends Component {
               <div className="col-lg-12">
                 <div className="card m-b-20">
                   <div className="card-body">
-                    <h4 className="mt-0 header-title">Add New User</h4>
+                    <h4 className="mb-3 p-0">Add New User</h4>
                     <UserForm />
                   </div>
                 </div>

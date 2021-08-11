@@ -2,21 +2,15 @@ import React, { Component, useState, useEffect } from "react";
 import { Formik } from "formik";
 import expenseValidation from "../../../../validations/expense-validations";
 import { Dropdown, Button } from "reactstrap";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import CountryService from "../../../../services/CountryService";
 import ExpenseCategoryService from "../../../../services/ExpenseCategoryService";
 import ProjectService from "../../../../services/ProjectService";
-import PlatformService from "../../../../services/PlatformService";
-import TechnologyService from "../../../../services/TechnologyService";
-import ServiceService from "../../../../services/ServiceService";
-import NatureService from "../../../../services/NatureService";
-import userService from "../../../../services/UserService";
-import ClientService from "../../../../services/ClientService";
+import { useHistory } from "react-router-dom";
+
 
 const ExpensForm = (props) => {
   const user = props.user;
   const editable = props.editable;
+
   console.log("from project form ", user);
 
   return (
@@ -43,6 +37,7 @@ const ExpensForm = (props) => {
             })
               .then((res) => {
                 ExpenseCategoryService.handleMessage("add");
+                
               })
               .catch((err) => {
                 ExpenseCategoryService.handleCustomMessage(err.response.data);

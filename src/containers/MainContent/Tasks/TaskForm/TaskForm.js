@@ -14,6 +14,8 @@ import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./TaskForm.scss";
+import { useHistory } from "react-router-dom";
+
 
 const TaskForm = (props) => {
   const [users, setUsers] = useState([]);
@@ -22,6 +24,8 @@ const TaskForm = (props) => {
   const [description, setDescription] = useState(EditorState.createEmpty());
   const task = props.task;
   const editable = props.editable;
+  const history = useHistory();
+
 
   useEffect(() => {
     getProjects();
@@ -168,6 +172,7 @@ const TaskForm = (props) => {
             })
               .then((res) => {
                 TaskService.handleMessage("add");
+                history.push("/task");
               })
               .catch((err) => {
                 TaskService.handleCustomMessage(err.response.data);

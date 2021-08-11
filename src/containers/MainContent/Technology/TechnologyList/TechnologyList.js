@@ -5,6 +5,8 @@ import TechnologyForm from "../TechnologyForm/TechnologyForm";
 import TechnologyService from "../../../../services/TechnologyService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "./TechnologyList.scss";
+import { Link } from "react-router-dom";
+
 
 const TechnologyList = () => {
   const [modalEdit, setModalEdit] = useState(false);
@@ -89,11 +91,22 @@ const TechnologyList = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">All Technologies</h4>
-                  <p className="text-muted m-b-30 font-14">
-                    Below are all Technologies
-                  </p>
-
+                <div className="row align-items-center mb-3">
+                    <div className="col">
+                    <h3 className="m-0 p-0">All Technologies</h3>
+                    </div>
+                    <div className="col">
+                    <Link to="/add-technology">
+                      <Button
+                        color="success"
+                        className="my-primary-button float-right"
+                      >
+                        Add Technologies
+                      </Button>
+                    </Link>
+                    </div>
+                  </div>
+                 
                   <MDBDataTable
                    responsive
                    striped

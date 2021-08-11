@@ -11,9 +11,9 @@ const NewTask = () => {
             <div className="col-lg-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Add New Task</h4>
+                  <h4 className="m-0 p-0">Add New Task</h4>
                   <p className="text-muted m-b-30 font-14">
-                    Please fill the form below to add a new task to the project.
+                    Please fill the form below to add a new task.
                   </p>
                   <TaskForm />
                 </div>

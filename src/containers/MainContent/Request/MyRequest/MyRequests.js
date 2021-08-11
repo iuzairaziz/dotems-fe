@@ -4,6 +4,9 @@ import AUX from "../../../../hoc/Aux_";
 import RequestService from "../../../../services/Request";
 import UserService from "../../../../services/UserService";
 import moment from "moment";
+import { Link } from "react-router-dom";
+import { Button } from "reactstrap";
+
 
 const RequestList = (props) => {
   const [dataa, setData] = useState({
@@ -116,7 +119,21 @@ const RequestList = (props) => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Requests</h4>
+                <div className="row align-items-center mb-3">
+                    <div className="col">
+                    <h3 className="m-0 p-0">My Requests</h3>
+                    </div>
+                    <div className="col">
+                    <Link to="/add-request">
+                      <Button
+                        color="success"
+                        className="my-primary-button float-right"
+                      >
+                        Make Request
+                      </Button>
+                    </Link>
+                    </div>
+                  </div>
 
                   <MDBDataTableV5
                    responsive

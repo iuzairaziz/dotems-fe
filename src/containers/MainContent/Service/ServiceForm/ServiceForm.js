@@ -2,9 +2,12 @@ import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
 import ServiceServices from "../../../../services/ServiceService";
-
+import { useHistory } from "react-router-dom";
 import shortValidations from "../../../../validations/short-validations";
+
 const ServiceForm = (props) => {
+  const history = useHistory();
+
   return (
     <Formik
       initialValues={{
@@ -28,6 +31,7 @@ const ServiceForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 ServiceServices.handleMessage("add");
+                history.push("/service");
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {

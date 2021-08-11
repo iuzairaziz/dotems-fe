@@ -232,7 +232,21 @@ const ViewUsers = (props) => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">All Employees</h4>
+                <div className="row align-items-center mb-3">
+                    <div className="col">
+                    <h3 className="m-0 p-0">All Employees</h3>
+                    </div>
+                    <div className="col">
+                    <Link to="/add-user">
+                      <Button
+                        color="success"
+                        className="my-primary-button float-right"
+                      >
+                        Add User
+                      </Button>
+                    </Link>
+                    </div>
+                  </div>
                   <div className="row">
                     <div className="col-3">
                       <label>Technology Filter</label>

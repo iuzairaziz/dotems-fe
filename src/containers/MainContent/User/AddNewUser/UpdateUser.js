@@ -16,7 +16,7 @@ class updateUsers extends Component {
             <div className="row">
               <div className="col-lg-12">
             
-                    <h4 className="mt-0 header-title">Update User Profile</h4>
+                    <h3 className="m-0">User Profile</h3>
                     <UpdateUserForm />
                 
               </div>

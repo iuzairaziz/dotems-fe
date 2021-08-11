@@ -273,7 +273,7 @@ const ProjectReports = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Projects</h4>
+                  <h4 className="mb-3">Projects' Report</h4>
                   <div className="row">
                     <div className="col-4">
                       <label>Status Filter</label>

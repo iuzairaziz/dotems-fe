@@ -1,11 +1,13 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
-
 import shortValidations from "../../../validations/short-validations";
 import CurrencyService from "../../../services/CurrencyService";
+import { useHistory } from "react-router-dom";
 
 const CurrencyForm = (props) => {
+  const history = useHistory();
+
   return (
     <Formik
       initialValues={{
@@ -34,6 +36,7 @@ const CurrencyForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 CurrencyService.handleMessage("add");
+                history.push("/viewcurrency");
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {

@@ -1,10 +1,13 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
-
 import shortValidations from "../../../../validations/short-validations";
 import PlatformService from "../../../../services/PlatformService";
+import { useHistory } from "react-router-dom";
+
 const PlatformForm = (props) => {
+  const history = useHistory();
+
   return (
     <Formik
       initialValues={{
@@ -28,6 +31,7 @@ const PlatformForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 PlatformService.handleMessage("add");
+                history.push("/platform");
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {

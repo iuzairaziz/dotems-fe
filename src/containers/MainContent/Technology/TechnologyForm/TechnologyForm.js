@@ -1,11 +1,13 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
-
+import { useHistory } from "react-router-dom";
 import shortValidations from "../../../../validations/short-validations";
 import TechnologyService from "../../../../services/TechnologyService";
 
 const TechnologyForm = (props) => {
+  const history = useHistory();
+
   return (
     <Formik
       initialValues={{
@@ -29,6 +31,7 @@ const TechnologyForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 TechnologyService.handleMessage("add");
+                history.push("/technology");
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {

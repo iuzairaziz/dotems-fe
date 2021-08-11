@@ -34,6 +34,8 @@ import CurrencyService from "../../../services/CurrencyService";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import Editable from "react-x-editable";
 import "./ProjectForm.scss";
+import { useHistory } from "react-router-dom";
+
 
 const ProjectForm = (props) => {
   const [default_option, set_default_option] = useState(0);
@@ -60,6 +62,8 @@ const ProjectForm = (props) => {
 
   const editable = props.editable;
   const project = props.project;
+  const history = useHistory();
+
 
   const [totalCost, setTotalCost] = useState(0);
   const [phases, setPhases] = useState([
@@ -396,6 +400,7 @@ const ProjectForm = (props) => {
             })
               .then((res) => {
                 ProjectService.handleMessage("add");
+                history.push("/viewproject");
               })
               .catch((err) => {
                 ProjectService.handleCustomMessage(err.response.data);

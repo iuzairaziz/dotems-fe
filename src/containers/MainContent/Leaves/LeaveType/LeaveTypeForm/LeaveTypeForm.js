@@ -1,10 +1,13 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
-
 import shortValidations from "../../../../../validations/short-validations";
 import LeaveService from "../../../../../services/LeaveService";
+import { useHistory } from "react-router-dom";
+
 const LeaveTypeForm = (props) => {
+  const history = useHistory();
+
   return (
     <Formik
       initialValues={{
@@ -33,6 +36,7 @@ const LeaveTypeForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 LeaveService.handleMessage("add");
+                history.push("/view-leave-type");
                 actions.setFieldValue("name", "");
                 actions.setFieldValue("number", "");
               })

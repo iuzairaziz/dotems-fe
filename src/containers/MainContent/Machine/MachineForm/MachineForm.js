@@ -20,6 +20,9 @@ import HistoryService from "../../../../services/HistoryService";
 import AccessoryService from "../../../../services/AccessoryService";
 import userService from "../../../../services/UserService";
 import MachineValidation from "../../../../validations/machine-validations";
+import { useHistory } from "react-router-dom";
+
+
 const MachineForm = (props) => {
   const [users, setUsers] = useState([]);
   const [accessory, setAccessory] = useState([]);
@@ -28,6 +31,8 @@ const MachineForm = (props) => {
   const acc = props.machine;
   console.log("deatils", acc);
   const editable = props.editable;
+  const history = useHistory();
+
 
   useEffect(() => {
     getAccessories();
@@ -162,6 +167,7 @@ const MachineForm = (props) => {
             })
               .then((res) => {
                 props.toggle && props.toggle();
+                history.push("/view-machine");
                 HistoryService.addHistory({
                   docId: res.data._id,
                   onModel: "Machine",

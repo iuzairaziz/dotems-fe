@@ -11,10 +11,9 @@ const AddCountry = () => {
             <div className="col-lg-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Add New Country</h4>
+                  <h3 className="m-0">Add New Country</h3>
                   <p className="text-muted m-b-30 font-14">
-                    Please fill the form below to add a new country for the
-                    projects.
+                    Please fill the form below to add a new country.
                   </p>
                   <CountryForm />
                 </div>

@@ -445,7 +445,21 @@ const ViewProjects = (props, match) => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Projects</h4>
+                <div className="row align-items-center mb-3">
+                    <div className="col">
+                    <h3 className="m-0 p-0">All Projects</h3>
+                    </div>
+                    <div className="col">
+                    <Link to="/addproject">
+                      <Button
+                        color="success"
+                        className="my-primary-button float-right"
+                      >
+                        Add Project
+                      </Button>
+                    </Link>
+                    </div>
+                  </div>
                   <div className="row">
                     <div className="col-3">
                       <label>Platform Filter</label>

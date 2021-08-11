@@ -1,10 +1,13 @@
 import React, { Component, useState, useEffect } from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
-
 import shortValidations from "../../../../validations/short-validations";
 import AccessoryService from "../../../../services/AccessoryService";
+import { useHistory } from "react-router-dom";
+
 const AccessoryForm = (props) => {
+  const history = useHistory();
+
   return (
     <Formik
       initialValues={{
@@ -28,6 +31,7 @@ const AccessoryForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 AccessoryService.handleMessage("add");
+                history.push("/view-accessory");
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {

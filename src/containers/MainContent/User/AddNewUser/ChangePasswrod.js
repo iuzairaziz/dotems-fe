@@ -17,7 +17,7 @@ class ChangePassword extends Component {
               <div className="col-lg-12">
                 <div className="card m-b-20">
                   <div className="card-body">
-                    <h4 className="mt-0 header-title">Change Password</h4>
+                    <h3 className="mb-2">Change Password</h3>
                     <ChangePasswordForm />
                   </div>
                 </div>

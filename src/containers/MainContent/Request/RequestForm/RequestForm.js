@@ -6,7 +6,7 @@ import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import UserService from "../../../../services/UserService";
-
+import { useHistory } from "react-router-dom";
 import {
   Progress,
   Modal,
@@ -14,13 +14,13 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
-
 import RequestTypeService from "../../../../services/RequestTypeService";
 import RequestTypeForm from "../../RequestType/RequestForm/RequestForm";
 import RequestService from "../../../../services/Request";
-
 import shortValidations from "../../../../validations/short-validations";
 import userService from "../../../../services/UserService";
+
+
 const RequestForm = (props) => {
   const [requestType, setRequestType] = useState([]);
   const [sendRequestTo, setSendRequestTo] = useState([]);
@@ -35,6 +35,8 @@ const RequestForm = (props) => {
 
   const userId = userService.userLoggedInInfo();
   console.log(userId);
+  const history = useHistory();
+
 
   const getRequestType = () => {
     RequestTypeService.getAllRequestType().then((res) => {
@@ -113,6 +115,7 @@ const RequestForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 RequestService.handleMessage("add");
+                history.push("/my-requests");
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {
