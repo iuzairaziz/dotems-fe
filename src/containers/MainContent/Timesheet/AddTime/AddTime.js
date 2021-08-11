@@ -9,10 +9,9 @@ const AddTime = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-12">
-              <h4 className="mt-0 header-title">Add Working Hours to a Task</h4>
+              <h3 className="mt-0">TimeSheet</h3>
               <p className="text-muted m-b-30 font-14">
-                Please fill the form below to add number of hours worked on a
-                task
+                Please add number of hours worked on task.
               </p>
               <TimesheetForm />
             </div>

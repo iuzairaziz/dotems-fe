@@ -133,7 +133,7 @@ const RequestList = (props) => {
                     small
                     onPageChange={(val) => console.log(val)}
                     bordered={true}
-                    materialSearch
+                    // materialSearch
                     searchTop
                     searchBottom={false}
                     pagingTop

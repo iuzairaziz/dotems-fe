@@ -255,7 +255,7 @@ const UserDetails = (props) => {
                            striped
                            small
                            bordered={true}
-                           materialSearch
+                          //  materialSearch
                            searchTop
                            searchBottom={false}
                            pagingTop

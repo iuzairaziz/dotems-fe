@@ -542,7 +542,7 @@ const ViewProjects = (props, match) => {
                    small
                    onPageChange={(val) => console.log(val)}
                    bordered={true}
-                   materialSearch
+                  //  materialSearch
                    searchTop
                    searchBottom={false}
                    pagingTop

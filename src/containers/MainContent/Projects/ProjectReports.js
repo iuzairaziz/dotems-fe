@@ -230,7 +230,7 @@ const ProjectReports = () => {
                 {item.actualHrs ? item.actualHrs : "N/A"}
               </Link>
             ),
-            wrkdone: item.workDone ? item.workDone.toFixed(2) : "N/A",
+            wrkdone: item.workDone ? `${item.workDone.toFixed(2)}%` : "N/A",
             EstHrs: item.phase
               ? item.phase.map((item1, index, key) => {
                   if (index === 0) EstTime = 0;
@@ -330,7 +330,7 @@ const ProjectReports = () => {
                    small
                    onPageChange={(val) => console.log(val)}
                    bordered={true}
-                   materialSearch
+                  //  materialSearch
                    searchTop
                    searchBottom={false}
                    pagingTop
