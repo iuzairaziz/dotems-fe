@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import { Formik } from "formik";
 import ProjectValidation from "../../../validations/project-validations";
+import Configuration from "../../../config/configuration";
 import Select from "react-select";
 import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
@@ -57,6 +58,7 @@ const ProjectForm = (props) => {
   const [toShow, setToShow] = useState([]);
   const [teamMember, setTeamMember] = useState([]);
   const [totalHours, setTotalHours] = useState(0);
+  const roless = new Configuration().Roles;
 
   const editable = props.editable;
   const project = props.project;
@@ -65,31 +67,31 @@ const ProjectForm = (props) => {
   const [phases, setPhases] = useState([
     {
       phasename: "Requirement Analysis",
-      estTime: editable ? project.phase[0].estTime : "0",
+      estTime: editable ? project.phase[0].estTime : 0,
     },
     {
       phasename: "Design",
-      estTime: editable ? project.phase[1].estTime : "0",
+      estTime: editable ? project.phase[1].estTime : 0,
     },
     {
       phasename: "Development",
-      estTime: editable ? project.phase[2].estTime : "0",
+      estTime: editable ? project.phase[2].estTime : 0,
     },
     {
       phasename: "Implementation",
-      estTime: editable ? project.phase[3].estTime : "0",
+      estTime: editable ? project.phase[3].estTime : 0,
     },
     {
       phasename: "Testing",
-      estTime: editable ? project.phase[4].estTime : "0",
+      estTime: editable ? project.phase[4].estTime : 0,
     },
     {
       phasename: "Documentation",
-      estTime: editable ? project.phase[5].estTime : "0",
+      estTime: editable ? project.phase[5].estTime : 0,
     },
     {
       phasename: "Evaluation",
-      estTime: editable ? project.phase[6].estTime : "0",
+      estTime: editable ? project.phase[6].estTime : 0,
     },
   ]);
 
@@ -97,11 +99,11 @@ const ProjectForm = (props) => {
 
   useEffect(() => {
     console.log(tHours);
-    setTotalHours(tHours);
-  }, [tHours]);
+  }, [totalHours]);
 
   const setThours = (value) => {
-    tHours += value;
+    tHours = parseInt(tHours) + parseInt(value);
+    setTotalHours(parseInt(tHours));
   };
 
   const handleOption = (opt) => {
@@ -127,6 +129,7 @@ const ProjectForm = (props) => {
     getClient();
     getStatus();
     getCurrency();
+    getTeamMembers();
   }, [
     clientModal,
     platformModal,
@@ -164,10 +167,35 @@ const ProjectForm = (props) => {
   const getUsers = () => {
     userService.getUsers("", "", "", "").then((res) => {
       let options = [];
-      res.data.map((item, index) => {
-        options.push({ value: item._id, label: item.name });
-      });
+      res.data
+        .filter((role) => role.userRole === roless.PM)
+        .map((item, index) => {
+          options.push({
+            value: item._id,
+            label: `${item.name} (${item.userRole})`,
+          });
+        });
       setUsers(options);
+    });
+  };
+
+  const getTeamMembers = () => {
+    userService.getUsers("", "", "", "").then((res) => {
+      let options = [];
+      res.data
+        .filter(
+          (role) =>
+            role.userRole === roless.INTERNEE ||
+            role.userRole === roless.PROBATION ||
+            role.userRole === roless.EMPLOYEE
+        )
+        .map((item, index) => {
+          options.push({
+            value: item._id,
+            label: `${item.name} (${item.userRole})`,
+          });
+        });
+      setTeamMember(options);
     });
   };
 
@@ -482,7 +510,6 @@ const ProjectForm = (props) => {
                       ? "is-invalid"
                       : props.touched.orderNum && "is-valid"
                   }`}
-                  
                   value={props.values.orderNum}
                   onChange={props.handleChange("orderNum")}
                   placeholder="Enter Order Number"
@@ -511,11 +538,11 @@ const ProjectForm = (props) => {
                   </div>
                 </div>
                 <Select
-                className={`my-select${
-                  props.touched.platform && props.errors.platform
-                    ? "is-invalid"
-                    : props.touched.platform && "is-valid"
-                }`}
+                  className={`my-select${
+                    props.touched.platform && props.errors.platform
+                      ? "is-invalid"
+                      : props.touched.platform && "is-valid"
+                  }`}
                   name="platform"
                   onBlur={props.handleBlur}
                   value={props.values.platform}
@@ -638,7 +665,7 @@ const ProjectForm = (props) => {
                   }`}
                   value={props.values.teamMembers}
                   onChange={(val) => props.setFieldValue("teamMembers", val)}
-                  options={users}
+                  options={teamMember}
                   isMulti={true}
                 />
                 <span id="err" className="invalid-feedback">
@@ -660,7 +687,7 @@ const ProjectForm = (props) => {
                       props.touched.cStartDate && props.errors.cStartDate
                         ? "is-invalid"
                         : props.touched.cStartDate && "is-valid"
-                    }`} 
+                    }`}
                     selected={props.values.cStartDate}
                     onChange={(date) => {
                       props.setFieldValue("cStartDate", date);
@@ -685,7 +712,7 @@ const ProjectForm = (props) => {
                       props.touched.cEndDate && props.errors.cEndDate
                         ? "is-invalid"
                         : props.touched.cEndDate && "is-valid"
-                    }`}   
+                    }`}
                     selected={props.values.cEndDate}
                     onChange={(datee) => {
                       props.setFieldValue("cEndDate", datee);
@@ -709,11 +736,14 @@ const ProjectForm = (props) => {
                     props.touched.cost && props.errors.cost
                       ? "is-invalid"
                       : props.touched.cost && "is-valid"
-                  }`}                  value={props.values.cost}
+                  }`}
+                  value={props.values.cost}
                   onChange={props.handleChange("cost")}
                   placeholder="Enter Amount"
                 />
-                <span id="err" className="invalid-feedback">{props.touched.cost && props.errors.cost}</span>
+                <span id="err" className="invalid-feedback">
+                  {props.touched.cost && props.errors.cost}
+                </span>
               </div>
             </div>
           </div>
@@ -840,7 +870,8 @@ const ProjectForm = (props) => {
                       props.touched.Pdeduction && props.errors.Pdeduction
                         ? "is-invalid"
                         : props.touched.Pdeduction && "is-valid"
-                    }`}                    value={props.values.Pdeduction}
+                    }`}
+                    value={props.values.Pdeduction}
                     onChange={props.handleChange("Pdeduction")}
                     placeholder="Enter Deduction"
                   />
@@ -862,7 +893,8 @@ const ProjectForm = (props) => {
                     props.touched.otherDeduction && props.errors.otherDeduction
                       ? "is-invalid"
                       : props.touched.otherDeduction && "is-valid"
-                  }`}                  value={props.values.otherDeduction}
+                  }`}
+                  value={props.values.otherDeduction}
                   onChange={props.handleChange("otherDeduction")}
                   placeholder="Enter Other Deductions"
                 />
@@ -883,7 +915,8 @@ const ProjectForm = (props) => {
                       props.touched.Rprofit && props.errors.Rprofit
                         ? "is-invalid"
                         : props.touched.Rprofit && "is-valid"
-                    }`}                    value={props.values.Rprofit}
+                    }`}
+                    value={props.values.Rprofit}
                     onChange={props.handleChange("Rprofit")}
                     placeholder="Enter Preserve Profit"
                   />
@@ -962,7 +995,7 @@ const ProjectForm = (props) => {
                         props.touched.pmStartDate && props.errors.pmStartDate
                           ? "is-invalid"
                           : props.touched.pmStartDate && "is-valid"
-                      }`} 
+                      }`}
                       selected={props.values.pmStartDate}
                       onChange={(date1) => {
                         props.setFieldValue("pmStartDate", date1);
@@ -988,7 +1021,7 @@ const ProjectForm = (props) => {
                         props.touched.pmEndDate && props.errors.pmEndDate
                           ? "is-invalid"
                           : props.touched.pmEndDate && "is-valid"
-                      }`} 
+                      }`}
                       onChange={(date2) => {
                         props.setFieldValue("pmEndDate", date2);
                         console.log("datepicker", date2);

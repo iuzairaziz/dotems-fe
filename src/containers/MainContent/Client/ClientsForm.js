@@ -7,16 +7,30 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ClientService from "../../../services/ClientService";
 import CountryService from "../../../services/CountryService";
+import AddCountryForm from "../Country/CountryForm/CountryForm";
+
+import {
+  Progress,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 
 const ClientsForm = (props) => {
   const [default_date, set_default_date] = useState(0);
   const [dataa, setData] = useState();
   const [country, setCountry] = useState([]);
+  const [countryModal, setCountryModal] = useState(false);
 
   const handleDefault = (date) => {
     console.log(date);
     set_default_date(date);
   };
+
+  console.log("Countryyyyyyyyyyy", country);
+
+  const toggleCountryEdit = () => setCountryModal(!countryModal);
 
   useEffect(() => {
     getCountry();
@@ -26,13 +40,9 @@ const ClientsForm = (props) => {
     CountryService.getAllCountry().then((res) => {
       let options = [];
       res.data.map((item, index) => {
-        options.push({
-          // value: item._id,
-          label: item.name,
-          value: item._id,
-        });
-        setCountry(options);
+        options.push({ label: item.name, value: item._id });
       });
+      setCountry(options);
     });
   };
   const client = props.client;
@@ -111,7 +121,8 @@ const ClientsForm = (props) => {
                     props.touched.title && props.errors.title
                       ? "is-invalid"
                       : props.touched.title && "is-valid"
-                  }`}                    value={props.values.title}
+                  }`}
+                  value={props.values.title}
                   onChange={props.handleChange("title")}
                   placeholder="Enter Name"
                 />
@@ -131,7 +142,8 @@ const ClientsForm = (props) => {
                     props.touched.compName && props.errors.compName
                       ? "is-invalid"
                       : props.touched.compName && "is-valid"
-                  }`}                    value={props.values.compName}
+                  }`}
+                  value={props.values.compName}
                   onChange={props.handleChange("compName")}
                   placeholder="Enter Name"
                 />
@@ -153,7 +165,8 @@ const ClientsForm = (props) => {
                     props.touched.email && props.errors.email
                       ? "is-invalid"
                       : props.touched.email && "is-valid"
-                  }`}                    value={props.values.email}
+                  }`}
+                  value={props.values.email}
                   onChange={props.handleChange("email")}
                   placeholder="Enter Email"
                 />
@@ -173,11 +186,14 @@ const ClientsForm = (props) => {
                     props.touched.adrs && props.errors.adrs
                       ? "is-invalid"
                       : props.touched.adrs && "is-valid"
-                  }`}                    value={props.values.adrs}
+                  }`}
+                  value={props.values.adrs}
                   onChange={props.handleChange("adrs")}
                   placeholder="Enter Address"
                 />
-                <span id="err" className="invalid-feedback">{props.touched.adrs && props.errors.adrs}</span>
+                <span id="err" className="invalid-feedback">
+                  {props.touched.adrs && props.errors.adrs}
+                </span>
               </div>
             </div>
           </div>
@@ -193,7 +209,8 @@ const ClientsForm = (props) => {
                     props.touched.conNum && props.errors.conNum
                       ? "is-invalid"
                       : props.touched.conNum && "is-valid"
-                  }`}                    value={props.values.conNum}
+                  }`}
+                  value={props.values.conNum}
                   onChange={props.handleChange("conNum")}
                   placeholder="Enter Number"
                 />
@@ -214,7 +231,8 @@ const ClientsForm = (props) => {
                       props.touched.dateOfJoin && props.errors.dateOfJoin
                         ? "is-invalid"
                         : props.touched.dateOfJoin && "is-valid"
-                    }`}                      selected={props.values.dateOfJoin}
+                    }`}
+                    selected={props.values.dateOfJoin}
                     onChange={(date) => {
                       props.setFieldValue("dateOfJoin", date);
                       console.log("datepicker", date);
@@ -236,25 +254,43 @@ const ClientsForm = (props) => {
                     props.touched.ul && props.errors.ul
                       ? "is-invalid"
                       : props.touched.ul && "is-valid"
-                  }`}                    value={props.values.ul}
+                  }`}
+                  value={props.values.ul}
                   onChange={props.handleChange("ul")}
                   placeholder="Enter URL"
                 />
-                <span id="err" className="invalid-feedback">{props.touched.ul && props.errors.ul}</span>
+                <span id="err" className="invalid-feedback">
+                  {props.touched.ul && props.errors.ul}
+                </span>
               </div>
             </div>
             <div className="col">
               <div className="form-group">
-                <label className="control-label">Country</label>
+                <div className="row">
+                  <div className="col">
+                    <label className="control-label">Country</label>
+                  </div>
+                  <div className="col">
+                    <div
+                      className="d-flex justify-content-end"
+                      id="add-new-Buttonm "
+                      onClick={() => {
+                        toggleCountryEdit();
+                      }}
+                    >
+                      <i className="mdi mdi-plus-circle icon-add" />
+                    </div>
+                  </div>
+                </div>
                 <Select
-                 className={`my-select${
-                  props.touched.country && props.errors.country
-                    ? "is-invalid"
-                    : props.touched.country && "is-valid"
-                }`}
                   name="country"
                   onBlur={props.handleBlur}
                   value={props.values.country}
+                  className={`my-select${
+                    props.touched.country && props.errors.country
+                      ? "is-invalid"
+                      : props.touched.country && "is-valid"
+                  }`}
                   onChange={(val) => props.setFieldValue("country", val)}
                   options={country}
                 />
@@ -276,6 +312,16 @@ const ClientsForm = (props) => {
               </Button>
             </div>
           </div>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={countryModal}
+            toggle={toggleCountryEdit}
+          >
+            <ModalHeader toggle={toggleCountryEdit}>New Country</ModalHeader>
+            <ModalBody>
+              <AddCountryForm toggle={toggleCountryEdit} />
+            </ModalBody>
+          </Modal>
         </>
       )}
     </Formik>
