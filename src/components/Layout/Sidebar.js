@@ -78,6 +78,10 @@ class sidebar extends Component {
                 routeName: this.baseUrl + "projectreport",
                 label: "Project Report",
               },
+              {
+                routeName: this.baseUrl + "my-projects",
+                label: "My Projects",
+              },
             ],
           },
           {

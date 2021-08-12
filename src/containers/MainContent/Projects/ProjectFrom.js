@@ -772,17 +772,18 @@ const ProjectForm = (props) => {
                     </div>
                   </div>
                 </div>
-                <Select
+                 <Select
                   name="technology"
                   onBlur={props.handleBlur}
                   className={`my-select${
                     props.touched.technology && props.errors.technology
                       ? "is-invalid"
                       : props.touched.technology && "is-valid"
-                  }`}
+                  } zIndex`}
                   value={props.values.technology}
                   onChange={(val) => props.setFieldValue("technology", val)}
                   options={technology}
+                  isMulti={true}
                 />
 
                 <span id="err" className="invalid-feedback">
@@ -816,7 +817,7 @@ const ProjectForm = (props) => {
                     props.touched.serviceType && props.errors.serviceType
                       ? "is-invalid"
                       : props.touched.serviceType && "is-valid"
-                  }`}
+                  } zIndex`}
                   onChange={(val) => props.setFieldValue("serviceType", val)}
                   options={service}
                 />
@@ -852,7 +853,7 @@ const ProjectForm = (props) => {
                     props.touched.status && props.errors.status
                       ? "is-invalid"
                       : props.touched.status && "is-valid"
-                  }`}
+                  } zIndex`}
                   onChange={(val) => props.setFieldValue("status", val)}
                   options={status}
                 />
