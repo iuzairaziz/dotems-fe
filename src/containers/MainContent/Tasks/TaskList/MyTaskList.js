@@ -193,7 +193,7 @@ const MyTasks = (props) => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Tasks</h4>
+                  <h3>My Tasks</h3>
 
                   <MDBDataTableV5
                    responsive
@@ -201,7 +201,7 @@ const MyTasks = (props) => {
                    small
                    onPageChange={(val) => console.log(val)}
                    bordered={true}
-                   materialSearch
+                  //  materialSearch
                    searchTop
                    searchBottom={false}
                    pagingTop

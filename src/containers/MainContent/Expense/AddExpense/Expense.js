@@ -19,7 +19,7 @@ const Expense = (props) => {
             <div className="col-lg-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Add New Expense</h4>
+                  <h3 className="mb-3">Add New Expense</h3>
                   <ExpenseForm />
                 </div>
               </div>
@@ -29,7 +29,7 @@ const Expense = (props) => {
             <div className="col-lg-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Expense Table</h4>
+                  <h3 className="mb-3">Expense Table</h3>
                   <div className="form-group">
                     <label>Expense Date</label>
                     <div>

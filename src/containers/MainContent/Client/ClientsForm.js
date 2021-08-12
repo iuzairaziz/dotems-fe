@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Formik } from "formik";
 import clientValidation from "../../../validations/client-validations";
 import Select from "react-select";
@@ -22,6 +23,7 @@ const ClientsForm = (props) => {
   const [dataa, setData] = useState();
   const [country, setCountry] = useState([]);
   const [countryModal, setCountryModal] = useState(false);
+  const history = useHistory();
 
   const handleDefault = (date) => {
     console.log(date);
@@ -100,6 +102,7 @@ const ClientsForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 ClientService.handleMessage("add");
+                history.push("/viewclient");
               })
               .catch((err) => {
                 ClientService.handleCustomMessage(err.response.data);
@@ -250,6 +253,7 @@ const ClientsForm = (props) => {
                   name="ul"
                   onBlur={props.handleBlur}
                   type="text"
+                  defaultValue="http://"
                   className={`form-control ${
                     props.touched.ul && props.errors.ul
                       ? "is-invalid"

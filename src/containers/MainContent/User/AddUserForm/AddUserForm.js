@@ -5,6 +5,7 @@ import Select from "react-select";
 import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useHistory } from "react-router-dom";
 import {
   Progress,
   Modal,
@@ -31,6 +32,8 @@ const UserForm = (props) => {
 
   const config = new Configuration();
   const roles = config.Roles;
+  const history = useHistory();
+
 
   useEffect(() => {
     getMachines();
@@ -119,6 +122,7 @@ const UserForm = (props) => {
             })
               .then((res) => {
                 UserService.handleMessage("add");
+                history.push("/viewuser");
                 MachineService.updateMachine(values.machineNo.value, {
                   Status: "In-Use",
                 }).catch((err) =>

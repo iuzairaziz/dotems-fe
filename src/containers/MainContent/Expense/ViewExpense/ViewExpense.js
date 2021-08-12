@@ -303,7 +303,21 @@ const ViewExpense = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">All Expenses</h4>
+                <div className="row align-items-center mb-3">
+                    <div className="col">
+                    <h3 className="m-0 p-0">All Expenses</h3>
+                    </div>
+                    <div className="col">
+                    <Link to="/add-expense">
+                      <Button
+                        color="success"
+                        className="my-primary-button float-right"
+                      >
+                        Add Expense
+                      </Button>
+                    </Link>
+                    </div>
+                  </div>
                   <div className="row">
                     <div className="col-12">
                       <label>Expense Date Filter</label>
@@ -324,7 +338,7 @@ const ViewExpense = () => {
                    striped
                    small
                    bordered={true}
-                   materialSearch
+                  //  materialSearch
                    searchTop
                    searchBottom={false}
                    pagingTop

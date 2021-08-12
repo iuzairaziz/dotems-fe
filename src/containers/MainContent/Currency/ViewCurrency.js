@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Editable from "react-x-editable";
 import $ from "jquery";
 import CurrencyService from "../../../services/CurrencyService";
+import { Button } from "reactstrap";
+
 
 const CurrencyList = () => {
   const [selectedCurrency, setSelectedCurrency] = useState({ name: "" });
@@ -39,10 +41,21 @@ const CurrencyList = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Currencies</h4>
-                  <p className="text-muted m-b-30 font-14">
-                    All Currency and their exchange rates
-                  </p>
+                <div className="row align-items-center mb-3">
+                    <div className="col">
+                    <h3 className="m-0 p-0">All Currencies</h3>
+                    </div>
+                    <div className="col">
+                    <Link to="/addcurrency">
+                      <Button
+                        color="success"
+                        className="my-primary-button float-right"
+                      >
+                        Add Currency
+                      </Button>
+                    </Link>
+                    </div>
+                  </div>
 
                   <table className="table table-editable" id="mydtable">
                     <thead>

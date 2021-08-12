@@ -91,14 +91,28 @@ const CountryList = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">All Countries</h4>
+                <div className="row align-items-center mb-3">
+                    <div className="col">
+                    <h3 className="m-0 p-0">All Countries</h3>
+                    </div>
+                    <div className="col">
+                    <Link to="/add-country">
+                      <Button
+                        color="success"
+                        className="my-primary-button float-right"
+                      >
+                        Add Country
+                      </Button>
+                    </Link>
+                    </div>
+                  </div>
 
                   <MDBDataTableV5
                    responsive
                    striped
                    small
                    bordered={true}
-                   materialSearch
+                  //  materialSearch
                    searchTop
                    searchBottom={false}
                    pagingTop

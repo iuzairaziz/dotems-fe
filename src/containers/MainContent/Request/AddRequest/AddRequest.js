@@ -11,10 +11,9 @@ const AddRequest = () => {
             <div className="col-lg-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Add New Request </h4>
+                  <h4 className="m-0 p-0">Make Request</h4>
                   <p className="text-muted m-b-30 font-14">
-                    Please fill the form below to add a new Request for the
-                    projects.
+                    Please fill the form below to make new request.
                   </p>
                   <RequestForm />
                 </div>

@@ -11,10 +11,9 @@ const AddNature = () => {
             <div className="col-lg-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Add New Nature</h4>
+                  <h3 className="mt-0">Add New Nature</h3>
                   <p className="text-muted m-b-30 font-14">
-                    Please fill the form below to add a new nature for the
-                    projects.
+                    Please fill the form below to add a new nature.
                   </p>
                   <NatureForm />
                 </div>

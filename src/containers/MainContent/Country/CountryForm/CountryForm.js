@@ -1,10 +1,13 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
-
+import { useHistory } from "react-router-dom";
 import shortValidations from "../../../../validations/short-validations";
 import CountryService from "../../../../services/CountryService";
+
 const CountryForm = (props) => {
+  const history = useHistory();
+
   return (
     <Formik
       initialValues={{
@@ -27,6 +30,7 @@ const CountryForm = (props) => {
           : CountryService.addCountry({ name: values.title })
               .then((res) => {
                 CountryService.handleMessage("add");
+                history.push("/country");
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {

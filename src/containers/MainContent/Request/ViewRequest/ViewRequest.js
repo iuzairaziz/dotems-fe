@@ -125,7 +125,7 @@ const RequestList = (props) => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">All Requests</h4>
+                  <h3 className="m-0">All Requests</h3>
 
                   <MDBDataTableV5
                     responsive
@@ -133,7 +133,7 @@ const RequestList = (props) => {
                     small
                     onPageChange={(val) => console.log(val)}
                     bordered={true}
-                    materialSearch
+                    // materialSearch
                     searchTop
                     searchBottom={false}
                     pagingTop

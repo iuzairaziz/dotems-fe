@@ -11,7 +11,7 @@ const AddCountry = () => {
             <div className="col-lg-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">Add New Accessory</h4>
+                  <h4 className="m-0 p-0">Add New Accessory</h4>
                   <p className="text-muted m-b-30 font-14">
                     Please fill the form below to add a new Accessory
                   </p>

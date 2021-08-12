@@ -5,6 +5,8 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import NatureForm from "../NatureForm/NatureForm";
 import NatureService from "../../../../services/NatureService";
 import "./NatureList.scss";
+import { Link } from "react-router-dom";
+
 
 const NatureList = () => {
   const [modalEdit, setModalEdit] = useState(false);
@@ -89,17 +91,29 @@ const NatureList = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">All Natures</h4>
-                  <p className="text-muted m-b-30 font-14">
-                    Below are all natures for all projects
-                  </p>
+                <div className="row align-items-center mb-3">
+                    <div className="col">
+                    <h3 className="m-0 p-0">All Natures</h3>
+                    </div>
+                    <div className="col">
+                    <Link to="/add-nature">
+                      <Button
+                        color="success"
+                        className="my-primary-button float-right"
+                      >
+                        Add Natures
+                      </Button>
+                    </Link>
+                    </div>
+                  </div>
+                  
 
                   <MDBDataTable
                    responsive
                    striped
                    small
                    bordered={true}
-                   materialSearch
+                  //  materialSearch
                    searchTop
                    searchBottom={false}
                    pagingTop

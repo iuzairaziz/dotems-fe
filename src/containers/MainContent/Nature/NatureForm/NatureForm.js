@@ -1,10 +1,13 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
-
 import shortValidations from "../../../../validations/short-validations";
 import NatureService from "../../../../services/NatureService";
+import { useHistory } from "react-router-dom";
+
 const NatureForm = (props) => {
+  const history = useHistory();
+
   return (
     <Formik
       initialValues={{
@@ -28,6 +31,7 @@ const NatureForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 NatureService.handleMessage("add");
+                history.push("/nature");
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {

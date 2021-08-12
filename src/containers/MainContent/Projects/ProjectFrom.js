@@ -35,6 +35,7 @@ import CurrencyService from "../../../services/CurrencyService";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import Editable from "react-x-editable";
 import "./ProjectForm.scss";
+import { useHistory } from "react-router-dom";
 
 const ProjectForm = (props) => {
   const [default_option, set_default_option] = useState(0);
@@ -62,6 +63,7 @@ const ProjectForm = (props) => {
 
   const editable = props.editable;
   const project = props.project;
+  const history = useHistory();
 
   const [totalCost, setTotalCost] = useState(0);
   const [phases, setPhases] = useState([
@@ -107,7 +109,6 @@ const ProjectForm = (props) => {
   };
 
   const handleOption = (opt) => {
-    console.log(opt);
     set_default_option(opt);
   };
 
@@ -259,20 +260,20 @@ const ProjectForm = (props) => {
     });
   };
 
-  console.log(project);
+  // console.log(project);
 
   const toShowData = () => {
     let options = [];
     let natre = nature;
     let keys = Object.keys(nature);
-    console.log("n lenth", natre.length);
-    console.log("keys lenght", keys.length);
+    // console.log("n lenth", natre.length);
+    // console.log("keys lenght", keys.length);
     nature.map((item, index) => {
       options.push({ value: item.id, text: item.label });
     });
     setToShow(options);
-    console.log("Data To Disply in MultiSelect", options);
-    console.log("User Nature", nature);
+    // console.log("Data To Disply in MultiSelect", options);
+    // console.log("User Nature", nature);
   };
 
   const onEditorStateChange = (editorState) => {
@@ -348,16 +349,19 @@ const ProjectForm = (props) => {
         otherDeduction: editable && project.otherDeduction,
         phase: editable && phases,
       }}
+      validate={(val) => {
+        console.log("vlue", val);
+      }}
       validationSchema={ProjectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
-        console.log(phases);
+        // console.log(phases);
         const usrs = [];
-        console.log("team members", values.teamMembers);
+        // console.log("team members", values.teamMembers);
         values.teamMembers.map((item) => {
           usrs.push(item.value);
-          console.log("users", usrs);
+          // console.log("users", usrs);
         });
-        console.log("valuesss", values);
+        // console.log("valuesss", values);
         editable
           ? ProjectService.updateProject(project._id, {
               name: values.projectName,
@@ -424,16 +428,17 @@ const ProjectForm = (props) => {
             })
               .then((res) => {
                 ProjectService.handleMessage("add");
+                history.push("/viewproject");
               })
               .catch((err) => {
                 ProjectService.handleCustomMessage(err.response.data);
               });
-        console.log("clientName", values.clientName);
-        console.log("platform", values.platform);
-        console.log("technology", values.technology);
-        console.log("serviceType", values.serviceType);
-        console.log("projectNature", values.projectNature);
-        console.log("projectManager", values.projectManager);
+        // console.log("clientName", values.clientName);
+        // console.log("platform", values.platform);
+        // console.log("technology", values.technology);
+        // console.log("serviceType", values.serviceType);
+        // console.log("projectNature", values.projectNature);
+        // console.log("projectManager", values.projectManager);
       }}
     >
       {(props) => (
@@ -716,7 +721,7 @@ const ProjectForm = (props) => {
                     selected={props.values.cEndDate}
                     onChange={(datee) => {
                       props.setFieldValue("cEndDate", datee);
-                      console.log("datepicker", datee);
+                      // console.log("datepicker", datee);
                     }}
                   />
                   <span id="err" className="invalid-feedback">
@@ -999,7 +1004,7 @@ const ProjectForm = (props) => {
                       selected={props.values.pmStartDate}
                       onChange={(date1) => {
                         props.setFieldValue("pmStartDate", date1);
-                        console.log("datepicker", date1);
+                        // console.log("datepicker", date1);
                       }}
                     />
                     <span id="err" className="invalid-feedback">
@@ -1024,7 +1029,7 @@ const ProjectForm = (props) => {
                       }`}
                       onChange={(date2) => {
                         props.setFieldValue("pmEndDate", date2);
-                        console.log("datepicker", date2);
+                        // console.log("datepicker", date2);
                       }}
                     />
                     <span id="err" className="invalid-feedback">
@@ -1061,7 +1066,7 @@ const ProjectForm = (props) => {
                               value={phases[0].estTime}
                               display={(value) => {
                                 phases[0].estTime = value;
-                                console.log("value inside editable=", value);
+                                // console.log("value inside editable=", value);
                                 setThours(value);
 
                                 return <strong>{value}</strong>;
@@ -1081,7 +1086,7 @@ const ProjectForm = (props) => {
                               value={phases[1].estTime}
                               display={(value) => {
                                 phases[1].estTime = value;
-                                console.log("value inside editable=", value);
+                                // console.log("value inside editable=", value);
                                 setThours(value);
 
                                 return <strong>{value}</strong>;
@@ -1101,7 +1106,7 @@ const ProjectForm = (props) => {
                               value={phases[2].estTime}
                               display={(value) => {
                                 phases[2].estTime = value;
-                                console.log("value inside editable=", value);
+                                // console.log("value inside editable=", value);
                                 setThours(value);
 
                                 return <strong>{value}</strong>;
@@ -1121,7 +1126,7 @@ const ProjectForm = (props) => {
                               value={phases[3].estTime}
                               display={(value) => {
                                 phases[3].estTime = value;
-                                console.log("value inside editable=", value);
+                                // console.log("value inside editable=", value);
                                 setThours(value);
 
                                 return <strong>{value}</strong>;
@@ -1141,7 +1146,7 @@ const ProjectForm = (props) => {
                               value={phases[4].estTime}
                               display={(value) => {
                                 phases[4].estTime = value;
-                                console.log("value inside editable=", value);
+                                // console.log("value inside editable=", value);
                                 setThours(value);
 
                                 return <strong>{value}</strong>;
@@ -1161,7 +1166,7 @@ const ProjectForm = (props) => {
                               value={phases[5].estTime}
                               display={(value) => {
                                 phases[5].estTime = value;
-                                console.log("value inside editable=", value);
+                                // console.log("value inside editable=", value);
                                 setThours(value);
 
                                 return <strong>{value}</strong>;
@@ -1181,7 +1186,7 @@ const ProjectForm = (props) => {
                               value={phases[6].estTime}
                               display={(value) => {
                                 phases[6].estTime = value;
-                                console.log("value inside editable=", value);
+                                // console.log("value inside editable=", value);
                                 setThours(value);
 
                                 return <strong>{value}</strong>;

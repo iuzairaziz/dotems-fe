@@ -245,10 +245,22 @@ const Tables_datatable = (props) => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h4 className="mt-0 header-title">All Tasks View</h4>
-                  <p className="text-muted m-b-30 font-14">
-                    Below are all tasks of all projects
-                  </p>
+                <div className="row align-items-center mb-3">
+                    <div className="col">
+                    <h3 className="m-0 p-0">All Tasks</h3>
+                    </div>
+                    <div className="col">
+                    <Link to="/add-task">
+                      <Button
+                        color="success"
+                        className="my-primary-button float-right"
+                      >
+                        Add Task
+                      </Button>
+                    </Link>
+                    </div>
+                  </div>
+                 
 
                   <MDBDataTableV5
                    responsive
@@ -256,7 +268,7 @@ const Tables_datatable = (props) => {
                    small
                    onPageChange={(val) => console.log(val)}
                    bordered={true}
-                   materialSearch
+                  //  materialSearch
                    searchTop
                    searchBottom={false}
                    pagingTop

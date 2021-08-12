@@ -14,6 +14,8 @@ import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./TaskForm.scss";
+import { useHistory } from "react-router-dom";
+
 
 const TaskForm = (props) => {
   const [users, setUsers] = useState([]);
@@ -22,6 +24,8 @@ const TaskForm = (props) => {
   const [description, setDescription] = useState(EditorState.createEmpty());
   const task = props.task;
   const editable = props.editable;
+  const history = useHistory();
+
 
   useEffect(() => {
     getProjects();
@@ -42,7 +46,7 @@ const TaskForm = (props) => {
 
   const getTasksByProjectId = (id) => {
     TaskService.getTasksByProjectId(id).then((res) => {
-      let options = [{ label: "None", value: null }];
+      let options = [{ label: "Main", value: null }];
       res.data.map((item, index) => {
         if (!item.parentTask) {
           options.push({ label: item.name, value: item._id });
@@ -65,6 +69,8 @@ const TaskForm = (props) => {
               value: item._id,
               label: item.name,
               // id: item._id,
+              pmStartDate: item.pmStartDate,
+              pmEndDate : item.pmEndDate,
               remainingProjectRatio: item.tasks
                 ? item.tasks.remainingProjectRatio
                 : 100,
@@ -114,6 +120,8 @@ const TaskForm = (props) => {
         assignedTo: editable && assignedUsers,
         startTime: editable && task.startTime,
         endTime: editable && task.endTime,
+        pmStartDate: "",
+        pmEndDate: "",
         teamLead: editable &&
           task.teamLead && {
             label: task.teamLead.name,
@@ -168,6 +176,7 @@ const TaskForm = (props) => {
             })
               .then((res) => {
                 TaskService.handleMessage("add");
+                history.push("/task");
               })
               .catch((err) => {
                 TaskService.handleCustomMessage(err.response.data);
@@ -214,7 +223,7 @@ const TaskForm = (props) => {
                     props.touched.status && props.errors.status
                       ? "is-invalid"
                       : props.touched.status && "is-valid"
-                  }`}
+                  } `}
                     value={props.values.project}
                     name="project"
                     onBlur={props.handleBlur}
@@ -228,6 +237,12 @@ const TaskForm = (props) => {
                         "maxEstHrs",
                         selected.remainingProjectEstHrs
                       );
+                      props.setFieldValue(
+                        "pmStartDate", selected.pmStartDate
+                      )
+                      props.setFieldValue(
+                        "pmEndDate", selected.pmEndDate
+                      )
                       getTasksByProjectId(selected.value);
                       getProjectUsers(selected.value);
                       props.setFieldValue("assignedTo", []);
@@ -245,7 +260,10 @@ const TaskForm = (props) => {
                 <div className="form-group">
                   <label>Estimated Hours</label>
                   <span id="right_badge" className="float-right">
-                    {props.values.estimatedHrs + " Hours"}
+                    <input onBlur={props.handleBlur} type="number" name="estimatedHrs"  max="1000" value={props.values.estimatedHrs } onChange={(e) => {
+                      props.setFieldValue("estimatedHrs", e.target.value);
+                    }}/>
+                    {" Hours"}
                   </span>
                   <br />
                   <span id="left_badge">0</span>
@@ -311,7 +329,7 @@ const TaskForm = (props) => {
                   </span>
                 </div>
               </div>
-              <div className="col-6">
+              <div className="col-6 ">
                 <div className="form-group">
                   <label>Parent Task</label>
                   <Select
@@ -356,7 +374,7 @@ const TaskForm = (props) => {
                 </div>
               </div>
              
-              <div className="col-6">
+              <div className="col-6 ">
                 <div className="form-group">
                   <label>Start Time</label>
                   <DatePicker
@@ -364,7 +382,7 @@ const TaskForm = (props) => {
   props.touched.startTime && props.errors.startTime
     ? "is-invalid"
     : props.touched.startTime && "is-valid"
-}`}                       selected={props.values.startTime}
+}zIndex`}                       selected={props.values.startTime}
                     name="startTime"
                     onBlur={props.handleBlur}
                     onChange={(date) => {
@@ -377,7 +395,7 @@ const TaskForm = (props) => {
                   </span>
                 </div>
               </div>
-              <div className="col-6">
+              <div className="col-6 ">
                 <div className="form-group">
                   <label>End Time</label>
                   <DatePicker
@@ -385,7 +403,7 @@ const TaskForm = (props) => {
   props.touched.endTime && props.errors.endTime
     ? "is-invalid"
     : props.touched.endTime && "is-valid"
-}`}                       selected={props.values.endTime}
+}zIndex`}                       selected={props.values.endTime}
                     name="endTime"
                     onBlur={props.handleBlur}
                     onChange={(date) => {
@@ -398,7 +416,7 @@ const TaskForm = (props) => {
                   </span>
                 </div>
               </div>
-              <div className="col-6 zIndex">
+              <div className="col-6 ">
                 <div className="form-group">
                   <label>Team Lead</label>
                   <Select

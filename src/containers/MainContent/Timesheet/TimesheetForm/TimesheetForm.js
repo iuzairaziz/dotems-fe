@@ -229,7 +229,7 @@ const TaskForm = (props) => {
                 <>
                   <tr key={pIndex}>
                     <td className="project-name" colSpan="9">
-                      <strong>{project.project.name}</strong>
+                      <strong>Project: {project.project.name}</strong>
                     </td>
                   </tr>
                   {project.tasks.map((task, tIndex) => {

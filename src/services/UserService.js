@@ -153,9 +153,9 @@ class userServices {
 
   isUserRole = (array) => {
     let user = this.userLoggedInInfo();
-    console.log("role ", user);
-    console.log("roles", array);
-    console.log("role auth", array.includes(user.userRole));
+    // console.log("role ", user);
+    // console.log("roles", array);
+    // console.log("role auth", array.includes(user.userRole));
     return array.includes(user.userRole);
   };
 

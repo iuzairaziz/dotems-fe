@@ -3,7 +3,11 @@ import { Button } from "reactstrap";
 import { Formik } from "formik";
 import RequestService from "../../../../services/RequestTypeService";
 import shortValidations from "../../../../validations/short-validations";
+import { useHistory } from "react-router-dom";
+
 const RequestForm = (props) => {
+  const history = useHistory();
+
   return (
     <Formik
       initialValues={{
@@ -27,6 +31,7 @@ const RequestForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 RequestService.handleMessage("add");
+                history.push("/view-request-type");
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {

@@ -238,11 +238,6 @@ const TaskDetail = (props) => {
       label: "Project",
       value: taskData && taskData.project ? taskData.project.name : "None",
     },
-
-    {
-      label: "Estimate Hours",
-      value: taskData && Number(taskData.estHrs).toFixed(2),
-    },
     {
       label: "Project Ratio",
       value: taskData && `${taskData.projectRatio}%`,
@@ -270,6 +265,18 @@ const TaskDetail = (props) => {
     {
       label: "End Time",
       value: taskData && moment(taskData.endTime).format("DD/MM/YY"),
+    },
+    {
+      label: "Estimate Hours",
+      value: taskData && Number(taskData.estHrs).toFixed(2),
+    },
+    {
+      label: "Actual Hours",
+      value: taskData && taskData.timesheet && taskData.timesheet.actualHrs,
+    },
+    {
+      label: "Work Done",
+      value: taskData && `${taskData.workDone}%`,
     },
     {
       label: "Team Members",
@@ -441,7 +448,7 @@ const TaskDetail = (props) => {
                    small
                    onPageChange={(val) => console.log(val)}
                    bordered={true}
-                   materialSearch
+                  //  materialSearch
                    searchTop
                    searchBottom={false}
                    pagingTop
@@ -458,7 +465,7 @@ const TaskDetail = (props) => {
                    small
                    onPageChange={(val) => console.log(val)}
                    bordered={true}
-                   materialSearch
+                  //  materialSearch
                    searchTop
                    searchBottom={false}
                    pagingTop
