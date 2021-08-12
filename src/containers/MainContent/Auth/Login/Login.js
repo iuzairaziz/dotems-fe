@@ -123,7 +123,7 @@ class Login extends Component {
                             <div className="col-sm-6 text-right">
                               <button
                                 className="btn btn-primary w-md waves-effect waves-light my-primary-button"
-                                type="button"
+                                type="submit"
                                 onClick={props.handleSubmit}
                               >
                                 Log In
