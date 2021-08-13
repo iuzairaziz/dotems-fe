@@ -109,7 +109,7 @@ const ViewClients = (props) => {
             dateOfJoin: item.dateOfJoin
               ? moment(item.dateOfJoin).format("DD/MMM/YYYY")
               : "N/A",
-            country: item.country ? item.country.name : "N/A",
+            country: item.country ? item.country : "N/A",
             action: (
               <div className="row flex-nowrap align-items-center">
                 <i

@@ -179,15 +179,15 @@ const ViewUsers = (props) => {
             workingHrs: item.workingHrs ? item.workingHrs : "N/A",
             workingDays: item.workingDays ? item.workingDays : "N/A",
             technology: item.technology
-              ? item.technology.map((item, index) => {
-                  if (index === 0) {
-                    return item.name;
-                  } else if (index >= 0) {
-                    return `, ${item.name} `;
-                  }
-                })
-              : "none",
-
+            ? item.technology.map((item, index) => {
+                return (
+                  <div>
+                    {item.name}
+                    <br />
+                  </div>
+                );
+              })
+            : "none",
             action: (
               <div className="row flex-nowrap align-items-center">
                 <i
