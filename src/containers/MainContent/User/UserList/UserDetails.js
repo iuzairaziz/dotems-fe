@@ -153,12 +153,12 @@ const UserDetails = (props) => {
         userData.machineNo &&
         userData.machineNo.machineNo,
       },
-  
-      { label: "Role", value: userData && userData.userRole },
       {
         label: "Salary",
         value: userData && userData.salary,
       },
+      { label: "Role", value: userData && userData.userRole },
+      { label: "Designation", value: userData && userData.designation.name },
       {
         label: "Status",
         value: userData && userData.status,
@@ -202,15 +202,20 @@ const UserDetails = (props) => {
       },
       {
         label: "Technology",
-        value:  userData && userData.technology
-        ? userData.technology.map((item, index) => {
+        value: userData && userData.technology &&
+          userData.technology.map((item, index) => {
+            return (
+              <div>
+                {item.name}
+                <br />
+              </div>
+            );
             if (index === 0) {
               return item.name;
             } else if (index >= 0) {
               return `, ${item.name} `;
             }
-          })
-        : "None",
+          }),
       },
     ];
 
@@ -219,7 +224,7 @@ const UserDetails = (props) => {
         <div className="page-content-wrapper userD">
           <div className="container-fluid">
                       <div className="row">
-                      <div className="row align-items-center gapp">
+                      <div className="row  gapp ">
             {detail.map((item, indx) => {
               return (
                 <>
@@ -227,8 +232,8 @@ const UserDetails = (props) => {
                     className={`labell ${
                       item.label === "Team Members"
                         ? "col-3 col-md-2"
-                        : "col-3 col-md-2"
-                    } mb-3 d-flex align-items-center align-self-center`}
+                        : "col-3 col-md-2 "
+                    } mb-3 d-flex align-items-center `}
                   >
                     <div>{item.label}</div>
                   </div>
@@ -236,8 +241,8 @@ const UserDetails = (props) => {
                     className={`valuee ${
                       item.label === "Team Members"
                         ? "col-9 col-md-6"
-                        : "col-3 col-md-2"
-                    } col-3 col-md-2 mb-3 align-self-center"`}
+                        : "col-3 col-md-2  pt-2"
+                    } col-3 col-md-2 mb-3"`}
                   >
                     {item.value}
                   </div>
@@ -248,7 +253,7 @@ const UserDetails = (props) => {
                       </div>
                       {taskData.length != 0 && (
                         <div className="col-12 gap">
-                          <h4 className="mt-0 header-title">User Tasks</h4>
+                          <h3 className="mt-0">User Tasks</h3>
 
                           <MDBDataTableV5
                            responsive

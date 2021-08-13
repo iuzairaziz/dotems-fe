@@ -21,7 +21,7 @@ class UserValidation {
         .max(200),
       workingHrs: Yup.number(),
       machineNo: Yup.object(),
-
+      designation: Yup.object(),
       workingDays: Yup.number(),
       userRole: Yup.object().required("Required!"),
     });

@@ -13,21 +13,16 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
-import CountryService from "../../../../services/DesignationService";
 import MachineForm from "../../Machine/MachineForm/MachineForm";
 import UserService from "../../../../services/UserService";
 import MachineService from "../../../../services/MachineService";
-import ProjectService from "../../../../services/ProjectService";
-import PlatformService from "../../../../services/PlatformService";
-import TechnologyService from "../../../../services/TechnologyService";
-import ServiceService from "../../../../services/ServiceService";
-import NatureService from "../../../../services/NatureService";
-import ClientService from "../../../../services/ClientService";
-import userService from "../../../../services/UserService";
+import DesignationService from "../../../../services/DesignationService";
+
 import Configuration from "../../../../config/configuration";
 
 const UserForm = (props) => {
   const [machineNo, setMachineNo] = useState([]);
+  const [designation, setDesignation] = useState([]);
   const [machineModal, setMachineModal] = useState(false);
 
   const config = new Configuration();
@@ -36,6 +31,7 @@ const UserForm = (props) => {
 
   useEffect(() => {
     getMachines();
+    getDesignation();
   }, [machineModal]);
 
   const toggleMachineEdit = () => setMachineModal(!machineModal);
@@ -56,6 +52,17 @@ const UserForm = (props) => {
     });
   };
 
+
+  const getDesignation = () => {
+    DesignationService.getAllDesignation().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setDesignation(options);
+    });
+  };
+
   return (
     <Formik
       initialValues={{
@@ -69,6 +76,11 @@ const UserForm = (props) => {
         salary: editable && user.salary,
         password: editable && user.password,
         workingHrs: editable && user.workingHrs,
+        designation: editable &&
+        user.designation && {
+          label: user.designation.name,
+          value: user.designation._id,
+        },
         machineNo: editable &&
           user.machineNo && {
             label: user.machineNo.machineNo,
@@ -92,6 +104,7 @@ const UserForm = (props) => {
               joiningDate: values.joiningDate,
               workingHrs: values.workingHrs,
               machineNo: values.machineNo.value,
+              designation: values.designation.value,
               workingDays: values.workingDays,
               userRole: values.userRole.value,
             })
@@ -116,6 +129,7 @@ const UserForm = (props) => {
               joiningDate: values.joiningDate,
               workingHrs: values.workingHrs,
               machineNo: values.machineNo.value,
+              designation: values.designation.value,
               workingDays: values.workingDays,
               userRole: values.userRole.value,
             })
@@ -375,6 +389,41 @@ const UserForm = (props) => {
             </div>
           </div>
           <div className="row">
+          <div className="col">
+              <div className="form-group">
+                <div className="row">
+                  <div className="col">
+                    <label className="control-label">Designation</label>
+                  </div>
+                  {/* <div className="col">
+                    <div
+                      className="d-flex justify-content-end"
+                      id="add-new-Buttonm "
+                      onClick={() => {
+                        toggleMachineEdit();
+                      }}
+                    >
+                      <i className="mdi mdi-plus-circle icon-add" />
+                    </div>
+                  </div> */}
+                </div>
+                <Select
+                  name="designation"
+                  className={`my-select${
+                    props.touched.designation && props.errors.designation
+                      ? "is-invalid"
+                      : props.touched.designation && "is-valid"
+                  }`}
+                  onBlur={props.handleBlur}
+                  value={props.values.designation}
+                  onChange={(val) => props.setFieldValue("designation", val)}
+                  options={designation}
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.designation && props.errors.designation}
+                </span>
+              </div>
+            </div>
             <div className="col">
               <div className="form-group">
                 <label>Working Hours</label>

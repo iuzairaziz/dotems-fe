@@ -128,7 +128,7 @@ const CountryList = () => {
 
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>
-                <ModalHeader toggle={toggleEdit}>Edit Country</ModalHeader>
+                <ModalHeader toggle={toggleEdit}>Edit Designation</ModalHeader>
                 <ModalBody>
                   <DesignationForm
                     editable={true}
@@ -139,10 +139,10 @@ const CountryList = () => {
               </Modal>
               <Modal isOpen={modalDelete} toggle={toggleDelete}>
                 <ModalHeader toggle={toggleDelete}>
-                  Delete Country ?
+                  Delete Designation?
                 </ModalHeader>
                 <ModalBody>
-                  Are you sure you want to delete the country "
+                  Are you sure you want to delete the Designation "
                   {selectedCountry.name}" ?
                 </ModalBody>
                 <ModalFooter>
