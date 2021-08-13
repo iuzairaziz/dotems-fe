@@ -316,7 +316,7 @@ class header extends Component {
                 type="button"
                 className="button-menu-mobile open-left waves-effect"
               >
-                <i id="icon" className="ion-navicon" />
+                <i className="mdi ion-navicon" />
               </button>
             </li>
             <Link to="/" className="logo">

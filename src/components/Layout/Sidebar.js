@@ -199,10 +199,21 @@ class sidebar extends Component {
     $(".button-menu-mobile").on("click", function(event) {
       event.preventDefault();
       $("body").toggleClass("enlarged");
+      $(".button-menu-mobile i").toggleClass("ion-navicon mdi-close");
     });
 
     $("li.has_sub li").on("click", function(event) {
       $("body").toggleClass("enlarged");
+      $(".button-menu-mobile i").toggleClass("ion-navicon mdi-close");
+    });
+    $(".main-body-toggle").on("click", function(event) {
+      $("body").removeClass("enlarged");
+      $(".button-menu-mobile i")
+        .removeClass("mdi-close")
+        .addClass("ion-navicon");
+    });
+    $(".SelectedWeekExample").on("click", function(event) {
+      $(".DayPicker").toggleClass("d-none");
     });
   }
   componentDidUpdate() {

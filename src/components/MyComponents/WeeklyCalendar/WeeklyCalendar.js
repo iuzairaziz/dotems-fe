@@ -128,7 +128,7 @@ export default class WeeklyCalendar extends React.Component {
           }}
         />
         <DayPicker
-          className={`${this.state.show ? "" : "d-none"} position-absolute `}
+          className={"d-none position-absolute"}
           style={{ border: "solid 1px #a6a8ab" }}
           selectedDays={selectedDays}
           showWeekNumbers

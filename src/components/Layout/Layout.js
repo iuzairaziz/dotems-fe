@@ -17,7 +17,7 @@ class layout extends Component {
               <div className="content-page">
                 <div className="content">
                   {this.props.header ? <Header /> : null}
-                  <div>
+                  <div className="main-body-toggle">
                     <div className="pathname d-flex align-items-center">
                       <i
                         className="mdi mdi-arrow-left-bold icon-back"
