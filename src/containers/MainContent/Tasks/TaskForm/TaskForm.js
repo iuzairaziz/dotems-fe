@@ -259,12 +259,25 @@ const TaskForm = (props) => {
               <div className="col-6">
                 <div className="form-group">
                   <label>Estimated Hours</label>
-                  <span id="right_badge" className="float-right">
-                    <input onBlur={props.handleBlur} type="number" name="estimatedHrs"  max="1000" value={props.values.estimatedHrs } onChange={(e) => {
+                  <div id="right_badge" className="float-right d-flex ">
+                  <input
+                    type="number"
+                    className={`form-control ${
+                      props.touched.estimatedHrs && props.errors.estimatedHrs
+                        ? "is-invalid"
+                        : props.touched.estimatedHrs && "is-valid"
+                    } inputWdth mr-2`}                       value={props.values.estimatedHrs}
+                    name="estimatedHrs"
+                    onBlur={props.handleBlur}
+                    onChange={(e) => {
                       props.setFieldValue("estimatedHrs", e.target.value);
-                    }}/>
-                    {" Hours"}
-                  </span>
+
+                      console.log(props);
+                    }}
+                  />
+                  <span className="inputFont">Hrs</span> 
+                  {/* {"Hrs"} */}
+                  </div>
                   <br />
                   <span id="left_badge">0</span>
                   <span id="right_badge" className="float-right">
@@ -283,18 +296,6 @@ const TaskForm = (props) => {
                       props.setFieldValue("estimatedHrs", value.toFixed(1));
                     }}
                   />
-                  {/* <input
-                    type="range"
-                    className="form-range float-right"
-                    min="0"
-                    max="100"
-                    value={props.values.estimatedHrs}
-                    onChange={(e) => {
-                      props.setFieldValue("estimatedHrs", e.target.value);
-                    }}
-                    step="0.1"
-                    id="customRange3"
-                  /> */}
                   <span id="err" className="invalid-feedback">
                     {props.touched.estimatedHrs && props.errors.estimatedHrs}
                   </span>
@@ -303,9 +304,24 @@ const TaskForm = (props) => {
               <div className="col-6">
                 <div className="form-group">
                   <label>Project Ratio</label>
-                  <span id="right_badge" className="float-right">
-                    {props.values.projectRatio + " %"}
-                  </span>
+                  <div id="right_badge" className="float-right d-flex ">
+                  <input
+                    type="number"
+                    className={`form-control ${
+                      props.touched.projectRatio && props.errors.projectRatio
+                        ? "is-invalid"
+                        : props.touched.projectRatio && "is-valid"
+                    } inputWdth mr-2 `}                       value={props.values.projectRatio}
+                    name="projectRatio"
+                    onBlur={props.handleBlur}
+                    onChange={(e) => {
+                      props.setFieldValue("projectRatio", e.target.value);
+
+                      console.log(props);
+                    }}
+                  />
+                   <span className="inputFont">%</span> 
+                  </div>
                   <br />
                   <span id="left_badge">0</span>
                   <span id="right_badge" className="float-right">
@@ -434,6 +450,26 @@ const TaskForm = (props) => {
                   <span id="err" className="invalid-feedback">
                     {props.touched.teamLead && props.errors.teamLead}
                   </span>
+                </div>
+              </div>
+              <div className="col-6 ">
+                <div className="form-group">
+                  <label>Project Phase</label>
+                  <Select
+                  //  className={`my-select${
+                  //   props.touched.teamLead && props.errors.teamLead
+                  //     ? "is-invalid"
+                  //     : props.touched.teamLead && "is-valid"
+                  // }`}
+                  //   value={props.values.teamLead}
+                  //   name="teamLead"
+                  //   onBlur={props.handleBlur}
+                  //   onChange={(val) => props.setFieldValue("teamLead", val)}
+                  //   options={users}
+                  />
+                  {/* <span id="err" className="invalid-feedback">
+                    {props.touched.teamLead && props.errors.teamLead}
+                  </span> */}
                 </div>
               </div>
               <div className="col-12">
