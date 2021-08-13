@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
-import CountryForm from "../CountryForm/CountryForm";
-import CountryService from "../../../../services/CountryService";
+import DesignationForm from "../DesignationForm/DesignationForm";
+import DesignationService from "../../../../services/DesignationService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import "./CountryList.scss";
+import "./DesignationList.scss";
 
 const CountryList = () => {
   const [modalEdit, setModalEdit] = useState(false);
@@ -38,19 +38,19 @@ const CountryList = () => {
   const toggleDelete = () => setModalDelete(!modalDelete);
 
   const handleDelete = (id) => {
-    CountryService.deleteCountry(id)
+    DesignationService.deleteDesignation(id)
       .then((res) => {
-        CountryService.handleMessage("delete");
+        DesignationService.handleMessage("delete");
         toggleDelete();
       })
       .catch((err) => {
-        CountryService.handleError();
+        DesignationService.handleError();
         toggleDelete();
       });
   };
 
   const getCountry = () => {
-    CountryService.getAllCountry()
+    DesignationService.getAllDesignation()
       .then((res) => {
         let updatedData = { ...data };
         updatedData.rows = [];
@@ -91,33 +91,33 @@ const CountryList = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                <div className="row align-items-center mb-3">
+                  <div className="row align-items-center mb-3">
                     <div className="col">
-                    <h3 className="m-0 p-0">All Countries</h3>
+                      <h3 className="m-0 p-0">All Designations</h3>
                     </div>
                     <div className="col">
-                    <Link to="/add-country">
-                      <Button
-                        color="success"
-                        className="my-primary-button float-right"
-                      >
-                        Add Country
-                      </Button>
-                    </Link>
+                      <Link to="/add-designation">
+                        <Button
+                          color="success"
+                          className="my-primary-button float-right"
+                        >
+                          Add Designation
+                        </Button>
+                      </Link>
                     </div>
                   </div>
 
                   <MDBDataTableV5
-                   responsive
-                   striped
-                   small
-                   bordered={true}
-                  //  materialSearch
-                   searchTop
-                   searchBottom={false}
-                   pagingTop
-                   barReverse
-                   hover
+                    responsive
+                    striped
+                    small
+                    bordered={true}
+                    //  materialSearch
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
+                    hover
                     // scrollX
                     // autoWidth
                     data={data}
@@ -130,7 +130,7 @@ const CountryList = () => {
               <Modal isOpen={modalEdit} toggle={toggleEdit}>
                 <ModalHeader toggle={toggleEdit}>Edit Country</ModalHeader>
                 <ModalBody>
-                  <CountryForm
+                  <DesignationForm
                     editable={true}
                     country={selectedCountry}
                     toggle={toggleEdit}

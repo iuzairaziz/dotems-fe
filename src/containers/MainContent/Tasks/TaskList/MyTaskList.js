@@ -4,6 +4,7 @@ import AUX from "../../../../hoc/Aux_";
 import TaskService from "../../../../services/TaskService";
 import { Progress, Button } from "reactstrap";
 import { Link } from "react-router-dom";
+import Select from "react-select";
 import moment from "moment";
 import UserService from "../../../../services/UserService";
 import $ from "jquery";
@@ -139,9 +140,20 @@ const MyTasks = (props) => {
               "N/A"
             ),
             status: (
-              <span className="badge badge-teal">
-                {item.status ? item.status : "N/A"}
-              </span>
+              <div>
+                <select
+                  class="form-select"
+                  defaultValue={item.status ? item.status : "N/A"}
+                  onChange={(e) =>
+                    TaskService.updateTask(item._id, { status: e.target.value })
+                  }
+                  aria-label="Default select example"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="working">Working</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
             ),
             teamLead: item.teamLead ? item.teamLead.name : "N/A",
             parentTask: item.parentTask ? item.parentTask.name : "N/A",
@@ -196,17 +208,17 @@ const MyTasks = (props) => {
                   <h3>My Tasks</h3>
 
                   <MDBDataTableV5
-                   responsive
-                   striped
-                   small
-                   onPageChange={(val) => console.log(val)}
-                   bordered={true}
-                  //  materialSearch
-                   searchTop
-                   searchBottom={false}
-                   pagingTop
-                   barReverse
-                   hover
+                    responsive
+                    striped
+                    small
+                    onPageChange={(val) => console.log(val)}
+                    bordered={true}
+                    //  materialSearch
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
+                    hover
                     // scrollX
                     // autoWidth
                     data={dataa}

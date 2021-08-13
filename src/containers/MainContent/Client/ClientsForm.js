@@ -7,8 +7,8 @@ import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ClientService from "../../../services/ClientService";
-import CountryService from "../../../services/CountryService";
-import AddCountryForm from "../Country/CountryForm/CountryForm";
+import DesignationService from "../../../services/DesignationService";
+import AddDesignationForm from "../Designation/DesignationForm/DesignationForm";
 
 import {
   Progress,
@@ -39,7 +39,7 @@ const ClientsForm = (props) => {
   }, []);
 
   const getCountry = () => {
-    CountryService.getAllCountry().then((res) => {
+    DesignationService.getAllCountry().then((res) => {
       let options = [];
       res.data.map((item, index) => {
         options.push({ label: item.name, value: item._id });
@@ -323,7 +323,7 @@ const ClientsForm = (props) => {
           >
             <ModalHeader toggle={toggleCountryEdit}>New Country</ModalHeader>
             <ModalBody>
-              <AddCountryForm toggle={toggleCountryEdit} />
+              <AddDesignationForm toggle={toggleCountryEdit} />
             </ModalBody>
           </Modal>
         </>

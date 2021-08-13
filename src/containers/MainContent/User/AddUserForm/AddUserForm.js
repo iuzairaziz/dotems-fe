@@ -13,7 +13,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
-import CountryService from "../../../../services/CountryService";
+import CountryService from "../../../../services/DesignationService";
 import MachineForm from "../../Machine/MachineForm/MachineForm";
 import UserService from "../../../../services/UserService";
 import MachineService from "../../../../services/MachineService";
@@ -33,7 +33,6 @@ const UserForm = (props) => {
   const config = new Configuration();
   const roles = config.Roles;
   const history = useHistory();
-
 
   useEffect(() => {
     getMachines();
@@ -154,11 +153,14 @@ const UserForm = (props) => {
                     props.touched.name && props.errors.name
                       ? "is-invalid"
                       : props.touched.name && "is-valid"
-                  }`}                   value={props.values.name}
+                  }`}
+                  value={props.values.name}
                   onChange={props.handleChange("name")}
                   placeholder="Enter Name"
                 />
-                <span id="err" className="invalid-feedback">{props.touched.name && props.errors.name}</span>
+                <span id="err" className="invalid-feedback">
+                  {props.touched.name && props.errors.name}
+                </span>
               </div>
             </div>
             <div className="col">
@@ -172,7 +174,8 @@ const UserForm = (props) => {
                     props.touched.userName && props.errors.userName
                       ? "is-invalid"
                       : props.touched.userName && "is-valid"
-                  }`}                   value={props.values.userName}
+                  }`}
+                  value={props.values.userName}
                   onChange={props.handleChange("userName")}
                   placeholder="Enter user name / email"
                 />
@@ -196,7 +199,8 @@ const UserForm = (props) => {
                       props.touched.joiningDate && props.errors.joiningDate
                         ? "is-invalid"
                         : props.touched.joiningDate && "is-valid"
-                    }`}                     selected={props.values.joiningDate}
+                    }`}
+                    selected={props.values.joiningDate}
                     onChange={(date) => {
                       props.setFieldValue("joiningDate", date);
                     }}
@@ -254,7 +258,8 @@ const UserForm = (props) => {
                     props.touched.salary && props.errors.salary
                       ? "is-invalid"
                       : props.touched.salary && "is-valid"
-                  }`}                   value={props.values.salary}
+                  }`}
+                  value={props.values.salary}
                   onChange={props.handleChange("salary")}
                   placeholder="Enter Salary"
                 />
@@ -274,7 +279,8 @@ const UserForm = (props) => {
                     props.touched.password && props.errors.password
                       ? "is-invalid"
                       : props.touched.password && "is-valid"
-                  }`}                   value={props.values.password}
+                  }`}
+                  value={props.values.password}
                   onChange={props.handleChange("password")}
                   placeholder="Enter Password"
                 />
@@ -380,7 +386,8 @@ const UserForm = (props) => {
                     props.touched.workingHrs && props.errors.workingHrs
                       ? "is-invalid"
                       : props.touched.workingHrs && "is-valid"
-                  }`}                   value={props.values.workingHrs}
+                  }`}
+                  value={props.values.workingHrs}
                   onChange={props.handleChange("workingHrs")}
                   placeholder="Enter Working Hours"
                 />
@@ -400,7 +407,8 @@ const UserForm = (props) => {
                     props.touched.workingDays && props.errors.workingDays
                       ? "is-invalid"
                       : props.touched.workingDays && "is-valid"
-                  }`}                   value={props.values.workingDays}
+                  }`}
+                  value={props.values.workingDays}
                   onChange={props.handleChange("workingDays")}
                   placeholder="Enter Working Days"
                 />

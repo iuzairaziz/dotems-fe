@@ -5,7 +5,7 @@ import Select from "react-select";
 import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import CountryService from "../../../../services/CountryService";
+import CountryService from "../../../../services/DesignationService";
 import UserService from "../../../../services/UserService";
 import ProjectService from "../../../../services/ProjectService";
 import PlatformService from "../../../../services/PlatformService";
@@ -13,9 +13,8 @@ import TechnologyService from "../../../../services/TechnologyService";
 import ServiceService from "../../../../services/ServiceService";
 import NatureService from "../../../../services/NatureService";
 import ClientService from "../../../../services/ClientService";
-import "./UpdateUserForm.scss"
+import "./UpdateUserForm.scss";
 import moment from "moment";
-
 
 const UpdateUser = (props) => {
   const [technology, setTechnology] = useState([]);
@@ -101,7 +100,7 @@ const UpdateUser = (props) => {
     },
     {
       label: "Designantion",
-      value: users.userRole
+      value: users.userRole,
     },
   ];
 
@@ -144,198 +143,201 @@ const UpdateUser = (props) => {
     >
       {(props) => (
         <>
-          <div className="row UpdateP gap"/>
+          <div className="row UpdateP gap" />
           <div className="row gapp">
-          <div className="row align-items-center">
-            {detail.map((item, indx) => {
-              return (
-                <>
-                  <div
-                    className={`labell ${
-                      item.label === "Team Members"
-                        ? "col-3 col-md-2"
-                        : "col-3 col-md-2"
-                    } mb-3 d-flex align-items-center align-self-center`}
-                  >
-                    <div>{item.label}</div>
-                  </div>
-                  <div
-                    className={`valuee ${
-                      item.label === "Team Members"
-                        ? "col-9 col-md-6"
-                        : "col-3 col-md-2"
-                    } col-3 col-md-2 mb-3 align-self-center"`}
-                  >
-                    {item.value}
-                  </div>
-                </>
-              );
-            })}
-          </div>   
-            
+            <div className="row align-items-center">
+              {detail.map((item, indx) => {
+                return (
+                  <>
+                    <div
+                      className={`labell ${
+                        item.label === "Team Members"
+                          ? "col-3 col-md-2"
+                          : "col-3 col-md-2"
+                      } mb-3 d-flex align-items-center align-self-center`}
+                    >
+                      <div>{item.label}</div>
+                    </div>
+                    <div
+                      className={`valuee ${
+                        item.label === "Team Members"
+                          ? "col-9 col-md-6"
+                          : "col-3 col-md-2"
+                      } col-3 col-md-2 mb-3 align-self-center"`}
+                    >
+                      {item.value}
+                    </div>
+                  </>
+                );
+              })}
+            </div>
           </div>
-         
+
           <div className="card m-b-20">
-                  <div className="card-body">
+            <div className="card-body">
+              <div className="row">
+                <div className="col">
+                  <div className="form-group">
+                    <label className="control-label">Technology</label>
+                    <Select
+                      className={`my-select${
+                        props.touched.technologies && props.errors.technologies
+                          ? "is-invalid"
+                          : props.touched.technologies && "is-valid"
+                      }`}
+                      value={props.values.technologies}
+                      onChange={(val) =>
+                        props.setFieldValue("technologies", val)
+                      }
+                      options={technology}
+                      isMulti={true}
+                    />
+                    <span id="err" className="invalid-feedback">
+                      {props.touched.technology && props.errors.technology}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label className="control-label">Technology</label>
-                <Select
-                 className={`my-select${
-                  props.touched.technologies && props.errors.technologies
-                    ? "is-invalid"
-                    : props.touched.technologies && "is-valid"
-                }`}
-                  value={props.values.technologies}
-                  onChange={(val) => props.setFieldValue("technologies", val)}
-                  options={technology}
-                  isMulti={true}
-                />
-                <span id="err" className="invalid-feedback">
-                  {props.touched.technology && props.errors.technology}
-                </span>
+              <div className="row">
+                <div className="col">
+                  <div className="form-group">
+                    <label>Contact Number</label>
+                    <input
+                      type="text"
+                      className={`form-control ${
+                        props.touched.contact && props.errors.contact
+                          ? "is-invalid"
+                          : props.touched.contact && "is-valid"
+                      }`} // defaultValue={props.values.contact}
+                      value={props.values.contact}
+                      onChange={props.handleChange("contact")}
+                      placeholder="Enter Contact Number"
+                    />
+                    <span id="err" className="invalid-feedback">
+                      {props.touched.contact && props.errors.contact}
+                    </span>
+                  </div>
+                </div>
+                <div className="col">
+                  <div className="form-group">
+                    <label>Other Contact </label>
+                    <input
+                      type="text"
+                      className={`form-control ${
+                        props.touched.otherContact && props.errors.otherContact
+                          ? "is-invalid"
+                          : props.touched.otherContact && "is-valid"
+                      }`} // defaultValue={props.values.otherContact}
+                      value={props.values.otherContact}
+                      onChange={props.handleChange("otherContact")}
+                      placeholder="Enter Contact Number"
+                    />
+                    <span id="err" className="invalid-feedback">
+                      {props.touched.otherContact && props.errors.otherContact}
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-         
+              <div className="row">
+                <div className="col">
+                  <div className="form-group">
+                    <label>Personal Email</label>
+                    <input
+                      type="text"
+                      className={`form-control ${
+                        props.touched.emailPersonal &&
+                        props.errors.emailPersonal
+                          ? "is-invalid"
+                          : props.touched.emailPersonal && "is-valid"
+                      }`} // defaultValue={props.values.emailPersonal}
+                      value={props.values.emailPersonal}
+                      onChange={props.handleChange("emailPersonal")}
+                      placeholder="Enter Personal Email"
+                    />
+                    <span id="err" className="invalid-feedback">
+                      {props.touched.emailPersonal &&
+                        props.errors.emailPersonal}
+                    </span>
+                  </div>
+                </div>
+                <div className="col">
+                  <div className="form-group">
+                    <label>Address </label>
+                    <input
+                      type="text"
+                      className={`form-control ${
+                        props.touched.address && props.errors.address
+                          ? "is-invalid"
+                          : props.touched.address && "is-valid"
+                      }`} // defaultValue={props.values.address}
+                      value={props.values.address}
+                      onChange={props.handleChange("address")}
+                      placeholder="Enter Address "
+                    />
+                    <span id="err" className="invalid-feedback">
+                      {props.touched.address && props.errors.address}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <div className="form-group">
+                    <label>Guardian Name </label>
+                    <input
+                      type="text"
+                      className={`form-control ${
+                        props.touched.nameEmergency &&
+                        props.errors.nameEmergency
+                          ? "is-invalid"
+                          : props.touched.nameEmergency && "is-valid"
+                      }`} // defaultValue={props.values.nameEmergency}
+                      value={props.values.nameEmergency}
+                      onChange={props.handleChange("nameEmergency")}
+                      placeholder="Enter Guardian Name "
+                    />
+                    <span id="err" className="invalid-feedback">
+                      {props.touched.nameEmergency &&
+                        props.errors.nameEmergency}
+                    </span>
+                  </div>
+                </div>
+                <div className="col">
+                  <div className="form-group">
+                    <label>Guardian Contact</label>
+                    <input
+                      type="text"
+                      className={`form-control ${
+                        props.touched.contactEmergency &&
+                        props.errors.contactEmergency
+                          ? "is-invalid"
+                          : props.touched.contactEmergency && "is-valid"
+                      }`} // defaultValue={props.values.contactEmergency}
+                      value={props.values.contactEmergency}
+                      onChange={props.handleChange("contactEmergency")}
+                      placeholder="Enter Guardian Contact Number"
+                    />
+                    <span id="err" className="invalid-feedback">
+                      {props.touched.contactEmergency &&
+                        props.errors.contactEmergency}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-       
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label>Contact Number</label>
-                <input
-                  type="text"
-                  className={`form-control ${
-                    props.touched.contact && props.errors.contact
-                      ? "is-invalid"
-                      : props.touched.contact && "is-valid"
-                  }`}                     // defaultValue={props.values.contact}
-                  value={props.values.contact}
-                  onChange={props.handleChange("contact")}
-                  placeholder="Enter Contact Number"
-                />
-                <span id="err" className="invalid-feedback">
-                  {props.touched.contact && props.errors.contact}
-                </span>
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group">
-                <label>Other Contact </label>
-                <input
-                  type="text"
-                  className={`form-control ${
-                    props.touched.otherContact && props.errors.otherContact
-                      ? "is-invalid"
-                      : props.touched.otherContact && "is-valid"
-                  }`}                     // defaultValue={props.values.otherContact}
-                  value={props.values.otherContact}
-                  onChange={props.handleChange("otherContact")}
-                  placeholder="Enter Contact Number"
-                />
-                <span id="err" className="invalid-feedback">
-                  {props.touched.otherContact && props.errors.otherContact}
-                </span>
+              <div className="row">
+                <div className="col">
+                  <Button
+                    className="mt-3 my-primary-button"
+                    onClick={props.handleSubmit}
+                  >
+                    Submit
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label>Personal Email</label>
-                <input
-                  type="text"
-                  className={`form-control ${
-                    props.touched.emailPersonal && props.errors.emailPersonal
-                      ? "is-invalid"
-                      : props.touched.emailPersonal && "is-valid"
-                  }`}                     // defaultValue={props.values.emailPersonal}
-                  value={props.values.emailPersonal}
-                  onChange={props.handleChange("emailPersonal")}
-                  placeholder="Enter Personal Email"
-                />
-                <span id="err" className="invalid-feedback">
-                  {props.touched.emailPersonal && props.errors.emailPersonal}
-                </span>
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group">
-                <label>Address </label>
-                <input
-                  type="text"
-                  className={`form-control ${
-                    props.touched.address && props.errors.address
-                      ? "is-invalid"
-                      : props.touched.address && "is-valid"
-                  }`}                     // defaultValue={props.values.address}
-                  value={props.values.address}
-                  onChange={props.handleChange("address")}
-                  placeholder="Enter Address "
-                />
-                <span id="err" className="invalid-feedback">
-                  {props.touched.address && props.errors.address}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label>Guardian Name </label>
-                <input
-                  type="text"
-                  className={`form-control ${
-                    props.touched.nameEmergency && props.errors.nameEmergency
-                      ? "is-invalid"
-                      : props.touched.nameEmergency && "is-valid"
-                  }`}                     // defaultValue={props.values.nameEmergency}
-                  value={props.values.nameEmergency}
-                  onChange={props.handleChange("nameEmergency")}
-                  placeholder="Enter Guardian Name "
-                />
-                <span id="err" className="invalid-feedback">
-                  {props.touched.nameEmergency && props.errors.nameEmergency}
-                </span>
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group">
-                <label>Guardian Contact</label>
-                <input
-                  type="text"
-                  className={`form-control ${
-                    props.touched.contactEmergency && props.errors.contactEmergency
-                      ? "is-invalid"
-                      : props.touched.contactEmergency && "is-valid"
-                  }`}                     // defaultValue={props.values.contactEmergency}
-                  value={props.values.contactEmergency}
-                  onChange={props.handleChange("contactEmergency")}
-                  placeholder="Enter Guardian Contact Number"
-                />
-                <span id="err" className="invalid-feedback">
-                  {props.touched.contactEmergency &&
-                    props.errors.contactEmergency}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col">
-              <Button
-                className="mt-3 my-primary-button"
-                onClick={props.handleSubmit}
-              >
-                Submit
-              </Button>
-            </div>
-          </div>
-          </div>         
-            </div>
         </>
       )}
     </Formik>

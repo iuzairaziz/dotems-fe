@@ -13,8 +13,8 @@ const ProjectSettings = () => {
     },
     {
       name: "Country",
-      addRoute: "add-country",
-      viewRoute: "country",
+      addRoute: "add-designation",
+      viewRoute: "designation",
       icon: "mdi-flag",
     },
     {
