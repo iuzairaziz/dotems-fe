@@ -3,9 +3,9 @@ import { Button } from "reactstrap";
 import { Formik } from "formik";
 import { useHistory } from "react-router-dom";
 import shortValidations from "../../../../validations/short-validations";
-import CountryService from "../../../../services/CountryService";
+import DesignationService from "../../../../services/DesignationService";
 
-const CountryForm = (props) => {
+const DesignationForm = (props) => {
   const history = useHistory();
 
   return (
@@ -16,25 +16,25 @@ const CountryForm = (props) => {
       validationSchema={shortValidations.countryValidation}
       onSubmit={(values, actions) => {
         props.editable
-          ? CountryService.updateCountry(props.country._id, {
+          ? DesignationService.updateDesignation(props.country._id, {
               name: values.title,
             })
               .then((res) => {
                 props.toggle();
-                CountryService.handleMessage("update");
+                DesignationService.handleMessage("update");
               })
               .catch((err) => {
                 props.toggle();
-                CountryService.handleCustomMessage(err.response.data);
+                DesignationService.handleCustomMessage(err.response.data);
               })
-          : CountryService.addCountry({ name: values.title })
+          : DesignationService.addDesignation({ name: values.title })
               .then((res) => {
-                CountryService.handleMessage("add");
-                history.push("/country");
+                DesignationService.handleMessage("add");
+                history.push("/designation");
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {
-                CountryService.handleCustomMessage(err.response.data);
+                DesignationService.handleCustomMessage(err.response.data);
               });
       }}
     >
@@ -51,7 +51,8 @@ const CountryForm = (props) => {
                       props.touched.title && props.errors.title
                         ? "is-invalid"
                         : props.touched.title && "is-valid"
-                    }`}                       value={props.values.title}
+                    }`}
+                    value={props.values.title}
                     onChange={props.handleChange("title")}
                     placeholder="Enter Name"
                   />
@@ -78,4 +79,4 @@ const CountryForm = (props) => {
   );
 };
 
-export default CountryForm;
+export default DesignationForm;

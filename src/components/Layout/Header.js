@@ -293,7 +293,8 @@ class header extends Component {
                   </Link>
                   <Link to="/leave-details">
                     <DropdownItem>
-                      <i className="mdi mdi-calendar-multiple-check m-r-5" /> My Leaves
+                      <i className="mdi mdi-calendar-multiple-check m-r-5" /> My
+                      Leaves
                     </DropdownItem>
                   </Link>
                   <DropdownItem

@@ -19,8 +19,8 @@ import AddNature from "../MainContent/Nature/AddNature/AddNature";
 import NatureList from "../MainContent/Nature/NatureList/NatureList";
 import AddTechnology from "../MainContent/Technology/AddTechnology/AddTechnology";
 import TechnologyList from "../MainContent/Technology/TechnologyList/TechnologyList";
-import CountryList from "../MainContent/Country/CountryList/CountryList";
-import AddCountry from "../MainContent/Country/AddCountry/AddCountry";
+import DesignationList from "../MainContent/Designation/DesignationList/DesignationList";
+import AddDesignation from "../MainContent/Designation/AddDesignation/AddDesignation";
 import ServiceList from "../MainContent/Service/ServiceList/ServiceList";
 import AddService from "../MainContent/Service/AddService/AddService";
 import AddPlatform from "../MainContent/Platform/AddPlatform/AddPlatform";
@@ -132,8 +132,8 @@ const mainbuilder = (props) => {
             <Route exact path="/add-platform" component={AddPlatform} />
             <Route exact path="/service" component={ServiceList} />
             <Route exact path="/add-service" component={AddService} />
-            <Route exact path="/country" component={CountryList} />
-            <Route exact path="/add-country" component={AddCountry} />
+            <Route exact path="/designation" component={DesignationList} />
+            <Route exact path="/add-designation" component={AddDesignation} />
             <Route exact path="/technology" component={TechnologyList} />
             <Route exact path="/add-technology" component={AddTechnology} />
             <Route exact path="/nature" component={NatureList} />

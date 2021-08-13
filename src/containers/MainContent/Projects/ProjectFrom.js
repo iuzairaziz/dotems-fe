@@ -13,7 +13,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
-import CountryService from "../../../services/CountryService";
+import DesignationService from "../../../services/DesignationService";
 import AddClientForm from "../Client/ClientsForm";
 import AddPlatform from "../Platform/PlatformForm/PlatformForm";
 import AddTechnology from "../Technology/TechnologyForm/TechnologyForm";
@@ -251,7 +251,7 @@ const ProjectForm = (props) => {
   };
 
   const getCountry = () => {
-    CountryService.getAllCountry().then((res) => {
+    DesignationService.getAllDesignation().then((res) => {
       let options = [];
       res.data.map((item, index) => {
         options.push({ label: item.name, value: item._id });
@@ -772,7 +772,7 @@ const ProjectForm = (props) => {
                     </div>
                   </div>
                 </div>
-                 <Select
+                <Select
                   name="technology"
                   onBlur={props.handleBlur}
                   className={`my-select${

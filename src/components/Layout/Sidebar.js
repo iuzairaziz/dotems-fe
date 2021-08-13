@@ -199,10 +199,12 @@ class sidebar extends Component {
     $(".button-menu-mobile").on("click", function(event) {
       event.preventDefault();
       $("body").toggleClass("enlarged");
+      $("body").toggleClass("ion-navicon");
     });
 
     $("li.has_sub li").on("click", function(event) {
       $("body").toggleClass("enlarged");
+      $("body").toggleClass("ion-navicon");
     });
   }
   componentDidUpdate() {
