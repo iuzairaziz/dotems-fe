@@ -20,6 +20,7 @@ const AdminDashboard = () => {
   const [workingProject, setWorkingProject] = useState([]);
   const [completeProject, setCompleteProject] = useState([]);
   const [projects, setProjects] = useState([]);
+
   const projectColoumn = [
     {
       label: "Project Name",
@@ -52,22 +53,122 @@ const AdminDashboard = () => {
       // width: 450,
     },
   ];
+
+  const requestColoumn = [
+    {
+      label: "User",
+      field: "user",
+      sort: "asc",
+      // width: 270,
+    },
+    {
+      label: "Request Type",
+      field: "type",
+    },
+    {
+      label: "Sent to",
+      field: "sent",
+      // sort: "asc",
+      // width: 100,
+    },
+    {
+      label: "Admin Status",
+      field: "status",
+    },
+    {
+      label: "Request Date",
+      field: "request",
+    },
+    {
+      label: "Action",
+      field: "action",
+      sort: "disabled",
+      // width: 450,
+    },
+  ];
+
   const [pendingProjectDataTable, setPendingProjectDataTable] = useState({
     columns: projectColoumn,
     rows: [],
   });
+  const [workingProjectDataTable, setWorkingProjectDataTable] = useState({
+    columns: projectColoumn,
+    rows: [],
+  });
+  const [completedProjectDataTable, setCompletedProjectDataTable] = useState({
+    columns: [
+      {
+        label: "Project Name",
+        field: "project",
+        sort: "asc",
+        // width: 270,
+      },
+      {
+        label: "Status",
+        field: "status",
+      },
+      {
+        label: "Cost",
+        field: "cost",
+        // sort: "asc",
+        // width: 100,
+      },
+      {
+        label: "Deadline",
+        field: "endTime",
+      },
+      {
+        label: "Action",
+        field: "action",
+        sort: "disabled",
+        // width: 450,
+      },
+    ],
+    rows: [],
+  });
+
+  const [pendingRequestDataTable, setPendingRequestDataTable] = useState({
+    columns: requestColoumn,
+    rows: [],
+  });
+
+  useEffect(() => {
+    getTaskData();
+    getRequestData();
+    getProjectsData();
+  }, []);
 
   const getRequestData = () => {
     Request.getAllRequest().then((res) => {
       const request = res.data;
       setRequests(request);
       const arr = [];
+      const pendingArr = { ...pendingRequestDataTable };
+      pendingArr.rows = [];
       request
         .filter((adminStatus) => adminStatus.adminStatus === "Pending")
         .map((item) => {
           arr.push(item);
+          pendingArr.rows.push({
+            user: item.user ? item.user.name : "N/A",
+            type: item.requestType ? item.requestType.name : "N/A",
+            sent: item.requestRecievers
+              ? item.requestRecievers.map((item) => <div>{item.name}</div>)
+              : "N/A",
+            status: item.adminStatus ? item.adminStatus : "N/A",
+            request: moment(item.createdAt).format("MM-DD-YYYY"),
+            action: (
+              <div className="row flex-nowrap justify-content-center">
+                <i
+                  className="mdi mdi-eye
+                      iconsS my-primary-icon"
+                />
+              </div>
+            ),
+          });
         });
       setPendingRequest(arr);
+      setPendingRequestDataTable(pendingArr);
       const arr1 = [];
       request
         .filter((adminStatus) => adminStatus.adminStatus === "Resolved")
@@ -115,15 +216,14 @@ const AdminDashboard = () => {
     });
   };
 
-  console.log("task", tasks);
-
   const getProjectsData = () => {
     ProjectService.getAllProject("", "", "", "").then((res) => {
       const project = res.data;
       setProjects(project);
       console.log("projects", project);
       const arr = [];
-      const pendingArr = pendingProjectDataTable;
+      const pendingArr = { ...pendingProjectDataTable };
+      pendingArr.rows = [];
       project
         .filter((status) => status.status.name === "Pending")
         .map((item) => {
@@ -131,49 +231,83 @@ const AdminDashboard = () => {
           pendingArr.rows.push({
             project: item.name ? item.name : "N/A",
             status: item.status ? item.status.name : "N/A",
-            // dayleft: item.workDone ? item.workDone : "N/A",
+            dayleft: item.workDone ? item.workDone : "N/A",
             cost: item.cost ? item.cost : "N/A",
-            // endTime: (
-            //   <div className="rowRed">
-            //     {item.endTime
-            //       ? moment(item.endTime).format("DD/MMM/YYYY")
-            //       : "N/A"}
-            //   </div>
-            // ),
             endTime: item.cEndDate
               ? moment(item.cEndDate).format("DD/MMM/YYYY")
               : "N/A",
-            // action: (
-            //   <div className="row flex-nowrap justify-content-center">
-            //     <i
-            //       className="mdi mdi-eye
-            //           iconsS my-primary-icon"
-            //       onClick={() => {
-            //         props.history.push({
-            //           pathname: "/task-details/" + item._id,
-            //         });
-            //       }}
-            //     />
-            //   </div>
-            // ),
+            action: (
+              <div className="row flex-nowrap justify-content-center">
+                <i
+                  className="mdi mdi-eye
+                      iconsS my-primary-icon"
+                  // onClick={() => {
+                  //   props.history.push({
+                  //     pathname: "/task-details/" + item._id,
+                  //   });
+                  // }}
+                />
+              </div>
+            ),
           });
         });
       setPendingProjectDataTable(pendingArr);
       setPendingProject(arr);
       const arr1 = [];
+      const workingArr = { ...workingProjectDataTable };
+      workingArr.rows = [];
       project
         .filter((status) => status.status.name === "Complete")
         .map((item) => {
           arr1.push(item);
+          workingArr.rows.push({
+            project: item.name ? item.name : "N/A",
+            status: item.status ? item.status.name : "N/A",
+            dayleft: item.workDone ? item.workDone : "N/A",
+            cost: item.cost ? item.cost : "N/A",
+            endTime: item.cEndDate
+              ? moment(item.cEndDate).format("DD/MMM/YYYY")
+              : "N/A",
+            action: (
+              <div className="row flex-nowrap justify-content-center">
+                <i
+                  className="mdi mdi-eye
+                      iconsS my-primary-icon"
+                />
+              </div>
+            ),
+          });
         });
       setWorkingProject(arr1);
+      setWorkingProjectDataTable(workingArr);
       const arr2 = [];
+      const completeArr = { ...completedProjectDataTable };
+      completeArr.rows = [];
       project
         .filter((status) => status.status.name === "Working")
         .map((item) => {
           arr2.push(item);
+          completeArr.rows.push({
+            project: item.name ? item.name : "N/A",
+            status: item.status ? item.status.name : "N/A",
+            dayleft: item.workDone ? item.workDone : "N/A",
+            cost: item.cost ? item.cost : "N/A",
+            endTime: item.cEndDate
+              ? moment(item.cEndDate).format("DD/MMM/YYYY")
+              : "N/A",
+            action: (
+              <div className="row flex-nowrap justify-content-center">
+                <i
+                  className="mdi mdi-eye
+                      iconsS my-primary-icon"
+                />
+              </div>
+            ),
+          });
         });
       setCompleteProject(arr2);
+      setCompletedProjectDataTable(completeArr);
+      console.log("rows", pendingArr.rows);
       //   console.log("project data", project);
       //   console.log("pedning project data", arr);
       //   console.log("resolved request data", resolvedRequest && resolvedRequest.length);
@@ -181,13 +315,7 @@ const AdminDashboard = () => {
     });
   };
 
-  console.log("Project Table", pendingProjectDataTable);
-
-  useEffect(() => {
-    getTaskData();
-    getRequestData();
-    getProjectsData();
-  }, []);
+  console.log("Project Table", pendingProjectDataTable.rows);
 
   return (
     <div className="admin-dashboard page-content-wrapper">
@@ -505,7 +633,7 @@ const AdminDashboard = () => {
                           <a
                             className="nav-link active"
                             data-toggle="tab"
-                            href="#present"
+                            href="#leavePresent"
                             role="tab"
                           >
                             <span className="d-none d-md-block">Present</span>
@@ -518,7 +646,7 @@ const AdminDashboard = () => {
                           <a
                             className="nav-link"
                             data-toggle="tab"
-                            href="#absent"
+                            href="#leaveAbsent"
                             role="tab"
                           >
                             <span className="d-none d-md-block">Absent</span>
@@ -531,7 +659,7 @@ const AdminDashboard = () => {
                           <a
                             className="nav-link"
                             data-toggle="tab"
-                            href="#leave"
+                            href="#leaveLeave"
                             role="tab"
                           >
                             <span className="d-none d-md-block">Leave</span>
@@ -545,21 +673,21 @@ const AdminDashboard = () => {
                       <div className="tab-content">
                         <div
                           className="tab-pane active p-3"
-                          id="present"
+                          id="leavePresent"
                           role="tabpanel"
                         >
                           <p className="font-14 mb-0">Present</p>
                         </div>
                         <div
                           className="tab-pane p-3"
-                          id="absent"
+                          id="leaveAbsent"
                           role="tabpanel"
                         >
                           <p className="font-14 mb-0">Absent</p>
                         </div>
                         <div
                           className="tab-pane p-3"
-                          id="leave"
+                          id="leaveLeave"
                           role="tabpanel"
                         >
                           <p className="font-14 mb-0">Leave</p>
@@ -578,7 +706,7 @@ const AdminDashboard = () => {
                           <a
                             className="nav-link active"
                             data-toggle="tab"
-                            href="#pending"
+                            href="#pendingLeave"
                             role="tab"
                           >
                             <span className="d-none d-md-block">Pending</span>
@@ -591,7 +719,7 @@ const AdminDashboard = () => {
                           <a
                             className="nav-link"
                             data-toggle="tab"
-                            href="#accept"
+                            href="#acceptedLeave"
                             role="tab"
                           >
                             <span className="d-none d-md-block">Accepeted</span>
@@ -604,7 +732,7 @@ const AdminDashboard = () => {
                           <a
                             className="nav-link"
                             data-toggle="tab"
-                            href="#unpaid"
+                            href="#unpaidLeave"
                             role="tab"
                           >
                             <span className="d-none d-md-block">Unpaid</span>
@@ -618,24 +746,24 @@ const AdminDashboard = () => {
                       <div className="tab-content">
                         <div
                           className="tab-pane active p-3"
-                          id="pending"
-                          role="tabpanel"
-                        >
-                          <p className="font-14 mb-0">Accepted1</p>
-                        </div>
-                        <div
-                          className="tab-pane p-3"
-                          id="accept"
-                          role="tabpanel"
-                        >
-                          <p className="font-14 mb-0">Rejected</p>
-                        </div>
-                        <div
-                          className="tab-pane p-3"
-                          id="unpaid"
+                          id="pendingLeave"
                           role="tabpanel"
                         >
                           <p className="font-14 mb-0">Pending</p>
+                        </div>
+                        <div
+                          className="tab-pane p-3"
+                          id="acceptedLeave"
+                          role="tabpanel"
+                        >
+                          <p className="font-14 mb-0">Accepted</p>
+                        </div>
+                        <div
+                          className="tab-pane p-3"
+                          id="unpaidLeave"
+                          role="tabpanel"
+                        >
+                          <p className="font-14 mb-0">Unpaid</p>
                         </div>
                       </div>
                     </div>
@@ -651,7 +779,7 @@ const AdminDashboard = () => {
                           <a
                             className="nav-link active"
                             data-toggle="tab"
-                            href="#pending"
+                            href="#pendingProject"
                             role="tab"
                           >
                             <span className="d-none d-md-block">Pending</span>
@@ -664,7 +792,7 @@ const AdminDashboard = () => {
                           <a
                             className="nav-link"
                             data-toggle="tab"
-                            href="#working"
+                            href="#workingProject"
                             role="tab"
                           >
                             <span className="d-none d-md-block">Working</span>
@@ -677,10 +805,10 @@ const AdminDashboard = () => {
                           <a
                             className="nav-link"
                             data-toggle="tab"
-                            href="#complete"
+                            href="#completeProject"
                             role="tab"
                           >
-                            <span className="d-none d-md-block">Completed</span>
+                            <span className="d-none d-md-block">Complete</span>
                             <span className="d-block d-md-none">
                               <i className="mdi mdi-email h5" />
                             </span>
@@ -691,45 +819,78 @@ const AdminDashboard = () => {
                       <div className="tab-content">
                         <div
                           className="tab-pane active p-3"
-                          id="pending"
+                          id="pendingProject"
                           role="tabpanel"
                         >
-                          <p className="font-14 mb-0">
-                            <MDBDataTableV5
-                              //    responsive
-                              striped
-                              small
-                              onPageChange={(val) => console.log(val)}
-                              bordered={true}
-                              materialSearch
-                              searchTop
-                              searchBottom={false}
-                              pagingTop
-                              barReverse
-                              hover
-                              className="borderRed"
-                              // scrollX
-                              // autoWidth
-                              data={pendingProjectDataTable}
-                              theadColor="#000"
-                            />
-                          </p>
+                          <MDBDataTableV5
+                            //    responsive
+                            striped
+                            small
+                            onPageChange={(val) => console.log(val)}
+                            bordered={true}
+                            materialSearch
+                            searchTop
+                            searchBottom={false}
+                            pagingTop
+                            barReverse
+                            hover
+                            className="borderRed"
+                            // scrollX
+                            // autoWidth
+
+                            data={pendingProjectDataTable}
+                            theadColor="#000"
+                          />
                         </div>
                         <div
                           className="tab-pane p-3"
-                          id="working"
+                          id="workingProject"
                           role="tabpanel"
                         >
-                          <p className="font-14 mb-0">
-                            Workingjfjfjfjjfjfjfjfjfjjfjfjfj
-                          </p>
+                          <MDBDataTableV5
+                            //    responsive
+                            striped
+                            small
+                            onPageChange={(val) => console.log(val)}
+                            bordered={true}
+                            materialSearch
+                            searchTop
+                            searchBottom={false}
+                            pagingTop
+                            barReverse
+                            hover
+                            className="borderRed"
+                            // scrollX
+                            // autoWidth
+
+                            data={workingProjectDataTable}
+                            theadColor="#000"
+                          />
                         </div>
                         <div
                           className="tab-pane p-3"
-                          id="complete"
+                          id="completeProject"
                           role="tabpanel"
                         >
-                          <p className="font-14 mb-0">Completed</p>
+                          <MDBDataTableV5
+                            //    responsive
+                            striped
+                            small
+                            onPageChange={(val) => console.log(val)}
+                            bordered={true}
+                            materialSearch
+                            searchTop
+                            searchBottom={false}
+                            pagingTop
+                            barReverse
+                            hover
+                            className="borderRed"
+                            // scrollX
+                            // autoWidth
+
+                            data={completedProjectDataTable}
+                            theadColor="#000"
+                          />
                         </div>
                       </div>
                     </div>
@@ -745,7 +906,7 @@ const AdminDashboard = () => {
                           <a
                             className="nav-link active"
                             data-toggle="tab"
-                            href="#pending"
+                            href="#pendingRequest"
                             role="tab"
                           >
                             <span className="d-none d-md-block">Pending</span>
@@ -758,7 +919,7 @@ const AdminDashboard = () => {
                           <a
                             className="nav-link"
                             data-toggle="tab"
-                            href="#approve"
+                            href="#approveRequest"
                             role="tab"
                           >
                             <span className="d-none d-md-block">Approved</span>
@@ -771,7 +932,7 @@ const AdminDashboard = () => {
                           <a
                             className="nav-link"
                             data-toggle="tab"
-                            href="#reject"
+                            href="#rejectRequest"
                             role="tab"
                           >
                             <span className="d-none d-md-block">Rejected</span>
@@ -785,21 +946,39 @@ const AdminDashboard = () => {
                       <div className="tab-content">
                         <div
                           className="tab-pane active p-3"
-                          id="pending"
+                          id="pendingRequest"
                           role="tabpanel"
                         >
-                          <p className="font-14 mb-0">Pending</p>
+                          <MDBDataTableV5
+                            //    responsive
+                            striped
+                            small
+                            onPageChange={(val) => console.log(val)}
+                            bordered={true}
+                            materialSearch
+                            searchTop
+                            searchBottom={false}
+                            pagingTop
+                            barReverse
+                            hover
+                            className="borderRed"
+                            // scrollX
+                            // autoWidth
+
+                            data={pendingRequestDataTable}
+                            theadColor="#000"
+                          />
                         </div>
                         <div
                           className="tab-pane p-3"
-                          id="approve"
+                          id="approveRequest"
                           role="tabpanel"
                         >
                           <p className="font-14 mb-0">Approved</p>
                         </div>
                         <div
                           className="tab-pane p-3"
-                          id="reject"
+                          id="rejectRequest"
                           role="tabpanel"
                         >
                           <p className="font-14 mb-0">Rejected</p>

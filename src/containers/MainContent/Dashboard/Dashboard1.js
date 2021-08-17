@@ -116,6 +116,16 @@ const dashboard1 = (props) => {
 
   let loggedUser = UserService.userLoggedInInfo();
 
+  useEffect(() => {
+    getTaskData(loggedUser._id);
+    getRequestData(loggedUser._id);
+    getProjectsData(loggedUser._id);
+    getWeeklyTaskData();
+    getNextWeekTaskData(loggedUser._id);
+    getNextMonthTaskData();
+    getLateTaskData();
+  }, []);
+
   const getTaskData = (id) => {
     UserService.getUserById(id).then((res) => {
       const task = res.data;
@@ -208,28 +218,28 @@ const dashboard1 = (props) => {
     TaskService.getNextWeekEmployeeTasks(loggedUser._id).then((res) => {
       const task = res.data;
       setWeeklyTasks(task);
-      const arr = [];
-      task
-        .filter((status) => status.status === "pending")
-        .map((item) => {
-          arr.push(item);
-        });
-      setPedningTask(arr);
-      const arr1 = [];
-      task
-        .filter((status) => status.status === "completed")
-        .map((item) => {
-          arr1.push(item);
-        });
-      setWorkingTask(arr1);
-      const arr2 = [];
-      task
-        .filter((status) => status.status === "working")
-        .map((item) => {
-          arr2.push(item);
-        });
-      setCompletedTask(arr2);
-      // console.log("next week tasks", arr)
+      // const arr = [];
+      // task
+      //   .filter((status) => tasks.status === "pending")
+      //   .map((item) => {
+      //     arr.push(item);
+      //   });
+      // setPedningTask(arr);
+      // const arr1 = [];
+      // task
+      //   .filter((status) => tasks.status === "completed")
+      //   .map((item) => {
+      //     arr1.push(item);
+      //   });
+      // setWorkingTask(arr1);
+      // const arr2 = [];
+      // task
+      //   .filter((status) => tasks.status === "working")
+      //   .map((item) => {
+      //     arr2.push(item);
+      //   });
+      // setCompletedTask(arr2);
+      console.log("next week tasks", task);
     });
   };
 
@@ -258,17 +268,9 @@ const dashboard1 = (props) => {
           arr2.push(item);
         });
       setCompletedMonthlyTasks(arr2);
-      //   console.log("next month taskMs", arr);
+      console.log("next month taskMs", arr);
     });
   };
-
-  //   const getLateTaskData = () => {
-  //     TaskService.getLateEmployeeTasks(loggedUser._id).then((res) => {
-  //       const taskL = res.data;
-  //       setLateTasks(taskL);
-  //       console.log("late tasks", lateTasks);
-  //     });
-  //   };
 
   const getLateTaskData = () => {
     TaskService.getLateEmployeeTasks(loggedUser._id)
@@ -344,16 +346,6 @@ const dashboard1 = (props) => {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    getTaskData(loggedUser._id);
-    getRequestData(loggedUser._id);
-    getProjectsData(loggedUser._id);
-    getWeeklyTaskData();
-    getNextWeekTaskData();
-    getNextMonthTaskData();
-    getLateTaskData();
-  }, []);
 
   //   console.log("oroject data", projects && projects.length)
 
@@ -735,7 +727,7 @@ const dashboard1 = (props) => {
 
           <div className="row">
             {lateTaskdataa && lateTaskdataa.rows.length > 0 && (
-              <div className="col-xl-9">
+              <div className="col-xl-12">
                 <div className="card m-b-20">
                   <div className="card-body">
                     <h4 className="mt-0 m-b-30 header-title font-20 font-600 rowRed">

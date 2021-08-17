@@ -318,6 +318,24 @@ class sidebar extends Component {
                         Dashboard Two
                       </Link>
                     </li>
+                    <li>
+                      <Link
+                        className={
+                          this.state.SubTab === "admin-dashboard"
+                            ? "active-menu"
+                            : ""
+                        }
+                        onClick={this.setActiveTab.bind(
+                          this,
+                          "index",
+                          "admin-dashboard",
+                          ""
+                        )}
+                        to="/admin-dashboard"
+                      >
+                        Dashboard Admin
+                      </Link>
+                    </li>
                   </ul>
                 </li>
 
