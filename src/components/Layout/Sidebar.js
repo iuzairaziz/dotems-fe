@@ -212,10 +212,12 @@ class sidebar extends Component {
         .removeClass("mdi-close")
         .addClass("ion-navicon");
     });
-    $(".SelectedWeekExample").on("click", function(event) {
-      $(".DayPicker").toggleClass("d-none");
-    });
+      
+   
   }
+
+   
+ 
   componentDidUpdate() {
     var now_route = "";
     var pageUrl = window.location.pathname.split(/[?#]/)[0];

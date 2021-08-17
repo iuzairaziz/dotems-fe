@@ -3,6 +3,8 @@ import Helmet from "react-helmet";
 import moment from "moment";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
+import $ from "jquery";
+
 
 function getWeekDays(weekStart) {
   const days = [weekStart];
@@ -51,7 +53,13 @@ export default class WeeklyCalendar extends React.Component {
       //   console.log("selected days", moment(this.state.selectedDays[0]).format("LL"));
       this.props.setSelectedDays(setToIsoFormat(this.state.selectedDays));
     });
+    
+     $(".SelectedWeekExample").on("click", function(event) {
+      $(".DayPicker").toggleClass("d-none");
+    });
   }
+
+ 
 
   handleDayChange = (date, mod) => {
     let Date = moment(date).format();
