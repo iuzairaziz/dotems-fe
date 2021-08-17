@@ -10,7 +10,7 @@ class Configuration {
     CEO: "CEO",
     PROBATION: "Probation",
     INTERNEE: "Internee",
-    AM: "Accounts Manager",
+    AM: "Accounts",
   };
 }
 

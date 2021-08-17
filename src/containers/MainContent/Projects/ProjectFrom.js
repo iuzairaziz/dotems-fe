@@ -306,6 +306,8 @@ const ProjectForm = (props) => {
             )
           : EditorState.createEmpty(),
         cost: editable && project.cost,
+        clientHours: editable && project.clientHours,
+        hourlyCost: editable && project.hourlyCost,
         Rprofit: editable && project.Rprofit,
         platform: editable &&
           project.platform && {
@@ -348,11 +350,16 @@ const ProjectForm = (props) => {
         fCost: editable && project.fCost,
         otherDeduction: editable && project.otherDeduction,
         phase: editable && phases,
+        gender: editable &&
+          project.projectType && {
+            label: project.projectType,
+            value: project.projectType,
+          },
       }}
       validate={(val) => {
         console.log("vlue", val);
       }}
-      validationSchema={ProjectValidation.newProjectValidation}
+      // validationSchema={ProjectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
         // console.log(phases);
         const usrs = [];
@@ -382,6 +389,8 @@ const ProjectForm = (props) => {
               projectManager: values.projectManager.value,
               assignedUser: usrs,
               cost: values.cost,
+              hourlyCost: values.hourlyCost,
+              clientHours: values.clientHours,
               Rprofit: values.Rprofit,
               Pdeduction: values.Pdeduction,
               percentage: values.percentage,
@@ -389,6 +398,7 @@ const ProjectForm = (props) => {
               currency: values.currency.value,
               otherDeduction: values.otherDeduction,
               phase: phases,
+              projectType: values.projectType.value,
             })
 
               .then((res) => {
@@ -418,6 +428,8 @@ const ProjectForm = (props) => {
               projectManager: values.projectManager.value,
               assignedUser: usrs,
               cost: values.cost,
+              hourlyCost: values.hourlyCost,
+              clientHours: values.clientHours,
               Rprofit: values.Rprofit,
               Pdeduction: values.Pdeduction,
               percentage: values.percentage,
@@ -425,6 +437,7 @@ const ProjectForm = (props) => {
               otherDeduction: values.otherDeduction,
               phase: phases,
               currency: values.currency.value,
+              projectType: values.projectType.value,
             })
               .then((res) => {
                 ProjectService.handleMessage("add");
@@ -433,12 +446,6 @@ const ProjectForm = (props) => {
               .catch((err) => {
                 ProjectService.handleCustomMessage(err.response.data);
               });
-        // console.log("clientName", values.clientName);
-        // console.log("platform", values.platform);
-        // console.log("technology", values.technology);
-        // console.log("serviceType", values.serviceType);
-        // console.log("projectNature", values.projectNature);
-        // console.log("projectManager", values.projectManager);
       }}
     >
       {(props) => (
@@ -560,44 +567,34 @@ const ProjectForm = (props) => {
                 </span>
               </div>
             </div>
-          </div>
-
-          <div className="row">
             <div className="col">
               <div className="form-group">
-                <div className="row">
-                  <div className="col">
-                    <label className="control-label">Project Nature</label>
-                  </div>
-                  <div className="col">
-                    <div
-                      className="d-flex justify-content-end"
-                      id="add-new-Buttonm "
-                      onClick={() => {
-                        toggleNatureEdit();
-                      }}
-                    >
-                      <i className="mdi mdi-plus-circle icon-add" />
-                    </div>
-                  </div>
-                </div>
+                <label className="control-label">Project Type</label>
                 <Select
-                  name="nature"
+                  name="projectType"
                   onBlur={props.handleBlur}
-                  value={props.values.nature}
                   className={`my-select${
-                    props.touched.nature && props.errors.nature
+                    props.touched.projectType && props.errors.projectType
                       ? "is-invalid"
-                      : props.touched.nature && "is-valid"
+                      : props.touched.projectType && "is-valid"
                   }`}
-                  onChange={(val) => props.setFieldValue("nature", val)}
-                  options={nature}
+                  value={props.values.projectType}
+                  onChange={(selected) => {
+                    props.setFieldValue("projectType", selected);
+                  }}
+                  options={[
+                    { value: "fixed", label: "Fixed" },
+                    { value: "hourly", label: "Hourly" },
+                  ]}
                 />
                 <span id="err" className="invalid-feedback">
-                  {props.touched.nature && props.errors.nature}
+                  {props.touched.projectType && props.errors.projectType}
                 </span>
               </div>
             </div>
+          </div>
+
+          <div className="row">
             <div className="col">
               <div className="form-group">
                 <label className="control-label">Project Manager</label>
@@ -619,8 +616,50 @@ const ProjectForm = (props) => {
                 </span>
               </div>
             </div>
+            <div className="col">
+              <div className="form-group mb-0">
+                <label className="control-label">Team Members</label>
+                <Select
+                  name="teamMembers"
+                  onBlur={props.handleBlur}
+                  className={`my-select${
+                    props.touched.teamMembers && props.errors.teamMembers
+                      ? "is-invalid"
+                      : props.touched.teamMembers && "is-valid"
+                  }`}
+                  value={props.values.teamMembers}
+                  onChange={(val) => props.setFieldValue("teamMembers", val)}
+                  options={teamMember}
+                  isMulti={true}
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.teamMembers && props.errors.teamMembers}
+                </span>
+              </div>
+            </div>
           </div>
           <div className="row">
+            <div className="col">
+              <div className="form-group">
+                <label>Cost</label>
+                <input
+                  name="cost"
+                  onBlur={props.handleBlur}
+                  type="number"
+                  className={`form-control ${
+                    props.touched.cost && props.errors.cost
+                      ? "is-invalid"
+                      : props.touched.cost && "is-valid"
+                  }`}
+                  value={props.values.cost}
+                  onChange={props.handleChange("cost")}
+                  placeholder="Enter Amount"
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.cost && props.errors.cost}
+                </span>
+              </div>
+            </div>
             <div className="col">
               <div className="form-group">
                 <div className="row">
@@ -658,23 +697,44 @@ const ProjectForm = (props) => {
               </div>
             </div>
             <div className="col">
-              <div className="form-group mb-0">
-                <label className="control-label">Team Members</label>
-                <Select
-                  name="teamMembers"
+              <div className="form-group">
+                <label>Client Hours</label>
+                <input
+                  name="clientHours"
                   onBlur={props.handleBlur}
-                  className={`my-select${
-                    props.touched.teamMembers && props.errors.teamMembers
+                  type="number"
+                  className={`form-control ${
+                    props.touched.clientHours && props.errors.clientHours
                       ? "is-invalid"
-                      : props.touched.teamMembers && "is-valid"
+                      : props.touched.clientHours && "is-valid"
                   }`}
-                  value={props.values.teamMembers}
-                  onChange={(val) => props.setFieldValue("teamMembers", val)}
-                  options={teamMember}
-                  isMulti={true}
+                  value={props.values.clientHours}
+                  onChange={props.handleChange("clientHours")}
+                  placeholder="Enter Hours"
                 />
                 <span id="err" className="invalid-feedback">
-                  {props.touched.teamMembers && props.errors.teamMembers}
+                  {props.touched.clientHours && props.errors.clientHours}
+                </span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label>Hourly Rate</label>
+                <input
+                  name="hourlyCost"
+                  onBlur={props.handleBlur}
+                  type="number"
+                  className={`form-control ${
+                    props.touched.hourlyCost && props.errors.hourlyCost
+                      ? "is-invalid"
+                      : props.touched.hourlyCost && "is-valid"
+                  }`}
+                  value={props.values.hourlyCost}
+                  onChange={props.handleChange("hourlyCost")}
+                  placeholder="Enter Hourly Rate"
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.hourlyCost && props.errors.hourlyCost}
                 </span>
               </div>
             </div>
@@ -732,22 +792,37 @@ const ProjectForm = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
-                <label>Cost</label>
-                <input
-                  name="cost"
+                <div className="row">
+                  <div className="col">
+                    <label className="control-label">Status</label>
+                  </div>
+                  <div className="col">
+                    <div
+                      className="d-flex justify-content-end"
+                      id="add-new-Buttonm "
+                      onClick={() => {
+                        toggleStatusEdit();
+                      }}
+                    >
+                      <i className="mdi mdi-plus-circle icon-add" />
+                    </div>
+                  </div>
+                </div>
+
+                <Select
+                  name="status"
                   onBlur={props.handleBlur}
-                  type="number"
-                  className={`form-control ${
-                    props.touched.cost && props.errors.cost
+                  value={props.values.status}
+                  className={`my-select${
+                    props.touched.status && props.errors.status
                       ? "is-invalid"
-                      : props.touched.cost && "is-valid"
-                  }`}
-                  value={props.values.cost}
-                  onChange={props.handleChange("cost")}
-                  placeholder="Enter Amount"
+                      : props.touched.status && "is-valid"
+                  } zIndex`}
+                  onChange={(val) => props.setFieldValue("status", val)}
+                  options={status}
                 />
                 <span id="err" className="invalid-feedback">
-                  {props.touched.cost && props.errors.cost}
+                  {props.touched.status && props.errors.status}
                 </span>
               </div>
             </div>
@@ -830,35 +905,34 @@ const ProjectForm = (props) => {
               <div className="form-group">
                 <div className="row">
                   <div className="col">
-                    <label className="control-label">Status</label>
+                    <label className="control-label">Project Nature</label>
                   </div>
                   <div className="col">
                     <div
                       className="d-flex justify-content-end"
                       id="add-new-Buttonm "
                       onClick={() => {
-                        toggleStatusEdit();
+                        toggleNatureEdit();
                       }}
                     >
                       <i className="mdi mdi-plus-circle icon-add" />
                     </div>
                   </div>
                 </div>
-
                 <Select
-                  name="status"
+                  name="nature"
                   onBlur={props.handleBlur}
-                  value={props.values.status}
+                  value={props.values.nature}
                   className={`my-select${
-                    props.touched.status && props.errors.status
+                    props.touched.nature && props.errors.nature
                       ? "is-invalid"
-                      : props.touched.status && "is-valid"
-                  } zIndex`}
-                  onChange={(val) => props.setFieldValue("status", val)}
-                  options={status}
+                      : props.touched.nature && "is-valid"
+                  }`}
+                  onChange={(val) => props.setFieldValue("nature", val)}
+                  options={nature}
                 />
                 <span id="err" className="invalid-feedback">
-                  {props.touched.status && props.errors.status}
+                  {props.touched.nature && props.errors.nature}
                 </span>
               </div>
             </div>

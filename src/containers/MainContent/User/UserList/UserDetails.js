@@ -138,20 +138,16 @@ const UserDetails = (props) => {
       { label: "Name", value: userData && userData.name },
       {
         label: "UserName",
-        value: userData && userData.email
+        value: userData && userData.email,
       },
-  
+
       {
         label: "Joining Date",
-        value: userData &&  moment(userData.joiningDate).format(
-          "DD-MM-YYYY"
-        )
+        value: userData && moment(userData.joiningDate).format("DD-MM-YYYY"),
       },
       {
         label: "Machine Number",
-        value: userData &&
-        userData.machineNo &&
-        userData.machineNo.machineNo,
+        value: userData && userData.machineNo && userData.machineNo.machineNo,
       },
       {
         label: "Salary",
@@ -167,7 +163,7 @@ const UserDetails = (props) => {
         label: "Gender",
         value: userData && userData.gender,
       },
-  
+
       {
         label: "Contact Number",
         value: userData && userData.contact,
@@ -202,7 +198,9 @@ const UserDetails = (props) => {
       },
       {
         label: "Technology",
-        value: userData && userData.technology &&
+        value:
+          userData &&
+          userData.technology &&
           userData.technology.map((item, index) => {
             return (
               <div>
@@ -223,57 +221,52 @@ const UserDetails = (props) => {
       <AUX>
         <div className="page-content-wrapper userD">
           <div className="container-fluid">
-                      <div className="row">
-                      <div className="row  gapp ">
-            {detail.map((item, indx) => {
-              return (
-                <>
-                  <div
-                    className={`labell ${
-                      item.label === "Team Members"
-                        ? "col-3 col-md-2"
-                        : "col-3 col-md-2 "
-                    } mb-3 d-flex align-items-center `}
-                  >
-                    <div>{item.label}</div>
-                  </div>
-                  <div
-                    className={`valuee ${
-                      item.label === "Team Members"
-                        ? "col-9 col-md-6"
-                        : "col-3 col-md-2  pt-2"
-                    } col-3 col-md-2 mb-3"`}
-                  >
-                    {item.value}
-                  </div>
-                </>
-              );
-            })}
-          </div>
+            <div className="row">
+              <div className="row  gapp ">
+                {detail.map((item, indx) => {
+                  return (
+                    <>
+                      <div
+                        className={`labell ${
+                          item.label === "Team Members"
+                            ? "col-3 col-md-2"
+                            : "col-3 col-md-2 "
+                        } mb-3 d-flex align-items-center `}
+                      >
+                        <div>{item.label}</div>
                       </div>
-                      {taskData.length != 0 && (
-                        <div className="col-12 gap">
-                          <h3 className="mt-0">User Tasks</h3>
-
-                          <MDBDataTableV5
-                           responsive
-                           striped
-                           small
-                           bordered={true}
-                          //  materialSearch
-                           searchTop
-                           searchBottom={false}
-                           pagingTop
-                           barReverse
-                           hover
-                            // scrollX
-                            // autoWidth
-                            data={dataa}
-                            theadColor="#000"
-                          />
-                        </div>
-                      )}
-                    
+                      <div
+                        className={`valuee ${
+                          item.label === "Team Members"
+                            ? "col-9 col-md-6"
+                            : "col-3 col-md-2  pt-2"
+                        } col-3 col-md-2 mb-3"`}
+                      >
+                        {item.value}
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
+            </div>
+            {taskData.length != 0 && (
+              <div className="col-12 gap">
+                <h3 className="mt-0">User Tasks</h3>
+                <MDBDataTableV5
+                  responsive
+                  striped
+                  small
+                  bordered={true}
+                  searchTop
+                  searchBottom={false}
+                  pagingTop
+                  barReverse
+                  hover
+                  data={dataa}
+                  theadColor="#000"
+                />
+              </div>
+            )}
           </div>
         </div>
       </AUX>

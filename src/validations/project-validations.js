@@ -10,6 +10,9 @@ class ProjectValidation {
       clientName: Yup.object().required("Required!"),
       status: Yup.object(),
       cost: Yup.string().required("Required!"),
+      clientHours: Yup.string(),
+      hourlyCost: Yup.string(),
+      projectType: Yup.string(),
       platform: Yup.object().required("Required!"),
       technology: Yup.object().required("Required!"),
       serviceType: Yup.object().required("Required!"),
@@ -21,11 +24,19 @@ class ProjectValidation {
           Yup.ref("cStartDate"),
           "Client End date must be greater than Client start date"
         ),
-      pmStartDate: Yup.date().min(Yup.ref("cStartDate"), "PM start date must be greater then Client Start date"),
-      pmEndDate: Yup.date().min(
-        Yup.ref("pmStartDate"),
-        "PM End date must be greater than PM start date"
-      ).max(Yup.ref("cEndDate"), "PM end date must be greater then Client's Deadline" ),
+      pmStartDate: Yup.date().min(
+        Yup.ref("cStartDate"),
+        "PM start date must be greater then Client Start date"
+      ),
+      pmEndDate: Yup.date()
+        .min(
+          Yup.ref("pmStartDate"),
+          "PM End date must be greater than PM start date"
+        )
+        .max(
+          Yup.ref("cEndDate"),
+          "PM end date must be greater then Client's Deadline"
+        ),
       projectManager: Yup.object().required("Required!"),
       teamMembers: Yup.array(),
       orderNum: Yup.string().required("Required!"),

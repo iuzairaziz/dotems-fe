@@ -72,7 +72,7 @@ import SingleDetail from "../MainContent/Leaves/LeaveDetails/SingleDetail/Single
 import SingleRequest from "../MainContent/Request/SingleRequest/SingleRequest";
 import MyRequest from "../MainContent/Request/MyRequest/MyRequests";
 import MyProjects from "../MainContent/Projects/MyProject";
-
+import AdminDashboard from "../MainContent/Dashboard/AdminDashboard";
 const mainbuilder = (props) => {
   const baseUrl = props.match.url;
   const roles = new Configuration().Roles;
@@ -91,6 +91,7 @@ const mainbuilder = (props) => {
         <Route exact path="/view-leave-type" component={LeaveTypeList} />
         <Route exact path="/view-request-type" component={RequestTypeList} />
         <Route exact path="/view-request" component={RequestList} />
+        <Route exact path="/form" component={Ui_tabs_accordions} />
         <Route
           exact
           path="/view-recieved-request"
@@ -105,6 +106,7 @@ const mainbuilder = (props) => {
           <Route exact path="/leave-details" component={LeaveDetails} />
           <Route exact path="/single-detail/:id" component={SingleDetail} />
           <Route exact path="/my-projects" component={MyProjects} />
+          <Route exact path="/admin-dashboard" component={AdminDashboard} />
           <Route
             exact
             path="/request-single-detail/:id"

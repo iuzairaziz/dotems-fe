@@ -52,7 +52,6 @@ const UserForm = (props) => {
     });
   };
 
-
   const getDesignation = () => {
     DesignationService.getAllDesignation().then((res) => {
       let options = [];
@@ -77,10 +76,10 @@ const UserForm = (props) => {
         password: editable && user.password,
         workingHrs: editable && user.workingHrs,
         designation: editable &&
-        user.designation && {
-          label: user.designation.name,
-          value: user.designation._id,
-        },
+          user.designation && {
+            label: user.designation.name,
+            value: user.designation._id,
+          },
         machineNo: editable &&
           user.machineNo && {
             label: user.machineNo.machineNo,
@@ -358,7 +357,7 @@ const UserForm = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
-                <label className="control-label">Role</label>
+                <label className="control-label">Access Role</label>
                 <Select
                   name="userRole"
                   className={`my-select${
@@ -377,7 +376,6 @@ const UserForm = (props) => {
                     { value: roles.EMPLOYEE, label: roles.EMPLOYEE },
                     { value: roles.PM, label: roles.PM },
                     { value: roles.ADMIN, label: roles.ADMIN },
-                    { value: roles.CEO, label: roles.CEO },
                     { value: roles.HR, label: roles.HR },
                     { value: roles.AM, label: roles.AM },
                   ]}
@@ -389,7 +387,7 @@ const UserForm = (props) => {
             </div>
           </div>
           <div className="row">
-          <div className="col">
+            <div className="col">
               <div className="form-group">
                 <div className="row">
                   <div className="col">
