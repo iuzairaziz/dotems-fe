@@ -23,7 +23,7 @@ const httpIntercept = (props) => {
 
   axios.interceptors.response.use(
     (response) => {
-      console.log("interceptor", response);
+      // console.log("interceptor", response);
       loader.fadeOut();
       loader.children(".status").fadeOut();
       return response;

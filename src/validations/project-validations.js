@@ -9,14 +9,14 @@ class ProjectValidation {
         .max(100),
       clientName: Yup.object().required("Required!"),
       status: Yup.object(),
-      cost: Yup.string().required("Required!"),
+      cost: Yup.string(),
       clientHours: Yup.string(),
       hourlyCost: Yup.string(),
-      projectType: Yup.string(),
+      projectType: Yup.string().required("Required"),
       platform: Yup.object().required("Required!"),
       technology: Yup.object().required("Required!"),
-      serviceType: Yup.object().required("Required!"),
-      nature: Yup.object().required("Required!"),
+      serviceType: Yup.object(),
+      nature: Yup.object(),
       cStartDate: Yup.date().required("Required!"),
       cEndDate: Yup.date()
         .required("Required!")
@@ -40,24 +40,14 @@ class ProjectValidation {
       projectManager: Yup.object().required("Required!"),
       teamMembers: Yup.array(),
       orderNum: Yup.string().required("Required!"),
-      Rprofit: Yup.number().required("Required!"),
-      Pdeduction: Yup.number().required("Required!"),
+      Rprofit: Yup.number(),
+      Pdeduction: Yup.number(),
       // percentage: Yup.string(),
       // fCost: Yup.string(),
       currency: Yup.object().required("Required!"),
-      otherDeduction: Yup.number().required("Required!"),
+      otherDeduction: Yup.number(),
     });
   };
-
-  // loginSchemaValidation = () => {
-  //   return Yup.object({
-  //     username: Yup.string()
-  //       .required("Required!")
-  //       .min(6)
-  //       .max(20),
-  //     password: Yup.string().required("Required"),
-  //   });
-  // };
 
   handleError(error) {
     console.log(error.message);
