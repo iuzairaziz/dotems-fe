@@ -13,6 +13,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
+import PhaseList from "../../../../src/components/MyComponents/DynamicInputField/PhaseList"
 import DesignationService from "../../../services/DesignationService";
 import AddClientForm from "../Client/ClientsForm";
 import AddPlatform from "../Platform/PlatformForm/PlatformForm";
@@ -59,49 +60,63 @@ const ProjectForm = (props) => {
   const [toShow, setToShow] = useState([]);
   const [teamMember, setTeamMember] = useState([]);
   const [totalHours, setTotalHours] = useState(0);
+  const [phasesDetails, setPhasesDetails] = useState([{
+        index: Math.random(),
+        phasename: "",
+        estHrs: "",
+       
+      }]);
+
   const roless = new Configuration().Roles;
 
   const editable = props.editable;
   const project = props.project;
   const history = useHistory();
 
+useEffect(() => {
+    editable && project && project.phase && setPhasesDetails(project.phase)  
+}, []);
+
+
   const [totalCost, setTotalCost] = useState(0);
-  const [phases, setPhases] = useState([
-    {
-      phasename: "Requirement Analysis",
-      estTime: editable ? project.phase[0].estTime : 0,
-    },
-    {
-      phasename: "Design",
-      estTime: editable ? project.phase[1].estTime : 0,
-    },
-    {
-      phasename: "Development",
-      estTime: editable ? project.phase[2].estTime : 0,
-    },
-    {
-      phasename: "Implementation",
-      estTime: editable ? project.phase[3].estTime : 0,
-    },
-    {
-      phasename: "Testing",
-      estTime: editable ? project.phase[4].estTime : 0,
-    },
-    {
-      phasename: "Documentation",
-      estTime: editable ? project.phase[5].estTime : 0,
-    },
-    {
-      phasename: "Evaluation",
-      estTime: editable ? project.phase[6].estTime : 0,
-    },
-  ]);
+  // const [phases, setPhases] = useState([
+  //   {
+  //     phasename: "Requirement Analysis",
+  //     estTime: editable ? project.phase[0].estTime : 0,
+  //   },
+  //   {
+  //     phasename: "Design",
+  //     estTime: editable ? project.phase[1].estTime : 0,
+  //   },
+  //   {
+  //     phasename: "Development",
+  //     estTime: editable ? project.phase[2].estTime : 0,
+  //   },
+  //   {
+  //     phasename: "Implementation",
+  //     estTime: editable ? project.phase[3].estTime : 0,
+  //   },
+  //   {
+  //     phasename: "Testing",
+  //     estTime: editable ? project.phase[4].estTime : 0,
+  //   },
+  //   {
+  //     phasename: "Documentation",
+  //     estTime: editable ? project.phase[5].estTime : 0,
+  //   },
+  //   {
+  //     phasename: "Evaluation",
+  //     estTime: editable ? project.phase[6].estTime : 0,
+  //   },
+  // ]);
 
   let tHours = 0;
 
   useEffect(() => {
     console.log(tHours);
   }, [totalHours]);
+
+  
 
   const setThours = (value) => {
     tHours = parseInt(tHours) + parseInt(value);
@@ -111,6 +126,8 @@ const ProjectForm = (props) => {
   const handleOption = (opt) => {
     set_default_option(opt);
   };
+
+
 
   const toggleClientEdit = () => setClientModal(!clientModal);
   const togglePlatformEdit = () => setPlatformModal(!platformModal);
@@ -281,6 +298,7 @@ const ProjectForm = (props) => {
   };
 
   var TeamMembers = [];
+  var phasesSeter = [];
   editable &&
     project.assignedUser.map((item) =>
       TeamMembers.push({ label: item.name, value: item._id, id: item._id })
@@ -349,7 +367,7 @@ const ProjectForm = (props) => {
         percentage: editable && project.percentage,
         fCost: editable && project.fCost,
         otherDeduction: editable && project.otherDeduction,
-        phase: editable && phases,
+        phase: editable && project.phase  ,
         gender: editable &&
           project.projectType && {
             label: project.projectType,
@@ -397,7 +415,7 @@ const ProjectForm = (props) => {
               fCost: values.fCost,
               currency: values.currency.value,
               otherDeduction: values.otherDeduction,
-              phase: phases,
+              phase: phasesDetails,
               projectType: values.projectType.value,
             })
 
@@ -435,7 +453,7 @@ const ProjectForm = (props) => {
               percentage: values.percentage,
               fCost: values.fCost,
               otherDeduction: values.otherDeduction,
-              phase: phases,
+              phase: phasesDetails,
               currency: values.currency.value,
               projectType: values.projectType.value,
             })
@@ -1009,7 +1027,7 @@ const ProjectForm = (props) => {
             </div>
           </div>
 
-          <div className="container">
+         
             {/* <form>
             <div className="row">
             <div className="col">
@@ -1040,7 +1058,7 @@ const ProjectForm = (props) => {
             </div>
             </div>
           </form> */}
-          </div>
+          
           <div className="row">
             <div className="col-12">
               <h4 className="mt-0 header-title">Description</h4>
@@ -1061,9 +1079,10 @@ const ProjectForm = (props) => {
             </div>
           </div>
           <div className="PMArea">
-            <h4>Project Manager Area</h4>
+            <h4 className="d-flex justify-content-center mb-4">Project Manager Area</h4>
             <div className="row">
-              <div className="col">
+             <div className="col-sm-1"></div>
+              <div className="col-sm-5">
                 {" "}
                 <div className="form-group">
                   <label>PM Start Date</label>
@@ -1088,7 +1107,7 @@ const ProjectForm = (props) => {
                   </div>
                 </div>{" "}
               </div>
-              <div className="col">
+              <div className="col-sm-5">
                 {" "}
                 <div className="form-group">
                   <label>PM End Date</label>
@@ -1113,9 +1132,10 @@ const ProjectForm = (props) => {
                   </div>
                 </div>{" "}
               </div>
+              <div className="col-sm-1"></div>
             </div>
 
-            <div className="page-content-wrapper">
+            {/* <div className="page-content-wrapper">
               <div className="container-fluid">
                 <div className="row">
                   <div className="col-12">
@@ -1283,9 +1303,10 @@ const ProjectForm = (props) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
+            <PhaseList setPhaseDetials={setPhasesDetails} phasesDetails={phasesDetails} />
           </div>
-          <div className="row ">
+          <div className="d-flex justify-content-center row">
             <div className="primary-button">
               <Button
                 className="mt-3 my-primary-button"
