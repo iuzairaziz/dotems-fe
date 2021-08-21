@@ -86,12 +86,12 @@ const ProjectPaymentForm = (props) => {
                 PaymentService.handleCustomMessage(err.response.data);
               })
           : PaymentService.addPayment({
-            paymentDetails : [{
+            paymentDetials : {
               recievedAmount: values.recievedAmount,
               exchangeRate: values.exchangeRate,
               PaymentDescription: values.PaymentDescription,
               PaymentRecievedDate: values.PaymentRecievedDate,
-            }],
+            },
             project: values.project.value,
             })
               .then((res) => {
