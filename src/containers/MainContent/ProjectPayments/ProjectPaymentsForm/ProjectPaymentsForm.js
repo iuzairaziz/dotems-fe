@@ -19,6 +19,8 @@ import RequestTypeForm from "../../RequestType/RequestForm/RequestForm";
 import RequestService from "../../../../services/Request";
 import shortValidations from "../../../../validations/short-validations";
 import userService from "../../../../services/UserService";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const ProjectPaymentForm = (props) => {
   const [project, setProject] = useState([]);
@@ -99,9 +101,7 @@ const ProjectPaymentForm = (props) => {
             <div className="row">
               <div className="col">
                 <label className="control-label">Project</label>
-              </div>
-            </div>
-            <Select
+                <Select
               className={`my-select${
                 props.touched.requestType && props.errors.requestType
                   ? "is-invalid"
@@ -117,6 +117,109 @@ const ProjectPaymentForm = (props) => {
             <span id="err" className="invalid-feedback">
               {props.touched.requestType && props.errors.requestType}
             </span>
+              </div>
+              <div className="col">
+              <div className="form-group">
+                <label>Payment Description</label>
+                <input
+                  name="projectName"
+                  onBlur={props.handleBlur}
+                  type="text"
+                  className={`form-control ${
+                    props.touched.projectName && props.errors.projectName
+                      ? "is-invalid"
+                      : props.touched.projectName && "is-valid"
+                  }`}
+                  // value={props.values.projectName}
+                  // onChange={props.handleChange("projectName")}
+                  placeholder="Enter Description"
+                />
+                <span id="err" className="invalid-feedback">
+                  {/* {props.touched.projectName && props.errors.projectName} */}
+                </span>
+              </div>
+            </div>
+            </div>
+            <div className="row">
+            {/* <div className="row"> */}
+            <div className="col">
+              <div className="form-group">
+                <label>Amount Recieve Date</label>
+                <div>
+                  <DatePicker
+                    name="cStartDate"
+                    onBlur={props.handleBlur}
+                    className={`form-control ${
+                      props.touched.cStartDate && props.errors.cStartDate
+                        ? "is-invalid"
+                        : props.touched.cStartDate && "is-valid"
+                    }`}
+                    selected={props.values.cStartDate}
+                    onChange={(date) => {
+                      props.setFieldValue("cStartDate", date);
+                      console.log("datepicker", date);
+                    }}
+                  />
+                  <span id="err" className="invalid-feedback">
+                    {props.touched.cStartDate && props.errors.cStartDate}
+                  </span>
+                </div>
+              </div>
+            </div>
+            {/* </div> */}
+            <div className="col">
+              <div className="form-group">
+                <label>Amount Recieved</label>
+                <input
+                  name="projectName"
+                  onBlur={props.handleBlur}
+                  type="text"
+                  className={`form-control ${
+                    props.touched.projectName && props.errors.projectName
+                      ? "is-invalid"
+                      : props.touched.projectName && "is-valid"
+                  }`}
+                  // value={props.values.projectName}
+                  // onChange={props.handleChange("projectName")}
+                  placeholder="Enter Amount"
+                />
+                <span id="err" className="invalid-feedback">
+                  {/* {props.touched.projectName && props.errors.projectName} */}
+                </span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label>Exchange Rate</label>
+                <input
+                  name="projectName"
+                  onBlur={props.handleBlur}
+                  type="text"
+                  className={`form-control ${
+                    props.touched.projectName && props.errors.projectName
+                      ? "is-invalid"
+                      : props.touched.projectName && "is-valid"
+                  }`}
+                  // value={props.values.projectName}
+                  // onChange={props.handleChange("projectName")}
+                  placeholder="Enter Exchange Rate"
+                />
+                <span id="err" className="invalid-feedback">
+                  {/* {props.touched.projectName && props.errors.projectName} */}
+                </span>
+              </div>
+           
+            </div>
+          
+            </div>
+            <div className="primary-button">
+              <Button
+                className="mt-3 my-primary-button"
+                // onClick={props.handleSubmit}
+              >
+                Submit
+              </Button>
+            </div>
           </>
         );
       }}

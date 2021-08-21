@@ -17,7 +17,7 @@ class AddProjectPayments extends Component {
               <div className="col-lg-12">
                 <div className="card m-b-20">
                   <div className="card-body">
-                    <h4 className="mb-4 p-0">Add New Project Payments</h4>
+                    <h4 className="mb-4 p-0">Add Projects' Payment</h4>
                     <ProjectPaymentsForm />
                   </div>
                 </div>
