@@ -73,6 +73,8 @@ import SingleRequest from "../MainContent/Request/SingleRequest/SingleRequest";
 import MyRequest from "../MainContent/Request/MyRequest/MyRequests";
 import MyProjects from "../MainContent/Projects/MyProject";
 import AdminDashboard from "../MainContent/Dashboard/AdminDashboard";
+import AddProjectPayments from "../MainContent/ProjectPayments/AddProjectPayments/AddProjectPayment";
+import ViewProjectPayments from "../MainContent/ProjectPayments/ViewProjectPayments/ViewProjectPayments";
 const mainbuilder = (props) => {
   const baseUrl = props.match.url;
   const roles = new Configuration().Roles;
@@ -97,7 +99,16 @@ const mainbuilder = (props) => {
           path="/view-recieved-request"
           component={RequestRecieved}
         />
-
+        <Route
+          exact
+          path="/add-project-payments"
+          component={AddProjectPayments}
+        />
+        <Route
+          exact
+          path="/view-project-payments"
+          component={ViewProjectPayments}
+        />
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/add-leave-type" component={AddLeaveType} />
           <Route exact path="/view-leave-type" component={LeaveTypeList} />

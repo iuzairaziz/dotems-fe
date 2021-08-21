@@ -107,9 +107,11 @@ const TaskForm = (props) => {
           setFinalSheet(false);
           setFinalSwitch(false);
         }
+        console.log(res);
       })
       .catch((err) => {
         TaskService.handleError();
+        console.log(err);
       });
   };
 

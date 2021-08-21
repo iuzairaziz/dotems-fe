@@ -85,6 +85,21 @@ class sidebar extends Component {
             ],
           },
           {
+            name: "project_payments_menu",
+            icon: "mdi-file-powerpoint-box",
+            tab: "Project Payments",
+            subMenus: [
+              {
+                routeName: this.baseUrl + "add-project-payments",
+                label: "Add Payments",
+              },
+              {
+                routeName: this.baseUrl + "view-project-payments",
+                label: "View Payments",
+              },
+            ],
+          },
+          {
             name: "project_settings_menu",
             icon: "mdi-settings",
             tab: "project-settings",
@@ -212,12 +227,8 @@ class sidebar extends Component {
         .removeClass("mdi-close")
         .addClass("ion-navicon");
     });
-      
-   
   }
 
-   
- 
   componentDidUpdate() {
     var now_route = "";
     var pageUrl = window.location.pathname.split(/[?#]/)[0];

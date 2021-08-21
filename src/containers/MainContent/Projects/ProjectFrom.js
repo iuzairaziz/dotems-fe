@@ -13,7 +13,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
-import PhaseList from "../../../../src/components/MyComponents/DynamicInputField/PhaseList"
+import PhaseList from "../../../../src/components/MyComponents/DynamicInputField/PhaseList";
 import DesignationService from "../../../services/DesignationService";
 import AddClientForm from "../Client/ClientsForm";
 import AddPlatform from "../Platform/PlatformForm/PlatformForm";
@@ -60,12 +60,13 @@ const ProjectForm = (props) => {
   const [toShow, setToShow] = useState([]);
   const [teamMember, setTeamMember] = useState([]);
   const [totalHours, setTotalHours] = useState(0);
-  const [phasesDetails, setPhasesDetails] = useState([{
-        index: Math.random(),
-        phasename: "",
-        estHrs: "",
-       
-      }]);
+  const [phasesDetails, setPhasesDetails] = useState([
+    {
+      index: Math.random(),
+      phasename: "",
+      estHrs: "",
+    },
+  ]);
 
   const roless = new Configuration().Roles;
 
@@ -73,10 +74,9 @@ const ProjectForm = (props) => {
   const project = props.project;
   const history = useHistory();
 
-useEffect(() => {
-    editable && project && project.phase && setPhasesDetails(project.phase)  
-}, []);
-
+  useEffect(() => {
+    editable && project && project.phase && setPhasesDetails(project.phase);
+  }, []);
 
   const [totalCost, setTotalCost] = useState(0);
   // const [phases, setPhases] = useState([
@@ -116,8 +116,6 @@ useEffect(() => {
     console.log(tHours);
   }, [totalHours]);
 
-  
-
   const setThours = (value) => {
     tHours = parseInt(tHours) + parseInt(value);
     setTotalHours(parseInt(tHours));
@@ -126,8 +124,6 @@ useEffect(() => {
   const handleOption = (opt) => {
     set_default_option(opt);
   };
-
-
 
   const toggleClientEdit = () => setClientModal(!clientModal);
   const togglePlatformEdit = () => setPlatformModal(!platformModal);
@@ -367,7 +363,7 @@ useEffect(() => {
         percentage: editable && project.percentage,
         fCost: editable && project.fCost,
         otherDeduction: editable && project.otherDeduction,
-        phase: editable && project.phase  ,
+        phase: editable && project.phase,
         gender: editable &&
           project.projectType && {
             label: project.projectType,
@@ -644,7 +640,7 @@ useEffect(() => {
                     props.touched.teamMembers && props.errors.teamMembers
                       ? "is-invalid"
                       : props.touched.teamMembers && "is-valid"
-                  }`}
+                  } `}
                   value={props.values.teamMembers}
                   onChange={(val) => props.setFieldValue("teamMembers", val)}
                   options={teamMember}
@@ -835,7 +831,7 @@ useEffect(() => {
                     props.touched.status && props.errors.status
                       ? "is-invalid"
                       : props.touched.status && "is-valid"
-                  } zIndex`}
+                  } `}
                   onChange={(val) => props.setFieldValue("status", val)}
                   options={status}
                 />
@@ -872,7 +868,7 @@ useEffect(() => {
                     props.touched.technology && props.errors.technology
                       ? "is-invalid"
                       : props.touched.technology && "is-valid"
-                  } zIndex`}
+                  } `}
                   value={props.values.technology}
                   onChange={(val) => props.setFieldValue("technology", val)}
                   options={technology}
@@ -910,7 +906,7 @@ useEffect(() => {
                     props.touched.serviceType && props.errors.serviceType
                       ? "is-invalid"
                       : props.touched.serviceType && "is-valid"
-                  } zIndex`}
+                  } `}
                   onChange={(val) => props.setFieldValue("serviceType", val)}
                   options={service}
                 />
@@ -1027,8 +1023,7 @@ useEffect(() => {
             </div>
           </div>
 
-         
-            {/* <form>
+          {/* <form>
             <div className="row">
             <div className="col">
               <div className="form-group">
@@ -1058,7 +1053,7 @@ useEffect(() => {
             </div>
             </div>
           </form> */}
-          
+
           <div className="row">
             <div className="col-12">
               <h4 className="mt-0 header-title">Description</h4>
@@ -1079,9 +1074,11 @@ useEffect(() => {
             </div>
           </div>
           <div className="PMArea">
-            <h4 className="d-flex justify-content-center mb-4">Project Manager Area</h4>
+            <h4 className="d-flex justify-content-center mb-4">
+              Project Manager Area
+            </h4>
             <div className="row">
-             <div className="col-sm-1"></div>
+              <div className="col-sm-1" />
               <div className="col-sm-5">
                 {" "}
                 <div className="form-group">
@@ -1132,7 +1129,7 @@ useEffect(() => {
                   </div>
                 </div>{" "}
               </div>
-              <div className="col-sm-1"></div>
+              <div className="col-sm-1" />
             </div>
 
             {/* <div className="page-content-wrapper">
@@ -1304,7 +1301,10 @@ useEffect(() => {
                 </div>
               </div>
             </div> */}
-            <PhaseList setPhaseDetials={setPhasesDetails} phasesDetails={phasesDetails} />
+            <PhaseList
+              setPhaseDetials={setPhasesDetails}
+              phasesDetails={phasesDetails}
+            />
           </div>
           <div className="d-flex justify-content-center row">
             <div className="primary-button">

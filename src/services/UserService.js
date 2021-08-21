@@ -118,7 +118,7 @@ class userServices {
     );
 
   updateUserProfile = (data, id) =>
-    axios.put(this.config.apiBaseUrl + `/users/${id}`, data);
+    axios.put(this.config.apiBaseUrl + `users/${id}`, data);
 
   getSocket = () => {
     const socket = io(this.config.apiBaseUrl);
