@@ -18,7 +18,12 @@ import ProjectService from "../../../../services/ProjectService";
 import RequestTypeForm from "../../RequestType/RequestForm/RequestForm";
 import RequestService from "../../../../services/Request";
 import shortValidations from "../../../../validations/short-validations";
-import userService from "../../../../services/UserService";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import paymentValidation from "../../../../validations/payment-validations";
+import PaymentService from "../../../../services/PaymentService"
+
+
 
 const ProjectPaymentForm = (props) => {
   const [project, setProject] = useState([]);
@@ -26,6 +31,8 @@ const ProjectPaymentForm = (props) => {
   const [sendRequestTo, setSendRequestTo] = useState([]);
   const [requestTypeModal, setRequestTypeModal] = useState(false);
   const [description, setDescription] = useState(EditorState.createEmpty());
+
+  const history = useHistory();
 
   useEffect(() => {
     getProjects();
@@ -42,54 +49,60 @@ const ProjectPaymentForm = (props) => {
     });
   };
 
+  const editable = props.editable;
+  const payment = props.payment;
+
   return (
     <Formik
       initialValues={{
-        requestType: "",
-        sendRequestToUsers: [],
-        description: props.editable
-          ? EditorState.createWithContent(
-              convertFromRaw(JSON.parse(props.Request.description))
-            )
-          : EditorState.createEmpty(),
+        recievedAmount: editable && payment.recievedAmount,
+        exchangeRate: editable && payment.exchangeRate,
+        PaymentDescription: editable && payment.PaymentDescription,
+        project: editable &&
+          project.client && {
+            label: project.project.name,
+            value: project.project._id,
+          },
+        PaymentRecievedDate: editable && project.PaymentRecievedDate,
       }}
-      validationSchema={shortValidations.requestValidation}
+      // validationSchema={shortValidations.requestValidation}
       onSubmit={(values, actions) => {
         console.log(actions);
         console.log("Valuesssssssssss", values);
         let array = [];
-        values.sendRequestToUsers.map((item) => array.push(item.value));
+        // values.sendRequestToUsers.map((item) => array.push(item.value));
         props.editable
-          ? RequestService.updateRequest(props.Request._id, {
-              requestType: values.requestType.value,
-              requestRecievers: values.sendRequestToUsers,
-              description: JSON.stringify(
-                convertToRaw(values.description.getCurrentContent())
-              ),
+          ? PaymentService.updatePayment({
+            recievedAmount: values.recievedAmount,
+            exchangeRate: values.exchangeRate,
+            PaymentDescription: values.PaymentDescription,
+            PaymentRecievedDate: values.PaymentRecievedDate,
+            project: values.project.value,
+             
             })
               .then((res) => {
                 props.toggle();
-                RequestService.handleMessage("update");
+                PaymentService.handleMessage("update");
               })
               .catch((err) => {
                 props.toggle();
-                RequestService.handleCustomMessage(err.response.data);
+                PaymentService.handleCustomMessage(err.response.data);
               })
-          : RequestService.addRequest({
-              requestType: values.requestType.value,
-              requestRecievers: array,
-              description: JSON.stringify(
-                convertToRaw(values.description.getCurrentContent())
-              ),
+          : PaymentService.addPayment({
+            paymentDetials : {
+              recievedAmount: values.recievedAmount,
+              exchangeRate: values.exchangeRate,
+              PaymentDescription: values.PaymentDescription,
+              PaymentRecievedDate: values.PaymentRecievedDate,
+            },
+            project: values.project.value,
             })
               .then((res) => {
-                props.toggle && props.toggle();
-                RequestService.handleMessage("add");
-                // history.push("/my-requests");
-                actions.setFieldValue("title", "");
+                PaymentService.handleMessage("add");
+                history.push("/view-project-payments");
               })
               .catch((err) => {
-                RequestService.handleCustomMessage(err.response.data);
+                PaymentService.handleCustomMessage(err.response.data);
               });
       }}
     >
@@ -99,24 +112,125 @@ const ProjectPaymentForm = (props) => {
             <div className="row">
               <div className="col">
                 <label className="control-label">Project</label>
-              </div>
-            </div>
-            <Select
+                <Select
               className={`my-select${
-                props.touched.requestType && props.errors.requestType
+                props.touched.project && props.errors.project
                   ? "is-invalid"
-                  : props.touched.requestType && "is-valid"
+                  : props.touched.project && "is-valid"
               }`}
-              name="requestType"
+              name="project"
               onBlur={props.handleBlur}
               className="select-override zIndex"
-              value={props.values.requestType}
-              onChange={(val) => props.setFieldValue("requestType", val)}
+              value={props.values.project}
+              onChange={(val) => props.setFieldValue("project", val)}
               options={project}
             />
             <span id="err" className="invalid-feedback">
-              {props.touched.requestType && props.errors.requestType}
+              {props.touched.project && props.errors.project}
             </span>
+              </div>
+              <div className="col">
+              <div className="form-group">
+                <label>Payment Description</label>
+                <input
+                  name="PaymentDescription"
+                  onBlur={props.handleBlur}
+                  type="text"
+                  className={`form-control ${
+                    props.touched.PaymentDescription && props.errors.PaymentDescription
+                      ? "is-invalid"
+                      : props.touched.PaymentDescription && "is-valid"
+                  }`}
+                  value={props.values.PaymentDescription}
+                  onChange={props.handleChange("PaymentDescription")}
+                  placeholder="Enter Description"
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.PaymentDescription && props.errors.PaymentDescription}
+                </span>
+              </div>
+            </div>
+            </div>
+            <div className="row">
+            {/* <div className="row"> */}
+            <div className="col">
+              <div className="form-group">
+                <label>Amount Recieve Date</label>
+                <div>
+                  <DatePicker
+                    name="PaymentRecievedDate"
+                    onBlur={props.handleBlur}
+                    className={`form-control ${
+                      props.touched.PaymentRecievedDate && props.errors.PaymentRecievedDate
+                        ? "is-invalid"
+                        : props.touched.PaymentRecievedDate && "is-valid"
+                    }`}
+                    selected={props.values.PaymentRecievedDate}
+                    onChange={(date) => {
+                      props.setFieldValue("PaymentRecievedDate", date);
+                      console.log("datepicker", date);
+                    }}
+                  />
+                  <span id="err" className="invalid-feedback">
+                    {props.touched.PaymentRecievedDate && props.errors.PaymentRecievedDate}
+                  </span>
+                </div>
+              </div>
+            </div>
+            {/* </div> */}
+            <div className="col">
+              <div className="form-group">
+                <label>Amount Recieved</label>
+                <input
+                  name="recievedAmount"
+                  onBlur={props.handleBlur}
+                  type="text"
+                  className={`form-control ${
+                    props.touched.recievedAmount && props.errors.recievedAmount
+                      ? "is-invalid"
+                      : props.touched.recievedAmount && "is-valid"
+                  }`}
+                  value={props.values.recievedAmount}
+                  onChange={props.handleChange("recievedAmount")}
+                  placeholder="Enter Amount"
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.recievedAmount && props.errors.recievedAmount}
+                </span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label>Exchange Rate</label>
+                <input
+                  name="exchangeRate"
+                  onBlur={props.handleBlur}
+                  type="text"
+                  className={`form-control ${
+                    props.touched.exchangeRate && props.errors.exchangeRate
+                      ? "is-invalid"
+                      : props.touched.exchangeRate && "is-valid"
+                  }`}
+                  value={props.values.exchangeRate}
+                  onChange={props.handleChange("exchangeRate")}
+                  placeholder="Enter Exchange Rate"
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.exchangeRate && props.errors.exchangeRate}
+                </span>
+              </div>
+           
+            </div>
+          
+            </div>
+            <div className="primary-button">
+              <Button
+                className="mt-3 my-primary-button"
+                onClick={props.handleSubmit}
+              >
+                Submit
+              </Button>
+            </div>
           </>
         );
       }}

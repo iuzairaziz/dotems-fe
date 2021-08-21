@@ -20,16 +20,6 @@ class MachineValidation {
     });
   };
 
-  // loginSchemaValidation = () => {
-  //   return Yup.object({
-  //     username: Yup.string()
-  //       .required("Required!")
-  //       .min(6)
-  //       .max(20),
-  //     password: Yup.string().required("Required"),
-  //   });
-  // };
-
   handleError(error) {
     console.log(error.message);
   }

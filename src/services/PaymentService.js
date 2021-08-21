@@ -12,7 +12,7 @@ class PaymentService {
   }
 
   getAllPayment() {
-    return axios.get(this.config.apiBaseUrl + "payment/show");
+    return axios.get(this.config.apiBaseUrl + "payment");
   }
 
   updatePayment(id, formData) {
