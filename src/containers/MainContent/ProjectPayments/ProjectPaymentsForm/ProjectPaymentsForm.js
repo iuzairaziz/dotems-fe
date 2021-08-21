@@ -24,12 +24,15 @@ import paymentValidation from "../../../../validations/payment-validations";
 import PaymentService from "../../../../services/PaymentService"
 
 
+
 const ProjectPaymentForm = (props) => {
   const [project, setProject] = useState([]);
   const [requestType, setRequestType] = useState([]);
   const [sendRequestTo, setSendRequestTo] = useState([]);
   const [requestTypeModal, setRequestTypeModal] = useState(false);
   const [description, setDescription] = useState(EditorState.createEmpty());
+
+  const history = useHistory();
 
   useEffect(() => {
     getProjects();
@@ -95,7 +98,8 @@ const ProjectPaymentForm = (props) => {
             project: values.project.value,
             })
               .then((res) => {
-                PaymentService.handleMessage("add")
+                PaymentService.handleMessage("add");
+                history.push("/view-project-payments");
               })
               .catch((err) => {
                 PaymentService.handleCustomMessage(err.response.data);
