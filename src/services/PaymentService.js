@@ -8,7 +8,7 @@ class PaymentService {
   }
 
   addPayment(formData) {
-    return axios.post(this.config.apiBaseUrl + "payment/create", formData);
+    return axios.post(this.config.apiBaseUrl + "payment", formData);
   }
 
   getAllPayment() {
