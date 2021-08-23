@@ -75,6 +75,7 @@ import MyProjects from "../MainContent/Projects/MyProject";
 import AdminDashboard from "../MainContent/Dashboard/AdminDashboard";
 import AddProjectPayments from "../MainContent/ProjectPayments/AddProjectPayments/AddProjectPayment";
 import ViewProjectPayments from "../MainContent/ProjectPayments/ViewProjectPayments/ViewProjectPayments";
+import ViewSingleProjectPayments from "../MainContent/ProjectPayments/ProjectPaymentDetails/ProjectPaymentDetails";
 const mainbuilder = (props) => {
   const baseUrl = props.match.url;
   const roles = new Configuration().Roles;
@@ -108,6 +109,11 @@ const mainbuilder = (props) => {
           exact
           path="/view-project-payments"
           component={ViewProjectPayments}
+        />
+        <Route
+          exact
+          path="/view-project-payments/:id"
+          component={ViewSingleProjectPayments}
         />
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/add-leave-type" component={AddLeaveType} />
