@@ -46,11 +46,7 @@ const ProjectDetails = (props) => {
     });
 
     console.log("props", props.location.projectProps);
-<<<<<<< HEAD
     const paymentID = props.match.params.id;
-=======
-    const projectId = props.match.params.id;
->>>>>>> 0fd2b83feb6387f94be96b0b78781c8962fb4d60
 
     useEffect(() => {
       // getData(paymentID);
