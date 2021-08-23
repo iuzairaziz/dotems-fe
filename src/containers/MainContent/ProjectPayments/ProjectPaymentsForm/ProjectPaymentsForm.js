@@ -49,6 +49,8 @@ const ProjectPaymentForm = (props) => {
 
   const editable = props.editable;
   const payment = props.payment;
+  const projectId = props.projectpaymentid;
+  console.log("ghdgdgdg", projectId);
 
   return (
     <Formik
@@ -56,11 +58,12 @@ const ProjectPaymentForm = (props) => {
         recievedAmount: editable && payment.recievedAmount,
         exchangeRate: editable && payment.exchangeRate,
         PaymentDescription: editable && payment.PaymentDescription,
-        project: editable &&
-          project.client && {
-            label: project.project.name,
-            value: project.project._id,
-          },
+        project: editable
+          ? project && {
+              label: project.project.name,
+              value: project.project._id,
+            }
+          : projectId,
         PaymentRecievedDate: editable && project.PaymentRecievedDate,
       }}
       validationSchema={paymentValidation.newPaymentValidation}

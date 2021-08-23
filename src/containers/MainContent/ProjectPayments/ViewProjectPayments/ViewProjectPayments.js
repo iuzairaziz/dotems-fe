@@ -64,8 +64,25 @@ const PaymentList = (props) => {
         let ra = 0;
         let er = 0;
         let fer = 0;
+        let tpc = 0;
         let updatedData = { ...dataa };
         updatedData.rows = [];
+        // updatedData.rows[0] = {
+        //   project: <strong>Total</strong>,
+        //   cost:
+        //     res.data &&
+        //     res.data.map((item) => {
+        //       tpc += item.project.cost;
+        //     }) ? (
+        //       <strong>{tpc}</strong>
+        //     ) : (
+        //       "N/A"
+        //     ),
+        //   rAmount: "N/A",
+        //   pAmount: "N/A",
+        //   rAmountRs: "N/A",
+        //   eRate: "N/A",
+        // };
         res.data.map((item, index) => {
           updatedData.rows.push({
             project: item.project ? item.project.name : "N/A",
@@ -121,8 +138,23 @@ const PaymentList = (props) => {
             action: (
               <div className="row flex-nowrap d-flex justify-content-start">
                 <i
+                  className="mdi mdi-pencil 
+                  iconsS my-seconday-icon "
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/add-project-payments",
+                      state: {
+                        detail: {
+                          label: item.project.name,
+                          value: item.project._id,
+                        },
+                      },
+                    });
+                  }}
+                />
+                <i
                   className="mdi mdi-eye 
-                  iconsS my-primary-icon ml-4"
+                  iconsS my-primary-icon "
                   onClick={() => {
                     props.history.push({
                       pathname: "/view-project-payments/" + item._id,

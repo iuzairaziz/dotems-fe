@@ -18,7 +18,13 @@ class AddProjectPayments extends Component {
                 <div className="card m-b-20">
                   <div className="card-body">
                     <h4 className="mb-4 p-0">Add Projects' Payment</h4>
-                    <ProjectPaymentsForm />
+                    <ProjectPaymentsForm
+                      projectpaymentid={
+                        this.props.location.state
+                          ? this.props.location.state.detail
+                          : ""
+                      }
+                    />
                   </div>
                 </div>
               </div>
