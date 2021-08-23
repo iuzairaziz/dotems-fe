@@ -60,6 +60,8 @@ const ProjectForm = (props) => {
   const [toShow, setToShow] = useState([]);
   const [teamMember, setTeamMember] = useState([]);
   const [totalHours, setTotalHours] = useState(0);
+  const [hideField, setHideField] = useState(true);
+  const [costValue, setCostValue] = useState(false);
   const [phasesDetails, setPhasesDetails] = useState([
     {
       index: Math.random(),
@@ -294,7 +296,8 @@ const ProjectForm = (props) => {
   };
 
   var TeamMembers = [];
-  var phasesSeter = [];
+  var Technology = [];
+  console.log("Projectssss", project);
   editable &&
     project.assignedUser.map((item) =>
       TeamMembers.push({ label: item.name, value: item._id, id: item._id })
@@ -370,8 +373,14 @@ const ProjectForm = (props) => {
             value: project.projectType,
           },
       }}
-      validate={(val) => {
-        console.log("vlue", val);
+      validate={(values) => {
+        if (values.projectType && values.projectType.value === "hourly") {
+          setCostValue(values.hourlyCost * values.clientHours);
+          console.log("cost value", values.hourlyCost * values.clientHours);
+        } else {
+          setCostValue(false);
+        }
+        console.log("value", values);
       }}
       // validationSchema={ProjectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
@@ -382,7 +391,7 @@ const ProjectForm = (props) => {
           usrs.push(item.value);
           // console.log("users", usrs);
         });
-        // console.log("valuesss", values);
+        console.log("valuesss", values);
         editable
           ? ProjectService.updateProject(project._id, {
               name: values.projectName,
@@ -402,7 +411,7 @@ const ProjectForm = (props) => {
               pmEndDate: values.pmEndDate,
               projectManager: values.projectManager.value,
               assignedUser: usrs,
-              cost: values.cost,
+              cost: costValue ? costValue : values.cost,
               hourlyCost: values.hourlyCost,
               clientHours: values.clientHours,
               Rprofit: values.Rprofit,
@@ -441,7 +450,7 @@ const ProjectForm = (props) => {
               pmEndDate: values.pmEndDate,
               projectManager: values.projectManager.value,
               assignedUser: usrs,
-              cost: values.cost,
+              cost: costValue ? costValue : values.cost,
               hourlyCost: values.hourlyCost,
               clientHours: values.clientHours,
               Rprofit: values.Rprofit,
@@ -595,6 +604,11 @@ const ProjectForm = (props) => {
                   value={props.values.projectType}
                   onChange={(selected) => {
                     props.setFieldValue("projectType", selected);
+                    if (selected.value == "fixed") {
+                      setHideField(true);
+                    } else {
+                      setHideField(false);
+                    }
                   }}
                   options={[
                     { value: "fixed", label: "Fixed" },
@@ -653,6 +667,60 @@ const ProjectForm = (props) => {
             </div>
           </div>
           <div className="row">
+            <div
+              className={`${
+                hideField === true
+                  ? `hide-form-field`
+                  : `display-form-field col `
+              }`}
+            >
+              <div className="form-group">
+                <label>Client Hours</label>
+                <input
+                  name="clientHours"
+                  onBlur={props.handleBlur}
+                  type="number"
+                  className={`form-control ${
+                    props.touched.clientHours && props.errors.clientHours
+                      ? "is-invalid"
+                      : props.touched.clientHours && "is-valid"
+                  }  `}
+                  value={props.values.clientHours}
+                  onChange={props.handleChange("clientHours")}
+                  placeholder="Enter Hours"
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.clientHours && props.errors.clientHours}
+                </span>
+              </div>
+            </div>
+            <div
+              className={`${
+                hideField === true
+                  ? `hide-form-field`
+                  : `display-form-field col `
+              }`}
+            >
+              <div className="form-group">
+                <label>Hourly Rate</label>
+                <input
+                  name="hourlyCost"
+                  onBlur={props.handleBlur}
+                  type="number"
+                  className={`form-control ${
+                    props.touched.hourlyCost && props.errors.hourlyCost
+                      ? "is-invalid"
+                      : props.touched.hourlyCost && "is-valid"
+                  }`}
+                  value={props.values.hourlyCost}
+                  onChange={props.handleChange("hourlyCost")}
+                  placeholder="Enter Hourly Rate"
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.hourlyCost && props.errors.hourlyCost}
+                </span>
+              </div>
+            </div>
             <div className="col">
               <div className="form-group">
                 <label>Cost</label>
@@ -665,9 +733,9 @@ const ProjectForm = (props) => {
                       ? "is-invalid"
                       : props.touched.cost && "is-valid"
                   }`}
-                  value={props.values.cost}
+                  value={costValue ? costValue : props.values.cost}
                   onChange={props.handleChange("cost")}
-                  placeholder="Enter Amount"
+                  placeholder={`Enter Amount`}
                 />
                 <span id="err" className="invalid-feedback">
                   {props.touched.cost && props.errors.cost}
@@ -707,48 +775,6 @@ const ProjectForm = (props) => {
                 />
                 <span id="err" className="invalid-feedback">
                   {props.touched.currency && props.errors.currency}
-                </span>
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group">
-                <label>Client Hours</label>
-                <input
-                  name="clientHours"
-                  onBlur={props.handleBlur}
-                  type="number"
-                  className={`form-control ${
-                    props.touched.clientHours && props.errors.clientHours
-                      ? "is-invalid"
-                      : props.touched.clientHours && "is-valid"
-                  }`}
-                  value={props.values.clientHours}
-                  onChange={props.handleChange("clientHours")}
-                  placeholder="Enter Hours"
-                />
-                <span id="err" className="invalid-feedback">
-                  {props.touched.clientHours && props.errors.clientHours}
-                </span>
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group">
-                <label>Hourly Rate</label>
-                <input
-                  name="hourlyCost"
-                  onBlur={props.handleBlur}
-                  type="number"
-                  className={`form-control ${
-                    props.touched.hourlyCost && props.errors.hourlyCost
-                      ? "is-invalid"
-                      : props.touched.hourlyCost && "is-valid"
-                  }`}
-                  value={props.values.hourlyCost}
-                  onChange={props.handleChange("hourlyCost")}
-                  placeholder="Enter Hourly Rate"
-                />
-                <span id="err" className="invalid-feedback">
-                  {props.touched.hourlyCost && props.errors.hourlyCost}
                 </span>
               </div>
             </div>

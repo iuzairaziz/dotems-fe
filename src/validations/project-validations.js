@@ -12,7 +12,7 @@ class ProjectValidation {
       cost: Yup.string(),
       clientHours: Yup.string(),
       hourlyCost: Yup.string(),
-      projectType: Yup.string().required("Required"),
+      projectType: Yup.object().required("Required"),
       platform: Yup.object().required("Required!"),
       technology: Yup.object().required("Required!"),
       serviceType: Yup.object(),
