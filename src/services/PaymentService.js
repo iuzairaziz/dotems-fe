@@ -23,6 +23,10 @@ class PaymentService {
     return axios.delete(this.config.apiBaseUrl + "payment/" + id);
   }
 
+  getSinglePayment(id) {
+    return axios.get(this.config.apiBaseUrl + "payment/" + id);
+  }
+
   handleMessage(type) {
     if (type === "add") toast("Successfully added accessory");
     else if (type === "update") toast("Successfully updated accessory");

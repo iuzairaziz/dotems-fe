@@ -76,6 +76,7 @@ import AdminDashboard from "../MainContent/Dashboard/AdminDashboard";
 import AddProjectPayments from "../MainContent/ProjectPayments/AddProjectPayments/AddProjectPayment";
 import ViewProjectPayments from "../MainContent/ProjectPayments/ViewProjectPayments/ViewProjectPayments";
 import ViewSingleProjectPayments from "../MainContent/ProjectPayments/ProjectPaymentDetails/ProjectPaymentDetails";
+import AttendanceList from "../MainContent/Attendance/ViewAttendance";
 const mainbuilder = (props) => {
   const baseUrl = props.match.url;
   const roles = new Configuration().Roles;
@@ -95,6 +96,7 @@ const mainbuilder = (props) => {
         <Route exact path="/view-request-type" component={RequestTypeList} />
         <Route exact path="/view-request" component={RequestList} />
         <Route exact path="/form" component={Ui_tabs_accordions} />
+        <Route exact path="/attendance" component={AttendanceList} />
         <Route
           exact
           path="/view-recieved-request"

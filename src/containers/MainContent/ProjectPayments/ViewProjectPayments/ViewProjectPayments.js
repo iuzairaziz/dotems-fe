@@ -138,7 +138,7 @@ const PaymentList = (props) => {
             action: (
               <div className="row flex-nowrap d-flex justify-content-start">
                 <i
-                  className="mdi mdi-pencil 
+                  className="mdi mdi-plus-circle 
                   iconsS my-seconday-icon "
                   onClick={() => {
                     props.history.push({
@@ -157,7 +157,7 @@ const PaymentList = (props) => {
                   iconsS my-primary-icon "
                   onClick={() => {
                     props.history.push({
-                      pathname: "/view-project-payments/" + item.project._id,
+                      pathname: "/view-project-payments/" + item._id,
                     });
                   }}
                 />

@@ -66,7 +66,7 @@ const ProjectPaymentForm = (props) => {
           : projectId,
         PaymentRecievedDate: editable && project.PaymentRecievedDate,
       }}
-      // validationSchema={shortValidations.requestValidation}
+      validationSchema={paymentValidation.newPaymentValidation}
       onSubmit={(values, actions) => {
         console.log(actions);
         console.log("Valuesssssssssss", values);

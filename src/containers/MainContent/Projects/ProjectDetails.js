@@ -10,7 +10,8 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import moment from "moment";
 import { convertFromRaw, EditorState } from "draft-js";
 import $ from "jquery";
-import "./ProjectDetails.scss"
+import "./ProjectDetails.scss";
+import ProjectComments from "./ProjectComments/ProjectComments";
 
 const ProjectDetails = (props) => {
   {
@@ -173,16 +174,16 @@ const ProjectDetails = (props) => {
       { label: "Project Name", value: projectData && projectData.name },
       {
         label: "Client Name",
-        value: projectData && projectData.client.name
+        value: projectData && projectData.client.name,
       },
-  
+
       {
         label: "Order Number",
-        value: projectData && projectData.orderNum
+        value: projectData && projectData.orderNum,
       },
       {
         label: "Platform",
-        value: projectData && projectData.platform.name
+        value: projectData && projectData.platform.name,
       },
       { label: "Service Type", value: projectData && projectData.service.name },
       {
@@ -197,24 +198,28 @@ const ProjectDetails = (props) => {
         label: "Project Nature",
         value: projectData && projectData.nature.name,
       },
-  
+
       {
         label: "Client Start Date",
-        value: projectData && moment(projectData.cStartDate).format("DD/MMM/YYYY"),
+        value:
+          projectData && moment(projectData.cStartDate).format("DD/MMM/YYYY"),
       },
       {
         label: "Cient Deadline",
-        value:  projectData && moment(projectData.cEndDate).format("DD/MMM/YYYY"),
+        value:
+          projectData && moment(projectData.cEndDate).format("DD/MMM/YYYY"),
       },
       {
         label: "PM Start Date",
-        value: projectData && moment(projectData.pmStartDate).format("DD/MMM/YYYY"),
+        value:
+          projectData && moment(projectData.pmStartDate).format("DD/MMM/YYYY"),
       },
       {
         label: "PM Deadline",
-        value:  projectData && moment(projectData.pmEndDate).format("DD/MMM/YYYY"),
+        value:
+          projectData && moment(projectData.pmEndDate).format("DD/MMM/YYYY"),
       },
-    
+
       {
         label: "Cost",
         value: projectData && projectData.cost,
@@ -241,139 +246,149 @@ const ProjectDetails = (props) => {
       },
       {
         label: "Team Members",
-        value:  projectData && projectData.assignedUser
-        ? projectData.assignedUser.map((item, index) => {
-            if (index === 0) {
-              return item.name;
-            } else if (index >= 0) {
-              return `, ${item.name} `;
-            }
-          })
-        : "None",
+        value:
+          projectData && projectData.assignedUser
+            ? projectData.assignedUser.map((item, index) => {
+                if (index === 0) {
+                  return item.name;
+                } else if (index >= 0) {
+                  return `, ${item.name} `;
+                }
+              })
+            : "None",
       },
     ];
-
 
     return (
       <AUX>
         <div className="page-content-wrapper projectD">
           <div className="container-fluid">
             <div className="row">
-             
-                    <div className="row">
-                    <div className="row align-items-center gapp">
-            {detail.map((item, indx) => {
-              return (
-                <>
-                  <div
-                    className={`labell ${
-                      item.label === "Team Members"
-                        ? "col-3 col-md-2"
-                        : "col-3 col-md-2"
-                    } mb-3 d-flex align-items-center align-self-center`}
-                  >
-                    <div>{item.label}</div>
-                  </div>
-                  <div
-                    className={`valuee ${
-                      item.label === "Team Members"
-                        ? "col-9 col-md-6"
-                        : "col-3 col-md-2"
-                    } col-3 col-md-2 mb-3 align-self-center"`}
-                  >
-                    {item.value}
-                  </div>
-                </>
-              );
-            })}
-          </div>
-                    </div>
-            
-                    <div className="col-lg-12">
-                      <ul
-                        className="nav nav-tabs nav-tabs-custom"
-                        role="tablist"
-                      >
-                        <li className="nav-item">
-                          <a
-                            className="nav-link active"
-                            data-toggle="tab"
-                            href="#home1"
-                            role="tab"
-                          >
-                            <span className="d-none d-md-block">
-                              Description
-                            </span>
-                            <span className="d-block d-md-none">
-                              <i className="mdi mdi-home-variant h5" />
-                            </span>
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a
-                            className="nav-link"
-                            data-toggle="tab"
-                            href="#profile1"
-                            role="tab"
-                          >
-                            <span className="d-none d-md-block">
-                              Project Tasks
-                            </span>
-                            <span className="d-block d-md-none">
-                              <i className="mdi mdi-account h5" />
-                            </span>
-                          </a>
-                        </li>
-                      </ul>
+              <div className="row">
+                <div className="row align-items-center gapp">
+                  {detail.map((item, indx) => {
+                    return (
+                      <>
+                        <div
+                          className={`labell ${
+                            item.label === "Team Members"
+                              ? "col-3 col-md-2"
+                              : "col-3 col-md-2"
+                          } mb-3 d-flex align-items-center align-self-center`}
+                        >
+                          <div>{item.label}</div>
+                        </div>
+                        <div
+                          className={`valuee ${
+                            item.label === "Team Members"
+                              ? "col-9 col-md-6"
+                              : "col-3 col-md-2"
+                          } col-3 col-md-2 mb-3 align-self-center"`}
+                        >
+                          {item.value}
+                        </div>
+                      </>
+                    );
+                  })}
+                </div>
+              </div>
 
-                      <div className="tab-content">
-                        <div
-                          className="tab-pane active p-3"
-                          id="home1"
-                          role="tabpanel"
-                        >
-                          <Editor
-                            toolbarClassName="toolbarClassName"
-                            wrapperClassName="wrapperClassName"
-                            editorClassName="editorClass"
-                            toolbarStyle={{ display: "none" }}
-                            readOnly
-                            editorStyle={{
-                              minHeight: "300px",
-                            }}
-                            editorState={
-                              projectData &&
-                              EditorState.createWithContent(
-                                convertFromRaw(
-                                  JSON.parse(projectData.description)
-                                )
-                              )
-                            }
-                          />
-                        </div>
-                        <div
-                          className="tab-pane p-3"
-                          id="profile1"
-                          role="tabpanel"
-                        >
-                          <MDBDataTableV5
-                           responsive
-                           striped
-                           small
-                           onPageChange={(val) => console.log(val)}
-                           bordered={true}
-                          //  materialSearch
-                           searchTop
-                           searchBottom={false}
-                           pagingTop
-                           barReverse
-                           hover
-                            data={tabledata}
-                            theadColor="#000"
-                          />
-                        </div>
-                      </div>
-                    </div>
+              <div className="col-lg-12">
+                <ul className="nav nav-tabs nav-tabs-custom" role="tablist">
+                  <li className="nav-item">
+                    <a
+                      className="nav-link active"
+                      data-toggle="tab"
+                      href="#home1"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">Description</span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-home-variant h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="#profile1"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">Project Tasks</span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-account h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="#projectComments"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        Project Comments
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-account h5" />
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+
+                <div className="tab-content">
+                  <div
+                    className="tab-pane active p-3"
+                    id="home1"
+                    role="tabpanel"
+                  >
+                    <Editor
+                      toolbarClassName="toolbarClassName"
+                      wrapperClassName="wrapperClassName"
+                      editorClassName="editorClass"
+                      toolbarStyle={{ display: "none" }}
+                      readOnly
+                      editorStyle={{
+                        minHeight: "300px",
+                      }}
+                      editorState={
+                        projectData &&
+                        EditorState.createWithContent(
+                          convertFromRaw(JSON.parse(projectData.description))
+                        )
+                      }
+                    />
+                  </div>
+                  <div className="tab-pane p-3" id="profile1" role="tabpanel">
+                    <MDBDataTableV5
+                      responsive
+                      striped
+                      small
+                      onPageChange={(val) => console.log(val)}
+                      bordered={true}
+                      //  materialSearch
+                      searchTop
+                      searchBottom={false}
+                      pagingTop
+                      barReverse
+                      hover
+                      data={tabledata}
+                      theadColor="#000"
+                    />
+                  </div>
+                  <div
+                    className="tab-pane p-3"
+                    id="projectComments"
+                    role="tabpanel"
+                  >
+                    <ProjectComments
+                      projectId={projectData && projectData._id}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
