@@ -86,7 +86,7 @@ class sidebar extends Component {
           },
           {
             name: "project_payments_menu",
-            icon: "mdi-file-powerpoint-box",
+            icon: "mdi-credit-card",
             tab: "Project Payments",
             subMenus: [
               {

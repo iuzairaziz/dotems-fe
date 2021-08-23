@@ -15,6 +15,14 @@ class CommentService {
     return axios.get(this.config.apiBaseUrl + "comment/" + taskId);
   }
 
+  addProjectComment(formData) {
+    return axios.post(this.config.apiBaseUrl + "comment/projects", formData);
+  }
+
+  getCommentByProjectId(projectId) {
+    return axios.get(this.config.apiBaseUrl + "comment/project/" + projectId);
+  }
+
   handleMessage(type) {
     if (type === "add") toast("Successfully added Comment");
     else if (type === "update") toast("Successfully updated Comment");

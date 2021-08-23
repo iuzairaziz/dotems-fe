@@ -30,16 +30,17 @@ const ProjectDetails = (props) => {
           field: "amountRecieved",
           sort: "disabled",
         },
-        {
-          label: "Amount Recieve Date",
-          field: "arDate",
-          sort: "disabled",
-        },
+
         {
           label: "Exchange Rate",
           field: "exchangeRate",
           sort: "disabled",
           // width: 100,
+        },
+        {
+          label: "Amount Recieve Date",
+          field: "arDate",
+          sort: "disabled",
         },
       ],
       rows: [],
@@ -61,7 +62,6 @@ const ProjectDetails = (props) => {
           updatedData.rows = [];
           res.data.paymentDetials.map((item, index) => {
             updatedData.rows.push({
-              taskname: item.name ? item.name : "none",
               exchangeRate: item.exchangeRate ? item.exchangeRate : "none",
               arDate: item.PaymentRecievedDate
                 ? moment(item.PaymentRecievedDate).format("LL")
