@@ -74,7 +74,6 @@ const ProjectDetails = (props) => {
 
     console.log("props", props.location.projectProps);
     const projectId = props.match.params.id;
-    // console.log("Project Name", project.id)
 
     useEffect(() => {
       getData(projectId);
