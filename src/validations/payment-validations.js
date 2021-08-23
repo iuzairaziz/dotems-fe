@@ -3,10 +3,10 @@ import * as Yup from "yup";
 class PaymentValidation {
   newPaymentValidation = () => {
     return Yup.object({
-        recievedAmount: Yup.number().required("Required!"),
-        exchangeRate: Yup.number().required("Required!"),
-        PaymentRecievedDate: Yup.string().required("Required!"),
-      PaymentDescription: Yup.object().required("Required!"),
+      recievedAmount: Yup.number().required("Required!"),
+      exchangeRate: Yup.number().required("Required!"),
+      PaymentRecievedDate: Yup.string().required("Required!"),
+      PaymentDescription: Yup.string().required("Required!"),
     });
   };
 

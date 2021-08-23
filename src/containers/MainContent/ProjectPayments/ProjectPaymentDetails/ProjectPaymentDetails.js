@@ -10,251 +10,161 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import moment from "moment";
 import { convertFromRaw, EditorState } from "draft-js";
 import $ from "jquery";
+import PaymentService from "../../../../services/PaymentService";
 
 const ProjectDetails = (props) => {
   {
-    // const [data, setData] = useState();
-    const [projectData, setData] = useState();
+    const [payment, setPayment] = useState();
+    const [project, setProject] = useState();
 
-    const [tabledata, setTableData] = useState({
+    const [paymentTabledata, setPaymentTableData] = useState({
       columns: [
         {
-          label: "Task Name",
-          field: "taskname",
-          sort: "asc",
-        },
-        {
-          label: "Team Member",
-          field: "teamMember",
+          label: "Payment Description",
+          field: "paymentDescription",
           sort: "disabled",
           width: 125,
         },
         {
-          label: "Start Date",
-          field: "startDate",
+          label: "Amount Recieved",
+          field: "amountRecieved",
           sort: "disabled",
         },
         {
-          label: "End Date",
-          field: "endDate",
+          label: "Amount Recieve Date",
+          field: "arDate",
           sort: "disabled",
         },
         {
-          label: "Estimate Hrs",
-          field: "EstHrs",
+          label: "Exchange Rate",
+          field: "exchangeRate",
           sort: "disabled",
           // width: 100,
-        },
-        {
-          label: "Actual Hrs",
-          field: "ActHrs",
-          sort: "disabled",
-          // width: 100,
-        },
-        {
-          label: "Work Done",
-          field: "wrkdone",
-          sort: "disabled",
-        },
-        {
-          label: "Status",
-          field: "status",
-          sort: "disabled",
-          // width: 150,
-        },
-        {
-          label: "Action",
-          field: "action",
-          sort: "disabled",
-          // width: 150,
         },
       ],
       rows: [],
     });
 
     console.log("props", props.location.projectProps);
-    const projectId = props.match.params.id;
-    // console.log("Project Name", project.id)
+    const paymentID = props.match.params.id;
 
     useEffect(() => {
-      getData(projectId);
+      // getData(paymentID);
+      getPaymentTableData(paymentID);
     }, []);
 
-    useEffect(() => {
-      getTableData();
-    }, [projectData]);
-    const changeColor = () => {
-      $(document).ready(function() {
-        $("tr").each(function(index) {
-          var four = $(this)
-            .children("td")
-            .eq(4)
-            .text();
-          var five = $(this)
-            .children("td")
-            .eq(5)
-            .text();
-          var finalFour = parseInt(four);
-          var finalFive = parseInt(five);
-          if (finalFive > finalFour) {
-            $(this).css("color", "red");
-            $(this)
-              .find("a")
-              .css("color", "red");
-          }
-        });
-      });
-    };
-
-    $(document).ready(function() {
-      changeColor();
-      $(document).on("click", "th", function() {
-        changeColor();
-      });
-    });
-
-    const getData = (id) => {
-      ProjectService.getProjectAndTask(id)
+    const getPaymentTableData = (id) => {
+      PaymentService.getSinglePayment(id)
         .then((res) => {
-          setData(res.data[0]);
-        })
-        .catch((err) => {
-          console.log("error", err);
-        });
-    };
-
-    console.log("data", projectData);
-
-    const getTableData = () => {
-      let data = { ...tabledata };
-      data.rows = [];
-      projectData &&
-        projectData.tasks.map((item, index) => {
-          data.rows.push({
-            taskname: item.name ? item.name : "N/A ",
-            teamMember: item.assignedTo
-              ? item.assignedTo.map((item, index) => {
-                  if (index === 0) {
-                    return item.name;
-                  } else if (index >= 0) {
-                    return `, ${item.name} `;
-                  }
-                })
-              : "N/A ",
-            startDate: item.startTime
-              ? moment(item.startTime).format("DD/MMM/YYYY")
-              : "N/A ",
-            // endDate: item.  ? item. : "N/A ",
-            EstHrs: item.estHrs ? item.estHrs : "N/A ",
-            ActHrs: item.actualHrs ? item.actualHrs : "N/A ",
-            wrkdone: item.workDone ? item.workDone : "N/A ",
-            status: item.status ? item.status : "N/A ",
-            otherDeduction: item.otherDeduction ? item.otherDeduction : "N/A ",
-            action: (
-              <div className="row flex-nowrap justify-content-center">
-                <i
-                  className="mdi mdi-view-list
-                  iconsS my-primary-icon"
-                  onClick={() => {
-                    props.history.push({
-                      pathname: "/task-details/" + item._id,
-                    });
-                  }}
-                />
-              </div>
-            ),
+          setProject(res.data.project);
+          let updatedData = { ...paymentTabledata };
+          updatedData.rows = [];
+          res.data.paymentDetials.map((item, index) => {
+            updatedData.rows.push({
+              taskname: item.name ? item.name : "none",
+              exchangeRate: item.exchangeRate ? item.exchangeRate : "none",
+              arDate: item.PaymentRecievedDate
+                ? moment(item.PaymentRecievedDate).format("LL")
+                : "none",
+              amountRecieved: item.recievedAmount
+                ? item.recievedAmount
+                : "none",
+              paymentDescription: item.PaymentDescription
+                ? item.PaymentDescription
+                : "none",
+            });
           });
-        });
-      setTableData(data);
+          console.log("payment", res.data);
+          console.log("paymentss", paymentTabledata);
+          setPaymentTableData(updatedData);
+        })
+        .catch((err) => console.log(err));
     };
+    console.log("paymentss", paymentTabledata);
 
     const detail = [
-      { label: "Project Name", value: projectData && projectData.name },
-      {
-        label: "Client Name",
-        value: projectData && projectData.client.name,
-      },
+      { label: "Project Name", value: project && project.name },
+      // {
+      //   label: "Client Name",
+      //   value: project && project.client.name,
+      // },
 
       {
         label: "Order Number",
-        value: projectData && projectData.orderNum,
+        value: project && project.orderNum,
       },
-      {
-        label: "Platform",
-        value: projectData && projectData.platform.name,
-      },
-      { label: "Service Type", value: projectData && projectData.service.name },
-      {
-        label: "Technology",
-        value: projectData && projectData.technology.name,
-      },
-      {
-        label: "Status",
-        value: projectData && projectData.status.name,
-      },
-      {
-        label: "Project Nature",
-        value: projectData && projectData.nature.name,
-      },
+      // {
+      //   label: "Platform",
+      //   value: project && project.platform.name,
+      // },
+      // { label: "Service Type", value: project && project.service.name },
+      // {
+      //   label: "Technology",
+      //   value: project && project.technology.name,
+      // },
+      // {
+      //   label: "Status",
+      //   value: project && project.status.name,
+      // },
+      // {
+      //   label: "Project Nature",
+      //   value: project && project.nature.name,
+      // },
 
-      {
-        label: "Client Start Date",
-        value:
-          projectData && moment(projectData.cStartDate).format("DD/MMM/YYYY"),
-      },
-      {
-        label: "Cient Deadline",
-        value:
-          projectData && moment(projectData.cEndDate).format("DD/MMM/YYYY"),
-      },
-      {
-        label: "PM Start Date",
-        value:
-          projectData && moment(projectData.pmStartDate).format("DD/MMM/YYYY"),
-      },
-      {
-        label: "PM Deadline",
-        value:
-          projectData && moment(projectData.pmEndDate).format("DD/MMM/YYYY"),
-      },
+      // {
+      //   label: "Client Start Date",
+      //   value: project && moment(project.cStartDate).format("DD/MMM/YYYY"),
+      // },
+      // {
+      //   label: "Cient Deadline",
+      //   value: project && moment(project.cEndDate).format("DD/MMM/YYYY"),
+      // },
+      // {
+      //   label: "PM Start Date",
+      //   value: project && moment(project.pmStartDate).format("DD/MMM/YYYY"),
+      // },
+      // {
+      //   label: "PM Deadline",
+      //   value: project && moment(project.pmEndDate).format("DD/MMM/YYYY"),
+      // },
 
       {
         label: "Cost",
-        value: projectData && projectData.cost,
+        value: project && project.cost,
       },
       {
         label: "Currency",
-        value: projectData && projectData.currency.name,
+        value: project && project.currency.name,
       },
       {
         label: "Platform Deductions",
-        value: projectData && projectData.Pdeduction,
+        value: project && project.Pdeduction,
       },
       {
         label: "Reserve Profit",
-        value: projectData && projectData.Rprofit,
+        value: project && project.Rprofit,
       },
       {
         label: "Other Deductions",
-        value: projectData && projectData.otherDeduction,
+        value: project && project.otherDeduction,
       },
-      {
-        label: "Project Manager",
-        value: projectData && projectData.projectManager.name,
-      },
-      {
-        label: "Team Members",
-        value:
-          projectData && projectData.assignedUser
-            ? projectData.assignedUser.map((item, index) => {
-                if (index === 0) {
-                  return item.name;
-                } else if (index >= 0) {
-                  return `, ${item.name} `;
-                }
-              })
-            : "None",
-      },
+      // {
+      //   label: "Project Manager",
+      //   value: project && project.projectManager.name,
+      // },
+      // {
+      //   label: "Team Members",
+      //   value:
+      //     project && project.assignedUser
+      //       ? project.assignedUser.map((item, index) => {
+      //           if (index === 0) {
+      //             return item.name;
+      //           } else if (index >= 0) {
+      //             return `, ${item.name} `;
+      //           }
+      //         })
+      //       : "None",
+      // },
     ];
 
     return (
@@ -290,10 +200,29 @@ const ProjectDetails = (props) => {
                   })}
                 </div>
               </div>
+              {/* <div className="row">
+                <div className="col-12">
+                  <MDBDataTableV5
+                    responsive
+                    striped
+                    small
+                    onPageChange={(val) => console.log(val)}
+                    bordered={true}
+                    //  materialSearch
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
+                    hover
+                    data={paymentTabledata}
+                    theadColor="#000"
+                  />
+                </div>
+              </div> */}
 
               <div className="col-lg-12">
                 <ul className="nav nav-tabs nav-tabs-custom" role="tablist">
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <a
                       className="nav-link active"
                       data-toggle="tab"
@@ -305,8 +234,8 @@ const ProjectDetails = (props) => {
                         <i className="mdi mdi-home-variant h5" />
                       </span>
                     </a>
-                  </li>
-                  <li className="nav-item">
+                  </li> */}
+                  {/* <li className="nav-item">
                     <a
                       className="nav-link"
                       data-toggle="tab"
@@ -318,11 +247,26 @@ const ProjectDetails = (props) => {
                         <i className="mdi mdi-account h5" />
                       </span>
                     </a>
+                  </li> */}
+                  <li className="nav-item">
+                    <a
+                      className="nav-link active"
+                      data-toggle="tab"
+                      href="#prjectPayment"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        Project Payments
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-account h5" />
+                      </span>
+                    </a>
                   </li>
                 </ul>
 
                 <div className="tab-content">
-                  <div
+                  {/* <div
                     className="tab-pane active p-3"
                     id="home1"
                     role="tabpanel"
@@ -337,14 +281,14 @@ const ProjectDetails = (props) => {
                         minHeight: "300px",
                       }}
                       editorState={
-                        projectData &&
+                        project &&
                         EditorState.createWithContent(
-                          convertFromRaw(JSON.parse(projectData.description))
+                          convertFromRaw(JSON.parse(project.description))
                         )
                       }
                     />
-                  </div>
-                  <div className="tab-pane p-3" id="profile1" role="tabpanel">
+                  </div> */}
+                  {/* <div className="tab-pane p-3" id="profile1" role="tabpanel">
                     <MDBDataTableV5
                       responsive
                       striped
@@ -358,6 +302,27 @@ const ProjectDetails = (props) => {
                       barReverse
                       hover
                       data={tabledata}
+                      theadColor="#000"
+                    />
+                  </div> */}
+                  <div
+                    className="tab-pane active p-3"
+                    id="prjectPayment"
+                    role="tabpanel"
+                  >
+                    <MDBDataTableV5
+                      responsive
+                      striped
+                      small
+                      onPageChange={(val) => console.log(val)}
+                      bordered={true}
+                      //  materialSearch
+                      searchTop
+                      searchBottom={false}
+                      pagingTop
+                      barReverse
+                      hover
+                      data={paymentTabledata}
                       theadColor="#000"
                     />
                   </div>

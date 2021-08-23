@@ -125,7 +125,7 @@ const PaymentList = (props) => {
                   iconsS my-primary-icon ml-4"
                   onClick={() => {
                     props.history.push({
-                      pathname: "/view-project-payments/" + item.project._id,
+                      pathname: "/view-project-payments/" + item._id,
                     });
                   }}
                 />

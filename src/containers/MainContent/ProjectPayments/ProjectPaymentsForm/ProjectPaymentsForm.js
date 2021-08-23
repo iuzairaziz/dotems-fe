@@ -21,9 +21,7 @@ import shortValidations from "../../../../validations/short-validations";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import paymentValidation from "../../../../validations/payment-validations";
-import PaymentService from "../../../../services/PaymentService"
-
-
+import PaymentService from "../../../../services/PaymentService";
 
 const ProjectPaymentForm = (props) => {
   const [project, setProject] = useState([]);
@@ -65,7 +63,7 @@ const ProjectPaymentForm = (props) => {
           },
         PaymentRecievedDate: editable && project.PaymentRecievedDate,
       }}
-      // validationSchema={shortValidations.requestValidation}
+      validationSchema={paymentValidation.newPaymentValidation}
       onSubmit={(values, actions) => {
         console.log(actions);
         console.log("Valuesssssssssss", values);
@@ -73,12 +71,11 @@ const ProjectPaymentForm = (props) => {
         // values.sendRequestToUsers.map((item) => array.push(item.value));
         props.editable
           ? PaymentService.updatePayment({
-            recievedAmount: values.recievedAmount,
-            exchangeRate: values.exchangeRate,
-            PaymentDescription: values.PaymentDescription,
-            PaymentRecievedDate: values.PaymentRecievedDate,
-            project: values.project.value,
-             
+              recievedAmount: values.recievedAmount,
+              exchangeRate: values.exchangeRate,
+              PaymentDescription: values.PaymentDescription,
+              PaymentRecievedDate: values.PaymentRecievedDate,
+              project: values.project.value,
             })
               .then((res) => {
                 props.toggle();
@@ -89,13 +86,13 @@ const ProjectPaymentForm = (props) => {
                 PaymentService.handleCustomMessage(err.response.data);
               })
           : PaymentService.addPayment({
-            paymentDetials : {
-              recievedAmount: values.recievedAmount,
-              exchangeRate: values.exchangeRate,
-              PaymentDescription: values.PaymentDescription,
-              PaymentRecievedDate: values.PaymentRecievedDate,
-            },
-            project: values.project.value,
+              paymentDetials: {
+                recievedAmount: values.recievedAmount,
+                exchangeRate: values.exchangeRate,
+                PaymentDescription: values.PaymentDescription,
+                PaymentRecievedDate: values.PaymentRecievedDate,
+              },
+              project: values.project.value,
             })
               .then((res) => {
                 PaymentService.handleMessage("add");
@@ -113,115 +110,119 @@ const ProjectPaymentForm = (props) => {
               <div className="col">
                 <label className="control-label">Project</label>
                 <Select
-              className={`my-select${
-                props.touched.project && props.errors.project
-                  ? "is-invalid"
-                  : props.touched.project && "is-valid"
-              }`}
-              name="project"
-              onBlur={props.handleBlur}
-              className="select-override zIndex"
-              value={props.values.project}
-              onChange={(val) => props.setFieldValue("project", val)}
-              options={project}
-            />
-            <span id="err" className="invalid-feedback">
-              {props.touched.project && props.errors.project}
-            </span>
-              </div>
-              <div className="col">
-              <div className="form-group">
-                <label>Payment Description</label>
-                <input
-                  name="PaymentDescription"
-                  onBlur={props.handleBlur}
-                  type="text"
-                  className={`form-control ${
-                    props.touched.PaymentDescription && props.errors.PaymentDescription
+                  className={`my-select${
+                    props.touched.project && props.errors.project
                       ? "is-invalid"
-                      : props.touched.PaymentDescription && "is-valid"
+                      : props.touched.project && "is-valid"
                   }`}
-                  value={props.values.PaymentDescription}
-                  onChange={props.handleChange("PaymentDescription")}
-                  placeholder="Enter Description"
+                  name="project"
+                  onBlur={props.handleBlur}
+                  className="select-override zIndex"
+                  value={props.values.project}
+                  onChange={(val) => props.setFieldValue("project", val)}
+                  options={project}
                 />
                 <span id="err" className="invalid-feedback">
-                  {props.touched.PaymentDescription && props.errors.PaymentDescription}
+                  {props.touched.project && props.errors.project}
                 </span>
               </div>
-            </div>
-            </div>
-            <div className="row">
-            {/* <div className="row"> */}
-            <div className="col">
-              <div className="form-group">
-                <label>Amount Recieve Date</label>
-                <div>
-                  <DatePicker
-                    name="PaymentRecievedDate"
+              <div className="col">
+                <div className="form-group">
+                  <label>Payment Description</label>
+                  <input
+                    name="PaymentDescription"
                     onBlur={props.handleBlur}
+                    type="text"
                     className={`form-control ${
-                      props.touched.PaymentRecievedDate && props.errors.PaymentRecievedDate
+                      props.touched.PaymentDescription &&
+                      props.errors.PaymentDescription
                         ? "is-invalid"
-                        : props.touched.PaymentRecievedDate && "is-valid"
+                        : props.touched.PaymentDescription && "is-valid"
                     }`}
-                    selected={props.values.PaymentRecievedDate}
-                    onChange={(date) => {
-                      props.setFieldValue("PaymentRecievedDate", date);
-                      console.log("datepicker", date);
-                    }}
+                    value={props.values.PaymentDescription}
+                    onChange={props.handleChange("PaymentDescription")}
+                    placeholder="Enter Description"
                   />
                   <span id="err" className="invalid-feedback">
-                    {props.touched.PaymentRecievedDate && props.errors.PaymentRecievedDate}
+                    {props.touched.PaymentDescription &&
+                      props.errors.PaymentDescription}
                   </span>
                 </div>
               </div>
             </div>
-            {/* </div> */}
-            <div className="col">
-              <div className="form-group">
-                <label>Amount Recieved</label>
-                <input
-                  name="recievedAmount"
-                  onBlur={props.handleBlur}
-                  type="text"
-                  className={`form-control ${
-                    props.touched.recievedAmount && props.errors.recievedAmount
-                      ? "is-invalid"
-                      : props.touched.recievedAmount && "is-valid"
-                  }`}
-                  value={props.values.recievedAmount}
-                  onChange={props.handleChange("recievedAmount")}
-                  placeholder="Enter Amount"
-                />
-                <span id="err" className="invalid-feedback">
-                  {props.touched.recievedAmount && props.errors.recievedAmount}
-                </span>
+            <div className="row">
+              {/* <div className="row"> */}
+              <div className="col">
+                <div className="form-group">
+                  <label>Amount Recieve Date</label>
+                  <div>
+                    <DatePicker
+                      name="PaymentRecievedDate"
+                      onBlur={props.handleBlur}
+                      className={`form-control ${
+                        props.touched.PaymentRecievedDate &&
+                        props.errors.PaymentRecievedDate
+                          ? "is-invalid"
+                          : props.touched.PaymentRecievedDate && "is-valid"
+                      }`}
+                      selected={props.values.PaymentRecievedDate}
+                      onChange={(date) => {
+                        props.setFieldValue("PaymentRecievedDate", date);
+                        console.log("datepicker", date);
+                      }}
+                    />
+                    <span id="err" className="invalid-feedback">
+                      {props.touched.PaymentRecievedDate &&
+                        props.errors.PaymentRecievedDate}
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="col">
-              <div className="form-group">
-                <label>Exchange Rate</label>
-                <input
-                  name="exchangeRate"
-                  onBlur={props.handleBlur}
-                  type="text"
-                  className={`form-control ${
-                    props.touched.exchangeRate && props.errors.exchangeRate
-                      ? "is-invalid"
-                      : props.touched.exchangeRate && "is-valid"
-                  }`}
-                  value={props.values.exchangeRate}
-                  onChange={props.handleChange("exchangeRate")}
-                  placeholder="Enter Exchange Rate"
-                />
-                <span id="err" className="invalid-feedback">
-                  {props.touched.exchangeRate && props.errors.exchangeRate}
-                </span>
+              {/* </div> */}
+              <div className="col">
+                <div className="form-group">
+                  <label>Amount Recieved</label>
+                  <input
+                    name="recievedAmount"
+                    onBlur={props.handleBlur}
+                    type="text"
+                    className={`form-control ${
+                      props.touched.recievedAmount &&
+                      props.errors.recievedAmount
+                        ? "is-invalid"
+                        : props.touched.recievedAmount && "is-valid"
+                    }`}
+                    value={props.values.recievedAmount}
+                    onChange={props.handleChange("recievedAmount")}
+                    placeholder="Enter Amount"
+                  />
+                  <span id="err" className="invalid-feedback">
+                    {props.touched.recievedAmount &&
+                      props.errors.recievedAmount}
+                  </span>
+                </div>
               </div>
-           
-            </div>
-          
+              <div className="col">
+                <div className="form-group">
+                  <label>Exchange Rate</label>
+                  <input
+                    name="exchangeRate"
+                    onBlur={props.handleBlur}
+                    type="text"
+                    className={`form-control ${
+                      props.touched.exchangeRate && props.errors.exchangeRate
+                        ? "is-invalid"
+                        : props.touched.exchangeRate && "is-valid"
+                    }`}
+                    value={props.values.exchangeRate}
+                    onChange={props.handleChange("exchangeRate")}
+                    placeholder="Enter Exchange Rate"
+                  />
+                  <span id="err" className="invalid-feedback">
+                    {props.touched.exchangeRate && props.errors.exchangeRate}
+                  </span>
+                </div>
+              </div>
             </div>
             <div className="primary-button">
               <Button
