@@ -138,17 +138,8 @@ const PaymentList = (props) => {
             action: (
               <div className="row flex-nowrap d-flex justify-content-start">
                 <i
-                  className="mdi mdi-eye 
-                  iconsS my-primary-icon ml-4"
-                  onClick={() => {
-                    props.history.push({
-                      pathname: "/view-project-payments/" + item.project._id,
-                    });
-                  }}
-                />
-                <i
                   className="mdi mdi-pencil 
-                  iconsS my-primary-icon ml-4"
+                  iconsS my-seconday-icon "
                   onClick={() => {
                     props.history.push({
                       pathname: "/add-project-payments",
@@ -158,6 +149,15 @@ const PaymentList = (props) => {
                           value: item.project._id,
                         },
                       },
+                    });
+                  }}
+                />
+                <i
+                  className="mdi mdi-eye 
+                  iconsS my-primary-icon "
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/view-project-payments/" + item.project._id,
                     });
                   }}
                 />
