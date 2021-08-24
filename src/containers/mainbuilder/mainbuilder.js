@@ -81,74 +81,80 @@ const mainbuilder = (props) => {
   const baseUrl = props.match.url;
   const roles = new Configuration().Roles;
 
-  const { ADMIN, PM, HR, CEO, EMPLOYEE, INTERNEE, PROBATION } = roles;
-  const ALL_ROLES = [ADMIN, PM, HR, CEO, EMPLOYEE, INTERNEE, PROBATION];
+  const { ADMIN, PM, HR, CEO, EMPLOYEE, INTERNEE, PROBATION, AM } = roles;
+  const ALL_ROLES = [ADMIN, PM, HR, CEO, EMPLOYEE, INTERNEE, PROBATION, AM];
   console.log("all roles", ALL_ROLES);
   return (
     <>
       <Switch>
-        <Route exact path="/" component={Dashboard1} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/add-leave-type" component={AddLeaveType} />
-        <Route exact path="/add-request-type" component={AddRequestType} />
-        <Route exact path="/add-request" component={AddRequest} />
-        <Route exact path="/view-leave-type" component={LeaveTypeList} />
-        <Route exact path="/view-request-type" component={RequestTypeList} />
-        <Route exact path="/view-request" component={RequestList} />
-        <Route exact path="/form" component={Ui_tabs_accordions} />
-        <Route exact path="/attendance" component={AttendanceList} />
-        <Route
-          exact
-          path="/view-recieved-request"
-          component={RequestRecieved}
-        />
-        <Route
-          exact
-          path="/add-project-payments"
-          component={AddProjectPayments}
-        />
-        <Route
-          exact
-          path="/view-project-payments"
-          component={ViewProjectPayments}
-        />
-        <Route
-          exact
-          path="/view-project-payments/:id"
-          component={ViewSingleProjectPayments}
-        />
         <RoleAuth roles={ALL_ROLES}>
-          <Route exact path="/add-leave-type" component={AddLeaveType} />
-          <Route exact path="/view-leave-type" component={LeaveTypeList} />
-          <Route exact path="/leave-list" component={LeaveList} />
+          <Route exact path="/" component={Dashboard1} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/add-request" component={AddRequest} />
+          <Route exact path="/form" component={Ui_tabs_accordions} />
+          <Route exact path="/attendance" component={AttendanceList} />
+          <Route exact path="/updateuser" component={updateUsers} />
+          <Route exact path="/changepass" component={ChangePassword} />
+          <Route exact path="/changepassword" component={ChangePasswordForm} />
+          <Route exact path="/my-tasks" component={MyTasks} />
           <Route exact path="/leave-form" component={NewLeave} />
           <Route exact path="/leave-details" component={LeaveDetails} />
           <Route exact path="/single-detail/:id" component={SingleDetail} />
           <Route exact path="/my-projects" component={MyProjects} />
-          <Route exact path="/admin-dashboard" component={AdminDashboard} />
+          <Route exact path="/viewproject/:id" component={ProjectDetails} />
           <Route
             exact
             path="/request-single-detail/:id"
             component={SingleRequest}
           />
           <Route exact path="/my-requests" component={MyRequest} />
-          <Route exact path="/add-user" component={AddUser} />
           <Route exact path="/task-details/:id" component={TaskDetails} />
           <Route exact path="/subtask-details" component={TaskDetails} />
           <Route exact path="/tabs" component={Ui_tabs_accordions} />
           <Route exact path="/update-profile" component={UpdateUser} />
-          <RoleAuth roles={[ADMIN, PM, HR, CEO]}>
+          {/* Admin HR PM and Accounts roles   */}
+          <RoleAuth roles={[ADMIN, PM, HR, AM]}>
             <Route exact path="/viewuser" component={ViewUsers} />
+            <Route
+              exact
+              path="/view-recieved-request"
+              component={RequestRecieved}
+            />
+            <Route exact path="/userdetails/:id" component={UserDetails} />
           </RoleAuth>
-          <Route exact path="/updateuser" component={updateUsers} />
-          <Route exact path="/userdetails/:id" component={UserDetails} />
-          <Route exact path="/changepass" component={ChangePassword} />
-          <Route exact path="/changepassword" component={ChangePasswordForm} />
-          <Route exact path="/my-tasks" component={MyTasks} />
-          <RoleAuth roles={[ADMIN, PM, CEO]}>
-            <Route exact path="/add-task" component={NewTask} />
+          {/* Only Admin Roles  */}
+          <RoleAuth roles={[ADMIN]}>
+            <Route exact path="/admin-dashboard" component={AdminDashboard} />
+            <Route
+              exact
+              path="/add-project-payments"
+              component={AddProjectPayments}
+            />
+            <Route
+              exact
+              path="/view-project-payments"
+              component={ViewProjectPayments}
+            />
+            <Route
+              exact
+              path="/view-project-payments/:id"
+              component={ViewSingleProjectPayments}
+            />
           </RoleAuth>
+          {/* PM and Admin roles  */}
           <RoleAuth roles={[CEO, PM, ADMIN]}>
+            <Route exact path="/add-user" component={AddUser} />
+            <Route exact path="/add-leave-type" component={AddLeaveType} />
+            <Route exact path="/view-leave-type" component={LeaveTypeList} />
+            <Route exact path="/leave-list" component={LeaveList} />
+            <Route exact path="/add-task" component={NewTask} />
+            <Route exact path="/view-request" component={RequestList} />
+            <Route exact path="/view-leave-type" component={LeaveTypeList} />
+            <Route
+              exact
+              path="/view-request-type"
+              component={RequestTypeList}
+            />
             <Route exact path="/platform" component={PlatformList} />
             <Route exact path="/add-platform" component={AddPlatform} />
             <Route exact path="/service" component={ServiceList} />
@@ -159,11 +165,11 @@ const mainbuilder = (props) => {
             <Route exact path="/add-technology" component={AddTechnology} />
             <Route exact path="/nature" component={NatureList} />
             <Route exact path="/add-nature" component={AddNature} />
-
+            <Route exact path="/add-leave-type" component={AddLeaveType} />
+            <Route exact path="/add-request-type" component={AddRequestType} />
             <Route exact path="/addcurrency" component={AddCurrency} />
             <Route exact path="/addstatus" component={AddStatus} />
             <Route exact path="/project-settings" component={ProjectSettings} />
-            <Route exact path="/viewproject/:id" component={ProjectDetails} />
             <Route exact path="/viewproject" component={ViewProjects} />
             <Route exact path="/addproject" component={AddProjects} />
             <Route exact path="/projectreport" component={ProjectReports} />
@@ -186,13 +192,9 @@ const mainbuilder = (props) => {
             <Route exact path="/viewcurrency" component={CurrencyList} />
           </RoleAuth>
           <Route exact path="/add-time" component={AddTime} />
-
           <Route exact path="/register" component={Register} />
-
           <Route exact path="/task" component={TaskList} />
-
           <Route exact path="/dashboard2" component={Dashboard2} />
-
           <Route exact path="/not-found" component={Pages_400} />
           {/* <Redirect to="/not-found" component={Pages_400} /> */}
         </RoleAuth>

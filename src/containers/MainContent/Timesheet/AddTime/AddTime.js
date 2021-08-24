@@ -9,9 +9,9 @@ const AddTime = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-12">
-              <h3 className="mt-0">TimeSheet</h3>
+              <h3 className="mt-0">Timesheet</h3>
               <p className="text-muted m-b-30 font-14">
-                Please add number of hours worked on task.
+                Please add number of hours worked on the task.
               </p>
               <TimesheetForm />
             </div>

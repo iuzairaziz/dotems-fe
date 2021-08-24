@@ -24,6 +24,10 @@ const AttendanceList = () => {
         label: "Total Time",
         field: "totalTime",
       },
+      {
+        label: "Over Time",
+        field: "overTime",
+      },
     ],
     rows: [],
   });

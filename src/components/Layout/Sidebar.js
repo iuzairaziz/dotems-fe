@@ -21,6 +21,16 @@ class sidebar extends Component {
     project_settings_menu: false,
   };
   roles = new Configuration().Roles;
+  //  { ADMIN, PM, HR, CEO, EMPLOYEE, INTERNEE, PROBATION } = roles;
+  ALL_ROLES = [
+    this.roles.ADMIN,
+    this.roles.PM,
+    this.roles.HR,
+    this.roles.CEO,
+    this.roles.EMPLOYEE,
+    this.roles.INTERNEE,
+    this.roles.PROBATION,
+  ];
   stateKeys = Object.keys(this.state);
   baseUrl = this.props.match.url;
   isRole = userService.isUserRole;
@@ -61,15 +71,17 @@ class sidebar extends Component {
         { routeName: this.baseUrl + "my-tasks", label: "My Tasks" },
       ],
     },
-
-    ...(this.isRole([this.roles.PM, this.roles.ADMIN, this.roles.CEO])
-      ? [
-          {
-            name: "project_menu",
-            icon: "mdi-file-powerpoint-box",
-            tab: "project",
-            subMenus: [
-              { routeName: this.baseUrl + "addproject", label: "New Project" },
+    {
+      name: "project_menu",
+      icon: "mdi-file-powerpoint-box",
+      tab: "project",
+      subMenus: [
+        ...(this.isRole([this.roles.PM, this.roles.ADMIN, this.roles.CEO])
+          ? [
+              {
+                routeName: this.baseUrl + "addproject",
+                label: "New Project",
+              },
               {
                 routeName: this.baseUrl + "viewproject",
                 label: "View Projects",
@@ -78,12 +90,77 @@ class sidebar extends Component {
                 routeName: this.baseUrl + "projectreport",
                 label: "Project Report",
               },
+            ]
+          : []),
+
+        {
+          routeName: this.baseUrl + "my-projects",
+          label: "My Projects",
+        },
+      ],
+    },
+
+    {
+      name: "request_menu",
+      icon: "mdi-message-draw",
+      tab: "Request",
+      subMenus: [
+        ...(this.isRole([this.roles.PM, this.roles.ADMIN])
+          ? [
               {
-                routeName: this.baseUrl + "my-projects",
-                label: "My Projects",
+                routeName: this.baseUrl + "add-request",
+                label: "New Request",
               },
-            ],
-          },
+              {
+                routeName: this.baseUrl + "view-request",
+                label: "View Request",
+              },
+              {
+                routeName: this.baseUrl + "view-recieved-request",
+                label: "Recieved Requests",
+              },
+            ]
+          : []),
+        {
+          routeName: this.baseUrl + "my-requests",
+          label: "My Requests",
+        },
+      ],
+    },
+    {
+      name: "leave",
+      icon: "mdi-calendar-multiple-check",
+      tab: "Leave",
+      subMenus: [
+        ...(this.isRole([this.roles.PM, this.roles.ADMIN])
+          ? [
+              {
+                routeName: this.baseUrl + "leave-list",
+                label: "Leave List",
+              },
+            ]
+          : []),
+        ...(this.isRole([
+          this.roles.EMPLOYEE,
+          this.roles.INTERNEE,
+          this.roles.PROBATION,
+        ])
+          ? [
+              {
+                routeName: this.baseUrl + "leave-form",
+                label: "Apply Leave",
+              },
+              {
+                routeName: this.baseUrl + "leave-details",
+                label: "My Leaves",
+              },
+            ]
+          : []),
+      ],
+    },
+
+    ...(this.isRole([this.roles.PM, this.roles.ADMIN, this.roles.CEO])
+      ? [
           {
             name: "project_payments_menu",
             icon: "mdi-credit-card",
@@ -134,48 +211,6 @@ class sidebar extends Component {
               {
                 routeName: this.baseUrl + "view-accessory",
                 label: "View Accessory ",
-              },
-            ],
-          },
-          {
-            name: "request_menu",
-            icon: "mdi-message-draw",
-            tab: "Request",
-            subMenus: [
-              {
-                routeName: this.baseUrl + "add-request",
-                label: "New Request",
-              },
-              {
-                routeName: this.baseUrl + "view-request",
-                label: "View Request",
-              },
-              {
-                routeName: this.baseUrl + "view-recieved-request",
-                label: "Recieved Requests",
-              },
-              {
-                routeName: this.baseUrl + "my-requests",
-                label: "My Requests",
-              },
-            ],
-          },
-          {
-            name: "leave",
-            icon: "mdi-calendar-multiple-check",
-            tab: "Leave",
-            subMenus: [
-              {
-                routeName: this.baseUrl + "leave-form",
-                label: "Apply Leave",
-              },
-              {
-                routeName: this.baseUrl + "leave-list",
-                label: "Leave List",
-              },
-              {
-                routeName: this.baseUrl + "leave-details",
-                label: "My Leaves",
               },
             ],
           },

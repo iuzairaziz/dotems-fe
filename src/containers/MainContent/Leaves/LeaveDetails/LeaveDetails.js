@@ -5,8 +5,8 @@ import "./LeaveDetails.scss";
 import LeaveService from "../../../../services/LeaveService";
 import UserService from "../../../../services/UserService";
 import moment from "moment";
-
-
+import { Link } from "react-router-dom";
+import { Button } from "reactstrap";
 
 const LeaveDetails = (props) => {
   let loggedUser = UserService.userLoggedInInfo();
@@ -26,8 +26,6 @@ const LeaveDetails = (props) => {
         // sort: "asc",
       },
 
-      
-
       {
         label: "Total Days",
         field: "tDays",
@@ -36,7 +34,7 @@ const LeaveDetails = (props) => {
         label: "Posting Date",
         field: "postingDate",
       },
-     
+
       {
         label: "Action",
         field: "action",
@@ -54,10 +52,9 @@ const LeaveDetails = (props) => {
     LeaveService.remainingLeaveById(loggedUser._id).then((res) => {
       const leaves = res.data;
       setLeaveData(leaves);
-      console.log("leave data", leaves)
-     
-    })
-  }
+      console.log("leave data", leaves);
+    });
+  };
 
   const getData = () => {
     LeaveService.allUserLeaves(loggedUser._id)
@@ -67,7 +64,9 @@ const LeaveDetails = (props) => {
         res.data.map((item, index) => {
           updatedData.rows.push({
             type: item.type ? item.type.name : "N/A",
-            postingDate: item.createdAt ? moment(item.createdAt).format("LL") : "N/A",
+            postingDate: item.createdAt
+              ? moment(item.createdAt).format("LL")
+              : "N/A",
             dates: item.dates
               ? item.dates.map((item, index) => {
                   return (
@@ -78,8 +77,7 @@ const LeaveDetails = (props) => {
                   );
                 })
               : "none",
-              tDays: item.dates ? item.dates.length
-              : "none",
+            tDays: item.dates ? item.dates.length : "none",
             action: (
               <div className="row flex-nowrap justify-content-start">
                 <i
@@ -102,7 +100,7 @@ const LeaveDetails = (props) => {
       .catch((err) => console.log(err));
   };
 
-  console.log("leave name", leaveData)
+  console.log("leave name", leaveData);
 
   return (
     <AUX>
@@ -113,38 +111,64 @@ const LeaveDetails = (props) => {
               <div className="col-lg-12">
                 <div className="card m-b-20">
                   <div className="card-body">
-                
-                    <h3>Leave Details</h3>
-             
-                    <div className="row main">
-                    {leaveData.map ((item, index) => {
-                      return (
-                        <div className="col col-md-3">  
-                        <h5>{ item.name}</h5>
-                        <div className="my-border border-top border-bottom">
-                        <div>
-                        <span>Total Leave: </span>
-                        <span className="sub">{ item.totalLeaves}</span>
-                        </div>
-                        <div>
-                        <span>Used Leaves: </span>
-                        <span className="sub2">{item.leaves && item.leaves.usedLeaves ? item.leaves.usedLeaves : "0" }</span>
-                        </div>
-                        <div>
-                        <span>Remaining Leave: </span>
-                        <span className="sub1">{item.remaining ? item.remaining <  0 ? "0" : item.remaining : item.totalLeaves}</span>
-                        </div>
-                        <div>
-                        <span>Unpaid Leaves: </span>
-                        <span className="sub3">{item.remaining < 0 ? -item.remaining : "0" }</span>
-                        </div>
-                        </div>
+                    <div className="row align-items-center mb-3">
+                      <div className="col">
+                        <h3 className="m-0 p-0">My Leave</h3>
                       </div>
-                      )
-                    })}
-                    
+                      <div className="col">
+                        <Link to="/leave-form">
+                          <Button
+                            color="success"
+                            className="my-primary-button float-right"
+                          >
+                            Apply Leave
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
-                    
+
+                    <h5>Leave Details</h5>
+
+                    <div className="row main">
+                      {leaveData.map((item, index) => {
+                        return (
+                          <div className="col col-md-3">
+                            <h5>{item.name}</h5>
+                            <div className="my-border border-top border-bottom">
+                              <div>
+                                <span>Total Leave: </span>
+                                <span className="sub">{item.totalLeaves}</span>
+                              </div>
+                              <div>
+                                <span>Used Leaves: </span>
+                                <span className="sub2">
+                                  {item.leaves && item.leaves.usedLeaves
+                                    ? item.leaves.usedLeaves
+                                    : "0"}
+                                </span>
+                              </div>
+                              <div>
+                                <span>Remaining Leave: </span>
+                                <span className="sub1">
+                                  {item.remaining
+                                    ? item.remaining < 0
+                                      ? "0"
+                                      : item.remaining
+                                    : item.totalLeaves}
+                                </span>
+                              </div>
+                              <div>
+                                <span>Unpaid Leaves: </span>
+                                <span className="sub3">
+                                  {item.remaining < 0 ? -item.remaining : "0"}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
                     <h3 className="main">Leave Table</h3>
                     <div className="row">
                       <div className="col-12">
@@ -162,7 +186,6 @@ const LeaveDetails = (props) => {
                         />
                       </div>
                     </div>
-                   
                   </div>
                 </div>
               </div>
