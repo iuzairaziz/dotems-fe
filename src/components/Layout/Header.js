@@ -10,9 +10,11 @@ import {
 import { Scrollbars } from "react-custom-scrollbars";
 import UserService from "../../services/UserService";
 import "./Header.scss";
+import Configuration from "../../config/configuration";
 
 class header extends Component {
   constructor(props) {
+    this.Roles = new Configuration().Roles;
     super(props);
     this.state = {
       dropdownOpen: false,

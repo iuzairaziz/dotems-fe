@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import userService from "../../../../services/UserService";
 import moment from "moment";
 import Configuration from "../../../../config/configuration";
+import { useHistory } from "react-router-dom";
 
 const LeaveForm = (props) => {
   const editable = props.editable;
@@ -32,6 +33,7 @@ const LeaveForm = (props) => {
   console.log("Total", totalLeave);
 
   const Roles = new Configuration().Roles;
+  const history = useHistory();
 
   useEffect(() => {
     getleaveTypes();
@@ -131,6 +133,7 @@ const LeaveForm = (props) => {
           .then((res) => {
             props.toggle && props.toggle();
             actions.resetForm();
+            history.push("/leave-details");
             LeaveService.handleMessage("applied");
           })
           .catch((err) => {
@@ -406,7 +409,6 @@ const LeaveForm = (props) => {
               </div>
             </div>
             <div className="col-12 border-top border-bottom py-3 my-3">
-          
               <div className="row ">
                 <div className="col sub">
                   <span>
@@ -469,7 +471,6 @@ const LeaveForm = (props) => {
                   </span>
                 </div>
               </div>
-
             </div>
             <div className="col-12">
               <h4 className="mt-0 header-title">Description</h4>
