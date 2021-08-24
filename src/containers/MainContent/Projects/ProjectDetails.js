@@ -188,7 +188,16 @@ const ProjectDetails = (props) => {
       { label: "Service Type", value: projectData && projectData.service.name },
       {
         label: "Technology",
-        value: projectData && projectData.technology.name,
+        value:
+          projectData && projectData.technology
+            ? projectData.technology.map((item, index) => {
+                if (index === 0) {
+                  return item.name;
+                } else if (index >= 0) {
+                  return `, ${item.name} `;
+                }
+              })
+            : "None",
       },
       {
         label: "Status",

@@ -110,3 +110,15 @@ input:focus {
 .hide-form-field {
   display: none;
 }
+.my-select.is-valid > div:first-child {
+  border: solid 1px green;
+}
+.my-select.is-invalid > div:first-child {
+  border: solid 1px red;
+}
+.invalid-feedback {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+}
