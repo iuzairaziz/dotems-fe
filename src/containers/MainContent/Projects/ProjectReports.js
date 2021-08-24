@@ -234,7 +234,7 @@ const ProjectReports = () => {
             EstHrs: item.phase
               ? item.phase.map((item1, index, key) => {
                   if (index === 0) EstTime = 0;
-                  EstTime += Number(item1.estTime);
+                  EstTime += Number(item1.estHrs);
 
                   if (index === item.phase.length - 1) {
                     return EstTime;
@@ -325,19 +325,19 @@ const ProjectReports = () => {
                   </div>
 
                   <MDBDataTableV5
-                   responsive
-                   striped
-                   small
-                   onPageChange={(val) => console.log(val)}
-                   bordered={true}
-                  //  materialSearch
-                   searchTop
-                   searchBottom={false}
-                   pagingTop
-                   barReverse
-                   hover
+                    responsive
+                    striped
+                    small
+                    onPageChange={(val) => console.log(val)}
+                    bordered={true}
+                    //  materialSearch
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
+                    hover
                     // scrollX
-                   
+
                     data={dataa}
                     theadColor="#000"
                   />
