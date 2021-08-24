@@ -11,7 +11,6 @@ class ProjectValidation {
       status: Yup.object().required("Required!"),
       cost: Yup.number().required("Required!"),
       clientHours: Yup.number().when("projectType", (projectType, schema) => {
-        console.log("value business : ", projectType);
         if (projectType && projectType.label === "Fixed") {
           return schema;
         } else {
@@ -19,7 +18,6 @@ class ProjectValidation {
         }
       }),
       hourlyCost: Yup.number().when("projectType", (projectType, schema) => {
-        console.log("value business : ", projectType);
         if (projectType && projectType.label === "Fixed") {
           return schema;
         } else {
