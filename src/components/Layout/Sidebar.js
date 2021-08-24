@@ -108,10 +108,6 @@ class sidebar extends Component {
         ...(this.isRole([this.roles.PM, this.roles.ADMIN])
           ? [
               {
-                routeName: this.baseUrl + "add-request",
-                label: "New Request",
-              },
-              {
                 routeName: this.baseUrl + "view-request",
                 label: "View Request",
               },
@@ -121,6 +117,10 @@ class sidebar extends Component {
               },
             ]
           : []),
+        {
+          routeName: this.baseUrl + "add-request",
+          label: "New Request",
+        },
         {
           routeName: this.baseUrl + "my-requests",
           label: "My Requests",

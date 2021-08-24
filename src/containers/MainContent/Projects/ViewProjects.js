@@ -334,7 +334,17 @@ const ViewProjects = (props, match) => {
             ),
             orderNum: item.orderNum ? item.orderNum : "N/A",
             platform: item.platform ? item.platform.name : "N/A",
-            technology: item.technology ? item.technology.name : "N/A",
+            technology: item.technology
+              ? item.technology.map((item, index) => {
+                  return (
+                    <div>
+                      {item.name}
+                      <br />
+                    </div>
+                  );
+                })
+              : "none",
+            // item.technology ? item.technology.name : "N/A",
             serviceType: item.service ? item.service.name : "N/A",
             status: item.status ? item.status.name : "N/A",
             projectNature: item.nature ? item.nature.name : "N/A",

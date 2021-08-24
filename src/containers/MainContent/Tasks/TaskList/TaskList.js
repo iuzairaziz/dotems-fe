@@ -158,7 +158,7 @@ const Tables_datatable = (props) => {
           data.rows.push({
             title: item.name ? item.name : "N/A",
             project: (
-              <Link to={`/viewproject/${item.project._id}`}>
+              <Link to={`/viewproject/${item.project && item.project._id}`}>
                 {" "}
                 {item.project ? item.project.name : "N/A"}{" "}
               </Link>
@@ -245,35 +245,34 @@ const Tables_datatable = (props) => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                <div className="row align-items-center mb-3">
+                  <div className="row align-items-center mb-3">
                     <div className="col">
-                    <h3 className="m-0 p-0">All Tasks</h3>
+                      <h3 className="m-0 p-0">All Tasks</h3>
                     </div>
                     <div className="col">
-                    <Link to="/add-task">
-                      <Button
-                        color="success"
-                        className="my-primary-button float-right"
-                      >
-                        Add Task
-                      </Button>
-                    </Link>
+                      <Link to="/add-task">
+                        <Button
+                          color="success"
+                          className="my-primary-button float-right"
+                        >
+                          Add Task
+                        </Button>
+                      </Link>
                     </div>
                   </div>
-                 
 
                   <MDBDataTableV5
-                   responsive
-                   striped
-                   small
-                   onPageChange={(val) => console.log(val)}
-                   bordered={true}
-                  //  materialSearch
-                   searchTop
-                   searchBottom={false}
-                   pagingTop
-                   barReverse
-                   hover
+                    responsive
+                    striped
+                    small
+                    onPageChange={(val) => console.log(val)}
+                    bordered={true}
+                    //  materialSearch
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
+                    hover
                     // scrollX
                     // autoWidth
                     data={dataa}

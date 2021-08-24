@@ -158,12 +158,6 @@ const ViewUsers = (props) => {
             dateOfJoin: item.joiningDate
               ? moment(item.joiningDate).format("DD/MMM/YYYY")
               : "N/A",
-            // machinenum: (
-            //   <Link to={`/machine-details/${item.machineNo._id}`}>
-            //     {" "}
-            //     {item.machineNo ? item.machineNo.machineNo : "N/A"}{" "}
-            //   </Link>
-            // ),
             machinenum: item.machineNo ? (
               <Link to={`/machine-details/${item.machineNo._id}`}>
                 {" "}
@@ -179,15 +173,15 @@ const ViewUsers = (props) => {
             workingHrs: item.workingHrs ? item.workingHrs : "N/A",
             workingDays: item.workingDays ? item.workingDays : "N/A",
             technology: item.technology
-            ? item.technology.map((item, index) => {
-                return (
-                  <div>
-                    {item.name}
-                    <br />
-                  </div>
-                );
-              })
-            : "none",
+              ? item.technology.map((item, index) => {
+                  return (
+                    <div>
+                      {item.name}
+                      <br />
+                    </div>
+                  );
+                })
+              : "none",
             action: (
               <div className="row flex-nowrap align-items-center">
                 <i
@@ -232,19 +226,19 @@ const ViewUsers = (props) => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                <div className="row align-items-center mb-3">
+                  <div className="row align-items-center mb-3">
                     <div className="col">
-                    <h3 className="m-0 p-0">All Employees</h3>
+                      <h3 className="m-0 p-0">All Employees</h3>
                     </div>
                     <div className="col">
-                    <Link to="/add-user">
-                      <Button
-                        color="success"
-                        className="my-primary-button float-right"
-                      >
-                        Add User
-                      </Button>
-                    </Link>
+                      <Link to="/add-user">
+                        <Button
+                          color="success"
+                          className="my-primary-button float-right"
+                        >
+                          Add User
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                   <div className="row">
@@ -313,17 +307,17 @@ const ViewUsers = (props) => {
                   </div>
 
                   <MDBDataTableV5
-                   responsive
-                   striped
-                   small
-                   onPageChange={(val) => console.log(val)}
-                   bordered={true}
-                  //  materialSearch
-                   searchTop
-                   searchBottom={false}
-                   pagingTop
-                   barReverse
-                   hover
+                    responsive
+                    striped
+                    small
+                    onPageChange={(val) => console.log(val)}
+                    bordered={true}
+                    //  materialSearch
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
+                    hover
                     // scrollX
                     // fixedHeader={true}
                     // responsive

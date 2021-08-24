@@ -14,7 +14,6 @@ import Configuration from "../../config/configuration";
 
 class header extends Component {
   constructor(props) {
-    // this.Roles = new Configuration().Roles;
     super(props);
     this.state = {
       dropdownOpen: false,
@@ -23,6 +22,8 @@ class header extends Component {
       dropdownOpenbadge: false,
       now_route: "",
     };
+
+    this.Roles = new Configuration().Roles;
 
     this.toggle = this.toggle.bind(this);
     this.toggle1 = this.toggle1.bind(this);
@@ -299,6 +300,7 @@ class header extends Component {
                       Leaves
                     </DropdownItem>
                   </Link>
+
                   <DropdownItem
                     onClick={() => {
                       UserService.logout();

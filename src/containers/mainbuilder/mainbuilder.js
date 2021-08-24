@@ -87,9 +87,10 @@ const mainbuilder = (props) => {
   return (
     <>
       <Switch>
+        <Route exact path="/login" component={Login} />
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/" component={Dashboard1} />
-          <Route exact path="/login" component={Login} />
+
           <Route exact path="/add-request" component={AddRequest} />
           <Route exact path="/form" component={Ui_tabs_accordions} />
           <Route exact path="/attendance" component={AttendanceList} />
