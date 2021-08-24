@@ -37,6 +37,7 @@ import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import Editable from "react-x-editable";
 import "./ProjectForm.scss";
 import { useHistory } from "react-router-dom";
+import { actions } from "../../../store/actions";
 
 const ProjectForm = (props) => {
   const [default_option, set_default_option] = useState(0);
@@ -299,8 +300,14 @@ const ProjectForm = (props) => {
   var Technology = [];
   console.log("Projectssss", project);
   editable &&
+    project.assignedUser &&
     project.assignedUser.map((item) =>
       TeamMembers.push({ label: item.name, value: item._id, id: item._id })
+    );
+  editable &&
+    project.technology &&
+    project.technology.map((item) =>
+      Technology.push({ label: item.name, value: item._id, id: item._id })
     );
 
   return (
@@ -331,11 +338,8 @@ const ProjectForm = (props) => {
             label: project.platform.name,
             value: project.platform._id,
           },
-        technology: editable &&
-          project.technology && {
-            label: project.technology.name,
-            value: project.technology._id,
-          },
+        technology:
+          editable && project.technology && Technology ? Technology : [],
         serviceType: editable &&
           project.service && {
             label: project.service.name,
@@ -360,14 +364,14 @@ const ProjectForm = (props) => {
             label: project.projectManager.name,
             value: project.projectManager._id,
           },
-        teamMembers: editable && TeamMembers,
+        teamMembers: editable && TeamMembers ? TeamMembers : [],
         orderNum: editable && project.orderNum,
         Pdeduction: editable && project.Pdeduction,
         percentage: editable && project.percentage,
         fCost: editable && project.fCost,
         otherDeduction: editable && project.otherDeduction,
         phase: editable && project.phase,
-        gender: editable &&
+        projectType: editable &&
           project.projectType && {
             label: project.projectType,
             value: project.projectType,
@@ -382,23 +386,29 @@ const ProjectForm = (props) => {
         }
         console.log("value", values);
       }}
-      // validationSchema={ProjectValidation.newProjectValidation}
+      validationSchema={ProjectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
         // console.log(phases);
         const usrs = [];
+        const tech = [];
         // console.log("team members", values.teamMembers);
         values.teamMembers.map((item) => {
           usrs.push(item.value);
           // console.log("users", usrs);
         });
-        console.log("valuesss", values);
+        values.technology.map((item) => {
+          tech.push(item.value);
+          // console.log("users", usrs);
+        });
+        console.log("valuesss", tech);
+
         editable
           ? ProjectService.updateProject(project._id, {
               name: values.projectName,
               client: values.clientName.value,
               orderNum: values.orderNum,
               platform: values.platform.value,
-              technology: values.technology.value,
+              technology: tech,
               service: values.serviceType.value,
               status: values.status.value,
               description: JSON.stringify(
@@ -437,7 +447,7 @@ const ProjectForm = (props) => {
               client: values.clientName.value,
               orderNum: values.orderNum,
               platform: values.platform.value,
-              technology: values.technology.value,
+              technology: tech,
               service: values.serviceType.value,
               status: values.status.value,
               description: JSON.stringify(
@@ -516,12 +526,12 @@ const ProjectForm = (props) => {
                 <Select
                   name="clientName"
                   blurInputOnSelect={true}
-                  className={`my-select${
+                  className={`my-select ${
                     props.touched.clientName && props.errors.clientName
                       ? "is-invalid"
                       : props.touched.clientName && "is-valid"
                   }`}
-                  onBlur={props.handleBlur}
+                  onFocus={() => props.setFieldTouched("clientName")}
                   value={props.values.clientName}
                   onChange={(val) => props.setFieldValue("clientName", val)}
                   options={client}
@@ -573,13 +583,13 @@ const ProjectForm = (props) => {
                   </div>
                 </div>
                 <Select
-                  className={`my-select${
+                  className={`my-select ${
                     props.touched.platform && props.errors.platform
                       ? "is-invalid"
                       : props.touched.platform && "is-valid"
                   }`}
                   name="platform"
-                  onBlur={props.handleBlur}
+                  onFocus={() => props.setFieldTouched("platform")}
                   value={props.values.platform}
                   onChange={(val) => props.setFieldValue("platform", val)}
                   options={platform}
@@ -595,8 +605,8 @@ const ProjectForm = (props) => {
                 <label className="control-label">Project Type</label>
                 <Select
                   name="projectType"
-                  onBlur={props.handleBlur}
-                  className={`my-select${
+                  onFocus={() => props.setFieldTouched("projectType")}
+                  className={`my-select ${
                     props.touched.projectType && props.errors.projectType
                       ? "is-invalid"
                       : props.touched.projectType && "is-valid"
@@ -629,8 +639,8 @@ const ProjectForm = (props) => {
 
                 <Select
                   name="projectManager"
-                  onBlur={props.handleBlur}
-                  className={`my-select${
+                  onFocus={() => props.setFieldTouched("projectManager")}
+                  className={`my-select ${
                     props.touched.projectManager && props.errors.projectManager
                       ? "is-invalid"
                       : props.touched.projectManager && "is-valid"
@@ -649,12 +659,12 @@ const ProjectForm = (props) => {
                 <label className="control-label">Team Members</label>
                 <Select
                   name="teamMembers"
-                  onBlur={props.handleBlur}
-                  className={`my-select${
+                  onFocus={() => props.setFieldTouched("teamMembers")}
+                  className={`my-select ${
                     props.touched.teamMembers && props.errors.teamMembers
                       ? "is-invalid"
                       : props.touched.teamMembers && "is-valid"
-                  } `}
+                  }`}
                   value={props.values.teamMembers}
                   onChange={(val) => props.setFieldValue("teamMembers", val)}
                   options={teamMember}
@@ -763,8 +773,8 @@ const ProjectForm = (props) => {
 
                 <Select
                   name="currency"
-                  onBlur={props.handleBlur}
-                  className={`my-select${
+                  onFocus={() => props.setFieldTouched("currency")}
+                  className={`my-select ${
                     props.touched.currency && props.errors.currency
                       ? "is-invalid"
                       : props.touched.currency && "is-valid"
@@ -787,7 +797,7 @@ const ProjectForm = (props) => {
                 <div>
                   <DatePicker
                     name="cStartDate"
-                    onBlur={props.handleBlur}
+                    onFocus={() => props.setFieldTouched("cStartDate")}
                     className={`form-control ${
                       props.touched.cStartDate && props.errors.cStartDate
                         ? "is-invalid"
@@ -812,7 +822,7 @@ const ProjectForm = (props) => {
                 <div>
                   <DatePicker
                     name="cEndDate"
-                    onBlur={props.handleBlur}
+                    onFocus={() => props.setFieldTouched("cEndDate")}
                     className={`form-control ${
                       props.touched.cEndDate && props.errors.cEndDate
                         ? "is-invalid"
@@ -824,11 +834,11 @@ const ProjectForm = (props) => {
                       // console.log("datepicker", datee);
                     }}
                   />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.cEndDate && props.errors.cEndDate}
-                  </span>
                 </div>
-              </div>{" "}
+                <span id="err" className="invalid-feedback">
+                  {props.touched.cEndDate && props.errors.cEndDate}
+                </span>
+              </div>
             </div>
             <div className="col">
               <div className="form-group">
@@ -851,9 +861,9 @@ const ProjectForm = (props) => {
 
                 <Select
                   name="status"
-                  onBlur={props.handleBlur}
+                  onFocus={() => props.setFieldTouched("status")}
                   value={props.values.status}
-                  className={`my-select${
+                  className={`my-select ${
                     props.touched.status && props.errors.status
                       ? "is-invalid"
                       : props.touched.status && "is-valid"
@@ -889,8 +899,8 @@ const ProjectForm = (props) => {
                 </div>
                 <Select
                   name="technology"
-                  onBlur={props.handleBlur}
-                  className={`my-select${
+                  onFocus={() => props.setFieldTouched("technology")}
+                  className={`my-select ${
                     props.touched.technology && props.errors.technology
                       ? "is-invalid"
                       : props.touched.technology && "is-valid"
@@ -926,9 +936,9 @@ const ProjectForm = (props) => {
                 </div>
                 <Select
                   name="serviceType"
-                  onBlur={props.handleBlur}
+                  onFocus={() => props.setFieldTouched("serviceType")}
                   value={props.values.serviceType}
-                  className={`my-select${
+                  className={`my-select ${
                     props.touched.serviceType && props.errors.serviceType
                       ? "is-invalid"
                       : props.touched.serviceType && "is-valid"
@@ -961,9 +971,9 @@ const ProjectForm = (props) => {
                 </div>
                 <Select
                   name="nature"
-                  onBlur={props.handleBlur}
+                  onFocus={() => props.setFieldTouched("nature")}
                   value={props.values.nature}
-                  className={`my-select${
+                  className={`my-select ${
                     props.touched.nature && props.errors.nature
                       ? "is-invalid"
                       : props.touched.nature && "is-valid"
