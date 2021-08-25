@@ -239,6 +239,15 @@ const TaskDetail = (props) => {
       value: taskData && taskData.project ? taskData.project.name : "None",
     },
     {
+      label: "Project Phase",
+      value:
+        taskData && taskData.project && taskData.project.phase && taskData.phase
+          ? taskData.project.phase.filter(
+              (phase) => phase._id == taskData.phase
+            )[0].phasename
+          : "None",
+    },
+    {
       label: "Project Ratio",
       value: taskData && `${taskData.projectRatio}%`,
     },
@@ -324,9 +333,8 @@ const TaskDetail = (props) => {
               );
             })}
           </div>
-          
+
           <div className="row">
-         
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>
                 <ModalHeader toggle={toggleEdit}>Edit Task</ModalHeader>
@@ -443,34 +451,34 @@ const TaskDetail = (props) => {
                 </div>
                 <div className="tab-pane p-3" id="profile" role="tabpanel">
                   <MDBDataTableV5
-                   responsive
-                   striped
-                   small
-                   onPageChange={(val) => console.log(val)}
-                   bordered={true}
-                  //  materialSearch
-                   searchTop
-                   searchBottom={false}
-                   pagingTop
-                   barReverse
-                   hover
+                    responsive
+                    striped
+                    small
+                    onPageChange={(val) => console.log(val)}
+                    bordered={true}
+                    //  materialSearch
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
+                    hover
                     data={dataa}
                     theadColor="#000"
                   />
                 </div>
                 <div className="tab-pane p-3" id="messages" role="tabpanel">
                   <MDBDataTableV5
-                   responsive
-                   striped
-                   small
-                   onPageChange={(val) => console.log(val)}
-                   bordered={true}
-                  //  materialSearch
-                   searchTop
-                   searchBottom={false}
-                   pagingTop
-                   barReverse
-                   hover
+                    responsive
+                    striped
+                    small
+                    onPageChange={(val) => console.log(val)}
+                    bordered={true}
+                    //  materialSearch
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
+                    hover
                     data={remarks}
                     theadColor="#000"
                   />
@@ -481,7 +489,7 @@ const TaskDetail = (props) => {
                   </div>
                 </div>
               </div>
-            </div> 
+            </div>
           </div>
         </div>
       </div>

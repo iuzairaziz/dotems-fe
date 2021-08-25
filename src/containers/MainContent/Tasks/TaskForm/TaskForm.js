@@ -431,7 +431,7 @@ const TaskForm = (props) => {
                       props.touched.endTime && props.errors.endTime
                         ? "is-invalid"
                         : props.touched.endTime && "is-valid"
-                    }zIndex`}
+                    } zIndex`}
                     selected={props.values.endTime}
                     name="endTime"
                     onFocus={() => props.setFieldTouched("endTime")}
