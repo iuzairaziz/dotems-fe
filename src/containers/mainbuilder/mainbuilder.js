@@ -88,21 +88,20 @@ const mainbuilder = (props) => {
     <>
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/leave-details" component={LeaveDetails} />
+        <Route exact path="/single-detail/:id" component={SingleDetail} />
+        <Route exact path="/my-projects" component={MyProjects} />
+        <Route exact path="/viewproject/:id" component={ProjectDetails} />
+        <Route exact path="/updateuser" component={updateUsers} />
+        <Route exact path="/changepass" component={ChangePassword} />
+        <Route exact path="/changepassword" component={ChangePasswordForm} />
+        <Route exact path="/" component={Dashboard1} />
         <RoleAuth roles={ALL_ROLES}>
-          <Route exact path="/" component={Dashboard1} />
-
           <Route exact path="/add-request" component={AddRequest} />
           <Route exact path="/form" component={Ui_tabs_accordions} />
           <Route exact path="/attendance" component={AttendanceList} />
-          <Route exact path="/updateuser" component={updateUsers} />
-          <Route exact path="/changepass" component={ChangePassword} />
-          <Route exact path="/changepassword" component={ChangePasswordForm} />
           <Route exact path="/my-tasks" component={MyTasks} />
           <Route exact path="/leave-form" component={NewLeave} />
-          <Route exact path="/leave-details" component={LeaveDetails} />
-          <Route exact path="/single-detail/:id" component={SingleDetail} />
-          <Route exact path="/my-projects" component={MyProjects} />
-          <Route exact path="/viewproject/:id" component={ProjectDetails} />
           <Route
             exact
             path="/request-single-detail/:id"
