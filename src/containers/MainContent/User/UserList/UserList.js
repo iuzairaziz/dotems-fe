@@ -169,7 +169,17 @@ const ViewUsers = (props) => {
             salary: item.salary ? item.salary : "N/A",
             status: item.status ? item.status : "N/A",
             gender: item.gender ? item.gender : "N/A",
-            role: item.userRole ? item.userRole : "N/A",
+            role: item.userRole
+              ? item.userRole.map((item, index) => {
+                  return (
+                    <div>
+                      {item}
+                      <br />
+                    </div>
+                  );
+                })
+              : "none",
+            //  item.userRole ? item.userRole : "N/A",
             workingHrs: item.workingHrs ? item.workingHrs : "N/A",
             workingDays: item.workingDays ? item.workingDays : "N/A",
             technology: item.technology
