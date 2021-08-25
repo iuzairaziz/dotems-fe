@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import moment from "moment";
 
 class ProjectValidation {
   newProjectValidation = () => {
@@ -43,21 +44,10 @@ class ProjectValidation {
           Yup.ref("cStartDate"),
           "Client End Date Must Be Greater Than Client Start Date"
         ),
-      pmStartDate: Yup.date().min(
-        Yup.ref(
-          "cStartDate",
-          "PM start date must be greater then Client Start date"
-        )
-      ),
+      pmStartDate: Yup.date().min(Yup.ref("cStartDate")),
       pmEndDate: Yup.date()
-        .min(
-          Yup.ref("pmStartDate"),
-          "PM End date must be greater than PM start date"
-        )
-        .max(
-          Yup.ref("cEndDate"),
-          "PM end date must be greater then Client's Deadline"
-        ),
+        .min(Yup.ref("pmStartDate"))
+        .max(Yup.ref("cEndDate")),
       projectManager: Yup.object().required("Required!"),
       teamMembers: Yup.array()
         .min(1, "Pick at least one team member")

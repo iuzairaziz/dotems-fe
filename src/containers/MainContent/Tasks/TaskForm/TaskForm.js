@@ -409,10 +409,10 @@ const TaskForm = (props) => {
                       props.touched.startTime && props.errors.startTime
                         ? "is-invalid"
                         : props.touched.startTime && "is-valid"
-                    }zIndex`}
+                    } zIndex`}
                     selected={props.values.startTime}
                     name="startTime"
-                    onBlur={props.handleBlur}
+                    onFocus={() => props.setFieldTouched("startTime")}
                     onChange={(date) => {
                       props.setFieldValue("startTime", date);
                       console.log("datepicker", date);
@@ -434,7 +434,7 @@ const TaskForm = (props) => {
                     }zIndex`}
                     selected={props.values.endTime}
                     name="endTime"
-                    onBlur={props.handleBlur}
+                    onFocus={() => props.setFieldTouched("endTime")}
                     onChange={(date) => {
                       props.setFieldValue("endTime", date);
                       console.log("datepicker", date);
