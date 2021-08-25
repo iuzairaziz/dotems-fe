@@ -152,6 +152,7 @@ const TaskForm = (props) => {
               parentTask: values.parentTask.value,
               assignedTo: usrs,
               teamLead: values.teamLead.value,
+              phase: values.phase.value,
             })
               .then((res) => {
                 TaskService.handleMessage("update");
@@ -175,6 +176,7 @@ const TaskForm = (props) => {
               assignedTo: usrs,
               teamLead: values.teamLead.value,
               addedBy: loogedInUser._id,
+              phase: values.phase.value,
             })
               .then((res) => {
                 TaskService.handleMessage("add");
