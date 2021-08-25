@@ -23,7 +23,14 @@ class UserValidation {
       machineNo: Yup.object(),
       designation: Yup.object(),
       workingDays: Yup.number(),
-      userRole: Yup.object().required("Required!"),
+      userRole: Yup.array()
+        .min(1, "Pick At Least One Technology")
+        .of(
+          Yup.object().shape({
+            label: Yup.string().required(),
+            value: Yup.string().required(),
+          })
+        ),
     });
   };
 

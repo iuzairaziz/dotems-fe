@@ -153,7 +153,6 @@ const UserDetails = (props) => {
         label: "Salary",
         value: userData && userData.salary,
       },
-      { label: "Role", value: userData && userData.userRole },
       { label: "Designation", value: userData && userData.designation.name },
       {
         label: "Status",
@@ -195,6 +194,19 @@ const UserDetails = (props) => {
       {
         label: "Guardian Address",
         value: userData && userData.contactEmergency,
+      },
+      {
+        label: "Role",
+        value:
+          userData &&
+          userData.userRole.map((item, index) => {
+            return (
+              <div>
+                {item}
+                <br />
+              </div>
+            );
+          }),
       },
       {
         label: "Technology",

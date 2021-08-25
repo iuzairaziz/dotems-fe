@@ -62,6 +62,12 @@ const UserForm = (props) => {
     });
   };
 
+  var UserRole = [];
+
+  editable &&
+    user.userRole &&
+    user.userRole.map((item) => UserRole.push({ label: item, value: item }));
+
   return (
     <Formik
       initialValues={{
@@ -86,12 +92,16 @@ const UserForm = (props) => {
             value: user.machineNo._id,
           },
         workingDays: editable && user.workingDays,
-        userRole: editable &&
-          user.userRole && { label: user.userRole, value: user.userRole },
+        userRole: editable && user.userRole && UserRole ? UserRole : [],
       }}
       validationSchema={userValidation.newUserValidation}
       onSubmit={(values, actions) => {
         console.log(values);
+        const role = [];
+        values.userRole.map((item) => {
+          role.push(item.value);
+          console.log("user Role", role);
+        });
         editable
           ? UserService.updateAllUserFields(user._id, {
               name: values.name,
@@ -105,7 +115,7 @@ const UserForm = (props) => {
               machineNo: values.machineNo.value,
               designation: values.designation.value,
               workingDays: values.workingDays,
-              userRole: values.userRole.value,
+              userRole: role,
             })
               .then((res) => {
                 MachineService.updateMachine(values.machineNo.value, {
@@ -130,7 +140,7 @@ const UserForm = (props) => {
               machineNo: values.machineNo.value,
               designation: values.designation.value,
               workingDays: values.workingDays,
-              userRole: values.userRole.value,
+              userRole: role,
             })
               .then((res) => {
                 UserService.handleMessage("add");
@@ -355,36 +365,6 @@ const UserForm = (props) => {
                 </span>
               </div>
             </div>
-            <div className="col">
-              <div className="form-group">
-                <label className="control-label">Access Role</label>
-                <Select
-                  name="userRole"
-                  className={`my-select${
-                    props.touched.userRole && props.errors.userRole
-                      ? "is-invalid"
-                      : props.touched.userRole && "is-valid"
-                  }`}
-                  onBlur={props.handleBlur}
-                  value={props.values.userRole}
-                  onChange={(selected) => {
-                    props.setFieldValue("userRole", selected);
-                  }}
-                  options={[
-                    { value: roles.INTERNEE, label: roles.INTERNEE },
-                    { value: roles.PROBATION, label: roles.PROBATION },
-                    { value: roles.EMPLOYEE, label: roles.EMPLOYEE },
-                    { value: roles.PM, label: roles.PM },
-                    { value: roles.ADMIN, label: roles.ADMIN },
-                    { value: roles.HR, label: roles.HR },
-                    { value: roles.AM, label: roles.AM },
-                  ]}
-                />
-                <span id="err" className="invalid-feedback">
-                  {props.touched.userRole && props.errors.userRole}
-                </span>
-              </div>
-            </div>
           </div>
           <div className="row">
             <div className="col">
@@ -461,6 +441,39 @@ const UserForm = (props) => {
                 />
                 <span id="err" className="invalid-feedback">
                   {props.touched.workingDays && props.errors.workingDays}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div className="form-group">
+                <label className="control-label">Access Role</label>
+                <Select
+                  name="userRole"
+                  className={`my-select${
+                    props.touched.userRole && props.errors.userRole
+                      ? "is-invalid"
+                      : props.touched.userRole && "is-valid"
+                  }`}
+                  onBlur={props.handleBlur}
+                  value={props.values.userRole}
+                  isMulti={true}
+                  onChange={(selected) => {
+                    props.setFieldValue("userRole", selected);
+                  }}
+                  options={[
+                    { value: roles.INTERNEE, label: roles.INTERNEE },
+                    { value: roles.PROBATION, label: roles.PROBATION },
+                    { value: roles.EMPLOYEE, label: roles.EMPLOYEE },
+                    { value: roles.PM, label: roles.PM },
+                    { value: roles.ADMIN, label: roles.ADMIN },
+                    { value: roles.HR, label: roles.HR },
+                    { value: roles.AM, label: roles.AM },
+                  ]}
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.userRole && props.errors.userRole}
                 </span>
               </div>
             </div>

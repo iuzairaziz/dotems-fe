@@ -156,7 +156,7 @@ const UpdateUser = (props) => {
     },
     {
       label: "Designantion",
-      value: users.userRole,
+      value: users && users.designation && users.designation.name,
     },
   ];
 
