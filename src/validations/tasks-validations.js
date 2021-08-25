@@ -22,21 +22,12 @@ class TasksValidations {
         .max(100, "Max ratio is 100"),
       startTime: Yup.date()
         .required("Required!")
-        .min(
-          Yup.ref("pmStartDate"),
-          `Task start date must be greater then Project Start date ${Yup.ref(
-            "pmStartDate"
-          )}`
-        ),
+        .min(Yup.ref("pmStartDate"))
+        .max(Yup.ref("pmEndDate")),
       endTime: Yup.date()
         .required("Required!")
-        .min(Yup.ref("startTime"), "End date must be grater than start date")
-        .max(
-          Yup.ref("pmEndDate"),
-          `Task end date must be lesser then Project's Deadline ${Yup.ref(
-            "pmEndDate"
-          )}`
-        ),
+        .min(Yup.ref("startTime"))
+        .max(Yup.ref("pmEndDate")),
       //   projectRatio: Yup.number("Please enter a valid number!").required(
       //     "Required!"
       //   ),

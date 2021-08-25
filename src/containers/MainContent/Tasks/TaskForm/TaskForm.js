@@ -152,6 +152,7 @@ const TaskForm = (props) => {
               parentTask: values.parentTask.value,
               assignedTo: usrs,
               teamLead: values.teamLead.value,
+              phase: values.phase.value,
             })
               .then((res) => {
                 TaskService.handleMessage("update");
@@ -175,6 +176,7 @@ const TaskForm = (props) => {
               assignedTo: usrs,
               teamLead: values.teamLead.value,
               addedBy: loogedInUser._id,
+              phase: values.phase.value,
             })
               .then((res) => {
                 TaskService.handleMessage("add");
@@ -407,10 +409,10 @@ const TaskForm = (props) => {
                       props.touched.startTime && props.errors.startTime
                         ? "is-invalid"
                         : props.touched.startTime && "is-valid"
-                    }zIndex`}
+                    } zIndex`}
                     selected={props.values.startTime}
                     name="startTime"
-                    onBlur={props.handleBlur}
+                    onFocus={() => props.setFieldTouched("startTime")}
                     onChange={(date) => {
                       props.setFieldValue("startTime", date);
                       console.log("datepicker", date);
@@ -429,10 +431,10 @@ const TaskForm = (props) => {
                       props.touched.endTime && props.errors.endTime
                         ? "is-invalid"
                         : props.touched.endTime && "is-valid"
-                    }zIndex`}
+                    } zIndex`}
                     selected={props.values.endTime}
                     name="endTime"
-                    onBlur={props.handleBlur}
+                    onFocus={() => props.setFieldTouched("endTime")}
                     onChange={(date) => {
                       props.setFieldValue("endTime", date);
                       console.log("datepicker", date);

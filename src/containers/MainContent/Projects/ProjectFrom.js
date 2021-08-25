@@ -1122,7 +1122,7 @@ const ProjectForm = (props) => {
                   <div>
                     <DatePicker
                       name="pmStartDate"
-                      onBlur={props.handleBlur}
+                      onFocus={() => props.setFieldTouched("pmStartDate")}
                       className={`form-control ${
                         props.touched.pmStartDate && props.errors.pmStartDate
                           ? "is-invalid"
@@ -1147,7 +1147,7 @@ const ProjectForm = (props) => {
                   <div>
                     <DatePicker
                       name="pmEndDate"
-                      onBlur={props.handleBlur}
+                      onFocus={() => props.setFieldTouched("pmEndDate")}
                       selected={props.values.pmEndDate}
                       className={`form-control ${
                         props.touched.pmEndDate && props.errors.pmEndDate
