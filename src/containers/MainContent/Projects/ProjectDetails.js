@@ -12,11 +12,14 @@ import { convertFromRaw, EditorState } from "draft-js";
 import $ from "jquery";
 import "./ProjectDetails.scss";
 import ProjectComments from "./ProjectComments/ProjectComments";
+import userService from "../../../services/UserService";
+import Configuration from "../../../config/configuration";
 
 const ProjectDetails = (props) => {
   {
     // const [data, setData] = useState();
     const [projectData, setData] = useState();
+    const config = new Configuration();
 
     const [tabledata, setTableData] = useState({
       columns: [
@@ -116,6 +119,7 @@ const ProjectDetails = (props) => {
     });
 
     const getData = (id) => {
+      userService.isUserRole();
       ProjectService.getProjectAndTask(id)
         .then((res) => {
           setData(res.data[0]);

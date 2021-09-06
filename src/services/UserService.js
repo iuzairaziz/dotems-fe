@@ -156,7 +156,13 @@ class userServices {
     // console.log("role ", user);
     // console.log("roles", array);
     // console.log("role auth", array.includes(user.userRole));
-    return array.includes(user.userRole);
+    let consent = 0;
+    user.userRole.map((role) => {
+      if (array.includes(role)) {
+        consent = 1;
+      }
+    });
+    return consent;
   };
 
   handleMessage(type) {

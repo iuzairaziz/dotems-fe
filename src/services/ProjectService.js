@@ -48,6 +48,23 @@ class ProjectService {
       this.config.apiBaseUrl + "projects/project-with-tasks/" + id
     );
   }
+
+  getPmProjectAndTask(id) {
+    return axios.get(
+      this.config.apiBaseUrl + "projects/pm-project-with-tasks/" + id
+    );
+  }
+
+  getUserProjectAndTask(Pid, Eid) {
+    return axios.get(
+      this.config.apiBaseUrl +
+        "projects/user-project-with-tasks/" +
+        Pid +
+        "/" +
+        Eid
+    );
+  }
+
   getProjectReport(filterQuery) {
     let {
       applystatusfilter,
