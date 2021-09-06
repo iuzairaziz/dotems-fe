@@ -110,83 +110,11 @@ const ViewProjects = (props, match) => {
         sort: "asc",
         // width: 100,
       },
-      // {
-      //   label: "Project Manager",
-      //   field: "projectManager",
-      //   sort: "disabled",
-      //   width: 100,
-      // },
-      // {
-      //   label: "Team Members",
-      //   field: "teamMember",
-      //   sort: "disabled",
-      //   width: 100,
-      // },
-      // {
-      //   label: "Project Cost",
-      //   field: "cost",
-      //   sort: "disabled",
-      //   width: 100,
-      // },
-      // {
-      //   label: "Reserve Profit",
-      //   field: "Rprofit",
-      //   sort: "disabled",
-
-      // },
-      //  {
-      //    label: "Estimate Hours",
-      //    field: "EstHrs",
-      //    sort: "disabled",
-
-      //  },
-      //  {
-      //    label: "Actual Hours",
-      //    field: "ActHrs",
-      //   sort: "disabled",
-
-      //  },
       {
         label: "Work Done",
         field: "wrkdone",
         sort: "asc",
       },
-      // {
-      //   label: "Project Income Rs.",
-      //   field: "Pincome",
-      //   sort: "disabled",
-
-      // },
-      // {
-      //   label: "Platform Deduction",
-      //   field: "Pdeduction",
-      //   sort: "disabled",
-
-      // },
-      // {
-      //   label: "Resource Expense",
-      //   field: "Rprofit",
-      //   sort: "disabled",
-
-      // },
-      // {
-      //   label: "Total Profit",
-      //   field: "Tprofit",
-      //   sort: "disabled",
-
-      // },
-      // {
-      //   label: "Currency",
-      //   field: "currency",
-      //   sort: "disabled",
-      //   // width: 150,
-      // },
-      // {
-      //   label: "View Details",
-      //   field: "details",
-      //   sort: "disabled",
-      //   // width: 150,
-      // },
       {
         label: "Action",
         field: "action",
@@ -376,24 +304,11 @@ const ViewProjects = (props, match) => {
                   iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({
-                      pathname: "/viewproject/" + item._id,
+                      pathname: "/viewprojects/" + item._id,
                     });
+                    console.log("ID", item._id);
                   }}
                 />
-
-                {/* <Button
-                  className="my-seconday-button"
-                  size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
-                  onClick={() => {
-                    props.history.push({
-                      pathname: "/viewproject/" + item._id,
-                    });
-                  }}
-                >
-                  View
-                </Button> */}
                 <i
                   className="mdi mdi-pencil-box
                   iconsS my-seconday-icon"
@@ -402,37 +317,13 @@ const ViewProjects = (props, match) => {
                     toggleEdit();
                   }}
                 />
-                {/* <Button
-                  className="my-primary-button"
-                  size="sm"
-                  data-toggle="modal"
-                  data-target="#myModal"
-                  onClick={() => {
-                    setSelectedProject(item);
-                    toggleEdit();
-                  }}
-                >
-                  Edit
-                </Button> */}
                 <i
                   className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
                     setSelectedProject(item);
                     toggleDelete();
                   }}
-                >
-                  {/* <Button
-                    
-                    className="my-danger-button"
-                    size="sm"
-                    onClick={() => {
-                      setSelectedProject(item);
-                      toggleDelete();
-                    }}
-                  >
-                    Delete
-                  </Button> */}
-                </i>
+                />
               </div>
             ),
           });
@@ -440,7 +331,6 @@ const ViewProjects = (props, match) => {
         setData(data);
         console.log("state data", dataa);
         console.log("my project data", data);
-        console.log("res data", res);
       })
       .catch((err) => {
         console.log(err);

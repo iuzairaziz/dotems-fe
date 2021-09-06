@@ -119,7 +119,7 @@ const ProjectDetails = (props) => {
     });
 
     const getData = (id) => {
-      userService.isUserRole();
+      // userService.isUserRole();
       ProjectService.getProjectAndTask(id)
         .then((res) => {
           setData(res.data[0]);

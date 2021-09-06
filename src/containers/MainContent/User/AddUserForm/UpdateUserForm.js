@@ -231,7 +231,7 @@ const UpdateUser = (props) => {
 
           <div className="card m-b-20">
             <div className="card-body">
-              <div>
+              {/* <div>
                 <h1 className="title">Upload an Image</h1>
                 <Alert msg={errMsg} type="danger" />
                 <Alert msg={successMsg} type="success" />
@@ -255,7 +255,7 @@ const UpdateUser = (props) => {
                     style={{ height: "300px" }}
                   />
                 )}
-              </div>
+              </div> */}
               <div className="row">
                 <div className="col">
                   <div className="form-group">

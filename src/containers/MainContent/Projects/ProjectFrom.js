@@ -188,11 +188,12 @@ const ProjectForm = (props) => {
         .filter((role) => role.userRole === roless.PM)
         .map((item, index) => {
           options.push({
-            value: item._id,
+            value: item.name,
             label: `${item.name} (${item.userRole})`,
           });
         });
       setUsers(options);
+      console.log("Users", users);
     });
   };
 
