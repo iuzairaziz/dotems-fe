@@ -74,6 +74,7 @@ const ProjectForm = (props) => {
   const roless = new Configuration().Roles;
 
   const editable = props.editable;
+  console.log("editable", editable);
   const project = props.project;
   const history = useHistory();
 
@@ -1340,6 +1341,7 @@ const ProjectForm = (props) => {
             <PhaseList
               setPhaseDetials={setPhasesDetails}
               phasesDetails={phasesDetails}
+              editable={editable}
             />
           </div>
           <div className="d-flex justify-content-center row">
