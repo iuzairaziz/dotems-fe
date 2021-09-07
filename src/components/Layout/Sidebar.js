@@ -331,9 +331,9 @@ class sidebar extends Component {
                     <span>
                       {" "}
                       Dashboard{" "}
-                      <span className="badge badge-pill badge-primary pull-right">
+                      {/* <span className="badge badge-pill badge-primary pull-right">
                         20+
-                      </span>
+                      </span> */}
                     </span>{" "}
                   </Link>
                   <ul
