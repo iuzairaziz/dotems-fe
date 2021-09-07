@@ -49,12 +49,6 @@ const ViewProjects = (props, match) => {
         sort: "asc",
         width: 150,
       },
-      // {
-      //   label: "Order Num",
-      //   field: "orderNum",
-      //   sort: "disabled",
-      //   width: 100,
-      // },
 
       {
         label: "Platform",
@@ -66,18 +60,6 @@ const ViewProjects = (props, match) => {
         field: "technology",
         sort: "true",
       },
-      // {
-      //   label: "Service Type",
-      //   field: "serviceType",
-      //   sort: "disabled",
-      //   width: 100,
-      // },
-      // {
-      //   label: "Project Nature",
-      //   field: "projectNature",
-      //   sort: "asc",
-      //   width: 100,
-      // },
       {
         label: "Status",
         field: "status",
