@@ -91,7 +91,8 @@ const mainbuilder = (props) => {
         <Route exact path="/leave-details" component={LeaveDetails} />
         <Route exact path="/single-detail/:id" component={SingleDetail} />
         <Route exact path="/my-projects" component={MyProjects} />
-        <Route exact path="/viewproject/:id" component={ProjectDetails} />
+        <Route exact path="/viewprojects/:id" component={ProjectDetails} />
+        {/* <Route exact path="/viewproject" component={ViewProjects} /> */}
         <Route exact path="/updateuser" component={updateUsers} />
         <Route exact path="/changepass" component={ChangePassword} />
         <Route exact path="/changepassword" component={ChangePasswordForm} />

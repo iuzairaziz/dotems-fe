@@ -14,12 +14,13 @@ import "./ProjectDetails.scss";
 import ProjectComments from "./ProjectComments/ProjectComments";
 import userService from "../../../services/UserService";
 import Configuration from "../../../config/configuration";
+// import userService from "../../../services/UserService";
 
 const ProjectDetails = (props) => {
   {
-    // const [data, setData] = useState();
     const [projectData, setData] = useState();
     const config = new Configuration();
+    const roless = new Configuration().Roles;
 
     const [tabledata, setTableData] = useState({
       columns: [
@@ -77,17 +78,32 @@ const ProjectDetails = (props) => {
       rows: [],
     });
 
-    console.log("props", props.location.projectProps);
     const projectId = props.match.params.id;
-    // console.log("Project Name", project.id)
+    let loggedUser = userService.userLoggedInInfo();
+    // console.log("uzair", loggedUser);
 
     useEffect(() => {
-      getData(projectId);
+      if (loggedUser.userRole.includes(roless.ADMIN)) {
+        getData(projectId);
+      } else if (loggedUser.userRole.includes(roless.PM)) {
+        getPMData(projectId, loggedUser._id);
+      } else if (
+        loggedUser.userRole.some((role) => {
+          return (
+            role === roless.INTERNEE ||
+            role === roless.PROBATION ||
+            role === roless.EMPLOYEE
+          );
+        })
+      ) {
+        getEmployeeData(projectId, loggedUser._id);
+      }
     }, []);
 
     useEffect(() => {
       getTableData();
-    }, [projectData]);
+      // getPMData(projectId, loggedUser._id);
+    }, []);
     const changeColor = () => {
       $(document).ready(function() {
         $("tr").each(function(index) {
@@ -119,7 +135,7 @@ const ProjectDetails = (props) => {
     });
 
     const getData = (id) => {
-      userService.isUserRole();
+      // userService.isUserRole();
       ProjectService.getProjectAndTask(id)
         .then((res) => {
           setData(res.data[0]);
@@ -129,7 +145,25 @@ const ProjectDetails = (props) => {
         });
     };
 
-    console.log("data", projectData);
+    const getPMData = (projectID, pmID) => {
+      ProjectService.getPmProjectAndTask(projectID, pmID)
+        .then((res) => {
+          setData(res.data[0]);
+        })
+        .catch((err) => {
+          console.log("error", err);
+        });
+    };
+
+    const getEmployeeData = (projectID, pmID) => {
+      ProjectService.getUserProjectAndTask(projectID, pmID)
+        .then((res) => {
+          setData(res.data[0]);
+        })
+        .catch((err) => {
+          console.log("error", err);
+        });
+    };
 
     const getTableData = () => {
       let data = { ...tabledata };
@@ -178,18 +212,31 @@ const ProjectDetails = (props) => {
       { label: "Project Name", value: projectData && projectData.name },
       {
         label: "Client Name",
-        value: projectData && projectData.client.name,
+        value:
+          projectData && projectData.client.name
+            ? projectData.client.name
+            : "N/A",
       },
 
       {
         label: "Order Number",
-        value: projectData && projectData.orderNum,
+        value:
+          projectData && projectData.orderNum ? projectData.orderNum : "N/A",
       },
       {
         label: "Platform",
-        value: projectData && projectData.platform.name,
+        value:
+          projectData && projectData.platform.name
+            ? projectData.platform.name
+            : "N/A",
       },
-      { label: "Service Type", value: projectData && projectData.service.name },
+      {
+        label: "Service Type",
+        value:
+          projectData && projectData.service.name
+            ? projectData.service.name
+            : "N/A",
+      },
       {
         label: "Technology",
         value:
@@ -205,57 +252,82 @@ const ProjectDetails = (props) => {
       },
       {
         label: "Status",
-        value: projectData && projectData.status.name,
+        value:
+          projectData && projectData.status.name
+            ? projectData.status.name
+            : "N/A",
       },
       {
         label: "Project Nature",
-        value: projectData && projectData.nature.name,
+        value:
+          projectData && projectData.nature.name
+            ? projectData.nature.name
+            : "N/A",
       },
 
       {
         label: "Client Start Date",
         value:
-          projectData && moment(projectData.cStartDate).format("DD/MMM/YYYY"),
+          projectData && moment(projectData.cStartDate).format("DD/MMM/YYYY")
+            ? moment(projectData.cStartDate).format("DD/MMM/YYYY")
+            : "N/A",
       },
       {
         label: "Cient Deadline",
         value:
-          projectData && moment(projectData.cEndDate).format("DD/MMM/YYYY"),
+          projectData && moment(projectData.cEndDate).format("DD/MMM/YYYY")
+            ? moment(projectData.cEndDate).format("DD/MMM/YYYY")
+            : "N/A",
       },
       {
         label: "PM Start Date",
         value:
-          projectData && moment(projectData.pmStartDate).format("DD/MMM/YYYY"),
+          projectData && moment(projectData.pmStartDate).format("DD/MMM/YYYY")
+            ? moment(projectData.pmStartDate).format("DD/MMM/YYYY")
+            : "N/A",
       },
       {
         label: "PM Deadline",
         value:
-          projectData && moment(projectData.pmEndDate).format("DD/MMM/YYYY"),
+          projectData && moment(projectData.pmEndDate).format("DD/MMM/YYYY")
+            ? moment(projectData.pmEndDate).format("DD/MMM/YYYY")
+            : "N/A",
       },
-
       {
         label: "Cost",
-        value: projectData && projectData.cost,
+        value: projectData && projectData.cost ? projectData.cost : "N/A",
       },
       {
         label: "Currency",
-        value: projectData && projectData.currency.name,
+        value:
+          projectData && projectData.currency.name
+            ? projectData.currency.name
+            : "N/A",
       },
       {
         label: "Platform Deductions",
-        value: projectData && projectData.Pdeduction,
+        value:
+          projectData && projectData.Pdeduction
+            ? projectData.Pdeduction
+            : "N/A",
       },
       {
         label: "Reserve Profit",
-        value: projectData && projectData.Rprofit,
+        value: projectData && projectData.Rprofit ? projectData.Rprofit : "N/A",
       },
       {
         label: "Other Deductions",
-        value: projectData && projectData.otherDeduction,
+        value:
+          projectData && projectData.otherDeduction
+            ? projectData.otherDeduction
+            : "N/A",
       },
       {
         label: "Project Manager",
-        value: projectData && projectData.projectManager.name,
+        value:
+          projectData && projectData.projectManager.name
+            ? projectData.projectManager.name
+            : "N/A",
       },
       {
         label: "Team Members",

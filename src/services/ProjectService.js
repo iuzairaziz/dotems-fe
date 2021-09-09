@@ -49,9 +49,13 @@ class ProjectService {
     );
   }
 
-  getPmProjectAndTask(id) {
+  getPmProjectAndTask(Pid, Eid) {
     return axios.get(
-      this.config.apiBaseUrl + "projects/pm-project-with-tasks/" + id
+      this.config.apiBaseUrl +
+        "projects/pm-project-with-tasks/" +
+        Pid +
+        "/" +
+        Eid
     );
   }
 

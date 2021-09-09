@@ -7,6 +7,8 @@ import StatusForm from "../StatusForm/StatusForm";
 import StatusService from "../../../../services/StatusService";
 import "./StatusList.scss";
 
+
+
 const StatusList = () => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);

@@ -81,38 +81,38 @@ const MyProjects = (props, match) => {
     getData(loggedUser._id);
   }, []);
 
-//   const changeColor = () => {
-//     $("tbody > tr").each(function(index) {
-//       // console.log("trs", this);
-//       var ninth = $(this)
-//         .children("td")
-//         .eq(9)
-//         .text();
-//       var eight = $(this)
-//         .children("td")
-//         .eq(8)
-//         .text();
-//       var finalNinth = parseInt(ninth);
-//       var finalEight = parseInt(eight);
-//       if (finalNinth > finalEight) {
-//         $(this).css("color", "red");
-//         $(this)
-//           .find("a")
-//           .css("color", "red");
-//       } else {
-//         $(this).css("color", "black");
-//         $(this)
-//           .find("a")
-//           .css("color", "black");
-//       }
-//     });
-//   };
-//   $(document).ready(function() {
-//     changeColor();
-//     $(document).on("click", "th", function() {
-//       changeColor();
-//     });
-//   });
+  //   const changeColor = () => {
+  //     $("tbody > tr").each(function(index) {
+  //       // console.log("trs", this);
+  //       var ninth = $(this)
+  //         .children("td")
+  //         .eq(9)
+  //         .text();
+  //       var eight = $(this)
+  //         .children("td")
+  //         .eq(8)
+  //         .text();
+  //       var finalNinth = parseInt(ninth);
+  //       var finalEight = parseInt(eight);
+  //       if (finalNinth > finalEight) {
+  //         $(this).css("color", "red");
+  //         $(this)
+  //           .find("a")
+  //           .css("color", "red");
+  //       } else {
+  //         $(this).css("color", "black");
+  //         $(this)
+  //           .find("a")
+  //           .css("color", "black");
+  //       }
+  //     });
+  //   };
+  //   $(document).ready(function() {
+  //     changeColor();
+  //     $(document).on("click", "th", function() {
+  //       changeColor();
+  //     });
+  //   });
 
   const calEstHrs = (project) => {
     let EstTime = 0;
@@ -134,7 +134,16 @@ const MyProjects = (props, match) => {
             index: index,
             projectName: item.name ? item.name : "N/A",
             orderNum: item.orderNum ? item.orderNum : "N/A",
-            technology: item.technology ? item.technology.name : "N/A",
+            technology: item.technology
+              ? item.technology.map((item, index) => {
+                  return (
+                    <div>
+                      {item.name}
+                      <br />
+                    </div>
+                  );
+                })
+              : "none",
             status: item.status ? item.status.name : "N/A",
             startDate: item.pmStartDate
               ? moment(item.pmStartDate).format("DD/MMM/YYYY")
@@ -156,7 +165,7 @@ const MyProjects = (props, match) => {
                   iconsS my-primary-icon"
                   onClick={() => {
                     props.history.push({
-                      pathname: "/viewproject/" + item._id,
+                      pathname: "/viewprojects/" + item._id,
                     });
                   }}
                 />

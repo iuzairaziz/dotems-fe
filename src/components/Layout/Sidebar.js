@@ -82,6 +82,10 @@ class sidebar extends Component {
                 routeName: this.baseUrl + "addproject",
                 label: "New Project",
               },
+            ]
+          : []),
+        ...(this.isRole([this.roles.ADMIN, this.roles.CEO])
+          ? [
               {
                 routeName: this.baseUrl + "viewproject",
                 label: "View Projects",
@@ -108,12 +112,16 @@ class sidebar extends Component {
         ...(this.isRole([this.roles.PM, this.roles.ADMIN])
           ? [
               {
-                routeName: this.baseUrl + "view-request",
-                label: "View Request",
-              },
-              {
                 routeName: this.baseUrl + "view-recieved-request",
                 label: "Recieved Requests",
+              },
+            ]
+          : []),
+        ...(this.isRole([this.roles.ADMIN])
+          ? [
+              {
+                routeName: this.baseUrl + "view-request",
+                label: "View Request",
               },
             ]
           : []),
@@ -162,21 +170,6 @@ class sidebar extends Component {
     ...(this.isRole([this.roles.PM, this.roles.ADMIN, this.roles.CEO])
       ? [
           {
-            name: "project_payments_menu",
-            icon: "mdi-credit-card",
-            tab: "Project Payments",
-            subMenus: [
-              {
-                routeName: this.baseUrl + "add-project-payments",
-                label: "Add Payments",
-              },
-              {
-                routeName: this.baseUrl + "view-project-payments",
-                label: "View Payments",
-              },
-            ],
-          },
-          {
             name: "project_settings_menu",
             icon: "mdi-settings",
             tab: "project-settings",
@@ -211,6 +204,25 @@ class sidebar extends Component {
               {
                 routeName: this.baseUrl + "view-accessory",
                 label: "View Accessory ",
+              },
+            ],
+          },
+        ]
+      : []),
+    ...(this.isRole([this.roles.ADMIN, this.roles.CEO])
+      ? [
+          {
+            name: "project_payments_menu",
+            icon: "mdi-credit-card",
+            tab: "Project Payments",
+            subMenus: [
+              {
+                routeName: this.baseUrl + "add-project-payments",
+                label: "Add Payments",
+              },
+              {
+                routeName: this.baseUrl + "view-project-payments",
+                label: "View Payments",
               },
             ],
           },
@@ -319,9 +331,9 @@ class sidebar extends Component {
                     <span>
                       {" "}
                       Dashboard{" "}
-                      <span className="badge badge-pill badge-primary pull-right">
+                      {/* <span className="badge badge-pill badge-primary pull-right">
                         20+
-                      </span>
+                      </span> */}
                     </span>{" "}
                   </Link>
                   <ul

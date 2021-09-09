@@ -186,14 +186,17 @@ const ProjectForm = (props) => {
     userService.getUsers("", "", "", "").then((res) => {
       let options = [];
       res.data
-        .filter((role) => role.userRole === roless.PM)
+        .filter((user) => {
+          return user.userRole.includes(roless.PM);
+        })
         .map((item, index) => {
           options.push({
-            value: item._id,
+            value: item.id,
             label: `${item.name} (${item.userRole})`,
           });
         });
       setUsers(options);
+      // console.log("Users", res.data);
     });
   };
 
@@ -201,12 +204,15 @@ const ProjectForm = (props) => {
     userService.getUsers("", "", "", "").then((res) => {
       let options = [];
       res.data
-        .filter(
-          (role) =>
-            role.userRole === roless.INTERNEE ||
-            role.userRole === roless.PROBATION ||
-            role.userRole === roless.EMPLOYEE
-        )
+        .filter((user) => {
+          return user.userRole.some((role) => {
+            return (
+              role === roless.INTERNEE ||
+              role === roless.PROBATION ||
+              role === roless.EMPLOYEE
+            );
+          });
+        })
         .map((item, index) => {
           options.push({
             value: item._id,
@@ -214,8 +220,13 @@ const ProjectForm = (props) => {
           });
         });
       setTeamMember(options);
+      console.log("teamss", res.data);
     });
   };
+
+  useEffect(() => {
+    console.log("team", teamMember);
+  }, [teamMember]);
 
   const getClient = () => {
     ClientService.getAllClient().then((res) => {
@@ -276,8 +287,6 @@ const ProjectForm = (props) => {
       setCountry(options);
     });
   };
-
-  // console.log(project);
 
   const toShowData = () => {
     let options = [];
