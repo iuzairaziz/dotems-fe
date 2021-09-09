@@ -35,7 +35,7 @@ class sidebar extends Component {
   baseUrl = this.props.match.url;
   isRole = userService.isUserRole;
   menus = [
-    ...(this.isRole([this.roles.PM, this.roles.ADMIN, this.roles.CEO])
+    ...(this.isRole([this.roles.PM, this.roles.ADMIN])
       ? [
           {
             name: "user_menu",
@@ -61,7 +61,7 @@ class sidebar extends Component {
       icon: "mdi-clipboard-text",
       tab: "task",
       subMenus: [
-        ...(this.isRole([this.roles.PM, this.roles.ADMIN, this.roles.CEO])
+        ...(this.isRole([this.roles.PM, this.roles.ADMIN])
           ? [
               { routeName: this.baseUrl + "add-task", label: "New Tasks" },
               { routeName: this.baseUrl + "task", label: "View Tasks" },
