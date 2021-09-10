@@ -51,12 +51,12 @@ const UserDetails = (props) => {
           sort: "asc",
           // width: 100,
         },
-        {
-          label: "Added By",
-          field: "addedBy",
-          sort: "asc",
-          // width: 100,
-        },
+        // {
+        //   label: "Added By",
+        //   field: "addedBy",
+        //   sort: "asc",
+        //   // width: 100,
+        // },
         {
           label: "Start Time",
           field: "startTime",
@@ -80,7 +80,7 @@ const UserDetails = (props) => {
       getData(userID);
     }, []);
 
-    console.log("User", userData);
+    // console.log("User", userData);
 
     const getData = (id) => {
       UserService.getUserById(id)
@@ -94,12 +94,7 @@ const UserDetails = (props) => {
           tasks.map((item, index) => {
             data.rows.push({
               title: item.name ? item.name : "none",
-              project: (
-                <Link to={`/projectdetails/${item.project._id}`}>
-                  {" "}
-                  {item.project ? item.project.name : "none"}{" "}
-                </Link>
-              ),
+              project: item.project ? item.project.name : "none",
               estimatedHrs: item.estHrs ? item.estHrs.toFixed(2) : "none",
               projectRatio: item.projectRatio ? (
                 <Progress color="teal" value={item.projectRatio}>
@@ -109,15 +104,16 @@ const UserDetails = (props) => {
                 "N/A"
               ),
               status: item.status ? item.status : "none",
-              teamLead: item.teamLead ? (
-                <Link to={`/userdetails/${item.teamLead._id}`}>
-                  {" "}
-                  {item.teamLead.name}{" "}
-                </Link>
-              ) : (
-                "none"
-              ),
-              addedBy: item.addedBy ? item.addedBy.name : "none",
+              teamLead:
+                item.teamLead && item.teamLead ? (
+                  <Link to={`/userdetails/${item.teamLead._id}`}>
+                    {" "}
+                    {item.teamLead.name}{" "}
+                  </Link>
+                ) : (
+                  "none"
+                ),
+              // addedBy: item.addedBy ? item.addedBy.name : "none",
               startTime: item.startTime
                 ? moment(item.startTime).format("DD/MMM/YYYY")
                 : "none",
@@ -127,12 +123,13 @@ const UserDetails = (props) => {
             });
           });
           setData(data);
+          // console.log("tasksss", data);
         })
         .catch((err) => {
           console.log("error", err);
         });
     };
-    console.log("Tasks", taskData);
+    // console.log("Tasks", taskData);
 
     const detail = [
       { label: "Name", value: userData && userData.name },
