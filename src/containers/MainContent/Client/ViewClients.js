@@ -150,7 +150,6 @@ const ViewClients = (props) => {
   return (
     <AUX>
       <div className="page-content-wrapper">
-       
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
@@ -158,33 +157,32 @@ const ViewClients = (props) => {
                 <div className="card-body">
                   <div className="row align-items-center mb-3">
                     <div className="col">
-                    <h3 className="m-0 p-0">All Clients</h3>
+                      <h3 className="m-0 p-0">All Clients</h3>
                     </div>
                     <div className="col">
-                    <Link to="/addclient">
-                      <Button
-                        color="success"
-                        className="my-primary-button float-right"
-                      >
-                        Add Client
-                      </Button>
-                    </Link>
+                      <Link to="/addclient">
+                        <Button
+                          color="success"
+                          className="my-primary-button float-right"
+                        >
+                          Add Client
+                        </Button>
+                      </Link>
                     </div>
                   </div>
-                  
-                
+
                   <MDBDataTableV5
-                   responsive
-                   striped
-                   small
-                   onPageChange={(val) => console.log(val)}
-                   bordered={true}
-                  //  materialSearch
-                   searchTop
-                   searchBottom={false}
-                   pagingTop
-                   barReverse
-                   hover
+                    responsive
+                    striped
+                    small
+                    onPageChange={(val) => console.log(val)}
+                    bordered={true}
+                    //  materialSearch
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
+                    hover
                     // // scrollX
                     // fixedHeader={true}
                     // responsive
