@@ -6,13 +6,7 @@ import Select from "react-select";
 import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {
-  Progress,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import PhaseList from "../../../../src/components/MyComponents/DynamicInputField/PhaseList";
 import DesignationService from "../../../services/DesignationService";
 import AddClientForm from "../Client/ClientsForm";
@@ -72,49 +66,14 @@ const ProjectForm = (props) => {
   ]);
 
   const roless = new Configuration().Roles;
-
+  let tHours = 0;
   const editable = props.editable;
-  console.log("editable", editable);
   const project = props.project;
   const history = useHistory();
 
   useEffect(() => {
     editable && project && project.phase && setPhasesDetails(project.phase);
   }, []);
-
-  const [totalCost, setTotalCost] = useState(0);
-  // const [phases, setPhases] = useState([
-  //   {
-  //     phasename: "Requirement Analysis",
-  //     estTime: editable ? project.phase[0].estTime : 0,
-  //   },
-  //   {
-  //     phasename: "Design",
-  //     estTime: editable ? project.phase[1].estTime : 0,
-  //   },
-  //   {
-  //     phasename: "Development",
-  //     estTime: editable ? project.phase[2].estTime : 0,
-  //   },
-  //   {
-  //     phasename: "Implementation",
-  //     estTime: editable ? project.phase[3].estTime : 0,
-  //   },
-  //   {
-  //     phasename: "Testing",
-  //     estTime: editable ? project.phase[4].estTime : 0,
-  //   },
-  //   {
-  //     phasename: "Documentation",
-  //     estTime: editable ? project.phase[5].estTime : 0,
-  //   },
-  //   {
-  //     phasename: "Evaluation",
-  //     estTime: editable ? project.phase[6].estTime : 0,
-  //   },
-  // ]);
-
-  let tHours = 0;
 
   useEffect(() => {
     console.log(tHours);
@@ -128,7 +87,6 @@ const ProjectForm = (props) => {
   const handleOption = (opt) => {
     set_default_option(opt);
   };
-
   const toggleClientEdit = () => setClientModal(!clientModal);
   const togglePlatformEdit = () => setPlatformModal(!platformModal);
   const toggleTechnologyEdit = () => setTechnologyModal(!technologyModal);
@@ -143,11 +101,11 @@ const ProjectForm = (props) => {
     getTechnology();
     getServiceType();
     getNature();
-    getUsers();
     getClient();
     getStatus();
     getCurrency();
     getTeamMembers();
+    getProjectManager();
   }, [
     clientModal,
     platformModal,
@@ -182,21 +140,23 @@ const ProjectForm = (props) => {
     });
   };
 
-  const getUsers = () => {
+  const getProjectManager = () => {
     userService.getUsers("", "", "", "").then((res) => {
       let options = [];
       res.data
         .filter((user) => {
-          return user.userRole.includes(roless.PM);
+          return user.userRole.some((role) => {
+            return role === roless.PM;
+          });
         })
         .map((item, index) => {
           options.push({
-            value: item.id,
+            value: item._id,
             label: `${item.name} (${item.userRole})`,
           });
         });
       setUsers(options);
-      // console.log("Users", res.data);
+      // console.log("Project Manager", options);
     });
   };
 
@@ -220,13 +180,8 @@ const ProjectForm = (props) => {
           });
         });
       setTeamMember(options);
-      console.log("teamss", res.data);
     });
   };
-
-  useEffect(() => {
-    console.log("team", teamMember);
-  }, [teamMember]);
 
   const getClient = () => {
     ClientService.getAllClient().then((res) => {
@@ -308,7 +263,6 @@ const ProjectForm = (props) => {
 
   var TeamMembers = [];
   var Technology = [];
-  console.log("Projectssss", project);
   editable &&
     project.assignedUser &&
     project.assignedUser.map((item) =>
@@ -369,12 +323,12 @@ const ProjectForm = (props) => {
         cEndDate: editable && project.cEndDate,
         pmStartDate: editable && project.pmStartDate,
         pmEndDate: editable && project.pmEndDate,
+        teamMembers: editable && TeamMembers ? TeamMembers : [],
         projectManager: editable &&
           project.projectManager && {
             label: project.projectManager.name,
             value: project.projectManager._id,
           },
-        teamMembers: editable && TeamMembers ? TeamMembers : [],
         orderNum: editable && project.orderNum,
         Pdeduction: editable && project.Pdeduction,
         percentage: editable && project.percentage,
@@ -390,28 +344,20 @@ const ProjectForm = (props) => {
       validate={(values) => {
         if (values.projectType && values.projectType.value === "hourly") {
           setCostValue(values.hourlyCost * values.clientHours);
-          console.log("cost value", values.hourlyCost * values.clientHours);
         } else {
           setCostValue(false);
         }
-        console.log("value", values);
       }}
       validationSchema={ProjectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
-        // console.log(phases);
         const usrs = [];
         const tech = [];
-        // console.log("team members", values.teamMembers);
         values.teamMembers.map((item) => {
           usrs.push(item.value);
-          // console.log("users", usrs);
         });
         values.technology.map((item) => {
           tech.push(item.value);
-          // console.log("users", usrs);
         });
-        console.log("valuesss", tech);
-
         editable
           ? ProjectService.updateProject(project._id, {
               name: values.projectName,
@@ -646,15 +592,14 @@ const ProjectForm = (props) => {
             <div className="col">
               <div className="form-group">
                 <label className="control-label">Project Manager</label>
-
                 <Select
-                  name="projectManager"
-                  onFocus={() => props.setFieldTouched("projectManager")}
                   className={`my-select ${
                     props.touched.projectManager && props.errors.projectManager
                       ? "is-invalid"
                       : props.touched.projectManager && "is-valid"
                   }`}
+                  name="projectManager"
+                  onFocus={() => props.setFieldTouched("projectManager")}
                   value={props.values.projectManager}
                   onChange={(val) => props.setFieldValue("projectManager", val)}
                   options={users}

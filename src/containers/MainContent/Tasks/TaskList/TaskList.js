@@ -158,9 +158,9 @@ const Tables_datatable = (props) => {
           data.rows.push({
             title: item.name ? item.name : "N/A",
             project: (
-              <Link to={`/viewproject/${item.project && item.project._id}`}>
+              <Link to={`/viewprojects/${item.project && item.project._id}`}>
                 {" "}
-                {item.project ? item.project.name : "N/A"}{" "}
+                {item.project ? item.project.name : "N/A"}
               </Link>
             ),
             estimatedHrs: item.estHrs ? item.estHrs.toFixed(2) : "N/A",
@@ -177,12 +177,13 @@ const Tables_datatable = (props) => {
                 {item.status ? item.status : "N/A"}
               </span>
             ),
-            teamLead: (
-              <Link to={`/userdetails/${item.teamLead._id}`}>
-                {" "}
-                {item.teamLead ? item.teamLead.name : "N/A"}{" "}
-              </Link>
-            ),
+            teamLead: item.teamLead ? item.teamLead.name : "N/A",
+            //  (
+            //   <Link to={`/userdetails/${item.teamLead._id}`}>
+            //     {" "}
+            //     {item.teamLead ? item.teamLead.name : "N/A"}{" "}
+            //   </Link>
+            // ),
             parentTask: item.parentTask ? item.parentTask.name : "N/A",
             addedBy: item.addedBy ? (
               <Link to={`/userdetails/${item.addedBy._id}`}>
