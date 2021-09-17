@@ -31,8 +31,10 @@ const PlatformForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 PlatformService.handleMessage("add");
-                history.push("/platform");
-                actions.setFieldValue("title", "");
+                if (props.redirect) {
+                  history.push("/platform");
+                  actions.setFieldValue("title", "");
+                }
               })
               .catch((err) => {
                 PlatformService.handleCustomMessage(err.response.data);
@@ -52,7 +54,8 @@ const PlatformForm = (props) => {
                       props.touched.title && props.errors.title
                         ? "is-invalid"
                         : props.touched.title && "is-valid"
-                    }`}                     value={props.values.title}
+                    }`}
+                    value={props.values.title}
                     onChange={props.handleChange("title")}
                     placeholder="Enter Name"
                   />

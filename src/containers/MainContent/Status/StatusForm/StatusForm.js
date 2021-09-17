@@ -31,8 +31,10 @@ const StatusForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 StatusService.handleMessage("add");
-                history.push("/viewstatus");
-                actions.setFieldValue("status", "");
+                if (props.redirect) {
+                  history.push("/viewstatus");
+                  actions.setFieldValue("status", "");
+                }
               })
               .catch((err) => {
                 StatusService.handleCustomMessage(err.response.data);
@@ -52,7 +54,8 @@ const StatusForm = (props) => {
                       props.touched.status && props.errors.status
                         ? "is-invalid"
                         : props.touched.status && "is-valid"
-                    }`}                     value={props.values.status}
+                    }`}
+                    value={props.values.status}
                     onChange={props.handleChange("status")}
                     placeholder="Enter Name"
                   />

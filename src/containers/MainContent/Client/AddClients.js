@@ -18,7 +18,7 @@ class AddClients extends Component {
                 <div className="card m-b-20">
                   <div className="card-body">
                     <h3 className="mb-3">Add New Client</h3>
-                    <ClientsForm />
+                    <ClientsForm redirect />
                   </div>
                 </div>
               </div>

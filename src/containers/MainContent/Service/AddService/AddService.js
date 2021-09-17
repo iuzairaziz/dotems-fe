@@ -15,7 +15,7 @@ const AddService = () => {
                   <p className="text-muted m-b-30 font-14">
                     Please fill the form below to add a new Service.
                   </p>
-                  <ServiceForm />
+                  <ServiceForm redirect />
                 </div>
               </div>
             </div>

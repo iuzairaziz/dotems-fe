@@ -29,10 +29,11 @@ const TechnologyForm = (props) => {
               })
           : TechnologyService.addTechnology({ name: values.title })
               .then((res) => {
+                if (props.redirect) {
+                  history.push("/technology");
+                }
                 props.toggle && props.toggle();
                 TechnologyService.handleMessage("add");
-                history.push("/technology");
-                actions.setFieldValue("title", "");
               })
               .catch((err) => {
                 TechnologyService.handleCustomMessage(err.response.data);
@@ -52,7 +53,8 @@ const TechnologyForm = (props) => {
                       props.touched.title && props.errors.title
                         ? "is-invalid"
                         : props.touched.title && "is-valid"
-                    }`}                      value={props.values.title}
+                    }`}
+                    value={props.values.title}
                     onChange={props.handleChange("title")}
                     placeholder="Enter Name"
                   />
@@ -65,7 +67,6 @@ const TechnologyForm = (props) => {
             <div className="row">
               <div className="col">
                 <Button
-                  // className=""
                   className="mt-3 my-primary-button"
                   onClick={props.handleSubmit}
                 >

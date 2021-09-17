@@ -28,10 +28,8 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import StatusService from "../../../services/StatusService";
 import CurrencyService from "../../../services/CurrencyService";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
-import Editable from "react-x-editable";
 import "./ProjectForm.scss";
 import { useHistory } from "react-router-dom";
-import { actions } from "../../../store/actions";
 
 const ProjectForm = (props) => {
   const [default_option, set_default_option] = useState(0);
@@ -57,6 +55,7 @@ const ProjectForm = (props) => {
   const [totalHours, setTotalHours] = useState(0);
   const [hideField, setHideField] = useState(true);
   const [costValue, setCostValue] = useState(false);
+  // const [redirect, setRedirect] = useState(true);
   const [phasesDetails, setPhasesDetails] = useState([
     {
       index: Math.random(),
@@ -83,7 +82,6 @@ const ProjectForm = (props) => {
     tHours = parseInt(tHours) + parseInt(value);
     setTotalHours(parseInt(tHours));
   };
-
   const handleOption = (opt) => {
     set_default_option(opt);
   };
@@ -1122,176 +1120,6 @@ const ProjectForm = (props) => {
               </div>
               <div className="col-sm-1" />
             </div>
-
-            {/* <div className="page-content-wrapper">
-              <div className="container-fluid">
-                <div className="row">
-                  <div className="col-12">
-                    <table className="table table-striped mb-0">
-                      <thead>
-                        <tr>
-                          <th style={{ fontSize: "17px", fontWeight: "bold" }}>
-                            Project Phase
-                          </th>
-                          <th style={{ fontSize: "17px", fontWeight: "bold" }}>
-                            Estimate Hours
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Requirement Analysis</td>
-                          <td>
-                            <Editable
-                              name="Hours"
-                              dataType="text"
-                              mode="inline"
-                              value={phases[0].estTime}
-                              display={(value) => {
-                                phases[0].estTime = value;
-                                // console.log("value inside editable=", value);
-                                setThours(value);
-
-                                return <strong>{value}</strong>;
-                              }}
-                              title="Please enter Hours"
-                              // value="0"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Design</td>
-                          <td>
-                            <Editable
-                              name="Hours"
-                              dataType="text"
-                              mode="inline"
-                              value={phases[1].estTime}
-                              display={(value) => {
-                                phases[1].estTime = value;
-                                // console.log("value inside editable=", value);
-                                setThours(value);
-
-                                return <strong>{value}</strong>;
-                              }}
-                              title="Please enter Hours"
-                              // value="0"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Development </td>
-                          <td>
-                            <Editable
-                              name="Hours"
-                              dataType="text"
-                              mode="inline"
-                              value={phases[2].estTime}
-                              display={(value) => {
-                                phases[2].estTime = value;
-                                // console.log("value inside editable=", value);
-                                setThours(value);
-
-                                return <strong>{value}</strong>;
-                              }}
-                              title="Please enter Hours"
-                              // value="0"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Testing </td>
-                          <td>
-                            <Editable
-                              name="Hours"
-                              dataType="text"
-                              mode="inline"
-                              value={phases[3].estTime}
-                              display={(value) => {
-                                phases[3].estTime = value;
-                                // console.log("value inside editable=", value);
-                                setThours(value);
-
-                                return <strong>{value}</strong>;
-                              }}
-                              title="Please enter Hours"
-                              // value="0"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Implementation </td>
-                          <td>
-                            <Editable
-                              name="Hours"
-                              dataType="text"
-                              mode="inline"
-                              value={phases[4].estTime}
-                              display={(value) => {
-                                phases[4].estTime = value;
-                                // console.log("value inside editable=", value);
-                                setThours(value);
-
-                                return <strong>{value}</strong>;
-                              }}
-                              title="Please enter Hours"
-                              // value="0"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Documentation </td>
-                          <td>
-                            <Editable
-                              name="Hours"
-                              dataType="text"
-                              mode="inline"
-                              value={phases[5].estTime}
-                              display={(value) => {
-                                phases[5].estTime = value;
-                                // console.log("value inside editable=", value);
-                                setThours(value);
-
-                                return <strong>{value}</strong>;
-                              }}
-                              title="Please enter Hours"
-                              // value="0"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Evaluation </td>
-                          <td>
-                            <Editable
-                              name="Hours"
-                              dataType="text"
-                              mode="inline"
-                              value={phases[6].estTime}
-                              display={(value) => {
-                                phases[6].estTime = value;
-                                // console.log("value inside editable=", value);
-                                setThours(value);
-
-                                return <strong>{value}</strong>;
-                              }}
-                              title="Please enter Hours"
-                              // value="0"
-                            />
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td style={{ fontSize: "14px", fontWeight: "bold" }}>
-                            Total Est. Hours
-                          </td>
-                          <td>{totalHours}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div> */}
             <PhaseList
               setPhaseDetials={setPhasesDetails}
               phasesDetails={phasesDetails}

@@ -36,8 +36,10 @@ const CurrencyForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 CurrencyService.handleMessage("add");
-                history.push("/viewcurrency");
-                actions.setFieldValue("title", "");
+                if (props.redirect) {
+                  history.push("/viewcurrency");
+                  actions.setFieldValue("title", "");
+                }
               })
               .catch((err) => {
                 CurrencyService.handleCustomMessage(err.response.data);
@@ -57,7 +59,8 @@ const CurrencyForm = (props) => {
                       props.touched.name && props.errors.name
                         ? "is-invalid"
                         : props.touched.name && "is-valid"
-                    }`}                     value={props.values.name}
+                    }`}
+                    value={props.values.name}
                     onChange={props.handleChange("name")}
                     placeholder="Enter Name"
                   />
@@ -75,7 +78,8 @@ const CurrencyForm = (props) => {
                       props.touched.exchangeRate && props.errors.exchangeRate
                         ? "is-invalid"
                         : props.touched.exchangeRate && "is-valid"
-                    }`}                     value={props.values.exchangeRate}
+                    }`}
+                    value={props.values.exchangeRate}
                     onChange={props.handleChange("exchangeRate")}
                     placeholder="Enter Exchange Rate"
                   />

@@ -22,7 +22,6 @@ import userService from "../../../../services/UserService";
 import MachineValidation from "../../../../validations/machine-validations";
 import { useHistory } from "react-router-dom";
 
-
 const MachineForm = (props) => {
   const [users, setUsers] = useState([]);
   const [accessory, setAccessory] = useState([]);
@@ -32,7 +31,6 @@ const MachineForm = (props) => {
   console.log("deatils", acc);
   const editable = props.editable;
   const history = useHistory();
-
 
   useEffect(() => {
     getAccessories();
@@ -167,7 +165,10 @@ const MachineForm = (props) => {
             })
               .then((res) => {
                 props.toggle && props.toggle();
-                history.push("/view-machine");
+                if (props.redirect) {
+                  history.push("/view-machine");
+                }
+
                 HistoryService.addHistory({
                   docId: res.data._id,
                   onModel: "Machine",
@@ -207,7 +208,8 @@ const MachineForm = (props) => {
                       props.touched.machineName && props.errors.machineName
                         ? "is-invalid"
                         : props.touched.machineName && "is-valid"
-                    }`}                      value={props.values.machineName}
+                    }`}
+                    value={props.values.machineName}
                     onChange={props.handleChange("machineName")}
                     placeholder="Enter Machine Name"
                   />
@@ -220,11 +222,11 @@ const MachineForm = (props) => {
                 <div className="form-group">
                   <label className="control-label">Ownsership</label>
                   <Select
-                   className={`my-select${
-                    props.touched.ownership && props.errors.ownership
-                      ? "is-invalid"
-                      : props.touched.ownership && "is-valid"
-                  }`}
+                    className={`my-select${
+                      props.touched.ownership && props.errors.ownership
+                        ? "is-invalid"
+                        : props.touched.ownership && "is-valid"
+                    }`}
                     name="ownership"
                     onBlur={props.handleBlur}
                     value={props.values.ownership}
@@ -250,7 +252,8 @@ const MachineForm = (props) => {
                       props.touched.serialno && props.errors.serialno
                         ? "is-invalid"
                         : props.touched.serialno && "is-valid"
-                    }`}                      value={props.values.serialno}
+                    }`}
+                    value={props.values.serialno}
                     onChange={props.handleChange("serialno")}
                     placeholder="Enter Serial No"
                   />
@@ -263,11 +266,11 @@ const MachineForm = (props) => {
                 <div className="form-group">
                   <label>Status</label>
                   <Select
-                   className={`my-select${
-                    props.touched.status && props.errors.status
-                      ? "is-invalid"
-                      : props.touched.status && "is-valid"
-                  }`}
+                    className={`my-select${
+                      props.touched.status && props.errors.status
+                        ? "is-invalid"
+                        : props.touched.status && "is-valid"
+                    }`}
                     name="status"
                     onBlur={props.handleBlur}
                     value={props.values.status}
@@ -293,7 +296,8 @@ const MachineForm = (props) => {
                       props.touched.machineNo && props.errors.machineNo
                         ? "is-invalid"
                         : props.touched.machineNo && "is-valid"
-                    }`}                      value={props.values.machineNo}
+                    }`}
+                    value={props.values.machineNo}
                     onChange={props.handleChange("machineNo")}
                     placeholder="Enter Machine Number"
                   />
@@ -313,7 +317,8 @@ const MachineForm = (props) => {
                       props.touched.processor && props.errors.processor
                         ? "is-invalid"
                         : props.touched.processor && "is-valid"
-                    }`}                      value={props.values.processor}
+                    }`}
+                    value={props.values.processor}
                     onChange={props.handleChange("processor")}
                     placeholder="Enter Processor"
                   />
@@ -336,7 +341,8 @@ const MachineForm = (props) => {
                       props.touched.storage && props.errors.storage
                         ? "is-invalid"
                         : props.touched.storage && "is-valid"
-                    }`}                      value={props.values.storage}
+                    }`}
+                    value={props.values.storage}
                     onChange={props.handleChange("storage")}
                     placeholder="Enter Storage"
                   />
@@ -356,7 +362,8 @@ const MachineForm = (props) => {
                       props.touched.memory && props.errors.memory
                         ? "is-invalid"
                         : props.touched.memory && "is-valid"
-                    }`}                      value={props.values.memory}
+                    }`}
+                    value={props.values.memory}
                     onChange={props.handleChange("memory")}
                     placeholder="Enter Memory Name"
                   />
@@ -378,7 +385,8 @@ const MachineForm = (props) => {
                       props.touched.graphics && props.errors.graphics
                         ? "is-invalid"
                         : props.touched.graphics && "is-valid"
-                    }`}                      value={props.values.graphics}
+                    }`}
+                    value={props.values.graphics}
                     onChange={props.handleChange("graphics")}
                     placeholder="Enter Graphics Deatils"
                   />
@@ -406,11 +414,11 @@ const MachineForm = (props) => {
                     </div>
                   </div>
                   <Select
-                   className={`my-select${
-                    props.touched.accessories && props.errors.accessories
-                      ? "is-invalid"
-                      : props.touched.accessories && "is-valid"
-                  }`}
+                    className={`my-select${
+                      props.touched.accessories && props.errors.accessories
+                        ? "is-invalid"
+                        : props.touched.accessories && "is-valid"
+                    }`}
                     name="accessories"
                     onBlur={props.handleBlur}
                     className="select-override"

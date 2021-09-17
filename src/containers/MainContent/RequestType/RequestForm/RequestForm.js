@@ -31,8 +31,10 @@ const RequestForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 RequestService.handleMessage("add");
-                history.push("/view-request-type");
-                actions.setFieldValue("title", "");
+                if (props.redirect) {
+                  history.push("/view-request-type");
+                  actions.setFieldValue("title", "");
+                }
               })
               .catch((err) => {
                 RequestService.handleCustomMessage(err.response.data);
@@ -52,7 +54,8 @@ const RequestForm = (props) => {
                       props.touched.title && props.errors.title
                         ? "is-invalid"
                         : props.touched.title && "is-valid"
-                    }`}                        value={props.values.title}
+                    }`}
+                    value={props.values.title}
                     onChange={props.handleChange("title")}
                     placeholder="Enter Name"
                   />

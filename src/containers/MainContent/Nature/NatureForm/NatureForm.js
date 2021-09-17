@@ -31,8 +31,10 @@ const NatureForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 NatureService.handleMessage("add");
-                history.push("/nature");
-                actions.setFieldValue("title", "");
+                if (props.redirect) {
+                  history.push("/nature");
+                  actions.setFieldValue("title", "");
+                }
               })
               .catch((err) => {
                 NatureService.handleCustomMessage(err.response.data);
@@ -52,7 +54,7 @@ const NatureForm = (props) => {
                       props.touched.title && props.errors.title
                         ? "is-invalid"
                         : props.touched.title && "is-valid"
-                    }`} 
+                    }`}
                     value={props.values.title}
                     onChange={props.handleChange("title")}
                     placeholder="Enter Name"

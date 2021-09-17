@@ -16,7 +16,7 @@ const AddPlatform = () => {
                     Please fill the form below to add a new Status for the
                     projects.
                   </p>
-                  <StatusForm />
+                  <StatusForm redirect />
                 </div>
               </div>
             </div>

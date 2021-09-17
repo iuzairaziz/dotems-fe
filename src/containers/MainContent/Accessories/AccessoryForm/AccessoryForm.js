@@ -31,8 +31,10 @@ const AccessoryForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 AccessoryService.handleMessage("add");
-                history.push("/view-accessory");
-                actions.setFieldValue("title", "");
+                if (props.redirect) {
+                  history.push("/view-accessory");
+                  actions.setFieldValue("title", "");
+                }
               })
               .catch((err) => {
                 AccessoryService.handleCustomMessage(err.response.data);
@@ -52,11 +54,14 @@ const AccessoryForm = (props) => {
                       props.touched.title && props.errors.title
                         ? "is-invalid"
                         : props.touched.title && "is-valid"
-                    }`}                     value={props.values.title}
+                    }`}
+                    value={props.values.title}
                     onChange={props.handleChange("title")}
                     placeholder="Enter Name"
                   />
-                  <span id="err" className="invalid-feedback">{props.errors.title}</span>
+                  <span id="err" className="invalid-feedback">
+                    {props.errors.title}
+                  </span>
                 </div>
               </div>
             </div>
