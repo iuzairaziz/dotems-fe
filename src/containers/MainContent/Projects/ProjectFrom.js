@@ -101,7 +101,7 @@ const ProjectForm = (props) => {
     getNature();
     getClient();
     getStatus();
-    getCurrency();
+    // getCurrency();
     getTeamMembers();
     getProjectManager();
   }, [

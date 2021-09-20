@@ -1,6 +1,7 @@
 import Configuration from "../config/configuration";
 import axios from "axios";
 import { toast } from "react-toastify";
+import cors from "cors";
 
 class CurrencyService {
   constructor() {
@@ -18,8 +19,55 @@ class CurrencyService {
     return axios.get(this.config.apiBaseUrl + "currency/" + orderId);
   }
 
-  getAllCurrency() {
-    return axios.get(this.config.apiBaseUrl + "currency/show-currency");
+  onGet() {
+    const url =
+      "https://free.currconv.com/api/v7/convert?q=USD_PKR&compact=ultra&apiKey=80c8268f81966ccb6c26";
+    var headers = {};
+
+    return fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: headers,
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(response.error);
+      }
+      return response.json();
+    });
+  }
+
+  onGetEUR() {
+    const url =
+      "https://free.currconv.com/api/v7/convert?q=EUR_PKR&compact=ultra&apiKey=80c8268f81966ccb6c26";
+    var headers = {};
+
+    return fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: headers,
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(response.error);
+      }
+      return response.json();
+    });
+  }
+
+  onGetGBP() {
+    const url =
+      "https://free.currconv.com/api/v7/convert?q=GBP_PKR&compact=ultra&apiKey=80c8268f81966ccb6c26";
+    var headers = {};
+
+    return fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: headers,
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(response.error);
+      }
+      return response.json();
+    });
   }
 
   updateCurrency(id, formData) {

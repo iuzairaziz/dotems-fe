@@ -6,33 +6,33 @@ import $ from "jquery";
 import CurrencyService from "../../../services/CurrencyService";
 import { Button } from "reactstrap";
 
-
 const CurrencyList = () => {
   const [selectedCurrency, setSelectedCurrency] = useState({ name: "" });
-  const [data, setDataa] = useState([]);
+  const [data, setDataa] = useState();
+  const [dataEUR, setDataaEUR] = useState();
+  const [dataGBP, setDataaGBP] = useState();
 
   useEffect(() => {
     getCurrency();
+    getCurrencyRates();
+    getCurrencyGBP();
   }, []);
 
-  const getCurrency = () => {
-    CurrencyService.getAllCurrency()
-      .then((res) => {
-        let dataa = [];
-        res.data.map((item, index) => {
-          dataa.push({
-            id: item._id,
-            name: item.name ? item.name : "none",
-            exchangeRate: item.exchangeRate ? item.exchangeRate : "none",
-          });
-        });
-        console.log("data", dataa);
-        setDataa(dataa);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const getCurrencyRates = async () => {
+    var rates = await CurrencyService.onGet();
+    setDataa(rates.USD_PKR.toFixed(2));
   };
+
+  const getCurrency = async () => {
+    var rates = await CurrencyService.onGetEUR();
+    setDataaEUR(rates.EUR_PKR.toFixed(2));
+  };
+
+  const getCurrencyGBP = async () => {
+    var rates = await CurrencyService.onGetGBP();
+    setDataaGBP(rates.GBP_PKR.toFixed(2));
+  };
+
   return (
     <AUX>
       <div className="page-content-wrapper">
@@ -41,19 +41,19 @@ const CurrencyList = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                <div className="row align-items-center mb-3">
+                  <div className="row align-items-center mb-3">
                     <div className="col">
-                    <h3 className="m-0 p-0">All Currencies</h3>
+                      <h3 className="m-0 p-0">All Currencies</h3>
                     </div>
                     <div className="col">
-                    <Link to="/addcurrency">
-                      <Button
-                        color="success"
-                        className="my-primary-button float-right"
-                      >
-                        Add Currency
-                      </Button>
-                    </Link>
+                      <Link to="/addcurrency">
+                        <Button
+                          color="success"
+                          className="my-primary-button float-right"
+                        >
+                          Add Currency
+                        </Button>
+                      </Link>
                     </div>
                   </div>
 
@@ -64,29 +64,18 @@ const CurrencyList = () => {
                         <th>Exchange Rate</th>
                       </tr>
                     </thead>
-                    {console.log("datin tbl", data)}
-                    {data.map((item, index) => {
-                      return (
-                        <tr>
-                          <td data-original-value="22">{item.name}</td>
-                          <td>
-                            <Editable
-                              dataType="text"
-                              mode="inline"
-                              value={item.exchangeRate}
-                              display={(value) => {
-                                console.log("value edit", value);
-                                console.log("value edit", item);
-                                CurrencyService.updateCurrency(item.id, {
-                                  exchangeRate: value,
-                                });
-                                return <strong>{value}</strong>;
-                              }}
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    <tr>
+                      <td>USD $</td>
+                      <td>{data}</td>
+                    </tr>
+                    <tr>
+                      <td>Euro €</td>
+                      <td>{dataEUR}</td>
+                    </tr>
+                    <tr>
+                      <td>Pound £</td>
+                      <td>{dataGBP}</td>
+                    </tr>
                   </table>
                 </div>
               </div>
