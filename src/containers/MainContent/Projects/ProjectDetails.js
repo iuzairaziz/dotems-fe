@@ -282,14 +282,14 @@ const ProjectDetails = (props) => {
       {
         label: "PM Start Date",
         value:
-          projectData && moment(projectData.pmStartDate).format("DD/MMM/YYYY")
+          projectData && projectData.pmStartDate
             ? moment(projectData.pmStartDate).format("DD/MMM/YYYY")
             : "N/A",
       },
       {
         label: "PM Deadline",
         value:
-          projectData && moment(projectData.pmEndDate).format("DD/MMM/YYYY")
+          projectData && projectData.pmEndDate
             ? moment(projectData.pmEndDate).format("DD/MMM/YYYY")
             : "N/A",
       },
@@ -300,9 +300,7 @@ const ProjectDetails = (props) => {
       {
         label: "Currency",
         value:
-          projectData && projectData.currency.name
-            ? projectData.currency.name
-            : "N/A",
+          projectData && projectData.currency ? projectData.currency : "N/A",
       },
       {
         label: "Platform Deductions",

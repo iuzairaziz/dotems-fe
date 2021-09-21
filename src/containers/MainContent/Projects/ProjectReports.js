@@ -27,6 +27,7 @@ const ProjectReports = () => {
   const [applystatusfilter, setApplyStatusFilter] = useState("");
   const [clientStart, setClientStart] = useState("");
   const [clientDeadline, setClientDeadline] = useState("");
+  const [dataUSD, setDataaUSD] = useState();
 
   const [dataa, setData] = useState({
     columns: [
@@ -105,12 +106,26 @@ const ProjectReports = () => {
     ],
     rows: [],
   });
+
+  const getCurrencyRates = async () => {
+    var rates = await CurrencyService.onGet();
+    setDataaUSD(rates.USD_PKR.toFixed(2));
+  };
+
   useEffect(() => {
     getData();
-  }, [modalEdit, modalDelete, applystatusfilter, clientStart, clientDeadline]);
+  }, [
+    modalEdit,
+    modalDelete,
+    applystatusfilter,
+    clientStart,
+    clientDeadline,
+    dataUSD,
+  ]);
 
   useEffect(() => {
     getStatus();
+    getCurrencyRates();
   }, []);
   const changeColor = () => {
     $(document).ready(function() {
@@ -171,12 +186,14 @@ const ProjectReports = () => {
         toggleDelete();
       });
   };
-  const getExchangeRate = (id) => {
-    CurrencyService.getCurrencyById(id).then((res) => {
-      return res.data;
-      console.log("currency", res.data);
-    });
-  };
+  // const getExchangeRate = (id) => {
+  //   CurrencyService.getCurrencyById(id).then((res) => {
+  //     return res.data;
+  //     console.log("currency", res.data);
+  //   });
+  // };
+
+  console.log("USD", dataUSD);
 
   const getData = () => {
     ProjectService.getProjectReport({
@@ -196,15 +213,15 @@ const ProjectReports = () => {
                 {item.name ? item.name : "N/A"}
               </Link>
             ),
-            cost: item.cost ? `${item.cost} (${item.currency.name})` : "N/A",
+            cost: item.cost ? `${item.cost} (${item.currency})` : "N/A",
             Rprofit: item.Rprofit
               ? `${((item.Rprofit / 100) * item.cost).toFixed(2)} (${
-                  item.currency.name
+                  item.currency
                 })`
               : "N/A",
             Pdeduction: item.Pdeduction
               ? `${((item.Pdeduction / 100) * item.cost).toFixed(2)} (${
-                  item.currency.name
+                  item.currency
                 })`
               : "N/A",
             PCB: `${(
@@ -212,18 +229,25 @@ const ProjectReports = () => {
               (item.otherDeduction +
                 (item.Pdeduction / 100) * item.cost +
                 (item.Rprofit / 100) * item.cost)
-            ).toFixed(2)} (${item.currency.name})`,
-            Pincome: item.currency
-              ? (
-                  item.currency.exchangeRate *
-                  (item.cost -
-                    ((item.Pdeduction / 100) * item.cost +
-                      (item.Rprofit / 100) * item.cost) -
-                    item.otherDeduction)
-                ).toFixed(2)
-              : "N/A",
+            ).toFixed(2)} (${item.currency})`,
+            Pincome:
+              item.currency === "PKR"
+                ? (
+                    1 *
+                    (item.cost -
+                      ((item.Pdeduction / 100) * item.cost +
+                        (item.Rprofit / 100) * item.cost) -
+                      item.otherDeduction)
+                  ).toFixed(2)
+                : (
+                    dataUSD *
+                    (item.cost -
+                      ((item.Pdeduction / 100) * item.cost +
+                        (item.Rprofit / 100) * item.cost) -
+                      item.otherDeduction)
+                  ).toFixed(2),
             Odeduction: item.otherDeduction
-              ? `${item.otherDeduction} (${item.currency.name})`
+              ? `${item.otherDeduction} (${item.currency})`
               : "N/A",
             ActHrs: (
               <Link to={`/projectdetails/${item._id}`}>
@@ -245,7 +269,7 @@ const ProjectReports = () => {
               ? item.projectResourcesExpense.allResourcesExpense.toFixed(2)
               : "N/A",
             Tprofit: item.assignedUser
-              ? item.currency.exchangeRate *
+              ? dataUSD *
                   (item.cost -
                     ((item.Pdeduction / 100) * item.cost +
                       (item.Rprofit / 100) * item.cost) -
@@ -255,10 +279,10 @@ const ProjectReports = () => {
           });
         });
         setData(data);
-        console.log("state data", dataa);
-        console.log("my project data", data);
-        console.log("res data", res.data);
-        console.log("EstHrs", EstTime);
+        // console.log("state data", dataa);
+        // console.log("my project data", data);
+        // console.log("res data", res.data);
+        // console.log("EstHrs", EstTime);
       })
       .catch((err) => {
         console.log(err);
@@ -305,7 +329,7 @@ const ProjectReports = () => {
                         selected={clientStart}
                         onChange={(clientStart) => {
                           setClientStart(clientStart);
-                          console.log("datepicker", clientStart);
+                          // console.log("datepicker", clientStart);
                         }}
                       />
                     </div>
@@ -318,7 +342,7 @@ const ProjectReports = () => {
                         selected={clientDeadline}
                         onChange={(clientDeadline) => {
                           setClientDeadline(clientDeadline);
-                          console.log("datepicker", clientDeadline);
+                          // console.log("datepicker", clientDeadline);
                         }}
                       />
                     </div>

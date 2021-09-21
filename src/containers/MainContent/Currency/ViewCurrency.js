@@ -7,15 +7,16 @@ import CurrencyService from "../../../services/CurrencyService";
 import { Button } from "reactstrap";
 
 const CurrencyList = () => {
-  const [selectedCurrency, setSelectedCurrency] = useState({ name: "" });
   const [data, setDataa] = useState();
-  const [dataEUR, setDataaEUR] = useState();
-  const [dataGBP, setDataaGBP] = useState();
+  // const [dataEUR, setDataaEUR] = useState();
+  // const [dataGBP, setDataaGBP] = useState();
+  // const [dataAUD, setDataaAUD] = useState();
 
   useEffect(() => {
-    getCurrency();
+    // getCurrency();
     getCurrencyRates();
-    getCurrencyGBP();
+    // getCurrencyGBP();
+    // getCurrencyAUD();
   }, []);
 
   const getCurrencyRates = async () => {
@@ -23,15 +24,20 @@ const CurrencyList = () => {
     setDataa(rates.USD_PKR.toFixed(2));
   };
 
-  const getCurrency = async () => {
-    var rates = await CurrencyService.onGetEUR();
-    setDataaEUR(rates.EUR_PKR.toFixed(2));
-  };
+  // const getCurrency = async () => {
+  //   var rates = await CurrencyService.onGetEUR();
+  //   setDataaEUR(rates.EUR_PKR.toFixed(2));
+  // };
 
-  const getCurrencyGBP = async () => {
-    var rates = await CurrencyService.onGetGBP();
-    setDataaGBP(rates.GBP_PKR.toFixed(2));
-  };
+  // const getCurrencyGBP = async () => {
+  //   var rates = await CurrencyService.onGetGBP();
+  //   setDataaGBP(rates.GBP_PKR.toFixed(2));
+  // };
+
+  // const getCurrencyAUD = async () => {
+  //   var rates = await CurrencyService.onGetAUD();
+  //   setDataaAUD(rates.AUD_PKR.toFixed(2));
+  // };
 
   return (
     <AUX>
@@ -45,7 +51,7 @@ const CurrencyList = () => {
                     <div className="col">
                       <h3 className="m-0 p-0">All Currencies</h3>
                     </div>
-                    <div className="col">
+                    {/* <div className="col">
                       <Link to="/addcurrency">
                         <Button
                           color="success"
@@ -54,28 +60,44 @@ const CurrencyList = () => {
                           Add Currency
                         </Button>
                       </Link>
-                    </div>
+                    </div> */}
                   </div>
 
                   <table className="table table-editable" id="mydtable">
                     <thead>
                       <tr>
-                        <th>Name</th>
-                        <th>Exchange Rate</th>
+                        <th>
+                          <b>Name</b>
+                        </th>
+                        <th>
+                          <b>Exchange Rate</b>
+                        </th>
                       </tr>
                     </thead>
                     <tr>
-                      <td>USD $</td>
+                      <td>
+                        <b>$</b> USD
+                      </td>
                       <td>{data}</td>
                     </tr>
-                    <tr>
-                      <td>Euro €</td>
+                    {/* <tr>
+                      <td>
+                        <b>€</b> Euro
+                      </td>
                       <td>{dataEUR}</td>
                     </tr>
                     <tr>
-                      <td>Pound £</td>
+                      <td>
+                        <b>£</b> Pound
+                      </td>
                       <td>{dataGBP}</td>
                     </tr>
+                    <tr>
+                      <td>
+                        <b>$</b> AUD
+                      </td>
+                      <td>{dataAUD}</td>
+                    </tr> */}
                   </table>
                 </div>
               </div>

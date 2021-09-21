@@ -26,7 +26,6 @@ import ClientService from "../../../services/ClientService";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import StatusService from "../../../services/StatusService";
-import CurrencyService from "../../../services/CurrencyService";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import "./ProjectForm.scss";
 import { useHistory } from "react-router-dom";
@@ -48,7 +47,6 @@ const ProjectForm = (props) => {
   const [users, setUsers] = useState([]);
   const [client, setClient] = useState([]);
   const [status, setStatus] = useState([]);
-  const [currency, setCurrency] = useState([]);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [toShow, setToShow] = useState([]);
   const [teamMember, setTeamMember] = useState([]);
@@ -101,7 +99,6 @@ const ProjectForm = (props) => {
     getNature();
     getClient();
     getStatus();
-    // getCurrency();
     getTeamMembers();
     getProjectManager();
   }, [
@@ -117,16 +114,6 @@ const ProjectForm = (props) => {
   useEffect(() => {
     toShowData();
   }, [nature]);
-
-  const getCurrency = () => {
-    CurrencyService.getAllCurrency().then((res) => {
-      let options = [];
-      res.data.map((item, index) => {
-        options.push({ label: item.name, value: item._id });
-      });
-      setCurrency(options);
-    });
-  };
 
   const getStatus = () => {
     StatusService.getAllStatus().then((res) => {
@@ -314,8 +301,8 @@ const ProjectForm = (props) => {
           },
         currency: editable &&
           project.currency && {
-            label: project.currency.name,
-            value: project.currency._id,
+            label: project.currency,
+            value: project.currency,
           },
         cStartDate: editable && project.cStartDate,
         cEndDate: editable && project.cEndDate,
@@ -382,9 +369,9 @@ const ProjectForm = (props) => {
               Pdeduction: values.Pdeduction,
               percentage: values.percentage,
               fCost: values.fCost,
-              currency: values.currency.value,
               otherDeduction: values.otherDeduction,
               phase: phasesDetails,
+              currency: values.currency.value,
               projectType: values.projectType.value,
             })
 
@@ -723,7 +710,6 @@ const ProjectForm = (props) => {
                     </div>
                   </div>
                 </div>
-
                 <Select
                   name="currency"
                   onFocus={() => props.setFieldTouched("currency")}
@@ -734,7 +720,10 @@ const ProjectForm = (props) => {
                   }`}
                   value={props.values.currency}
                   onChange={(val) => props.setFieldValue("currency", val)}
-                  options={currency}
+                  options={[
+                    { value: "USD", label: "USD" },
+                    { value: "PKR", label: "PKR" },
+                  ]}
                 />
                 <span id="err" className="invalid-feedback">
                   {props.touched.currency && props.errors.currency}
