@@ -698,7 +698,7 @@ const ProjectForm = (props) => {
                   <div className="col">
                     <label className="control-label">Currency</label>
                   </div>
-                  <div className="col">
+                  {/* <div className="col">
                     <div
                       className="d-flex justify-content-end"
                       id="add-new-Buttonm "
@@ -708,7 +708,7 @@ const ProjectForm = (props) => {
                     >
                       <i className="mdi mdi-plus-circle icon-add" />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <Select
                   name="currency"
