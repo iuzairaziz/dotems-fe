@@ -22,7 +22,8 @@ class userServices {
     joiningDate,
     userRole,
     workingDays,
-    machineNo
+    machineNo,
+    designation
   ) =>
     new Promise((resolve, reject) => {
       axios
@@ -37,7 +38,8 @@ class userServices {
           gender,
           userRole,
           workingDays,
-          machineNo
+          machineNo,
+          designation
         )
         .then((token) => {
           // localStorage.setItem("token", token.data);

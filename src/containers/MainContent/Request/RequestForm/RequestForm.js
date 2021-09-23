@@ -20,7 +20,6 @@ import RequestService from "../../../../services/Request";
 import shortValidations from "../../../../validations/short-validations";
 import userService from "../../../../services/UserService";
 
-
 const RequestForm = (props) => {
   const [requestType, setRequestType] = useState([]);
   const [sendRequestTo, setSendRequestTo] = useState([]);
@@ -36,7 +35,6 @@ const RequestForm = (props) => {
   const userId = userService.userLoggedInInfo();
   console.log(userId);
   const history = useHistory();
-
 
   const getRequestType = () => {
     RequestTypeService.getAllRequestType().then((res) => {
@@ -130,7 +128,7 @@ const RequestForm = (props) => {
               <div className="col">
                 <label className="control-label">Request Type</label>
               </div>
-              <div className="col">
+              {/* <div className="col">
                 <div
                   className="d-flex justify-content-end"
                   id="add-new-Buttonm "
@@ -140,7 +138,7 @@ const RequestForm = (props) => {
                 >
                   <i className="mdi mdi-plus-circle icon-add" />
                 </div>
-              </div>
+              </div> */}
             </div>
             <Select
               className={`my-select${

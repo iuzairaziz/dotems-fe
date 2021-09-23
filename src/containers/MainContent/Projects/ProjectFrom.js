@@ -333,7 +333,7 @@ const ProjectForm = (props) => {
           setCostValue(false);
         }
       }}
-      validationSchema={ProjectValidation.newProjectValidation}
+      // validationSchema={ProjectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
         const usrs = [];
         const tech = [];

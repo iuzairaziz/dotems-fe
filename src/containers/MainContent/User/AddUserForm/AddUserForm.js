@@ -138,9 +138,10 @@ const UserForm = (props) => {
               joiningDate: values.joiningDate,
               workingHrs: values.workingHrs,
               machineNo: values.machineNo.value,
-              designation: values.designation.value,
+
               workingDays: values.workingDays,
               userRole: role,
+              designation: values.designation.value,
             })
               .then((res) => {
                 UserService.handleMessage("add");
