@@ -9,17 +9,28 @@ import moment from "moment";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import { Link } from "react-router-dom";
 import UserService from "../../../../../services/UserService";
-import { Progress } from "reactstrap";
+// import { Progress } from "reactstrap";
 import Select from "react-select";
 import userService from "../../../../../services/UserService";
 import configuration from "../../../../../config/configuration";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Progress,
+  Col,
+  Input,
+  Label,
+  FormGroup,
+} from "reactstrap";
+import DatePicker from "react-datepicker";
+import Form from "reactstrap/lib/Form";
 
 const SingleDetail = (props) => {
   const [leaveData, setDataa] = useState();
   const leaveID = props.match.params.id;
   let loggedUser = UserService.userLoggedInInfo();
-  console.log("logged user", loggedUser);
   const [userData, setUserData] = useState();
   const [taskData, setTaskData] = useState([]);
   const [statusLeave, setStatusLeave] = useState();
@@ -27,8 +38,33 @@ const SingleDetail = (props) => {
   const [modalEdit, setModalEdit] = useState(false);
   const loggedInUser = userService.userLoggedInInfo();
   const [remainingLeave, setRemaingLeave] = useState([]);
+  const [hideField, setHideField] = useState(false);
 
   let config = new configuration();
+
+  const [days, setDays] = useState({
+    columns: [
+      {
+        label: "Days",
+        field: "Days",
+        // sort: "asc",
+        // width: 150,
+      },
+      {
+        label: "Action",
+        field: "action",
+        sort: "asc",
+        // width: 150,
+      },
+      {
+        label: "Swap",
+        field: "Swap",
+        sort: "asc",
+        // width: 150,
+      },
+    ],
+    rows: [],
+  });
 
   const [dataa, setData] = useState({
     columns: [
@@ -96,7 +132,7 @@ const SingleDetail = (props) => {
     UserService.getUserById(id)
       .then((res) => {
         const { tasks, user } = res.data;
-        console.log(tasks);
+        // console.log(tasks);
         setUserData(user);
         setTaskData(tasks);
         let data = { ...dataa };
@@ -143,8 +179,71 @@ const SingleDetail = (props) => {
       });
   };
 
+  const getLeaveDays = (id) => {
+    LeaveService.allUserLeaves(loggedUser._id)
+      .then((res) => {
+        let updatedData = { ...days };
+        updatedData.rows = [];
+        leaveData.dates.map((item, index) => {
+          updatedData.rows.push({
+            Days: moment(item.date).format("LL"),
+            action: (
+              <div>
+                <select
+                  class="form-select"
+                  defaultValue={item.status ? item.status : "N/A"}
+                  // onChange={(e) =>
+                  //   userService.updateTask(item._id, { status: e.target.value })
+                  // }
+                  aria-label="Default select example"
+                >
+                  <option value="pending">Approved</option>
+                  <option value="working">Rejected</option>
+                  <option value="completed">Unpaid</option>
+                  <option value="completed">Swap</option>
+                </select>
+              </div>
+            ),
+            Swap: (
+              <div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="flexCheckIndeterminate"
+                  />
+                  <label class="form-check-label" for="flexCheckIndeterminate">
+                    TBD
+                  </label>
+                </div>
+                <DatePicker
+                  // className={`form-control ${
+                  //   props.touched.startTime && props.errors.startTime
+                  //     ? "is-invalid"
+                  //     : props.touched.startTime && "is-valid"
+                  // } zIndex`}
+                  // selected={props.values.startTime}
+                  className="form-control"
+                  name="startTime"
+                  // onFocus={() => props.setFieldTouched("startTime")}
+                  // onChange={(date) => {
+                  //   props.setFieldValue("startTime", date);
+                  //   console.log("datepicker", date);
+                  // }}
+                />
+              </div>
+            ),
+          });
+        });
+        setDays(updatedData);
+      })
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     getData(leaveID);
+    getLeaveDays();
   }, [modalEdit]);
 
   useEffect(() => {
@@ -169,7 +268,7 @@ const SingleDetail = (props) => {
     LeaveService.typeRemainingLeaves(formData).then((res) => {
       const leaves = res.data;
       setRemaingLeave(leaves);
-      console.log("leave data", leaves);
+      // console.log("leave data", leaves);
     });
   };
 
@@ -181,7 +280,7 @@ const SingleDetail = (props) => {
   //   });
   // }
 
-  console.log("Leave data", leaveData);
+  // console.log("Leave data", leaveData);
   // console.log("leave type", leaveDataa)
 
   return (
@@ -227,7 +326,6 @@ const SingleDetail = (props) => {
                     <div className="col-2">
                       <span>{leaveData && leaveData.type.name}</span>
                     </div>
-
                     <div className="col-2 sub">
                       <span>
                         <b>Posting Date: </b>
@@ -238,7 +336,6 @@ const SingleDetail = (props) => {
                         {leaveData && moment(leaveData.createdAt).format("LL")}
                       </span>
                     </div>
-
                     <div className="col-2 ">
                       <span>
                         <b>PM Leave Status: </b>
@@ -267,7 +364,6 @@ const SingleDetail = (props) => {
                           : "None"}
                       </span>
                     </div>
-
                     <div className="col-2 sub">
                       <span>
                         <b>Total Leaves : </b>
@@ -355,7 +451,6 @@ const SingleDetail = (props) => {
                     <div className="col-2">
                       <span>{leaveData && leaveData.dates.length}</span>
                     </div>
-                 
                     <div className="col-lg-12">
                       <ul
                         className="nav nav-tabs nav-tabs-custom"
@@ -532,7 +627,7 @@ const SingleDetail = (props) => {
                                 options={[
                                   { value: "approved", label: "Approved" },
                                   { value: "rejected", label: "Rejected" },
-                                  { value: "unpaid", label: "Unpaid" },
+                                  // { value: "unpaid", label: "Unpaid" },
                                 ]}
                               />
                               {/* <span id="err">
@@ -594,7 +689,174 @@ const SingleDetail = (props) => {
                           >
                             Submit
                           </Button>
+                          <FormGroup row>
+                            <Col sm={{ size: 10 }}>
+                              <div class="form-check">
+                                <input
+                                  type="checkbox"
+                                  class="form-check-input"
+                                  id="exampleCheck1"
+                                  value={hideField}
+                                  onChange={(selected) => {
+                                    setHideField(selected.target.value);
+                                    console.log("hidee", selected.target.value);
+                                    // props.setFieldValue(selected);
+                                    // if (selected === !hideField) {
+                                    //   setHideField(true);
+                                    // } else {
+                                    //   setHideField(false);
+                                    // }
+                                  }}
+                                />
+                                <label
+                                  class="form-check-label"
+                                  for="exampleCheck1"
+                                >
+                                  Special Check
+                                </label>
+                              </div>
+                            </Col>
+                          </FormGroup>
+                          <div
+                            className={`${
+                              hideField
+                                ? `display-form-field col`
+                                : `hide-form-field`
+                            }`}
+                          >
+                            <FormGroup row>
+                              <Col>
+                                <Label for="checkbox2" sm={2}>
+                                  Sandwich
+                                </Label>
+                                <Col sm={{ size: 12 }}>
+                                  <FormGroup check>
+                                    <Label check>
+                                      <Input type="checkbox" id="checkbox2" />
+                                      Count as Sandwich
+                                    </Label>
+                                  </FormGroup>
+                                </Col>
+                              </Col>
+
+                              <Col>
+                                <Label for="checkbox2" sm={2}>
+                                  Unpaid
+                                </Label>
+                                <Col sm={{ size: 12 }}>
+                                  <FormGroup check>
+                                    <Label check>
+                                      <Input type="checkbox" id="checkbox2" />
+                                      Count as Unpaid
+                                    </Label>
+                                  </FormGroup>
+                                </Col>
+                              </Col>
+                            </FormGroup>
+                            <MDBDataTableV5
+                              // scrollX
+                              fixedHeader={true}
+                              responsive
+                              striped
+                              bordered
+                              searchTop
+                              hover
+                              // autoWidth
+                              data={days}
+                              theadColor="#000"
+                            />
+                          </div>
                         </form>
+                        {/* <div
+                          className={`${
+                            hideField === true
+                              ? `hide-form-field`
+                              : `display-form-field col `
+                          }`}
+                        >
+                          <FormGroup row>
+                            <Col>
+                              <Label for="checkbox2" sm={2}>
+                                Sandwich
+                              </Label>
+                              <Col sm={{ size: 12 }}>
+                                <FormGroup check>
+                                  <Label check>
+                                    <Input type="checkbox" id="checkbox2" />
+                                    Count as Sandwich
+                                  </Label>
+                                </FormGroup>
+                              </Col>
+                            </Col>
+
+                            <Col>
+                              <Label for="checkbox2" sm={2}>
+                                Unpaid
+                              </Label>
+                              <Col sm={{ size: 12 }}>
+                                <FormGroup check>
+                                  <Label check>
+                                    <Input type="checkbox" id="checkbox2" />
+                                    Count as Unpaid
+                                  </Label>
+                                </FormGroup>
+                              </Col>
+                            </Col>
+                          </FormGroup>
+                          <MDBDataTableV5
+                            // scrollX
+                            fixedHeader={true}
+                            responsive
+                            striped
+                            bordered
+                            searchTop
+                            hover
+                            // autoWidth
+                            data={days}
+                            theadColor="#000"
+                          />
+                        </div> */}
+                        {/* <FormGroup row>
+                          <Col>
+                            <Label for="checkbox2" sm={2}>
+                              Sandwich
+                            </Label>
+                            <Col sm={{ size: 12 }}>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input type="checkbox" id="checkbox2" />
+                                  Count as Sandwich
+                                </Label>
+                              </FormGroup>
+                            </Col>
+                          </Col>
+
+                          <Col>
+                            <Label for="checkbox2" sm={2}>
+                              Unpaid
+                            </Label>
+                            <Col sm={{ size: 12 }}>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input type="checkbox" id="checkbox2" />
+                                  Count as Unpaid
+                                </Label>
+                              </FormGroup>
+                            </Col>
+                          </Col>
+                        </FormGroup>
+                        <MDBDataTableV5
+                          // scrollX
+                          fixedHeader={true}
+                          responsive
+                          striped
+                          bordered
+                          searchTop
+                          hover
+                          // autoWidth
+                          data={days}
+                          theadColor="#000"
+                        /> */}
                       </ModalBody>
                     </Modal>
                   </div>
