@@ -29,6 +29,7 @@ const UpdateUser = (props) => {
     getTechnology();
     getData();
   }, []);
+
   useEffect(() => {
     const tech = [];
     console.log(users.technology);
@@ -36,7 +37,7 @@ const UpdateUser = (props) => {
       users.technology.map((item) => {
         tech.push({ label: item.name, value: item._id });
       });
-    console.log("Technology", tech);
+    // console.log("Technology", tech);
     setViewTech(tech);
   }, [users]);
 
@@ -52,6 +53,7 @@ const UpdateUser = (props) => {
   const [selectedFile, setSelectedFile] = useState();
   const [successMsg, setSuccessMsg] = useState("");
   const [errMsg, setErrMsg] = useState("");
+
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     previewFile(file);
@@ -66,8 +68,6 @@ const UpdateUser = (props) => {
       setPreviewSource(reader.result);
     };
   };
-
-  console.log("image", selectedFile);
 
   const handleSubmitFile = (e) => {
     e.preventDefault();

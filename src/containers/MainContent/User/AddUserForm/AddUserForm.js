@@ -155,12 +155,12 @@ const UserForm = (props) => {
               .catch((err) => {
                 UserService.handleCustomMessage(err.response.data);
               });
-        console.log("clientName", values.clientName);
-        console.log("platform", values.platform);
-        console.log("technology", values.technology);
-        console.log("serviceType", values.serviceType);
-        console.log("projectNature", values.projectNature);
-        console.log("projectManager", values.projectManager);
+        // console.log("clientName", values.clientName);
+        // console.log("platform", values.platform);
+        // console.log("technology", values.technology);
+        // console.log("serviceType", values.serviceType);
+        // console.log("projectNature", values.projectNature);
+        // console.log("projectManager", values.projectManager);
       }}
     >
       {(props) => (

@@ -27,10 +27,11 @@ const LeaveForm = (props) => {
   const [remainingLeave, setRemaingLeave] = useState([]);
   const [pendingLeave, setPendingLeave] = useState({});
   const [selectedType, setSelectedType] = useState({});
+  const [leaveSettings, setLeaveSettings] = useState();
   const totalLeave =
     leaveTypes &&
     leaveTypes.filter((item) => item.value === selectedType.value)[0];
-  console.log("Total", totalLeave);
+  // console.log("Total", totalLeave);
 
   const Roles = new Configuration().Roles;
   const history = useHistory();
@@ -47,7 +48,7 @@ const LeaveForm = (props) => {
       .then((res) => {
         const leaves = res.data;
         setRemaingLeave(leaves);
-        console.log("leave data", leaves);
+        // console.log("leave data", leaves);
       })
       .catch((err) => {
         LeaveService.handleCustomMessage(err.response.data);
@@ -63,13 +64,21 @@ const LeaveForm = (props) => {
         } else {
           setPendingLeaveSpan(false);
         }
-        console.log("pending leave data", leaves);
+        // console.log("pending leave data", leaves);
       })
       .catch((err) => {
         LeaveService.handleCustomMessage(err.response.data);
       });
   };
 
+  const getLeaveSetting = () => {
+    LeaveService.getAllLeaveSettings().then((res) => {
+      const setting = res.data;
+      setLeaveSettings(setting);
+      // console.log("setting", setting);
+    });
+  };
+  // console.log("setingState", leaveSettings);
   useEffect(() => {
     getRemainingLeave({
       leaveType: selectedType && selectedType.value,
@@ -79,6 +88,7 @@ const LeaveForm = (props) => {
       leaveType: selectedType && selectedType.value,
       user: loggedInUser._id,
     });
+    getLeaveSetting();
   }, [selectedType]);
 
   const getleaveTypes = () => {
@@ -96,9 +106,9 @@ const LeaveForm = (props) => {
         if (loggedInUser.status === "Single") {
           let filterArray = [];
           filterArray = options.filter((item) => item.label !== "Maternity");
-          console.log("Filter Array", filterArray);
+          // console.log("Filter Array", filterArray);
           setLeaveTypes(filterArray);
-          console.log("admin");
+          // console.log("admin");
         } else {
           setLeaveTypes(options);
         }
@@ -121,7 +131,7 @@ const LeaveForm = (props) => {
       }}
       //   validationSchema={clientValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
-        console.log("countries", values.country);
+        // console.log("countries", values.country);
         LeaveService.newLeave({
           user: loggedInUser._id,
           type: values.leaveType.value,
@@ -139,7 +149,7 @@ const LeaveForm = (props) => {
           .catch((err) => {
             LeaveService.handleCustomMessage(err.response.data);
           });
-        console.log("country", values.country);
+        // console.log("country", values.country);
       }}
     >
       {(props) => (
@@ -244,13 +254,13 @@ const LeaveForm = (props) => {
                       onSubmit={(dates) => {
                         setSandwhichSpan(false);
                         let formattedDates = [];
-                        console.log("dass", dates);
+                        // console.log("dass", dates);
                         dates.map((item) => {
                           formattedDates.push(
                             moment(item).format("YYYY-MM-DD")
                           );
                         });
-                        console.log(formattedDates);
+                        // console.log(formattedDates);
                         let arr = [];
 
                         dates.map((date) => {
@@ -264,7 +274,7 @@ const LeaveForm = (props) => {
                         let sandwhich1 = arr.filter(
                           (item) => moment(item).format("dddd") === "Monday"
                         );
-                        console.log("Length", sandwhich);
+                        // console.log("Length", sandwhich);
                         if (
                           sandwhich.length > 0 ||
                           (sandwhich.length > 0 && sandwhich1.length > 0)
@@ -295,8 +305,8 @@ const LeaveForm = (props) => {
                                   )
                                     .add("days", 2)
                                     .format("YYYY-MM-DD");
-                                  console.log(new_date);
-                                  console.log(new_date1);
+                                  // console.log(new_date);
+                                  // console.log(new_date1);
 
                                   let finalSandwhich = [];
                                   finalSandwhich.push(new_date, new_date1);
@@ -328,8 +338,8 @@ const LeaveForm = (props) => {
                                 )
                                   .add("days", 2)
                                   .format("YYYY-MM-DD");
-                                console.log(new_date);
-                                console.log(new_date1);
+                                // console.log(new_date);
+                                // console.log(new_date1);
 
                                 let finalSandwhich = [];
                                 finalSandwhich.push(new_date, new_date1);
@@ -367,8 +377,8 @@ const LeaveForm = (props) => {
                               )
                                 .subtract("days", 2)
                                 .format("YYYY-MM-DD");
-                              console.log(new_date);
-                              console.log(new_date1);
+                              // console.log(new_date);
+                              // console.log(new_date1);
 
                               let finalSandwhich = [];
                               finalSandwhich.push(new_date, new_date1);
@@ -389,7 +399,7 @@ const LeaveForm = (props) => {
                         });
                         const uniqueSet = new Set(formattedDates);
                         const backToArray = [...uniqueSet];
-                        console.log("Leave Dates Final", backToArray);
+                        // console.log("Leave Dates Final", backToArray);
                         props.setFieldValue("leaveDates", backToArray);
                         setLeaveCount(backToArray.length);
                       }}

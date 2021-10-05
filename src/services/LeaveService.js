@@ -7,7 +7,16 @@ class LeaveService {
     this.config = new Configuration();
   }
 
-  // leave types section
+  leaveSettings(formData) {
+    return axios.post(
+      this.config.apiBaseUrl + "leave-setting/settings",
+      formData
+    );
+  }
+
+  getAllLeaveSettings() {
+    return axios.get(this.config.apiBaseUrl + "leave-setting/setting");
+  }
 
   addLeaveType(formData) {
     return axios.post(
@@ -15,10 +24,6 @@ class LeaveService {
       formData
     );
   }
-
-  //   getLeaveTypeById(orderId) {
-  //     return axios.get(this.config.apiBaseUrl + "tasks/" + orderId);
-  //   }
 
   getAllLeaveType() {
     return axios.get(this.config.apiBaseUrl + "leave-type/show-leave-type");

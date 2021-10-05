@@ -300,6 +300,12 @@ class header extends Component {
                       Leaves
                     </DropdownItem>
                   </Link>
+                  <Link to="/leave/settings">
+                    <DropdownItem>
+                      <i className="mdi mdi-settings m-r-5" />
+                      Leave Setting
+                    </DropdownItem>
+                  </Link>
 
                   <DropdownItem
                     onClick={() => {

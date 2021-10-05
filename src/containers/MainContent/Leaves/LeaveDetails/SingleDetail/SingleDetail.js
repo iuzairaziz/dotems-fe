@@ -698,21 +698,15 @@ const SingleDetail = (props) => {
                                   id="exampleCheck1"
                                   value={hideField}
                                   onChange={(selected) => {
-                                    setHideField(selected.target.value);
-                                    console.log("hidee", selected.target.value);
+                                    setHideField(!hideField);
                                     // props.setFieldValue(selected);
-                                    // if (selected === !hideField) {
-                                    //   setHideField(true);
-                                    // } else {
-                                    //   setHideField(false);
-                                    // }
                                   }}
                                 />
                                 <label
                                   class="form-check-label"
                                   for="exampleCheck1"
                                 >
-                                  Special Check
+                                  Special Case
                                 </label>
                               </div>
                             </Col>
@@ -767,96 +761,6 @@ const SingleDetail = (props) => {
                             />
                           </div>
                         </form>
-                        {/* <div
-                          className={`${
-                            hideField === true
-                              ? `hide-form-field`
-                              : `display-form-field col `
-                          }`}
-                        >
-                          <FormGroup row>
-                            <Col>
-                              <Label for="checkbox2" sm={2}>
-                                Sandwich
-                              </Label>
-                              <Col sm={{ size: 12 }}>
-                                <FormGroup check>
-                                  <Label check>
-                                    <Input type="checkbox" id="checkbox2" />
-                                    Count as Sandwich
-                                  </Label>
-                                </FormGroup>
-                              </Col>
-                            </Col>
-
-                            <Col>
-                              <Label for="checkbox2" sm={2}>
-                                Unpaid
-                              </Label>
-                              <Col sm={{ size: 12 }}>
-                                <FormGroup check>
-                                  <Label check>
-                                    <Input type="checkbox" id="checkbox2" />
-                                    Count as Unpaid
-                                  </Label>
-                                </FormGroup>
-                              </Col>
-                            </Col>
-                          </FormGroup>
-                          <MDBDataTableV5
-                            // scrollX
-                            fixedHeader={true}
-                            responsive
-                            striped
-                            bordered
-                            searchTop
-                            hover
-                            // autoWidth
-                            data={days}
-                            theadColor="#000"
-                          />
-                        </div> */}
-                        {/* <FormGroup row>
-                          <Col>
-                            <Label for="checkbox2" sm={2}>
-                              Sandwich
-                            </Label>
-                            <Col sm={{ size: 12 }}>
-                              <FormGroup check>
-                                <Label check>
-                                  <Input type="checkbox" id="checkbox2" />
-                                  Count as Sandwich
-                                </Label>
-                              </FormGroup>
-                            </Col>
-                          </Col>
-
-                          <Col>
-                            <Label for="checkbox2" sm={2}>
-                              Unpaid
-                            </Label>
-                            <Col sm={{ size: 12 }}>
-                              <FormGroup check>
-                                <Label check>
-                                  <Input type="checkbox" id="checkbox2" />
-                                  Count as Unpaid
-                                </Label>
-                              </FormGroup>
-                            </Col>
-                          </Col>
-                        </FormGroup>
-                        <MDBDataTableV5
-                          // scrollX
-                          fixedHeader={true}
-                          responsive
-                          striped
-                          bordered
-                          searchTop
-                          hover
-                          // autoWidth
-                          data={days}
-                          theadColor="#000"
-                        /> */}
                       </ModalBody>
                     </Modal>
                   </div>
