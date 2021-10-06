@@ -84,7 +84,6 @@ const mainbuilder = (props) => {
 
   const { ADMIN, PM, HR, CEO, EMPLOYEE, INTERNEE, PROBATION, AM } = roles;
   const ALL_ROLES = [ADMIN, PM, HR, CEO, EMPLOYEE, INTERNEE, PROBATION, AM];
-  console.log("all roles", ALL_ROLES);
   return (
     <>
       <Switch>

@@ -25,14 +25,15 @@ const TaskForm = (props) => {
   const task = props.task;
   const editable = props.editable;
   const history = useHistory();
+  const projectName = props.project;
 
   useEffect(() => {
     getProjects();
-    console.log("editable props", editable && task);
     editable && task && getProjectUsers(task.project._id);
   }, []);
 
   const loogedInUser = userService.userLoggedInInfo();
+
   const getProjectUsers = (projectId) => {
     userService.getProjectUsers(projectId).then((res) => {
       let options = [];
@@ -62,12 +63,10 @@ const TaskForm = (props) => {
       .then((res) => {
         let options = [];
         res.data.map((item, index) => {
-          // console.log("project options", options);
           if (item.name) {
             options.push({
               value: item._id,
               label: item.name,
-              // id: item._id,
               pmStartDate: item.pmStartDate,
               pmEndDate: item.pmEndDate,
               remainingProjectRatio: item.tasks
@@ -80,7 +79,6 @@ const TaskForm = (props) => {
             });
           }
         });
-        console.log("project options", options);
         setProjects(options);
       })
       .catch((err) => {
@@ -88,21 +86,23 @@ const TaskForm = (props) => {
       });
   };
 
-  console.log("from task form ", task);
   var assignedUsers = [];
   editable &&
     task.assignedTo.map((item) =>
       assignedUsers.push({ label: item.name, value: item._id, id: item._id })
     );
+
   return (
-    // <>
     <Formik
       initialValues={{
         maxProjectRatio: 100,
         maxEstHrs: 1000,
         title: editable && task.name,
         project: editable &&
-          task.project && { label: task.project.name, value: task.project._id },
+          task.project && {
+            label: task.project.phasename,
+            value: task.project._id,
+          },
         phase: editable &&
           task.phase && { label: task.phase.phasename, value: task.phase._id },
         estimatedHrs: editable && task.estHrs,
@@ -185,7 +185,6 @@ const TaskForm = (props) => {
               .catch((err) => {
                 TaskService.handleCustomMessage(err.response.data);
               });
-        console.log("project", values.project);
       }}
     >
       {(props) => {

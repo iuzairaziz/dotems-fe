@@ -41,7 +41,7 @@ class PhaseList extends React.Component {
     return (
       <div className="content">
         {/* {console.log("Project Phases",this.props.projectPhase)} */}
-        {console.log("phasesDetails", phasesDetails)}
+        {/* {console.log("phasesDetails", phasesDetails)} */}
         <form onSubmit={(e) => e.preventDefault()} onChange={this.handleChange}>
           <div className="row" style={{ marginTop: 20 }}>
             <div className="col-sm-1" />

@@ -15,10 +15,8 @@ class updateUsers extends Component {
           <div className="container-fluid">
             <div className="row">
               <div className="col-lg-12">
-            
-                    <h3 className="m-0">User Profile</h3>
-                    <UpdateUserForm />
-                
+                <h3 className="m-0">User Profile</h3>
+                <UpdateUserForm />
               </div>
             </div>
           </div>

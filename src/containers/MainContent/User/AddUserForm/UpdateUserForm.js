@@ -228,9 +228,10 @@ const UpdateUser = (props) => {
               })}
             </div>
           </div>
-
           <div className="card m-b-20">
             <div className="card-body">
+              <h4>Update Profile</h4>
+
               {/* <div>
                 <h1 className="title">Upload an Image</h1>
                 <Alert msg={errMsg} type="danger" />

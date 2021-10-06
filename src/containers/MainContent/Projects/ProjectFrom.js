@@ -53,7 +53,7 @@ const ProjectForm = (props) => {
   const [totalHours, setTotalHours] = useState(0);
   const [hideField, setHideField] = useState(true);
   const [costValue, setCostValue] = useState(false);
-  // const [redirect, setRedirect] = useState(true);
+
   const [phasesDetails, setPhasesDetails] = useState([
     {
       index: Math.random(),
@@ -137,7 +137,7 @@ const ProjectForm = (props) => {
         .map((item, index) => {
           options.push({
             value: item._id,
-            label: `${item.name} (${item.userRole})`,
+            label: `${item.name}`,
           });
         });
       setUsers(options);
@@ -161,7 +161,7 @@ const ProjectForm = (props) => {
         .map((item, index) => {
           options.push({
             value: item._id,
-            label: `${item.name} (${item.userRole})`,
+            label: `${item.name}`,
           });
         });
       setTeamMember(options);
@@ -232,14 +232,10 @@ const ProjectForm = (props) => {
     let options = [];
     let natre = nature;
     let keys = Object.keys(nature);
-    // console.log("n lenth", natre.length);
-    // console.log("keys lenght", keys.length);
     nature.map((item, index) => {
       options.push({ value: item.id, text: item.label });
     });
     setToShow(options);
-    // console.log("Data To Disply in MultiSelect", options);
-    // console.log("User Nature", nature);
   };
 
   const onEditorStateChange = (editorState) => {
@@ -333,7 +329,7 @@ const ProjectForm = (props) => {
           setCostValue(false);
         }
       }}
-      // validationSchema={ProjectValidation.newProjectValidation}
+      validationSchema={ProjectValidation.newProjectValidation}
       onSubmit={(values, actions) => {
         const usrs = [];
         const tech = [];
@@ -748,7 +744,7 @@ const ProjectForm = (props) => {
                     selected={props.values.cStartDate}
                     onChange={(date) => {
                       props.setFieldValue("cStartDate", date);
-                      console.log("datepicker", date);
+                      // console.log("datepicker", date);
                     }}
                   />
                   <span id="err" className="invalid-feedback">

@@ -97,6 +97,7 @@ const Tables_datatable = (props) => {
   useEffect(() => {
     getData();
   }, [modalEdit, modalDelete]);
+
   const changeColor = () => {
     $(document).ready(function() {
       $("tbody > tr").each(function(index) {
@@ -229,9 +230,6 @@ const Tables_datatable = (props) => {
           });
         });
         setData(data);
-        console.log("state data", dataa);
-        console.log("my task data", data);
-        console.log("res data", res.data);
       })
       .catch((err) => {
         console.log(err);

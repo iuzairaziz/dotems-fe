@@ -14,13 +14,20 @@ import "./ProjectDetails.scss";
 import ProjectComments from "./ProjectComments/ProjectComments";
 import userService from "../../../services/UserService";
 import Configuration from "../../../config/configuration";
-// import userService from "../../../services/UserService";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import TaskForm from "../Tasks/TaskForm/TaskForm";
+import RoleAuth from "../../../components/MyComponents/Auth/RoleAuth";
 
 const ProjectDetails = (props) => {
   {
     const [projectData, setData] = useState();
-    const config = new Configuration();
+    const [taskModal, setTaskModal] = useState(false);
+
+    // const config = new Configuration();
     const roless = new Configuration().Roles;
+
+    // const roles = new Configuration().Roles;
+    const { PM } = roless;
 
     const [tabledata, setTableData] = useState({
       columns: [
@@ -80,7 +87,7 @@ const ProjectDetails = (props) => {
 
     const projectId = props.match.params.id;
     let loggedUser = userService.userLoggedInInfo();
-    // console.log("uzair", loggedUser);
+    const toggleTaskEdit = () => setTaskModal(!taskModal);
 
     useEffect(() => {
       if (loggedUser.userRole.includes(roless.ADMIN)) {
@@ -102,8 +109,8 @@ const ProjectDetails = (props) => {
 
     useEffect(() => {
       getTableData();
-      // getPMData(projectId, loggedUser._id);
-    }, []);
+    }, [taskModal]);
+
     const changeColor = () => {
       $(document).ready(function() {
         $("tr").each(function(index) {
@@ -445,21 +452,41 @@ const ProjectDetails = (props) => {
                     />
                   </div>
                   <div className="tab-pane p-3" id="profile1" role="tabpanel">
-                    <MDBDataTableV5
-                      responsive
-                      striped
-                      small
-                      onPageChange={(val) => console.log(val)}
-                      bordered={true}
-                      //  materialSearch
-                      searchTop
-                      searchBottom={false}
-                      pagingTop
-                      barReverse
-                      hover
-                      data={tabledata}
-                      theadColor="#000"
-                    />
+                    <div className="row">
+                      <div className="col">
+                        <RoleAuth roles={[PM]}>
+                          <div
+                            className="d-flex justify-content-end"
+                            id="add-new-Buttonm "
+                            onClick={() => {
+                              toggleTaskEdit();
+                            }}
+                          >
+                            <i className="mdi mdi-plus-circle icon-add" />
+                          </div>
+                        </RoleAuth>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="col-12">
+                        <MDBDataTableV5
+                          responsive
+                          striped
+                          small
+                          onPageChange={(val) => console.log(val)}
+                          bordered={true}
+                          //  materialSearch
+                          searchTop
+                          searchBottom={false}
+                          pagingTop
+                          barReverse
+                          hover
+                          data={tabledata}
+                          theadColor="#000"
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div
                     className="tab-pane p-3"
@@ -471,6 +498,16 @@ const ProjectDetails = (props) => {
                     />
                   </div>
                 </div>
+                <Modal
+                  style={{ maxWidth: "70%" }}
+                  isOpen={taskModal}
+                  toggle={toggleTaskEdit}
+                >
+                  <ModalHeader toggle={toggleTaskEdit}>New Task</ModalHeader>
+                  <ModalBody>
+                    <TaskForm toggle={toggleTaskEdit} />
+                  </ModalBody>
+                </Modal>
               </div>
             </div>
           </div>
