@@ -7,10 +7,10 @@ const PhasesList = (props) => {
 
     return (
       <div className="form-row" key={val.index}>
-        <div className={`${props.editable ? "col-6" : "col-5"}`}>
+        <div className={`${props.editable ? "col-5" : "col-5"}`}>
           <label>Phase Name</label>
           <input
-            disabled={props.editable ? false : false}
+            disabled={props.phaseArray === true ? true : false}
             type="text"
             className="form-control required"
             placeholder="Name"
@@ -20,10 +20,10 @@ const PhasesList = (props) => {
             defaultValue={val.phasename}
           />
         </div>
-        <div className={`${props.editable ? "col-6" : "col-5"}`}>
+        <div className={`${props.editable > 1 ? "col-5" : "col-5"}`}>
           <label>Estimate Hrs</label>
           <input
-            disabled={props.editable ? false : false}
+            disabled={props.phaseArray === true ? true : false}
             type="number"
             className="form-control required"
             placeholder="Estimate Hours"
@@ -36,7 +36,7 @@ const PhasesList = (props) => {
 
         <div className="d-flex justify-content-end col-2 p-4">
           {idx === 0 ? (
-            props.editable ? (
+            props.phaseArray ? (
               ""
             ) : (
               <button
@@ -47,7 +47,7 @@ const PhasesList = (props) => {
                 <i className="fa fa-plus-circle" aria-hidden="true" />
               </button>
             )
-          ) : props.editable ? (
+          ) : props.phaseArray ? (
             ""
           ) : (
             <button
@@ -60,26 +60,6 @@ const PhasesList = (props) => {
             </button>
           )}
         </div>
-        {/* <div className="d-flex justify-content-end col-2 p-4">
-          {idx === 0 ? (
-            <button
-              onClick={() => props.add()}
-              type="button"
-              className="btn btn-primary text-center"
-            >
-              <i className="fa fa-plus-circle" aria-hidden="true" />
-            </button>
-          ) : (
-            <button
-              className="btn btn-danger"
-              onClick={() => {
-                props.delete(val);
-              }}
-            >
-              <i className="fa fa-minus" aria-hidden="true" />
-            </button>
-          )}
-        </div> */}
       </div>
     );
   });

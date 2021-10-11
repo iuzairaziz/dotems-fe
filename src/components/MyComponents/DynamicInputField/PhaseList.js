@@ -53,6 +53,7 @@ class PhaseList extends React.Component {
                   delete={this.clickOnDelete.bind(this)}
                   phasesDetails={phasesDetails}
                   editable={this.props.editable}
+                  phaseArray={this.props.phaseArray}
                 />
               </div>
             </div>

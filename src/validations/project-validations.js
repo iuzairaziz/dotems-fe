@@ -62,9 +62,9 @@ class ProjectValidation {
       Pdeduction: Yup.number(),
       // percentage: Yup.string(),
       // fCost: Yup.string(),
-      // currency: Yup.object().required("Required!"),
+      currency: Yup.object().required("Required!"),
       otherDeduction: Yup.number(),
-      phase: Yup.object(),
+      // phase: Yup.array(),
     });
   };
 

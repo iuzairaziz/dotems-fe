@@ -53,6 +53,7 @@ const ProjectForm = (props) => {
   const [totalHours, setTotalHours] = useState(0);
   const [hideField, setHideField] = useState(true);
   const [costValue, setCostValue] = useState(false);
+  const [phaseValue, setPhaseValue] = useState(true);
 
   const [phasesDetails, setPhasesDetails] = useState([
     {
@@ -70,7 +71,18 @@ const ProjectForm = (props) => {
 
   useEffect(() => {
     editable && project && project.phase && setPhasesDetails(project.phase);
+    if (editable && project && project.phase && project.phase.length > 1) {
+      console.log("phase");
+      setPhaseValue(true);
+    } else setPhaseValue(false);
   }, []);
+
+  // if (editable && project && project.phase && project.phase.length > 1) {
+  //   console.log("phase");
+  //   setPhaseValue(true);
+  // } else setPhaseValue(false);
+
+  console.log("phase", phaseValue);
 
   useEffect(() => {
     console.log(tHours);
@@ -242,6 +254,22 @@ const ProjectForm = (props) => {
     setEditorState(editorState);
   };
 
+  // const validate = () => (values, props) => {
+  //   const errors = {};
+
+  //   if (!values.props) {
+  //     errors.props = "Required";
+  //   } else if (values.props) {
+  //     errors.props = "Invalid email address";
+  //   }
+
+  //   //...
+
+  //   return errors;
+  // };
+
+  // console.log("validation", validate);
+
   var TeamMembers = [];
   var Technology = [];
   editable &&
@@ -312,8 +340,8 @@ const ProjectForm = (props) => {
           },
         orderNum: editable && project.orderNum,
         Pdeduction: editable && project.Pdeduction,
-        percentage: editable && project.percentage,
-        fCost: editable && project.fCost,
+        // percentage: editable && project.percentage,
+        // fCost: editable && project.fCost,
         otherDeduction: editable && project.otherDeduction,
         phase: editable && project.phase,
         projectType: editable &&
@@ -328,11 +356,14 @@ const ProjectForm = (props) => {
         } else {
           setCostValue(false);
         }
+        console.log("vall", values);
       }}
       validationSchema={ProjectValidation.newProjectValidation}
-      onSubmit={(values, actions) => {
+      onSubmit={(values, actions, errors) => {
         const usrs = [];
         const tech = [];
+
+        console.log("actions", values);
         values.teamMembers.map((item) => {
           usrs.push(item.value);
         });
@@ -363,8 +394,8 @@ const ProjectForm = (props) => {
               clientHours: values.clientHours,
               Rprofit: values.Rprofit,
               Pdeduction: values.Pdeduction,
-              percentage: values.percentage,
-              fCost: values.fCost,
+              // percentage: values.percentage,
+              // fCost: values.fCost,
               otherDeduction: values.otherDeduction,
               phase: phasesDetails,
               currency: values.currency.value,
@@ -402,8 +433,8 @@ const ProjectForm = (props) => {
               clientHours: values.clientHours,
               Rprofit: values.Rprofit,
               Pdeduction: values.Pdeduction,
-              percentage: values.percentage,
-              fCost: values.fCost,
+              // percentage: values.percentage,
+              // fCost: values.fCost,
               otherDeduction: values.otherDeduction,
               phase: phasesDetails,
               currency: values.currency.value,
@@ -416,11 +447,16 @@ const ProjectForm = (props) => {
               .catch((err) => {
                 ProjectService.handleCustomMessage(err.response.data);
               });
+        console.error("actions", actions);
+        console.error("err", errors);
+
+        // setPhaseArray(project.phase);
       }}
     >
       {(props) => (
         <div className="project-form">
           <div className="row">
+            <h1> {console.log(props)}</h1>
             <div className="col">
               <div className="form-group">
                 <label>Project Name</label>
@@ -1109,6 +1145,7 @@ const ProjectForm = (props) => {
               setPhaseDetials={setPhasesDetails}
               phasesDetails={phasesDetails}
               editable={editable}
+              phaseArray={phaseValue}
             />
           </div>
           <div className="d-flex justify-content-center row">
