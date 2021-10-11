@@ -1,6 +1,6 @@
 class Configuration {
-  // apiBaseUrl = "https://dot-ems-be.herokuapp.com/";
-  apiBaseUrl = "http://localhost:8000/";
+  apiBaseUrl = "https://dot-ems-be.herokuapp.com/";
+  // apiBaseUrl = "http://localhost:8000/";
 
   Roles = {
     ADMIN: "Admin",
