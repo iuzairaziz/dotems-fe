@@ -72,7 +72,7 @@ const ProjectForm = (props) => {
   useEffect(() => {
     editable && project && project.phase && setPhasesDetails(project.phase);
     if (editable && project && project.phase && project.phase.length > 1) {
-      console.log("phase");
+      // console.log("phase");
       setPhaseValue(true);
     } else setPhaseValue(false);
   }, []);
@@ -82,7 +82,7 @@ const ProjectForm = (props) => {
   //   setPhaseValue(true);
   // } else setPhaseValue(false);
 
-  console.log("phase", phaseValue);
+  // console.log("phase", phaseValue);
 
   useEffect(() => {
     console.log(tHours);
@@ -356,14 +356,14 @@ const ProjectForm = (props) => {
         } else {
           setCostValue(false);
         }
-        console.log("vall", values);
+        // console.log("vall", values);
       }}
       validationSchema={ProjectValidation.newProjectValidation}
       onSubmit={(values, actions, errors) => {
         const usrs = [];
         const tech = [];
 
-        console.log("actions", values);
+        // console.log("actions", values);
         values.teamMembers.map((item) => {
           usrs.push(item.value);
         });
@@ -456,7 +456,6 @@ const ProjectForm = (props) => {
       {(props) => (
         <div className="project-form">
           <div className="row">
-            <h1> {console.log(props)}</h1>
             <div className="col">
               <div className="form-group">
                 <label>Project Name</label>

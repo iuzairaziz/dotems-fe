@@ -19,12 +19,17 @@ import RequestTypeForm from "../../RequestType/RequestForm/RequestForm";
 import RequestService from "../../../../services/Request";
 import shortValidations from "../../../../validations/short-validations";
 import userService from "../../../../services/UserService";
+import Configuration from "../../../../config/configuration";
 
 const RequestForm = (props) => {
   const [requestType, setRequestType] = useState([]);
   const [sendRequestTo, setSendRequestTo] = useState([]);
   const [requestTypeModal, setRequestTypeModal] = useState(false);
   const [description, setDescription] = useState(EditorState.createEmpty());
+
+  const roless = new Configuration().Roles;
+
+  // const { ADMIN, PM, HR, CEO, AM } = roles;
 
   useEffect(() => {
     getRequestType();
@@ -33,7 +38,7 @@ const RequestForm = (props) => {
   const toggleRequestTypeEdit = () => setRequestTypeModal(!requestTypeModal);
 
   const userId = userService.userLoggedInInfo();
-  console.log(userId);
+  // console.log(userId);
   const history = useHistory();
 
   const getRequestType = () => {
@@ -43,31 +48,60 @@ const RequestForm = (props) => {
       res.data.map((item, index) => {
         options.push({ label: item.name, value: item._id });
       });
-      console.log("Accesory", options);
+      // console.log("Accesory", options);
       setRequestType(options);
     });
   };
+
+  // const getRequestUsers = () => {
+  //   UserService.getAllUsers().then((res) => {
+  //     let options = [];
+  //     res.data
+  //       .filter(
+  //         (user) =>
+  //           user.userRole === ADMIN ||
+  //           user.userRole === PM ||
+  //           user.userRole === CEO ||
+  //           user.userRole === HR ||
+  //           user.userRole === AM
+  //       )
+  //       .map((item, index) => {
+  //         options.push({
+  //           label: `${item.name} (${item.userRole})`,
+  //           value: item._id,
+  //         });
+  //       });
+  //     setSendRequestTo(options);
+  //     console.log("options", res.data);
+  //   });
+  // };
+
   const getRequestUsers = () => {
-    UserService.getUsers("", "", "", "").then((res) => {
+    userService.getUsers("", "", "", "").then((res) => {
       let options = [];
       res.data
-        .filter(
-          (user) =>
-            user.userRole === "Admin" ||
-            user.userRole === "Project Manager" ||
-            user.userRole === "CEO" ||
-            user.userRole === "HR" ||
-            user.userRole === "Accounts Manager"
-        )
+        .filter((user) => {
+          return user.userRole.some((role) => {
+            return (
+              role === roless.ADMIN ||
+              role === roless.PM ||
+              role === roless.HR ||
+              role === roless.AM
+            );
+          });
+        })
         .map((item, index) => {
           options.push({
-            label: `${item.name} (${item.userRole})`,
             value: item._id,
+            label: `${item.name}`,
           });
         });
       setSendRequestTo(options);
+      console.log("Project Manager", res.data);
     });
   };
+
+  console.log("sendRequestTo", sendRequestTo);
 
   return (
     <Formik
@@ -82,8 +116,8 @@ const RequestForm = (props) => {
       }}
       validationSchema={shortValidations.requestValidation}
       onSubmit={(values, actions) => {
-        console.log(actions);
-        console.log("Valuesssssssssss", values);
+        // console.log(actions);
+        // console.log("Valuesssssssssss", values);
         let array = [];
         values.sendRequestToUsers.map((item) => array.push(item.value));
         props.editable

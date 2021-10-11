@@ -96,6 +96,10 @@ class userServices {
     );
   };
 
+  getAllUsers = () => {
+    return axios.get(this.config.apiBaseUrl + `users/`);
+  };
+
   getMachineResource = (id) => {
     return axios.get(this.config.apiBaseUrl + `users/machine-resource/`, id);
   };

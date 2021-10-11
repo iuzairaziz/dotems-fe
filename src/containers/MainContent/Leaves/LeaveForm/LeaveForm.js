@@ -31,7 +31,6 @@ const LeaveForm = (props) => {
   const totalLeave =
     leaveTypes &&
     leaveTypes.filter((item) => item.value === selectedType.value)[0];
-  // console.log("Total", totalLeave);
 
   const Roles = new Configuration().Roles;
   const history = useHistory();
@@ -75,10 +74,9 @@ const LeaveForm = (props) => {
     LeaveService.getAllLeaveSettings().then((res) => {
       const setting = res.data;
       setLeaveSettings(setting);
-      // console.log("setting", setting);
     });
   };
-  // console.log("setingState", leaveSettings);
+  console.log("settings", leaveSettings);
   useEffect(() => {
     getRemainingLeave({
       leaveType: selectedType && selectedType.value,
