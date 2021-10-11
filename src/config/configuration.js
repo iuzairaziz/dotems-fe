@@ -1,5 +1,5 @@
 class Configuration {
-  apiBaseUrl = "https://dot-ems-be.herokuapp.com/";
+  apiBaseUrl = "https://rocky-shore-55937.herokuapp.com/";
   // apiBaseUrl = "http://localhost:8000/";
 
   Roles = {
