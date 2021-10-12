@@ -28,9 +28,9 @@ class PaymentService {
   }
 
   handleMessage(type) {
-    if (type === "add") toast("Successfully added accessory");
-    else if (type === "update") toast("Successfully updated accessory");
-    else if (type === "delete") toast("Successfully deleted accessory");
+    if (type === "add") toast("Successfully added Payment");
+    else if (type === "update") toast("Successfully updated Payment");
+    else if (type === "delete") toast("Successfully deleted Payment");
   }
 
   handleError() {

@@ -2,18 +2,8 @@ import React, { Component, useState, useEffect } from "react";
 import AUX from "../../../hoc/Aux_";
 import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
-import ClientValidation from "../../../validations/client-validations";
 import DatePicker from "react-datepicker";
-import moment from "moment";
 import CurrencyService from "../../../services/CurrencyService";
-import {
-  Progress,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
 import ProjectService from "../../../services/ProjectService";
 import StatusService from "../../../services/StatusService";
 import $ from "jquery";
@@ -21,8 +11,6 @@ import $ from "jquery";
 const ProjectReports = () => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
-  const [selectedProject, setSelectedProject] = useState({ name: "" });
-  const [selectedCurrency, SetSelectedCurrency] = useState("");
   const [statusfilter, setStatusFilter] = useState([]);
   const [applystatusfilter, setApplyStatusFilter] = useState("");
   const [clientStart, setClientStart] = useState("");
@@ -112,6 +100,38 @@ const ProjectReports = () => {
     setDataaUSD(rates.USD_PKR.toFixed(2));
   };
 
+  // const changeColortr = () => {
+  //   $("tbody > tr").each(function(index) {
+  //     var second = $(this)
+  //       .children("td")
+  //       .eq(9)
+  //       .text();
+  //     var first = $(this)
+  //       .children("td")
+  //       .eq(8)
+  //       .text();
+  //     var finalSecond = parseInt(second);
+  //     var finalFirst = parseInt(first);
+  //     if (finalSecond < finalFirst) {
+  //       $(this).css("color", "#0000FF");
+  //       $(this)
+  //         .find("td")
+  //         .css("color", "#0000FF");
+  //     } else {
+  //       $(this).css("color", "black");
+  //       $(this)
+  //         .find("td")
+  //         .css("color", "black");
+  //     }
+  //   });
+  // };
+  // $(document).ready(function() {
+  //   changeColortr();
+  //   $(document).on("click", "th", function() {
+  //     changeColortr();
+  //   });
+  // });
+
   useEffect(() => {
     getData();
   }, [
@@ -186,12 +206,6 @@ const ProjectReports = () => {
         toggleDelete();
       });
   };
-  // const getExchangeRate = (id) => {
-  //   CurrencyService.getCurrencyById(id).then((res) => {
-  //     return res.data;
-  //     console.log("currency", res.data);
-  //   });
-  // };
 
   console.log("USD", dataUSD);
 
@@ -279,9 +293,9 @@ const ProjectReports = () => {
           });
         });
         setData(data);
-        // console.log("state data", dataa);
-        // console.log("my project data", data);
-        // console.log("res data", res.data);
+        console.log("table", dataa);
+        console.log("array", data);
+        console.log("res data", res.data);
         // console.log("EstHrs", EstTime);
       })
       .catch((err) => {

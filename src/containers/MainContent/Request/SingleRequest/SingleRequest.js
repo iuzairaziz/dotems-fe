@@ -79,7 +79,7 @@ const SingleRequest = (props) => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12 mb-2">
-              <div className="row">
+              <div className="row mb-4">
                 <div className="col-9">
                   <h4>Request Details</h4>{" "}
                 </div>
@@ -87,7 +87,7 @@ const SingleRequest = (props) => {
                   <div className="col-3 approval">
                     <Button
                       color="success"
-                      className="mt-3 my-primary-button mb-4"
+                      className="mt-3 my-primary-button"
                       onClick={() => {
                         toggleEdit();
                       }}

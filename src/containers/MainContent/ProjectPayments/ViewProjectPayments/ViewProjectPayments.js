@@ -165,7 +165,7 @@ const PaymentList = (props) => {
             ),
           });
         });
-        console.log("Payment", res.data);
+        // console.log("Payment", res.data);
 
         setData(updatedData);
       })

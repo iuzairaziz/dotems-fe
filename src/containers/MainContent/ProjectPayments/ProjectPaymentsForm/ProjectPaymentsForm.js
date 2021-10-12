@@ -2,55 +2,123 @@ import React, { useState, useEffect } from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
 import Select from "react-select";
-import { Editor } from "react-draft-wysiwyg";
-import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import UserService from "../../../../services/UserService";
 import { useHistory } from "react-router-dom";
-import {
-  Progress,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
 import ProjectService from "../../../../services/ProjectService";
-import RequestTypeForm from "../../RequestType/RequestForm/RequestForm";
-import RequestService from "../../../../services/Request";
-import shortValidations from "../../../../validations/short-validations";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import paymentValidation from "../../../../validations/payment-validations";
 import PaymentService from "../../../../services/PaymentService";
+import { MDBDataTableV5 } from "mdbreact";
+import moment from "moment";
 
 const ProjectPaymentForm = (props) => {
   const [project, setProject] = useState([]);
-  const [requestType, setRequestType] = useState([]);
-  const [sendRequestTo, setSendRequestTo] = useState([]);
-  const [requestTypeModal, setRequestTypeModal] = useState(false);
-  const [description, setDescription] = useState(EditorState.createEmpty());
+  const [projectCost, setProjectCost] = useState();
+  const [paymentID, setPaymentID] = useState();
+  // const [requestTypeModal, setRequestTypeModal] = useState(false);
+  // const [description, setDescription] = useState(EditorState.createEmpty());
 
   const history = useHistory();
+  const editable = props.editable;
+  const payment = props.payment;
+  const projectId = props.projectpaymentid;
+
+  const [paymentTabledata, setPaymentTableData] = useState({
+    columns: [
+      {
+        label: "Payment Description",
+        field: "paymentDescription",
+        sort: "disabled",
+        width: 125,
+      },
+      {
+        label: "Amount Recieved",
+        field: "amountRecieved",
+        sort: "disabled",
+      },
+
+      {
+        label: "Exchange Rate",
+        field: "exchangeRate",
+        sort: "disabled",
+        // width: 100,
+      },
+      {
+        label: "Amount Recieve Date",
+        field: "arDate",
+        sort: "disabled",
+      },
+    ],
+    rows: [],
+  });
 
   useEffect(() => {
     getProjects();
-  }, []);
+    // projectPaymentID();
+    if (projectCost && projectCost.paymentDetials) {
+      getPaymentTableData();
+    }
+  }, [projectCost]);
+
+  // const projectPaymentID = () => {
+  //   projectCost &&
+  //     projectCost.paymentDetials &&
+  //     projectCost.paymentDetials.map((item, index) => {
+  //       setPaymentID(item._id);
+  //       // console.log("paymentID", item._id);
+  //     });
+  // };
+
+  // console.log("PaymentIDD", paymentID);
 
   const getProjects = () => {
     ProjectService.getAllProject().then((res) => {
       let options = [];
       res.data.map((item, index) => {
-        options.push({ label: item.name, value: item._id });
+        options.push({
+          label: item.name,
+          value: item._id,
+          cost: item.cost,
+          paymentDetials: item.paymentDetials,
+        });
       });
       setProject(options);
-      console.log(res.data);
+      // console.log("xxx", project);
     });
   };
 
-  const editable = props.editable;
-  const payment = props.payment;
-  const projectId = props.projectpaymentid;
-  console.log("ghdgdgdg", projectId);
+  const getPaymentTableData = (id) => {
+    // PaymentService.getSinglePayment(id)
+    //   .then((res) => {
+    //     setProject(res.data.project);
+    let updatedData = { ...paymentTabledata };
+    updatedData.rows = [];
+    // res.data.
+    if (projectCost && projectCost.paymentDetials.length > 0) {
+      projectCost &&
+        projectCost.paymentDetials &&
+        projectCost.paymentDetials[0].paymentDetials &&
+        projectCost.paymentDetials[0].paymentDetials.map((item, index) => {
+          updatedData.rows.push({
+            exchangeRate: item.exchangeRate ? item.exchangeRate : "none",
+            arDate: item.PaymentRecievedDate
+              ? moment(item.PaymentRecievedDate).format("LL")
+              : "none",
+            amountRecieved: item.recievedAmount ? item.recievedAmount : "none",
+            paymentDescription: item.PaymentDescription
+              ? item.PaymentDescription
+              : "none",
+          });
+        });
+    }
+
+    // console.log("payment", res.data);
+    // console.log("paymentss", paymentTabledata);
+    setPaymentTableData(updatedData);
+    // })
+    // .catch((err) => console.log(err));
+  };
 
   return (
     <Formik
@@ -71,7 +139,6 @@ const ProjectPaymentForm = (props) => {
         console.log(actions);
         console.log("Valuesssssssssss", values);
         let array = [];
-        // values.sendRequestToUsers.map((item) => array.push(item.value));
         props.editable
           ? PaymentService.updatePayment({
               recievedAmount: values.recievedAmount,
@@ -122,7 +189,12 @@ const ProjectPaymentForm = (props) => {
                   onBlur={props.handleBlur}
                   className="select-override zIndex"
                   value={props.values.project}
-                  onChange={(val) => props.setFieldValue("project", val)}
+                  onChange={(val) => {
+                    props.setFieldValue("project", val);
+                    setProjectCost(val);
+
+                    // console.log("value", val);
+                  }}
                   options={project}
                 />
                 <span id="err" className="invalid-feedback">
@@ -226,6 +298,21 @@ const ProjectPaymentForm = (props) => {
                   </span>
                 </div>
               </div>
+              <div className="col">
+                <div className="form-group">
+                  <label>Project Cost</label>
+                  <input
+                    name="exchangeRate"
+                    // onBlur={props.handleBlur}
+                    type="text"
+                    disabled={true}
+                    className={`form-control`}
+                    value={projectCost && projectCost.cost}
+                    // onChange={props.handleChange("exchangeRate")}
+                    // placeholder="Enter Exchange Rate"
+                  />
+                </div>
+              </div>
             </div>
             <div className="primary-button">
               <Button
@@ -235,6 +322,22 @@ const ProjectPaymentForm = (props) => {
                 Submit
               </Button>
             </div>
+
+            <MDBDataTableV5
+              responsive
+              striped
+              small
+              // onPageChange={(val) => console.log(val)}
+              bordered={true}
+              //  materialSearch
+              searchTop
+              searchBottom={false}
+              pagingTop
+              barReverse
+              hover
+              data={paymentTabledata}
+              theadColor="#000"
+            />
           </>
         );
       }}

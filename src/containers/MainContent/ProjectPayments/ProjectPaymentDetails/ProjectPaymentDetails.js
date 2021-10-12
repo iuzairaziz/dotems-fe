@@ -1,15 +1,8 @@
 import React, { Component, useState, useEffect } from "react";
 import AUX from "../../../../hoc/Aux_";
-import { Link } from "react-router-dom";
-import Editable from "react-x-editable";
-import ProjectService from "../../../../services/ProjectService";
-import { MDBDataTableV5, MDBBtn } from "mdbreact";
-import { Button } from "reactstrap";
-import { Editor } from "react-draft-wysiwyg";
+import { MDBDataTableV5 } from "mdbreact";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import moment from "moment";
-import { convertFromRaw, EditorState } from "draft-js";
-import $ from "jquery";
 import PaymentService from "../../../../services/PaymentService";
 
 const ProjectDetails = (props) => {
@@ -80,7 +73,6 @@ const ProjectDetails = (props) => {
         })
         .catch((err) => console.log(err));
     };
-    console.log("paymentss", paymentTabledata);
 
     const detail = [
       { label: "Project Name", value: project && project.name },
