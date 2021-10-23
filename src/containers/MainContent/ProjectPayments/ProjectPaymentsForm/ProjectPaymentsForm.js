@@ -15,9 +15,7 @@ import moment from "moment";
 const ProjectPaymentForm = (props) => {
   const [project, setProject] = useState([]);
   const [projectCost, setProjectCost] = useState();
-  const [paymentID, setPaymentID] = useState();
-  // const [requestTypeModal, setRequestTypeModal] = useState(false);
-  // const [description, setDescription] = useState(EditorState.createEmpty());
+  const [remainingCost, setRemainingCost] = useState();
 
   const history = useHistory();
   const editable = props.editable;
@@ -45,6 +43,12 @@ const ProjectPaymentForm = (props) => {
         // width: 100,
       },
       {
+        label: "Total",
+        field: "total",
+        sort: "disabled",
+        // width: 100,
+      },
+      {
         label: "Amount Recieve Date",
         field: "arDate",
         sort: "disabled",
@@ -54,23 +58,12 @@ const ProjectPaymentForm = (props) => {
   });
 
   useEffect(() => {
+    getRemaining();
     getProjects();
-    // projectPaymentID();
     if (projectCost && projectCost.paymentDetials) {
       getPaymentTableData();
     }
   }, [projectCost]);
-
-  // const projectPaymentID = () => {
-  //   projectCost &&
-  //     projectCost.paymentDetials &&
-  //     projectCost.paymentDetials.map((item, index) => {
-  //       setPaymentID(item._id);
-  //       // console.log("paymentID", item._id);
-  //     });
-  // };
-
-  // console.log("PaymentIDD", paymentID);
 
   const getProjects = () => {
     ProjectService.getAllProject().then((res) => {
@@ -84,17 +77,28 @@ const ProjectPaymentForm = (props) => {
         });
       });
       setProject(options);
-      // console.log("xxx", project);
     });
   };
 
+  const getRemaining = () => {
+    let ra = 0;
+    setRemainingCost(
+      projectCost &&
+        projectCost.paymentDetials[0].paymentDetials.map((item, index) => {
+          if (index === 0) {
+            ra = 0;
+          }
+          ra = item.recievedAmount + ra;
+        })
+    );
+  };
+
+  console.log("pc", projectCost);
+  console.log("rc", remainingCost);
+
   const getPaymentTableData = (id) => {
-    // PaymentService.getSinglePayment(id)
-    //   .then((res) => {
-    //     setProject(res.data.project);
     let updatedData = { ...paymentTabledata };
     updatedData.rows = [];
-    // res.data.
     if (projectCost && projectCost.paymentDetials.length > 0) {
       projectCost &&
         projectCost.paymentDetials &&
@@ -109,15 +113,13 @@ const ProjectPaymentForm = (props) => {
             paymentDescription: item.PaymentDescription
               ? item.PaymentDescription
               : "none",
+            amountRecieved: item.recievedAmount
+              ? item.recievedAmount++
+              : "none",
           });
         });
     }
-
-    // console.log("payment", res.data);
-    // console.log("paymentss", paymentTabledata);
     setPaymentTableData(updatedData);
-    // })
-    // .catch((err) => console.log(err));
   };
 
   return (
@@ -125,6 +127,7 @@ const ProjectPaymentForm = (props) => {
       initialValues={{
         recievedAmount: editable && payment.recievedAmount,
         exchangeRate: editable && payment.exchangeRate,
+        Tip: editable && payment.Tip,
         PaymentDescription: editable && payment.PaymentDescription,
         project: editable
           ? project && {
@@ -146,6 +149,7 @@ const ProjectPaymentForm = (props) => {
               PaymentDescription: values.PaymentDescription,
               PaymentRecievedDate: values.PaymentRecievedDate,
               project: values.project.value,
+              Tip: values.Tip,
             })
               .then((res) => {
                 props.toggle();
@@ -161,6 +165,7 @@ const ProjectPaymentForm = (props) => {
                 exchangeRate: values.exchangeRate,
                 PaymentDescription: values.PaymentDescription,
                 PaymentRecievedDate: values.PaymentRecievedDate,
+                Tip: values.Tip,
               },
               project: values.project.value,
             })
@@ -299,6 +304,29 @@ const ProjectPaymentForm = (props) => {
                 </div>
               </div>
               <div className="col">
+                <div className="form-group">
+                  <label>Other Payments</label>
+                  <input
+                    name="Tip"
+                    onBlur={props.handleBlur}
+                    type="text"
+                    className={`form-control ${
+                      props.touched.Tip && props.errors.Tip
+                        ? "is-invalid"
+                        : props.touched.Tip && "is-valid"
+                    }`}
+                    value={props.values.Tip}
+                    onChange={props.handleChange("Tip")}
+                    placeholder="Enter Description"
+                  />
+                  <span id="err" className="invalid-feedback">
+                    {props.touched.Tip && props.errors.Tip}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-6">
                 <div className="form-group">
                   <label>Project Cost</label>
                   <input

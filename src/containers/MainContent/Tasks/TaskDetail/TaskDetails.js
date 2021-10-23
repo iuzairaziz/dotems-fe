@@ -76,12 +76,6 @@ const TaskDetail = (props) => {
         sort: "asc",
         // width: 100,
       },
-      // {
-      //   label: "Approved By",
-      //   field: "approvedBy",
-      //   sort: "asc",
-      //   // width: 100,
-      // },
       {
         label: "Start Time",
         field: "startTime",

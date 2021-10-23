@@ -2,17 +2,9 @@ import React, { Component, useState, useEffect } from "react";
 import AUX from "../../../hoc/Aux_";
 import { Link, useHistory } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
-import ClientValidation from "../../../validations/client-validations";
 import DatePicker from "react-datepicker";
 import moment from "moment";
-import {
-  Progress,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import ProjectForm from "../Projects/ProjectFrom";
 import ProjectService from "../../../services/ProjectService";
 import PlatformService from "../../../services/PlatformService";
@@ -20,7 +12,7 @@ import StatusService from "../../../services/StatusService";
 import TechnologyService from "../../../services/TechnologyService";
 import "./ViewProject.scss";
 import $ from "jquery";
-import { parse } from "superagent";
+import userService from "../../../services/UserService";
 
 const ViewProjects = (props, match) => {
   let history = useHistory();
@@ -35,6 +27,8 @@ const ViewProjects = (props, match) => {
   const [applystatusfilter, setApplyStatusFilter] = useState("");
   const [applyTechnologyfilter, setApplyTechnologyFilter] = useState("");
   const [cStart, setcStart] = useState("");
+
+  const loogedInUser = userService.userLoggedInInfo();
 
   const [dataa, setData] = useState({
     columns: [
@@ -311,8 +305,8 @@ const ViewProjects = (props, match) => {
           });
         });
         setData(data);
-        console.log("state data", dataa);
-        console.log("my project data", data);
+        // console.log("state data", dataa);
+        // console.log("my project data", data);
       })
       .catch((err) => {
         console.log(err);

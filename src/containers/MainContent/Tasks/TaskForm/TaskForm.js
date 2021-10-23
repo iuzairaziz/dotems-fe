@@ -9,7 +9,6 @@ import TaskService from "../../../../services/TaskService";
 import userService from "../../../../services/UserService";
 import ProjectService from "../../../../services/ProjectService";
 import DatePicker from "react-datepicker";
-import moment from "moment";
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -28,7 +27,7 @@ const TaskForm = (props) => {
   const projectName = props.project;
 
   useEffect(() => {
-    getProjects();
+    getProjects(loogedInUser._id);
     editable && task && getProjectUsers(task.project._id);
   }, []);
 
@@ -58,8 +57,8 @@ const TaskForm = (props) => {
     });
   };
 
-  const getProjects = () => {
-    ProjectService.getAllProject("", "", "", "", "")
+  const getProjects = (id) => {
+    ProjectService.getPMProject(id)
       .then((res) => {
         let options = [];
         res.data.map((item, index) => {
@@ -80,6 +79,7 @@ const TaskForm = (props) => {
           }
         });
         setProjects(options);
+        // console.log("res", res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -104,7 +104,10 @@ const TaskForm = (props) => {
             value: task.project._id,
           },
         phase: editable &&
-          task.phase && { label: task.phase.phasename, value: task.phase._id },
+          task.phase && {
+            label: task.phase.phasename,
+            value: task.phase._id,
+          },
         estimatedHrs: editable && task.estHrs,
         projectRatio: editable && task.projectRatio,
         description: editable
@@ -157,6 +160,7 @@ const TaskForm = (props) => {
               .then((res) => {
                 TaskService.handleMessage("update");
                 props.toggle();
+                console.log("res", res);
               })
               .catch((err) => {
                 TaskService.handleCustomMessage(err.response.data);

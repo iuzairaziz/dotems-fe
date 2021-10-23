@@ -26,6 +26,10 @@ class ProjectService {
     return axios.get(this.config.apiBaseUrl + "projects/myprojects/" + id);
   }
 
+  getPMProject(id) {
+    return axios.get(this.config.apiBaseUrl + "projects/pmprojects/" + id);
+  }
+
   getAllProject(filter, status, technology, startDate, endDate) {
     return axios.get(
       this.config.apiBaseUrl +
@@ -87,6 +91,28 @@ class ProjectService {
         }&startDate=${cStart ? cStart : ""}&clientStartDate=${
           clientStart ? clientStart : ""
         }&clientDeadline=${clientDeadline ? clientDeadline : ""}`
+    );
+  }
+
+  getPMProjectReport(id, filterQuery) {
+    let {
+      applystatusfilter,
+      applyfilter,
+      applyTechnologyfilter,
+      cStart,
+      clientStart,
+      clientDeadline,
+    } = filterQuery;
+    return axios.get(
+      this.config.apiBaseUrl +
+        `projects/report-pm/?status=${
+          applystatusfilter ? applystatusfilter : ""
+        }&platForm=${applyfilter ? applyfilter : ""}&technology=${
+          applyTechnologyfilter ? applyTechnologyfilter : ""
+        }&startDate=${cStart ? cStart : ""}&clientStartDate=${
+          clientStart ? clientStart : ""
+        }&clientDeadline=${clientDeadline ? clientDeadline : ""}` +
+        id
     );
   }
 

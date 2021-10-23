@@ -23,7 +23,10 @@ const ProjectDetails = (props) => {
           field: "amountRecieved",
           sort: "disabled",
         },
-
+        {
+          label: "Other Amounts",
+          field: "otherAmount",
+        },
         {
           label: "Exchange Rate",
           field: "exchangeRate",
@@ -39,11 +42,9 @@ const ProjectDetails = (props) => {
       rows: [],
     });
 
-    console.log("props", props.location.projectProps);
     const paymentID = props.match.params.id;
 
     useEffect(() => {
-      // getData(paymentID);
       getPaymentTableData(paymentID);
     }, []);
 
@@ -62,13 +63,12 @@ const ProjectDetails = (props) => {
               amountRecieved: item.recievedAmount
                 ? item.recievedAmount
                 : "none",
+              otherAmount: item.Tip ? item.Tip : "none",
               paymentDescription: item.PaymentDescription
                 ? item.PaymentDescription
                 : "none",
             });
           });
-          console.log("payment", res.data);
-          console.log("paymentss", paymentTabledata);
           setPaymentTableData(updatedData);
         })
         .catch((err) => console.log(err));
@@ -76,50 +76,10 @@ const ProjectDetails = (props) => {
 
     const detail = [
       { label: "Project Name", value: project && project.name },
-      // {
-      //   label: "Client Name",
-      //   value: project && project.client.name,
-      // },
-
       {
         label: "Order Number",
         value: project && project.orderNum,
       },
-      // {
-      //   label: "Platform",
-      //   value: project && project.platform.name,
-      // },
-      // { label: "Service Type", value: project && project.service.name },
-      // {
-      //   label: "Technology",
-      //   value: project && project.technology.name,
-      // },
-      // {
-      //   label: "Status",
-      //   value: project && project.status.name,
-      // },
-      // {
-      //   label: "Project Nature",
-      //   value: project && project.nature.name,
-      // },
-
-      // {
-      //   label: "Client Start Date",
-      //   value: project && moment(project.cStartDate).format("DD/MMM/YYYY"),
-      // },
-      // {
-      //   label: "Cient Deadline",
-      //   value: project && moment(project.cEndDate).format("DD/MMM/YYYY"),
-      // },
-      // {
-      //   label: "PM Start Date",
-      //   value: project && moment(project.pmStartDate).format("DD/MMM/YYYY"),
-      // },
-      // {
-      //   label: "PM Deadline",
-      //   value: project && moment(project.pmEndDate).format("DD/MMM/YYYY"),
-      // },
-
       {
         label: "Cost",
         value: project && project.cost,
@@ -140,23 +100,6 @@ const ProjectDetails = (props) => {
         label: "Other Deductions",
         value: project && project.otherDeduction,
       },
-      // {
-      //   label: "Project Manager",
-      //   value: project && project.projectManager.name,
-      // },
-      // {
-      //   label: "Team Members",
-      //   value:
-      //     project && project.assignedUser
-      //       ? project.assignedUser.map((item, index) => {
-      //           if (index === 0) {
-      //             return item.name;
-      //           } else if (index >= 0) {
-      //             return `, ${item.name} `;
-      //           }
-      //         })
-      //       : "None",
-      // },
     ];
 
     return (
@@ -192,54 +135,9 @@ const ProjectDetails = (props) => {
                   })}
                 </div>
               </div>
-              {/* <div className="row">
-                <div className="col-12">
-                  <MDBDataTableV5
-                    responsive
-                    striped
-                    small
-                    onPageChange={(val) => console.log(val)}
-                    bordered={true}
-                    //  materialSearch
-                    searchTop
-                    searchBottom={false}
-                    pagingTop
-                    barReverse
-                    hover
-                    data={paymentTabledata}
-                    theadColor="#000"
-                  />
-                </div>
-              </div> */}
 
               <div className="col-lg-12">
                 <ul className="nav nav-tabs nav-tabs-custom" role="tablist">
-                  {/* <li className="nav-item">
-                    <a
-                      className="nav-link active"
-                      data-toggle="tab"
-                      href="#home1"
-                      role="tab"
-                    >
-                      <span className="d-none d-md-block">Description</span>
-                      <span className="d-block d-md-none">
-                        <i className="mdi mdi-home-variant h5" />
-                      </span>
-                    </a>
-                  </li> */}
-                  {/* <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      data-toggle="tab"
-                      href="#profile1"
-                      role="tab"
-                    >
-                      <span className="d-none d-md-block">Project Tasks</span>
-                      <span className="d-block d-md-none">
-                        <i className="mdi mdi-account h5" />
-                      </span>
-                    </a>
-                  </li> */}
                   <li className="nav-item">
                     <a
                       className="nav-link active"
@@ -258,45 +156,6 @@ const ProjectDetails = (props) => {
                 </ul>
 
                 <div className="tab-content">
-                  {/* <div
-                    className="tab-pane active p-3"
-                    id="home1"
-                    role="tabpanel"
-                  >
-                    <Editor
-                      toolbarClassName="toolbarClassName"
-                      wrapperClassName="wrapperClassName"
-                      editorClassName="editorClass"
-                      toolbarStyle={{ display: "none" }}
-                      readOnly
-                      editorStyle={{
-                        minHeight: "300px",
-                      }}
-                      editorState={
-                        project &&
-                        EditorState.createWithContent(
-                          convertFromRaw(JSON.parse(project.description))
-                        )
-                      }
-                    />
-                  </div> */}
-                  {/* <div className="tab-pane p-3" id="profile1" role="tabpanel">
-                    <MDBDataTableV5
-                      responsive
-                      striped
-                      small
-                      onPageChange={(val) => console.log(val)}
-                      bordered={true}
-                      //  materialSearch
-                      searchTop
-                      searchBottom={false}
-                      pagingTop
-                      barReverse
-                      hover
-                      data={tabledata}
-                      theadColor="#000"
-                    />
-                  </div> */}
                   <div
                     className="tab-pane active p-3"
                     id="prjectPayment"

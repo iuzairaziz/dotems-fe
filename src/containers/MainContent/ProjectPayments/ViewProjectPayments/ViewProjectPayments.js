@@ -67,22 +67,6 @@ const PaymentList = (props) => {
         let tpc = 0;
         let updatedData = { ...dataa };
         updatedData.rows = [];
-        // updatedData.rows[0] = {
-        //   project: <strong>Total</strong>,
-        //   cost:
-        //     res.data &&
-        //     res.data.map((item) => {
-        //       tpc += item.project.cost;
-        //     }) ? (
-        //       <strong>{tpc}</strong>
-        //     ) : (
-        //       "N/A"
-        //     ),
-        //   rAmount: "N/A",
-        //   pAmount: "N/A",
-        //   rAmountRs: "N/A",
-        //   eRate: "N/A",
-        // };
         res.data.map((item, index) => {
           updatedData.rows.push({
             project: item.project ? item.project.name : "N/A",
@@ -165,8 +149,6 @@ const PaymentList = (props) => {
             ),
           });
         });
-        // console.log("Payment", res.data);
-
         setData(updatedData);
       })
       .catch((err) => console.log(err));

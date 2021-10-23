@@ -6,6 +6,9 @@ import moment from "moment";
 import ProjectService from "../../../services/ProjectService";
 import "./ViewProject.scss";
 import userService from "../../../services/UserService";
+import ProjectForm from "../Projects/ProjectFrom";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import Configuration from "../../../config/configuration";
 
 const MyProjects = (props, match) => {
   let history = useHistory();
@@ -76,9 +79,24 @@ const MyProjects = (props, match) => {
   });
 
   let loggedUser = userService.userLoggedInInfo();
+  const toggleEdit = () => setModalEdit(!modalEdit);
+  const roless = new Configuration().Roles;
+  const { PM } = roless;
 
   useEffect(() => {
-    getData(loggedUser._id);
+    if (loggedUser.userRole.includes(roless.PM)) {
+      getPMData(loggedUser._id);
+    } else if (
+      loggedUser.userRole.some((role) => {
+        return (
+          role === roless.INTERNEE ||
+          role === roless.PROBATION ||
+          role === roless.EMPLOYEE
+        );
+      })
+    ) {
+      getData(loggedUser._id);
+    }
   }, []);
 
   //   const changeColor = () => {
@@ -121,6 +139,71 @@ const MyProjects = (props, match) => {
       EstTime += Number(item1.estTime);
     });
     return EstTime;
+  };
+
+  const getPMData = (id) => {
+    ProjectService.getPMProject(id)
+      .then((res) => {
+        let data = { ...dataa };
+        let EstTime = 0;
+        data.rows = [];
+        res.data.map((item, index) => {
+          data.rows.push({
+            index: index,
+            projectName: item.name ? item.name : "N/A",
+            orderNum: item.orderNum ? item.orderNum : "N/A",
+            technology: item.technology
+              ? item.technology.map((item, index) => {
+                  return (
+                    <div>
+                      {item.name}
+                      <br />
+                    </div>
+                  );
+                })
+              : "none",
+            status: item.status ? item.status.name : "N/A",
+            startDate: item.pmStartDate
+              ? moment(item.pmStartDate).format("DD/MMM/YYYY")
+              : "N/A",
+            endDate: item.pmEndDate
+              ? moment(item.pmEndDate).format("DD/MMM/YYYY")
+              : "N/A",
+            projectManager: item.projectManager
+              ? item.projectManager.name
+              : "N/A",
+            teamMember: item.assignedUser ? item.assignedUser.name : "N/A",
+            ActHrs: item.actualHrs ? <div>{item.actualHrs}</div> : "N/A",
+            wrkdone: item.workDone ? item.workDone.toFixed(2) : "N/A",
+            EstHrs: item.phase ? calEstHrs(item) : "N/A",
+            action: (
+              <div className="row flex-nowrap align-items-center">
+                <i
+                  className="mdi mdi-eye
+                  iconsS my-primary-icon"
+                  onClick={() => {
+                    props.history.push({
+                      pathname: "/viewprojects/" + item._id,
+                    });
+                  }}
+                />
+                <i
+                  className="mdi mdi-pencil-box
+                  iconsS my-seconday-icon"
+                  onClick={() => {
+                    setSelectedProject(item);
+                    toggleEdit();
+                  }}
+                />
+              </div>
+            ),
+          });
+        });
+        setData(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const getData = (id) => {
@@ -174,9 +257,6 @@ const MyProjects = (props, match) => {
           });
         });
         setData(data);
-        console.log("state data", dataa);
-        console.log("my project data", data);
-        console.log("res data", res);
       })
       .catch((err) => {
         console.log(err);
@@ -215,6 +295,20 @@ const MyProjects = (props, match) => {
             </div>
           </div>
         </div>
+        <Modal
+          style={{ maxWidth: "90%" }}
+          isOpen={modalEdit}
+          toggle={toggleEdit}
+        >
+          <ModalHeader toggle={toggleEdit}>Edit Project</ModalHeader>
+          <ModalBody>
+            <ProjectForm
+              editable={true}
+              project={selectedProject}
+              toggle={toggleEdit}
+            />
+          </ModalBody>
+        </Modal>
       </div>
     </AUX>
   );
