@@ -123,64 +123,6 @@ class header extends Component {
                 <i className="mdi mdi-fullscreen noti-icon" />
               </Link>
             </li>
-            {/* <li className="list-inline-item dropdown notification-list hidden-xs-down">
-              <Dropdown isOpen={this.state.dropdownOpen1} toggle={this.toggle1}>
-                <DropdownToggle
-                  className="nav-link dropdown-toggle arrow-none waves-effect text-muted"
-                  tag="a"
-                >
-                  <span style={{ color: "#707070" }}>English</span>{" "}
-                  <img
-                    src="assets/images/flags/us_flag.jpg"
-                    className="ml-2"
-                    height="16"
-                    alt=""
-                  />
-                </DropdownToggle>
-                <DropdownMenu className="dropdown-menu dropdown-menu-right language-switch">
-                  <a className="dropdown-item" href="#">
-                    <img
-                      src="assets/images/flags/germany_flag.jpg"
-                      alt=""
-                      height="16"
-                    />
-                    <span> German </span>
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    <img
-                      src="assets/images/flags/italy_flag.jpg"
-                      alt=""
-                      height="16"
-                    />
-                    <span> Italian </span>
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    <img
-                      src="assets/images/flags/french_flag.jpg"
-                      alt=""
-                      height="16"
-                    />
-                    <span> French </span>
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    <img
-                      src="assets/images/flags/spain_flag.jpg"
-                      alt=""
-                      height="16"
-                    />
-                    <span> Spanish </span>
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    <img
-                      src="assets/images/flags/russia_flag.jpg"
-                      alt=""
-                      height="16"
-                    />
-                    <span> Russian </span>
-                  </a>
-                </DropdownMenu>
-              </Dropdown>
-            </li> */}
             <li className="list-inline-item dropdown notification-list">
               <Dropdown
                 isOpen={this.state.dropdownOpenbadge}
@@ -303,7 +245,7 @@ class header extends Component {
                   <Link to="/leave/settings">
                     <DropdownItem>
                       <i className="mdi mdi-settings m-r-5" />
-                      Leave Setting
+                      Settings
                     </DropdownItem>
                   </Link>
 

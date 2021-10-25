@@ -174,7 +174,6 @@ const UpdateUser = (props) => {
       }}
       validationSchema={userValidation.UpdateProfile}
       onSubmit={async (values, actions) => {
-        console.log("TechNologies", values.technologies);
         let loggedUser = UserService.userLoggedInInfo();
         let techId = [];
         values.technologies.map((item, index) => {
@@ -231,32 +230,6 @@ const UpdateUser = (props) => {
           <div className="card m-b-20">
             <div className="card-body">
               <h4>Update Profile</h4>
-
-              {/* <div>
-                <h1 className="title">Upload an Image</h1>
-                <Alert msg={errMsg} type="danger" />
-                <Alert msg={successMsg} type="success" />
-                <form onSubmit={handleSubmitFile} className="form">
-                  <input
-                    id="fileInput"
-                    type="file"
-                    name="image"
-                    onChange={handleFileInputChange}
-                    value={fileInputState}
-                    className="form-input"
-                  />
-                  <button className="btn" type="submit">
-                    Submit
-                  </button>
-                </form>
-                {previewSource && (
-                  <img
-                    src={previewSource}
-                    alt="chosen"
-                    style={{ height: "300px" }}
-                  />
-                )}
-              </div> */}
               <div className="row">
                 <div className="col">
                   <div className="form-group">

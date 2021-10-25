@@ -56,12 +56,6 @@ const ProjectReports = () => {
         field: "Odeduction",
         sort: "disabled",
       },
-      // {
-      //   label: "Percent Deduction",
-      //   field: "percentage",
-      //   sort: "disabled",
-
-      // },
       {
         label: "Reserve Profit",
         field: "Rprofit",
@@ -104,11 +98,11 @@ const ProjectReports = () => {
   //   $("tbody > tr").each(function(index) {
   //     var second = $(this)
   //       .children("td")
-  //       .eq(9)
+  //       .eq(2)
   //       .text();
   //     var first = $(this)
   //       .children("td")
-  //       .eq(8)
+  //       .eq(1)
   //       .text();
   //     var finalSecond = parseInt(second);
   //     var finalFirst = parseInt(first);
@@ -154,14 +148,29 @@ const ProjectReports = () => {
           .children("td")
           .eq(11)
           .text();
-
+          var second = $(this)
+          .children("td")
+          .eq(2)
+          .text();
+        var first = $(this)
+          .children("td")
+          .eq(1)
+          .text();
+          var finalSecond = parseInt(second);
+          var finalFirst = parseInt(first);
         var finalEleven = parseInt(eleven);
         if (finalEleven < 0) {
           $(this).css("color", "red");
           $(this)
             .find("a")
             .css("color", "red");
-        } else {
+        } else if (finalSecond < finalFirst) {
+          $(this).css("color", "#0000FF");
+          $(this)
+            .find("td")
+            .css("color", "#0000FF");
+        } 
+        else {
           $(this).css("color", "black");
           $(this)
             .find("a")
@@ -207,7 +216,6 @@ const ProjectReports = () => {
       });
   };
 
-  console.log("USD", dataUSD);
 
   const getData = () => {
     ProjectService.getProjectReport({
@@ -220,7 +228,6 @@ const ProjectReports = () => {
         let EstTime = 0;
         data.rows = [];
         res.data.map((item, index) => {
-          console.log(item.phase);
           data.rows.push({
             projectName: (
               <Link to={`/viewproject/${item._id}`}>
@@ -293,10 +300,6 @@ const ProjectReports = () => {
           });
         });
         setData(data);
-        console.log("table", dataa);
-        console.log("array", data);
-        console.log("res data", res.data);
-        // console.log("EstHrs", EstTime);
       })
       .catch((err) => {
         console.log(err);
@@ -343,7 +346,6 @@ const ProjectReports = () => {
                         selected={clientStart}
                         onChange={(clientStart) => {
                           setClientStart(clientStart);
-                          // console.log("datepicker", clientStart);
                         }}
                       />
                     </div>
@@ -356,7 +358,6 @@ const ProjectReports = () => {
                         selected={clientDeadline}
                         onChange={(clientDeadline) => {
                           setClientDeadline(clientDeadline);
-                          // console.log("datepicker", clientDeadline);
                         }}
                       />
                     </div>
@@ -368,14 +369,11 @@ const ProjectReports = () => {
                     small
                     onPageChange={(val) => console.log(val)}
                     bordered={true}
-                    //  materialSearch
                     searchTop
                     searchBottom={false}
                     pagingTop
                     barReverse
                     hover
-                    // scrollX
-
                     data={dataa}
                     theadColor="#000"
                   />

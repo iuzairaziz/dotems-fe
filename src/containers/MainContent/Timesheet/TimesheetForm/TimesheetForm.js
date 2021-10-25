@@ -92,7 +92,6 @@ const TaskForm = (props) => {
         };
       }
     }
-    // console.log("typeof arr",typeof(arr));
     setEmployeeData([...arr]);
   };
 
@@ -107,11 +106,9 @@ const TaskForm = (props) => {
           setFinalSheet(false);
           setFinalSwitch(false);
         }
-        console.log(res);
       })
       .catch((err) => {
         TaskService.handleError();
-        console.log(err);
       });
   };
 
@@ -132,7 +129,6 @@ const TaskForm = (props) => {
         id="timesheet-form"
         onSubmit={(e) => {
           e.preventDefault();
-          console.log("event", e);
           TimesheetService.submitWeeklyTimesheet({
             employeeData: employeeData,
             empId: isRole([ADMIN, PM, CEO]) ? selectedUser.value : user._id,
@@ -176,7 +172,6 @@ const TaskForm = (props) => {
                     className="emp-select"
                     onChange={(obj) => {
                       setSelectedUser(obj);
-                      console.log("object", obj);
                     }}
                     options={users}
                   />
@@ -214,8 +209,7 @@ const TaskForm = (props) => {
             </tr>
           </thead>
           <tbody>
-            {/* <input name="empId" value={user._id} type="hidden" /> */}
-            <tr>
+                        <tr>
               <td colSpan="9" className="not-found-icon p-0">
                 {employeeData.length === 0 && (
                   <>
@@ -238,11 +232,6 @@ const TaskForm = (props) => {
                     counter += 1;
                     return (
                       <tr key={tIndex}>
-                        {/* <input
-                          name={`task${counter}taskId`}
-                          value={task._id}
-                          type="hidden"
-                        /> */}
                         <td style={{ paddingLeft: "25px" }}>
                           {task.name}
                           <div className="float-right worked">
@@ -274,7 +263,7 @@ const TaskForm = (props) => {
                             />
                           </div>
                         </td>
-                        {[0, 1, 2, 3, 4, 5, 6].map((item, tsIndx) => {
+                        {[0, 1, 2, 3, 4, 5, 6].map((item, tsIndx) => {                        
                           return (
                             <td key={tsIndx} className="inputCol">
                               <input
@@ -282,8 +271,8 @@ const TaskForm = (props) => {
                                 readOnly={
                                   isRole([ADMIN, PM, CEO])
                                     ? true
-                                    : task.timesheet[tsIndx] &&
-                                      task.timesheet[tsIndx].final
+                                    : (task.timesheet[tsIndx] &&
+                                      task.timesheet[tsIndx].final) || moment(selectedDays[tsIndx]).format("YYYY-MM-DD") !== moment().format("YYYY-MM-DD")
                                 }
                                 name={`task${counter}day${tsIndx}hrs`}
                                 value={
@@ -304,12 +293,6 @@ const TaskForm = (props) => {
                                   )
                                 }
                               />
-                              {/* <input
-                                name={`task${counter}day${tsIndx}date`}
-                                value={selectedDays[tsIndx]}
-                                type="hidden"
-                              /> */}
-                              {/* <button onClick={(e)=>{e.preventDefault()}} className="btn btn-primary remarksBtn">+</button> */}
                               <div className="remarksModal">
                                 <label>Remarks</label>
                                 <textarea
@@ -317,8 +300,8 @@ const TaskForm = (props) => {
                                   readOnly={
                                     isRole([ADMIN, PM, CEO])
                                       ? true
-                                      : task.timesheet[tsIndx] &&
-                                        task.timesheet[tsIndx].final
+                                      : (task.timesheet[tsIndx] &&
+                                        task.timesheet[tsIndx].final) || moment(selectedDays[tsIndx]).format("YYYY-MM-DD") !== moment().format("YYYY-MM-DD")
                                   }
                                   value={
                                     task.timesheet[tsIndx]
@@ -356,7 +339,6 @@ const TaskForm = (props) => {
                 </>
               );
             })}
-            {/* <input name="counter" value={counter} type="hidden" /> */}
           </tbody>
         </table>
         <div className="d-flex align-items-start justify-contsent-between">

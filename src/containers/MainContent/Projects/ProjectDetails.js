@@ -1,10 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import AUX from "../../../hoc/Aux_";
-import { Link } from "react-router-dom";
-import Editable from "react-x-editable";
 import ProjectService from "../../../services/ProjectService";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
-import { Button } from "reactstrap";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import moment from "moment";
@@ -411,7 +408,7 @@ const ProjectDetails = (props) => {
                       </span>
                     </a>
                   </li>
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <a
                       className="nav-link"
                       data-toggle="tab"
@@ -425,7 +422,7 @@ const ProjectDetails = (props) => {
                         <i className="mdi mdi-account h5" />
                       </span>
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
 
                 <div className="tab-content">
@@ -449,6 +446,11 @@ const ProjectDetails = (props) => {
                           convertFromRaw(JSON.parse(projectData.description))
                         )
                       }
+                    />
+                    <br />
+                    <h6>Project Comments</h6>
+                     <ProjectComments
+                      projectId={projectData && projectData._id} 
                     />
                   </div>
                   <div className="tab-pane p-3" id="profile1" role="tabpanel">
@@ -488,7 +490,7 @@ const ProjectDetails = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div
+                  {/* <div
                     className="tab-pane p-3"
                     id="projectComments"
                     role="tabpanel"
@@ -496,7 +498,7 @@ const ProjectDetails = (props) => {
                     <ProjectComments
                       projectId={projectData && projectData._id}
                     />
-                  </div>
+                  </div> */}
                 </div>
                 <Modal
                   style={{ maxWidth: "70%" }}

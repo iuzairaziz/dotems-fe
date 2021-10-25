@@ -26,6 +26,10 @@ const LeaveSettings = (props) => {
           },
         noticeDays: editable && leaveSettings.noticeDays,
         daysOff: editable && leaveSettings.daysOff && daysOf ? daysOf : [],
+        timesheetSave: editable && leaveSettings.timesheetSave && {
+          label: leaveSettings.timesheetSave,
+          value: leaveSettings.timesheet,
+        }
       }}
       onSubmit={(values, actions) => {
         const days = [];
@@ -33,25 +37,35 @@ const LeaveSettings = (props) => {
           days.push(item.value);
           console.log("user days", days);
         });
-        props.editable
-          ? LeaveService.leaveSettings(props.nature._id, {
+        // const projectSettings = {};
+        // projectSettings.noticeDays = values.noticeDays,
+        // projectSettings.sandwhich = values.sandwhich.value,
+        // projectSettings.daysOff = days,
+        // projectSettings.timesheetSave = values.timesheetSave.value,
+        // props.editable
+        //   ? LeaveService.leaveSettings(props.nature._id, {
+        //       noticeDays: values.noticeDays,
+        //       sandwhich: values.sandwhich.value,
+        //       daysOff: days,
+        //       timesheetSave: values.timesheetSave.value,
+        //     })
+        //       .then((res) => {
+        //         props.toggle();
+        //         LeaveService.handleMessage("update");
+        //       })
+        //       .catch((err) => {
+        //         props.toggle();
+        //         LeaveService.handleCustomMessage(err.response.data);
+        //       })
+        //   :
+           LeaveService.leaveSettings(
+            {
               noticeDays: values.noticeDays,
               sandwhich: values.sandwhich.value,
               daysOff: days,
-            })
-              .then((res) => {
-                props.toggle();
-                LeaveService.handleMessage("update");
-              })
-              .catch((err) => {
-                props.toggle();
-                LeaveService.handleCustomMessage(err.response.data);
-              })
-          : LeaveService.leaveSettings({
-              noticeDays: values.noticeDays,
-              sandwhich: values.sandwhich.value,
-              daysOff: days,
-            })
+              timesheetSave: values.timesheetSave.value,
+            }
+            )
               .then((res) => {
                 props.toggle && props.toggle();
                 LeaveService.handleMessage("add");
@@ -69,7 +83,7 @@ const LeaveSettings = (props) => {
           <>
             <div className="leave-settings">
               <div className="container">
-                <h1 className="mb-8">Leave Settings</h1>
+                <h1 className="mb-4 mt-3"> Settings</h1>
                 <div className="project-settings">
                   <div className="row">
                     <div className="col">
@@ -159,6 +173,36 @@ const LeaveSettings = (props) => {
                         />
                         <span id="err" className="invalid-feedback">
                           {props.touched.daysOff && props.errors.daysOff}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col">
+                      <div className="form-group">
+                        <div className="row">
+                          <div className="col">
+                            <label className="control-label">Timesheet</label>
+                          </div>
+                        </div>
+                        <Select
+                          name="timesheetSave"
+                          onBlur={props.handleBlur}
+                          className={`my-select${
+                            props.touched.timesheetSave && props.errors.timesheetSave
+                              ? "is-invalid"
+                              : props.touched.timesheetSave && "is-valid"
+                          }`}
+                          value={props.values.timesheetSave}
+                          onChange={(selected) => {
+                            props.setFieldValue("timesheetSave", selected);
+                          }}
+                          defaultValue={props.values.timesheetSave}
+                          options={[
+                            { value: "daily", label: "Daily" },
+                            { value: "weekend", label: "Weekend" },
+                          ]}
+                        />
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.timesheetSave && props.errors.timesheetSave}
                         </span>
                       </div>
                     </div>

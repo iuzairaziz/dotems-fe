@@ -12,6 +12,7 @@ import Request from "../../../../services/Request";
 import Select from "react-select";
 import Configuration from "../../../../config/configuration";
 import RoleAuth from "../../../../components/MyComponents/Auth/RoleAuth";
+import RequestComments from "../RequestComments/RequestComments";
 
 const SingleRequest = (props) => {
   const [requestData, setData] = useState();
@@ -143,19 +144,6 @@ const SingleRequest = (props) => {
                     </span>
                   </a>
                 </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    data-toggle="tab"
-                    href="#profile1"
-                    role="tab"
-                  >
-                    <span className="d-none d-md-block">Admin Remarks</span>
-                    <span className="d-block d-md-none">
-                      <i className="mdi mdi-account h5" />
-                    </span>
-                  </a>
-                </li>
               </ul>
 
               <div className="tab-content">
@@ -175,23 +163,11 @@ const SingleRequest = (props) => {
                       )}
                     />
                   )}
-                </div>
-                <div className="tab-pane p-3" id="profile1" role="tabpanel">
-                  {requestData && requestData.adminRemark && (
-                    <Editor
-                      toolbarClassName="toolbarClassName"
-                      wrapperClassName="wrapperClassName"
-                      editorClassName="editorClass"
-                      toolbarStyle={{ display: "none" }}
-                      readOnly
-                      editorStyle={{
-                        minHeight: "300px",
-                      }}
-                      editorState={EditorState.createWithContent(
-                        convertFromRaw(JSON.parse(requestData.adminRemark))
-                      )}
+                   <br />
+                    <h6>Request Comments</h6>
+                     <RequestComments
+                      requestId={requestData && requestData._id} 
                     />
-                  )}
                 </div>
               </div>
             </div>
