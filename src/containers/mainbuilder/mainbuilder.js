@@ -78,6 +78,9 @@ import ViewProjectPayments from "../MainContent/ProjectPayments/ViewProjectPayme
 import ViewSingleProjectPayments from "../MainContent/ProjectPayments/ProjectPaymentDetails/ProjectPaymentDetails";
 import AttendanceList from "../MainContent/Attendance/ViewAttendance";
 import LeaveSettings from "../MainContent/Leaves/LeaveSettings/LeaveSettings";
+// import tabledatabale from "../MainContent/Tables/Tables_datatable"
+// import tableresposive from "../MainContent/Tables/Tables_responsive"
+// import formWizard from "../MainContent/Forms/Form_wizard"
 const mainbuilder = (props) => {
   const baseUrl = props.match.url;
   const roles = new Configuration().Roles;
@@ -92,6 +95,9 @@ const mainbuilder = (props) => {
         <Route exact path="/single-detail/:id" component={SingleDetail} />
         <Route exact path="/my-projects" component={MyProjects} />
         <Route exact path="/viewprojects/:id" component={ProjectDetails} />
+        {/* <Route exact path="/date/table" component={tabledatabale} />
+        <Route exact path="/responsive/table" component={tableresposive} />
+        <Route exact path="/wizard/form" component={formWizard} /> */}
         {/* <Route exact path="/viewproject" component={ViewProjects} /> */}
         <Route exact path="/updateuser" component={updateUsers} />
         <Route exact path="/changepass" component={ChangePassword} />

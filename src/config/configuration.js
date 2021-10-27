@@ -1,6 +1,6 @@
 class Configuration {
-  apiBaseUrl = "https://rocky-shore-55937.herokuapp.com/";
-  // apiBaseUrl = "http://localhost:8000/";
+  // apiBaseUrl = "https://rocky-shore-55937.herokuapp.com/";
+  apiBaseUrl = "http://localhost:8000/";
 
   Roles = {
     ADMIN: "Admin",

@@ -24,6 +24,7 @@ class header extends Component {
     };
 
     this.Roles = new Configuration().Roles;
+    // roles = new Configuration().Roles;
 
     this.toggle = this.toggle.bind(this);
     this.toggle1 = this.toggle1.bind(this);

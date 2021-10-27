@@ -8,6 +8,7 @@ import userService from "../../../../services/UserService";
 import WeeklyCalendar from "../../../../components/MyComponents/WeeklyCalendar/WeeklyCalendar";
 import "./TimesheetForm.scss";
 import Configuration from "../../../../config/configuration";
+import LeaveService from "../../../../services/LeaveService";
 
 const TaskForm = (props) => {
   const [employeeData, setEmployeeData] = useState([]);
@@ -16,6 +17,7 @@ const TaskForm = (props) => {
   const [selectedUser, setSelectedUser] = useState({});
   const [finalSwitch, setFinalSwitch] = useState(false);
   const [finalSheet, setFinalSheet] = useState(false);
+  const [saveSettings, setSaveSettings] = useState();
 
   const user = userService.userLoggedInInfo();
   const { PM, ADMIN, CEO } = new Configuration().Roles;
@@ -37,6 +39,8 @@ const TaskForm = (props) => {
     console.log("updated emplyee data", employeeData);
   }, [employeeData]);
 
+  useEffect(() => {getSaveSettings()}, [])
+
   const isEmptyObj = (obj) => {
     for (var x in obj) {
       return false;
@@ -53,6 +57,18 @@ const TaskForm = (props) => {
       setUsers(options);
     });
   };
+
+  const getSaveSettings = () => {
+    LeaveService.getAllLeaveSettings().then((res) => {
+      let options = [];
+      res.data.map((item) => {
+        options.push(item)
+      })
+      setSaveSettings(options);
+      console.log("opt", options);
+      console.log("res", res.data)
+    })
+  }
 
   const handleChange = (
     e,
@@ -272,7 +288,7 @@ const TaskForm = (props) => {
                                   isRole([ADMIN, PM, CEO])
                                     ? true
                                     : (task.timesheet[tsIndx] &&
-                                      task.timesheet[tsIndx].final) || moment(selectedDays[tsIndx]).format("YYYY-MM-DD") !== moment().format("YYYY-MM-DD")
+                                      task.timesheet[tsIndx].final) || moment(selectedDays[tsIndx]).format("YYYY-MM-DD") >= moment().format("YYYY-MM-DD")
                                 }
                                 name={`task${counter}day${tsIndx}hrs`}
                                 value={
@@ -301,7 +317,7 @@ const TaskForm = (props) => {
                                     isRole([ADMIN, PM, CEO])
                                       ? true
                                       : (task.timesheet[tsIndx] &&
-                                        task.timesheet[tsIndx].final) || moment(selectedDays[tsIndx]).format("YYYY-MM-DD") !== moment().format("YYYY-MM-DD")
+                                        task.timesheet[tsIndx].final) || moment(selectedDays[tsIndx]).format("YYYY-MM-DD") >= moment().format("YYYY-MM-DD")
                                   }
                                   value={
                                     task.timesheet[tsIndx]

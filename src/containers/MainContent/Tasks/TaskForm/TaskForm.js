@@ -29,8 +29,8 @@ const TaskForm = (props) => {
   useEffect(() => {
     getProjects(loogedInUser._id);
     editable && task && getProjectUsers(task.project._id);
+    // getPhasename();
   }, []);
-
   const loogedInUser = userService.userLoggedInInfo();
 
   const getProjectUsers = (projectId) => {
@@ -42,6 +42,12 @@ const TaskForm = (props) => {
       setUsers(options);
     });
   };
+
+  const getPhasename = (id) => {
+    return task.project.phase.filter(phase => phase._id === id)[0].phasename
+      // return task.project.phase.phasname
+    // console.log("name",task.project.phase.filter(phase => phase._id == id))
+  }
 
   const getTasksByProjectId = (id) => {
     TaskService.getTasksByProjectId(id).then((res) => {
@@ -100,13 +106,13 @@ const TaskForm = (props) => {
         title: editable && task.name,
         project: editable &&
           task.project && {
-            label: task.project.phasename,
+            label: task.project.name,
             value: task.project._id,
           },
         phase: editable &&
           task.phase && {
-            label: task.phase.phasename,
-            value: task.phase._id,
+            label: getPhasename(task.phase),
+            value: task.phase,
           },
         estimatedHrs: editable && task.estHrs,
         projectRatio: editable && task.projectRatio,

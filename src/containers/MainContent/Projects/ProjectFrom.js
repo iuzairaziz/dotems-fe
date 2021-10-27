@@ -491,7 +491,7 @@ const ProjectForm = (props) => {
                         toggleClientEdit();
                       }}
                     >
-                      <i className="mdi mdi-plus-circle icon-add" />
+                      <i className="mdi mdi-plus icon-add" />
                     </div>
                   </div>
                 </div>

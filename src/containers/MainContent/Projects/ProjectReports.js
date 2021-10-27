@@ -164,11 +164,11 @@ const ProjectReports = () => {
           $(this)
             .find("a")
             .css("color", "red");
-        } else if (finalSecond < finalFirst) {
-          $(this).css("color", "#0000FF");
+        } else if (finalSecond > finalFirst) {
+          $(this).css("color", "#00FF00");
           $(this)
-            .find("td")
-            .css("color", "#0000FF");
+            .find("a")
+            .css("color", "#00FF00");
         } 
         else {
           $(this).css("color", "black");
