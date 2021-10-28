@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import AUX from "../../../../hoc/Aux_";
-import TimesheetForm from "../TimesheetForm/TimesheetForm";
+import TimesheetFormWeekly from "../TimesheetForm/TimesheetFormWeekly";
 
 const AddTime = () => {
   return (
@@ -13,7 +13,7 @@ const AddTime = () => {
               <p className="text-muted m-b-30 font-14">
                 Please add number of hours worked on the task.
               </p>
-              <TimesheetForm />
+              <TimesheetFormWeekly />
             </div>
           </div>
         </div>

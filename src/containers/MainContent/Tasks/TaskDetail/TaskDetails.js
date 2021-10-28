@@ -146,7 +146,7 @@ const TaskDetail = (props) => {
     TaskService.getTaskDetailsById(props.match.params.id)
       .then((res) => {
         const { task, subTasks } = res.data;
-        console.log(task);
+        console.log(task);  
         setTaskData(task);
         setSubTask(subTasks);
         let data = { ...dataa };

@@ -288,7 +288,7 @@ const TaskForm = (props) => {
                                   isRole([ADMIN, PM, CEO])
                                     ? true
                                     : (task.timesheet[tsIndx] &&
-                                      task.timesheet[tsIndx].final) || moment(selectedDays[tsIndx]).format("YYYY-MM-DD") >= moment().format("YYYY-MM-DD")
+                                      task.timesheet[tsIndx].final) || moment(selectedDays[tsIndx]).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD") 
                                 }
                                 name={`task${counter}day${tsIndx}hrs`}
                                 value={
@@ -317,7 +317,7 @@ const TaskForm = (props) => {
                                     isRole([ADMIN, PM, CEO])
                                       ? true
                                       : (task.timesheet[tsIndx] &&
-                                        task.timesheet[tsIndx].final) || moment(selectedDays[tsIndx]).format("YYYY-MM-DD") >= moment().format("YYYY-MM-DD")
+                                        task.timesheet[tsIndx].final) || moment(selectedDays[tsIndx]).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD")
                                   }
                                   value={
                                     task.timesheet[tsIndx]

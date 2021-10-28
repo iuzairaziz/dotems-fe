@@ -56,7 +56,7 @@ const MyTasks = (props) => {
       },
       {
         label: "Work Done",
-        field: "wrkdone",
+        field: "workDone",
         sort: "asc",
         // width: 100,
       },
@@ -99,7 +99,7 @@ const MyTasks = (props) => {
   let loggedUser = UserService.userLoggedInInfo();
 
   const getData = () => {
-    TaskService.getAllEmployeeTasks(loggedUser._id)
+    TaskService.getAllEmployeeTasks(loggedUser._id) 
       .then((res) => {
         let data = { ...dataa };
         data.rows = [];
@@ -133,7 +133,7 @@ const MyTasks = (props) => {
             ),
             teamLead: item.teamLead ? item.teamLead.name : "N/A",
             parentTask: item.parentTask ? item.parentTask.name : "N/A",
-            wrkdone: item.workDone ? item.workDone : "N/A",
+            workDone: item.workDone ? item.workDone : "N/A",
             actHrs: item.timesheet ? item.timesheet.actualHrs : "N/A",
             addedBy: item.addedBy ? (
               <Link to={`/userdetails/${item.addedBy._id}`}>

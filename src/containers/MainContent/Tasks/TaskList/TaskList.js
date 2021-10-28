@@ -85,6 +85,12 @@ const Tables_datatable = (props) => {
         // width: 100,
       },
       {
+        label: "Work Done",
+        field: "workDone",
+        sort: "asc",
+        // width: 100,
+      },
+      {
         label: "Action",
         field: "action",
         sort: "disabled",
@@ -166,6 +172,7 @@ const Tables_datatable = (props) => {
             ),
             estimatedHrs: item.estHrs ? item.estHrs.toFixed(2) : "N/A",
             actHrs: item.timesheet ? item.timesheet.actualHrs : "N/A",
+            workDone: item.workDone ? item.workDone : "N/A",
             projectRatio: item.projectRatio ? (
               <Progress color="teal" value={item.projectRatio}>
                 {item.projectRatio + "%"}
