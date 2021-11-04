@@ -52,9 +52,13 @@ import ChangePasswordForm from "../MainContent/User/AddUserForm/ChangePasswordFo
 import ClientDetails from "../MainContent/Client/ClientDetail";
 import AddLeaveType from "../MainContent/Leaves/LeaveType/AddLeaveType/AddLeaveType";
 import AddRequestType from "../MainContent/RequestType/AddRequestType/AddReuqestType";
+import AddEmployeeType from "../MainContent/EmployeeType/AddEmployeeType/AddEmployeeType";
+import AddDepartment from "../MainContent/Department/AddDepartment/AddDepartment";
 import AddRequest from "../MainContent/Request/AddRequest/AddRequest";
 import LeaveTypeList from "../MainContent/Leaves/LeaveType/LeaveTypeList/LeaveTypeList";
 import RequestTypeList from "../MainContent/RequestType/RequestList/RequestList";
+import EmployeeTypeList from "../MainContent/EmployeeType/EmployeeTypeList/EmployeeTypeList";
+import DepartmentList from "../MainContent/Department/DepartmentList/DepartmentList";
 import RequestList from "../MainContent/Request/ViewRequest/ViewRequest";
 import RequestRecieved from "../MainContent/Request/ViewRequest/ViewReceivedRequest";
 import Machine from "../MainContent/Machine/Machine";
@@ -78,7 +82,7 @@ import ViewProjectPayments from "../MainContent/ProjectPayments/ViewProjectPayme
 import ViewSingleProjectPayments from "../MainContent/ProjectPayments/ProjectPaymentDetails/ProjectPaymentDetails";
 import AttendanceList from "../MainContent/Attendance/ViewAttendance";
 import LeaveSettings from "../MainContent/Leaves/LeaveSettings/LeaveSettings";
-import TimesheetFormDaily from "../MainContent/Timesheet/TimesheetForm/TimesheetFormDaily"
+import TimesheetFormDaily from "../MainContent/Timesheet/TimesheetForm/TimesheetFormDaily";
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
 // import formWizard from "../MainContent/Forms/Form_wizard"
@@ -165,6 +169,12 @@ const mainbuilder = (props) => {
               path="/view-request-type"
               component={RequestTypeList}
             />
+            <Route
+              exact
+              path="/view-employee-type"
+              component={EmployeeTypeList}
+            />
+            <Route exact path="/view-department" component={DepartmentList} />
             <Route exact path="/platform" component={PlatformList} />
             <Route exact path="/add-platform" component={AddPlatform} />
             <Route exact path="/service" component={ServiceList} />
@@ -177,6 +187,12 @@ const mainbuilder = (props) => {
             <Route exact path="/add-nature" component={AddNature} />
             <Route exact path="/add-leave-type" component={AddLeaveType} />
             <Route exact path="/add-request-type" component={AddRequestType} />
+            <Route
+              exact
+              path="/add-employee-type"
+              component={AddEmployeeType}
+            />
+            <Route exact path="/add-department" component={AddDepartment} />
             <Route exact path="/addcurrency" component={AddCurrency} />
             <Route exact path="/addstatus" component={AddStatus} />
             <Route exact path="/project-settings" component={ProjectSettings} />

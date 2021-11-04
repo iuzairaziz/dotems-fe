@@ -26,6 +26,22 @@ class ShortValidations {
         .max(20),
     });
   };
+  employeeTypeValidation = () => {
+    return Yup.object({
+      title: Yup.string()
+        .required("Required!")
+        .min(2)
+        .max(20),
+    });
+  };
+  departmentValidation = () => {
+    return Yup.object({
+      title: Yup.string()
+        .required("Required!")
+        .min(2)
+        .max(20),
+    });
+  };
   requestValidation = () => {
     return Yup.object({
       requestType: Yup.object().required("Required!"),
