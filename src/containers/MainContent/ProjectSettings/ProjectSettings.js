@@ -71,6 +71,18 @@ const ProjectSettings = () => {
       viewRoute: "view-request-type",
       icon: "mdi-shape-plus",
     },
+    {
+      name: "Employee Type",
+      addRoute: "add-employee-type",
+      viewRoute: "view-employee-type",
+      icon: "mdi-shape-plus",
+    },
+    {
+      name: "Department",
+      addRoute: "add-department",
+      viewRoute: "view-department",
+      icon: "mdi-shape-plus",
+    },
   ];
 
   return (
