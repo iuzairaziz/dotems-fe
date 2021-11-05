@@ -83,6 +83,7 @@ import ViewSingleProjectPayments from "../MainContent/ProjectPayments/ProjectPay
 import AttendanceList from "../MainContent/Attendance/ViewAttendance";
 import LeaveSettings from "../MainContent/Leaves/LeaveSettings/LeaveSettings";
 import TimesheetFormDaily from "../MainContent/Timesheet/TimesheetForm/TimesheetFormDaily";
+import Dropdowns from "../MainContent/UiElements/Ui_dropdowns"
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
 // import formWizard from "../MainContent/Forms/Form_wizard"
@@ -108,6 +109,7 @@ const mainbuilder = (props) => {
         <Route exact path="/updateuser" component={updateUsers} />
         <Route exact path="/changepass" component={ChangePassword} />
         <Route exact path="/changepassword" component={ChangePasswordForm} />
+        <Route exact path="/dropdown" component={Dropdowns} />
         <Route exact path="/" component={Dashboard1} />
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/add-request" component={AddRequest} />

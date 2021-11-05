@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import UserService from "../../../../services/UserService";
 import UserForm from "../AddUserForm/AddUserForm";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter , DropdownMenu, Dropdown, DropdownToggle, DropdownItem} from "reactstrap";
 import "./UserList.scss";
 
 const ViewUsers = (props) => {
@@ -99,6 +99,8 @@ const ViewUsers = (props) => {
     ],
     rows: [],
   });
+
+
   useEffect(() => {
     getData();
   }, [
@@ -109,6 +111,7 @@ const ViewUsers = (props) => {
     minimumSalary,
     maximumSalary,
   ]);
+
   useEffect(() => {
     getTechnology();
   }, []);
@@ -193,32 +196,54 @@ const ViewUsers = (props) => {
                 })
               : "none",
             action: (
-              <div className="row flex-nowrap align-items-center">
-                <i
-                  className="mdi mdi-eye
-                  iconsS my-primary-icon"
-                  onClick={() => {
+
+              <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    Dropdown button
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item"   onClick={() => {
                     props.history.push({
                       pathname: "/userdetails/" + item._id,
                     });
-                  }}
-                />
-                <i
-                  className="mdi mdi-pencil-box
-                  iconsS my-seconday-icon"
-                  onClick={() => {
+                  }} href="#">Action</a></li>
+    <li><a class="dropdown-item"  onClick={() => {
                     setSelectedUser(item);
                     toggleEdit();
-                  }}
-                />
-                <i
-                  className="mdi mdi-delete-forever iconsS my-danger-icon"
-                  onClick={() => {
+                  }} href="#">Another action</a></li>
+    <li><a class="dropdown-item"  onClick={() => {
                     setSelectedUser(item);
                     toggleDelete();
-                  }}
-                />
-              </div>
+                  }} href="#">Something else here</a></li>
+  </ul>
+</div>
+            
+              // <div className="row flex-nowrap align-items-center">
+              //   <i
+              //     className="mdi mdi-eye
+              //     iconsS my-primary-icon"
+              //     onClick={() => {
+              //       props.history.push({
+              //         pathname: "/userdetails/" + item._id,
+              //       });
+              //     }}
+              //   />
+              //   <i
+              //     className="mdi mdi-pencil-box
+              //     iconsS my-seconday-icon"
+              //     onClick={() => {
+              //       setSelectedUser(item);
+              //       toggleEdit();
+              //     }}
+              //   />
+              //   <i
+              //     className="mdi mdi-delete-forever iconsS my-danger-icon"
+              //     onClick={() => {
+              //       setSelectedUser(item);
+              //       toggleDelete();
+              //     }}
+              //   />
+              // </div>
             ),
           });
         });
@@ -342,7 +367,6 @@ const ViewUsers = (props) => {
                 </div>
               </div>
             </div>
-
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>
                 <ModalHeader toggle={toggleEdit}>Edit User</ModalHeader>
