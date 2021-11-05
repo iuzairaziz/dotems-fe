@@ -3,10 +3,10 @@ import AUX from "../../../../hoc/Aux_";
 import TechnologyService from "../../../../services/TechnologyService";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { MDBDataTableV5, MDBBtn } from "mdbreact";
+import { MDBDataTableV5 } from "mdbreact";
 import UserService from "../../../../services/UserService";
 import UserForm from "../AddUserForm/AddUserForm";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter , DropdownMenu, Dropdown, DropdownToggle, DropdownItem} from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "./UserList.scss";
 
 const ViewUsers = (props) => {
@@ -99,7 +99,6 @@ const ViewUsers = (props) => {
     ],
     rows: [],
   });
-
 
   useEffect(() => {
     getData();
@@ -196,54 +195,48 @@ const ViewUsers = (props) => {
                 })
               : "none",
             action: (
-
               <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-    Dropdown button
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-    <li><a class="dropdown-item"   onClick={() => {
-                    props.history.push({
-                      pathname: "/userdetails/" + item._id,
-                    });
-                  }} href="#">Action</a></li>
-    <li><a class="dropdown-item"  onClick={() => {
-                    setSelectedUser(item);
-                    toggleEdit();
-                  }} href="#">Another action</a></li>
-    <li><a class="dropdown-item"  onClick={() => {
-                    setSelectedUser(item);
-                    toggleDelete();
-                  }} href="#">Something else here</a></li>
-  </ul>
-</div>
-            
-              // <div className="row flex-nowrap align-items-center">
-              //   <i
-              //     className="mdi mdi-eye
-              //     iconsS my-primary-icon"
-              //     onClick={() => {
-              //       props.history.push({
-              //         pathname: "/userdetails/" + item._id,
-              //       });
-              //     }}
-              //   />
-              //   <i
-              //     className="mdi mdi-pencil-box
-              //     iconsS my-seconday-icon"
-              //     onClick={() => {
-              //       setSelectedUser(item);
-              //       toggleEdit();
-              //     }}
-              //   />
-              //   <i
-              //     className="mdi mdi-delete-forever iconsS my-danger-icon"
-              //     onClick={() => {
-              //       setSelectedUser(item);
-              //       toggleDelete();
-              //     }}
-              //   />
-              // </div>
+                <button
+                  type="button"
+                  class="dropdown-toggle"
+                  data-toggle="dropdown"
+                >
+                  <i class="mdi mdi-view-list" size={40} />
+                </button>
+                <div class="dropdown-menu">
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      props.history.push({
+                        pathname: "/userdetails/" + item._id,
+                      });
+                    }}
+                    // href="#"
+                  >
+                    View
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedUser(item);
+                      toggleEdit();
+                    }}
+                    // href="#"
+                  >
+                    Edit
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedUser(item);
+                      toggleDelete();
+                    }}
+                    // href="#"
+                  >
+                    Delete
+                  </a>
+                </div>
+              </div>
             ),
           });
         });
