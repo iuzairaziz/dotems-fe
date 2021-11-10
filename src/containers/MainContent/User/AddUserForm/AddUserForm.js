@@ -618,7 +618,7 @@ const UserForm = (props) => {
                                     toggleMachineEdit();
                                   }}
                                 >
-                                  <i className="mdi mdi-plus-circle icon-add" />
+                                  <i className="mdi mdi-plus icon-add" />
                                 </div>
                               </div>
                             </div>

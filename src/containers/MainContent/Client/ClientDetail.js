@@ -124,34 +124,55 @@ const ClientDetails = (props) => {
       { label: "Name", value: ClientData && ClientData.name },
       {
         label: "Company Name",
-        value: ClientData && ClientData.companyName,
+        value:
+          ClientData && ClientData.companyName ? ClientData.companyName : "N/A",
       },
-  
+
       {
         label: "Joining Date",
-        value: moment(
-          ClientData && ClientData.dateOfJoin
-        ).format("LL"),
+        value: moment(ClientData && ClientData.dateOfJoin).format("LL"),
       },
       {
         label: "Address",
-        value: ClientData && ClientData.address,
+        value: ClientData && ClientData.address ? ClientData.address : "N/A",
       },
-  
-      { label: "Mobile Number", value: ClientData && ClientData.mobileNo},
+
+      {
+        label: "Mobile Number",
+        value: ClientData && ClientData.mobileNo ? ClientData.mobileNo : "N/A",
+      },
+      {
+        label: "Other Contact",
+        value:
+          ClientData && ClientData.otherContact
+            ? ClientData.otherContact
+            : "N/A",
+      },
       {
         label: "Email",
-        value:ClientData && ClientData.email,
+        value: ClientData && ClientData.email ? ClientData.email : " N/A",
       },
       {
         label: "URL",
-        value: ClientData && ClientData.url,
+        value: ClientData && ClientData.url ? ClientData.url : "N/A",
+      },
+      {
+        label: "Client Type",
+        value:
+          ClientData && ClientData.clientType ? ClientData.clientType : "N/A",
+      },
+      {
+        label: "Client Status",
+        value: ClientData && ClientData.status ? ClientData.status : "N/A",
+      },
+      {
+        label: "Platform",
+        value:
+          ClientData && ClientData.platform ? ClientData.platform.name : "N/A",
       },
       {
         label: "Country",
-        value:  ClientData &&
-        ClientData.country &&
-        ClientData.country.name,
+        value: ClientData && ClientData.country ? ClientData.country : "N/A",
       },
     ];
 
@@ -161,57 +182,55 @@ const ClientDetails = (props) => {
           <div className="container-fluid">
             <div className="row">
               <div className="col-12">
-              <div className="row align-items-center">
-            {detail.map((item, indx) => {
-              return (
-                <>
-                  <div
-                    className={`labell ${
-                      item.label === "Team Members"
-                        ? "col-3 col-md-2"
-                        : "col-3 col-md-2"
-                    } mb-3 d-flex align-items-center align-self-center`}
-                  >
-                    <div>{item.label}</div>
+                <div className="row align-items-center">
+                  {detail.map((item, indx) => {
+                    return (
+                      <>
+                        <div
+                          className={`labell ${
+                            item.label === "Team Members"
+                              ? "col-3 col-md-2"
+                              : "col-3 col-md-2"
+                          } mb-3 d-flex align-items-center align-self-center`}
+                        >
+                          <div>{item.label}</div>
+                        </div>
+                        <div
+                          className={`valuee ${
+                            item.label === "Team Members"
+                              ? "col-9 col-md-6"
+                              : "col-3 col-md-2"
+                          } col-3 col-md-2 mb-3 align-self-center"`}
+                        >
+                          {item.value}
+                        </div>
+                      </>
+                    );
+                  })}
+                </div>
+                <div className="row">
+                  <div className="col-12">
+                    {/* <h4 className="mt-0 header-title">Projects</h4> */}
+                    <MDBDataTableV5
+                      responsive
+                      striped
+                      small
+                      onPageChange={(val) => console.log(val)}
+                      bordered={true}
+                      //  materialSearch
+                      searchTop
+                      searchBottom={false}
+                      pagingTop
+                      barReverse
+                      hover
+                      data={dataa}
+                      theadColor="#000"
+                    />
                   </div>
-                  <div
-                    className={`valuee ${
-                      item.label === "Team Members"
-                        ? "col-9 col-md-6"
-                        : "col-3 col-md-2"
-                    } col-3 col-md-2 mb-3 align-self-center"`}
-                  >
-                    {item.value}
-                  </div>
-                </>
-              );
-            })}
-          </div>
-                    <div className="row">
-                    <div className="col-12">          
-                {/* <h4 className="mt-0 header-title">Projects</h4> */}
-                <MDBDataTableV5
-                 responsive
-                 striped
-                 small
-                 onPageChange={(val) => console.log(val)}
-                 bordered={true}
-                //  materialSearch
-                 searchTop
-                 searchBottom={false}
-                 pagingTop
-                 barReverse
-                 hover
-                  data={dataa}
-                  theadColor="#000"
-                />            
-          </div>
-          </div>
-                  
+                </div>
               </div>
             </div>
           </div>
-        
         </div>
       </AUX>
     );

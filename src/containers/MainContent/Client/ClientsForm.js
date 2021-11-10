@@ -7,31 +7,59 @@ import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ClientService from "../../../services/ClientService";
-import DesignationService from "../../../services/DesignationService";
-import AddDesignationForm from "../Designation/DesignationForm/DesignationForm";
-
-import {
-  Progress,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
+import PlatformService from "../../../services/PlatformService";
+import AddPlatform from "../Platform/PlatformForm/PlatformForm";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import ClientLabelService from "../../../services/ClientLabelService";
+import ClientLabelForm from "../ClientLabel/AddClientLabel/AddClientLabel";
+import AddClientLabel from "../ClientLabel/ClientLabelForm/ClientLabelForm";
 
 const ClientsForm = (props) => {
   const [default_date, set_default_date] = useState(0);
   const [dataa, setData] = useState();
   const [country, setCountry] = useState("");
+  const [platform, setPlatform] = useState([]);
+  const [clientLabel, setClientLabel] = useState([]);
+  const [platformModal, setPlatformModal] = useState(false);
+  const [labelModal, setLabelModal] = useState(false);
+  const [hideField, setHideField] = useState(true);
   const history = useHistory();
+  const togglePlatformEdit = () => setPlatformModal(!platformModal);
+  const toggleLabelEdit = () => setLabelModal(!labelModal);
 
   const handleDefault = (date) => {
     console.log(date);
     set_default_date(date);
   };
 
+  const getPlatform = () => {
+    PlatformService.getAllPlatform().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setPlatform(options);
+    });
+  };
+
+  const getClientList = () => {
+    ClientLabelService.getAllClientLabel().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setClientLabel(options);
+    });
+  };
+
+  useEffect(() => {
+    getPlatform();
+    getClientList();
+  }, [platformModal, labelModal]);
+
   const client = props.client;
   const editable = props.editable;
-  console.log("from client form ", client);
+  // console.log("from client form ", client);
 
   return (
     <Formik
@@ -41,11 +69,33 @@ const ClientsForm = (props) => {
         email: editable && client.email,
         adrs: editable && client.address,
         conNum: editable && client.mobileNo,
+        otherContact: editable && client.otherContact,
         ul: editable && client.url,
         dateOfJoin: editable && client.dateOfJoin,
         country: editable && client.country,
+        socialContact: editable && client.socialContact,
+        platform: editable &&
+          client.platform && {
+            label: client.platform.name,
+            value: client.platform._id,
+          },
+        clientLabel: editable &&
+          client.clientLabel && {
+            label: client.clientLabel.name,
+            value: client.clientLabel._id,
+          },
+        clientType:
+          editable && client.clientType
+            ? {
+                label: client.clientType,
+                value: client.clientType,
+              }
+            : { label: "First Time", value: "First Time" },
+        status: editable
+          ? client.status && { label: client.status, value: client.status }
+          : { label: "Individual", value: "Individual" },
       }}
-      validationSchema={clientValidation.authSchemaValidation}
+      // validationSchema={clientValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
         console.log("countries", values.country);
         editable
@@ -55,9 +105,15 @@ const ClientsForm = (props) => {
               email: values.email,
               address: values.adrs,
               mobileNo: values.conNum,
+              socialContact: values.socialContact,
+              otherContact: values.otherContact,
               dateOfJoin: values.dateOfJoin,
               url: values.ul,
               country: country,
+              platform: values.platform.value,
+              clientLabel: values.clientLabel.value,
+              status: values.status.value,
+              clientType: values.clientType.value,
             })
               .then((res) => {
                 ClientService.handleMessage("update");
@@ -72,10 +128,16 @@ const ClientsForm = (props) => {
               companyName: values.compName,
               email: values.email,
               address: values.adrs,
+              socialContact: values.socialContact,
               mobileNo: values.conNum,
               dateOfJoin: values.dateOfJoin,
               url: values.ul,
               country: country,
+              platform: values.platform.value,
+              otherContact: values.otherContact,
+              status: values.status.value,
+              clientType: values.clientType.value,
+              clientLabel: values.clientLabel.value,
             })
               .then((res) => {
                 props.toggle && props.toggle();
@@ -161,54 +223,31 @@ const ClientsForm = (props) => {
                       </div>
 
                       <div className="col-6">
+                        {" "}
                         <div className="form-group">
-                          <label>Email</label>
-                          <input
-                            name="email"
-                            onBlur={props.handleBlur}
-                            type="text"
-                            className={`form-control ${
-                              props.touched.email && props.errors.email
-                                ? "is-invalid"
-                                : props.touched.email && "is-valid"
-                            }`}
-                            value={props.values.email}
-                            onChange={props.handleChange("email")}
-                            placeholder="Enter Email"
-                          />
-                          <span id="err" className="invalid-feedback">
-                            {props.touched.email && props.errors.email}
-                          </span>
-                        </div>
+                          <label>Date of Joining</label>
+                          <div>
+                            <DatePicker
+                              name="dateOfJoin"
+                              onBlur={props.handleBlur}
+                              className={`form-control ${
+                                props.touched.dateOfJoin &&
+                                props.errors.dateOfJoin
+                                  ? "is-invalid"
+                                  : props.touched.dateOfJoin && "is-valid"
+                              }`}
+                              selected={props.values.dateOfJoin}
+                              placeholder="Select Date"
+                              onChange={(date) => {
+                                props.setFieldValue("dateOfJoin", date);
+                                console.log("datepicker", date);
+                              }}
+                            />
+                          </div>
+                        </div>{" "}
                       </div>
 
                       <div className="col-6">
-                        <div className="form-group">
-                          <label>URL</label>
-                          <input
-                            name="ul"
-                            onBlur={props.handleBlur}
-                            type="text"
-                            defaultValue="http://"
-                            className={`form-control ${
-                              props.touched.ul && props.errors.ul
-                                ? "is-invalid"
-                                : props.touched.ul && "is-valid"
-                            }`}
-                            value={props.values.ul}
-                            onChange={props.handleChange("ul")}
-                            placeholder="Enter URL"
-                          />
-                          <span id="err" className="invalid-feedback">
-                            {props.touched.ul && props.errors.ul}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="tab-pane p-3" id="profile2" role="tabpanel">
-                    <div className="row">
-                      <div className="col">
                         <div className="form-group">
                           <div className="row">
                             <div className="col-6">
@@ -574,7 +613,69 @@ const ClientsForm = (props) => {
                           </span>
                         </div>
                       </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <div className="row">
+                            <div className="col">
+                              <label className="control-label">Platform</label>
+                            </div>
+                            <div className="col-6">
+                              <div
+                                className="d-flex justify-content-end"
+                                id="add-new-Buttonm "
+                                onClick={() => {
+                                  togglePlatformEdit();
+                                }}
+                              >
+                                <i className="mdi mdi-plus icon-add" />
+                              </div>
+                            </div>
+                          </div>
+                          <Select
+                            className={`my-select ${
+                              props.touched.platform && props.errors.platform
+                                ? "is-invalid"
+                                : props.touched.platform && "is-valid"
+                            }`}
+                            name="platform"
+                            onFocus={() => props.setFieldTouched("platform")}
+                            value={props.values.platform}
+                            onChange={(val) =>
+                              props.setFieldValue("platform", val)
+                            }
+                            options={platform}
+                          />
 
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.platform && props.errors.platform}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="tab-pane p-3" id="profile2" role="tabpanel">
+                    <div className="row">
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Email</label>
+                          <input
+                            name="email"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control ${
+                              props.touched.email && props.errors.email
+                                ? "is-invalid"
+                                : props.touched.email && "is-valid"
+                            }`}
+                            value={props.values.email}
+                            onChange={props.handleChange("email")}
+                            placeholder="Enter Email"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.email && props.errors.email}
+                          </span>
+                        </div>
+                      </div>
                       <div className="col-6">
                         <div className="form-group">
                           <label>Contact Number</label>
@@ -601,46 +702,71 @@ const ClientsForm = (props) => {
                         <div className="form-group">
                           <label>Other Contact</label>
                           <input
-                            name="conNum"
+                            name="otherContact"
                             onBlur={props.handleBlur}
                             type="text"
                             className={`form-control ${
-                              props.touched.conNum && props.errors.conNum
+                              props.touched.otherContact &&
+                              props.errors.otherContact
                                 ? "is-invalid"
-                                : props.touched.conNum && "is-valid"
+                                : props.touched.otherContact && "is-valid"
                             }`}
-                            value={props.values.conNum}
-                            onChange={props.handleChange("conNum")}
+                            value={props.values.otherContact}
+                            onChange={props.handleChange("otherContact")}
                             placeholder="Enter Number"
                           />
                           <span id="err" className="invalid-feedback">
-                            {props.touched.conNum && props.errors.conNum}
+                            {props.touched.otherContact &&
+                              props.errors.otherContact}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Social Contact</label>
+                          <input
+                            name="socialContact"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control ${
+                              props.touched.socialContact &&
+                              props.errors.socialContact
+                                ? "is-invalid"
+                                : props.touched.socialContact && "is-valid"
+                            }`}
+                            value={props.values.socialContact}
+                            onChange={props.handleChange("socialContact")}
+                            placeholder="Enter Number"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.socialContact &&
+                              props.errors.socialContact}
                           </span>
                         </div>
                       </div>
 
                       <div className="col-6">
                         <div className="form-group">
-                          <label>Company Name</label>
+                          <label>URL</label>
                           <input
-                            name="compName"
+                            name="ul"
                             onBlur={props.handleBlur}
                             type="text"
+                            defaultValue="http://"
                             className={`form-control ${
-                              props.touched.compName && props.errors.compName
+                              props.touched.ul && props.errors.ul
                                 ? "is-invalid"
-                                : props.touched.compName && "is-valid"
+                                : props.touched.ul && "is-valid"
                             }`}
-                            value={props.values.compName}
-                            onChange={props.handleChange("compName")}
-                            placeholder="Enter Name"
+                            value={props.values.ul}
+                            onChange={props.handleChange("ul")}
+                            placeholder="Enter URL"
                           />
                           <span id="err" className="invalid-feedback">
-                            {props.touched.compName && props.errors.compName}
+                            {props.touched.ul && props.errors.ul}
                           </span>
                         </div>
                       </div>
-
                       <div className="col-6">
                         <div className="form-group">
                           <label>Address</label>
@@ -664,44 +790,20 @@ const ClientsForm = (props) => {
                       </div>
 
                       <div className="col-6">
-                        {" "}
-                        <div className="form-group">
-                          <label>Date of Joining</label>
-                          <div>
-                            <DatePicker
-                              name="dateOfJoin"
-                              onBlur={props.handleBlur}
-                              className={`form-control ${
-                                props.touched.dateOfJoin &&
-                                props.errors.dateOfJoin
-                                  ? "is-invalid"
-                                  : props.touched.dateOfJoin && "is-valid"
-                              }`}
-                              selected={props.values.dateOfJoin}
-                              placeholder="Select Date"
-                              onChange={(date) => {
-                                props.setFieldValue("dateOfJoin", date);
-                                console.log("datepicker", date);
-                              }}
-                            />
-                          </div>
-                        </div>{" "}
-                      </div>
-
-                      <div className="col-6">
                         <div className="form-group">
                           <label className="control-label">Client Type</label>
                           <Select
-                            name="status"
+                            name="clientType"
                             onBlur={props.handleBlur}
-                            value={props.values.adrs}
+                            value={props.values.clientType}
                             className={`my-select${
-                              props.touched.adrs && props.errors.adrs
+                              props.touched.clientType &&
+                              props.errors.clientType
                                 ? "is-invalid"
-                                : props.touched.adrs && "is-valid"
+                                : props.touched.clientType && "is-valid"
                             }`}
                             onChange={(selected) => {
-                              props.setFieldValue("status", selected);
+                              props.setFieldValue("clientType", selected);
                             }}
                             options={[
                               { value: "First Time", label: "First Time" },
@@ -709,7 +811,51 @@ const ClientsForm = (props) => {
                             ]}
                           />
                           <span id="err" className="invalid-feedback">
-                            {props.touched.adrs && props.errors.adrs}
+                            {props.touched.clientType &&
+                              props.errors.clientType}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="col-6">
+                        <div className="form-group">
+                          <div className="row">
+                            <div className="col">
+                              <label className="control-label">
+                                Client Label
+                              </label>
+                            </div>
+                            <div className="col-6">
+                              <div
+                                className="d-flex justify-content-end"
+                                id="add-new-Buttonm "
+                                onClick={() => {
+                                  toggleLabelEdit();
+                                }}
+                              >
+                                <i className="mdi mdi-plus icon-add" />
+                              </div>
+                            </div>
+                          </div>
+                          <Select
+                            className={`my-select ${
+                              props.touched.clientLabel &&
+                              props.errors.clientLabel
+                                ? "is-invalid"
+                                : props.touched.clientLabel && "is-valid"
+                            }`}
+                            name="clientLabel"
+                            onFocus={() => props.setFieldTouched("clientLabel")}
+                            value={props.values.clientLabel}
+                            onChange={(val) =>
+                              props.setFieldValue("clientLabel", val)
+                            }
+                            options={clientLabel}
+                          />
+
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.clientLabel &&
+                              props.errors.clientLabel}
                           </span>
                         </div>
                       </div>
@@ -719,14 +865,19 @@ const ClientsForm = (props) => {
                           <Select
                             name="status"
                             onBlur={props.handleBlur}
-                            value={props.values.adrs}
+                            value={props.values.status}
                             className={`my-select${
-                              props.touched.adrs && props.errors.adrs
+                              props.touched.status && props.errors.status
                                 ? "is-invalid"
-                                : props.touched.adrs && "is-valid"
+                                : props.touched.status && "is-valid"
                             }`}
                             onChange={(selected) => {
                               props.setFieldValue("status", selected);
+                              if (selected.value == "Individual") {
+                                setHideField(true);
+                              } else {
+                                setHideField(false);
+                              }
                             }}
                             options={[
                               { value: "Individual", label: "Individual" },
@@ -734,8 +885,37 @@ const ClientsForm = (props) => {
                             ]}
                           />
                           <span id="err" className="invalid-feedback">
-                            {props.touched.adrs && props.errors.adrs}
+                            {props.touched.status && props.errors.status}
                           </span>
+                        </div>
+                      </div>
+                      <div
+                        className={`${
+                          hideField === true
+                            ? `hide-form-field`
+                            : `display-form-field col-12 `
+                        }`}
+                      >
+                        <div className="col-6">
+                          <div className="form-group">
+                            <label>Company Name</label>
+                            <input
+                              name="compName"
+                              onBlur={props.handleBlur}
+                              type="text"
+                              className={`form-control ${
+                                props.touched.compName && props.errors.compName
+                                  ? "is-invalid"
+                                  : props.touched.compName && "is-valid"
+                              }`}
+                              value={props.values.compName}
+                              onChange={props.handleChange("compName")}
+                              placeholder="Enter Name"
+                            />
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.compName && props.errors.compName}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -744,6 +924,26 @@ const ClientsForm = (props) => {
               </div>
             </div>
           </div>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={platformModal}
+            toggle={togglePlatformEdit}
+          >
+            <ModalHeader toggle={togglePlatformEdit}>Add Platform</ModalHeader>
+            <ModalBody>
+              <AddPlatform toggle={togglePlatformEdit} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={labelModal}
+            toggle={toggleLabelEdit}
+          >
+            <ModalHeader toggle={toggleLabelEdit}>Add Client Label</ModalHeader>
+            <ModalBody>
+              <AddClientLabel toggle={toggleLabelEdit} />
+            </ModalBody>
+          </Modal>
           <div className="row">
             {/* <div className="col">
               <div className="form-group">

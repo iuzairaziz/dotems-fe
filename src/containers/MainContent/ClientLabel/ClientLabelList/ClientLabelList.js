@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
-import { MDBDataTable, MDBBtn } from "mdbreact";
-import PlatformForm from "../PlatformForm/PlatformForm";
-import PlatformService from "../../../../services/PlatformService";
+import { MDBDataTableV5, MDBBtn } from "mdbreact";
+import ClientLabelForm from "../ClientLabelForm/ClientLabelForm";
+import ClientLabelService from "../../../../services/ClientLabelService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import "./PlatformList.scss";
+import "./ClientLabel.scss";
 
-const PlatformList = () => {
+const ClientLabelList = () => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
 
-  const [selectedPlatform, setSelectedPlatform] = useState({ name: "" });
+  const [selectedCountry, setSelectedCountry] = useState({ name: "" });
   const [data, setData] = useState({
     columns: [
       {
@@ -19,10 +19,6 @@ const PlatformList = () => {
         field: "title",
         sort: "asc",
         // width: 150,
-      },
-      {
-        label: "Preset",
-        feild: "preset",
       },
       {
         label: "Action",
@@ -35,56 +31,45 @@ const PlatformList = () => {
   });
 
   useEffect(() => {
-    getPlatform();
+    getCountry();
   }, [modalEdit, modalDelete]);
 
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
 
   const handleDelete = (id) => {
-    PlatformService.deletePlatform(id)
+    ClientLabelService.deleteClientLabel(id)
       .then((res) => {
-        PlatformService.handleMessage("delete");
+        ClientLabelService.handleMessage("delete");
         toggleDelete();
       })
       .catch((err) => {
-        PlatformService.handleError();
+        ClientLabelService.handleError();
         toggleDelete();
       });
   };
 
-  const getPlatform = () => {
-    PlatformService.getAllPlatform()
+  const getCountry = () => {
+    ClientLabelService.getAllClientLabel()
       .then((res) => {
         let updatedData = { ...data };
         updatedData.rows = [];
         res.data.map((item, index) => {
           updatedData.rows.push({
             title: item.name ? item.name : "none",
-            preset: (
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="exampleRadios"
-                  // id="exampleRadios1"
-                  value="option1"
-                />
-              </div>
-            ),
             action: (
               <div className="row flex-nowrap">
                 <i
-                  className="mdi mdi-pencil-box iconsS my-seconday-icon ml-2"
+                  className="mdi mdi-pencil-box iconsS my-seconday-icon ml-1"
                   onClick={() => {
-                    setSelectedPlatform(item);
+                    setSelectedCountry(item);
                     toggleEdit();
                   }}
                 />
                 <i
                   className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
-                    setSelectedPlatform(item);
+                    setSelectedCountry(item);
                     toggleDelete();
                   }}
                 />
@@ -97,6 +82,7 @@ const PlatformList = () => {
       })
       .catch((err) => console.log(err));
   };
+
   return (
     <AUX>
       <div className="page-content-wrapper">
@@ -107,55 +93,63 @@ const PlatformList = () => {
                 <div className="card-body">
                   <div className="row align-items-center mb-3">
                     <div className="col">
-                      <h3 className="m-0 p-0">All Platforms</h3>
+                      <h3 className="m-0 p-0">All Client Labels</h3>
                     </div>
                     <div className="col">
-                      <Link to="/add-platform">
+                      <Link to="/add-clientlabel">
                         <Button
                           color="success"
                           className="my-primary-button float-right"
                         >
-                          Add Platforms
+                          Add Client Label
                         </Button>
                       </Link>
                     </div>
                   </div>
 
-                  <MDBDataTable
-                    // scrollX
+                  <MDBDataTableV5
+                    responsive
                     striped
-                    bordered
+                    small
+                    bordered={true}
+                    //  materialSearch
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
                     hover
+                    // scrollX
                     // autoWidth
                     data={data}
                   />
                 </div>
               </div>
             </div>
+
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>
-                <ModalHeader toggle={toggleEdit}>Edit Platform</ModalHeader>
+                <ModalHeader toggle={toggleEdit}>Edit Label</ModalHeader>
                 <ModalBody>
-                  <PlatformForm
+                  <ClientLabelForm
                     editable={true}
-                    platform={selectedPlatform}
+                    country={selectedCountry}
                     toggle={toggleEdit}
                   />
                 </ModalBody>
               </Modal>
               <Modal isOpen={modalDelete} toggle={toggleDelete}>
                 <ModalHeader toggle={toggleDelete}>
-                  Delete Platform ?
+                  Delete Designation?
                 </ModalHeader>
                 <ModalBody>
-                  Are you sure you want to delete the country "
-                  {selectedPlatform.name}" ?
+                  Are you sure you want to delete the Label "
+                  {selectedCountry.name}" ?
                 </ModalBody>
                 <ModalFooter>
                   <Button
                     color="primary"
                     onClick={() => {
-                      handleDelete(selectedPlatform._id);
+                      handleDelete(selectedCountry._id);
                     }}
                   >
                     Yes
@@ -173,4 +167,4 @@ const PlatformList = () => {
   );
 };
 
-export default PlatformList;
+export default ClientLabelList;

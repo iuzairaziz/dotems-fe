@@ -83,6 +83,16 @@ class ShortValidations {
         .max(20),
     });
   };
+
+  clientLabelValidation = () => {
+    return Yup.object({
+      title: Yup.string()
+        .required("Required!")
+        .min(2)
+        .max(20),
+    });
+  };
+
   accessoryValidation = () => {
     return Yup.object({
       title: Yup.string()

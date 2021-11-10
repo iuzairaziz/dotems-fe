@@ -83,7 +83,9 @@ import ViewSingleProjectPayments from "../MainContent/ProjectPayments/ProjectPay
 import AttendanceList from "../MainContent/Attendance/ViewAttendance";
 import LeaveSettings from "../MainContent/Leaves/LeaveSettings/LeaveSettings";
 import TimesheetFormDaily from "../MainContent/Timesheet/TimesheetForm/TimesheetFormDaily";
-import Dropdowns from "../MainContent/UiElements/Ui_dropdowns"
+import AddClientLabel from "../MainContent/ClientLabel/AddClientLabel/AddClientLabel";
+import ClientLabelList from "../MainContent/ClientLabel/ClientLabelList/ClientLabelList";
+import Dropdowns from "../MainContent/UiElements/Ui_dropdowns";
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
 // import formWizard from "../MainContent/Forms/Form_wizard"
@@ -97,6 +99,8 @@ const mainbuilder = (props) => {
     <>
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/add-clientlabel" component={AddClientLabel} />
+        <Route exact path="/view-clientlabel" component={ClientLabelList} />
         <Route exact path="/leave-details" component={LeaveDetails} />
         <Route exact path="/single-detail/:id" component={SingleDetail} />
         <Route exact path="/my-projects" component={MyProjects} />
