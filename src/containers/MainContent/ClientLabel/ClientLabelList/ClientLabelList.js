@@ -21,6 +21,10 @@ const ClientLabelList = () => {
         // width: 150,
       },
       {
+        label: "Preset",
+        field: "preset",
+      },
+      {
         label: "Action",
         field: "action",
         sort: "asc",
@@ -57,6 +61,23 @@ const ClientLabelList = () => {
         res.data.map((item, index) => {
           updatedData.rows.push({
             title: item.name ? item.name : "none",
+            preset: (
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
+                  // id="exampleRadios1"
+                  value="option1"
+                  onChange={(e) =>
+                    ClientLabelService.presetLabel(item._id).then(() => {
+                      getCountry();
+                    })
+                  }
+                  checked={item.preset ? true : false}
+                />
+              </div>
+            ),
             action: (
               <div className="row flex-nowrap">
                 <i
@@ -89,41 +110,41 @@ const ClientLabelList = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <div className="row align-items-center mb-3">
-                    <div className="col">
-                      <h3 className="m-0 p-0">All Client Labels</h3>
-                    </div>
-                    <div className="col">
-                      <Link to="/add-clientlabel">
-                        <Button
-                          color="success"
-                          className="my-primary-button float-right"
-                        >
-                          Add Client Label
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-
-                  <MDBDataTableV5
-                    responsive
-                    striped
-                    small
-                    bordered={true}
-                    //  materialSearch
-                    searchTop
-                    searchBottom={false}
-                    pagingTop
-                    barReverse
-                    hover
-                    // scrollX
-                    // autoWidth
-                    data={data}
-                  />
+              {/* <div className="card m-b-20">
+                <div className="card-body"> */}
+              {/* <div className="row align-items-center mb-3">
+                <div className="col">
+                  <h3 className="m-0 p-0">All Client Labels</h3>
                 </div>
-              </div>
+                <div className="col">
+                  <Link to="/add-clientlabel">
+                    <Button
+                      color="success"
+                      className="my-primary-button float-right"
+                    >
+                      Add Client Label
+                    </Button>
+                  </Link>
+                </div>
+              </div> */}
+
+              <MDBDataTableV5
+                responsive
+                striped
+                small
+                bordered={true}
+                //  materialSearch
+                searchTop
+                searchBottom={false}
+                pagingTop
+                barReverse
+                hover
+                // scrollX
+                // autoWidth
+                data={data}
+              />
+              {/* </div> */}
+              {/* </div> */}
             </div>
 
             <div>

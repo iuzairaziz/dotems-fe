@@ -32,7 +32,7 @@ const PlatformForm = (props) => {
                 props.toggle && props.toggle();
                 PlatformService.handleMessage("add");
                 if (props.redirect) {
-                  history.push("/platform");
+                  // history.push("/platform");
                   actions.setFieldValue("title", "");
                 }
               })

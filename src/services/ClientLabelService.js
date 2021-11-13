@@ -22,6 +22,10 @@ class ClientLabelService {
     return axios.get(this.config.apiBaseUrl + "client-label/show-clientlabel");
   }
 
+  presetLabel(id) {
+    return axios.put(this.config.apiBaseUrl + "client-label/preset/" + id);
+  }
+
   updateClientLabel(id, formData) {
     return axios.put(this.config.apiBaseUrl + "client-label/" + id, formData);
   }

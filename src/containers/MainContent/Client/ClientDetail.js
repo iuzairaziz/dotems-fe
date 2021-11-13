@@ -149,6 +149,13 @@ const ClientDetails = (props) => {
             : "N/A",
       },
       {
+        label: "Social Contact",
+        value:
+          ClientData && ClientData.socialContact
+            ? ClientData.socialContact
+            : "N/A",
+      },
+      {
         label: "Email",
         value: ClientData && ClientData.email ? ClientData.email : " N/A",
       },
@@ -164,6 +171,13 @@ const ClientDetails = (props) => {
       {
         label: "Client Status",
         value: ClientData && ClientData.status ? ClientData.status : "N/A",
+      },
+      {
+        label: "Client Label",
+        value:
+          ClientData && ClientData.clientLabel
+            ? ClientData.clientLabel.name
+            : "N/A",
       },
       {
         label: "Platform",

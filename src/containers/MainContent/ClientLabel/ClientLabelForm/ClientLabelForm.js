@@ -30,7 +30,7 @@ const ClientLabelForm = (props) => {
           : ClientLabelService.addClientLabel({ name: values.title })
               .then((res) => {
                 ClientLabelService.handleMessage("add");
-                history.push("/view-clientlabel");
+                // history.push("/view-clientlabel");
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
-import { MDBDataTable, MDBBtn } from "mdbreact";
+import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import PlatformForm from "../PlatformForm/PlatformForm";
 import PlatformService from "../../../../services/PlatformService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
@@ -10,6 +10,7 @@ import "./PlatformList.scss";
 const PlatformList = () => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
+  const [preDet, setPreSet] = useState();
 
   const [selectedPlatform, setSelectedPlatform] = useState({ name: "" });
   const [data, setData] = useState({
@@ -22,7 +23,7 @@ const PlatformList = () => {
       },
       {
         label: "Preset",
-        feild: "preset",
+        field: "preset",
       },
       {
         label: "Action",
@@ -69,6 +70,12 @@ const PlatformList = () => {
                   name="exampleRadios"
                   // id="exampleRadios1"
                   value="option1"
+                  onChange={(e) =>
+                    PlatformService.presetPlatform(item._id).then(() => {
+                      getPlatform();
+                    })
+                  }
+                  checked={item.preset ? true : false}
                 />
               </div>
             ),
@@ -103,34 +110,14 @@ const PlatformList = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <div className="row align-items-center mb-3">
-                    <div className="col">
-                      <h3 className="m-0 p-0">All Platforms</h3>
-                    </div>
-                    <div className="col">
-                      <Link to="/add-platform">
-                        <Button
-                          color="success"
-                          className="my-primary-button float-right"
-                        >
-                          Add Platforms
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-
-                  <MDBDataTable
-                    // scrollX
-                    striped
-                    bordered
-                    hover
-                    // autoWidth
-                    data={data}
-                  />
-                </div>
-              </div>
+              <MDBDataTableV5
+                // scrollX
+                striped
+                bordered
+                hover
+                // autoWidth
+                data={data}
+              />
             </div>
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>

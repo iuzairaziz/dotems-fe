@@ -26,6 +26,10 @@ class PlatformService {
     return axios.put(this.config.apiBaseUrl + "platform/" + id, formData);
   }
 
+  presetPlatform(id) {
+    return axios.put(this.config.apiBaseUrl + "platform/preset/" + id);
+  }
+
   deletePlatform(id) {
     return axios.delete(this.config.apiBaseUrl + "platform/" + id);
   }
