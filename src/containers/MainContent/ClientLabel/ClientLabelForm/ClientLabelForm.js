@@ -1,43 +1,40 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
-import shortValidations from "../../../../validations/short-validations";
-import PlatformService from "../../../../services/PlatformService";
 import { useHistory } from "react-router-dom";
+import shortValidations from "../../../../validations/short-validations";
+import ClientLabelService from "../../../../services/ClientLabelService";
 
-const PlatformForm = (props) => {
+const ClientLabelForm = (props) => {
   const history = useHistory();
 
   return (
     <Formik
       initialValues={{
-        title: props.editable && props.platform.name,
+        title: props.editable && props.country.name,
       }}
-      validationSchema={shortValidations.platformValidation}
+      validationSchema={shortValidations.clientLabelValidation}
       onSubmit={(values, actions) => {
         props.editable
-          ? PlatformService.updatePlatform(props.platform._id, {
+          ? ClientLabelService.updateClientLabel(props.country._id, {
               name: values.title,
             })
               .then((res) => {
                 props.toggle();
-                PlatformService.handleMessage("update");
+                ClientLabelService.handleMessage("update");
               })
               .catch((err) => {
                 props.toggle();
-                PlatformService.handleCustomMessage(err.response.data);
+                ClientLabelService.handleCustomMessage(err.response.data);
               })
-          : PlatformService.addPlatform({ name: values.title })
+          : ClientLabelService.addClientLabel({ name: values.title })
               .then((res) => {
-                props.toggle && props.toggle();
-                PlatformService.handleMessage("add");
-                if (props.redirect) {
-                  // history.push("/platform");
-                  actions.setFieldValue("title", "");
-                }
+                ClientLabelService.handleMessage("add");
+                // history.push("/view-clientlabel");
+                actions.setFieldValue("title", "");
               })
               .catch((err) => {
-                PlatformService.handleCustomMessage(err.response.data);
+                ClientLabelService.handleCustomMessage(err.response.data);
               });
       }}
     >
@@ -82,4 +79,4 @@ const PlatformForm = (props) => {
   );
 };
 
-export default PlatformForm;
+export default ClientLabelForm;

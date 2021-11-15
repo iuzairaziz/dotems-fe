@@ -1,43 +1,43 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
+import EmployeeTypeService from "../../../../services/EmployeeTypeService";
 import shortValidations from "../../../../validations/short-validations";
-import PlatformService from "../../../../services/PlatformService";
 import { useHistory } from "react-router-dom";
 
-const PlatformForm = (props) => {
+const EmployeeTypeForm = (props) => {
   const history = useHistory();
 
   return (
     <Formik
       initialValues={{
-        title: props.editable && props.platform.name,
+        title: props.editable && props.EmployeeType.name,
       }}
-      validationSchema={shortValidations.platformValidation}
+      validationSchema={shortValidations.employeeTypeValidation}
       onSubmit={(values, actions) => {
         props.editable
-          ? PlatformService.updatePlatform(props.platform._id, {
+          ? EmployeeTypeService.updateEmployeeType(props.EmployeeType._id, {
               name: values.title,
             })
               .then((res) => {
                 props.toggle();
-                PlatformService.handleMessage("update");
+                EmployeeTypeService.handleMessage("update");
               })
               .catch((err) => {
                 props.toggle();
-                PlatformService.handleCustomMessage(err.response.data);
+                EmployeeTypeService.handleCustomMessage(err.response.data);
               })
-          : PlatformService.addPlatform({ name: values.title })
+          : EmployeeTypeService.addEmployeeType({ name: values.title })
               .then((res) => {
                 props.toggle && props.toggle();
-                PlatformService.handleMessage("add");
+                EmployeeTypeService.handleMessage("add");
                 if (props.redirect) {
-                  // history.push("/platform");
+                  history.push("/view-employee-type");
                   actions.setFieldValue("title", "");
                 }
               })
               .catch((err) => {
-                PlatformService.handleCustomMessage(err.response.data);
+                EmployeeTypeService.handleCustomMessage(err.response.data);
               });
       }}
     >
@@ -68,6 +68,7 @@ const PlatformForm = (props) => {
             <div className="row">
               <div className="col">
                 <Button
+                  color="success"
                   className="mt-3 my-primary-button"
                   onClick={props.handleSubmit}
                 >
@@ -82,4 +83,4 @@ const PlatformForm = (props) => {
   );
 };
 
-export default PlatformForm;
+export default EmployeeTypeForm;

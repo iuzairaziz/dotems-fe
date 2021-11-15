@@ -99,7 +99,7 @@ const MyTasks = (props) => {
   let loggedUser = UserService.userLoggedInInfo();
 
   const getData = () => {
-    TaskService.getAllEmployeeTasks(loggedUser._id) 
+    TaskService.getAllEmployeeTasks(loggedUser._id)
       .then((res) => {
         let data = { ...dataa };
         data.rows = [];

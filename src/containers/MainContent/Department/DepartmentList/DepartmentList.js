@@ -1,30 +1,28 @@
 import React, { useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
-import { MDBDataTableV5, MDBBtn } from "mdbreact";
-import PlatformForm from "../PlatformForm/PlatformForm";
-import PlatformService from "../../../../services/PlatformService";
+import { MDBDataTable, MDBBtn } from "mdbreact";
+import DepartmentForm from "../../Department/DepartmentForm/DepartmentForm";
+import DepartmentService from "../../../../services/DepartmentService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import "./PlatformList.scss";
 
-const PlatformList = () => {
+const LeaveTypeList = () => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
-  const [preDet, setPreSet] = useState();
 
-  const [selectedPlatform, setSelectedPlatform] = useState({ name: "" });
+  const [selectedDepartment, setSelectedDepartment] = useState({
+    name: "",
+  });
+
   const [data, setData] = useState({
     columns: [
       {
-        label: "Title",
-        field: "title",
+        label: "Department",
+        field: "name",
         sort: "asc",
         // width: 150,
       },
-      {
-        label: "Preset",
-        field: "preset",
-      },
+
       {
         label: "Action",
         field: "action",
@@ -36,62 +34,45 @@ const PlatformList = () => {
   });
 
   useEffect(() => {
-    getPlatform();
+    getLeaveType();
   }, [modalEdit, modalDelete]);
 
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
 
   const handleDelete = (id) => {
-    PlatformService.deletePlatform(id)
+    DepartmentService.deleteDepartment(id)
       .then((res) => {
-        PlatformService.handleMessage("delete");
+        DepartmentService.handleMessage("delete");
         toggleDelete();
       })
       .catch((err) => {
-        PlatformService.handleError();
+        DepartmentService.handleCustomMessage(err.response.data);
         toggleDelete();
       });
   };
 
-  const getPlatform = () => {
-    PlatformService.getAllPlatform()
+  const getLeaveType = () => {
+    DepartmentService.getAllDepartment()
       .then((res) => {
         let updatedData = { ...data };
         updatedData.rows = [];
         res.data.map((item, index) => {
           updatedData.rows.push({
-            title: item.name ? item.name : "none",
-            preset: (
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="exampleRadios"
-                  // id="exampleRadios1"
-                  value="option1"
-                  onChange={(e) =>
-                    PlatformService.presetPlatform(item._id).then(() => {
-                      getPlatform();
-                    })
-                  }
-                  checked={item.preset ? true : false}
-                />
-              </div>
-            ),
+            name: item.name ? item.name : "none",
             action: (
               <div className="row flex-nowrap">
                 <i
                   className="mdi mdi-pencil-box iconsS my-seconday-icon ml-2"
                   onClick={() => {
-                    setSelectedPlatform(item);
+                    setSelectedDepartment(item);
                     toggleEdit();
                   }}
                 />
                 <i
                   className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
-                    setSelectedPlatform(item);
+                    setSelectedDepartment(item);
                     toggleDelete();
                   }}
                 />
@@ -110,39 +91,59 @@ const PlatformList = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <MDBDataTableV5
-                // scrollX
-                striped
-                bordered
-                hover
-                // autoWidth
-                data={data}
-              />
+              <div className="card m-b-20">
+                <div className="card-body">
+                  <div className="row align-items-center mb-3">
+                    <div className="col">
+                      <h3 className="m-0 p-0">All Departments</h3>
+                    </div>
+                    <div className="col">
+                      <Link to="/add-department">
+                        <Button
+                          color="success"
+                          className="my-primary-button float-right"
+                        >
+                          Add Department
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+
+                  <MDBDataTable
+                    // scrollX
+                    striped
+                    bordered
+                    hover
+                    // autoWidth
+                    data={data}
+                  />
+                </div>
+              </div>
             </div>
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>
-                <ModalHeader toggle={toggleEdit}>Edit Platform</ModalHeader>
+                <ModalHeader toggle={toggleEdit}>Edit Department</ModalHeader>
                 <ModalBody>
-                  <PlatformForm
+                  <DepartmentForm
                     editable={true}
-                    platform={selectedPlatform}
+                    Department={selectedDepartment}
                     toggle={toggleEdit}
                   />
                 </ModalBody>
               </Modal>
               <Modal isOpen={modalDelete} toggle={toggleDelete}>
                 <ModalHeader toggle={toggleDelete}>
-                  Delete Platform ?
+                  Delete Department ?
                 </ModalHeader>
                 <ModalBody>
-                  Are you sure you want to delete the country "
-                  {selectedPlatform.name}" ?
+                  Are you sure you want to delete the Department "
+                  {selectedDepartment.name}" ?
                 </ModalBody>
                 <ModalFooter>
                   <Button
                     color="primary"
                     onClick={() => {
-                      handleDelete(selectedPlatform._id);
+                      handleDelete(selectedDepartment._id);
                     }}
                   >
                     Yes
@@ -160,4 +161,4 @@ const PlatformList = () => {
   );
 };
 
-export default PlatformList;
+export default LeaveTypeList;

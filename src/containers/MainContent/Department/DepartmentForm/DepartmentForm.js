@@ -1,43 +1,43 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
+import DepartmentService from "../../../../services/DepartmentService";
 import shortValidations from "../../../../validations/short-validations";
-import PlatformService from "../../../../services/PlatformService";
 import { useHistory } from "react-router-dom";
 
-const PlatformForm = (props) => {
+const DepartmentForm = (props) => {
   const history = useHistory();
 
   return (
     <Formik
       initialValues={{
-        title: props.editable && props.platform.name,
+        title: props.editable && props.Department.name,
       }}
-      validationSchema={shortValidations.platformValidation}
+      validationSchema={shortValidations.departmentValidation}
       onSubmit={(values, actions) => {
         props.editable
-          ? PlatformService.updatePlatform(props.platform._id, {
+          ? DepartmentService.updateDepartment(props.Department._id, {
               name: values.title,
             })
               .then((res) => {
                 props.toggle();
-                PlatformService.handleMessage("update");
+                DepartmentService.handleMessage("update");
               })
               .catch((err) => {
                 props.toggle();
-                PlatformService.handleCustomMessage(err.response.data);
+                DepartmentService.handleCustomMessage(err.response.data);
               })
-          : PlatformService.addPlatform({ name: values.title })
+          : DepartmentService.addDepartment({ name: values.title })
               .then((res) => {
                 props.toggle && props.toggle();
-                PlatformService.handleMessage("add");
+                DepartmentService.handleMessage("add");
                 if (props.redirect) {
-                  // history.push("/platform");
+                  history.push("/view-department");
                   actions.setFieldValue("title", "");
                 }
               })
               .catch((err) => {
-                PlatformService.handleCustomMessage(err.response.data);
+                DepartmentService.handleCustomMessage(err.response.data);
               });
       }}
     >
@@ -68,6 +68,7 @@ const PlatformForm = (props) => {
             <div className="row">
               <div className="col">
                 <Button
+                  color="success"
                   className="mt-3 my-primary-button"
                   onClick={props.handleSubmit}
                 >
@@ -82,4 +83,4 @@ const PlatformForm = (props) => {
   );
 };
 
-export default PlatformForm;
+export default DepartmentForm;

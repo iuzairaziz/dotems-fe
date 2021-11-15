@@ -52,9 +52,13 @@ import ChangePasswordForm from "../MainContent/User/AddUserForm/ChangePasswordFo
 import ClientDetails from "../MainContent/Client/ClientDetail";
 import AddLeaveType from "../MainContent/Leaves/LeaveType/AddLeaveType/AddLeaveType";
 import AddRequestType from "../MainContent/RequestType/AddRequestType/AddReuqestType";
+import AddEmployeeType from "../MainContent/EmployeeType/AddEmployeeType/AddEmployeeType";
+import AddDepartment from "../MainContent/Department/AddDepartment/AddDepartment";
 import AddRequest from "../MainContent/Request/AddRequest/AddRequest";
 import LeaveTypeList from "../MainContent/Leaves/LeaveType/LeaveTypeList/LeaveTypeList";
 import RequestTypeList from "../MainContent/RequestType/RequestList/RequestList";
+import EmployeeTypeList from "../MainContent/EmployeeType/EmployeeTypeList/EmployeeTypeList";
+import DepartmentList from "../MainContent/Department/DepartmentList/DepartmentList";
 import RequestList from "../MainContent/Request/ViewRequest/ViewRequest";
 import RequestRecieved from "../MainContent/Request/ViewRequest/ViewReceivedRequest";
 import Machine from "../MainContent/Machine/Machine";
@@ -82,6 +86,9 @@ import TimesheetFormDaily from "../MainContent/Timesheet/TimesheetForm/Timesheet
 import AddRole from "../MainContent/Role/AddRole/AddRole";
 import RoleList from "../MainContent/Role/RoleList/RoleList";
 import AddPermission from "../MainContent/Permissions/AddPermissions/AddPermission";
+import AddClientLabel from "../MainContent/ClientLabel/AddClientLabel/AddClientLabel";
+import ClientLabelList from "../MainContent/ClientLabel/ClientLabelList/ClientLabelList";
+import Dropdowns from "../MainContent/UiElements/Ui_dropdowns";
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
 // import formWizard from "../MainContent/Forms/Form_wizard"
@@ -95,6 +102,8 @@ const mainbuilder = (props) => {
     <>
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/add-clientlabel" component={AddClientLabel} />
+        <Route exact path="/view-clientlabel" component={ClientLabelList} />
         <Route exact path="/leave-details" component={LeaveDetails} />
         <Route exact path="/single-detail/:id" component={SingleDetail} />
         <Route exact path="/my-projects" component={MyProjects} />
@@ -107,6 +116,7 @@ const mainbuilder = (props) => {
         <Route exact path="/updateuser" component={updateUsers} />
         <Route exact path="/changepass" component={ChangePassword} />
         <Route exact path="/changepassword" component={ChangePasswordForm} />
+        <Route exact path="/dropdown" component={Dropdowns} />
         <Route exact path="/" component={Dashboard1} />
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/add-request" component={AddRequest} />
@@ -171,6 +181,12 @@ const mainbuilder = (props) => {
               path="/view-request-type"
               component={RequestTypeList}
             />
+            <Route
+              exact
+              path="/view-employee-type"
+              component={EmployeeTypeList}
+            />
+            <Route exact path="/view-department" component={DepartmentList} />
             <Route exact path="/platform" component={PlatformList} />
             <Route exact path="/add-platform" component={AddPlatform} />
             <Route exact path="/service" component={ServiceList} />
@@ -183,6 +199,12 @@ const mainbuilder = (props) => {
             <Route exact path="/add-nature" component={AddNature} />
             <Route exact path="/add-leave-type" component={AddLeaveType} />
             <Route exact path="/add-request-type" component={AddRequestType} />
+            <Route
+              exact
+              path="/add-employee-type"
+              component={AddEmployeeType}
+            />
+            <Route exact path="/add-department" component={AddDepartment} />
             <Route exact path="/addcurrency" component={AddCurrency} />
             <Route exact path="/addstatus" component={AddStatus} />
             <Route exact path="/project-settings" component={ProjectSettings} />

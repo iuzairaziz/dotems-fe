@@ -77,13 +77,6 @@ const ProjectForm = (props) => {
     } else setPhaseValue(false);
   }, []);
 
-  // if (editable && project && project.phase && project.phase.length > 1) {
-  //   console.log("phase");
-  //   setPhaseValue(true);
-  // } else setPhaseValue(false);
-
-  // console.log("phase", phaseValue);
-
   useEffect(() => {
     console.log(tHours);
   }, [totalHours]);
@@ -253,22 +246,6 @@ const ProjectForm = (props) => {
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
   };
-
-  // const validate = () => (values, props) => {
-  //   const errors = {};
-
-  //   if (!values.props) {
-  //     errors.props = "Required";
-  //   } else if (values.props) {
-  //     errors.props = "Invalid email address";
-  //   }
-
-  //   //...
-
-  //   return errors;
-  // };
-
-  // console.log("validation", validate);
 
   var TeamMembers = [];
   var Technology = [];
@@ -455,6 +432,226 @@ const ProjectForm = (props) => {
     >
       {(props) => (
         <div className="project-form">
+          <div className="col-lg-12">
+            <div className="card m-b-20">
+              <div className="card-body">
+                <ul className="nav nav-pills" role="tablist">
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link active"
+                      data-toggle="tab"
+                      href="#home-1"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        {" "}
+                        <i class="mdi mdi-information pr-1" /> Quick Info{" "}
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-home-variant h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="#profile-1"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        {" "}
+                        <i class="mdi mdi-account-multiple" />
+                        Client Info
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-account h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="#messages-1"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        {" "}
+                        <i class="mdi mdi-cash-multiple" />
+                        Financial Info
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-email h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="#settings-1"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        <i class="mdi mdi-clipboard-text" />
+                        Planning and Assessment
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-settings h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="#project-status"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        {" "}
+                        <i class="mdi mdi-clock" />
+                        Project Status
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-settings h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="#attachments"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        <i class="mdi mdi-attachment" />
+                        Attachments{" "}
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-settings h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="#pac"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        <i class="mdi mdi-cash-usd" />
+                        Project Assessment Cost{" "}
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-settings h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="r&r"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        <i class="mdi mdi-cash-usd" />
+                        Review and Ratings{" "}
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-settings h5" />
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+
+                <div className="tab-content">
+                  <div
+                    className="tab-pane active p-3"
+                    id="home-1"
+                    role="tabpanel"
+                  >
+                    <p className="font-14 mb-0">
+                      Raw denim you probably haven't heard of them jean shorts
+                      Austin. Nesciunt tofu stumptown aliqua, retro synth master
+                      cleanse. Mustache cliche tempor, williamsburg carles vegan
+                      helvetica. Reprehenderit butcher retro keffiyeh
+                      dreamcatcher synth. Cosby sweater eu banh mi, qui irure
+                      terry richardson ex squid. Aliquip placeat salvia cillum
+                      iphone. Seitan aliquip quis cardigan american apparel,
+                      butcher voluptate nisi qui.
+                    </p>
+                  </div>
+                  <div className="tab-pane p-3" id="profile-1" role="tabpanel">
+                    <p className="font-14 mb-0">
+                      Food truck fixie locavore, accusamus mcsweeney's marfa
+                      nulla single-origin coffee squid. Exercitation +1 labore
+                      velit, blog sartorial PBR leggings next level wes anderson
+                      artisan four loko farm-to-table craft beer twee. Qui photo
+                      booth letterpress, commodo enim craft beer mlkshk aliquip
+                      jean shorts ullamco ad vinyl cillum PBR. Homo nostrud
+                      organic, assumenda labore aesthetic magna delectus mollit.
+                      Keytar helvetica VHS salvia yr, vero magna velit sapiente
+                      labore stumptown. Vegan fanny pack odio cillum wes
+                      anderson 8-bit.
+                    </p>
+                  </div>
+                  <div className="tab-pane p-3" id="messages-1" role="tabpanel">
+                    <p className="font-14 mb-0">
+                      Etsy mixtape wayfarers, ethical wes anderson tofu before
+                      they sold out mcsweeney's organic lomo retro fanny pack
+                      lo-fi farm-to-table readymade. Messenger bag gentrify
+                      pitchfork tattooed craft beer, iphone skateboard locavore
+                      carles etsy salvia banksy hoodie helvetica. DIY synth PBR
+                      banksy irony. Leggings gentrify squid 8-bit cred
+                      pitchfork. Williamsburg banh mi whatever gluten-free,
+                      carles pitchfork biodiesel fixie etsy retro mlkshk vice
+                      blog. Scenester cred you probably haven't heard of them,
+                      vinyl craft beer blog stumptown. Pitchfork sustainable
+                      tofu synth chambray yr.
+                    </p>
+                  </div>
+                  <div className="tab-pane p-3" id="settings-1" role="tabpanel">
+                    <p className="font-14 mb-0">
+                      Trust fund seitan letterpress, keytar raw denim keffiyeh
+                      etsy art party before they sold out master cleanse
+                      gluten-free squid scenester freegan cosby sweater. Fanny
+                      pack portland seitan DIY, art party locavore wolf cliche
+                      high life echo park Austin. Cred vinyl keffiyeh DIY salvia
+                      PBR, banh mi before they sold out farm-to-table VHS viral
+                      locavore cosby sweater. Lomo wolf viral, mustache
+                      readymade thundercats keffiyeh craft beer marfa ethical.
+                      Wolf salvia freegan, sartorial keffiyeh echo park vegan.
+                    </p>
+                  </div>
+                  <div
+                    className="tab-pane p-3"
+                    id="project-status"
+                    role="tabpanel"
+                  >
+                    <p className="font-14 mb-0">project status</p>
+                  </div>
+                  <div
+                    className="tab-pane p-3"
+                    id="attachments"
+                    role="tabpanel"
+                  >
+                    <p className="font-14 mb-0">attachments</p>
+                  </div>
+                  <div className="tab-pane p-3" id="pac" role="tabpanel">
+                    <p className="font-14 mb-0">pac</p>
+                  </div>
+                  <div className="tab-pane p-3" id="r&r" role="tabpanel">
+                    <p className="font-14 mb-0">r&r</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="row">
             <div className="col">
               <div className="form-group">
