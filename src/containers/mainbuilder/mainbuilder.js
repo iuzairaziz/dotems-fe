@@ -83,6 +83,9 @@ import ViewSingleProjectPayments from "../MainContent/ProjectPayments/ProjectPay
 import AttendanceList from "../MainContent/Attendance/ViewAttendance";
 import LeaveSettings from "../MainContent/Leaves/LeaveSettings/LeaveSettings";
 import TimesheetFormDaily from "../MainContent/Timesheet/TimesheetForm/TimesheetFormDaily";
+import AddRole from "../MainContent/Role/AddRole/AddRole";
+import RoleList from "../MainContent/Role/RoleList/RoleList";
+import AddPermission from "../MainContent/Permissions/AddPermissions/AddPermission";
 import AddClientLabel from "../MainContent/ClientLabel/AddClientLabel/AddClientLabel";
 import ClientLabelList from "../MainContent/ClientLabel/ClientLabelList/ClientLabelList";
 import Dropdowns from "../MainContent/UiElements/Ui_dropdowns";
@@ -145,6 +148,9 @@ const mainbuilder = (props) => {
           </RoleAuth>
           {/* Only Admin Roles  */}
           <RoleAuth roles={[ADMIN]}>
+            <Route exact path="/role/add" component={AddRole} />
+            <Route exact path="/role" component={RoleList} />
+            <Route exact path="/permissions" component={AddPermission} />
             <Route exact path="/admin-dashboard" component={AdminDashboard} />
             <Route
               exact

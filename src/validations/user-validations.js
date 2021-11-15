@@ -22,6 +22,9 @@ class UserValidation {
       workingHrs: Yup.number(),
       machineNo: Yup.object(),
       designation: Yup.object(),
+      employeeType: Yup.object(),
+      employeeManager: Yup.object(),
+      department: Yup.object(),
       workingDays: Yup.number(),
       userRole: Yup.array()
         .min(1, "Pick At Least One Technology")

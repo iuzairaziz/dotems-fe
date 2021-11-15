@@ -118,6 +118,15 @@ class ShortValidations {
     });
   };
 
+  RoleValidation = () => {
+    return Yup.object({
+      title: Yup.string()
+        .required("Required!")
+        .min(2)
+        .max(20),
+    });
+  };
+
   handleError(error) {
     console.log(error.message);
   }
