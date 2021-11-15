@@ -1,8 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import AUX from "../../../hoc/Aux_";
-import { Link } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
-import clientValidation from "../../../validations/client-validations";
 import ClientsForm from "../Client/ClientsForm";
 import ClientService from "../../../services/ClientService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
@@ -111,31 +109,44 @@ const ViewClients = (props) => {
               : "N/A",
             country: item.country ? item.country : "N/A",
             action: (
-              <div className="row flex-nowrap align-items-center">
-                <i
-                  className="mdi mdi-eye
-                  iconsS my-primary-icon"
-                  onClick={() => {
-                    props.history.push({
-                      pathname: "/client-details/" + item._id,
-                    });
-                  }}
-                />
-                <i
-                  className="mdi mdi-pencil-box
-                  iconsS my-seconday-icon"
-                  onClick={() => {
-                    setSelectedClient(item);
-                    toggleEdit();
-                  }}
-                />
-                <i
-                  className="mdi mdi-delete-forever iconsS my-danger-icon"
-                  onClick={() => {
-                    setSelectedClient(item);
-                    toggleDelete();
-                  }}
-                />
+              <div class="dropdown">
+                <button
+                  type="button"
+                  class="dropdown-toggle"
+                  data-toggle="dropdown"
+                >
+                  <i class="mdi mdi-view-list" size={40} />
+                </button>
+                <div class="dropdown-menu">
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      props.history.push({
+                        pathname: "/client-details/" + item._id,
+                      });
+                    }}
+                  >
+                    View
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedClient(item);
+                      toggleEdit();
+                    }}
+                  >
+                    Edit
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedClient(item);
+                      toggleDelete();
+                    }}
+                  >
+                    Delete
+                  </a>
+                </div>
               </div>
             ),
           });
@@ -153,51 +164,21 @@ const ViewClients = (props) => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <div className="row align-items-center mb-3">
-                    <div className="col">
-                      <h3 className="m-0 p-0">All Clients</h3>
-                    </div>
-                    <div className="col">
-                      <Link to="/addclient">
-                        <Button
-                          color="success"
-                          className="my-primary-button float-right"
-                        >
-                          Add Client
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-
-                  <MDBDataTableV5
-                    responsive
-                    striped
-                    small
-                    onPageChange={(val) => console.log(val)}
-                    bordered={true}
-                    //  materialSearch
-                    searchTop
-                    searchBottom={false}
-                    pagingTop
-                    barReverse
-                    hover
-                    // // scrollX
-                    // fixedHeader={true}
-                    // responsive
-                    // striped
-                    // bordered
-                    // searchTop
-                    // hover
-                    // autoWidth
-                    data={dataa}
-                    theadColor="#000"
-                  />
-                </div>
-              </div>
+              <MDBDataTableV5
+                responsive
+                striped
+                small
+                onPageChange={(val) => console.log(val)}
+                bordered={true}
+                searchTop
+                searchBottom={false}
+                pagingTop
+                barReverse
+                hover
+                data={dataa}
+                theadColor="#000"
+              />
             </div>
-
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>
                 <ModalHeader toggle={toggleEdit}>Edit Client</ModalHeader>

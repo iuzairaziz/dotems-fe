@@ -86,6 +86,7 @@ import TimesheetFormDaily from "../MainContent/Timesheet/TimesheetForm/Timesheet
 import AddClientLabel from "../MainContent/ClientLabel/AddClientLabel/AddClientLabel";
 import ClientLabelList from "../MainContent/ClientLabel/ClientLabelList/ClientLabelList";
 import Dropdowns from "../MainContent/UiElements/Ui_dropdowns";
+import form_advanced from "../MainContent/Forms/Form_advanced"
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
 // import formWizard from "../MainContent/Forms/Form_wizard"
@@ -100,6 +101,7 @@ const mainbuilder = (props) => {
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/add-clientlabel" component={AddClientLabel} />
+        <Route exact path="/advanced" component={form_advanced} />
         <Route exact path="/view-clientlabel" component={ClientLabelList} />
         <Route exact path="/leave-details" component={LeaveDetails} />
         <Route exact path="/single-detail/:id" component={SingleDetail} />
