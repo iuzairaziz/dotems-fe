@@ -17,11 +17,6 @@ class AddProjects extends Component {
           <div className="col-lg-12">
             <div className="card m-b-20">
               <div className="card-body">
-                {/* <h4 className="mt-0 header-title">Custom Tabs Justified</h4>
-                    <p className="text-muted m-b-30 font-14">
-                      Example of custom tabs
-                    </p> */}
-
                 <ul className="nav nav-tabs nav-tabs-custom" role="tablist">
                   <li className="nav-item">
                     <a
@@ -30,7 +25,7 @@ class AddProjects extends Component {
                       href="#home2"
                       role="tab"
                     >
-                      <span className="d-none d-md-block">Add User</span>
+                      <span className="d-none d-md-block"> + Add User</span>
                       <span className="d-block d-md-none">
                         <i className="mdi mdi-home-variant h5" />
                       </span>

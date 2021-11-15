@@ -83,6 +83,12 @@ import ViewSingleProjectPayments from "../MainContent/ProjectPayments/ProjectPay
 import AttendanceList from "../MainContent/Attendance/ViewAttendance";
 import LeaveSettings from "../MainContent/Leaves/LeaveSettings/LeaveSettings";
 import TimesheetFormDaily from "../MainContent/Timesheet/TimesheetForm/TimesheetFormDaily";
+import AddRole from "../MainContent/Role/AddRole/AddRole";
+import RoleList from "../MainContent/Role/RoleList/RoleList";
+import AddPermission from "../MainContent/Permissions/AddPermissions/AddPermission";
+import AddClientLabel from "../MainContent/ClientLabel/AddClientLabel/AddClientLabel";
+import ClientLabelList from "../MainContent/ClientLabel/ClientLabelList/ClientLabelList";
+import Dropdowns from "../MainContent/UiElements/Ui_dropdowns";
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
 // import formWizard from "../MainContent/Forms/Form_wizard"
@@ -96,6 +102,8 @@ const mainbuilder = (props) => {
     <>
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/add-clientlabel" component={AddClientLabel} />
+        <Route exact path="/view-clientlabel" component={ClientLabelList} />
         <Route exact path="/leave-details" component={LeaveDetails} />
         <Route exact path="/single-detail/:id" component={SingleDetail} />
         <Route exact path="/my-projects" component={MyProjects} />
@@ -108,6 +116,7 @@ const mainbuilder = (props) => {
         <Route exact path="/updateuser" component={updateUsers} />
         <Route exact path="/changepass" component={ChangePassword} />
         <Route exact path="/changepassword" component={ChangePasswordForm} />
+        <Route exact path="/dropdown" component={Dropdowns} />
         <Route exact path="/" component={Dashboard1} />
         <RoleAuth roles={ALL_ROLES}>
           <Route exact path="/add-request" component={AddRequest} />
@@ -137,6 +146,9 @@ const mainbuilder = (props) => {
           </RoleAuth>
           {/* Only Admin Roles  */}
           <RoleAuth roles={[ADMIN]}>
+            <Route exact path="/role/add" component={AddRole} />
+            <Route exact path="/role" component={RoleList} />
+            <Route exact path="/permissions" component={AddPermission} />
             <Route exact path="/admin-dashboard" component={AdminDashboard} />
             <Route
               exact

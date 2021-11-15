@@ -225,16 +225,7 @@ const UserForm = (props) => {
             <div className="col-lg-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  {/* <h4 className="mt-0 header-title">Justify Tabs</h4>
-                    <p className="text-muted m-b-30 font-14">
-                      Use the tab JavaScript plugin—include it individually or
-                      through the compiled{" "}
-                      <code className="highlighter-rouge">bootstrap.js</code>
-                      file—to extend our navigational tabs and pills to create
-                      tabbable panes of local content, even via dropdown menus.
-                    </p> */}
-
-                  <ul className="nav nav-pills " role="tablist">
+                  <ul className="nav nav-pills" role="tablist">
                     <li className="nav-item waves-effect waves-light">
                       <a
                         className="nav-link active"
@@ -242,7 +233,11 @@ const UserForm = (props) => {
                         href="#home-1"
                         role="tab"
                       >
-                        <span className="d-none d-md-block">Quick Info</span>
+                        <span className="d-none d-md-block">
+                          {" "}
+                          <i class="mdi mdi-information pr-1" />
+                          Quick Info
+                        </span>
                         <span className="d-block d-md-none">
                           <i className="mdi mdi-home-variant h5" />
                         </span>
@@ -255,7 +250,10 @@ const UserForm = (props) => {
                         href="#profile-1"
                         role="tab"
                       >
-                        <span className="d-none d-md-block">Offical Info</span>
+                        <span className="d-none d-md-block">
+                          <i class="mdi mdi-information-outline pr-1" /> Offical
+                          Info
+                        </span>
                         <span className="d-block d-md-none">
                           <i className="mdi mdi-account h5" />
                         </span>
@@ -268,7 +266,10 @@ const UserForm = (props) => {
                         href="#messages-1"
                         role="tab"
                       >
-                        <span className="d-none d-md-block">Personal Info</span>
+                        <span className="d-none d-md-block">
+                          <i class="mdi mdi-account-box pr-1" />
+                          Personal Info
+                        </span>
                         <span className="d-block d-md-none">
                           <i className="mdi mdi-email h5" />
                         </span>
@@ -281,7 +282,10 @@ const UserForm = (props) => {
                         href="#settings-1"
                         role="tab"
                       >
-                        <span className="d-none d-md-block">Bank Details</span>
+                        <span className="d-none d-md-block">
+                          <i class="mdi mdi-bank pr-1" />
+                          Bank Details
+                        </span>
                         <span className="d-block d-md-none">
                           <i className="mdi mdi-settings h5" />
                         </span>
@@ -295,6 +299,7 @@ const UserForm = (props) => {
                         role="tab"
                       >
                         <span className="d-none d-md-block">
+                          <i class="mdi mdi-calendar-multiple pr-1" />
                           Dates and Others
                         </span>
                         <span className="d-block d-md-none">
@@ -693,7 +698,7 @@ const UserForm = (props) => {
                                     toggleMachineEdit();
                                   }}
                                 >
-                                  <i className="mdi mdi-plus-circle icon-add" />
+                                  <i className="mdi mdi-plus icon-add" />
                                 </div>
                               </div>
                             </div>

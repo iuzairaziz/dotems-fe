@@ -3,7 +3,7 @@ import AUX from "../../../../hoc/Aux_";
 import TechnologyService from "../../../../services/TechnologyService";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { MDBDataTableV5, MDBBtn } from "mdbreact";
+import { MDBDataTableV5 } from "mdbreact";
 import UserService from "../../../../services/UserService";
 import UserForm from "../AddUserForm/AddUserForm";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
@@ -99,6 +99,7 @@ const ViewUsers = (props) => {
     ],
     rows: [],
   });
+
   useEffect(() => {
     getData();
   }, [
@@ -109,6 +110,7 @@ const ViewUsers = (props) => {
     minimumSalary,
     maximumSalary,
   ]);
+
   useEffect(() => {
     getTechnology();
   }, []);
@@ -193,31 +195,47 @@ const ViewUsers = (props) => {
                 })
               : "none",
             action: (
-              <div className="row flex-nowrap align-items-center">
-                <i
-                  className="mdi mdi-eye
-                  iconsS my-primary-icon"
-                  onClick={() => {
-                    props.history.push({
-                      pathname: "/userdetails/" + item._id,
-                    });
-                  }}
-                />
-                <i
-                  className="mdi mdi-pencil-box
-                  iconsS my-seconday-icon"
-                  onClick={() => {
-                    setSelectedUser(item);
-                    toggleEdit();
-                  }}
-                />
-                <i
-                  className="mdi mdi-delete-forever iconsS my-danger-icon"
-                  onClick={() => {
-                    setSelectedUser(item);
-                    toggleDelete();
-                  }}
-                />
+              <div class="dropdown">
+                <button
+                  type="button"
+                  class="dropdown-toggle"
+                  data-toggle="dropdown"
+                >
+                  <i class="mdi mdi-view-list" size={40} />
+                </button>
+                <div class="dropdown-menu">
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      props.history.push({
+                        pathname: "/userdetails/" + item._id,
+                      });
+                    }}
+                    // href="#"
+                  >
+                    View
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedUser(item);
+                      toggleEdit();
+                    }}
+                    // href="#"
+                  >
+                    Edit
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedUser(item);
+                      toggleDelete();
+                    }}
+                    // href="#"
+                  >
+                    Delete
+                  </a>
+                </div>
               </div>
             ),
           });
@@ -342,7 +360,6 @@ const ViewUsers = (props) => {
                 </div>
               </div>
             </div>
-
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>
                 <ModalHeader toggle={toggleEdit}>Edit User</ModalHeader>

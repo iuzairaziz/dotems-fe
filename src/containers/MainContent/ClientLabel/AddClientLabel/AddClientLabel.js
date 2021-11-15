@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import AUX from "../../../../hoc/Aux_";
-import PlatformForm from "../PlatformForm/PlatformForm";
-import PlatformList from "../PlatformList/PlatformList";
+import ClientLabelForm from "../ClientLabelForm/ClientLabelForm";
+import ClientLabelList from "../ClientLabelList/ClientLabelList.js";
 
-const AddPlatform = () => {
+const AddCountry = () => {
   return (
     <AUX>
       <div className="col-lg-12">
@@ -17,7 +17,7 @@ const AddPlatform = () => {
                   href="#home1"
                   role="tab"
                 >
-                  <span className="d-none d-md-block">Add Platform</span>
+                  <span className="d-none d-md-block">Add Client Label</span>
                   <span className="d-block d-md-none">
                     <i className="mdi mdi-home-variant h5" />
                   </span>
@@ -30,7 +30,7 @@ const AddPlatform = () => {
                   href="#profile1"
                   role="tab"
                 >
-                  <span className="d-none d-md-block">View Platform</span>
+                  <span className="d-none d-md-block">View Client Label</span>
                   <span className="d-block d-md-none">
                     <i className="mdi mdi-account h5" />
                   </span>
@@ -42,12 +42,12 @@ const AddPlatform = () => {
               <div className="tab-pane active p-3" id="home1" role="tabpanel">
                 <div className="page-content-wrapper">
                   <div className="container-fluid">
-                    <PlatformForm redirect />
+                    <ClientLabelForm />
                   </div>
                 </div>
               </div>
               <div className="tab-pane p-3" id="profile1" role="tabpanel">
-                <PlatformList />
+                <ClientLabelList />
               </div>
             </div>
           </div>
@@ -57,4 +57,4 @@ const AddPlatform = () => {
   );
 };
 
-export default AddPlatform;
+export default AddCountry;

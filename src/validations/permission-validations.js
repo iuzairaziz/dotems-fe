@@ -7,22 +7,25 @@ class ClientValidation {
         .required("Required!")
         .min(2)
         .max(50),
-      compName: Yup.string().max(
-        100,
-        "company name must be less than 100 character"
-      ),
+      compName: Yup.string()
+        .required()
+        .max(100, "company name must be less than 100 character"),
       email: Yup.string()
-        .max(100)
+        .required()
+        .max(100, "Email Required")
         .email(),
-      adrs: Yup.string().max(1000, "Required"),
-      conNum: Yup.string().max(100, "Required"),
+      adrs: Yup.string()
+        .required()
+        .max(1000, "Required"),
+      conNum: Yup.string()
+        .required()
+        .max(100, "Required"),
       // otherContact: Yup.string().max(100, ""),
       ul: Yup.string()
         .max(1000, "")
         .url(),
-      country: Yup.string().required(),
-      platform: Yup.object().required(),
-      dateOfJoin: Yup.date().required("Required!"),
+      country: Yup.string(),
+      // dateOfJoin: Yup.date().required("Required!"),
     });
   };
 

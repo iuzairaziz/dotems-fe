@@ -2,42 +2,42 @@ import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
 import shortValidations from "../../../../validations/short-validations";
-import PlatformService from "../../../../services/PlatformService";
+import RoleService from "../../../../services/RoleService";
 import { useHistory } from "react-router-dom";
 
-const PlatformForm = (props) => {
+const RoleForm = (props) => {
   const history = useHistory();
 
   return (
     <Formik
       initialValues={{
-        title: props.editable && props.platform.name,
+        title: props.editable && props.role.name,
       }}
-      validationSchema={shortValidations.platformValidation}
+      validationSchema={shortValidations.RoleValidation}
       onSubmit={(values, actions) => {
         props.editable
-          ? PlatformService.updatePlatform(props.platform._id, {
+          ? RoleService.updateRole(props.role._id, {
               name: values.title,
             })
               .then((res) => {
                 props.toggle();
-                PlatformService.handleMessage("update");
+                RoleService.handleMessage("update");
               })
               .catch((err) => {
                 props.toggle();
-                PlatformService.handleCustomMessage(err.response.data);
+                RoleService.handleCustomMessage(err.response.data);
               })
-          : PlatformService.addPlatform({ name: values.title })
+          : RoleService.addRole({ name: values.title })
               .then((res) => {
                 props.toggle && props.toggle();
-                PlatformService.handleMessage("add");
+                RoleService.handleMessage("add");
                 if (props.redirect) {
-                  // history.push("/platform");
+                  history.push("/role");
                   actions.setFieldValue("title", "");
                 }
               })
               .catch((err) => {
-                PlatformService.handleCustomMessage(err.response.data);
+                RoleService.handleCustomMessage(err.response.data);
               });
       }}
     >
@@ -82,4 +82,4 @@ const PlatformForm = (props) => {
   );
 };
 
-export default PlatformForm;
+export default RoleForm;
