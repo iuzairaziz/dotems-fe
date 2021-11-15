@@ -78,7 +78,10 @@ import ViewProjectPayments from "../MainContent/ProjectPayments/ViewProjectPayme
 import ViewSingleProjectPayments from "../MainContent/ProjectPayments/ProjectPaymentDetails/ProjectPaymentDetails";
 import AttendanceList from "../MainContent/Attendance/ViewAttendance";
 import LeaveSettings from "../MainContent/Leaves/LeaveSettings/LeaveSettings";
-import TimesheetFormDaily from "../MainContent/Timesheet/TimesheetForm/TimesheetFormDaily"
+import TimesheetFormDaily from "../MainContent/Timesheet/TimesheetForm/TimesheetFormDaily";
+import AddRole from "../MainContent/Role/AddRole/AddRole";
+import RoleList from "../MainContent/Role/RoleList/RoleList";
+import AddPermission from "../MainContent/Permissions/AddPermissions/AddPermission";
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
 // import formWizard from "../MainContent/Forms/Form_wizard"
@@ -133,6 +136,9 @@ const mainbuilder = (props) => {
           </RoleAuth>
           {/* Only Admin Roles  */}
           <RoleAuth roles={[ADMIN]}>
+            <Route exact path="/role/add" component={AddRole} />
+            <Route exact path="/role" component={RoleList} />
+            <Route exact path="/permissions" component={AddPermission} />
             <Route exact path="/admin-dashboard" component={AdminDashboard} />
             <Route
               exact
