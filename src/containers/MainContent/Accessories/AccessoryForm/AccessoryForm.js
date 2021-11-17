@@ -12,6 +12,7 @@ const AccessoryForm = (props) => {
     <Formik
       initialValues={{
         title: props.editable && props.accessory.name,
+        quantity: props.editable && props.accessory.quantity,
       }}
       validationSchema={shortValidations.accessoryValidation}
       onSubmit={(values, actions) => {
@@ -58,6 +59,25 @@ const AccessoryForm = (props) => {
                     value={props.values.title}
                     onChange={props.handleChange("title")}
                     placeholder="Enter Name"
+                  />
+                  <span id="err" className="invalid-feedback">
+                    {props.errors.title}
+                  </span>
+                </div>
+              </div>
+              <div className="col">
+                <div className="form-group">
+                  <label>Quantity</label>
+                  <input
+                    type="number"
+                    className={`form-control ${
+                      props.touched.title && props.errors.title
+                        ? "is-invalid"
+                        : props.touched.title && "is-valid"
+                    }`}
+                    value={props.values.title}
+                    onChange={props.handleChange("title")}
+                    placeholder="Enter Quantity"
                   />
                   <span id="err" className="invalid-feedback">
                     {props.errors.title}
