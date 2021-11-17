@@ -21,6 +21,7 @@ const pages = {
   service: "service",
 };
 const checked = false;
+const disabled = false;
 const concat = (array) => {
   return array.join("_");
 };
@@ -42,24 +43,38 @@ export const permissions = [
             value: LIST,
             label: LIST,
             checked,
+            disabled,
             subPermissions: [
-              { value: concat([LIST, ALL]), label: ALL, checked: checked },
-              { value: concat([LIST, MY]), label: MY, checked: checked },
+              {
+                value: concat([LIST, ALL]),
+                label: ALL,
+                checked: checked,
+                disabled,
+              },
+              {
+                value: concat([LIST, MY]),
+                label: MY,
+                checked: checked,
+                disabled,
+              },
               {
                 value: concat([LIST, MY_PROJECTS]),
                 label: getLabel(MY_PROJECTS),
                 checked: checked,
+                disabled,
               },
               {
                 value: concat([LIST, MY_TEAMS]),
                 label: getLabel(MY_TEAMS),
                 checked: checked,
+                disabled,
               },
 
               {
                 value: concat([LIST, MY_SUBORDINATES]),
                 label: getLabel(MY_SUBORDINATES),
                 checked: checked,
+                disabled,
               },
             ],
           },
@@ -67,22 +82,26 @@ export const permissions = [
             value: ADD,
             label: ADD,
             checked: checked,
+            disabled,
           },
           {
             value: EDIT,
             label: EDIT,
             checked: checked,
+            disabled,
             subPermissions: [
               {
                 value: concat([LIST, MY_TEAMS]),
                 label: getLabel(MY_TEAMS),
                 checked: checked,
+                disabled,
               },
 
               {
                 value: concat([LIST, MY_SUBORDINATES]),
                 label: getLabel(MY_SUBORDINATES),
                 checked: checked,
+                disabled,
               },
             ],
           },
@@ -90,6 +109,7 @@ export const permissions = [
             value: DELETE,
             label: DELETE,
             checked: checked,
+            disabled,
           },
         ],
       },
@@ -100,21 +120,25 @@ export const permissions = [
             value: LIST,
             label: LIST,
             checked,
+            disabled,
           },
           {
             value: ADD,
             label: ADD,
             checked,
+            disabled,
           },
           {
             value: EDIT,
             label: EDIT,
             checked,
+            disabled,
           },
           {
             value: DELETE,
             label: DELETE,
             checked,
+            disabled,
           },
         ],
       },
@@ -125,21 +149,25 @@ export const permissions = [
             value: LIST,
             label: LIST,
             checked,
+            disabled,
           },
           {
             value: ADD,
             label: ADD,
             checked,
+            disabled,
           },
           {
             value: EDIT,
             label: EDIT,
             checked,
+            disabled,
           },
           {
             value: DELETE,
             label: DELETE,
             checked,
+            disabled,
           },
         ],
       },
@@ -155,21 +183,25 @@ export const permissions = [
             value: LIST,
             label: LIST,
             checked,
+            disabled,
           },
           {
             value: ADD,
             label: ADD,
             checked,
+            disabled,
           },
           {
             value: EDIT,
             label: EDIT,
             checked,
+            disabled,
           },
           {
             value: DELETE,
             label: DELETE,
             checked,
+            disabled,
           },
         ],
       },
@@ -185,21 +217,25 @@ export const permissions = [
             value: LIST,
             label: LIST,
             checked,
+            disabled,
           },
           {
             value: ADD,
             label: ADD,
             checked,
+            disabled,
           },
           {
             value: EDIT,
             label: EDIT,
             checked,
+            disabled,
           },
           {
             value: DELETE,
             label: DELETE,
             checked,
+            disabled,
           },
         ],
       },
