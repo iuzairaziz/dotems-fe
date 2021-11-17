@@ -12,12 +12,14 @@ const ClientLabelForm = (props) => {
     <Formik
       initialValues={{
         title: props.editable && props.country.name,
+        color: props.editable && props.color,
       }}
       validationSchema={shortValidations.clientLabelValidation}
       onSubmit={(values, actions) => {
         props.editable
           ? ClientLabelService.updateClientLabel(props.country._id, {
               name: values.title,
+              color: values.color,
             })
               .then((res) => {
                 props.toggle();
@@ -27,7 +29,10 @@ const ClientLabelForm = (props) => {
                 props.toggle();
                 ClientLabelService.handleCustomMessage(err.response.data);
               })
-          : ClientLabelService.addClientLabel({ name: values.title })
+          : ClientLabelService.addClientLabel({
+              name: values.title,
+              color: values.color,
+            })
               .then((res) => {
                 ClientLabelService.handleMessage("add");
                 // history.push("/view-clientlabel");
@@ -60,6 +65,27 @@ const ClientLabelForm = (props) => {
                     {props.touched.title && props.errors.title}
                   </span>
                 </div>
+              </div>
+            </div>
+            <div className="form-group row">
+              <label for="example-color-input" className="col-2 col-form-label">
+                Color
+              </label>
+              <div className="col-12">
+                <input
+                  className={`form-control ${
+                    props.touched.color && props.errors.color
+                      ? "is-invalid"
+                      : props.touched.color && "is-valid"
+                  }`}
+                  value={props.values.color}
+                  onChange={props.handleChange("color")}
+                  type="color"
+                  // id="example-color-input"
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.color && props.errors.color}
+                </span>
               </div>
             </div>
             <div className="row">

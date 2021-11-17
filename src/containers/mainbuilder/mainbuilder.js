@@ -96,6 +96,7 @@ import AddNewMachine from "../MainContent/Machine/AddMachine/AddNewMachine";
 import AddNewAccessories from "../MainContent/Accessories/AddAccessories/AddNewAccessories";
 import Tasks from "../MainContent/Tasks/Tasks";
 import Requests from "../MainContent/Request/Requests";
+import form_advanced from "../MainContent/Forms/Form_advanced";
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
 // import formWizard from "../MainContent/Forms/Form_wizard"
@@ -125,6 +126,7 @@ const mainbuilder = (props) => {
         <Route exact path="/view-leave-faraz" component={AddNewLeave} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/add-clientlabel" component={AddClientLabel} />
+        <Route exact path="/advanced" component={form_advanced} />
         <Route exact path="/view-clientlabel" component={ClientLabelList} />
         <Route exact path="/leave-details" component={LeaveDetails} />
         <Route exact path="/single-detail/:id" component={SingleDetail} />

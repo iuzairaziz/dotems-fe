@@ -12,12 +12,11 @@ import AddPlatform from "../Platform/PlatformForm/PlatformForm";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import ClientLabelService from "../../../services/ClientLabelService";
 import AddClientLabel from "../ClientLabel/ClientLabelForm/ClientLabelForm";
-import "./ClientForm.scss";
 
 const ClientsForm = (props) => {
   const [default_date, set_default_date] = useState(0);
   const [dataa, setData] = useState();
-  const [country, setCountry] = useState("");
+  // const [country, setCountry] = useState("");
   const [platform, setPlatform] = useState([]);
   const [clientLabel, setClientLabel] = useState([]);
   const [platformModal, setPlatformModal] = useState(false);
@@ -83,7 +82,11 @@ const ClientsForm = (props) => {
         otherContact: editable && client.otherContact,
         ul: editable && client.url,
         dateOfJoin: editable && client.dateOfJoin,
-        country: editable && client.country,
+        country: editable &&
+          client.country && {
+            label: client.country,
+            value: client.country,
+          },
         socialContact: editable && client.socialContact,
         platform: editable
           ? client.platform && {
@@ -108,9 +111,8 @@ const ClientsForm = (props) => {
           ? client.status && { label: client.status, value: client.status }
           : { label: "Individual", value: "Individual" },
       }}
-      // validationSchema={clientValidation.authSchemaValidation}
+      validationSchema={clientValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
-        console.log("countries", values.country);
         editable
           ? ClientService.updateClient(client._id, {
               name: values.title,
@@ -122,7 +124,7 @@ const ClientsForm = (props) => {
               otherContact: values.otherContact,
               dateOfJoin: values.dateOfJoin,
               url: values.ul,
-              country: country,
+              country: values.country.value,
               platform: values.platform.value,
               clientLabel: values.clientLabel.value,
               status: values.status.value,
@@ -145,7 +147,7 @@ const ClientsForm = (props) => {
               mobileNo: values.conNum,
               dateOfJoin: values.dateOfJoin,
               url: values.ul,
-              country: country,
+              country: values.country.value,
               platform: values.platform.value,
               otherContact: values.otherContact,
               status: values.status.value,
@@ -167,9 +169,8 @@ const ClientsForm = (props) => {
     >
       {(props) => (
         <>
+          {console.log("err", props)}
           <div className="col-lg-12 client-form">
-            {/* <div className="card m-b-20"> */}
-            {/* <div className="card-body"> */}
             <ul className="nav nav-pills" role="tablist">
               <li className="nav-item">
                 <a
@@ -184,7 +185,7 @@ const ClientsForm = (props) => {
                     Quick Info
                   </span>
                   <span className="d-block d-md-none">
-                    <i className="mdi mdi-home-variant h5" />
+                    <i className="mdi mdi-information h5" />
                   </span>
                 </a>
               </li>
@@ -200,23 +201,7 @@ const ClientsForm = (props) => {
                     Other Info
                   </span>
                   <span className="d-block d-md-none">
-                    <i className="mdi mdi-account h5" />
-                  </span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  data-toggle="tab"
-                  href="#settings"
-                  role="tab"
-                >
-                  <span className="d-none d-md-block">
-                    <i class="mdi mdi-settings pr-1" />
-                    Settings
-                  </span>
-                  <span className="d-block d-md-none">
-                    <i className="mdi mdi-settings h5" />
+                    <i className="mdi mdi-information-outline h5" />
                   </span>
                 </a>
               </li>
@@ -283,7 +268,10 @@ const ClientsForm = (props) => {
                         name="country"
                         class="form-control"
                         defaultValue={props.values.country}
-                        onChange={(e) => setCountry(e.target.value)}
+                        onChange={(selected) => {
+                          props.setFieldValue("country", selected);
+                        }}
+                        // onChange={(e) => setCountry(e.target.value)}
                       >
                         <option value="Afghanistan">Afghanistan</option>
                         <option value="Åland Islands">Åland Islands</option>
@@ -922,24 +910,7 @@ const ClientsForm = (props) => {
                   </div>
                 </div>
               </div>
-              <div className="tab-pane p-3" id="settings" role="tabpanel">
-                <div className="row cardd">
-                  <i class="mdi mdi-account-multiple iconSize" />
-                  <i class="mdi mdi-settings iconSize" />
-                </div>
-                <div className="row border-b">
-                  <h2>Client Settings</h2>
-                </div>
-                <div className="row cardd">
-                  <Link to="/add-platform">Platform</Link>
-                </div>
-                <div className="row cardd">
-                  <Link to="/add-platform">Client Label</Link>
-                </div>
-              </div>
             </div>
-            {/* </div>
-            </div> */}
           </div>
           <Modal
             style={{ maxWidth: "70%" }}
