@@ -29,6 +29,7 @@ import StatusService from "../../../services/StatusService";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import "./ProjectForm.scss";
 import { useHistory } from "react-router-dom";
+import OutSourceList from "../../../../src/components/MyComponents/DynamicInputField/OutSourceList";
 
 const ProjectForm = (props) => {
   const [default_option, set_default_option] = useState(0);
@@ -54,12 +55,23 @@ const ProjectForm = (props) => {
   const [hideField, setHideField] = useState(true);
   const [costValue, setCostValue] = useState(false);
   const [phaseValue, setPhaseValue] = useState(true);
+  const [outSourceValue, setOutSourceValue] = useState(true);
+  const [outSourceHideField, setOutSourceHideField] = useState(false);
 
   const [phasesDetails, setPhasesDetails] = useState([
     {
       index: Math.random(),
       phasename: "",
       estHrs: "",
+    },
+  ]);
+
+  const [outSourceDetails, setOutSourceDetails] = useState([
+    {
+      index: Math.random(),
+      phasename: "",
+      outSourceName: "",
+      outSourceCost: "",
     },
   ]);
 
@@ -75,6 +87,22 @@ const ProjectForm = (props) => {
       // console.log("phase");
       setPhaseValue(true);
     } else setPhaseValue(false);
+  }, []);
+
+  useEffect(() => {
+    editable &&
+      project &&
+      project.outSource &&
+      setOutSourceDetails(project.outSource);
+    if (
+      editable &&
+      project &&
+      project.outSource &&
+      project.outSource.length > 1
+    ) {
+      // console.log("phase");
+      setOutSourceValue(true);
+    } else setOutSourceValue(false);
   }, []);
 
   useEffect(() => {
@@ -847,7 +875,7 @@ const ProjectForm = (props) => {
                   </div>
                   <div className="tab-pane p-3" id="profile-1" role="tabpanel">
                     <div className="row">
-                      <div className="col-md-4">
+                      <div className="col-md-6">
                         <div className="form-group">
                           <div className="row">
                             <div className="col">
@@ -886,6 +914,33 @@ const ProjectForm = (props) => {
                           <span id="err" className="invalid-feedback">
                             {props.touched.clientName &&
                               props.errors.clientName}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">Client Type</label>
+                          <Select
+                            name="clientType"
+                            onBlur={props.handleBlur}
+                            value={props.values.clientType}
+                            className={`my-select${
+                              props.touched.clientType &&
+                              props.errors.clientType
+                                ? "is-invalid"
+                                : props.touched.clientType && "is-valid"
+                            }`}
+                            onChange={(selected) => {
+                              props.setFieldValue("clientType", selected);
+                            }}
+                            options={[
+                              { value: "First Time", label: "First Time" },
+                              { value: "Returning", label: "Returning" },
+                            ]}
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.clientType &&
+                              props.errors.clientType}
                           </span>
                         </div>
                       </div>
@@ -947,19 +1002,6 @@ const ProjectForm = (props) => {
                         </div>
                       </div>
                     </div>
-
-                    {/* <p className="font-14 mb-0">
-                      Food truck fixie locavore, accusamus mcsweeney's marfa
-                      nulla single-origin coffee squid. Exercitation +1 labore
-                      velit, blog sartorial PBR leggings next level wes anderson
-                      artisan four loko farm-to-table craft beer twee. Qui photo
-                      booth letterpress, commodo enim craft beer mlkshk aliquip
-                      jean shorts ullamco ad vinyl cillum PBR. Homo nostrud
-                      organic, assumenda labore aesthetic magna delectus mollit.
-                      Keytar helvetica VHS salvia yr, vero magna velit sapiente
-                      labore stumptown. Vegan fanny pack odio cillum wes
-                      anderson 8-bit.
-                    </p> */}
                   </div>
                   <div className="tab-pane p-3" id="messages-1" role="tabpanel">
                     <div className="row">
@@ -992,6 +1034,35 @@ const ProjectForm = (props) => {
                           <span id="err" className="invalid-feedback">
                             {props.touched.projectType &&
                               props.errors.projectType}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="form-group">
+                          <div className="row">
+                            <div className="col">
+                              <label className="control-label">Currency</label>
+                            </div>
+                          </div>
+                          <Select
+                            name="currency"
+                            onFocus={() => props.setFieldTouched("currency")}
+                            className={`my-select ${
+                              props.touched.currency && props.errors.currency
+                                ? "is-invalid"
+                                : props.touched.currency && "is-valid"
+                            }`}
+                            value={props.values.currency}
+                            onChange={(val) =>
+                              props.setFieldValue("currency", val)
+                            }
+                            options={[
+                              { value: "USD", label: "USD" },
+                              { value: "PKR", label: "PKR" },
+                            ]}
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.currency && props.errors.currency}
                           </span>
                         </div>
                       </div>
@@ -1076,46 +1147,6 @@ const ProjectForm = (props) => {
                           </span>
                         </div>
                       </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col">
-                              <label className="control-label">Currency</label>
-                            </div>
-                            {/* <div className="col">
-                    <div
-                      className="d-flex justify-content-end"
-                      id="add-new-Buttonm "
-                      onClick={() => {
-                        toggleCurrencyEdit();
-                      }}
-                    >
-                      <i className="mdi mdi-plus-circle icon-add" />
-                    </div>
-                  </div> */}
-                          </div>
-                          <Select
-                            name="currency"
-                            onFocus={() => props.setFieldTouched("currency")}
-                            className={`my-select ${
-                              props.touched.currency && props.errors.currency
-                                ? "is-invalid"
-                                : props.touched.currency && "is-valid"
-                            }`}
-                            value={props.values.currency}
-                            onChange={(val) =>
-                              props.setFieldValue("currency", val)
-                            }
-                            options={[
-                              { value: "USD", label: "USD" },
-                              { value: "PKR", label: "PKR" },
-                            ]}
-                          />
-                          <span id="err" className="invalid-feedback">
-                            {props.touched.currency && props.errors.currency}
-                          </span>
-                        </div>
-                      </div>
                     </div>
                     <div className="row">
                       <div className="col">
@@ -1191,134 +1222,133 @@ const ProjectForm = (props) => {
                         </div>
                       </div>
                     </div>
-                    {/* <p className="font-14 mb-0">
-                      Etsy mixtape wayfarers, ethical wes anderson tofu before
-                      they sold out mcsweeney's organic lomo retro fanny pack
-                      lo-fi farm-to-table readymade. Messenger bag gentrify
-                      pitchfork tattooed craft beer, iphone skateboard locavore
-                      carles etsy salvia banksy hoodie helvetica. DIY synth PBR
-                      banksy irony. Leggings gentrify squid 8-bit cred
-                      pitchfork. Williamsburg banh mi whatever gluten-free,
-                      carles pitchfork biodiesel fixie etsy retro mlkshk vice
-                      blog. Scenester cred you probably haven't heard of them,
-                      vinyl craft beer blog stumptown. Pitchfork sustainable
-                      tofu synth chambray yr.
-                    </p> */}
                   </div>
                   <div className="tab-pane p-3" id="settings-1" role="tabpanel">
-                    <div className="PMArea">
-                      <div className="row">
-                        <div className="col-md-4">
-                          <div className="form-group mb-0">
-                            <label className="control-label">
-                              Team Members
-                            </label>
-                            <Select
-                              name="teamMembers"
+                    {/* <div className="PMArea"> */}
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group mb-0">
+                          <label className="control-label">Team Members</label>
+                          <Select
+                            name="teamMembers"
+                            onFocus={() => props.setFieldTouched("teamMembers")}
+                            className={`my-select ${
+                              props.touched.teamMembers &&
+                              props.errors.teamMembers
+                                ? "is-invalid"
+                                : props.touched.teamMembers && "is-valid"
+                            }`}
+                            value={props.values.teamMembers}
+                            onChange={(val) =>
+                              props.setFieldValue("teamMembers", val)
+                            }
+                            options={teamMember}
+                            isMulti={true}
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.teamMembers &&
+                              props.errors.teamMembers}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-sm-6">
+                        {" "}
+                        <div className="form-group">
+                          <label>PM Start Date</label>
+                          <div>
+                            <DatePicker
+                              name="pmStartDate"
                               onFocus={() =>
-                                props.setFieldTouched("teamMembers")
+                                props.setFieldTouched("pmStartDate")
                               }
-                              className={`my-select ${
-                                props.touched.teamMembers &&
-                                props.errors.teamMembers
+                              className={`form-control ${
+                                props.touched.pmStartDate &&
+                                props.errors.pmStartDate
                                   ? "is-invalid"
-                                  : props.touched.teamMembers && "is-valid"
+                                  : props.touched.pmStartDate && "is-valid"
                               }`}
-                              value={props.values.teamMembers}
-                              onChange={(val) =>
-                                props.setFieldValue("teamMembers", val)
-                              }
-                              options={teamMember}
-                              isMulti={true}
+                              selected={props.values.pmStartDate}
+                              onChange={(date1) => {
+                                props.setFieldValue("pmStartDate", date1);
+                                // console.log("datepicker", date1);
+                              }}
                             />
                             <span id="err" className="invalid-feedback">
-                              {props.touched.teamMembers &&
-                                props.errors.teamMembers}
+                              {props.touched.pmStartDate &&
+                                props.errors.pmStartDate}
                             </span>
                           </div>
-                        </div>
+                        </div>{" "}
                       </div>
-                      <div className="row">
-                        <div className="col-sm-1" />
-                        <div className="col-sm-5">
-                          {" "}
-                          <div className="form-group">
-                            <label>PM Start Date</label>
-                            <div>
-                              <DatePicker
-                                name="pmStartDate"
-                                onFocus={() =>
-                                  props.setFieldTouched("pmStartDate")
-                                }
-                                className={`form-control ${
-                                  props.touched.pmStartDate &&
-                                  props.errors.pmStartDate
-                                    ? "is-invalid"
-                                    : props.touched.pmStartDate && "is-valid"
-                                }`}
-                                selected={props.values.pmStartDate}
-                                onChange={(date1) => {
-                                  props.setFieldValue("pmStartDate", date1);
-                                  // console.log("datepicker", date1);
-                                }}
-                              />
-                              <span id="err" className="invalid-feedback">
-                                {props.touched.pmStartDate &&
-                                  props.errors.pmStartDate}
-                              </span>
-                            </div>
-                          </div>{" "}
-                        </div>
-                        <div className="col-sm-5">
-                          {" "}
-                          <div className="form-group">
-                            <label>PM End Date</label>
-                            <div>
-                              <DatePicker
-                                name="pmEndDate"
-                                onFocus={() =>
-                                  props.setFieldTouched("pmEndDate")
-                                }
-                                selected={props.values.pmEndDate}
-                                className={`form-control ${
-                                  props.touched.pmEndDate &&
-                                  props.errors.pmEndDate
-                                    ? "is-invalid"
-                                    : props.touched.pmEndDate && "is-valid"
-                                }`}
-                                onChange={(date2) => {
-                                  props.setFieldValue("pmEndDate", date2);
-                                  // console.log("datepicker", date2);
-                                }}
-                              />
-                              <span id="err" className="invalid-feedback">
-                                {props.touched.pmEndDate &&
-                                  props.errors.pmEndDate}
-                              </span>
-                            </div>
-                          </div>{" "}
-                        </div>
-                        <div className="col-sm-1" />
+                      <div className="col-sm-6">
+                        {" "}
+                        <div className="form-group">
+                          <label>PM End Date</label>
+                          <div>
+                            <DatePicker
+                              name="pmEndDate"
+                              onFocus={() => props.setFieldTouched("pmEndDate")}
+                              selected={props.values.pmEndDate}
+                              className={`form-control ${
+                                props.touched.pmEndDate &&
+                                props.errors.pmEndDate
+                                  ? "is-invalid"
+                                  : props.touched.pmEndDate && "is-valid"
+                              }`}
+                              onChange={(date2) => {
+                                props.setFieldValue("pmEndDate", date2);
+                                // console.log("datepicker", date2);
+                              }}
+                            />
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.pmEndDate &&
+                                props.errors.pmEndDate}
+                            </span>
+                          </div>
+                        </div>{" "}
                       </div>
-                      <PhaseList
-                        setPhaseDetials={setPhasesDetails}
-                        phasesDetails={phasesDetails}
-                        editable={editable}
-                        phaseArray={phaseValue}
-                      />
                     </div>
+                    <PhaseList
+                      setPhaseDetials={setPhasesDetails}
+                      phasesDetails={phasesDetails}
+                      editable={editable}
+                      phaseArray={phaseValue}
+                    />
+                    {/* </div> */}
 
-                    {/* <p className="font-14 mb-0">
-                      Trust fund seitan letterpress, keytar raw denim keffiyeh
-                      etsy art party before they sold out master cleanse
-                      gluten-free squid scenester freegan cosby sweater. Fanny
-                      pack portland seitan DIY, art party locavore wolf cliche
-                      high life echo park Austin. Cred vinyl keffiyeh DIY salvia
-                      PBR, banh mi before they sold out farm-to-table VHS viral
-                      locavore cosby sweater. Lomo wolf viral, mustache
-                      readymade thundercats keffiyeh craft beer marfa ethical.
-                      Wolf salvia freegan, sartorial keffiyeh echo park vegan.
-                    </p> */}
+                    <div class="form-check">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="exampleCheck1"
+                        value={outSourceHideField}
+                        onChange={(selected) => {
+                          setOutSourceHideField(!outSourceHideField);
+                          // props.setFieldValue(selected);
+                        }}
+                      />
+                      <label class="form-check-label" for="exampleCheck1">
+                        Out Source
+                      </label>
+                    </div>
+                    <div className="row">
+                      <div
+                        className={`${
+                          outSourceHideField === true
+                            ? `display-form-field col `
+                            : `hide-form-field`
+                        }`}
+                      >
+                        <OutSourceList
+                          setPhaseDetials={setOutSourceDetails}
+                          phasesDetails={outSourceDetails}
+                          editable={editable}
+                          phaseArray={outSourceValue}
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div
                     className="tab-pane p-3"

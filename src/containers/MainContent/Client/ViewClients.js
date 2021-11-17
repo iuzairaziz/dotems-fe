@@ -6,6 +6,7 @@ import ClientService from "../../../services/ClientService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import moment from "moment";
 import "./ViewClient.scss";
+import { withRouter } from "react-router-dom";
 
 const ViewClients = (props) => {
   const [editTask, setEditTask] = useState();
@@ -218,4 +219,4 @@ const ViewClients = (props) => {
   );
 };
 
-export default ViewClients;
+export default withRouter(ViewClients);

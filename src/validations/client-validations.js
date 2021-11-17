@@ -21,7 +21,7 @@ class ClientValidation {
       ul: Yup.string()
         .max(1000, "")
         .url(),
-      country: Yup.object().required(),
+      country: Yup.string().required(),
       platform: Yup.object().required(),
       dateOfJoin: Yup.date().required("Required!"),
       clientLabel: Yup.object(),

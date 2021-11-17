@@ -68,7 +68,7 @@ const ClientsForm = (props) => {
 
   const client = props.client;
   const editable = props.editable;
-  // console.log("from client form ", client);
+  console.log("from client form ", client);
 
   return (
     <Formik
@@ -82,11 +82,7 @@ const ClientsForm = (props) => {
         otherContact: editable && client.otherContact,
         ul: editable && client.url,
         dateOfJoin: editable && client.dateOfJoin,
-        country: editable &&
-          client.country && {
-            label: client.country,
-            value: client.country,
-          },
+        country: editable && client.country && client.country,
         socialContact: editable && client.socialContact,
         platform: editable
           ? client.platform && {
@@ -113,6 +109,7 @@ const ClientsForm = (props) => {
       }}
       validationSchema={clientValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
+        console.log("con", values.country);
         editable
           ? ClientService.updateClient(client._id, {
               name: values.title,
@@ -124,7 +121,7 @@ const ClientsForm = (props) => {
               otherContact: values.otherContact,
               dateOfJoin: values.dateOfJoin,
               url: values.ul,
-              country: values.country.value,
+              country: values.country,
               platform: values.platform.value,
               clientLabel: values.clientLabel.value,
               status: values.status.value,
@@ -147,7 +144,7 @@ const ClientsForm = (props) => {
               mobileNo: values.conNum,
               dateOfJoin: values.dateOfJoin,
               url: values.ul,
-              country: values.country.value,
+              country: values.country,
               platform: values.platform.value,
               otherContact: values.otherContact,
               status: values.status.value,
@@ -157,9 +154,9 @@ const ClientsForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 ClientService.handleMessage("add");
-                if (props.redirect) {
-                  history.push("/viewclient");
-                }
+                // if (props.redirect) {
+                //   history.push("/viewclient");
+                // }
               })
               .catch((err) => {
                 ClientService.handleCustomMessage(err.response.data);
@@ -176,7 +173,7 @@ const ClientsForm = (props) => {
                 <a
                   className="nav-link active"
                   data-toggle="tab"
-                  href="#home2"
+                  href={`#home2${editable && `editable`}`}
                   role="tab"
                 >
                   <span className="d-none d-md-block">
@@ -193,7 +190,7 @@ const ClientsForm = (props) => {
                 <a
                   className="nav-link"
                   data-toggle="tab"
-                  href="#profile2"
+                  href={`#profile2${editable && `editable`}`}
                   role="tab"
                 >
                   <span className="d-none d-md-block">
@@ -208,7 +205,11 @@ const ClientsForm = (props) => {
             </ul>
 
             <div className="tab-content">
-              <div className="tab-pane active p-3" id="home2" role="tabpanel">
+              <div
+                className="tab-pane active p-3"
+                id={`home2${editable && `editable`}`}
+                role="tabpanel"
+              >
                 <div className="row">
                   <div className="col-6">
                     <div className="form-group">
@@ -267,9 +268,10 @@ const ClientsForm = (props) => {
                         id="country"
                         name="country"
                         class="form-control"
-                        defaultValue={props.values.country}
+                        value={props.values.country}
                         onChange={(selected) => {
-                          props.setFieldValue("country", selected);
+                          console.log("sel", selected.target.value);
+                          props.setFieldValue("country", selected.target.value);
                         }}
                         // onChange={(e) => setCountry(e.target.value)}
                       >
@@ -649,7 +651,11 @@ const ClientsForm = (props) => {
                   </div>
                 </div>
               </div>
-              <div className="tab-pane p-3" id="profile2" role="tabpanel">
+              <div
+                className="tab-pane p-3"
+                id={`profile2${editable && `editable`}`}
+                role="tabpanel"
+              >
                 <div className="row">
                   <div className="col-6">
                     <div className="form-group">
