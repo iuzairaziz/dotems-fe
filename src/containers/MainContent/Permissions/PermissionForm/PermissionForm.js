@@ -43,13 +43,30 @@ const PermissionForm = (props) => {
     subPermIndex,
     disabled
   ) => {
+    if (
+      permissions[categoryIndex].pages[pageindex].permissionOptions[
+        mainPermIndex
+      ].subPermissions
+    ) {
+      permissions[categoryIndex].pages[pageindex].permissionOptions[
+        mainPermIndex
+      ].disabled = true;
+    }
     return (
       // <div className="col">
       <div class="custom-control custom-checkbox mr-3">
         <input
           type="checkbox"
           class="custom-control-input"
-          disabled={disabled}
+          disabled={
+            subPermIndex != null
+              ? permissions[categoryIndex].pages[pageindex].permissionOptions[
+                  mainPermIndex
+                ].subPermissions[subPermIndex].disabled
+              : permissions[categoryIndex].pages[pageindex].permissionOptions[
+                  mainPermIndex
+                ].disabled
+          }
           checked={
             subPermIndex != null
               ? permissions[categoryIndex].pages[pageindex].permissionOptions[
@@ -75,16 +92,22 @@ const PermissionForm = (props) => {
                   mainPermIndex
                 ].subPermissions[subPermIndex].label === "all"
               ) {
+                let temp =
+                  permissions[categoryIndex].pages[pageindex].permissionOptions[
+                    mainPermIndex
+                  ].subPermissions[subPermIndex].checked;
                 for (let subP of permissions[categoryIndex].pages[pageindex]
                   .permissionOptions[mainPermIndex].subPermissions) {
+                  subP.checked = !temp;
                 }
+              } else {
+                permissions[categoryIndex].pages[pageindex].permissionOptions[
+                  mainPermIndex
+                ].subPermissions[subPermIndex].checked = !permissions[
+                  categoryIndex
+                ].pages[pageindex].permissionOptions[mainPermIndex]
+                  .subPermissions[subPermIndex].checked;
               }
-              permissions[categoryIndex].pages[pageindex].permissionOptions[
-                mainPermIndex
-              ].subPermissions[subPermIndex].checked = !permissions[
-                categoryIndex
-              ].pages[pageindex].permissionOptions[mainPermIndex]
-                .subPermissions[subPermIndex].checked;
             } else {
               permissions[categoryIndex].pages[pageindex].permissionOptions[
                 mainPermIndex
