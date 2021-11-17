@@ -118,8 +118,7 @@ const mainbuilder = (props) => {
         />
         <Route exact path="/add-new-machine" component={AddNewMachine} />
         <Route
-          exact
-          path="/leave/add-new-working-day"
+          path="/leave/add-new-working-day/:id?"
           component={AddWorkingDay}
         />
         <Route exact path="/leave/working-days" component={LeaveWorkingDays} />
