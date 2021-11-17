@@ -211,7 +211,6 @@ const ViewUsers = (props) => {
                         pathname: "/userdetails/" + item._id,
                       });
                     }}
-                    // href="#"
                   >
                     View
                   </a>
@@ -221,7 +220,6 @@ const ViewUsers = (props) => {
                       setSelectedUser(item);
                       toggleEdit();
                     }}
-                    // href="#"
                   >
                     Edit
                   </a>
@@ -231,7 +229,6 @@ const ViewUsers = (props) => {
                       setSelectedUser(item);
                       toggleDelete();
                     }}
-                    // href="#"
                   >
                     Delete
                   </a>

@@ -16,13 +16,18 @@ import {
 import MachineForm from "../../Machine/MachineForm/MachineForm";
 import UserService from "../../../../services/UserService";
 import MachineService from "../../../../services/MachineService";
+import EmployeeTypeService from "../../../../services/EmployeeTypeService";
 import DesignationService from "../../../../services/DesignationService";
+import DepartmentService from "../../../../services/DepartmentService";
 
 import Configuration from "../../../../config/configuration";
 
 const UserForm = (props) => {
   const [machineNo, setMachineNo] = useState([]);
   const [designation, setDesignation] = useState([]);
+  const [employeeType, setEmployeeType] = useState([]);
+  const [employeeManager, setEmployeeManager] = useState([]);
+  const [department, setDepartment] = useState([]);
   const [machineModal, setMachineModal] = useState(false);
 
   const config = new Configuration();
@@ -32,6 +37,9 @@ const UserForm = (props) => {
   useEffect(() => {
     getMachines();
     getDesignation();
+    getEmployeeType();
+    getAllUser();
+    getAllDepartments();
   }, [machineModal]);
 
   const toggleMachineEdit = () => setMachineModal(!machineModal);
@@ -61,6 +69,33 @@ const UserForm = (props) => {
       setDesignation(options);
     });
   };
+  const getEmployeeType = () => {
+    EmployeeTypeService.getAllEmployeeType().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setEmployeeType(options);
+    });
+  };
+  const getAllUser = () => {
+    UserService.getAllUsers().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setEmployeeManager(options);
+    });
+  };
+  const getAllDepartments = () => {
+    DepartmentService.getAllDepartment().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setDepartment(options);
+    });
+  };
 
   var UserRole = [];
 
@@ -81,10 +116,26 @@ const UserForm = (props) => {
         salary: editable && user.salary,
         password: editable && user.password,
         workingHrs: editable && user.workingHrs,
+        jobTitle: editable && user.jobTitle,
         designation: editable &&
           user.designation && {
             label: user.designation.name,
             value: user.designation._id,
+          },
+        employeeType: editable &&
+          user.employeeType && {
+            label: user.employeeType.name,
+            value: user.employeeType._id,
+          },
+        employeeManager: editable &&
+          user.employeeManager && {
+            label: user.employeeManager.name,
+            value: user.employeeManager._id,
+          },
+        employeeManager: editable &&
+          user.department && {
+            label: user.department.name,
+            value: user.department._id,
           },
         machineNo: editable &&
           user.machineNo && {
@@ -93,6 +144,11 @@ const UserForm = (props) => {
           },
         workingDays: editable && user.workingDays,
         userRole: editable && user.userRole && UserRole ? UserRole : [],
+
+        // employeeStatus:
+        //   editable && user.employeeStatus && employeeStatus
+        //     ? employeeStatus
+        //     : [],
       }}
       validationSchema={userValidation.newUserValidation}
       onSubmit={(values, actions) => {
@@ -373,23 +429,33 @@ const UserForm = (props) => {
                       <div className="row">
                         <div className="col-6">
                           <div className="form-group">
+                            <label>Job Title</label>
+                            <input
+                              name="jobTitle"
+                              onBlur={props.handleBlur}
+                              type="text"
+                              className={`form-control ${
+                                props.touched.jobTitle && props.errors.jobTitle
+                                  ? "is-invalid"
+                                  : props.touched.jobTitle && "is-valid"
+                              }`}
+                              value={props.values.jobTitle}
+                              onChange={props.handleChange("jobTitle")}
+                              placeholder="Enter Job Title"
+                            />
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.jobTitle && props.errors.jobTitle}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="col-6">
+                          <div className="form-group">
                             <div className="row">
                               <div className="col-6">
                                 <label className="control-label">
                                   Designation
                                 </label>
                               </div>
-                              {/* <div className="col">
-                    <div
-                      className="d-flex justify-content-end"
-                      id="add-new-Buttonm "
-                      onClick={() => {
-                        toggleMachineEdit();
-                      }}
-                    >
-                      <i className="mdi mdi-plus-circle icon-add" />
-                    </div>
-                  </div> */}
                             </div>
                             <Select
                               name="designation"
@@ -423,23 +489,23 @@ const UserForm = (props) => {
                               </div>
                             </div>
                             <Select
-                              name="designation"
+                              name="employeeType"
                               className={`my-select${
-                                props.touched.designation &&
-                                props.errors.designation
+                                props.touched.employeeType &&
+                                props.errors.employeeType
                                   ? "is-invalid"
-                                  : props.touched.designation && "is-valid"
+                                  : props.touched.employeeType && "is-valid"
                               }`}
                               onBlur={props.handleBlur}
-                              value={props.values.designation}
+                              value={props.values.employeeType}
                               onChange={(val) =>
-                                props.setFieldValue("designation", val)
+                                props.setFieldValue("employeeType", val)
                               }
-                              options={designation}
+                              options={employeeType}
                             />
                             <span id="err" className="invalid-feedback">
-                              {props.touched.designation &&
-                                props.errors.designation}
+                              {props.touched.employeeType &&
+                                props.errors.employeeType}
                             </span>
                           </div>
                         </div>
@@ -454,23 +520,23 @@ const UserForm = (props) => {
                               </div>
                             </div>
                             <Select
-                              name="designation"
+                              name="employeeManager"
                               className={`my-select${
-                                props.touched.designation &&
-                                props.errors.designation
+                                props.touched.employeeManager &&
+                                props.errors.employeeManager
                                   ? "is-invalid"
-                                  : props.touched.designation && "is-valid"
+                                  : props.touched.employeeManager && "is-valid"
                               }`}
                               onBlur={props.handleBlur}
-                              value={props.values.designation}
+                              value={props.values.employeeManager}
                               onChange={(val) =>
-                                props.setFieldValue("designation", val)
+                                props.setFieldValue("employeeManager", val)
                               }
-                              options={designation}
+                              options={employeeManager}
                             />
                             <span id="err" className="invalid-feedback">
-                              {props.touched.designation &&
-                                props.errors.designation}
+                              {props.touched.employeeManager &&
+                                props.errors.employeeManager}
                             </span>
                           </div>
                         </div>
@@ -484,23 +550,23 @@ const UserForm = (props) => {
                               </div>
                             </div>
                             <Select
-                              name="designation"
+                              name="department"
                               className={`my-select${
-                                props.touched.designation &&
-                                props.errors.designation
+                                props.touched.department &&
+                                props.errors.department
                                   ? "is-invalid"
-                                  : props.touched.designation && "is-valid"
+                                  : props.touched.department && "is-valid"
                               }`}
                               onBlur={props.handleBlur}
-                              value={props.values.designation}
+                              value={props.values.department}
                               onChange={(val) =>
-                                props.setFieldValue("designation", val)
+                                props.setFieldValue("department", val)
                               }
-                              options={designation}
+                              options={department}
                             />
                             <span id="err" className="invalid-feedback">
-                              {props.touched.designation &&
-                                props.errors.designation}
+                              {props.touched.department &&
+                                props.errors.department}
                             </span>
                           </div>
                         </div>
@@ -514,23 +580,37 @@ const UserForm = (props) => {
                               </div>
                             </div>
                             <Select
-                              name="designation"
+                              name="employeeStatus"
                               className={`my-select${
-                                props.touched.designation &&
-                                props.errors.designation
+                                props.touched.employeeStatus &&
+                                props.errors.employeeStatus
                                   ? "is-invalid"
-                                  : props.touched.designation && "is-valid"
+                                  : props.touched.employeeStatus && "is-valid"
                               }`}
                               onBlur={props.handleBlur}
-                              value={props.values.designation}
+                              value={props.values.employeeStatus}
                               onChange={(val) =>
-                                props.setFieldValue("designation", val)
+                                props.setFieldValue("employeeStatus", val)
                               }
-                              options={designation}
+                              options={[
+                                {
+                                  value: "Employed",
+                                  label: "Employed",
+                                },
+                                {
+                                  value: "Resigned",
+                                  label: "Resigned",
+                                },
+                                {
+                                  value: "Terminate",
+                                  label: "Terminate",
+                                },
+                                { value: "Other", label: "Other" },
+                              ]}
                             />
                             <span id="err" className="invalid-feedback">
-                              {props.touched.designation &&
-                                props.errors.designation}
+                              {props.touched.employeeStatus &&
+                                props.errors.employeeStatus}
                             </span>
                           </div>
                         </div>

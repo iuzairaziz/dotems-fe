@@ -131,33 +131,21 @@ const ViewMachines = (props) => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                <div className="row align-items-center mb-3">
-                    <div className="col">
-                    <h3 className="m-0 p-0">All Machines</h3>
-                    </div>
-                    <div className="col">
-                    <Link to="/add-machine">
-                      <Button
-                        color="success"
-                        className="my-primary-button float-right"
-                      >
-                        Add Machine
-                      </Button>
-                    </Link>
-                    </div>
+                  <div className="row align-items-center mb-3">
+                    <div className="col" />
                   </div>
                   <MDBDataTableV5
-                   responsive
-                   striped
-                   small
-                   onPageChange={(val) => console.log(val)}
-                   bordered={true}
-                  //  materialSearch
-                   searchTop
-                   searchBottom={false}
-                   pagingTop
-                   barReverse
-                   hover
+                    responsive
+                    striped
+                    small
+                    onPageChange={(val) => console.log(val)}
+                    bordered={true}
+                    //  materialSearch
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
+                    hover
                     // scrollX
                     data={dataa}
                     theadColor="#000"
