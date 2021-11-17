@@ -72,6 +72,7 @@ const ProjectForm = (props) => {
       phasename: "",
       outSourceName: "",
       outSourceCost: "",
+      outSourceDeadline: "",
     },
   ]);
 
@@ -89,21 +90,21 @@ const ProjectForm = (props) => {
     } else setPhaseValue(false);
   }, []);
 
-  useEffect(() => {
-    editable &&
-      project &&
-      project.outSource &&
-      setOutSourceDetails(project.outSource);
-    if (
-      editable &&
-      project &&
-      project.outSource &&
-      project.outSource.length > 1
-    ) {
-      // console.log("phase");
-      setOutSourceValue(true);
-    } else setOutSourceValue(false);
-  }, []);
+  // useEffect(() => {
+  //   editable &&
+  //     project &&
+  //     project.outSource &&
+  //     setOutSourceDetails(project.outSource);
+  //   if (
+  //     editable &&
+  //     project &&
+  //     project.outSource &&
+  //     project.outSource.length > 1
+  //   ) {
+  //     // console.log("phase");
+  //     setOutSourceValue(true);
+  //   } else setOutSourceValue(false);
+  // }, []);
 
   useEffect(() => {
     console.log(tHours);
@@ -441,7 +442,7 @@ const ProjectForm = (props) => {
               // percentage: values.percentage,
               // fCost: values.fCost,
               otherDeduction: values.otherDeduction,
-              phase: phasesDetails,
+              phase: [...phasesDetails, ...outSourceDetails],
               currency: values.currency.value,
               projectType: values.projectType.value,
             })

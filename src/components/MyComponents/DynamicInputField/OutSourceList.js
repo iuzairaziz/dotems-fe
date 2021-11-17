@@ -5,7 +5,12 @@ import OutSourceCreate from "./OutSourceCreate";
 class OutSourceList extends React.Component {
   handleChange = (e) => {
     if (
-      ["phasename", "outSourceCost", "outSourceName"].includes(e.target.name)
+      [
+        "phasename",
+        "outSourceCost",
+        "outSourceName",
+        "outSourceDeadline",
+      ].includes(e.target.name)
     ) {
       let phasesDetails = [...this.props.phasesDetails];
       phasesDetails[e.target.dataset.id][e.target.name] = e.target.value;
@@ -24,6 +29,7 @@ class OutSourceList extends React.Component {
         phasename: "",
         outSourceCost: "",
         outSourceName: "",
+        outSourceDeadline: "",
       },
     ]);
   };
