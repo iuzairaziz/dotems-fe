@@ -89,6 +89,13 @@ import AddPermission from "../MainContent/Permissions/AddPermissions/AddPermissi
 import AddClientLabel from "../MainContent/ClientLabel/AddClientLabel/AddClientLabel";
 import ClientLabelList from "../MainContent/ClientLabel/ClientLabelList/ClientLabelList";
 import Dropdowns from "../MainContent/UiElements/Ui_dropdowns";
+import AddNewLeave from "../MainContent/Leaves/LeavePortion/AddNewLeave";
+import LeaveWorkingDays from "../MainContent/Leaves/LeaveSettings/LeaveWorkingDays/LeaveWorkingDays";
+import AddWorkingDay from "../MainContent/Leaves/LeaveSettings/LeaveWorkingDays/AddWorkingDay/AddWorkingDay";
+import AddNewMachine from "../MainContent/Machine/AddMachine/AddNewMachine";
+import AddNewAccessories from "../MainContent/Accessories/AddAccessories/AddNewAccessories";
+import Tasks from "../MainContent/Tasks/Tasks";
+import Requests from "../MainContent/Request/Requests";
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
 // import formWizard from "../MainContent/Forms/Form_wizard"
@@ -101,6 +108,21 @@ const mainbuilder = (props) => {
   return (
     <>
       <Switch>
+        <Route exact path="/requests" component={Requests} />
+        <Route exact path="/add-new-task" component={Tasks} />
+        <Route
+          exact
+          path="/add-new-accessories"
+          component={AddNewAccessories}
+        />
+        <Route exact path="/add-new-machine" component={AddNewMachine} />
+        <Route
+          exact
+          path="/leave/add-new-working-day"
+          component={AddWorkingDay}
+        />
+        <Route exact path="/leave/working-days" component={LeaveWorkingDays} />
+        <Route exact path="/view-leave-faraz" component={AddNewLeave} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/add-clientlabel" component={AddClientLabel} />
         <Route exact path="/view-clientlabel" component={ClientLabelList} />

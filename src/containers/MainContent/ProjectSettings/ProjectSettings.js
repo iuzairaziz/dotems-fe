@@ -83,6 +83,12 @@ const ProjectSettings = () => {
       viewRoute: "view-department",
       icon: "mdi-shape-plus",
     },
+    {
+      name: "Leave",
+      addRoute: "leave-portion",
+      viewRoute: "view-leave-faraz",
+      icon: "mdi-shape-plus",
+    },
   ];
 
   return (

@@ -43,6 +43,36 @@ const LeaveDetails = (props) => {
     rows: [],
   });
 
+  const [dataa2, setData2] = useState({
+    columns: [
+      {
+        label: "Leave Type",
+        field: "type",
+        sort: "asc",
+      },
+      {
+        label: "Total",
+        field: "total",
+        // sort: "asc",
+      },
+
+      {
+        label: "Consumed",
+        field: "consumed",
+      },
+      {
+        label: "Pending",
+        field: "pending",
+      },
+
+      {
+        label: "Remaining",
+        field: "remaining",
+      },
+    ],
+    rows: [],
+  });
+
   useEffect(() => {
     getData();
     getLeaveData();
@@ -51,7 +81,27 @@ const LeaveDetails = (props) => {
   const getLeaveData = () => {
     LeaveService.remainingLeaveById(loggedUser._id).then((res) => {
       const leaves = res.data;
+      let updatedData2 = { ...dataa2 };
+      updatedData2.rows = [];
+      res.data.map((item, index) => {
+        updatedData2.rows.push({
+          type: item ? item.name : "N/A",
+          total: item.totalLeaves ? String(item.totalLeaves) : "N/A",
+          consumed:
+            item.leaves && item.leaves.usedLeaves
+              ? item.leaves.usedLeaves
+              : "0",
+          pending: "",
+          remaining: item.remaining
+            ? item.remaining < 0
+              ? "0"
+              : item.remaining
+            : item.totalLeaves,
+        });
+      });
       setLeaveData(leaves);
+      setData2(updatedData2);
+      console.log("updated Data 2", updatedData2);
       console.log("leave data", leaves);
     });
   };
@@ -107,87 +157,84 @@ const LeaveDetails = (props) => {
       <div className="LeaveDetails">
         <div className="page-content-wrapper">
           <div className="container-fluid">
+            <div className="row align-items-center">
+              {/* <div className="col col-md-6">
+                <h3 className="m-0 p-0">My Leave</h3>
+              </div> */}
+            </div>
             <div className="row">
-              <div className="col-lg-12">
-                <div className="card m-b-20">
-                  <div className="card-body">
-                    <div className="row align-items-center mb-3">
-                      <div className="col">
-                        <h3 className="m-0 p-0">My Leave</h3>
+              <div className="col col-md-6">
+                {/* <h5>Leave Details</h5> */}
+                <MDBDataTableV5
+                  // scrollX
+                  fixedHeader={true}
+                  responsive
+                  striped
+                  bordered
+                  searchTop
+                  hover
+                  // autoWidth
+                  data={dataa2}
+                  theadColor="#000"
+                />
+              </div>
+            </div>
+            {/* Old leaves status code */}
+            {/* <div className="row main">
+              {leaveData.map((item, index) => {
+                return (
+                  <div className="col col-md-3">
+                    <h5>{item.name}</h5>
+                    <div className="my-border border-top border-bottom">
+                      <div>
+                        <span>Total Leave: </span>
+                        <span className="sub">{item.totalLeaves}</span>
                       </div>
-                      <div className="col">
-                        <Link to="/leave-form">
-                          <Button
-                            color="success"
-                            className="my-primary-button float-right"
-                          >
-                            Apply Leave
-                          </Button>
-                        </Link>
+                      <div>
+                        <span>Used Leaves: </span>
+                        <span className="sub2">
+                          {item.leaves && item.leaves.usedLeaves
+                            ? item.leaves.usedLeaves
+                            : "0"}
+                        </span>
                       </div>
-                    </div>
-
-                    <h5>Leave Details</h5>
-
-                    <div className="row main">
-                      {leaveData.map((item, index) => {
-                        return (
-                          <div className="col col-md-3">
-                            <h5>{item.name}</h5>
-                            <div className="my-border border-top border-bottom">
-                              <div>
-                                <span>Total Leave: </span>
-                                <span className="sub">{item.totalLeaves}</span>
-                              </div>
-                              <div>
-                                <span>Used Leaves: </span>
-                                <span className="sub2">
-                                  {item.leaves && item.leaves.usedLeaves
-                                    ? item.leaves.usedLeaves
-                                    : "0"}
-                                </span>
-                              </div>
-                              <div>
-                                <span>Remaining Leave: </span>
-                                <span className="sub1">
-                                  {item.remaining
-                                    ? item.remaining < 0
-                                      ? "0"
-                                      : item.remaining
-                                    : item.totalLeaves}
-                                </span>
-                              </div>
-                              <div>
-                                <span>Unpaid Leaves: </span>
-                                <span className="sub3">
-                                  {item.remaining < 0 ? -item.remaining : "0"}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    <h3 className="main">Leave Table</h3>
-                    <div className="row">
-                      <div className="col-12">
-                        <MDBDataTableV5
-                          // scrollX
-                          fixedHeader={true}
-                          responsive
-                          striped
-                          bordered
-                          searchTop
-                          hover
-                          // autoWidth
-                          data={dataa}
-                          theadColor="#000"
-                        />
+                      <div>
+                        <span>Remaining Leave: </span>
+                        <span className="sub1">
+                          {item.remaining
+                            ? item.remaining < 0
+                              ? "0"
+                              : item.remaining
+                            : item.totalLeaves}
+                        </span>
+                      </div>
+                      <div>
+                        <span>Unpaid Leaves: </span>
+                        <span className="sub3">
+                          {item.remaining < 0 ? -item.remaining : "0"}
+                        </span>
                       </div>
                     </div>
                   </div>
-                </div>
+                );
+              })}
+            </div> */}
+
+            <h3 className="main">Leave Table</h3>
+            <div className="row">
+              <div className="col-12">
+                <MDBDataTableV5
+                  // scrollX
+                  fixedHeader={true}
+                  responsive
+                  striped
+                  bordered
+                  searchTop
+                  hover
+                  // autoWidth
+                  data={dataa}
+                  theadColor="#000"
+                />
               </div>
             </div>
           </div>
