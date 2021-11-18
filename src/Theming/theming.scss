@@ -72,6 +72,12 @@ input:focus {
     color: var(--color-primary);
   }
 }
+.generate-password {
+  cursor: pointer;
+  &:hover {
+    color: var(--color-primary);
+  }
+}
 
 .content-page {
   min-height: inherit;

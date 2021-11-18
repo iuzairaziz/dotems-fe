@@ -106,8 +106,9 @@ const UserForm = (props) => {
     let pass = generator.generate({
       length: 10,
       numbers: true,
+      uppercase: false,
     });
-    setPassword(pass);
+    return pass;
   };
 
   editable &&
@@ -408,10 +409,13 @@ const UserForm = (props) => {
                                   className="d-flex justify-content-end"
                                   id="add-new-Buttonm "
                                   onClick={() => {
-                                    passwordgenerate();
+                                    props.setFieldValue(
+                                      "password",
+                                      passwordgenerate()
+                                    );
                                   }}
                                 >
-                                  <label className="control-label">
+                                  <label className="control-label generate-password">
                                     Generate Password
                                   </label>
                                 </div>
@@ -426,8 +430,8 @@ const UserForm = (props) => {
                                   ? "is-invalid"
                                   : props.touched.password && "is-valid"
                               }`}
-                              defaultValue={password}
-                              // value={props.values.password}
+                              // defaultValue={password}
+                              value={props.values.password}
                               onChange={props.handleChange("password")}
                               placeholder="Enter Password"
                             />
