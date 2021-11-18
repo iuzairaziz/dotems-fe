@@ -29,6 +29,7 @@ import StatusService from "../../../services/StatusService";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import "./ProjectForm.scss";
 import { useHistory } from "react-router-dom";
+import OutSourceList from "../../../../src/components/MyComponents/DynamicInputField/OutSourceList";
 
 const ProjectForm = (props) => {
   const [default_option, set_default_option] = useState(0);
@@ -54,12 +55,24 @@ const ProjectForm = (props) => {
   const [hideField, setHideField] = useState(true);
   const [costValue, setCostValue] = useState(false);
   const [phaseValue, setPhaseValue] = useState(true);
+  const [outSourceValue, setOutSourceValue] = useState(true);
+  const [outSourceHideField, setOutSourceHideField] = useState(false);
 
   const [phasesDetails, setPhasesDetails] = useState([
     {
       index: Math.random(),
       phasename: "",
       estHrs: "",
+    },
+  ]);
+
+  const [outSourceDetails, setOutSourceDetails] = useState([
+    {
+      index: Math.random(),
+      phasename: "",
+      outSourceName: "",
+      outSourceCost: "",
+      outSourceDeadline: "",
     },
   ]);
 
@@ -76,6 +89,22 @@ const ProjectForm = (props) => {
       setPhaseValue(true);
     } else setPhaseValue(false);
   }, []);
+
+  // useEffect(() => {
+  //   editable &&
+  //     project &&
+  //     project.outSource &&
+  //     setOutSourceDetails(project.outSource);
+  //   if (
+  //     editable &&
+  //     project &&
+  //     project.outSource &&
+  //     project.outSource.length > 1
+  //   ) {
+  //     // console.log("phase");
+  //     setOutSourceValue(true);
+  //   } else setOutSourceValue(false);
+  // }, []);
 
   useEffect(() => {
     console.log(tHours);
@@ -413,7 +442,7 @@ const ProjectForm = (props) => {
               // percentage: values.percentage,
               // fCost: values.fCost,
               otherDeduction: values.otherDeduction,
-              phase: phasesDetails,
+              phase: [...phasesDetails, ...outSourceDetails],
               currency: values.currency.value,
               projectType: values.projectType.value,
             })
@@ -575,7 +604,266 @@ const ProjectForm = (props) => {
                     id="home-1"
                     role="tabpanel"
                   >
-                    <p className="font-14 mb-0">
+                    <div className="row">
+                      <div className="col">
+                        <div className="form-group">
+                          <label>Project Name</label>
+                          <input
+                            name="projectName"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control ${
+                              props.touched.projectName &&
+                              props.errors.projectName
+                                ? "is-invalid"
+                                : props.touched.projectName && "is-valid"
+                            }`}
+                            value={props.values.projectName}
+                            onChange={props.handleChange("projectName")}
+                            placeholder="Enter Name"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.projectName &&
+                              props.errors.projectName}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="form-group">
+                          <label>Order Number</label>
+                          <input
+                            name="orderNum"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control ${
+                              props.touched.orderNum && props.errors.orderNum
+                                ? "is-invalid"
+                                : props.touched.orderNum && "is-valid"
+                            }`}
+                            value={props.values.orderNum}
+                            onChange={props.handleChange("orderNum")}
+                            placeholder="Enter Order Number"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.orderNum && props.errors.orderNum}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="form-group">
+                          <div className="row">
+                            <div className="col">
+                              <label className="control-label">Platform</label>
+                            </div>
+                            <div className="col">
+                              <div
+                                className="d-flex justify-content-end"
+                                id="add-new-Buttonm "
+                                onClick={() => {
+                                  togglePlatformEdit();
+                                }}
+                              >
+                                <i className="mdi mdi-plus-circle icon-add" />
+                              </div>
+                            </div>
+                          </div>
+                          <Select
+                            className={`my-select ${
+                              props.touched.platform && props.errors.platform
+                                ? "is-invalid"
+                                : props.touched.platform && "is-valid"
+                            }`}
+                            name="platform"
+                            onFocus={() => props.setFieldTouched("platform")}
+                            value={props.values.platform}
+                            onChange={(val) =>
+                              props.setFieldValue("platform", val)
+                            }
+                            options={platform}
+                          />
+
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.platform && props.errors.platform}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col">
+                        <div className="form-group">
+                          <div className="row">
+                            <div className="col">
+                              <label className="control-label">
+                                Technology
+                              </label>
+                            </div>
+                            <div className="col">
+                              <div
+                                className="d-flex justify-content-end"
+                                id="add-new-Buttonm "
+                                onClick={() => {
+                                  toggleTechnologyEdit();
+                                }}
+                              >
+                                <i className="mdi mdi-plus-circle icon-add" />
+                              </div>
+                            </div>
+                          </div>
+                          <Select
+                            name="technology"
+                            onFocus={() => props.setFieldTouched("technology")}
+                            className={`my-select ${
+                              props.touched.technology &&
+                              props.errors.technology
+                                ? "is-invalid"
+                                : props.touched.technology && "is-valid"
+                            } `}
+                            value={props.values.technology}
+                            onChange={(val) =>
+                              props.setFieldValue("technology", val)
+                            }
+                            options={technology}
+                            isMulti={true}
+                          />
+
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.technology &&
+                              props.errors.technology}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="form-group">
+                          <div className="row">
+                            <div className="col">
+                              <label className="control-label">
+                                Service Type
+                              </label>
+                            </div>
+                            <div className="col">
+                              <div
+                                className="d-flex justify-content-end"
+                                id="add-new-Buttonm "
+                                onClick={() => {
+                                  toggleServiceEdit();
+                                }}
+                              >
+                                <i className="mdi mdi-plus-circle icon-add" />
+                              </div>
+                            </div>
+                          </div>
+                          <Select
+                            name="serviceType"
+                            onFocus={() => props.setFieldTouched("serviceType")}
+                            value={props.values.serviceType}
+                            className={`my-select ${
+                              props.touched.serviceType &&
+                              props.errors.serviceType
+                                ? "is-invalid"
+                                : props.touched.serviceType && "is-valid"
+                            } `}
+                            onChange={(val) =>
+                              props.setFieldValue("serviceType", val)
+                            }
+                            options={service}
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.serviceType &&
+                              props.errors.serviceType}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="form-group">
+                          <div className="row">
+                            <div className="col">
+                              <label className="control-label">
+                                Project Nature
+                              </label>
+                            </div>
+                            <div className="col">
+                              <div
+                                className="d-flex justify-content-end"
+                                id="add-new-Buttonm "
+                                onClick={() => {
+                                  toggleNatureEdit();
+                                }}
+                              >
+                                <i className="mdi mdi-plus-circle icon-add" />
+                              </div>
+                            </div>
+                          </div>
+                          <Select
+                            name="nature"
+                            onFocus={() => props.setFieldTouched("nature")}
+                            value={props.values.nature}
+                            className={`my-select ${
+                              props.touched.nature && props.errors.nature
+                                ? "is-invalid"
+                                : props.touched.nature && "is-valid"
+                            }`}
+                            onChange={(val) =>
+                              props.setFieldValue("nature", val)
+                            }
+                            options={nature}
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.nature && props.errors.nature}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <label className="control-label">
+                            Project Manager
+                          </label>
+                          <Select
+                            className={`my-select ${
+                              props.touched.projectManager &&
+                              props.errors.projectManager
+                                ? "is-invalid"
+                                : props.touched.projectManager && "is-valid"
+                            }`}
+                            name="projectManager"
+                            onFocus={() =>
+                              props.setFieldTouched("projectManager")
+                            }
+                            value={props.values.projectManager}
+                            onChange={(val) =>
+                              props.setFieldValue("projectManager", val)
+                            }
+                            options={users}
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.projectManager &&
+                              props.errors.projectManager}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-12">
+                        <h4 className="mt-0 header-title">Description</h4>
+                        <Editor
+                          name="description"
+                          onBlur={props.handleBlur}
+                          toolbarClassName="toolbarClassName"
+                          wrapperClassName="wrapperClassName"
+                          editorClassName="editor"
+                          editorState={props.values.description}
+                          onEditorStateChange={(val) => {
+                            props.setFieldValue("description", val);
+                          }}
+                        />
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.description &&
+                            props.errors.description}
+                        </span>
+                      </div>
+                    </div>
+                    {/* <p className="font-14 mb-0">
                       Raw denim you probably haven't heard of them jean shorts
                       Austin. Nesciunt tofu stumptown aliqua, retro synth master
                       cleanse. Mustache cliche tempor, williamsburg carles vegan
@@ -584,56 +872,531 @@ const ProjectForm = (props) => {
                       terry richardson ex squid. Aliquip placeat salvia cillum
                       iphone. Seitan aliquip quis cardigan american apparel,
                       butcher voluptate nisi qui.
-                    </p>
+                    </p> */}
                   </div>
                   <div className="tab-pane p-3" id="profile-1" role="tabpanel">
-                    <p className="font-14 mb-0">
-                      Food truck fixie locavore, accusamus mcsweeney's marfa
-                      nulla single-origin coffee squid. Exercitation +1 labore
-                      velit, blog sartorial PBR leggings next level wes anderson
-                      artisan four loko farm-to-table craft beer twee. Qui photo
-                      booth letterpress, commodo enim craft beer mlkshk aliquip
-                      jean shorts ullamco ad vinyl cillum PBR. Homo nostrud
-                      organic, assumenda labore aesthetic magna delectus mollit.
-                      Keytar helvetica VHS salvia yr, vero magna velit sapiente
-                      labore stumptown. Vegan fanny pack odio cillum wes
-                      anderson 8-bit.
-                    </p>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <div className="row">
+                            <div className="col">
+                              <label className="control-label">
+                                Client Name
+                              </label>
+                            </div>
+                            <div className="col">
+                              <div
+                                className="d-flex justify-content-end"
+                                id="add-new-Buttonm "
+                                onClick={() => {
+                                  toggleClientEdit();
+                                }}
+                              >
+                                <i className="mdi mdi-plus icon-add" />
+                              </div>
+                            </div>
+                          </div>
+                          <Select
+                            name="clientName"
+                            blurInputOnSelect={true}
+                            className={`my-select ${
+                              props.touched.clientName &&
+                              props.errors.clientName
+                                ? "is-invalid"
+                                : props.touched.clientName && "is-valid"
+                            }`}
+                            onFocus={() => props.setFieldTouched("clientName")}
+                            value={props.values.clientName}
+                            onChange={(val) =>
+                              props.setFieldValue("clientName", val)
+                            }
+                            options={client}
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.clientName &&
+                              props.errors.clientName}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">Client Type</label>
+                          <Select
+                            name="clientType"
+                            onBlur={props.handleBlur}
+                            value={props.values.clientType}
+                            className={`my-select${
+                              props.touched.clientType &&
+                              props.errors.clientType
+                                ? "is-invalid"
+                                : props.touched.clientType && "is-valid"
+                            }`}
+                            onChange={(selected) => {
+                              props.setFieldValue("clientType", selected);
+                            }}
+                            options={[
+                              { value: "First Time", label: "First Time" },
+                              { value: "Returning", label: "Returning" },
+                            ]}
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.clientType &&
+                              props.errors.clientType}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="col">
+                        {" "}
+                        <div className="form-group">
+                          <label>Client Start Date</label>
+                          <div>
+                            <DatePicker
+                              name="cStartDate"
+                              onFocus={() =>
+                                props.setFieldTouched("cStartDate")
+                              }
+                              className={`form-control ${
+                                props.touched.cStartDate &&
+                                props.errors.cStartDate
+                                  ? "is-invalid"
+                                  : props.touched.cStartDate && "is-valid"
+                              }`}
+                              selected={props.values.cStartDate}
+                              onChange={(date) => {
+                                props.setFieldValue("cStartDate", date);
+                                // console.log("datepicker", date);
+                              }}
+                            />
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.cStartDate &&
+                                props.errors.cStartDate}
+                            </span>
+                          </div>
+                        </div>{" "}
+                      </div>
+                      <div className="col">
+                        {" "}
+                        <div className="form-group">
+                          <label>Client Deadline</label>
+                          <div>
+                            <DatePicker
+                              name="cEndDate"
+                              onFocus={() => props.setFieldTouched("cEndDate")}
+                              className={`form-control ${
+                                props.touched.cEndDate && props.errors.cEndDate
+                                  ? "is-invalid"
+                                  : props.touched.cEndDate && "is-valid"
+                              }`}
+                              selected={props.values.cEndDate}
+                              onChange={(datee) => {
+                                props.setFieldValue("cEndDate", datee);
+                                // console.log("datepicker", datee);
+                              }}
+                            />
+                          </div>
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.cEndDate && props.errors.cEndDate}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <div className="tab-pane p-3" id="messages-1" role="tabpanel">
-                    <p className="font-14 mb-0">
-                      Etsy mixtape wayfarers, ethical wes anderson tofu before
-                      they sold out mcsweeney's organic lomo retro fanny pack
-                      lo-fi farm-to-table readymade. Messenger bag gentrify
-                      pitchfork tattooed craft beer, iphone skateboard locavore
-                      carles etsy salvia banksy hoodie helvetica. DIY synth PBR
-                      banksy irony. Leggings gentrify squid 8-bit cred
-                      pitchfork. Williamsburg banh mi whatever gluten-free,
-                      carles pitchfork biodiesel fixie etsy retro mlkshk vice
-                      blog. Scenester cred you probably haven't heard of them,
-                      vinyl craft beer blog stumptown. Pitchfork sustainable
-                      tofu synth chambray yr.
-                    </p>
+                    <div className="row">
+                      <div className="col">
+                        <div className="form-group">
+                          <label className="control-label">Project Type</label>
+                          <Select
+                            name="projectType"
+                            onFocus={() => props.setFieldTouched("projectType")}
+                            className={`my-select ${
+                              props.touched.projectType &&
+                              props.errors.projectType
+                                ? "is-invalid"
+                                : props.touched.projectType && "is-valid"
+                            }`}
+                            value={props.values.projectType}
+                            onChange={(selected) => {
+                              props.setFieldValue("projectType", selected);
+                              if (selected.value == "fixed") {
+                                setHideField(true);
+                              } else {
+                                setHideField(false);
+                              }
+                            }}
+                            options={[
+                              { value: "fixed", label: "Fixed" },
+                              { value: "hourly", label: "Hourly" },
+                            ]}
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.projectType &&
+                              props.errors.projectType}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="form-group">
+                          <div className="row">
+                            <div className="col">
+                              <label className="control-label">Currency</label>
+                            </div>
+                          </div>
+                          <Select
+                            name="currency"
+                            onFocus={() => props.setFieldTouched("currency")}
+                            className={`my-select ${
+                              props.touched.currency && props.errors.currency
+                                ? "is-invalid"
+                                : props.touched.currency && "is-valid"
+                            }`}
+                            value={props.values.currency}
+                            onChange={(val) =>
+                              props.setFieldValue("currency", val)
+                            }
+                            options={[
+                              { value: "USD", label: "USD" },
+                              { value: "PKR", label: "PKR" },
+                            ]}
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.currency && props.errors.currency}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div
+                        className={`${
+                          hideField === true
+                            ? `hide-form-field`
+                            : `display-form-field col `
+                        }`}
+                      >
+                        <div className="form-group">
+                          <label>Client Hours</label>
+                          <input
+                            name="clientHours"
+                            onBlur={props.handleBlur}
+                            type="number"
+                            className={`form-control ${
+                              props.touched.clientHours &&
+                              props.errors.clientHours
+                                ? "is-invalid"
+                                : props.touched.clientHours && "is-valid"
+                            }  `}
+                            value={props.values.clientHours}
+                            onChange={props.handleChange("clientHours")}
+                            placeholder="Enter Hours"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.clientHours &&
+                              props.errors.clientHours}
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        className={`${
+                          hideField === true
+                            ? `hide-form-field`
+                            : `display-form-field col `
+                        }`}
+                      >
+                        <div className="form-group">
+                          <label>Hourly Rate</label>
+                          <input
+                            name="hourlyCost"
+                            onBlur={props.handleBlur}
+                            type="number"
+                            className={`form-control ${
+                              props.touched.hourlyCost &&
+                              props.errors.hourlyCost
+                                ? "is-invalid"
+                                : props.touched.hourlyCost && "is-valid"
+                            }`}
+                            value={props.values.hourlyCost}
+                            onChange={props.handleChange("hourlyCost")}
+                            placeholder="Enter Hourly Rate"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.hourlyCost &&
+                              props.errors.hourlyCost}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="form-group">
+                          <label>Cost</label>
+                          <input
+                            name="cost"
+                            onBlur={props.handleBlur}
+                            type="number"
+                            className={`form-control ${
+                              props.touched.cost && props.errors.cost
+                                ? "is-invalid"
+                                : props.touched.cost && "is-valid"
+                            }`}
+                            value={costValue ? costValue : props.values.cost}
+                            onChange={props.handleChange("cost")}
+                            placeholder={`Enter Amount`}
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.cost && props.errors.cost}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col">
+                        <div className="form-group">
+                          <label>Platform Deduction</label>
+                          <div className="input-group">
+                            <input
+                              name="Pdeduction"
+                              onBlur={props.handleBlur}
+                              type="number"
+                              className={`form-control ${
+                                props.touched.Pdeduction &&
+                                props.errors.Pdeduction
+                                  ? "is-invalid"
+                                  : props.touched.Pdeduction && "is-valid"
+                              }`}
+                              value={props.values.Pdeduction}
+                              onChange={props.handleChange("Pdeduction")}
+                              placeholder="Enter Deduction"
+                            />
+                            <span className="input-group-text">%</span>
+                          </div>
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.Rprofit && props.errors.Rprofit}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="form-group">
+                          <label>Other Deductions</label>
+                          <input
+                            name="otherDeduction"
+                            onBlur={props.handleBlur}
+                            type="number"
+                            className={`form-control ${
+                              props.touched.otherDeduction &&
+                              props.errors.otherDeduction
+                                ? "is-invalid"
+                                : props.touched.otherDeduction && "is-valid"
+                            }`}
+                            value={props.values.otherDeduction}
+                            onChange={props.handleChange("otherDeduction")}
+                            placeholder="Enter Other Deductions"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.otherDeduction &&
+                              props.errors.otherDeduction}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="form-group">
+                          <label>Reserve Profit</label>
+                          <div className="input-group">
+                            <input
+                              name="Rprofit"
+                              onBlur={props.handleBlur}
+                              type="number"
+                              className={`form-control ${
+                                props.touched.Rprofit && props.errors.Rprofit
+                                  ? "is-invalid"
+                                  : props.touched.Rprofit && "is-valid"
+                              }`}
+                              value={props.values.Rprofit}
+                              onChange={props.handleChange("Rprofit")}
+                              placeholder="Enter Preserve Profit"
+                            />
+                            <span className="input-group-text">%</span>
+                          </div>
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.Rprofit && props.errors.Rprofit}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <div className="tab-pane p-3" id="settings-1" role="tabpanel">
-                    <p className="font-14 mb-0">
-                      Trust fund seitan letterpress, keytar raw denim keffiyeh
-                      etsy art party before they sold out master cleanse
-                      gluten-free squid scenester freegan cosby sweater. Fanny
-                      pack portland seitan DIY, art party locavore wolf cliche
-                      high life echo park Austin. Cred vinyl keffiyeh DIY salvia
-                      PBR, banh mi before they sold out farm-to-table VHS viral
-                      locavore cosby sweater. Lomo wolf viral, mustache
-                      readymade thundercats keffiyeh craft beer marfa ethical.
-                      Wolf salvia freegan, sartorial keffiyeh echo park vegan.
-                    </p>
+                    {/* <div className="PMArea"> */}
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group mb-0">
+                          <label className="control-label">Team Members</label>
+                          <Select
+                            name="teamMembers"
+                            onFocus={() => props.setFieldTouched("teamMembers")}
+                            className={`my-select ${
+                              props.touched.teamMembers &&
+                              props.errors.teamMembers
+                                ? "is-invalid"
+                                : props.touched.teamMembers && "is-valid"
+                            }`}
+                            value={props.values.teamMembers}
+                            onChange={(val) =>
+                              props.setFieldValue("teamMembers", val)
+                            }
+                            options={teamMember}
+                            isMulti={true}
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.teamMembers &&
+                              props.errors.teamMembers}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-sm-6">
+                        {" "}
+                        <div className="form-group">
+                          <label>PM Start Date</label>
+                          <div>
+                            <DatePicker
+                              name="pmStartDate"
+                              onFocus={() =>
+                                props.setFieldTouched("pmStartDate")
+                              }
+                              className={`form-control ${
+                                props.touched.pmStartDate &&
+                                props.errors.pmStartDate
+                                  ? "is-invalid"
+                                  : props.touched.pmStartDate && "is-valid"
+                              }`}
+                              selected={props.values.pmStartDate}
+                              onChange={(date1) => {
+                                props.setFieldValue("pmStartDate", date1);
+                                // console.log("datepicker", date1);
+                              }}
+                            />
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.pmStartDate &&
+                                props.errors.pmStartDate}
+                            </span>
+                          </div>
+                        </div>{" "}
+                      </div>
+                      <div className="col-sm-6">
+                        {" "}
+                        <div className="form-group">
+                          <label>PM End Date</label>
+                          <div>
+                            <DatePicker
+                              name="pmEndDate"
+                              onFocus={() => props.setFieldTouched("pmEndDate")}
+                              selected={props.values.pmEndDate}
+                              className={`form-control ${
+                                props.touched.pmEndDate &&
+                                props.errors.pmEndDate
+                                  ? "is-invalid"
+                                  : props.touched.pmEndDate && "is-valid"
+                              }`}
+                              onChange={(date2) => {
+                                props.setFieldValue("pmEndDate", date2);
+                                // console.log("datepicker", date2);
+                              }}
+                            />
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.pmEndDate &&
+                                props.errors.pmEndDate}
+                            </span>
+                          </div>
+                        </div>{" "}
+                      </div>
+                    </div>
+                    <PhaseList
+                      setPhaseDetials={setPhasesDetails}
+                      phasesDetails={phasesDetails}
+                      editable={editable}
+                      phaseArray={phaseValue}
+                    />
+                    {/* </div> */}
+
+                    <div class="form-check">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="exampleCheck1"
+                        value={outSourceHideField}
+                        onChange={(selected) => {
+                          setOutSourceHideField(!outSourceHideField);
+                          // props.setFieldValue(selected);
+                        }}
+                      />
+                      <label class="form-check-label" for="exampleCheck1">
+                        Out Source
+                      </label>
+                    </div>
+                    <div className="row">
+                      <div
+                        className={`${
+                          outSourceHideField === true
+                            ? `display-form-field col `
+                            : `hide-form-field`
+                        }`}
+                      >
+                        <OutSourceList
+                          setPhaseDetials={setOutSourceDetails}
+                          phasesDetails={outSourceDetails}
+                          editable={editable}
+                          phaseArray={outSourceValue}
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div
                     className="tab-pane p-3"
                     id="project-status"
                     role="tabpanel"
                   >
-                    <p className="font-14 mb-0">project status</p>
+                    <div className="row">
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <div className="row">
+                            <div className="col">
+                              <label className="control-label">Status</label>
+                            </div>
+                            <div className="col">
+                              <div
+                                className="d-flex justify-content-end"
+                                id="add-new-Buttonm "
+                                onClick={() => {
+                                  toggleStatusEdit();
+                                }}
+                              >
+                                <i className="mdi mdi-plus-circle icon-add" />
+                              </div>
+                            </div>
+                          </div>
+
+                          <Select
+                            name="status"
+                            onFocus={() => props.setFieldTouched("status")}
+                            value={props.values.status}
+                            className={`my-select ${
+                              props.touched.status && props.errors.status
+                                ? "is-invalid"
+                                : props.touched.status && "is-valid"
+                            } `}
+                            onChange={(val) =>
+                              props.setFieldValue("status", val)
+                            }
+                            options={status}
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.status && props.errors.status}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    {/* <p className="font-14 mb-0">project status</p> */}
                   </div>
                   <div
                     className="tab-pane p-3"
@@ -653,7 +1416,7 @@ const ProjectForm = (props) => {
             </div>
           </div>
           <div className="row">
-            <div className="col">
+            {/* <div className="col">
               <div className="form-group">
                 <label>Project Name</label>
                 <input
@@ -709,10 +1472,10 @@ const ProjectForm = (props) => {
                   {props.touched.clientName && props.errors.clientName}
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="row">
-            <div className="col">
+            {/* <div className="col">
               <div className="form-group">
                 <label>Order Number</label>
                 <input
@@ -798,11 +1561,11 @@ const ProjectForm = (props) => {
                   {props.touched.projectType && props.errors.projectType}
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="row">
-            <div className="col">
+            {/* <div className="col">
               <div className="form-group">
                 <label className="control-label">Project Manager</label>
                 <Select
@@ -842,10 +1605,10 @@ const ProjectForm = (props) => {
                   {props.touched.teamMembers && props.errors.teamMembers}
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="row">
-            <div
+            {/* <div
               className={`${
                 hideField === true
                   ? `hide-form-field`
@@ -898,8 +1661,8 @@ const ProjectForm = (props) => {
                   {props.touched.hourlyCost && props.errors.hourlyCost}
                 </span>
               </div>
-            </div>
-            <div className="col">
+            </div> */}
+            {/* <div className="col">
               <div className="form-group">
                 <label>Cost</label>
                 <input
@@ -919,14 +1682,14 @@ const ProjectForm = (props) => {
                   {props.touched.cost && props.errors.cost}
                 </span>
               </div>
-            </div>
-            <div className="col">
+            </div> */}
+            {/* <div className="col">
               <div className="form-group">
                 <div className="row">
                   <div className="col">
                     <label className="control-label">Currency</label>
-                  </div>
-                  {/* <div className="col">
+                  </div> */}
+            {/* <div className="col">
                     <div
                       className="d-flex justify-content-end"
                       id="add-new-Buttonm "
@@ -937,7 +1700,7 @@ const ProjectForm = (props) => {
                       <i className="mdi mdi-plus-circle icon-add" />
                     </div>
                   </div> */}
-                </div>
+            {/* </div>
                 <Select
                   name="currency"
                   onFocus={() => props.setFieldTouched("currency")}
@@ -957,10 +1720,10 @@ const ProjectForm = (props) => {
                   {props.touched.currency && props.errors.currency}
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="row">
-            <div className="col">
+            {/* <div className="col">
               {" "}
               <div className="form-group">
                 <label>Client Start Date</label>
@@ -1045,11 +1808,11 @@ const ProjectForm = (props) => {
                   {props.touched.status && props.errors.status}
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="row">
-            <div className="col">
+            {/* <div className="col">
               <div className="form-group">
                 <div className="row">
                   <div className="col">
@@ -1155,10 +1918,10 @@ const ProjectForm = (props) => {
                   {props.touched.nature && props.errors.nature}
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="row">
-            <div className="col">
+            {/* <div className="col">
               <div className="form-group">
                 <label>Platform Deduction</label>
                 <div className="input-group">
@@ -1226,7 +1989,7 @@ const ProjectForm = (props) => {
                   {props.touched.Rprofit && props.errors.Rprofit}
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* <form>
@@ -1260,7 +2023,7 @@ const ProjectForm = (props) => {
             </div>
           </form> */}
 
-          <div className="row">
+          {/* <div className="row">
             <div className="col-12">
               <h4 className="mt-0 header-title">Description</h4>
               <Editor
@@ -1278,14 +2041,14 @@ const ProjectForm = (props) => {
                 {props.touched.description && props.errors.description}
               </span>
             </div>
-          </div>
+          </div> */}
           <div className="PMArea">
-            <h4 className="d-flex justify-content-center mb-4">
+            {/* <h4 className="d-flex justify-content-center mb-4">
               Project Manager Area
-            </h4>
+            </h4> */}
             <div className="row">
-              <div className="col-sm-1" />
-              <div className="col-sm-5">
+              {/* <div className="col-sm-1" /> */}
+              {/* <div className="col-sm-5">
                 {" "}
                 <div className="form-group">
                   <label>PM Start Date</label>
@@ -1309,8 +2072,8 @@ const ProjectForm = (props) => {
                     </span>
                   </div>
                 </div>{" "}
-              </div>
-              <div className="col-sm-5">
+              </div> */}
+              {/* <div className="col-sm-5">
                 {" "}
                 <div className="form-group">
                   <label>PM End Date</label>
@@ -1334,17 +2097,17 @@ const ProjectForm = (props) => {
                     </span>
                   </div>
                 </div>{" "}
-              </div>
-              <div className="col-sm-1" />
+              </div> */}
+              {/* <div className="col-sm-1" /> */}
             </div>
-            <PhaseList
+            {/* <PhaseList
               setPhaseDetials={setPhasesDetails}
               phasesDetails={phasesDetails}
               editable={editable}
               phaseArray={phaseValue}
-            />
+            /> */}
           </div>
-          <div className="d-flex justify-content-center row">
+          <div className="d-flex row">
             <div className="primary-button">
               <Button
                 className="mt-3 my-primary-button"

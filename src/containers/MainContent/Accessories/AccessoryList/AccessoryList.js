@@ -20,6 +20,30 @@ const CountryList = () => {
         // width: 150,
       },
       {
+        label: "Quantity",
+        field: "quantity",
+        sort: "asc",
+        // width: 150,
+      },
+      {
+        label: "Used",
+        field: "used",
+        sort: "asc",
+        // width: 150,
+      },
+      {
+        label: "Free",
+        field: "free",
+        sort: "asc",
+        // width: 150,
+      },
+      {
+        label: "Faulty",
+        field: "faulty",
+        sort: "asc",
+        // width: 150,
+      },
+      {
         label: "Action",
         field: "action",
         sort: "asc",
@@ -90,37 +114,18 @@ const CountryList = () => {
             <div className="col-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                <div className="row align-items-center mb-3">
-                    <div className="col">
-                    <h3 className="m-0 p-0">All Accessories</h3>
-                    </div>
-                    <div className="col">
-                    <Link to="/add-Accessory">
-                      <Button
-                        color="success"
-                        className="my-primary-button float-right"
-                      >
-                        Add Accessories
-                      </Button>
-                    </Link>
-                    </div>
-                  </div>
                   <MDBDataTableV5
-                  
-                   small
-                 
-                   bordered={true}
-                  //  materialSearch
-                   searchTop
-                   searchBottom={false}
-                   pagingTop
-                   barReverse
-                  
+                    small
+                    bordered={true}
+                    //  materialSearch
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
                     striped
                     bordered
                     hover
                     responsive
-                 
                     data={data}
                   />
                 </div>

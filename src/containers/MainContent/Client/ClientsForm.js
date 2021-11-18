@@ -12,12 +12,11 @@ import AddPlatform from "../Platform/PlatformForm/PlatformForm";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import ClientLabelService from "../../../services/ClientLabelService";
 import AddClientLabel from "../ClientLabel/ClientLabelForm/ClientLabelForm";
-import "./ClientForm.scss";
 
 const ClientsForm = (props) => {
   const [default_date, set_default_date] = useState(0);
   const [dataa, setData] = useState();
-  const [country, setCountry] = useState("");
+  // const [country, setCountry] = useState("");
   const [platform, setPlatform] = useState([]);
   const [clientLabel, setClientLabel] = useState([]);
   const [platformModal, setPlatformModal] = useState(false);
@@ -69,7 +68,7 @@ const ClientsForm = (props) => {
 
   const client = props.client;
   const editable = props.editable;
-  // console.log("from client form ", client);
+  console.log("from client form ", client);
 
   return (
     <Formik
@@ -83,7 +82,7 @@ const ClientsForm = (props) => {
         otherContact: editable && client.otherContact,
         ul: editable && client.url,
         dateOfJoin: editable && client.dateOfJoin,
-        country: editable && client.country,
+        country: editable && client.country && client.country,
         socialContact: editable && client.socialContact,
         platform: editable
           ? client.platform && {
@@ -108,9 +107,9 @@ const ClientsForm = (props) => {
           ? client.status && { label: client.status, value: client.status }
           : { label: "Individual", value: "Individual" },
       }}
-      // validationSchema={clientValidation.authSchemaValidation}
+      validationSchema={clientValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
-        console.log("countries", values.country);
+        console.log("con", values.country);
         editable
           ? ClientService.updateClient(client._id, {
               name: values.title,
@@ -122,7 +121,7 @@ const ClientsForm = (props) => {
               otherContact: values.otherContact,
               dateOfJoin: values.dateOfJoin,
               url: values.ul,
-              country: country,
+              country: values.country,
               platform: values.platform.value,
               clientLabel: values.clientLabel.value,
               status: values.status.value,
@@ -145,7 +144,7 @@ const ClientsForm = (props) => {
               mobileNo: values.conNum,
               dateOfJoin: values.dateOfJoin,
               url: values.ul,
-              country: country,
+              country: values.country,
               platform: values.platform.value,
               otherContact: values.otherContact,
               status: values.status.value,
@@ -155,9 +154,9 @@ const ClientsForm = (props) => {
               .then((res) => {
                 props.toggle && props.toggle();
                 ClientService.handleMessage("add");
-                if (props.redirect) {
-                  history.push("/viewclient");
-                }
+                // if (props.redirect) {
+                //   history.push("/viewclient");
+                // }
               })
               .catch((err) => {
                 ClientService.handleCustomMessage(err.response.data);
@@ -167,15 +166,14 @@ const ClientsForm = (props) => {
     >
       {(props) => (
         <>
+          {console.log("err", props)}
           <div className="col-lg-12 client-form">
-            {/* <div className="card m-b-20"> */}
-            {/* <div className="card-body"> */}
             <ul className="nav nav-pills" role="tablist">
               <li className="nav-item">
                 <a
                   className="nav-link active"
                   data-toggle="tab"
-                  href="#home2"
+                  href={`#home2${editable && `editable`}`}
                   role="tab"
                 >
                   <span className="d-none d-md-block">
@@ -184,7 +182,7 @@ const ClientsForm = (props) => {
                     Quick Info
                   </span>
                   <span className="d-block d-md-none">
-                    <i className="mdi mdi-home-variant h5" />
+                    <i className="mdi mdi-information h5" />
                   </span>
                 </a>
               </li>
@@ -192,7 +190,7 @@ const ClientsForm = (props) => {
                 <a
                   className="nav-link"
                   data-toggle="tab"
-                  href="#profile2"
+                  href={`#profile2${editable && `editable`}`}
                   role="tab"
                 >
                   <span className="d-none d-md-block">
@@ -200,30 +198,18 @@ const ClientsForm = (props) => {
                     Other Info
                   </span>
                   <span className="d-block d-md-none">
-                    <i className="mdi mdi-account h5" />
-                  </span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  data-toggle="tab"
-                  href="#settings"
-                  role="tab"
-                >
-                  <span className="d-none d-md-block">
-                    <i class="mdi mdi-settings pr-1" />
-                    Settings
-                  </span>
-                  <span className="d-block d-md-none">
-                    <i className="mdi mdi-settings h5" />
+                    <i className="mdi mdi-information-outline h5" />
                   </span>
                 </a>
               </li>
             </ul>
 
             <div className="tab-content">
-              <div className="tab-pane active p-3" id="home2" role="tabpanel">
+              <div
+                className="tab-pane active p-3"
+                id={`home2${editable && `editable`}`}
+                role="tabpanel"
+              >
                 <div className="row">
                   <div className="col-6">
                     <div className="form-group">
@@ -282,8 +268,12 @@ const ClientsForm = (props) => {
                         id="country"
                         name="country"
                         class="form-control"
-                        defaultValue={props.values.country}
-                        onChange={(e) => setCountry(e.target.value)}
+                        value={props.values.country}
+                        onChange={(selected) => {
+                          console.log("sel", selected.target.value);
+                          props.setFieldValue("country", selected.target.value);
+                        }}
+                        // onChange={(e) => setCountry(e.target.value)}
                       >
                         <option value="Afghanistan">Afghanistan</option>
                         <option value="Åland Islands">Åland Islands</option>
@@ -661,7 +651,11 @@ const ClientsForm = (props) => {
                   </div>
                 </div>
               </div>
-              <div className="tab-pane p-3" id="profile2" role="tabpanel">
+              <div
+                className="tab-pane p-3"
+                id={`profile2${editable && `editable`}`}
+                role="tabpanel"
+              >
                 <div className="row">
                   <div className="col-6">
                     <div className="form-group">
@@ -922,24 +916,7 @@ const ClientsForm = (props) => {
                   </div>
                 </div>
               </div>
-              <div className="tab-pane p-3" id="settings" role="tabpanel">
-                <div className="row cardd">
-                  <i class="mdi mdi-account-multiple iconSize" />
-                  <i class="mdi mdi-settings iconSize" />
-                </div>
-                <div className="row border-b">
-                  <h2>Client Settings</h2>
-                </div>
-                <div className="row cardd">
-                  <Link to="/add-platform">Platform</Link>
-                </div>
-                <div className="row cardd">
-                  <Link to="/add-platform">Client Label</Link>
-                </div>
-              </div>
             </div>
-            {/* </div>
-            </div> */}
           </div>
           <Modal
             style={{ maxWidth: "70%" }}

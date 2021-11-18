@@ -26,10 +26,11 @@ const LeaveSettings = (props) => {
           },
         noticeDays: editable && leaveSettings.noticeDays,
         daysOff: editable && leaveSettings.daysOff && daysOf ? daysOf : [],
-        timesheetSave: editable && leaveSettings.timesheetSave && {
-          label: leaveSettings.timesheetSave,
-          value: leaveSettings.timesheet,
-        }
+        timesheetSave: editable &&
+          leaveSettings.timesheetSave && {
+            label: leaveSettings.timesheetSave,
+            value: leaveSettings.timesheet,
+          },
       }}
       onSubmit={(values, actions) => {
         const days = [];
@@ -58,24 +59,22 @@ const LeaveSettings = (props) => {
         //         LeaveService.handleCustomMessage(err.response.data);
         //       })
         //   :
-           LeaveService.leaveSettings(
-            {
-              noticeDays: values.noticeDays,
-              sandwhich: values.sandwhich.value,
-              daysOff: days,
-              timesheetSave: values.timesheetSave.value,
+        LeaveService.leaveSettings({
+          noticeDays: values.noticeDays,
+          sandwhich: values.sandwhich.value,
+          daysOff: days,
+          timesheetSave: values.timesheetSave.value,
+        })
+          .then((res) => {
+            props.toggle && props.toggle();
+            LeaveService.handleMessage("add");
+            if (props.redirect) {
+              actions.setFieldValue("title", "");
             }
-            )
-              .then((res) => {
-                props.toggle && props.toggle();
-                LeaveService.handleMessage("add");
-                if (props.redirect) {
-                  actions.setFieldValue("title", "");
-                }
-              })
-              .catch((err) => {
-                LeaveService.handleCustomMessage(err.response.data);
-              });
+          })
+          .catch((err) => {
+            LeaveService.handleCustomMessage(err.response.data);
+          });
       }}
     >
       {(props) => {
@@ -83,7 +82,7 @@ const LeaveSettings = (props) => {
           <>
             <div className="leave-settings">
               <div className="container">
-                <h1 className="mb-4 mt-3"> Settings</h1>
+                <h1 className="mb-4 mt-3"> Settings </h1>
                 <div className="project-settings">
                   <div className="row">
                     <div className="col">
@@ -187,7 +186,8 @@ const LeaveSettings = (props) => {
                           name="timesheetSave"
                           onBlur={props.handleBlur}
                           className={`my-select${
-                            props.touched.timesheetSave && props.errors.timesheetSave
+                            props.touched.timesheetSave &&
+                            props.errors.timesheetSave
                               ? "is-invalid"
                               : props.touched.timesheetSave && "is-valid"
                           }`}
@@ -202,7 +202,8 @@ const LeaveSettings = (props) => {
                           ]}
                         />
                         <span id="err" className="invalid-feedback">
-                          {props.touched.timesheetSave && props.errors.timesheetSave}
+                          {props.touched.timesheetSave &&
+                            props.errors.timesheetSave}
                         </span>
                       </div>
                     </div>
