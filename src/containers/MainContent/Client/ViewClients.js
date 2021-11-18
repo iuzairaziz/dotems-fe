@@ -23,7 +23,7 @@ const ViewClients = (props) => {
         width: 125,
       },
       {
-        label: "Company Name",
+        label: "Client Label",
         field: "companyName",
         sort: "asc",
         width: 125,
@@ -100,7 +100,17 @@ const ViewClients = (props) => {
         res.data.map((item, index) => {
           updatedData.rows.push({
             clientName: item.name ? item.name : "N/A",
-            companyName: item.companyName ? item.companyName : "N/A",
+            companyName: (
+              <div
+                className="badge"
+                style={{
+                  backgroundColor: `${item.clientLabel &&
+                    item.clientLabel.color}`,
+                }}
+              >
+                {item.clientLabel ? item.clientLabel.name : "N/A"}
+              </div>
+            ),
             Email: item.email ? item.email : "N/A",
             Address: item.address ? item.address : "N/A",
             contactNum: item.mobileNo ? item.mobileNo : "N/A",

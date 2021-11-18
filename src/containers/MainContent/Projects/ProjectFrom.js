@@ -57,6 +57,7 @@ const ProjectForm = (props) => {
   const [phaseValue, setPhaseValue] = useState(true);
   const [outSourceValue, setOutSourceValue] = useState(true);
   const [outSourceHideField, setOutSourceHideField] = useState(false);
+  const [platformPreset, setPlatformPreset] = useState();
 
   const [phasesDetails, setPhasesDetails] = useState([
     {
@@ -206,8 +207,13 @@ const ProjectForm = (props) => {
     ClientService.getAllClient().then((res) => {
       let options = [];
       res.data.map((item, index) => {
-        options.push({ label: item.name, value: item._id });
+        options.push({
+          label: item.name,
+          value: item._id,
+          clientType: item.clientType,
+        });
       });
+      // console.log("client", options);
       setClient(options);
     });
   };
@@ -249,6 +255,9 @@ const ProjectForm = (props) => {
         options.push({ label: item.name, value: item._id });
       });
       setPlatform(options);
+      const preset = res.data.find((platform) => platform.preset === true);
+      console.log("...", preset);
+      setPlatformPreset({ label: preset.name, value: preset._id });
     });
   };
 
@@ -291,12 +300,14 @@ const ProjectForm = (props) => {
 
   return (
     <Formik
+      enableReinitialize={true}
       initialValues={{
         projectName: editable && project.name,
         clientName: editable &&
           project.client && {
             label: project.client.name,
             value: project.client._id,
+            clientType: project.client.clientType,
           },
         status: editable &&
           project.status && {
@@ -312,11 +323,12 @@ const ProjectForm = (props) => {
         clientHours: editable && project.clientHours,
         hourlyCost: editable && project.hourlyCost,
         Rprofit: editable && project.Rprofit,
-        platform: editable &&
-          project.platform && {
-            label: project.platform.name,
-            value: project.platform._id,
-          },
+        platform: editable
+          ? project.platform && {
+              label: project.platform.name,
+              value: project.platform._id,
+            }
+          : platformPreset,
         technology:
           editable && project.technology && Technology ? Technology : [],
         serviceType: editable &&
@@ -447,14 +459,24 @@ const ProjectForm = (props) => {
               projectType: values.projectType.value,
             })
               .then((res) => {
+                let client = res.data.client;
+
+                client.clientType = values.clientType;
+                console.log("client", client);
+                ClientService.updateClient(client._id, { ...client })
+                  .then(() => {
+                    console.log("client updated");
+                  })
+                  .catch(() => {
+                    console.log("client not updated");
+                  });
                 ProjectService.handleMessage("add");
-                history.push("/viewproject");
+                // history.push("/viewproject");
               })
               .catch((err) => {
+                console.log("err", err);
                 ProjectService.handleCustomMessage(err.response.data);
               });
-        console.error("actions", actions);
-        console.error("err", errors);
 
         // setPhaseArray(project.phase);
       }}
@@ -469,7 +491,7 @@ const ProjectForm = (props) => {
                     <a
                       className="nav-link active"
                       data-toggle="tab"
-                      href="#home-1"
+                      href={`#home-1${editable && `editable`}`}
                       role="tab"
                     >
                       <span className="d-none d-md-block">
@@ -477,7 +499,7 @@ const ProjectForm = (props) => {
                         <i class="mdi mdi-information pr-1" /> Quick Info{" "}
                       </span>
                       <span className="d-block d-md-none">
-                        <i className="mdi mdi-home-variant h5" />
+                        <i className="mdi mdi-information h5" />
                       </span>
                     </a>
                   </li>
@@ -485,7 +507,7 @@ const ProjectForm = (props) => {
                     <a
                       className="nav-link"
                       data-toggle="tab"
-                      href="#profile-1"
+                      href={`#profile1${editable && `editable`}`}
                       role="tab"
                     >
                       <span className="d-none d-md-block">
@@ -494,7 +516,7 @@ const ProjectForm = (props) => {
                         Client Info
                       </span>
                       <span className="d-block d-md-none">
-                        <i className="mdi mdi-account h5" />
+                        <i className="mdi mdi-account-multiple h5" />
                       </span>
                     </a>
                   </li>
@@ -502,7 +524,7 @@ const ProjectForm = (props) => {
                     <a
                       className="nav-link"
                       data-toggle="tab"
-                      href="#messages-1"
+                      href={`#messages-1${editable && `editable`}`}
                       role="tab"
                     >
                       <span className="d-none d-md-block">
@@ -511,7 +533,7 @@ const ProjectForm = (props) => {
                         Financial Info
                       </span>
                       <span className="d-block d-md-none">
-                        <i className="mdi mdi-email h5" />
+                        <i className="mdi mdi-cash-multiple h5" />
                       </span>
                     </a>
                   </li>
@@ -519,7 +541,7 @@ const ProjectForm = (props) => {
                     <a
                       className="nav-link"
                       data-toggle="tab"
-                      href="#settings-1"
+                      href={`#settings-1${editable && `editable`}`}
                       role="tab"
                     >
                       <span className="d-none d-md-block">
@@ -527,7 +549,7 @@ const ProjectForm = (props) => {
                         Planning and Assessment
                       </span>
                       <span className="d-block d-md-none">
-                        <i className="mdi mdi-settings h5" />
+                        <i className="mdi mdi-clipboard-text h5" />
                       </span>
                     </a>
                   </li>
@@ -535,7 +557,7 @@ const ProjectForm = (props) => {
                     <a
                       className="nav-link"
                       data-toggle="tab"
-                      href="#project-status"
+                      href={`#project-status${editable && `editable`}`}
                       role="tab"
                     >
                       <span className="d-none d-md-block">
@@ -544,7 +566,7 @@ const ProjectForm = (props) => {
                         Project Status
                       </span>
                       <span className="d-block d-md-none">
-                        <i className="mdi mdi-settings h5" />
+                        <i className="mdi mdi-clock h5" />
                       </span>
                     </a>
                   </li>
@@ -552,7 +574,7 @@ const ProjectForm = (props) => {
                     <a
                       className="nav-link"
                       data-toggle="tab"
-                      href="#attachments"
+                      href={`#attachments${editable && `editable`}`}
                       role="tab"
                     >
                       <span className="d-none d-md-block">
@@ -560,7 +582,7 @@ const ProjectForm = (props) => {
                         Attachments{" "}
                       </span>
                       <span className="d-block d-md-none">
-                        <i className="mdi mdi-settings h5" />
+                        <i className="mdi mdi-attachment h5" />
                       </span>
                     </a>
                   </li>
@@ -568,7 +590,7 @@ const ProjectForm = (props) => {
                     <a
                       className="nav-link"
                       data-toggle="tab"
-                      href="#pac"
+                      href={`#pac${editable && `editable`}`}
                       role="tab"
                     >
                       <span className="d-none d-md-block">
@@ -576,7 +598,7 @@ const ProjectForm = (props) => {
                         Project Assessment Cost{" "}
                       </span>
                       <span className="d-block d-md-none">
-                        <i className="mdi mdi-settings h5" />
+                        <i className="mdi mdi-cash-usd h5" />
                       </span>
                     </a>
                   </li>
@@ -584,15 +606,15 @@ const ProjectForm = (props) => {
                     <a
                       className="nav-link"
                       data-toggle="tab"
-                      href="r&r"
+                      href={`#rr${editable && `editable`}`}
                       role="tab"
                     >
                       <span className="d-none d-md-block">
-                        <i class="mdi mdi-cash-usd" />
+                        <i class="mdi mdi-star-half" />
                         Review and Ratings{" "}
                       </span>
                       <span className="d-block d-md-none">
-                        <i className="mdi mdi-settings h5" />
+                        <i className="mdi mdi-star-half h5" />
                       </span>
                     </a>
                   </li>
@@ -601,7 +623,7 @@ const ProjectForm = (props) => {
                 <div className="tab-content">
                   <div
                     className="tab-pane active p-3"
-                    id="home-1"
+                    id={`home-1${editable && `editable`}`}
                     role="tabpanel"
                   >
                     <div className="row">
@@ -663,7 +685,7 @@ const ProjectForm = (props) => {
                                   togglePlatformEdit();
                                 }}
                               >
-                                <i className="mdi mdi-plus-circle icon-add" />
+                                <i className="mdi mdi-plus icon-add" />
                               </div>
                             </div>
                           </div>
@@ -705,7 +727,7 @@ const ProjectForm = (props) => {
                                   toggleTechnologyEdit();
                                 }}
                               >
-                                <i className="mdi mdi-plus-circle icon-add" />
+                                <i className="mdi mdi-plus icon-add" />
                               </div>
                             </div>
                           </div>
@@ -748,7 +770,7 @@ const ProjectForm = (props) => {
                                   toggleServiceEdit();
                                 }}
                               >
-                                <i className="mdi mdi-plus-circle icon-add" />
+                                <i className="mdi mdi-plus icon-add" />
                               </div>
                             </div>
                           </div>
@@ -789,7 +811,7 @@ const ProjectForm = (props) => {
                                   toggleNatureEdit();
                                 }}
                               >
-                                <i className="mdi mdi-plus-circle icon-add" />
+                                <i className="mdi mdi-plus icon-add" />
                               </div>
                             </div>
                           </div>
@@ -874,9 +896,13 @@ const ProjectForm = (props) => {
                       butcher voluptate nisi qui.
                     </p> */}
                   </div>
-                  <div className="tab-pane p-3" id="profile-1" role="tabpanel">
+                  <div
+                    className="tab-pane p-3"
+                    id={`profile1${editable && `editable`}`}
+                    role="tabpanel"
+                  >
                     <div className="row">
-                      <div className="col-md-6">
+                      <div className="col-6">
                         <div className="form-group">
                           <div className="row">
                             <div className="col">
@@ -907,9 +933,20 @@ const ProjectForm = (props) => {
                             }`}
                             onFocus={() => props.setFieldTouched("clientName")}
                             value={props.values.clientName}
-                            onChange={(val) =>
-                              props.setFieldValue("clientName", val)
-                            }
+                            onChange={(val) => {
+                              ClientService.clientType(val.value)
+                                .then(() => {
+                                  props.setFieldValue(
+                                    "clientType",
+                                    "Returning"
+                                  );
+                                })
+                                .catch(() => {
+                                  props.setFieldValue("clientType", "New");
+                                });
+                              props.setFieldValue("clientName", val);
+                              console.log("c val", val);
+                            }}
                             options={client}
                           />
                           <span id="err" className="invalid-feedback">
@@ -921,23 +958,20 @@ const ProjectForm = (props) => {
                       <div className="col-6">
                         <div className="form-group">
                           <label className="control-label">Client Type</label>
-                          <Select
+                          <input
                             name="clientType"
                             onBlur={props.handleBlur}
-                            value={props.values.clientType}
-                            className={`my-select${
+                            type="text"
+                            className={`form-control ${
                               props.touched.clientType &&
                               props.errors.clientType
                                 ? "is-invalid"
                                 : props.touched.clientType && "is-valid"
                             }`}
-                            onChange={(selected) => {
-                              props.setFieldValue("clientType", selected);
-                            }}
-                            options={[
-                              { value: "First Time", label: "First Time" },
-                              { value: "Returning", label: "Returning" },
-                            ]}
+                            value={props.values.clientType}
+                            onChange={props.handleChange("clientType")}
+                            placeholder="Enter Name"
+                            disabled
                           />
                           <span id="err" className="invalid-feedback">
                             {props.touched.clientType &&
@@ -1004,7 +1038,11 @@ const ProjectForm = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="tab-pane p-3" id="messages-1" role="tabpanel">
+                  <div
+                    className="tab-pane p-3"
+                    id={`messages-1${editable && `editable`}`}
+                    role="tabpanel"
+                  >
                     <div className="row">
                       <div className="col">
                         <div className="form-group">
@@ -1224,7 +1262,11 @@ const ProjectForm = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="tab-pane p-3" id="settings-1" role="tabpanel">
+                  <div
+                    className="tab-pane p-3"
+                    id={`settings-1${editable && `editable`}`}
+                    role="tabpanel"
+                  >
                     {/* <div className="PMArea"> */}
                     <div className="row">
                       <div className="col-md-12">
@@ -1353,7 +1395,7 @@ const ProjectForm = (props) => {
                   </div>
                   <div
                     className="tab-pane p-3"
-                    id="project-status"
+                    id={`project-status${editable && `editable`}`}
                     role="tabpanel"
                   >
                     <div className="row">
@@ -1371,7 +1413,7 @@ const ProjectForm = (props) => {
                                   toggleStatusEdit();
                                 }}
                               >
-                                <i className="mdi mdi-plus-circle icon-add" />
+                                <i className="mdi mdi-plus icon-add" />
                               </div>
                             </div>
                           </div>
@@ -1400,16 +1442,182 @@ const ProjectForm = (props) => {
                   </div>
                   <div
                     className="tab-pane p-3"
-                    id="attachments"
+                    id={`attachments${editable && `editable`}`}
                     role="tabpanel"
                   >
                     <p className="font-14 mb-0">attachments</p>
                   </div>
-                  <div className="tab-pane p-3" id="pac" role="tabpanel">
-                    <p className="font-14 mb-0">pac</p>
+                  <div
+                    className="tab-pane p-3"
+                    id={`pac${editable && `editable`}`}
+                    role="tabpanel"
+                  >
+                    <div className="row">
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Employee Name</label>
+                          <input
+                            name="employeeName"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control ${
+                              props.touched.employeeName &&
+                              props.errors.employeeName
+                                ? "is-invalid"
+                                : props.touched.employeeName && "is-valid"
+                            }`}
+                            // value={props.values.employeeName}
+                            // onChange={props.handleChange("employeeName")}
+                            placeholder="Enter Name"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.employeeName &&
+                              props.errors.employeeName}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Employee cost per hour</label>
+                          <input
+                            name="costPerHour"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control ${
+                              props.touched.costPerHour &&
+                              props.errors.costPerHour
+                                ? "is-invalid"
+                                : props.touched.costPerHour && "is-valid"
+                            }`}
+                            // value={props.values.costPerHour}
+                            // onChange={props.handleChange("costPerHour")}
+                            placeholder="Enter Cost"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.costPerHour &&
+                              props.errors.costPerHour}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Employee estimated hours</label>
+                          <input
+                            name="empEstHrs"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control ${
+                              props.touched.empEstHrs && props.errors.empEstHrs
+                                ? "is-invalid"
+                                : props.touched.empEstHrs && "is-valid"
+                            }`}
+                            // value={props.values.empEstHrs}
+                            // onChange={props.handleChange("empEstHrs")}
+                            placeholder="Enter Hours"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.empEstHrs && props.errors.empEstHrs}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Employee project estimated cost</label>
+                          <input
+                            name="empEstCst"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control ${
+                              props.touched.empEstCst && props.errors.empEstCst
+                                ? "is-invalid"
+                                : props.touched.empEstCst && "is-valid"
+                            }`}
+                            // value={props.values.empEstCst}
+                            // onChange={props.handleChange("empEstCst")}
+                            placeholder="Employee project estimated cost"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.empEstCst && props.errors.empEstCst}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Total estimated cost</label>
+                          <input
+                            name="totalEstCost"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control ${
+                              props.touched.totalEstCost &&
+                              props.errors.totalEstCost
+                                ? "is-invalid"
+                                : props.touched.totalEstCost && "is-valid"
+                            }`}
+                            // value={props.values.totalEstCost}
+                            // onChange={props.handleChange("totalEstCost")}
+                            placeholder="Total estimated cost"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.totalEstCost &&
+                              props.errors.totalEstCost}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Total outsource cost</label>
+                          <input
+                            name="tOutSurCost"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control ${
+                              props.touched.tOutSurCost &&
+                              props.errors.tOutSurCost
+                                ? "is-invalid"
+                                : props.touched.tOutSurCost && "is-valid"
+                            }`}
+                            // value={props.values.tOutSurCost}
+                            // onChange={props.handleChange("tOutSurCost")}
+                            placeholder="Total outsource cost"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.tOutSurCost &&
+                              props.errors.tOutSurCost}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Assessment Profit/Loss</label>
+                          <input
+                            name="assPrftLoss"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control ${
+                              props.touched.assPrftLoss &&
+                              props.errors.assPrftLoss
+                                ? "is-invalid"
+                                : props.touched.assPrftLoss && "is-valid"
+                            }`}
+                            // value={props.values.assPrftLoss}
+                            // onChange={props.handleChange("assPrftLoss")}
+                            placeholder="Assessment Profit/Loss"
+                          />
+                          <span id="err" className="invalid-feedback">
+                            {props.touched.assPrftLoss &&
+                              props.errors.assPrftLoss}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="tab-pane p-3" id="r&r" role="tabpanel">
-                    <p className="font-14 mb-0">r&r</p>
+                  <div
+                    className="tab-pane p-3"
+                    id={`rr${editable && `editable`}`}
+                    role="tabpanel"
+                  >
+                    <p className="font-14 mb-0">rr</p>
                   </div>
                 </div>
               </div>

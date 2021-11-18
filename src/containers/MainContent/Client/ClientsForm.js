@@ -50,7 +50,7 @@ const ClientsForm = (props) => {
     ClientLabelService.getAllClientLabel().then((res) => {
       let options = [];
       res.data.map((item, index) => {
-        options.push({ label: item.name, value: item._id });
+        options.push({ label: item.name, value: item._id, color: item.color });
       });
       setClientLabel(options);
       const presetLabel = res.data.find(
@@ -102,7 +102,7 @@ const ClientsForm = (props) => {
                 label: client.clientType,
                 value: client.clientType,
               }
-            : { label: "First Time", value: "First Time" },
+            : { label: "New", value: "New" },
         status: editable
           ? client.status && { label: client.status, value: client.status }
           : { label: "Individual", value: "Individual" },
@@ -807,7 +807,7 @@ const ClientsForm = (props) => {
                           props.setFieldValue("clientType", selected);
                         }}
                         options={[
-                          { value: "First Time", label: "First Time" },
+                          { value: "New", label: "New" },
                           { value: "Returning", label: "Returning" },
                         ]}
                       />

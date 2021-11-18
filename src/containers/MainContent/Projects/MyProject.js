@@ -269,29 +269,20 @@ const MyProjects = (props, match) => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <div className="row align-items-center mb-3">
-                    <div className="col">
-                      <h3 className="m-0 p-0">My Projects</h3>
-                    </div>
-                  </div>
-                  <MDBDataTableV5
-                    responsive
-                    striped
-                    small
-                    onPageChange={(val) => console.log(val)}
-                    bordered={true}
-                    searchTop
-                    searchBottom={false}
-                    pagingTop
-                    barReverse
-                    hover
-                    data={dataa}
-                    theadColor="#000"
-                  />
-                </div>
-              </div>
+              <MDBDataTableV5
+                responsive
+                striped
+                small
+                onPageChange={(val) => console.log(val)}
+                bordered={true}
+                searchTop
+                searchBottom={false}
+                pagingTop
+                barReverse
+                hover
+                data={dataa}
+                theadColor="#000"
+              />
             </div>
           </div>
         </div>
