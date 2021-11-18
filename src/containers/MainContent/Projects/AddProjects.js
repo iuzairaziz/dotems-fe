@@ -31,7 +31,7 @@ class AddProjects extends Component {
                   >
                     <span className="d-none d-md-block">My Projects</span>
                     <span className="d-block d-md-none">
-                      <i className="mdi mdi-home-variant h5" />
+                      <i className="mdi mdi-clipboard-account h5" />
                     </span>
                   </a>
                 </li>
@@ -44,7 +44,7 @@ class AddProjects extends Component {
                   >
                     <span className="d-none d-md-block">Project List</span>
                     <span className="d-block d-md-none">
-                      <i className="mdi mdi-account h5" />
+                      <i className="mdi mdi-clipboard-text h5" />
                     </span>
                   </a>
                 </li>
@@ -57,7 +57,7 @@ class AddProjects extends Component {
                   >
                     <span className="d-none d-md-block">+ Add Project</span>
                     <span className="d-block d-md-none">
-                      <i className="mdi mdi-email h5" />
+                      <i className="mdi mdi-plus h5" />
                     </span>
                   </a>
                 </li>

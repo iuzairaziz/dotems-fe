@@ -77,7 +77,22 @@ const OutSourceCreate = (props) => {
         </div>
 
         <div className="d-flex justify-content-end col-1 p-6">
-          {idx === 0 ? (
+          <button
+            onClick={() => props.add()}
+            type="button"
+            className="btn-sm btn-primary text-center buttonn"
+          >
+            <i className="fa fa-plus-circle" aria-hidden="true" />
+          </button>
+          <button
+            className="btn-sm btn-danger buttonn"
+            onClick={() => {
+              props.delete(val);
+            }}
+          >
+            <i className="fa fa-minus" aria-hidden="true" />
+          </button>
+          {/* {idx === 0 ? (
             props.phaseArray ? (
               ""
             ) : (
@@ -100,7 +115,7 @@ const OutSourceCreate = (props) => {
             >
               <i className="fa fa-minus" aria-hidden="true" />
             </button>
-          )}
+          )} */}
         </div>
       </div>
     );

@@ -13,6 +13,7 @@ import TechnologyService from "../../../services/TechnologyService";
 import "./ViewProject.scss";
 import $ from "jquery";
 import userService from "../../../services/UserService";
+import { withRouter } from "react-router-dom";
 
 const ViewProjects = (props, match) => {
   let history = useHistory();
@@ -274,39 +275,49 @@ const ViewProjects = (props, match) => {
             wrkdone: item.workDone ? item.workDone.toFixed(2) : "N/A",
             EstHrs: item.phase ? calEstHrs(item) : "N/A",
             action: (
-              <div className="row flex-nowrap align-items-center">
-                <i
-                  className="mdi mdi-eye
-                  iconsS my-primary-icon"
-                  onClick={() => {
-                    props.history.push({
-                      pathname: "/viewprojects/" + item._id,
-                    });
-                    console.log("ID", item._id);
-                  }}
-                />
-                <i
-                  className="mdi mdi-pencil-box
-                  iconsS my-seconday-icon"
-                  onClick={() => {
-                    setSelectedProject(item);
-                    toggleEdit();
-                  }}
-                />
-                <i
-                  className="mdi mdi-delete-forever iconsS my-danger-icon"
-                  onClick={() => {
-                    setSelectedProject(item);
-                    toggleDelete();
-                  }}
-                />
+              <div class="dropdown">
+                <button
+                  type="button"
+                  class="dropdown-toggle"
+                  data-toggle="dropdown"
+                >
+                  <i class="mdi mdi-view-list" size={40} />
+                </button>
+                <div class="dropdown-menu">
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      props.history.push({
+                        pathname: "/viewprojects/" + item._id,
+                      });
+                    }}
+                  >
+                    View
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedProject(item);
+                      toggleEdit();
+                    }}
+                  >
+                    Edit
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedProject(item);
+                      toggleDelete();
+                    }}
+                  >
+                    Delete
+                  </a>
+                </div>
               </div>
             ),
           });
         });
         setData(data);
-        // console.log("state data", dataa);
-        // console.log("my project data", data);
       })
       .catch((err) => {
         console.log(err);
@@ -319,118 +330,99 @@ const ViewProjects = (props, match) => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <div className="row align-items-center mb-3">
-                    <div className="col">
-                      <h3 className="m-0 p-0">All Projects</h3>
-                    </div>
-                    <div className="col">
-                      <Link to="/addproject">
-                        <Button
-                          color="success"
-                          className="my-primary-button float-right"
-                        >
-                          Add Project
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-3">
-                      <label>Platform Filter</label>
-                      <select
-                        className="form-control"
-                        onChange={(e) => {
-                          setApplyFilter(e.target.value);
-                        }}
-                      >
-                        <option key={1} value={""}>
-                          All
+              <div className="row">
+                <div className="col-3">
+                  <label>Platform Filter</label>
+                  <select
+                    className="form-control"
+                    onChange={(e) => {
+                      setApplyFilter(e.target.value);
+                    }}
+                  >
+                    <option key={1} value={""}>
+                      All
+                    </option>
+                    {filter.map((item, index) => {
+                      return (
+                        <option key={index} value={item.id}>
+                          {item.label}
                         </option>
-                        {filter.map((item, index) => {
-                          return (
-                            <option key={index} value={item.id}>
-                              {item.label}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div className="col-3">
-                      <label>Status Filter</label>
-                      <select
-                        className="form-control"
-                        onChange={(e) => {
-                          setApplyStatusFilter(e.target.value);
-                        }}
-                      >
-                        <option key={1} value={""}>
-                          All
+                      );
+                    })}
+                  </select>
+                </div>
+                <div className="col-3">
+                  <label>Status Filter</label>
+                  <select
+                    className="form-control"
+                    onChange={(e) => {
+                      setApplyStatusFilter(e.target.value);
+                    }}
+                  >
+                    <option key={1} value={""}>
+                      All
+                    </option>
+                    {statusfilter.map((item, index) => {
+                      return (
+                        <option key={index} value={item.id}>
+                          {item.label}
                         </option>
-                        {statusfilter.map((item, index) => {
-                          return (
-                            <option key={index} value={item.id}>
-                              {item.label}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div className="col-3">
-                      <label>Technology Filter</label>
-                      <select
-                        className="form-control"
-                        onChange={(e) => {
-                          setApplyTechnologyFilter(e.target.value);
-                        }}
-                      >
-                        <option key={1} value={""}>
-                          All
+                      );
+                    })}
+                  </select>
+                </div>
+                <div className="col-3">
+                  <label>Technology Filter</label>
+                  <select
+                    className="form-control"
+                    onChange={(e) => {
+                      setApplyTechnologyFilter(e.target.value);
+                    }}
+                  >
+                    <option key={1} value={""}>
+                      All
+                    </option>
+                    {technologyfilter.map((item, index) => {
+                      return (
+                        <option key={index} value={item.id}>
+                          {item.label}
                         </option>
-                        {technologyfilter.map((item, index) => {
-                          return (
-                            <option key={index} value={item.id}>
-                              {item.label}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div className="col-3">
-                      <label>Start Date Filter</label>
+                      );
+                    })}
+                  </select>
+                </div>
+                <div className="col-3">
+                  <label>Start Date Filter</label>
 
-                      <DatePicker
-                        className="form-control"
-                        value={cStart}
-                        selected={cStart}
-                        onChange={(cStart) => {
-                          setcStart(cStart);
-                          console.log("datepicker", cStart);
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <MDBDataTableV5
-                    responsive
-                    striped
-                    small
-                    onPageChange={(val) => console.log(val)}
-                    bordered={true}
-                    //  materialSearch
-                    searchTop
-                    searchBottom={false}
-                    pagingTop
-                    barReverse
-                    hover
-                    // scrollX
-                    // autoWidth
-                    data={dataa}
-                    theadColor="#000"
+                  <DatePicker
+                    className="form-control"
+                    value={cStart}
+                    selected={cStart}
+                    onChange={(cStart) => {
+                      setcStart(cStart);
+                      console.log("datepicker", cStart);
+                    }}
                   />
                 </div>
               </div>
+
+              <MDBDataTableV5
+                responsive
+                striped
+                small
+                onPageChange={(val) => console.log(val)}
+                bordered={true}
+                //  materialSearch
+                searchTop
+                searchBottom={false}
+                pagingTop
+                barReverse
+                hover
+                // scrollX
+                // autoWidth
+                data={dataa}
+                theadColor="#000"
+              />
             </div>
             <Modal
               style={{ maxWidth: "90%" }}
@@ -449,8 +441,8 @@ const ViewProjects = (props, match) => {
             <Modal isOpen={modalDelete} toggle={toggleDelete}>
               <ModalHeader toggle={toggleDelete}>Delete Project?</ModalHeader>
               <ModalBody>
-                Are you sure you want to delete the Project?
-                {selectedProject.projectName}
+                Are you sure you want to delete the Project "
+                {selectedProject.name}"?
               </ModalBody>
               <ModalFooter>
                 <Button
@@ -473,4 +465,4 @@ const ViewProjects = (props, match) => {
   );
 };
 
-export default ViewProjects;
+export default withRouter(ViewProjects);

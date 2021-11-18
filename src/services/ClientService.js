@@ -18,6 +18,10 @@ class ClientService {
     return axios.get(this.config.apiBaseUrl + "client/" + id);
   }
 
+  clientType(id) {
+    return axios.get(this.config.apiBaseUrl + "client/client-projects/" + id);
+  }
+
   getAllClient() {
     return axios.get(this.config.apiBaseUrl + "client/show-client");
   }
