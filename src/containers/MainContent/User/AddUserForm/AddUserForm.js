@@ -6,6 +6,8 @@ import { Dropdown, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useHistory } from "react-router-dom";
+import generator from "generate-password";
+
 import {
   Progress,
   Modal,
@@ -29,6 +31,7 @@ const UserForm = (props) => {
   const [employeeManager, setEmployeeManager] = useState([]);
   const [department, setDepartment] = useState([]);
   const [machineModal, setMachineModal] = useState(false);
+  const [password, setPassword] = useState();
 
   const config = new Configuration();
   const roles = config.Roles;
@@ -99,6 +102,15 @@ const UserForm = (props) => {
 
   var UserRole = [];
 
+  const passwordgenerate = () => {
+    let pass = generator.generate({
+      length: 10,
+      numbers: true,
+      uppercase: false,
+    });
+    return pass;
+  };
+
   editable &&
     user.userRole &&
     user.userRole.map((item) => UserRole.push({ label: item, value: item }));
@@ -106,8 +118,9 @@ const UserForm = (props) => {
   return (
     <Formik
       initialValues={{
-        name: editable && user.name,
-        userName: editable && user.email,
+        firstName: editable && user.firstName,
+        lastName: editable && user.lastName,
+        email: editable && user.email,
         gender: editable &&
           user.gender && { label: user.gender, value: user.gender },
         joiningDate: editable && user.joiningDate,
@@ -160,8 +173,9 @@ const UserForm = (props) => {
         });
         editable
           ? UserService.updateAllUserFields(user._id, {
-              name: values.name,
-              email: values.userName,
+              firstName: values.firstName,
+              lastName: values.lastName,
+              email: values.email,
               gender: values.gender.value,
               status: values.status.value,
               password: values.password,
@@ -185,8 +199,9 @@ const UserForm = (props) => {
                 props.toggle();
               })
           : UserService.register({
-              name: values.name,
-              email: values.userName,
+              firstName: values.firstName,
+              lastName: values.lastName,
+              email: values.email,
               gender: values.gender.value,
               status: values.status.value,
               password: values.password,
@@ -318,58 +333,104 @@ const UserForm = (props) => {
                       <div className="row">
                         <div className="col-6">
                           <div className="form-group">
-                            <label>Name</label>
+                            <label>First Name</label>
                             <input
-                              name="name"
+                              name="firstName"
                               onBlur={props.handleBlur}
                               type="text"
                               className={`form-control ${
-                                props.touched.name && props.errors.name
+                                props.touched.firstName &&
+                                props.errors.firstName
                                   ? "is-invalid"
-                                  : props.touched.name && "is-valid"
+                                  : props.touched.firstName && "is-valid"
                               }`}
-                              value={props.values.name}
+                              value={props.values.firstName}
                               onChange={props.handleChange("name")}
-                              placeholder="Enter Name"
+                              placeholder="Enter First Name"
                             />
                             <span id="err" className="invalid-feedback">
-                              {props.touched.name && props.errors.name}
+                              {props.touched.firstName &&
+                                props.errors.firstName}
                             </span>
                           </div>
                         </div>
                         <div className="col-6">
                           <div className="form-group">
-                            <label>User Name</label>
+                            <label>Last Name</label>
                             <input
-                              name="userName"
+                              name="lastName"
                               onBlur={props.handleBlur}
                               type="text"
                               className={`form-control ${
-                                props.touched.userName && props.errors.userName
+                                props.touched.lastName && props.errors.lastName
                                   ? "is-invalid"
-                                  : props.touched.userName && "is-valid"
+                                  : props.touched.lastName && "is-valid"
                               }`}
-                              value={props.values.userName}
-                              onChange={props.handleChange("userName")}
+                              value={props.values.lastName}
+                              onChange={props.handleChange("name")}
+                              placeholder="Enter Last Name"
+                            />
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.lastName && props.errors.lastName}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="col-6">
+                          <div className="form-group">
+                            <label>Email</label>
+                            <input
+                              name="email"
+                              onBlur={props.handleBlur}
+                              type="text"
+                              className={`form-control ${
+                                props.touched.email && props.errors.email
+                                  ? "is-invalid"
+                                  : props.touched.email && "is-valid"
+                              }`}
+                              value={props.values.email}
+                              onChange={props.handleChange("email")}
                               placeholder="Enter user name / email"
                             />
                             <span id="err" className="invalid-feedback">
-                              {props.touched.userName && props.errors.userName}
+                              {props.touched.email && props.errors.email}
                             </span>
                           </div>
                         </div>
                         <div className="col-6">
                           <div className="form-group">
-                            <label>Password</label>
+                            <div className="row">
+                              <div className="col">
+                                <label className="control-label">
+                                  Password
+                                </label>
+                              </div>
+                              <div className="col">
+                                <div
+                                  className="d-flex justify-content-end"
+                                  id="add-new-Buttonm "
+                                  onClick={() => {
+                                    props.setFieldValue(
+                                      "password",
+                                      passwordgenerate()
+                                    );
+                                  }}
+                                >
+                                  <label className="control-label generate-password">
+                                    Generate Password
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
                             <input
                               name="password"
                               onBlur={props.handleBlur}
-                              type="password"
+                              type="text"
                               className={`form-control ${
                                 props.touched.password && props.errors.password
                                   ? "is-invalid"
                                   : props.touched.password && "is-valid"
                               }`}
+                              // defaultValue={password}
                               value={props.values.password}
                               onChange={props.handleChange("password")}
                               placeholder="Enter Password"
@@ -757,11 +818,11 @@ const UserForm = (props) => {
                             <label>Contact Number</label>
                             <input
                               type="text"
-                              // className={`form-control ${
-                              //   props.touched.contact && props.errors.contact
-                              //     ? "is-invalid"
-                              //     : props.touched.contact && "is-valid"
-                              // }`} // defaultValue={props.values.contact}
+                              className={`form-control ${
+                                props.touched.contact && props.errors.contact
+                                  ? "is-invalid"
+                                  : props.touched.contact && "is-valid"
+                              }`} // defaultValue={props.values.contact}
                               // value={props.values.contact}
                               // onChange={props.handleChange("contact")}
                               placeholder="Enter Contact Number"
@@ -776,11 +837,12 @@ const UserForm = (props) => {
                             <label>Other Contact </label>
                             <input
                               type="text"
-                              // className={`form-control ${
-                              //   props.touched.otherContact && props.errors.otherContact
-                              //     ? "is-invalid"
-                              //     : props.touched.otherContact && "is-valid"
-                              // }`} // defaultValue={props.values.otherContact}
+                              className={`form-control ${
+                                props.touched.otherContact &&
+                                props.errors.otherContact
+                                  ? "is-invalid"
+                                  : props.touched.otherContact && "is-valid"
+                              }`} // defaultValue={props.values.otherContact}
                               // value={props.values.otherContact}
                               // onChange={props.handleChange("otherContact")}
                               placeholder="Enter Contact Number"
@@ -795,12 +857,12 @@ const UserForm = (props) => {
                             <label>Personal Email</label>
                             <input
                               type="text"
-                              // className={`form-control ${
-                              //   props.touched.emailPersonal &&
-                              //   props.errors.emailPersonal
-                              //     ? "is-invalid"
-                              //     : props.touched.emailPersonal && "is-valid"
-                              // }`} // defaultValue={props.values.emailPersonal}
+                              className={`form-control ${
+                                props.touched.emailPersonal &&
+                                props.errors.emailPersonal
+                                  ? "is-invalid"
+                                  : props.touched.emailPersonal && "is-valid"
+                              }`} // defaultValue={props.values.emailPersonal}
                               // value={props.values.emailPersonal}
                               // onChange={props.handleChange("emailPersonal")}
                               placeholder="Enter Personal Email"
@@ -816,11 +878,11 @@ const UserForm = (props) => {
                             <label>Address </label>
                             <input
                               type="text"
-                              // className={`form-control ${
-                              //   props.touched.address && props.errors.address
-                              //     ? "is-invalid"
-                              //     : props.touched.address && "is-valid"
-                              // }`} // defaultValue={props.values.address}
+                              className={`form-control ${
+                                props.touched.address && props.errors.address
+                                  ? "is-invalid"
+                                  : props.touched.address && "is-valid"
+                              }`} // defaultValue={props.values.address}
                               // value={props.values.address}
                               // onChange={props.handleChange("address")}
                               placeholder="Enter Address "
@@ -835,12 +897,12 @@ const UserForm = (props) => {
                             <label>Guardian Name </label>
                             <input
                               type="text"
-                              // className={`form-control ${
-                              //   props.touched.nameEmergency &&
-                              //   props.errors.nameEmergency
-                              //     ? "is-invalid"
-                              //     : props.touched.nameEmergency && "is-valid"
-                              // }`} // defaultValue={props.values.nameEmergency}
+                              className={`form-control ${
+                                props.touched.nameEmergency &&
+                                props.errors.nameEmergency
+                                  ? "is-invalid"
+                                  : props.touched.nameEmergency && "is-valid"
+                              }`} // defaultValue={props.values.nameEmergency}
                               // value={props.values.nameEmergency}
                               // onChange={props.handleChange("nameEmergency")}
                               placeholder="Enter Guardian Name "
@@ -856,12 +918,12 @@ const UserForm = (props) => {
                             <label>Guardian Contact</label>
                             <input
                               type="text"
-                              // className={`form-control ${
-                              //   props.touched.contactEmergency &&
-                              //   props.errors.contactEmergency
-                              //     ? "is-invalid"
-                              //     : props.touched.contactEmergency && "is-valid"
-                              // }`} // defaultValue={props.values.contactEmergency}
+                              className={`form-control ${
+                                props.touched.contactEmergency &&
+                                props.errors.contactEmergency
+                                  ? "is-invalid"
+                                  : props.touched.contactEmergency && "is-valid"
+                              }`} // defaultValue={props.values.contactEmergency}
                               // value={props.values.contactEmergency}
                               // onChange={props.handleChange("contactEmergency")}
                               placeholder="Enter Guardian Contact Number"
@@ -936,12 +998,12 @@ const UserForm = (props) => {
                             <label>Bank Name</label>
                             <input
                               type="text"
-                              // className={`form-control ${
-                              //   props.touched.contactEmergency &&
-                              //   props.errors.contactEmergency
-                              //     ? "is-invalid"
-                              //     : props.touched.contactEmergency && "is-valid"
-                              // }`} // defaultValue={props.values.contactEmergency}
+                              className={`form-control ${
+                                props.touched.contactEmergency &&
+                                props.errors.contactEmergency
+                                  ? "is-invalid"
+                                  : props.touched.contactEmergency && "is-valid"
+                              }`} // defaultValue={props.values.contactEmergency}
                               // value={props.values.contactEmergency}
                               // onChange={props.handleChange("contactEmergency")}
                               placeholder="Enter Guardian Contact Number"
@@ -957,12 +1019,12 @@ const UserForm = (props) => {
                             <label>Account Number</label>
                             <input
                               type="text"
-                              // className={`form-control ${
-                              //   props.touched.contactEmergency &&
-                              //   props.errors.contactEmergency
-                              //     ? "is-invalid"
-                              //     : props.touched.contactEmergency && "is-valid"
-                              // }`} // defaultValue={props.values.contactEmergency}
+                              className={`form-control ${
+                                props.touched.contactEmergency &&
+                                props.errors.contactEmergency
+                                  ? "is-invalid"
+                                  : props.touched.contactEmergency && "is-valid"
+                              }`} // defaultValue={props.values.contactEmergency}
                               // value={props.values.contactEmergency}
                               // onChange={props.handleChange("contactEmergency")}
                               placeholder="Enter Guardian Contact Number"

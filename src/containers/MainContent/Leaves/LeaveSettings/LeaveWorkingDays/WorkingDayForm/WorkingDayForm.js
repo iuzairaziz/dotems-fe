@@ -1,25 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
 import shortValidations from "../../../../../../validations/short-validations";
-import NatureService from "../../../../../../services/NatureService";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import WorkingDayService from "../../../../../../services/WorkingDayService";
 
 const WorkingDayForm = (props) => {
   const history = useHistory();
+  const { id } = useParams();
+  console.log("Working day id", id);
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    if (id) {
+      getData();
+    }
+  }, []);
+  const getData = () => {
+    WorkingDayService.getWorkingDayById(id)
+      .then((res) => {
+        setData(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <Formik
+      enableReinitialize
       initialValues={{
-        title: props.editable && props.workingDay.name,
-        monday: props.editable ? props.workingDay.monday : true,
-        tuesday: props.editable ? props.workingDay.tuesday : true,
-        wednesday: props.editable ? props.workingDay.wednesday : true,
-        thursday: props.editable ? props.workingDay.thursday : true,
-        friday: props.editable ? props.workingDay.friday : true,
-        saturday: props.editable ? props.workingDay.saturday : false,
-        sunday: props.editable ? props.workingDay.sunday : false,
+        title: props.editable ? props.workingDay.name : data && data.name,
+        monday: props.editable
+          ? props.workingDay.monday
+          : data
+          ? data.monday
+          : true,
+        tuesday: props.editable
+          ? props.workingDay.tuesday
+          : data
+          ? data.tuesday
+          : true,
+        wednesday: props.editable
+          ? props.workingDay.wednesday
+          : data
+          ? data.wednesday
+          : true,
+        thursday: props.editable
+          ? props.workingDay.thursday
+          : data
+          ? data.thursday
+          : true,
+        friday: props.editable
+          ? props.workingDay.friday
+          : data
+          ? data.friday
+          : true,
+        saturday: props.editable
+          ? props.workingDay.saturday
+          : data
+          ? data.saturday
+          : false,
+        sunday: props.editable
+          ? props.workingDay.sunday
+          : data
+          ? data.sunday
+          : false,
       }}
       validationSchema={shortValidations.workingDayValidation}
       onSubmit={(values, actions) => {
@@ -69,28 +113,31 @@ const WorkingDayForm = (props) => {
         return (
           <>
             <div className="row">
-              <div className="col-md-4">
-                <div className="form-group">
-                  <label>Title</label>
-                  <input
-                    name="title"
-                    type="text"
-                    className={`form-control ${
-                      props.touched.title && props.errors.title
-                        ? "is-invalid"
-                        : props.touched.title && "is-valid"
-                    }`}
-                    value={props.values.title}
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    placeholder="Enter Name"
-                  />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.title && props.errors.title}
-                  </span>
+              <div className="col-md-6">
+                <div className="row">
+                  <div className="col-md-8">
+                    <div className="form-group">
+                      <label>Title</label>
+                      <input
+                        name="title"
+                        type="text"
+                        className={`form-control ${
+                          props.touched.title && props.errors.title
+                            ? "is-invalid"
+                            : props.touched.title && "is-valid"
+                        }`}
+                        disabled={id}
+                        value={props.values.title}
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        placeholder="Enter Name"
+                      />
+                      <span id="err" className="invalid-feedback">
+                        {props.touched.title && props.errors.title}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="col">
                 <div class="form-check">
                   <div className="row">
                     <div className="col">
@@ -105,6 +152,7 @@ const WorkingDayForm = (props) => {
                             ? "is-invalid"
                             : props.touched.title && "is-valid"
                         }`}
+                        disabled={id}
                         checked={props.values.monday}
                         onChange={props.handleChange("monday")}
                         type="checkbox"
@@ -127,6 +175,7 @@ const WorkingDayForm = (props) => {
                             ? "is-invalid"
                             : props.touched.title && "is-valid"
                         }`}
+                        disabled={id}
                         checked={props.values.tuesday}
                         onChange={props.handleChange("tuesday")}
                         type="checkbox"
@@ -149,6 +198,7 @@ const WorkingDayForm = (props) => {
                             ? "is-invalid"
                             : props.touched.title && "is-valid"
                         }`}
+                        disabled={id}
                         checked={props.values.wednesday}
                         onChange={props.handleChange("wednesday")}
                         type="checkbox"
@@ -171,6 +221,7 @@ const WorkingDayForm = (props) => {
                             ? "is-invalid"
                             : props.touched.title && "is-valid"
                         }`}
+                        disabled={id}
                         checked={props.values.thursday}
                         onChange={props.handleChange("thursday")}
                         type="checkbox"
@@ -193,6 +244,7 @@ const WorkingDayForm = (props) => {
                             ? "is-invalid"
                             : props.touched.title && "is-valid"
                         }`}
+                        disabled={id}
                         checked={props.values.friday}
                         onChange={props.handleChange("friday")}
                         type="checkbox"
@@ -215,6 +267,7 @@ const WorkingDayForm = (props) => {
                             ? "is-invalid"
                             : props.touched.title && "is-valid"
                         }`}
+                        disabled={id}
                         checked={props.values.saturday}
                         onChange={props.handleChange("saturday")}
                         type="checkbox"
@@ -238,6 +291,7 @@ const WorkingDayForm = (props) => {
                             ? "is-invalid"
                             : props.touched.title && "is-valid"
                         }`}
+                        disabled={id}
                         checked={props.values.sunday}
                         onChange={props.handleChange("sunday")}
                         onBlur={props.handleBlur}
@@ -249,16 +303,18 @@ const WorkingDayForm = (props) => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col">
-                <Button
-                  className="mt-3 my-primary-button"
-                  onClick={props.handleSubmit}
-                >
-                  Submit
-                </Button>
+            {!id && (
+              <div className="row">
+                <div className="col">
+                  <Button
+                    className="mt-3 my-primary-button"
+                    onClick={props.handleSubmit}
+                  >
+                    Submit
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
           </>
         );
       }}
