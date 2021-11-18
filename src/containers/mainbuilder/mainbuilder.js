@@ -112,7 +112,7 @@ const mainbuilder = (props) => {
   return (
     <>
       <Switch>
-        <Route exact path="/view-working-shift" component={ViewWorking} />
+        {/* <Route exact path="/view-working-shift" component={ViewWorking} /> */}
         <Route
           exact
           path="/working-shift-add/:id?"
