@@ -8,23 +8,32 @@ class PermissionService {
   }
 
   addPermission(formData) {
-    return axios.post(this.config.apiBaseUrl + "permission/", formData);
+    return axios.post(this.config.apiBaseUrl + "role-permission/", formData);
   }
 
   getPermissionById(permissionId) {
-    return axios.get(this.config.apiBaseUrl + "permission/" + permissionId);
+    return axios.get(
+      this.config.apiBaseUrl + "role-permission/" + permissionId
+    );
+  }
+
+  getRolePermissions(roleId) {
+    return axios.get(this.config.apiBaseUrl + "role-permission/role/" + roleId);
   }
 
   getAllPermission() {
-    return axios.get(this.config.apiBaseUrl + "permission/");
+    return axios.get(this.config.apiBaseUrl + "role-permission/");
   }
 
   updatePermission(id, formData) {
-    return axios.put(this.config.apiBaseUrl + "permission/" + id, formData);
+    return axios.put(
+      this.config.apiBaseUrl + "role-permission/" + id,
+      formData
+    );
   }
 
   deletePermission(id) {
-    return axios.delete(this.config.apiBaseUrl + "permission/" + id);
+    return axios.delete(this.config.apiBaseUrl + "role-permission/" + id);
   }
 
   handleMessage(type) {

@@ -91,14 +91,14 @@ export const permissions = [
             disabled,
             subPermissions: [
               {
-                value: concat([LIST, MY_TEAMS]),
+                value: concat([EDIT, MY_TEAMS]),
                 label: getLabel(MY_TEAMS),
                 checked: checked,
                 disabled,
               },
 
               {
-                value: concat([LIST, MY_SUBORDINATES]),
+                value: concat([EDIT, MY_SUBORDINATES]),
                 label: getLabel(MY_SUBORDINATES),
                 checked: checked,
                 disabled,

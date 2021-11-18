@@ -11,17 +11,33 @@ import { permissions as perms } from "../../../../assets/js/pages/PagePermission
 const PermissionForm = (props) => {
   const history = useHistory();
   const [data, setData] = useState(null);
+  const [selectedRole, setSelectedRole] = useState("");
   const [roleOptions, setRoleOptions] = useState([]);
   const [permissions, setPermissions] = useState(perms);
+  const [savedRolePermissions, setSavedRolePermissions] = useState([]);
   let pageTabs = [],
     tabContent = [];
+
   useEffect(() => {
-    renderTabsAndData();
+    // renderTabsAndData();
     getRoles();
   }, []);
+
   useEffect(() => {
     renderTabsAndData();
-  }, [permissions]);
+  }, [permissions, savedRolePermissions]);
+
+  const getRolePermissions = (roleId) => {
+    PermissionService.getRolePermissions(roleId)
+      .then((res) => {
+        console.log(res.data);
+        setSavedRolePermissions(res.data);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+
   const getRoles = () => {
     RoleService.getAllRole()
       .then((res) => {
@@ -31,6 +47,7 @@ const PermissionForm = (props) => {
           options.push({ label: role.name, value: role._id });
         }
         setRoleOptions(options);
+        // getRolePermissions(options[0].value);
       })
       .catch((err) => {
         console.log("role get error");
@@ -51,6 +68,64 @@ const PermissionForm = (props) => {
       permissions[categoryIndex].pages[pageindex].permissionOptions[
         mainPermIndex
       ].disabled = true;
+    }
+
+    if (subPermIndex != null) {
+      let foundItem = savedRolePermissions.map((item) => {
+        console.log("---------");
+        console.log("page n", permissions[categoryIndex].pages[pageindex].name);
+        console.log("selected role", selectedRole);
+        console.log(
+          "per name",
+          permissions[categoryIndex].pages[pageindex].permissionOptions[
+            mainPermIndex
+          ].subPermissions[subPermIndex].value
+        );
+        console.log("item", item);
+        console.log("---------");
+        if (
+          item.page === permissions[categoryIndex].pages[pageindex].name &&
+          item.role === selectedRole &&
+          item.name ===
+            permissions[categoryIndex].pages[pageindex].permissionOptions[
+              mainPermIndex
+            ].subPermissions[subPermIndex].value
+        ) {
+          // console.log("found item");
+          return true;
+        } else {
+          // console.log("not found item");
+          return false;
+        }
+      });
+      if (foundItem) {
+        // console.log("found item", foundItem);
+        permissions[categoryIndex].pages[pageindex].permissionOptions[
+          mainPermIndex
+        ].subPermissions[subPermIndex].checked = foundItem.active;
+      }
+    } else {
+      let foundItem = savedRolePermissions.map((item) => {
+        if (
+          item.page === permissions[categoryIndex].pages[pageindex].name &&
+          item.role === selectedRole &&
+          item.name ===
+            permissions[categoryIndex].pages[pageindex].permissionOptions[
+              mainPermIndex
+            ].value
+        ) {
+          // console.log("found item 2");
+          return true;
+        } else {
+          // console.log("not found item 2");
+          return false;
+        }
+      });
+      if (foundItem) {
+        permissions[categoryIndex].pages[pageindex].permissionOptions[
+          mainPermIndex
+        ].checked = foundItem.active;
+      }
     }
     return (
       // <div className="col">
@@ -216,12 +291,6 @@ const PermissionForm = (props) => {
                                 <div className="col-sm-8  col-md-9 col-lg-10 row align-items-center">
                                   {permission.subPermissions.map(
                                     (subPerm, subPIndex) => {
-                                      console.log(
-                                        "sub perm",
-                                        subPerm,
-                                        subPIndex
-                                      );
-
                                       return (
                                         <div key={counter++}>
                                           {renderCheckBox(
@@ -279,30 +348,17 @@ const PermissionForm = (props) => {
       }}
       // validationSchema={permissionValidations.PermissionValidation}
       onSubmit={(values, actions) => {
-        props.editable
-          ? PermissionService.updatePermission(props.role._id, {
-              name: values.title,
-            })
-              .then((res) => {
-                props.toggle();
-                PermissionService.handleMessage("update");
-              })
-              .catch((err) => {
-                props.toggle();
-                PermissionService.handleCustomMessage(err.response.data);
-              })
-          : PermissionService.addPermission({ name: values.title })
-              .then((res) => {
-                props.toggle && props.toggle();
-                PermissionService.handleMessage("add");
-                if (props.redirect) {
-                  history.push("/role");
-                  actions.setFieldValue("title", "");
-                }
-              })
-              .catch((err) => {
-                PermissionService.handleCustomMessage(err.response.data);
-              });
+        console.log("values", values);
+        PermissionService.addPermission({
+          permissions: permissions,
+          role: values.role.value,
+        })
+          .then((res) => {
+            PermissionService.handleMessage("add");
+          })
+          .catch((err) => {
+            PermissionService.handleCustomMessage(err.response.data);
+          });
       }}
     >
       {(props) => {
@@ -322,7 +378,11 @@ const PermissionForm = (props) => {
                     onBlur={props.handleBlur}
                     className="select-override zIndex"
                     value={props.values.role}
-                    onChange={(val) => props.setFieldValue("role", val)}
+                    onChange={(role) => {
+                      props.setFieldValue("role", role);
+                      console.log("role", role);
+                      getRolePermissions(role.value);
+                    }}
                     options={roleOptions}
                   />
                   <span id="err" className="invalid-feedback">
