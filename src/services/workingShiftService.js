@@ -14,9 +14,9 @@ class WoringShiftService {
     );
   }
 
-  //   getWorkingHourById(id) {
-  //     return axios.get(this.config.apiBaseUrl + "working-hours/" + id);
-  //   }
+  getWorkingShiftById(id) {
+    return axios.get(this.config.apiBaseUrl + "working-shift/" + id);
+  }
 
   getWorkingShift() {
     return axios.get(
@@ -24,13 +24,13 @@ class WoringShiftService {
     );
   }
 
-  //   updateWorkingHours(id, formData) {
-  //     return axios.put(this.config.apiBaseUrl + "working-hours/" + id, formData);
-  //   }
+  updateWorkingShift(id, formData) {
+    return axios.put(this.config.apiBaseUrl + "working-shift/" + id, formData);
+  }
 
-  //   deleteWorkingHours(id) {
-  //     return axios.delete(this.config.apiBaseUrl + "working-hours/" + id);
-  //   }
+  deleteWorkingShift(id) {
+    return axios.delete(this.config.apiBaseUrl + "working-shift/" + id);
+  }
 
   handleMessage(type) {
     if (type === "add") toast("Successfully Added Working Hours");

@@ -19,7 +19,8 @@ const WorkingShiftForm = (props) => {
     }
   }, []);
   const getData = () => {
-    WorkingHoursService.getWorkingHourById(id)
+    workingShiftService
+      .getWorkingShiftById(id)
       .then((res) => {
         setData(res.data);
         console.log(res.data);
@@ -37,33 +38,37 @@ const WorkingShiftForm = (props) => {
           ? data.name
           : null,
         startTime: props.editable
-          ? props.workingHours.hours
+          ? props.workingHours.startTime
           : data
-          ? data.hours
+          ? data.startTime
           : null,
         endTime: props.editable
-          ? props.workingHours.hours
+          ? props.workingHours.endTime
           : data
-          ? data.hours
+          ? data.endTime
           : null,
         startBreakTime: props.editable
-          ? props.workingHours.hours
+          ? props.workingHours.startBreakTime
           : data
-          ? data.hours
+          ? data.startBreakTime
           : null,
         EndBreakTime: props.editable
-          ? props.workingHours.hours
+          ? props.workingHours.endBreakTime
           : data
-          ? data.hours
+          ? data.endBreakTime
           : null,
       }}
       validationSchema={shortValidations.workingShiftValidation}
       onSubmit={(values, actions) => {
         props.editable
-          ? WorkingHoursService.updateWorkingHours(props.workingHours._id, {
-              name: values.title,
-              hours: values.hours,
-            })
+          ? workingShiftService
+              .updateWorkingShift(props.workingHours._id, {
+                name: values.title,
+                startTime: values.startTime,
+                endTime: values.endTime,
+                startBreakTime: values.startBreakTime,
+                endBreakTime: values.EndBreakTime,
+              })
               .then((res) => {
                 props.toggle();
                 WorkingHoursService.handleMessage("update");

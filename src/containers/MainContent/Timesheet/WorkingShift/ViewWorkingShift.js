@@ -4,11 +4,11 @@ import Button from "reactstrap/lib/Button";
 import { Link } from "react-router-dom";
 import workingShiftService from "../../../../services/workingShiftService";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import WorkingHoursForm from "./WorkingHoursForm";
 import moment from "moment";
+import WorkingShiftForm from "./WorkingShiftForm";
 // import WorkingDayForm from "./WorkingDayForm/WorkingDayForm";
 
-const ViewWorkingHours = (props) => {
+const ViewWorkingShift = (props) => {
   const [workingHours, setWorkingHours] = useState({ name: "", hours: "" });
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
@@ -27,7 +27,7 @@ const ViewWorkingHours = (props) => {
       },
       {
         label: "Break Time",
-        field: "hours",
+        field: "breakTime",
         sort: "asc",
       },
       {
@@ -54,8 +54,20 @@ const ViewWorkingHours = (props) => {
             type: item.name ? item.name : "N/A",
             startTime: (
               <div>
-                <p>{moment(item.startTime).format("hh:mm a")}</p> to
-                <p>{moment(item.endTime).format("hh:mm a")}</p>
+                <p>
+                  {moment(item.startTime, ["HH:mm"]).format("hh:mm a")}
+                  &nbsp; to&nbsp;
+                  {moment(item.endTime, ["HH:mm"]).format("hh:mm a")}
+                </p>
+              </div>
+            ),
+            breakTime: (
+              <div>
+                <p>
+                  {moment(item.startBreakTime, ["HH:mm"]).format("hh:mm a")}
+                  &nbsp; to&nbsp;
+                  {moment(item.endBreakTime, ["HH:mm"]).format("hh:mm a")}
+                </p>
               </div>
             ),
             action: (
@@ -72,7 +84,7 @@ const ViewWorkingHours = (props) => {
                     class="dropdown-item"
                     onClick={() => {
                       props.history.push({
-                        pathname: `/working-hours-add/${item._id}`,
+                        pathname: `/working-shift-add/${item._id}`,
                       });
                     }}
                   >
@@ -109,24 +121,25 @@ const ViewWorkingHours = (props) => {
   };
 
   const handleDelete = (id) => {
-    WorkingHoursService.deleteWorkingHours(id)
+    workingShiftService
+      .deleteWorkingShift(id)
       .then((res) => {
-        WorkingHoursService.handleMessage("delete");
+        workingShiftService.handleMessage("delete");
         toggleDelete();
       })
       .catch((err) => {
-        WorkingHoursService.handleError();
+        workingShiftService.handleError();
         toggleDelete();
       });
   };
 
   return (
     <div className="row">
-      <div className="col col-md-6">
+      <div className="col">
         <div className="card m-b-20">
           <div className="card-body">
             <div>
-              <Link to="/working-hours-add">
+              <Link to="/working-shift-add">
                 <Button className="mt-3 my-primary-button float-right">
                   + ADD
                 </Button>
@@ -149,11 +162,16 @@ const ViewWorkingHours = (props) => {
             <Modal isOpen={modalEdit} toggle={toggleEdit}>
               <ModalHeader toggle={toggleEdit}>Edit Client</ModalHeader>
               <ModalBody>
-                <WorkingHoursForm
+                <WorkingShiftForm
                   editable
                   workingHours={workingHours}
                   toggle={toggleEdit}
                 />
+                {/* <WorkingHoursForm
+                  editable
+                  workingHours={workingHours}
+                  toggle={toggleEdit}
+                /> */}
               </ModalBody>
             </Modal>
             <Modal isOpen={modalDelete} toggle={toggleDelete}>
@@ -183,4 +201,4 @@ const ViewWorkingHours = (props) => {
   );
 };
 
-export default ViewWorkingHours;
+export default ViewWorkingShift;
