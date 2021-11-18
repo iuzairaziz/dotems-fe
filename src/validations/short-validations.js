@@ -134,6 +134,29 @@ class ShortValidations {
         .max(20),
     });
   };
+  workingHoursValidation = () => {
+    return Yup.object({
+      title: Yup.string()
+        .required("Required!")
+        .min(2)
+        .max(20),
+      hours: Yup.number().required("Required!"),
+    });
+  };
+
+  workingShiftValidation = () => {
+    return Yup.object({
+      title: Yup.string()
+        .required("Required!")
+        .min(2)
+        .max(20),
+
+      startTime: Yup.string().required("Required!"),
+      endTime: Yup.string().required("Required!"),
+      startBreakTime: Yup.string().required("Required!"),
+      EndBreakTime: Yup.string().required("Required!"),
+    });
+  };
 
   handleError(error) {
     console.log(error.message);

@@ -97,6 +97,9 @@ import AddNewAccessories from "../MainContent/Accessories/AddAccessories/AddNewA
 import Tasks from "../MainContent/Tasks/Tasks";
 import Requests from "../MainContent/Request/Requests";
 import form_advanced from "../MainContent/Forms/Form_advanced";
+import AddWorkingHours from "../MainContent/Timesheet/WorkingHours/AddWorkingHours";
+import ViewWorkingHours from "../MainContent/Timesheet/WorkingHours/ViewWorkingHours";
+import AddWorkingShift from "../MainContent/Timesheet/WorkingShift/AddWorkingShift";
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
 // import formWizard from "../MainContent/Forms/Form_wizard"
@@ -109,6 +112,18 @@ const mainbuilder = (props) => {
   return (
     <>
       <Switch>
+        {/* <Route exact path="/view-working-shift" component={ViewWorking} /> */}
+        <Route
+          exact
+          path="/working-shift-add/:id?"
+          component={AddWorkingShift}
+        />
+        <Route exact path="/view-working-hours" component={ViewWorkingHours} />
+        <Route
+          exact
+          path="/working-hours-add/:id?"
+          component={AddWorkingHours}
+        />
         <Route exact path="/requests" component={Requests} />
         <Route exact path="/add-new-task" component={Tasks} />
         <Route

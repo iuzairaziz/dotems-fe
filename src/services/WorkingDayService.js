@@ -14,9 +14,9 @@ class WoringDayService {
     );
   }
 
-  //   getNatureById(orderId) {
-  //     return axios.get(this.config.apiBaseUrl + "tasks/" + orderId);
-  //   }
+  getWorkingDayById(id) {
+    return axios.get(this.config.apiBaseUrl + "working-days/" + id);
+  }
 
   getWorkingDays() {
     return axios.get(this.config.apiBaseUrl + "working-days/show-working-days");
