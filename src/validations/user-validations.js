@@ -4,7 +4,11 @@ import * as Yup from "yup";
 class UserValidation {
   newUserValidation = () => {
     return Yup.object({
-      name: Yup.string()
+      firstName: Yup.string()
+        .required("Required!")
+        .min(2)
+        .max(100),
+      lastName: Yup.string()
         .required("Required!")
         .min(2)
         .max(100),
