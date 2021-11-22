@@ -19,7 +19,7 @@ class AddClients extends Component {
               <ul className="nav nav-tabs nav-tabs-custom" role="tablist">
                 <li className="nav-item">
                   <a
-                    className="nav-link"
+                    className="nav-link active"
                     data-toggle="tab"
                     href="#profile1"
                     role="tab"
@@ -32,7 +32,7 @@ class AddClients extends Component {
                 </li>
                 <li className="nav-item">
                   <a
-                    className="nav-link active"
+                    className="nav-link"
                     data-toggle="tab"
                     href="#home1"
                     role="tab"
@@ -59,10 +59,14 @@ class AddClients extends Component {
               </ul>
 
               <div className="tab-content">
-                <div className="tab-pane p-3" id="profile1" role="tabpanel">
+                <div
+                  className="tab-pane active p-3"
+                  id="profile1"
+                  role="tabpanel"
+                >
                   <ClientList />
                 </div>
-                <div className="tab-pane active p-3" id="home1" role="tabpanel">
+                <div className="tab-pane  p-3" id="home1" role="tabpanel">
                   <div className="page-content-wrapper">
                     <div className="container-fluid">
                       <div className="row">
