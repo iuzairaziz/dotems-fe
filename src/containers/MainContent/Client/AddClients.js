@@ -91,7 +91,7 @@ class AddClients extends Component {
                       <Link to="/add-platform">Platform</Link>
                     </div>
                     <div className="row cardd ">
-                      <Link to="/add-platform">Client Label</Link>
+                      <Link to="/add-clientlabel">Client Label</Link>
                     </div>
                   </div>
                 </div>

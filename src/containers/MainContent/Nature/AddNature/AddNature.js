@@ -1,22 +1,53 @@
 import React, { Component } from "react";
 import AUX from "../../../../hoc/Aux_";
 import NatureForm from "../NatureForm/NatureForm";
+import NatureList from "../NatureList/NatureList";
 
 const AddNature = () => {
   return (
     <AUX>
-      <div className="page-content-wrapper">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <h3 className="mt-0">Add New Nature</h3>
-                  <p className="text-muted m-b-30 font-14">
-                    Please fill the form below to add a new nature.
-                  </p>
-                  <NatureForm redirect />
+      <div className="col-lg-12">
+        <div className="card m-b-20">
+          <div className="card-body">
+            <ul className="nav nav-tabs nav-tabs-custom" role="tablist">
+              <li className="nav-item">
+                <a
+                  className="nav-link active"
+                  data-toggle="tab"
+                  href="#home1"
+                  role="tab"
+                >
+                  <span className="d-none d-md-block">View Project Nature</span>
+                  <span className="d-block d-md-none">
+                    <i className="mdi mdi-home-variant h5" />
+                  </span>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  data-toggle="tab"
+                  href="#profile1"
+                  role="tab"
+                >
+                  <span className="d-none d-md-block">Add Project Nature</span>
+                  <span className="d-block d-md-none">
+                    <i className="mdi mdi-account h5" />
+                  </span>
+                </a>
+              </li>
+            </ul>
+
+            <div className="tab-content">
+              <div className="tab-pane active p-3" id="home1" role="tabpanel">
+                <div className="page-content-wrapper">
+                  <div className="container-fluid">
+                    <NatureList />
+                  </div>
                 </div>
+              </div>
+              <div className="tab-pane p-3" id="profile1" role="tabpanel">
+                <NatureForm redirect />
               </div>
             </div>
           </div>

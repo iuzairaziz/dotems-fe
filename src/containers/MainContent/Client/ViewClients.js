@@ -106,6 +106,9 @@ const ViewClients = (props) => {
                 style={{
                   backgroundColor: `${item.clientLabel &&
                     item.clientLabel.color}`,
+                  minWidth: `${50}`,
+                  paddingTop: `${5}`,
+                  paddingBottom: `${5}`,
                 }}
               >
                 {item.clientLabel ? item.clientLabel.name : "N/A"}

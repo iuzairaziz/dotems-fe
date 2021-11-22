@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AUX from "../../../../hoc/Aux_";
-import { MDBDataTable, MDBBtn } from "mdbreact";
+import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import NatureForm from "../NatureForm/NatureForm";
 import NatureService from "../../../../services/NatureService";
@@ -88,40 +88,21 @@ const NatureList = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <div className="row align-items-center mb-3">
-                    <div className="col">
-                      <h3 className="m-0 p-0">All Natures</h3>
-                    </div>
-                    <div className="col">
-                      <Link to="/add-nature">
-                        <Button
-                          color="success"
-                          className="my-primary-button float-right"
-                        >
-                          Add Natures
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                  <MDBDataTable
-                    responsive
-                    striped
-                    small
-                    bordered={true}
-                    //  materialSearch
-                    searchTop
-                    searchBottom={false}
-                    pagingTop
-                    barReverse
-                    hover
-                    // scrollX
-                    // autoWidth
-                    data={data}
-                  />
-                </div>
-              </div>
+              <MDBDataTableV5
+                responsive
+                striped
+                small
+                bordered={true}
+                //  materialSearch
+                searchTop
+                searchBottom={false}
+                pagingTop
+                barReverse
+                hover
+                // scrollX
+                // autoWidth
+                data={data}
+              />
             </div>
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>

@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
-import { MDBDataTable, MDBBtn } from "mdbreact";
+import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import StatusForm from "../StatusForm/StatusForm";
 import StatusService from "../../../../services/StatusService";
 import "./StatusList.scss";
-
-
 
 const StatusList = () => {
   const [modalEdit, setModalEdit] = useState(false);
@@ -90,34 +88,14 @@ const StatusList = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                <div className="row align-items-center mb-3">
-                    <div className="col">
-                    <h3 className="m-0 p-0">All Status</h3>
-                    </div>
-                    <div className="col">
-                    <Link to="/addstatus">
-                      <Button
-                        color="success"
-                        className="my-primary-button float-right"
-                      >
-                        Add Status
-                      </Button>
-                    </Link>
-                    </div>
-                  </div>
-
-                  <MDBDataTable
-                    // scrollX
-                    striped
-                    bordered
-                    hover
-                    // autoWidth
-                    data={data}
-                  />
-                </div>
-              </div>
+              <MDBDataTableV5
+                // scrollX
+                striped
+                bordered
+                hover
+                // autoWidth
+                data={data}
+              />
             </div>
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>

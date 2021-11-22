@@ -1,0 +1,18 @@
+.project {
+  .cardd {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  .iconSize {
+    font-size: xxx-large;
+    // color: var(--color-secondary1);
+  }
+  .cSettings {
+    display: flex;
+    justify-content: center !important;
+  }
+  .border-b {
+    border-bottom: solid 1px !important;
+  }
+}

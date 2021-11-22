@@ -30,7 +30,7 @@ const TechnologyForm = (props) => {
           : TechnologyService.addTechnology({ name: values.title })
               .then((res) => {
                 if (props.redirect) {
-                  history.push("/technology");
+                  // history.push("/technology");
                 }
                 props.toggle && props.toggle();
                 TechnologyService.handleMessage("add");

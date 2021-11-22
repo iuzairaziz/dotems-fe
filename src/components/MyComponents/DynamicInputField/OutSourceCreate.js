@@ -69,53 +69,52 @@ const OutSourceCreate = (props) => {
             //       ? "is-invalid"
             //       : props.touched.pmStartDate && "is-valid"
             //   }`}
-            // selected={values.outSourceDeadline}
+            selected={val.outSourceDeadline}
+            // onChange={{val.outSourceDeadline}}
             //   onChange={(date1) => {
             //     props.setFieldValue("pmStartDate", date1);
             //   }}
           />
         </div>
 
-        <div className="d-flex justify-content-end col-1 p-6">
-          <button
-            onClick={() => props.add()}
-            type="button"
-            className="btn-sm btn-primary text-center buttonn"
-          >
-            <i className="fa fa-plus-circle" aria-hidden="true" />
-          </button>
-          <button
-            className="btn-sm btn-danger buttonn"
-            onClick={() => {
-              props.delete(val);
-            }}
-          >
-            <i className="fa fa-minus" aria-hidden="true" />
-          </button>
-          {/* {idx === 0 ? (
+        <div className="d-flex justify-content-end col-2 p-6">
+          {idx === 0 ? (
             props.phaseArray ? (
-              ""
+              <button
+                onClick={() => props.add()}
+                type="button"
+                className="btn btn-primary text-center buttonn"
+              >
+                <i className="fa fa-plus-circle" aria-hidden="true" />
+              </button>
             ) : (
               <button
                 onClick={() => props.add()}
                 type="button"
-                className="btn-sm btn-primary text-center buttonn"
+                className="btn btn-primary text-center buttonn"
               >
                 <i className="fa fa-plus-circle" aria-hidden="true" />
               </button>
             )
           ) : props.phaseArray ? (
-            ""
-          ) : (
             <button
-              className="btn-sm btn-danger buttonn"
+              className="btn btn-danger buttonn"
               onClick={() => {
                 props.delete(val);
               }}
             >
               <i className="fa fa-minus" aria-hidden="true" />
             </button>
-          )} */}
+          ) : (
+            <button
+              className="btn btn-danger buttonn"
+              onClick={() => {
+                props.delete(val);
+              }}
+            >
+              <i className="fa fa-minus" aria-hidden="true" />
+            </button>
+          )}
         </div>
       </div>
     );

@@ -32,7 +32,7 @@ const NatureForm = (props) => {
                 props.toggle && props.toggle();
                 NatureService.handleMessage("add");
                 if (props.redirect) {
-                  history.push("/nature");
+                  // history.push("/nature");
                   actions.setFieldValue("title", "");
                 }
               })
