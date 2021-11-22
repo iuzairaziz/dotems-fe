@@ -2,12 +2,18 @@ import Configuration from "../config/configuration";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-class WoringShiftService {
+class AttendanceService {
   constructor() {
     this.config = new Configuration();
   }
 
-  addWorkingShift(formData) {
+  addTimeInAttendance(formData) {
+    return axios.post(
+      this.config.apiBaseUrl + "time-in/create-time-in",
+      formData
+    );
+  }
+  addTimeOutAttendance(formData) {
     return axios.post(
       this.config.apiBaseUrl + "working-shift/create-working-shift",
       formData
@@ -46,4 +52,4 @@ class WoringShiftService {
   }
 }
 
-export default new WoringShiftService();
+export default new AttendanceService();

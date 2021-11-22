@@ -5,10 +5,8 @@ import { Link } from "react-router-dom";
 import workingShiftService from "../../../../services/workingShiftService";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import moment from "moment";
-import WorkingShiftForm from "./WorkingShiftForm";
-// import WorkingDayForm from "./WorkingDayForm/WorkingDayForm";
 
-const ViewWorkingShift = (props) => {
+const ViewLeavePolicy = (props) => {
   const [workingHours, setWorkingHours] = useState({ name: "", hours: "" });
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
@@ -162,11 +160,6 @@ const ViewWorkingShift = (props) => {
             <Modal isOpen={modalEdit} toggle={toggleEdit}>
               <ModalHeader toggle={toggleEdit}>Edit Client</ModalHeader>
               <ModalBody>
-                <WorkingShiftForm
-                  editable
-                  workingHours={workingHours}
-                  toggle={toggleEdit}
-                />
                 {/* <WorkingHoursForm
                   editable
                   workingHours={workingHours}
@@ -201,4 +194,4 @@ const ViewWorkingShift = (props) => {
   );
 };
 
-export default ViewWorkingShift;
+export default ViewLeavePolicy;

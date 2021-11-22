@@ -100,6 +100,11 @@ import form_advanced from "../MainContent/Forms/Form_advanced";
 import AddWorkingHours from "../MainContent/Timesheet/WorkingHours/AddWorkingHours";
 import ViewWorkingHours from "../MainContent/Timesheet/WorkingHours/ViewWorkingHours";
 import AddWorkingShift from "../MainContent/Timesheet/WorkingShift/AddWorkingShift";
+import ViewWorkingShift from "../MainContent/Timesheet/WorkingShift/ViewWorkingShift";
+import ViewLeavePolicy from "../MainContent/Leaves/LeavePolicy/ViewLeavePolicy";
+import AddLeavePolicy from "../MainContent/Leaves/LeavePolicy/AddLeavePolicy";
+import AddAttendance from "../MainContent/Attendance/AddAttendance";
+
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
 // import formWizard from "../MainContent/Forms/Form_wizard"
@@ -112,7 +117,10 @@ const mainbuilder = (props) => {
   return (
     <>
       <Switch>
-        {/* <Route exact path="/view-working-shift" component={ViewWorking} /> */}
+        <Route exact path="/add-attendance" component={AddAttendance} />
+        <Route exact path="/view-leave-policy" component={ViewLeavePolicy} />
+        <Route exact path="/add-leave-policy" component={AddLeavePolicy} />
+        <Route exact path="/view-working-shift" component={ViewWorkingShift} />
         <Route
           exact
           path="/working-shift-add/:id?"

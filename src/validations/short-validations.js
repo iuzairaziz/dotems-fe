@@ -158,6 +158,19 @@ class ShortValidations {
     });
   };
 
+  attendanceValidation = () => {
+    return Yup.object({
+      name: Yup.string()
+        .required("Required!")
+        .min(2)
+        .max(20),
+      time: Yup.string().required("Required!"),
+      date: Yup.string().required("Required!"),
+      //   latitude: Yup.string().required("Required!"),
+      //   longitude: Yup.string().required("Required!"),
+    });
+  };
+
   handleError(error) {
     console.log(error.message);
   }

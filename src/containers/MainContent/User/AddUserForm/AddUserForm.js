@@ -21,6 +21,8 @@ import MachineService from "../../../../services/MachineService";
 import EmployeeTypeService from "../../../../services/EmployeeTypeService";
 import DesignationService from "../../../../services/DesignationService";
 import DepartmentService from "../../../../services/DepartmentService";
+import WorkingHoursService from "../../../../services/WorkingHoursService";
+import WorkingDayService from "../../../../services/WorkingDayService";
 
 import Configuration from "../../../../config/configuration";
 
@@ -30,6 +32,8 @@ const UserForm = (props) => {
   const [employeeType, setEmployeeType] = useState([]);
   const [employeeManager, setEmployeeManager] = useState([]);
   const [department, setDepartment] = useState([]);
+  const [workingHrs, setWorkingHrs] = useState([]);
+  const [workingDays, setWorkingDays] = useState([]);
   const [machineModal, setMachineModal] = useState(false);
   const [password, setPassword] = useState();
 
@@ -43,6 +47,8 @@ const UserForm = (props) => {
     getEmployeeType();
     getAllUser();
     getAllDepartments();
+    getAllWorkingHours();
+    getAllWorkingDays();
   }, [machineModal]);
 
   const toggleMachineEdit = () => setMachineModal(!machineModal);
@@ -97,6 +103,25 @@ const UserForm = (props) => {
         options.push({ label: item.name, value: item._id });
       });
       setDepartment(options);
+    });
+  };
+  const getAllWorkingHours = () => {
+    WorkingHoursService.getWorkingHours().then((res) => {
+      console.log("working hrs", res.data);
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setWorkingHrs(options);
+    });
+  };
+  const getAllWorkingDays = () => {
+    WorkingDayService.getWorkingDays().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setWorkingDays(options);
     });
   };
 
@@ -677,47 +702,61 @@ const UserForm = (props) => {
                         </div>
                         <div className="col-6">
                           <div className="form-group">
-                            <label>Working Hours</label>
-                            <input
-                              name="workingHrs"
-                              onBlur={props.handleBlur}
-                              type="number"
-                              className={`form-control ${
-                                props.touched.workingHrs &&
-                                props.errors.workingHrs
-                                  ? "is-invalid"
-                                  : props.touched.workingHrs && "is-valid"
-                              }`}
-                              value={props.values.workingHrs}
-                              onChange={props.handleChange("workingHrs")}
-                              placeholder="Enter Working Hours"
-                            />
-                            <span id="err" className="invalid-feedback">
-                              {props.touched.workingHrs &&
-                                props.errors.workingHrs}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="col-6">
-                          <div className="form-group">
-                            <label>Working Days </label>
-                            <input
+                            <div className="row">
+                              <div className="col">
+                                <label className="control-label">
+                                  Working Days
+                                </label>
+                              </div>
+                            </div>
+                            <Select
                               name="workingDays"
-                              onBlur={props.handleBlur}
-                              type="number"
-                              className={`form-control ${
+                              className={`my-select${
                                 props.touched.workingDays &&
                                 props.errors.workingDays
                                   ? "is-invalid"
                                   : props.touched.workingDays && "is-valid"
                               }`}
+                              onBlur={props.handleBlur}
                               value={props.values.workingDays}
-                              onChange={props.handleChange("workingDays")}
-                              placeholder="Enter Working Days"
+                              onChange={(val) =>
+                                props.setFieldValue("workingDays", val)
+                              }
+                              options={workingDays}
                             />
                             <span id="err" className="invalid-feedback">
                               {props.touched.workingDays &&
                                 props.errors.workingDays}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="col-6">
+                          <div className="form-group">
+                            <div className="row">
+                              <div className="col">
+                                <label className="control-label">
+                                  Working Hours
+                                </label>
+                              </div>
+                            </div>
+                            <Select
+                              name="department"
+                              className={`my-select${
+                                props.touched.workingHrs &&
+                                props.errors.workingHrs
+                                  ? "is-invalid"
+                                  : props.touched.workingHrs && "is-valid"
+                              }`}
+                              onBlur={props.handleBlur}
+                              value={props.values.workingHrs}
+                              onChange={(val) =>
+                                props.setFieldValue("workingHrs", val)
+                              }
+                              options={workingHrs}
+                            />
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.workingHrs &&
+                                props.errors.workingHrs}
                             </span>
                           </div>
                         </div>
