@@ -16,6 +16,9 @@ import {
   ModalFooter,
 } from "reactstrap";
 import MachineForm from "../../Machine/MachineForm/MachineForm";
+import DesignationForm from "../../Designation/DesignationForm/DesignationForm";
+import EmployeeTypeForm from "../../EmployeeType/EmployeeTypeForm/EmployeeTypeForm";
+import DepartmentForm from "../../Department/DepartmentForm/DepartmentForm";
 import UserService from "../../../../services/UserService";
 import MachineService from "../../../../services/MachineService";
 import EmployeeTypeService from "../../../../services/EmployeeTypeService";
@@ -35,6 +38,9 @@ const UserForm = (props) => {
   const [workingHrs, setWorkingHrs] = useState([]);
   const [workingDays, setWorkingDays] = useState([]);
   const [machineModal, setMachineModal] = useState(false);
+  const [designationModal, setDesignationModal] = useState(false);
+  const [employeeTypeModal, setEmployeeTypeModal] = useState(false);
+  const [departmentModal, setDepartmentModal] = useState(false);
   const [password, setPassword] = useState();
 
   const config = new Configuration();
@@ -49,14 +55,16 @@ const UserForm = (props) => {
     getAllDepartments();
     getAllWorkingHours();
     getAllWorkingDays();
-  }, [machineModal]);
+  }, [machineModal, designationModal, employeeTypeModal, departmentModal]);
 
   const toggleMachineEdit = () => setMachineModal(!machineModal);
+  const toggleDesignationEdit = () => setDesignationModal(!designationModal);
+  const toggleEmployeeTypeModal = () =>
+    setEmployeeTypeModal(!employeeTypeModal);
+  const toggleDepartmentModal = () => setDepartmentModal(!departmentModal);
 
   const user = props.user;
-  console.log("dsasaasasasdsadsdwdwdw", user);
   const editable = props.editable;
-  console.log("from project form ", user);
 
   const getMachines = () => {
     MachineService.getFreeMachines().then((res) => {
@@ -64,7 +72,6 @@ const UserForm = (props) => {
       res.data.map((item, index) => {
         options.push({ label: item.machineNo, value: item._id });
       });
-      console.log("Machine", options);
       setMachineNo(options);
     });
   };
@@ -537,10 +544,21 @@ const UserForm = (props) => {
                         <div className="col-6">
                           <div className="form-group">
                             <div className="row">
-                              <div className="col-6">
+                              <div className="col">
                                 <label className="control-label">
                                   Designation
                                 </label>
+                              </div>
+                              <div className="col">
+                                <div
+                                  className="d-flex justify-content-end"
+                                  id="add-new-Buttonm "
+                                  onClick={() => {
+                                    toggleDesignationEdit();
+                                  }}
+                                >
+                                  <i className="mdi mdi-plus icon-add" />
+                                </div>
                               </div>
                             </div>
                             <Select
@@ -572,6 +590,17 @@ const UserForm = (props) => {
                                 <label className="control-label">
                                   Employee Type
                                 </label>
+                              </div>
+                              <div className="col">
+                                <div
+                                  className="d-flex justify-content-end"
+                                  id="add-new-Buttonm "
+                                  onClick={() => {
+                                    toggleEmployeeTypeModal();
+                                  }}
+                                >
+                                  <i className="mdi mdi-plus icon-add" />
+                                </div>
                               </div>
                             </div>
                             <Select
@@ -633,6 +662,17 @@ const UserForm = (props) => {
                                 <label className="control-label">
                                   Department
                                 </label>
+                              </div>
+                              <div className="col">
+                                <div
+                                  className="d-flex justify-content-end"
+                                  id="add-new-Buttonm "
+                                  onClick={() => {
+                                    toggleDepartmentModal();
+                                  }}
+                                >
+                                  <i className="mdi mdi-plus icon-add" />
+                                </div>
                               </div>
                             </div>
                             <Select
@@ -1484,10 +1524,46 @@ const UserForm = (props) => {
             toggle={toggleMachineEdit}
           >
             <ModalHeader toggle={toggleMachineEdit}>
-              Add New Machone
+              Add New Machine
             </ModalHeader>
             <ModalBody>
               <MachineForm toggle={toggleMachineEdit} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={designationModal}
+            toggle={toggleDesignationEdit}
+          >
+            <ModalHeader toggle={toggleDesignationEdit}>
+              Add New Designation
+            </ModalHeader>
+            <ModalBody>
+              <DesignationForm toggle={toggleDesignationEdit} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={employeeTypeModal}
+            toggle={toggleEmployeeTypeModal}
+          >
+            <ModalHeader toggle={toggleEmployeeTypeModal}>
+              Add New Employee Type
+            </ModalHeader>
+            <ModalBody>
+              <EmployeeTypeForm toggle={toggleEmployeeTypeModal} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={departmentModal}
+            toggle={toggleDepartmentModal}
+          >
+            <ModalHeader toggle={toggleDepartmentModal}>
+              Add New Department
+            </ModalHeader>
+            <ModalBody>
+              <DepartmentForm toggle={toggleDepartmentModal} />
             </ModalBody>
           </Modal>
         </>
