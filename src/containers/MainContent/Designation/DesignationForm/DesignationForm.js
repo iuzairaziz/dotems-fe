@@ -29,8 +29,11 @@ const DesignationForm = (props) => {
               })
           : DesignationService.addDesignation({ name: values.title })
               .then((res) => {
+                props.toggle && props.toggle();
                 DesignationService.handleMessage("add");
-                history.push("/designation");
+                if (props.redirect) {
+                  history.push("/designation");
+                }
                 actions.setFieldValue("title", "");
               })
               .catch((err) => {
