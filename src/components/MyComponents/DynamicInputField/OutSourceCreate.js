@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Dynamic.scss";
 import DatePicker from "react-datepicker";
+import { calendarFormat } from "moment";
 
 const OutSourceCreate = (props) => {
   return props.phasesDetails.map((val, idx) => {
+    console.log(val);
     let phasename = `phasename-${idx}`,
-      outSourceCost = `outSourceName-${idx}`,
+      outSourceCost = `outSourceCost-${idx}`,
       outSourceName = `outSourceName-${idx}`,
       outSourceDeadline = `outSourceDeadline-${idx}`;
 
@@ -59,7 +61,6 @@ const OutSourceCreate = (props) => {
             name="outSourceDeadline"
             data-id={idx}
             id={outSourceDeadline}
-            defaultValue={val.outSourceDeadline}
             //   onFocus={() =>
             //     props.setFieldTouched("pmStartDate")
             //   }
@@ -69,11 +70,10 @@ const OutSourceCreate = (props) => {
             //       ? "is-invalid"
             //       : props.touched.pmStartDate && "is-valid"
             //   }`}
-            selected={val.outSourceDeadline}
-            // onChange={{val.outSourceDeadline}}
-            //   onChange={(date1) => {
-            //     props.setFieldValue("pmStartDate", date1);
-            //   }}
+            selected={props.phasesDetails.outSourceDeadline}
+            onChange={(date) => {
+              props.setPhasesDetails({ outSourceDeadline: date });
+            }}
           />
         </div>
 
