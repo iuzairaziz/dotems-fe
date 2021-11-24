@@ -97,11 +97,11 @@ const NewTask = () => {
                     </div>
                     <div className="border-b" />
                     <div className="row cardd">
-                      <Link to="/add-platform">Platform</Link>
+                      <Link to="/task-priority">Task Priority</Link>
                     </div>
-                    <div className="row cardd ">
+                    {/* <div className="row cardd ">
                       <Link to="/add-clientlabel">Client Label</Link>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

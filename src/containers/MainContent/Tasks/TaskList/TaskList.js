@@ -55,6 +55,12 @@ const Tables_datatable = (props) => {
         // width: 100,
       },
       {
+        label: "Task Priority",
+        field: "taskPriority",
+        sort: "asc",
+        // width: 200,
+      },
+      {
         label: "Status",
         field: "status",
         sort: "asc",
@@ -184,6 +190,20 @@ const Tables_datatable = (props) => {
             status: (
               <span className="badge badge-teal">
                 {item.status ? item.status : "N/A"}
+              </span>
+            ),
+            taskPriority: (
+              <span
+                className="badge"
+                style={{
+                  backgroundColor: `${item.taskPriority &&
+                    item.taskPriority.color}`,
+                  minWidth: `${50}`,
+                  paddingTop: `${5}`,
+                  paddingBottom: `${5}`,
+                }}
+              >
+                {item.taskPriority ? item.taskPriority.name : "N/A"}
               </span>
             ),
             teamLead: item.teamLead ? item.teamLead.name : "N/A",
