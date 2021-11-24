@@ -104,6 +104,8 @@ import ViewWorkingShift from "../MainContent/Timesheet/WorkingShift/ViewWorkingS
 import ViewLeavePolicy from "../MainContent/Leaves/LeavePolicy/ViewLeavePolicy";
 import AddLeavePolicy from "../MainContent/Leaves/LeavePolicy/AddLeavePolicy";
 import AddAttendance from "../MainContent/Attendance/AddAttendance";
+import EditLeavePolicy from "../MainContent/Leaves/LeavePolicy/EditLeavePolicy";
+import ViewSingleLeavePolicy from "../MainContent/Leaves/LeavePolicy/ViewSingleLeavePolicy";
 
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
@@ -117,6 +119,16 @@ const mainbuilder = (props) => {
   return (
     <>
       <Switch>
+        <Route
+          exact
+          path="/view-single-leave-policy/:name"
+          component={ViewSingleLeavePolicy}
+        />
+        <Route
+          exact
+          path="/edit-leave-policy/:name"
+          component={EditLeavePolicy}
+        />
         <Route exact path="/add-attendance" component={AddAttendance} />
         <Route exact path="/view-leave-policy" component={ViewLeavePolicy} />
         <Route exact path="/add-leave-policy" component={AddLeavePolicy} />
