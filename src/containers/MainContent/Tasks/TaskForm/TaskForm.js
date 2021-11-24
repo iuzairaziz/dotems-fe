@@ -14,22 +14,29 @@ import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./TaskForm.scss";
 import { useHistory } from "react-router-dom";
+import TaskPriorityService from "../../../../services/TaskPriority";
+import TaskPriorityForm from "../../TaskPriority/TaskPriorityForm/TaskPriorityForm";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
 
 const TaskForm = (props) => {
   const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
   const [phase, setPhase] = useState([]);
+  const [taskPriority, setTaskPriority] = useState([]);
+  const [labelPreset, setLabelPreset] = useState();
+  const [labelModal, setLabelModal] = useState(false);
   const [description, setDescription] = useState(EditorState.createEmpty());
   const task = props.task;
   const editable = props.editable;
   const history = useHistory();
   const projectName = props.project;
+  const toggleLabelEdit = () => setLabelModal(!labelModal);
 
   useEffect(() => {
     getProjects(loogedInUser._id);
     editable && task && getProjectUsers(task.project._id);
-    // getPhasename();
+    getTaskPriority();
   }, []);
   const loogedInUser = userService.userLoggedInInfo();
 
@@ -43,11 +50,23 @@ const TaskForm = (props) => {
     });
   };
 
+  const getTaskPriority = () => {
+    TaskPriorityService.getAllTaskPriority().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setTaskPriority(options);
+      const presetLabel = res.data.find(
+        (taskPriority) => taskPriority.preset === true
+      );
+      setLabelPreset({ label: presetLabel.name, value: presetLabel._id });
+    });
+  };
+
   const getPhasename = (id) => {
-    return task.project.phase.filter(phase => phase._id === id)[0].phasename
-      // return task.project.phase.phasname
-    // console.log("name",task.project.phase.filter(phase => phase._id == id))
-  }
+    return task.project.phase.filter((phase) => phase._id === id)[0].phasename;
+  };
 
   const getTasksByProjectId = (id) => {
     TaskService.getTasksByProjectId(id).then((res) => {
@@ -100,6 +119,7 @@ const TaskForm = (props) => {
 
   return (
     <Formik
+      enableReinitialize={true}
       initialValues={{
         maxProjectRatio: 100,
         maxEstHrs: 1000,
@@ -114,6 +134,12 @@ const TaskForm = (props) => {
             label: getPhasename(task.phase),
             value: task.phase,
           },
+        taskPriority: editable
+          ? task.taskPriority && {
+              label: task.taskPriority.name,
+              value: task.taskPriority._id,
+            }
+          : labelPreset,
         estimatedHrs: editable && task.estHrs,
         projectRatio: editable && task.projectRatio,
         description: editable
@@ -139,62 +165,66 @@ const TaskForm = (props) => {
             value: task.teamLead._id,
           },
       }}
-      validationSchema={tasksValidations.newTaskValidation}
+      // validationSchema={tasksValidations.newTaskValidation}
       onSubmit={(values, actions) => {
         window.scrollTo({ top: 0, behavior: "smooth" });
         let usrs = [];
+        console.log("project", values);
         values.assignedTo.map((item) => {
           usrs.push(item.id);
         });
 
-        editable
-          ? TaskService.updateTask(task._id, {
-              name: values.title,
-              startTime: values.startTime,
-              endTime: values.endTime,
-              description: JSON.stringify(
-                convertToRaw(values.description.getCurrentContent())
-              ),
-              estHrs: values.estimatedHrs,
-              projectRatio: values.projectRatio,
-              project: values.project.value,
-              parentTask: values.parentTask.value,
-              assignedTo: usrs,
-              teamLead: values.teamLead.value,
-              phase: values.phase.value,
+        editable &&
+          TaskService.updateTask(task._id, {
+            name: values.title,
+            startTime: values.startTime,
+            endTime: values.endTime,
+            description: JSON.stringify(
+              convertToRaw(values.description.getCurrentContent())
+            ),
+            estHrs: values.estimatedHrs,
+            taskPriority: values.taskPriority.value,
+            projectRatio: values.projectRatio,
+            project: values.project.value,
+            parentTask: values.parentTask.value,
+            assignedTo: usrs,
+            teamLead: values.teamLead.value,
+            phase: values.phase.value,
+          })
+            .then((res) => {
+              TaskService.handleMessage("update");
+              props.toggle();
+              console.log("res", res);
             })
-              .then((res) => {
-                TaskService.handleMessage("update");
-                props.toggle();
-                console.log("res", res);
-              })
-              .catch((err) => {
-                TaskService.handleCustomMessage(err.response.data);
-                props.toggle();
-              })
-          : TaskService.addTask({
-              name: values.title,
-              startTime: values.startTime,
-              endTime: values.endTime,
-              description: JSON.stringify(
-                convertToRaw(values.description.getCurrentContent())
-              ),
-              estHrs: values.estimatedHrs,
-              projectRatio: values.projectRatio,
-              project: values.project.value,
-              parentTask: values.parentTask.value,
-              assignedTo: usrs,
-              teamLead: values.teamLead.value,
-              addedBy: loogedInUser._id,
-              phase: values.phase.value,
-            })
-              .then((res) => {
-                TaskService.handleMessage("add");
-                history.push("/task");
-              })
-              .catch((err) => {
-                TaskService.handleCustomMessage(err.response.data);
-              });
+            .catch((err) => {
+              TaskService.handleCustomMessage(err.response.data);
+              props.toggle();
+            });
+        // : TaskService.addTask({
+        //     name: values.title,
+        //     startTime: values.startTime,
+        //     endTime: values.endTime,
+        //     description: JSON.stringify(
+        //       convertToRaw(values.description.getCurrentContent())
+        //     ),
+        //     estHrs: values.estimatedHrs,
+        //     taskPriority: values.taskPriority.value,
+        //     projectRatio: values.projectRatio,
+        //     project: values.project.value,
+        //     parentTask: values.parentTask.value,
+        //     assignedTo: usrs,
+        //     teamLead: values.teamLead.value,
+        //     addedBy: loogedInUser._id,
+        //     phase: values.phase.value,
+        //   })
+        //     .then((res) => {
+        //       console.log("res", res);
+        //       TaskService.handleMessage("add");
+        //       // history.push("/task");
+        //     })
+        //     .catch((err) => {
+        //       TaskService.handleCustomMessage(err.response.data);
+        //     });
       }}
     >
       {(props) => {
@@ -204,6 +234,42 @@ const TaskForm = (props) => {
         return (
           <>
             <div className="row task-form">
+              <div className="col-6">
+                <div className="form-group">
+                  <div className="row">
+                    <div className="col">
+                      <label className="control-label">Task Priority</label>
+                    </div>
+                    <div className="col-6">
+                      <div
+                        className="d-flex justify-content-end"
+                        id="add-new-Buttonm "
+                        onClick={() => {
+                          toggleLabelEdit();
+                        }}
+                      >
+                        <i className="mdi mdi-plus icon-add" />
+                      </div>
+                    </div>
+                  </div>
+                  <Select
+                    className={`my-select ${
+                      props.touched.taskPriority && props.errors.taskPriority
+                        ? "is-invalid"
+                        : props.touched.taskPriority && "is-valid"
+                    }`}
+                    name="taskPriority"
+                    onFocus={() => props.setFieldTouched("taskPriority")}
+                    value={props.values.taskPriority}
+                    onChange={(val) => props.setFieldValue("taskPriority", val)}
+                    options={taskPriority}
+                  />
+
+                  <span id="err" className="invalid-feedback">
+                    {props.touched.taskPriority && props.errors.taskPriority}
+                  </span>
+                </div>
+              </div>
               <div className="col-6">
                 <div className="form-group">
                   <label>Title</label>
@@ -219,8 +285,6 @@ const TaskForm = (props) => {
                     onBlur={props.handleBlur}
                     onChange={(e) => {
                       props.setFieldValue("title", e.target.value);
-
-                      console.log(props);
                     }}
                     placeholder="Enter Name"
                   />
@@ -525,6 +589,18 @@ const TaskForm = (props) => {
                 </Button>
               </div>
             </div>
+            <Modal
+              style={{ maxWidth: "70%" }}
+              isOpen={labelModal}
+              toggle={toggleLabelEdit}
+            >
+              <ModalHeader toggle={toggleLabelEdit}>
+                Add Task Priority
+              </ModalHeader>
+              <ModalBody>
+                <TaskPriorityForm toggle={toggleLabelEdit} />
+              </ModalBody>
+            </Modal>
           </>
         );
       }}

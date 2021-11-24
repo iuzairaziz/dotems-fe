@@ -106,6 +106,7 @@ import ViewWorkingShift from "../MainContent/Timesheet/WorkingShift/ViewWorkingS
 import ViewLeavePolicy from "../MainContent/Leaves/LeavePolicy/ViewLeavePolicy";
 import AddLeavePolicy from "../MainContent/Leaves/LeavePolicy/AddLeavePolicy";
 import AddAttendance from "../MainContent/Attendance/AddAttendance";
+import AddTaskPriority from "../MainContent/TaskPriority/AddTaskPriority/AddTaskPriority";
 
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
@@ -230,6 +231,7 @@ const mainbuilder = (props) => {
             <Route exact path="/add-task" component={NewTask} />
             <Route exact path="/view-request" component={RequestList} />
             <Route exact path="/view-leave-type" component={LeaveTypeList} />
+            <Route exact path="/task-priority" component={AddTaskPriority} />
             <Route
               exact
               path="/view-request-type"
