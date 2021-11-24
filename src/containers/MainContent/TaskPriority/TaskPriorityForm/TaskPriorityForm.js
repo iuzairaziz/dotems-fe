@@ -12,13 +12,13 @@ const TaskPriorityForm = (props) => {
   return (
     <Formik
       initialValues={{
-        title: props.editable && props.priority.name,
-        color: props.editable && props.color,
+        title: props.editable && props.country.name,
+        color: props.editable && props.country.color,
       }}
       validationSchema={shortValidations.clientLabelValidation}
       onSubmit={(values, actions) => {
         props.editable
-          ? TaskPriorityService.updateTaskPriority(props.priority._id, {
+          ? TaskPriorityService.updateTaskPriority(props.country._id, {
               name: values.title,
               color: values.color,
             })

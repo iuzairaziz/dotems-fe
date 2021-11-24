@@ -3,12 +3,13 @@ import * as Yup from "yup";
 class TasksValidations {
   newTaskValidation = () => {
     return Yup.object({
-      title: Yup.string()
+      name: Yup.string()
         .required("Required!")
         .min(2),
       teamLead: Yup.object().required("Required!"),
       assignedTo: Yup.array().required("Required!"),
       project: Yup.object().required("Required!"),
+      taskPriority: Yup.object(),
       description: Yup.object().required("Required!"),
       // .max(20, "Your lastname must be less than 20 character"),
       estimatedHrs: Yup.number("Please enter a valid number!").required(

@@ -70,9 +70,9 @@ const OutSourceCreate = (props) => {
             //       ? "is-invalid"
             //       : props.touched.pmStartDate && "is-valid"
             //   }`}
-            selected={props.phasesDetails.outSourceDeadline}
+            selected={val.outSourceDeadline}
             onChange={(date) => {
-              props.setPhasesDetails({ outSourceDeadline: date });
+              props.setPhaseArray({ outSourceDeadline: date });
             }}
           />
         </div>

@@ -119,11 +119,11 @@ const TaskForm = (props) => {
 
   return (
     <Formik
-      enableReinitialize={true}
       initialValues={{
         maxProjectRatio: 100,
         maxEstHrs: 1000,
-        title: editable && task.name,
+        name: editable && task.name,
+        dummyProject: "",
         project: editable &&
           task.project && {
             label: task.project.name,
@@ -134,12 +134,11 @@ const TaskForm = (props) => {
             label: getPhasename(task.phase),
             value: task.phase,
           },
-        taskPriority: editable
-          ? task.taskPriority && {
-              label: task.taskPriority.name,
-              value: task.taskPriority._id,
-            }
-          : labelPreset,
+        taskPriority: editable &&
+          task.taskPriority && {
+            label: task.taskPriority.name,
+            value: task.taskPriority._id,
+          },
         estimatedHrs: editable && task.estHrs,
         projectRatio: editable && task.projectRatio,
         description: editable
@@ -165,7 +164,7 @@ const TaskForm = (props) => {
             value: task.teamLead._id,
           },
       }}
-      // validationSchema={tasksValidations.newTaskValidation}
+      validationSchema={tasksValidations.newTaskValidation}
       onSubmit={(values, actions) => {
         window.scrollTo({ top: 0, behavior: "smooth" });
         let usrs = [];
@@ -174,57 +173,58 @@ const TaskForm = (props) => {
           usrs.push(item.id);
         });
 
-        editable &&
-          TaskService.updateTask(task._id, {
-            name: values.title,
-            startTime: values.startTime,
-            endTime: values.endTime,
-            description: JSON.stringify(
-              convertToRaw(values.description.getCurrentContent())
-            ),
-            estHrs: values.estimatedHrs,
-            taskPriority: values.taskPriority.value,
-            projectRatio: values.projectRatio,
-            project: values.project.value,
-            parentTask: values.parentTask.value,
-            assignedTo: usrs,
-            teamLead: values.teamLead.value,
-            phase: values.phase.value,
-          })
-            .then((res) => {
-              TaskService.handleMessage("update");
-              props.toggle();
-              console.log("res", res);
+        editable
+          ? TaskService.updateTask(task._id, {
+              name: values.name,
+              startTime: values.startTime,
+              endTime: values.endTime,
+              description: JSON.stringify(
+                convertToRaw(values.description.getCurrentContent())
+              ),
+              estHrs: values.estimatedHrs,
+              taskPriority: values.taskPriority.value,
+              projectRatio: values.projectRatio,
+              project: values.project.value,
+              parentTask: values.parentTask.value,
+              assignedTo: usrs,
+              teamLead: values.teamLead.value,
+              addedBy: loogedInUser._id,
+              phase: values.phase.value,
             })
-            .catch((err) => {
-              TaskService.handleCustomMessage(err.response.data);
-              props.toggle();
-            });
-        // : TaskService.addTask({
-        //     name: values.title,
-        //     startTime: values.startTime,
-        //     endTime: values.endTime,
-        //     description: JSON.stringify(
-        //       convertToRaw(values.description.getCurrentContent())
-        //     ),
-        //     estHrs: values.estimatedHrs,
-        //     taskPriority: values.taskPriority.value,
-        //     projectRatio: values.projectRatio,
-        //     project: values.project.value,
-        //     parentTask: values.parentTask.value,
-        //     assignedTo: usrs,
-        //     teamLead: values.teamLead.value,
-        //     addedBy: loogedInUser._id,
-        //     phase: values.phase.value,
-        //   })
-        //     .then((res) => {
-        //       console.log("res", res);
-        //       TaskService.handleMessage("add");
-        //       // history.push("/task");
-        //     })
-        //     .catch((err) => {
-        //       TaskService.handleCustomMessage(err.response.data);
-        //     });
+              .then((res) => {
+                TaskService.handleMessage("update");
+                props.toggle();
+                console.log("res", res);
+              })
+              .catch((err) => {
+                TaskService.handleCustomMessage(err.response.data);
+                props.toggle();
+              })
+          : TaskService.addTask({
+              name: values.name,
+              startTime: values.startTime,
+              endTime: values.endTime,
+              description: JSON.stringify(
+                convertToRaw(values.description.getCurrentContent())
+              ),
+              estHrs: values.estimatedHrs,
+              taskPriority: values.taskPriority.value,
+              projectRatio: values.projectRatio,
+              project: values.project.value,
+              parentTask: values.parentTask.value,
+              assignedTo: usrs,
+              teamLead: values.teamLead.value,
+              addedBy: loogedInUser._id,
+              phase: values.phase.value,
+            })
+              .then((res) => {
+                console.log("res", res);
+                TaskService.handleMessage("add");
+                // history.push("/task");
+              })
+              .catch((err) => {
+                TaskService.handleCustomMessage(err.response.data);
+              });
       }}
     >
       {(props) => {
@@ -233,6 +233,7 @@ const TaskForm = (props) => {
 
         return (
           <>
+            {console.log("task", props)}
             <div className="row task-form">
               <div className="col-6">
                 <div className="form-group">
@@ -276,36 +277,61 @@ const TaskForm = (props) => {
                   <input
                     type="text"
                     className={`form-control ${
-                      props.touched.title && props.errors.title
+                      props.touched.name && props.errors.name
                         ? "is-invalid"
-                        : props.touched.title && "is-valid"
+                        : props.touched.name && "is-valid"
                     }`}
-                    value={props.values.title}
-                    name="title"
+                    value={props.values.name}
+                    name="name"
                     onBlur={props.handleBlur}
                     onChange={(e) => {
-                      props.setFieldValue("title", e.target.value);
+                      console.log("name", e.target.value);
+                      props.setFieldValue("name", e.target.value);
                     }}
+                    // onChange={props.handleChange("name")}
                     placeholder="Enter Name"
                   />
                   <span id="err" className="invalid-feedback">
-                    {props.touched.title && props.errors.title}
+                    {props.touched.name && props.errors.name}
                   </span>
                 </div>
               </div>
+              {/* <div className="col-6">
+                <div className="form-group">
+                  <label> Name</label>
+                  <input
+                    name="name"
+                    onBlur={props.handleBlur}
+                    type="text"
+                    className={`form-control ${
+                      props.touched.name && props.errors.name
+                        ? "is-invalid"
+                        : props.touched.name && "is-valid"
+                    }`}
+                    value={props.values.name}
+                    onChange={props.handleChange("name")}
+                    placeholder="Enter Name"
+                  />
+                  <span id="err" className="invalid-feedback">
+                    {props.touched.name && props.errors.name}
+                  </span>
+                </div>
+              </div> */}
               <div className="col-6">
                 <div className="form-group">
                   <label>Project</label>
                   <Select
                     className={`my-select${
-                      props.touched.status && props.errors.status
+                      props.touched.project && props.errors.project
                         ? "is-invalid"
-                        : props.touched.status && "is-valid"
+                        : props.touched.project && "is-valid"
                     } `}
                     value={props.values.project}
                     name="project"
                     onBlur={props.handleBlur}
                     onChange={(selected) => {
+                      props.setFieldValue("project", selected);
+                      props.setFieldValue("dummyProject", selected);
                       console.log("Selected Changes", selected);
                       let phases = [];
                       selected.phase.map((item) => {
@@ -313,7 +339,6 @@ const TaskForm = (props) => {
                       });
                       setPhase(phases);
 
-                      props.setFieldValue("project", selected);
                       props.setFieldValue(
                         "maxProjectRatio",
                         selected.remainingProjectRatio
