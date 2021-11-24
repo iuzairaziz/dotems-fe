@@ -12,32 +12,57 @@ class UserValidation {
         .required("Required!")
         .min(2)
         .max(100),
-      userName: Yup.string()
+      email: Yup.string()
         .email("User Name Must be A Valid Email Address")
         .required("Required!"),
-      gender: Yup.object().required(),
-      joiningDate: Yup.string().required("Required!"),
-      status: Yup.object().required("Required!"),
-      salary: Yup.number().required("Required!"),
       password: Yup.string()
         .required("Required!")
-        .min(6)
+        .min(8)
         .max(200),
-      workingHrs: Yup.number(),
-      machineNo: Yup.object(),
-      designation: Yup.object(),
-      employeeType: Yup.object(),
-      employeeManager: Yup.object(),
-      department: Yup.object(),
-      workingDays: Yup.number(),
       userRole: Yup.array()
-        .min(1, "Pick At Least One Technology")
+        .min(1, "Pick At Least One")
         .of(
           Yup.object().shape({
             label: Yup.string().required(),
             value: Yup.string().required(),
           })
         ),
+      jobTitle: Yup.string()
+        .required("Required!")
+        .min(2)
+        .max(100),
+      designation: Yup.object().required(),
+      employeeType: Yup.object().required(),
+      employeeManager: Yup.object().required(),
+      department: Yup.object().required(),
+      employeeStatus: Yup.object().required(),
+      workingDays: Yup.object().required(),
+      workingHours: Yup.object().required(),
+      salary: Yup.number().required("Required!"),
+      gender: Yup.object().required(),
+      joiningDate: Yup.string().required("Required!"),
+      status: Yup.object().required("Required!"),
+      machineNo: Yup.object().required(),
+      resourceCost: Yup.object().required(),
+      technology: Yup.array(),
+      contactNo: Yup.number(),
+      otherContactNo: Yup.number(),
+      personalEmail: Yup.string().email(
+        "Personal Email Must be A Valid Email Address"
+      ),
+
+      address: Yup.string(),
+      guardianName: Yup.string(),
+      guardianContact: Yup.number(),
+      status: Yup.object(),
+      gender: Yup.object(),
+      city: Yup.string(),
+      country: Yup.string(),
+      bankName: Yup.string(),
+      bankAccNo: Yup.string(),
+      joiningDate: Yup.string().required("Required!"),
+      terminationDate: Yup.string(),
+      dateOfBirth: Yup.string(),
     });
   };
 

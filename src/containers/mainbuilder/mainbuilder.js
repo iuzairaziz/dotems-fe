@@ -99,6 +99,8 @@ import Requests from "../MainContent/Request/Requests";
 import form_advanced from "../MainContent/Forms/Form_advanced";
 import AddWorkingHours from "../MainContent/Timesheet/WorkingHours/AddWorkingHours";
 import ViewWorkingHours from "../MainContent/Timesheet/WorkingHours/ViewWorkingHours";
+import ViewResourceCost from "../MainContent/ResourceCost/ViewResourceCost";
+import AddResourceCost from "../MainContent/ResourceCost/AddResourceCost";
 import AddWorkingShift from "../MainContent/Timesheet/WorkingShift/AddWorkingShift";
 import ViewWorkingShift from "../MainContent/Timesheet/WorkingShift/ViewWorkingShift";
 import ViewLeavePolicy from "../MainContent/Leaves/LeavePolicy/ViewLeavePolicy";
@@ -132,6 +134,12 @@ const mainbuilder = (props) => {
           exact
           path="/working-hours-add/:id?"
           component={AddWorkingHours}
+        />
+        <Route exact path="/view-resource-cost" component={ViewResourceCost} />
+        <Route
+          exact
+          path="/resource-cost-add/:id?"
+          component={AddResourceCost}
         />
         <Route exact path="/requests" component={Requests} />
         <Route exact path="/add-new-task" component={Tasks} />
