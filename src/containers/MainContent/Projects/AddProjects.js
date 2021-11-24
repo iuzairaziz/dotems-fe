@@ -3,6 +3,8 @@ import AUX from "../../../hoc/Aux_";
 import ProjectForm from "../Projects/ProjectFrom";
 import ViewProject from "../Projects/ViewProjects";
 import MyProject from "../Projects/MyProject";
+import { Link } from "react-router-dom";
+import "./AddProjects.scss";
 
 class AddProjects extends Component {
   constructor() {
@@ -87,17 +89,40 @@ class AddProjects extends Component {
                   <ProjectForm />
                 </div>
                 <div className="tab-pane p-3" id="settings1" role="tabpanel">
-                  <p className="font-14 mb-0">
-                    Trust fund seitan letterpress, keytar raw denim keffiyeh
-                    etsy art party before they sold out master cleanse
-                    gluten-free squid scenester freegan cosby sweater. Fanny
-                    pack portland seitan DIY, art party locavore wolf cliche
-                    high life echo park Austin. Cred vinyl keffiyeh DIY salvia
-                    PBR, banh mi before they sold out farm-to-table VHS viral
-                    locavore cosby sweater. Lomo wolf viral, mustache readymade
-                    thundercats keffiyeh craft beer marfa ethical. Wolf salvia
-                    freegan, sartorial keffiyeh echo park vegan.
-                  </p>
+                  <div className="card project">
+                    <div className="row cardd">
+                      <i
+                        class="mdi mdi-file-powerpoint-box iconSize"
+                        style={{ color: "var(--color-secondary1)" }}
+                      />
+                      <i
+                        class="mdi mdi-settings iconSize"
+                        style={{ color: "var(--color-secondary1)" }}
+                      />
+                    </div>
+                    <div className="row cSettings">
+                      <h2>Project Settings</h2>
+                    </div>
+                    <div className="border-b" />
+                    <div className="row cardd ">
+                      <Link to="/addclient">Client</Link>
+                    </div>
+                    <div className="row cardd">
+                      <Link to="/add-platform">Platform</Link>
+                    </div>
+                    <div className="row cardd ">
+                      <Link to="/add-technology">Technology</Link>
+                    </div>
+                    <div className="row cardd ">
+                      <Link to="/add-service">Service Type</Link>
+                    </div>
+                    <div className="row cardd ">
+                      <Link to="/add-nature">Project Nature</Link>
+                    </div>
+                    <div className="row cardd ">
+                      <Link to="/addstatus">Status</Link>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -249,113 +249,94 @@ const ViewUsers = (props) => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <div className="row align-items-center mb-3">
-                    <div className="col">
-                      <h3 className="m-0 p-0">All Employees</h3>
-                    </div>
-                    <div className="col">
-                      <Link to="/add-user">
-                        <Button
-                          color="success"
-                          className="my-primary-button float-right"
-                        >
-                          Add User
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-3">
-                      <label>Technology Filter</label>
-                      <select
-                        className="form-control"
-                        onChange={(e) => {
-                          setApplyTechnologyFilter(e.target.value);
-                        }}
-                      >
-                        <option key={1} value={""}>
-                          All
+              <div className="row">
+                <div className="col-3">
+                  <label>Technology Filter</label>
+                  <select
+                    className="form-control"
+                    onChange={(e) => {
+                      setApplyTechnologyFilter(e.target.value);
+                    }}
+                  >
+                    <option key={1} value={""}>
+                      All
+                    </option>
+                    {technologyfilter.map((item, index) => {
+                      return (
+                        <option key={index} value={item.id}>
+                          {item.label}
                         </option>
-                        {technologyfilter.map((item, index) => {
-                          return (
-                            <option key={index} value={item.id}>
-                              {item.label}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div className="col-3">
-                      <label>Role Filter</label>
-                      <select
-                        className="form-control"
-                        onChange={(e) => {
-                          setApplyRoleFilter(e.target.value);
-                        }}
-                      >
-                        <option key={1} value={""}>
-                          All
-                        </option>
-                        <option key={2} value={"Internee"}>
-                          Internee
-                        </option>
-                        <option key={3} value={"Probation"}>
-                          Probation
-                        </option>
-                        <option key={4} value={"Employee"}>
-                          Employee
-                        </option>
-                      </select>
-                    </div>
-                    <div className="col-3">
-                      <label>Minimum Salary</label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        onChange={(e) => {
-                          setMinimumSalary(e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div className="col-3">
-                      <label>Maximum Salary</label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        onChange={(e) => {
-                          setMaximumSalary(e.target.value);
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <MDBDataTableV5
-                    responsive
-                    striped
-                    small
-                    onPageChange={(val) => console.log(val)}
-                    bordered={true}
-                    //  materialSearch
-                    searchTop
-                    searchBottom={false}
-                    pagingTop
-                    barReverse
-                    hover
-                    // scrollX
-                    // fixedHeader={true}
-                    // responsive
-                    // striped
-                    // bordered
-                    // searchTop
-                    // hover
-                    // autoWidth
-                    data={dataa}
-                    theadColor="#000"
+                      );
+                    })}
+                  </select>
+                </div>
+                <div className="col-3">
+                  <label>Role Filter</label>
+                  <select
+                    className="form-control"
+                    onChange={(e) => {
+                      setApplyRoleFilter(e.target.value);
+                    }}
+                  >
+                    <option key={1} value={""}>
+                      All
+                    </option>
+                    <option key={2} value={"Internee"}>
+                      Internee
+                    </option>
+                    <option key={3} value={"Probation"}>
+                      Probation
+                    </option>
+                    <option key={4} value={"Employee"}>
+                      Employee
+                    </option>
+                  </select>
+                </div>
+                <div className="col-3">
+                  <label>Minimum Salary</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    onChange={(e) => {
+                      setMinimumSalary(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-3">
+                  <label>Maximum Salary</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    onChange={(e) => {
+                      setMaximumSalary(e.target.value);
+                    }}
                   />
                 </div>
               </div>
+
+              <MDBDataTableV5
+                responsive
+                striped
+                small
+                onPageChange={(val) => console.log(val)}
+                bordered={true}
+                //  materialSearch
+                searchTop
+                searchBottom={false}
+                pagingTop
+                barReverse
+                hover
+                // scrollX
+                // fixedHeader={true}
+                // responsive
+                // striped
+                // bordered
+                // searchTop
+                // hover
+                // autoWidth
+                data={dataa}
+                theadColor="#000"
+              />
             </div>
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>

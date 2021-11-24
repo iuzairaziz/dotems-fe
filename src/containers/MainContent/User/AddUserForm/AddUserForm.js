@@ -16,6 +16,10 @@ import {
   ModalFooter,
 } from "reactstrap";
 import MachineForm from "../../Machine/MachineForm/MachineForm";
+import DesignationForm from "../../Designation/DesignationForm/DesignationForm";
+import EmployeeTypeForm from "../../EmployeeType/EmployeeTypeForm/EmployeeTypeForm";
+import DepartmentForm from "../../Department/DepartmentForm/DepartmentForm";
+import ResourceCostForm from "../../ResourceCost/ResourceCostForm";
 import UserService from "../../../../services/UserService";
 import MachineService from "../../../../services/MachineService";
 import EmployeeTypeService from "../../../../services/EmployeeTypeService";
@@ -23,6 +27,8 @@ import DesignationService from "../../../../services/DesignationService";
 import DepartmentService from "../../../../services/DepartmentService";
 import WorkingHoursService from "../../../../services/WorkingHoursService";
 import WorkingDayService from "../../../../services/WorkingDayService";
+import ResourceCostService from "../../../../services/ResourceCostService";
+import TechnologyService from "../../../../services/TechnologyService";
 
 import Configuration from "../../../../config/configuration";
 
@@ -34,7 +40,13 @@ const UserForm = (props) => {
   const [department, setDepartment] = useState([]);
   const [workingHrs, setWorkingHrs] = useState([]);
   const [workingDays, setWorkingDays] = useState([]);
+  const [resourceCost, setResourceCost] = useState([]);
+  const [technology, setTechnology] = useState([]);
   const [machineModal, setMachineModal] = useState(false);
+  const [designationModal, setDesignationModal] = useState(false);
+  const [employeeTypeModal, setEmployeeTypeModal] = useState(false);
+  const [departmentModal, setDepartmentModal] = useState(false);
+  const [resourceCostModal, setResourceCostModal] = useState(false);
   const [password, setPassword] = useState();
 
   const config = new Configuration();
@@ -49,14 +61,26 @@ const UserForm = (props) => {
     getAllDepartments();
     getAllWorkingHours();
     getAllWorkingDays();
-  }, [machineModal]);
+    getAllResourceCost();
+    getAllTechnology();
+  }, [
+    machineModal,
+    designationModal,
+    employeeTypeModal,
+    departmentModal,
+    resourceCostModal,
+  ]);
 
   const toggleMachineEdit = () => setMachineModal(!machineModal);
+  const toggleDesignationEdit = () => setDesignationModal(!designationModal);
+  const toggleEmployeeTypeModal = () =>
+    setEmployeeTypeModal(!employeeTypeModal);
+  const toggleDepartmentModal = () => setDepartmentModal(!departmentModal);
+  const toggleResourceCostModal = () =>
+    setResourceCostModal(!resourceCostModal);
 
   const user = props.user;
-  console.log("dsasaasasasdsadsdwdwdw", user);
   const editable = props.editable;
-  console.log("from project form ", user);
 
   const getMachines = () => {
     MachineService.getFreeMachines().then((res) => {
@@ -64,7 +88,6 @@ const UserForm = (props) => {
       res.data.map((item, index) => {
         options.push({ label: item.machineNo, value: item._id });
       });
-      console.log("Machine", options);
       setMachineNo(options);
     });
   };
@@ -124,6 +147,25 @@ const UserForm = (props) => {
       setWorkingDays(options);
     });
   };
+  const getAllResourceCost = () => {
+    ResourceCostService.getResourceCost().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setResourceCost(options);
+    });
+  };
+  const getAllTechnology = () => {
+    TechnologyService.getAllTechnologies().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setTechnology(options);
+      console.log("Technology", options);
+    });
+  };
 
   var UserRole = [];
 
@@ -146,14 +188,8 @@ const UserForm = (props) => {
         firstName: editable && user.firstName,
         lastName: editable && user.lastName,
         email: editable && user.email,
-        gender: editable &&
-          user.gender && { label: user.gender, value: user.gender },
-        joiningDate: editable && user.joiningDate,
-        status: editable &&
-          user.status && { label: user.status, value: user.status },
-        salary: editable && user.salary,
         password: editable && user.password,
-        workingHrs: editable && user.workingHrs,
+        userRole: editable && user.userRole && UserRole ? UserRole : [],
         jobTitle: editable && user.jobTitle,
         designation: editable &&
           user.designation && {
@@ -165,28 +201,70 @@ const UserForm = (props) => {
             label: user.employeeType.name,
             value: user.employeeType._id,
           },
+
         employeeManager: editable &&
           user.employeeManager && {
             label: user.employeeManager.name,
             value: user.employeeManager._id,
           },
-        employeeManager: editable &&
+        department: editable &&
           user.department && {
             label: user.department.name,
             value: user.department._id,
           },
+        employeeStatus: editable &&
+          user.employeeStatus && {
+            label: user.employeeStatus.name,
+            value: user.employeeStatus._id,
+          },
+        workingDays: editable &&
+          user.workingDays && {
+            label: user.workingDays.name,
+            value: user.workingDays._id,
+          },
+        workingHours: editable &&
+          user.workingHours && {
+            label: user.workingHours.name,
+            value: user.workingHours._id,
+          },
+        salary: editable && user.salary,
         machineNo: editable &&
           user.machineNo && {
             label: user.machineNo.machineNo,
             value: user.machineNo._id,
           },
-        workingDays: editable && user.workingDays,
-        userRole: editable && user.userRole && UserRole ? UserRole : [],
-
-        // employeeStatus:
-        //   editable && user.employeeStatus && employeeStatus
-        //     ? employeeStatus
-        //     : [],
+        resourceCost: editable &&
+          user.resourceCost && {
+            label: user.resourceCost.name,
+            value: user.resourceCost._id,
+          },
+        technology: editable &&
+          user.technology && [
+            {
+              label: user.technology.name,
+              value: user.technology._id,
+            },
+          ],
+        contactNo: editable && user.contactNo,
+        otherContactNo: editable && user.otherContactNo,
+        personalEmail: editable && user.personalEmail,
+        address: editable && user.address,
+        guardianName: editable && user.guardianName,
+        guardianContact: editable && user.guardianContact,
+        status: editable &&
+          user.status && {
+            label: user.status.name,
+            value: user.status._id,
+          },
+        gender: editable &&
+          user.gender && { label: user.gender, value: user.gender },
+        city: editable && user.city,
+        country: editable && user.country,
+        bankName: editable && user.bankName,
+        bankAccNo: editable && user.bankAccNo,
+        joiningDate: editable && user.joiningDate,
+        terminationDate: editable && user.terminationDate,
+        dateOfBirth: editable && user.dateOfBirth,
       }}
       validationSchema={userValidation.newUserValidation}
       onSubmit={(values, actions) => {
@@ -201,16 +279,35 @@ const UserForm = (props) => {
               firstName: values.firstName,
               lastName: values.lastName,
               email: values.email,
-              gender: values.gender.value,
-              status: values.status.value,
               password: values.password,
-              salary: values.salary,
-              joiningDate: values.joiningDate,
-              workingHrs: values.workingHrs,
-              machineNo: values.machineNo.value,
-              designation: values.designation.value,
-              workingDays: values.workingDays,
               userRole: role,
+              jobTitle: values.jobTitle,
+              designation: values.designation.value,
+              employeeType: values.employeeType.value,
+              employeeManager: values.employeeManager.value,
+              department: values.department.value,
+              employeeStatus: values.employeeStatus.value,
+              workingDays: values.workingDays.value,
+              workingHours: values.workingHours.value,
+              salary: values.salary,
+              machineNo: values.machineNo.value,
+              resourceCost: values.resourceCost.value,
+              technology: values.technology.value,
+              contactNo: values.contactNo,
+              otherContactNo: values.otherContactNo,
+              personalEmail: values.personalEmail,
+              address: values.address,
+              guardianName: values.guardianName,
+              guardianContact: values.guardianContact,
+              status: values.status.value,
+              gender: values.gender.value,
+              city: values.gender.city,
+              country: values.gender.country,
+              bankName: values.gender.bankName,
+              bankAccNo: values.gender.bankAccNo,
+              joiningDate: values.gender.joiningDate,
+              terminationDate: values.gender.terminationDate,
+              dateOfBirth: values.gender.dateOfBirth,
             })
               .then((res) => {
                 MachineService.updateMachine(values.machineNo.value, {
@@ -227,17 +324,35 @@ const UserForm = (props) => {
               firstName: values.firstName,
               lastName: values.lastName,
               email: values.email,
-              gender: values.gender.value,
-              status: values.status.value,
               password: values.password,
-              salary: values.salary,
-              joiningDate: values.joiningDate,
-              workingHrs: values.workingHrs,
-              machineNo: values.machineNo.value,
-
-              workingDays: values.workingDays,
               userRole: role,
+              jobTitle: values.jobTitle,
               designation: values.designation.value,
+              employeeType: values.employeeType.value,
+              employeeManager: values.employeeManager.value,
+              department: values.department.value,
+              employeeStatus: values.employeeStatus.value,
+              workingDays: values.workingDays.value,
+              workingHours: values.workingHours.value,
+              salary: values.salary,
+              machineNo: values.machineNo.value,
+              resourceCost: values.resourceCost.value,
+              technology: values.technology.value,
+              contactNo: values.contactNo,
+              otherContactNo: values.otherContactNo,
+              personalEmail: values.personalEmail,
+              address: values.address,
+              guardianName: values.guardianName,
+              guardianContact: values.guardianContact,
+              status: values.status.value,
+              gender: values.gender.value,
+              city: values.gender.city,
+              country: values.gender.country,
+              bankName: values.gender.bankName,
+              bankAccNo: values.gender.bankAccNo,
+              joiningDate: values.gender.joiningDate,
+              terminationDate: values.gender.terminationDate,
+              dateOfBirth: values.gender.dateOfBirth,
             })
               .then((res) => {
                 UserService.handleMessage("add");
@@ -370,7 +485,7 @@ const UserForm = (props) => {
                                   : props.touched.firstName && "is-valid"
                               }`}
                               value={props.values.firstName}
-                              onChange={props.handleChange("name")}
+                              onChange={props.handleChange("firstName")}
                               placeholder="Enter First Name"
                             />
                             <span id="err" className="invalid-feedback">
@@ -392,7 +507,7 @@ const UserForm = (props) => {
                                   : props.touched.lastName && "is-valid"
                               }`}
                               value={props.values.lastName}
-                              onChange={props.handleChange("name")}
+                              onChange={props.handleChange("lastName")}
                               placeholder="Enter Last Name"
                             />
                             <span id="err" className="invalid-feedback">
@@ -537,10 +652,21 @@ const UserForm = (props) => {
                         <div className="col-6">
                           <div className="form-group">
                             <div className="row">
-                              <div className="col-6">
+                              <div className="col">
                                 <label className="control-label">
                                   Designation
                                 </label>
+                              </div>
+                              <div className="col">
+                                <div
+                                  className="d-flex justify-content-end"
+                                  id="add-new-Buttonm "
+                                  onClick={() => {
+                                    toggleDesignationEdit();
+                                  }}
+                                >
+                                  <i className="mdi mdi-plus icon-add" />
+                                </div>
                               </div>
                             </div>
                             <Select
@@ -572,6 +698,17 @@ const UserForm = (props) => {
                                 <label className="control-label">
                                   Employee Type
                                 </label>
+                              </div>
+                              <div className="col">
+                                <div
+                                  className="d-flex justify-content-end"
+                                  id="add-new-Buttonm "
+                                  onClick={() => {
+                                    toggleEmployeeTypeModal();
+                                  }}
+                                >
+                                  <i className="mdi mdi-plus icon-add" />
+                                </div>
                               </div>
                             </div>
                             <Select
@@ -633,6 +770,17 @@ const UserForm = (props) => {
                                 <label className="control-label">
                                   Department
                                 </label>
+                              </div>
+                              <div className="col">
+                                <div
+                                  className="d-flex justify-content-end"
+                                  id="add-new-Buttonm "
+                                  onClick={() => {
+                                    toggleDepartmentModal();
+                                  }}
+                                >
+                                  <i className="mdi mdi-plus icon-add" />
+                                </div>
                               </div>
                             </div>
                             <Select
@@ -742,21 +890,21 @@ const UserForm = (props) => {
                             <Select
                               name="department"
                               className={`my-select${
-                                props.touched.workingHrs &&
-                                props.errors.workingHrs
+                                props.touched.workingHours &&
+                                props.errors.workingHours
                                   ? "is-invalid"
-                                  : props.touched.workingHrs && "is-valid"
+                                  : props.touched.workingHours && "is-valid"
                               }`}
                               onBlur={props.handleBlur}
-                              value={props.values.workingHrs}
+                              value={props.values.workingHours}
                               onChange={(val) =>
-                                props.setFieldValue("workingHrs", val)
+                                props.setFieldValue("workingHours", val)
                               }
                               options={workingHrs}
                             />
                             <span id="err" className="invalid-feedback">
-                              {props.touched.workingHrs &&
-                                props.errors.workingHrs}
+                              {props.touched.workingHours &&
+                                props.errors.workingHours}
                             </span>
                           </div>
                         </div>
@@ -823,6 +971,48 @@ const UserForm = (props) => {
                             </span>
                           </div>
                         </div>
+
+                        <div className="col-6">
+                          <div className="form-group">
+                            <div className="row">
+                              <div className="col">
+                                <label className="control-label">
+                                  Resource Cost{" "}
+                                </label>
+                              </div>
+                              <div className="col">
+                                <div
+                                  className="d-flex justify-content-end"
+                                  id="add-new-Buttonm "
+                                  onClick={() => {
+                                    toggleResourceCostModal();
+                                  }}
+                                >
+                                  <i className="mdi mdi-plus icon-add" />
+                                </div>
+                              </div>
+                            </div>
+                            <Select
+                              name="resourceCost"
+                              className={`my-select ${
+                                props.touched.resourceCost &&
+                                props.errors.resourceCost
+                                  ? "is-invalid"
+                                  : props.touched.resourceCost && "is-valid"
+                              }`}
+                              onBlur={props.handleBlur}
+                              value={props.values.resourceCost}
+                              onChange={(val) =>
+                                props.setFieldValue("resourceCost", val)
+                              }
+                              options={resourceCost}
+                            />
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.resourceCost &&
+                                props.errors.resourceCost}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div
@@ -835,20 +1025,22 @@ const UserForm = (props) => {
                           <div className="form-group">
                             <label className="control-label">Technology</label>
                             <Select
-                              // className={`my-select${
-                              //   props.touched.technologies && props.errors.technologies
-                              //     ? "is-invalid"
-                              //     : props.touched.technologies && "is-valid"
-                              // }`}
-                              // value={props.values.technologies}
-                              // onChange={(val) =>
-                              //   props.setFieldValue("technologies", val)
-                              // }
-                              // options={technology}
+                              className={`my-select ${
+                                props.touched.technology &&
+                                props.errors.technology
+                                  ? "is-invalid"
+                                  : props.touched.technology && "is-valid"
+                              }`}
+                              value={props.values.technology}
+                              onChange={(val) =>
+                                props.setFieldValue("technology", val)
+                              }
+                              options={technology}
                               isMulti={true}
                             />
                             <span id="err" className="invalid-feedback">
-                              {/* {props.touched.technology && props.errors.technology} */}
+                              {props.touched.technology &&
+                                props.errors.technology}
                             </span>
                           </div>
                         </div>
@@ -858,16 +1050,18 @@ const UserForm = (props) => {
                             <input
                               type="text"
                               className={`form-control ${
-                                props.touched.contact && props.errors.contact
+                                props.touched.contactNo &&
+                                props.errors.contactNo
                                   ? "is-invalid"
-                                  : props.touched.contact && "is-valid"
-                              }`} // defaultValue={props.values.contact}
-                              // value={props.values.contact}
-                              // onChange={props.handleChange("contact")}
+                                  : props.touched.contactNo && "is-valid"
+                              }`}
+                              value={props.values.contactNo}
+                              onChange={props.handleChange("contactNo")}
                               placeholder="Enter Contact Number"
                             />
                             <span id="err" className="invalid-feedback">
-                              {/* {props.touched.contact && props.errors.contact} */}
+                              {props.touched.contactNo &&
+                                props.errors.contactNo}
                             </span>
                           </div>
                         </div>
@@ -877,17 +1071,18 @@ const UserForm = (props) => {
                             <input
                               type="text"
                               className={`form-control ${
-                                props.touched.otherContact &&
-                                props.errors.otherContact
+                                props.touched.otherContactNo &&
+                                props.errors.otherContactNo
                                   ? "is-invalid"
-                                  : props.touched.otherContact && "is-valid"
+                                  : props.touched.otherContactNo && "is-valid"
                               }`} // defaultValue={props.values.otherContact}
-                              // value={props.values.otherContact}
-                              // onChange={props.handleChange("otherContact")}
+                              value={props.values.otherContactNo}
+                              onChange={props.handleChange("otherContactNo")}
                               placeholder="Enter Contact Number"
                             />
                             <span id="err" className="invalid-feedback">
-                              {/* {props.touched.otherContact && props.errors.otherContact} */}
+                              {props.touched.otherContactNo &&
+                                props.errors.otherContactNo}
                             </span>
                           </div>
                         </div>
@@ -897,18 +1092,18 @@ const UserForm = (props) => {
                             <input
                               type="text"
                               className={`form-control ${
-                                props.touched.emailPersonal &&
-                                props.errors.emailPersonal
+                                props.touched.personalEmail &&
+                                props.errors.personalEmail
                                   ? "is-invalid"
-                                  : props.touched.emailPersonal && "is-valid"
+                                  : props.touched.personalEmail && "is-valid"
                               }`} // defaultValue={props.values.emailPersonal}
-                              // value={props.values.emailPersonal}
-                              // onChange={props.handleChange("emailPersonal")}
+                              value={props.values.personalEmail}
+                              onChange={props.handleChange("personalEmail")}
                               placeholder="Enter Personal Email"
                             />
                             <span id="err" className="invalid-feedback">
-                              {/* {props.touched.emailPersonal &&
-                        props.errors.emailPersonal} */}
+                              {props.touched.personalEmail &&
+                                props.errors.personalEmail}
                             </span>
                           </div>
                         </div>
@@ -922,12 +1117,12 @@ const UserForm = (props) => {
                                   ? "is-invalid"
                                   : props.touched.address && "is-valid"
                               }`} // defaultValue={props.values.address}
-                              // value={props.values.address}
-                              // onChange={props.handleChange("address")}
+                              value={props.values.address}
+                              onChange={props.handleChange("address")}
                               placeholder="Enter Address "
                             />
                             <span id="err" className="invalid-feedback">
-                              {/* {props.touched.address && props.errors.address} */}
+                              {props.touched.address && props.errors.address}
                             </span>
                           </div>
                         </div>
@@ -937,18 +1132,18 @@ const UserForm = (props) => {
                             <input
                               type="text"
                               className={`form-control ${
-                                props.touched.nameEmergency &&
-                                props.errors.nameEmergency
+                                props.touched.guardianName &&
+                                props.errors.guardianName
                                   ? "is-invalid"
-                                  : props.touched.nameEmergency && "is-valid"
+                                  : props.touched.guardianName && "is-valid"
                               }`} // defaultValue={props.values.nameEmergency}
-                              // value={props.values.nameEmergency}
-                              // onChange={props.handleChange("nameEmergency")}
+                              value={props.values.guardianName}
+                              onChange={props.handleChange("guardianName")}
                               placeholder="Enter Guardian Name "
                             />
                             <span id="err" className="invalid-feedback">
-                              {/* {props.touched.nameEmergency &&
-                        props.errors.nameEmergency} */}
+                              {props.touched.guardianName &&
+                                props.errors.guardianName}
                             </span>
                           </div>
                         </div>
@@ -958,18 +1153,18 @@ const UserForm = (props) => {
                             <input
                               type="text"
                               className={`form-control ${
-                                props.touched.contactEmergency &&
-                                props.errors.contactEmergency
+                                props.touched.guardianContact &&
+                                props.errors.guardianContact
                                   ? "is-invalid"
-                                  : props.touched.contactEmergency && "is-valid"
+                                  : props.touched.guardianContact && "is-valid"
                               }`} // defaultValue={props.values.contactEmergency}
-                              // value={props.values.contactEmergency}
-                              // onChange={props.handleChange("contactEmergency")}
+                              value={props.values.guardianContact}
+                              onChange={props.handleChange("guardianContact")}
                               placeholder="Enter Guardian Contact Number"
                             />
                             <span id="err" className="invalid-feedback">
-                              {/* {props.touched.contactEmergency &&
-                        props.errors.contactEmergency} */}
+                              {props.touched.contactEmergency &&
+                                props.errors.contactEmergency}
                             </span>
                           </div>
                         </div>
@@ -1024,6 +1219,44 @@ const UserForm = (props) => {
                             </span>
                           </div>
                         </div>
+                        <div className="col-6">
+                          <div className="form-group">
+                            <label>City</label>
+                            <input
+                              type="text"
+                              className={`form-control ${
+                                props.touched.city && props.errors.city
+                                  ? "is-invalid"
+                                  : props.touched.city && "is-valid"
+                              }`} // defaultValue={props.values.city}
+                              value={props.values.city}
+                              onChange={props.handleChange("city")}
+                              placeholder="Enter City"
+                            />
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.city && props.errors.city}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="col-6">
+                          <div className="form-group">
+                            <label>Country</label>
+                            <input
+                              type="text"
+                              className={`form-control ${
+                                props.touched.country && props.errors.country
+                                  ? "is-invalid"
+                                  : props.touched.country && "is-valid"
+                              }`} // defaultValue={props.values.country}
+                              value={props.values.country}
+                              onChange={props.handleChange("country")}
+                              placeholder="Enter Country"
+                            />
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.country && props.errors.country}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div
@@ -1036,20 +1269,19 @@ const UserForm = (props) => {
                           <div className="form-group">
                             <label>Bank Name</label>
                             <input
+                              name="bankName"
                               type="text"
                               className={`form-control ${
-                                props.touched.contactEmergency &&
-                                props.errors.contactEmergency
+                                props.touched.bankName && props.errors.bankName
                                   ? "is-invalid"
-                                  : props.touched.contactEmergency && "is-valid"
+                                  : props.touched.bankName && "is-valid"
                               }`} // defaultValue={props.values.contactEmergency}
-                              // value={props.values.contactEmergency}
-                              // onChange={props.handleChange("contactEmergency")}
-                              placeholder="Enter Guardian Contact Number"
+                              value={props.values.bankName}
+                              onChange={props.handleChange("bankName")}
+                              placeholder="Enter Bank Name"
                             />
                             <span id="err" className="invalid-feedback">
-                              {/* {props.touched.contactEmergency &&
-                        props.errors.contactEmergency} */}
+                              {props.touched.bankName && props.errors.bankName}
                             </span>
                           </div>
                         </div>
@@ -1057,20 +1289,21 @@ const UserForm = (props) => {
                           <div className="form-group">
                             <label>Account Number</label>
                             <input
+                              name="bankAccNo"
                               type="text"
                               className={`form-control ${
-                                props.touched.contactEmergency &&
-                                props.errors.contactEmergency
+                                props.touched.bankAccNo &&
+                                props.errors.bankAccNo
                                   ? "is-invalid"
                                   : props.touched.contactEmergency && "is-valid"
-                              }`} // defaultValue={props.values.contactEmergency}
-                              // value={props.values.contactEmergency}
-                              // onChange={props.handleChange("contactEmergency")}
-                              placeholder="Enter Guardian Contact Number"
+                              }`} // defaultValue={props.values.bankAccNo}
+                              value={props.values.bankAccNo}
+                              onChange={props.handleChange("bankAccNo")}
+                              placeholder="Enter Bank Accunt Number"
                             />
                             <span id="err" className="invalid-feedback">
-                              {/* {props.touched.contactEmergency &&
-                        props.errors.contactEmergency} */}
+                              {props.touched.bankAccNo &&
+                                props.errors.bankAccNo}
                             </span>
                           </div>
                         </div>
@@ -1102,6 +1335,10 @@ const UserForm = (props) => {
                                 }}
                               />
                             </div>
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.joiningDate &&
+                                props.errors.joiningDate}
+                            </span>
                           </div>{" "}
                         </div>
                         <div className="col-6">
@@ -1110,20 +1347,25 @@ const UserForm = (props) => {
                             <label>Resign/Terminate Date</label>
                             <div>
                               <DatePicker
-                                name="joiningDate"
+                                name="resignDate"
                                 onBlur={props.handleBlur}
                                 className={`form-control ${
-                                  props.touched.joiningDate &&
-                                  props.errors.joiningDate
+                                  props.touched.terminationDate &&
+                                  props.errors.terminationDate
                                     ? "is-invalid"
-                                    : props.touched.joiningDate && "is-valid"
+                                    : props.touched.terminationDate &&
+                                      "is-valid"
                                 }`}
-                                selected={props.values.joiningDate}
+                                selected={props.values.terminationDate}
                                 onChange={(date) => {
-                                  props.setFieldValue("joiningDate", date);
+                                  props.setFieldValue("terminationDate", date);
                                 }}
                               />
                             </div>
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.terminationDate &&
+                                props.errors.terminationDate}
+                            </span>
                           </div>{" "}
                         </div>
                         <div className="col-6">
@@ -1132,20 +1374,24 @@ const UserForm = (props) => {
                             <label>Date of birth</label>
                             <div>
                               <DatePicker
-                                name="joiningDate"
+                                name="dateOfBirth"
                                 onBlur={props.handleBlur}
                                 className={`form-control ${
-                                  props.touched.joiningDate &&
-                                  props.errors.joiningDate
+                                  props.touched.dateOfBirth &&
+                                  props.errors.dateOfBirth
                                     ? "is-invalid"
-                                    : props.touched.joiningDate && "is-valid"
+                                    : props.touched.dateOfBirth && "is-valid"
                                 }`}
-                                selected={props.values.joiningDate}
+                                selected={props.values.dateOfBirth}
                                 onChange={(date) => {
-                                  props.setFieldValue("joiningDate", date);
+                                  props.setFieldValue("dateOfBirth", date);
                                 }}
                               />
                             </div>
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.dateOfBirth &&
+                                props.errors.dateOfBirth}
+                            </span>
                           </div>{" "}
                         </div>
                       </div>
@@ -1484,10 +1730,58 @@ const UserForm = (props) => {
             toggle={toggleMachineEdit}
           >
             <ModalHeader toggle={toggleMachineEdit}>
-              Add New Machone
+              Add New Machine
             </ModalHeader>
             <ModalBody>
               <MachineForm toggle={toggleMachineEdit} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={designationModal}
+            toggle={toggleDesignationEdit}
+          >
+            <ModalHeader toggle={toggleDesignationEdit}>
+              Add New Designation
+            </ModalHeader>
+            <ModalBody>
+              <DesignationForm toggle={toggleDesignationEdit} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={employeeTypeModal}
+            toggle={toggleEmployeeTypeModal}
+          >
+            <ModalHeader toggle={toggleEmployeeTypeModal}>
+              Add New Employee Type
+            </ModalHeader>
+            <ModalBody>
+              <EmployeeTypeForm toggle={toggleEmployeeTypeModal} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={departmentModal}
+            toggle={toggleDepartmentModal}
+          >
+            <ModalHeader toggle={toggleDepartmentModal}>
+              Add New Department
+            </ModalHeader>
+            <ModalBody>
+              <DepartmentForm toggle={toggleDepartmentModal} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            style={{ maxWidth: "70%" }}
+            isOpen={resourceCostModal}
+            toggle={toggleResourceCostModal}
+          >
+            <ModalHeader toggle={toggleResourceCostModal}>
+              Add New Resource Cost
+            </ModalHeader>
+            <ModalBody>
+              <ResourceCostForm toggle={toggleResourceCostModal} />
             </ModalBody>
           </Modal>
         </>

@@ -143,6 +143,15 @@ class ShortValidations {
       hours: Yup.number().required("Required!"),
     });
   };
+  resourceCostValidation = () => {
+    return Yup.object({
+      title: Yup.string()
+        .required("Required!")
+        .min(2)
+        .max(20),
+      cost: Yup.number().required("Required!"),
+    });
+  };
 
   workingShiftValidation = () => {
     return Yup.object({

@@ -14,25 +14,25 @@ const AddPlatform = () => {
                 <a
                   className="nav-link active"
                   data-toggle="tab"
-                  href="#home1"
-                  role="tab"
-                >
-                  <span className="d-none d-md-block">Add Platform</span>
-                  <span className="d-block d-md-none">
-                    <i className="mdi mdi-home-variant h5" />
-                  </span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  data-toggle="tab"
                   href="#profile1"
                   role="tab"
                 >
                   <span className="d-none d-md-block">View Platform</span>
                   <span className="d-block d-md-none">
                     <i className="mdi mdi-account h5" />
+                  </span>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link "
+                  data-toggle="tab"
+                  href="#home1"
+                  role="tab"
+                >
+                  <span className="d-none d-md-block"> + Add Platform</span>
+                  <span className="d-block d-md-none">
+                    <i className="mdi mdi-home-variant h5" />
                   </span>
                 </a>
               </li>

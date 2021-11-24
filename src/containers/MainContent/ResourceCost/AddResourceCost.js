@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import AUX from "../../../../hoc/Aux_";
-import DesignationForm from "../DesignationForm/DesignationForm";
+import AUX from "../../../hoc/Aux_";
+import ResourceCostForm from "./ResourceCostForm";
 
-const AddCountry = () => {
+const AddResourceCost = () => {
   return (
     <AUX>
       <div className="page-content-wrapper">
@@ -11,11 +11,12 @@ const AddCountry = () => {
             <div className="col-lg-12">
               <div className="card m-b-20">
                 <div className="card-body">
-                  <h3 className="m-0">Add New Designation</h3>
+                  <h3 className="mt-0">Add New Resource Cost</h3>
                   <p className="text-muted m-b-30 font-14">
-                    Please fill the form below to add a new Designation.
+                    Please fill the form below to add a new resource cost.
                   </p>
-                  <DesignationForm redirect />
+                  <ResourceCostForm redirect />
+                  {/* <WorkingDayForm /> */}
                 </div>
               </div>
             </div>
@@ -26,4 +27,4 @@ const AddCountry = () => {
   );
 };
 
-export default AddCountry;
+export default AddResourceCost;

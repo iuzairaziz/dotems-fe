@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import AUX from "../../../../hoc/Aux_";
-import { MDBDataTable } from "mdbreact";
+import { MDBDataTableV5 } from "mdbreact";
 import ServiceForm from "../ServiceForm/ServiceForm";
 import ServiceServices from "../../../../services/ServiceService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "./ServiceList.scss";
-import {Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const ServiceList = () => {
   const [modalEdit, setModalEdit] = useState(false);
@@ -88,34 +88,14 @@ const ServiceList = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                <div className="row align-items-center mb-3">
-                    <div className="col">
-                    <h3 className="m-0 p-0">All Services</h3>
-                    </div>
-                    <div className="col">
-                    <Link to="/add-service">
-                      <Button
-                        color="success"
-                        className="my-primary-button float-right"
-                      >
-                        Add Service
-                      </Button>
-                    </Link>
-                    </div>
-                  </div>
-
-                  <MDBDataTable
-                    // scrollX
-                    striped
-                    bordered
-                    hover
-                    // autoWidth
-                    data={data}
-                  />
-                </div>
-              </div>
+              <MDBDataTableV5
+                // scrollX
+                striped
+                bordered
+                hover
+                // autoWidth
+                data={data}
+              />
             </div>
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>

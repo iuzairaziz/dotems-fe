@@ -32,7 +32,7 @@ const StatusForm = (props) => {
                 props.toggle && props.toggle();
                 StatusService.handleMessage("add");
                 if (props.redirect) {
-                  history.push("/viewstatus");
+                  // history.push("/viewstatus");
                   actions.setFieldValue("status", "");
                 }
               })

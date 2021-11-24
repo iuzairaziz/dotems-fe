@@ -2,41 +2,44 @@ import React from "react";
 import { Button } from "reactstrap";
 import { Formik } from "formik";
 import { useHistory } from "react-router-dom";
+import TaskPriorityService from "../../../../services/TaskPriority";
 import shortValidations from "../../../../validations/short-validations";
-import TechnologyService from "../../../../services/TechnologyService";
+import ClientLabelService from "../../../../services/ClientLabelService";
 
-const TechnologyForm = (props) => {
+const TaskPriorityForm = (props) => {
   const history = useHistory();
 
   return (
     <Formik
       initialValues={{
-        title: props.editable && props.technology.name,
+        title: props.editable && props.country.name,
+        color: props.editable && props.country.color,
       }}
-      validationSchema={shortValidations.technologyValidation}
+      validationSchema={shortValidations.clientLabelValidation}
       onSubmit={(values, actions) => {
         props.editable
-          ? TechnologyService.updateTechnology(props.technology._id, {
+          ? TaskPriorityService.updateTaskPriority(props.country._id, {
               name: values.title,
+              color: values.color,
             })
               .then((res) => {
                 props.toggle();
-                TechnologyService.handleMessage("update");
+                TaskPriorityService.handleMessage("update");
               })
               .catch((err) => {
                 props.toggle();
-                TechnologyService.handleCustomMessage(err.response.data);
+                TaskPriorityService.handleCustomMessage(err.response.data);
               })
-          : TechnologyService.addTechnology({ name: values.title })
+          : TaskPriorityService.addTaskPriority({
+              name: values.title,
+              color: values.color,
+            })
               .then((res) => {
-                if (props.redirect) {
-                  // history.push("/technology");
-                }
-                props.toggle && props.toggle();
-                TechnologyService.handleMessage("add");
+                TaskPriorityService.handleMessage("add");
+                actions.setFieldValue("title", "");
               })
               .catch((err) => {
-                TechnologyService.handleCustomMessage(err.response.data);
+                TaskPriorityService.handleCustomMessage(err.response.data);
               });
       }}
     >
@@ -64,6 +67,27 @@ const TechnologyForm = (props) => {
                 </div>
               </div>
             </div>
+            <div className="form-group row">
+              <label for="example-color-input" className="col-2 col-form-label">
+                Color
+              </label>
+              <div className="col-12">
+                <input
+                  className={`form-control ${
+                    props.touched.color && props.errors.color
+                      ? "is-invalid"
+                      : props.touched.color && "is-valid"
+                  }`}
+                  value={props.values.color}
+                  onChange={props.handleChange("color")}
+                  type="color"
+                  // id="example-color-input"
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.color && props.errors.color}
+                </span>
+              </div>
+            </div>
             <div className="row">
               <div className="col">
                 <Button
@@ -81,4 +105,4 @@ const TechnologyForm = (props) => {
   );
 };
 
-export default TechnologyForm;
+export default TaskPriorityForm;

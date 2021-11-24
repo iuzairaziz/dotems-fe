@@ -99,6 +99,8 @@ import Requests from "../MainContent/Request/Requests";
 import form_advanced from "../MainContent/Forms/Form_advanced";
 import AddWorkingHours from "../MainContent/Timesheet/WorkingHours/AddWorkingHours";
 import ViewWorkingHours from "../MainContent/Timesheet/WorkingHours/ViewWorkingHours";
+import ViewResourceCost from "../MainContent/ResourceCost/ViewResourceCost";
+import AddResourceCost from "../MainContent/ResourceCost/AddResourceCost";
 import AddWorkingShift from "../MainContent/Timesheet/WorkingShift/AddWorkingShift";
 import ViewWorkingShift from "../MainContent/Timesheet/WorkingShift/ViewWorkingShift";
 import ViewLeavePolicy from "../MainContent/Leaves/LeavePolicy/ViewLeavePolicy";
@@ -106,6 +108,7 @@ import AddLeavePolicy from "../MainContent/Leaves/LeavePolicy/AddLeavePolicy";
 import AddAttendance from "../MainContent/Attendance/AddAttendance";
 import EditLeavePolicy from "../MainContent/Leaves/LeavePolicy/EditLeavePolicy";
 import ViewSingleLeavePolicy from "../MainContent/Leaves/LeavePolicy/ViewSingleLeavePolicy";
+import AddTaskPriority from "../MainContent/TaskPriority/AddTaskPriority/AddTaskPriority";
 
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
@@ -143,6 +146,12 @@ const mainbuilder = (props) => {
           exact
           path="/working-hours-add/:id?"
           component={AddWorkingHours}
+        />
+        <Route exact path="/view-resource-cost" component={ViewResourceCost} />
+        <Route
+          exact
+          path="/resource-cost-add/:id?"
+          component={AddResourceCost}
         />
         <Route exact path="/requests" component={Requests} />
         <Route exact path="/add-new-task" component={Tasks} />
@@ -234,6 +243,7 @@ const mainbuilder = (props) => {
             <Route exact path="/add-task" component={NewTask} />
             <Route exact path="/view-request" component={RequestList} />
             <Route exact path="/view-leave-type" component={LeaveTypeList} />
+            <Route exact path="/task-priority" component={AddTaskPriority} />
             <Route
               exact
               path="/view-request-type"

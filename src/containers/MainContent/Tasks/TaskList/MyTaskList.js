@@ -179,29 +179,23 @@ const MyTasks = (props) => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <h3>My Tasks</h3>
-
-                  <MDBDataTableV5
-                    responsive
-                    striped
-                    small
-                    onPageChange={(val) => console.log(val)}
-                    bordered={true}
-                    //  materialSearch
-                    searchTop
-                    searchBottom={false}
-                    pagingTop
-                    barReverse
-                    hover
-                    // scrollX
-                    // autoWidth
-                    data={dataa}
-                    theadColor="#000"
-                  />
-                </div>
-              </div>
+              <MDBDataTableV5
+                responsive
+                striped
+                small
+                onPageChange={(val) => console.log(val)}
+                bordered={true}
+                //  materialSearch
+                searchTop
+                searchBottom={false}
+                pagingTop
+                barReverse
+                hover
+                // scrollX
+                // autoWidth
+                data={dataa}
+                theadColor="#000"
+              />
             </div>
           </div>
         </div>

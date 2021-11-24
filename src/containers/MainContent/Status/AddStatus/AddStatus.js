@@ -1,23 +1,53 @@
 import React, { Component } from "react";
 import AUX from "../../../../hoc/Aux_";
 import StatusForm from "../StatusForm/StatusForm";
+import StatusList from "../StatusList/StatusList";
 
 const AddPlatform = () => {
   return (
     <AUX>
-      <div className="page-content-wrapper">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <h3 className="mt-0">Add New Status</h3>
-                  <p className="text-muted m-b-30 font-14">
-                    Please fill the form below to add a new Status for the
-                    projects.
-                  </p>
-                  <StatusForm redirect />
+      <div className="col-lg-12">
+        <div className="card m-b-20">
+          <div className="card-body">
+            <ul className="nav nav-tabs nav-tabs-custom" role="tablist">
+              <li className="nav-item">
+                <a
+                  className="nav-link active"
+                  data-toggle="tab"
+                  href="#home1"
+                  role="tab"
+                >
+                  <span className="d-none d-md-block">View Project Status</span>
+                  <span className="d-block d-md-none">
+                    <i className="mdi mdi-home-variant h5" />
+                  </span>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  data-toggle="tab"
+                  href="#profile1"
+                  role="tab"
+                >
+                  <span className="d-none d-md-block">Add Project Status</span>
+                  <span className="d-block d-md-none">
+                    <i className="mdi mdi-account h5" />
+                  </span>
+                </a>
+              </li>
+            </ul>
+
+            <div className="tab-content">
+              <div className="tab-pane active p-3" id="home1" role="tabpanel">
+                <div className="page-content-wrapper">
+                  <div className="container-fluid">
+                    <StatusList />
+                  </div>
                 </div>
+              </div>
+              <div className="tab-pane p-3" id="profile1" role="tabpanel">
+                <StatusForm redirect />
               </div>
             </div>
           </div>

@@ -16,6 +16,7 @@ import {
 import moment from "moment";
 import $ from "jquery";
 import "./TaskList.scss";
+import { withRouter } from "react-router-dom";
 
 const Tables_datatable = (props) => {
   const [modalEdit, setModalEdit] = useState(false);
@@ -52,6 +53,12 @@ const Tables_datatable = (props) => {
         field: "projectRatio",
         sort: "asc",
         // width: 100,
+      },
+      {
+        label: "Task Priority",
+        field: "taskPriority",
+        sort: "asc",
+        // width: 200,
       },
       {
         label: "Status",
@@ -185,6 +192,20 @@ const Tables_datatable = (props) => {
                 {item.status ? item.status : "N/A"}
               </span>
             ),
+            taskPriority: (
+              <span
+                className="badge"
+                style={{
+                  backgroundColor: `${item.taskPriority &&
+                    item.taskPriority.color}`,
+                  minWidth: `${50}`,
+                  paddingTop: `${5}`,
+                  paddingBottom: `${5}`,
+                }}
+              >
+                {item.taskPriority ? item.taskPriority.name : "N/A"}
+              </span>
+            ),
             teamLead: item.teamLead ? item.teamLead.name : "N/A",
             //  (
             //   <Link to={`/userdetails/${item.teamLead._id}`}>
@@ -207,33 +228,74 @@ const Tables_datatable = (props) => {
               ? moment(item.endTime).format("DD/MMM/YYYY")
               : "N/A",
             action: (
-              <div className="row flex-nowrap align-items-center">
-                {/* <div className="col"> */}
-                <i
-                  className="mdi mdi-eye
-                  iconsS my-primary-icon"
-                  onClick={() => {
-                    props.history.push({
-                      pathname: "/task-details/" + item._id,
-                    });
-                  }}
-                />
-                <i
-                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
-                  onClick={() => {
-                    setSelectedTask(item);
-                    toggleEdit();
-                  }}
-                />
-                <i
-                  className="mdi mdi-delete-forever iconsS my-danger-icon"
-                  onClick={() => {
-                    setSelectedTask(item);
-                    toggleDelete();
-                  }}
-                />
+              <div class="dropdown">
+                <button
+                  type="button"
+                  class="dropdown-toggle"
+                  data-toggle="dropdown"
+                >
+                  <i class="mdi mdi-view-list" size={40} />
+                </button>
+                <div class="dropdown-menu">
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      props.history.push({
+                        pathname: "/task-details/" + item._id,
+                      });
+                    }}
+                  >
+                    View
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedTask(item);
+                      toggleEdit();
+                    }}
+                  >
+                    Edit
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedTask(item);
+                      toggleDelete();
+                    }}
+                  >
+                    Delete
+                  </a>
+                </div>
               </div>
             ),
+            // action: (
+            //   <div className="row flex-nowrap align-items-center">
+            //     {/* <div className="col"> */}
+            //     <i
+            //       className="mdi mdi-eye
+            //       iconsS my-primary-icon"
+            //       onClick={() => {
+            //         props.history.push({
+            //           pathname: "/task-details/" + item._id,
+            //         });
+            //       }}
+            //     />
+            //     <i
+            //       className="mdi mdi-pencil-box iconsS my-seconday-icon"
+            //       onClick={() => {
+            //         setSelectedTask(item);
+            //         toggleEdit();
+            //       }}
+            //     />
+            //     <i
+            //       className="mdi mdi-delete-forever iconsS my-danger-icon"
+            //       onClick={() => {
+            //         setSelectedTask(item);
+            //         toggleDelete();
+            //       }}
+            //     />
+            //   </div>
+            // ),
           });
         });
         setData(data);
@@ -249,27 +311,23 @@ const Tables_datatable = (props) => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <MDBDataTableV5
-                    responsive
-                    striped
-                    small
-                    onPageChange={(val) => console.log(val)}
-                    bordered={true}
-                    //  materialSearch
-                    searchTop
-                    searchBottom={false}
-                    pagingTop
-                    barReverse
-                    hover
-                    // scrollX
-                    // autoWidth
-                    data={dataa}
-                    theadColor="#000"
-                  />
-                </div>
-              </div>
+              <MDBDataTableV5
+                responsive
+                striped
+                small
+                onPageChange={(val) => console.log(val)}
+                bordered={true}
+                //  materialSearch
+                searchTop
+                searchBottom={false}
+                pagingTop
+                barReverse
+                hover
+                // scrollX
+                // autoWidth
+                data={dataa}
+                theadColor="#000"
+              />
             </div>
             <div>
               <Modal
@@ -314,4 +372,4 @@ const Tables_datatable = (props) => {
   );
 };
 
-export default Tables_datatable;
+export default withRouter(Tables_datatable);

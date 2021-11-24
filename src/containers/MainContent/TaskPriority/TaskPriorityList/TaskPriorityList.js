@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
-import { MDBDataTableV5, MDBBtn } from "mdbreact";
+import { MDBDataTableV5 } from "mdbreact";
+import TaskPriorityForm from "../TaskPriorityForm/TaskPriorityForm";
+import TaskPriorityService from "../../../../services/TaskPriority";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import NatureForm from "../NatureForm/NatureForm";
-import NatureService from "../../../../services/NatureService";
-import "./NatureList.scss";
-import { Link } from "react-router-dom";
 
-const NatureList = () => {
+const TaskPriorityList = () => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
 
-  const [selectedNature, setSelectedNature] = useState({ name: "" });
+  const [selectedCountry, setSelectedCountry] = useState({ name: "" });
   const [data, setData] = useState({
     columns: [
       {
@@ -19,6 +17,10 @@ const NatureList = () => {
         field: "title",
         sort: "asc",
         // width: 150,
+      },
+      {
+        label: "Preset",
+        field: "preset",
       },
       {
         label: "Action",
@@ -31,45 +33,64 @@ const NatureList = () => {
   });
 
   useEffect(() => {
-    getNature();
+    getTaskPriority();
   }, [modalEdit, modalDelete]);
 
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
 
   const handleDelete = (id) => {
-    NatureService.deleteNature(id)
+    TaskPriorityService.deleteClientLabel(id)
       .then((res) => {
-        NatureService.handleMessage("delete");
+        TaskPriorityService.handleMessage("delete");
         toggleDelete();
       })
       .catch((err) => {
-        NatureService.handleError();
+        TaskPriorityService.handleError();
         toggleDelete();
       });
   };
 
-  const getNature = () => {
-    NatureService.getAllNature()
+  const getTaskPriority = () => {
+    TaskPriorityService.getAllTaskPriority()
       .then((res) => {
         let updatedData = { ...data };
         updatedData.rows = [];
         res.data.map((item, index) => {
           updatedData.rows.push({
             title: item.name ? item.name : "none",
+            preset: (
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
+                  // id="exampleRadios1"
+                  value="option1"
+                  onChange={(e) =>
+                    TaskPriorityService.putTaskPriorityPreset(item._id).then(
+                      () => {
+                        getTaskPriority();
+                      }
+                    )
+                  }
+                  checked={item.preset ? true : false}
+                />
+              </div>
+            ),
             action: (
               <div className="row flex-nowrap">
                 <i
-                  className="mdi mdi-pencil-box iconsS my-seconday-icon ml-2"
+                  className="mdi mdi-pencil-box iconsS my-seconday-icon ml-1"
                   onClick={() => {
-                    setSelectedNature(item);
+                    setSelectedCountry(item);
                     toggleEdit();
                   }}
                 />
                 <i
                   className="mdi mdi-delete-forever iconsS my-danger-icon"
                   onClick={() => {
-                    setSelectedNature(item);
+                    setSelectedCountry(item);
                     toggleDelete();
                   }}
                 />
@@ -77,11 +98,11 @@ const NatureList = () => {
             ),
           });
         });
-        console.log("countries", updatedData);
         setData(updatedData);
       })
       .catch((err) => console.log(err));
   };
+
   return (
     <AUX>
       <div className="page-content-wrapper">
@@ -93,39 +114,39 @@ const NatureList = () => {
                 striped
                 small
                 bordered={true}
-                //  materialSearch
                 searchTop
                 searchBottom={false}
                 pagingTop
                 barReverse
                 hover
-                // scrollX
-                // autoWidth
                 data={data}
               />
             </div>
+
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>
-                <ModalHeader toggle={toggleEdit}>Edit Nature</ModalHeader>
+                <ModalHeader toggle={toggleEdit}>Edit Label</ModalHeader>
                 <ModalBody>
-                  <NatureForm
+                  <TaskPriorityForm
                     editable={true}
-                    nature={selectedNature}
+                    country={selectedCountry}
                     toggle={toggleEdit}
                   />
                 </ModalBody>
               </Modal>
               <Modal isOpen={modalDelete} toggle={toggleDelete}>
-                <ModalHeader toggle={toggleDelete}>Delete Nature ?</ModalHeader>
+                <ModalHeader toggle={toggleDelete}>
+                  Delete Designation?
+                </ModalHeader>
                 <ModalBody>
-                  Are you sure you want to delete the Nature "
-                  {selectedNature.name}" ?
+                  Are you sure you want to delete the Label "
+                  {selectedCountry.name}" ?
                 </ModalBody>
                 <ModalFooter>
                   <Button
                     color="primary"
                     onClick={() => {
-                      handleDelete(selectedNature._id);
+                      handleDelete(selectedCountry._id);
                     }}
                   >
                     Yes
@@ -143,4 +164,4 @@ const NatureList = () => {
   );
 };
 
-export default NatureList;
+export default TaskPriorityList;

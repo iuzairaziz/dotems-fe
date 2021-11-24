@@ -32,7 +32,7 @@ const ServiceForm = (props) => {
                 props.toggle && props.toggle();
                 ServiceServices.handleMessage("add");
                 if (props.redirect) {
-                  history.push("/service");
+                  // history.push("/service");
                   actions.setFieldValue("title", "");
                 }
               })
