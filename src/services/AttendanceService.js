@@ -9,19 +9,15 @@ class AttendanceService {
 
   addTimeInAttendance(formData) {
     return axios.post(
-      this.config.apiBaseUrl + "time-in/create-time-in",
+      this.config.apiBaseUrl + "attendance/create-time-in",
       formData
     );
   }
   addTimeOutAttendance(formData) {
-    return axios.post(
-      this.config.apiBaseUrl + "working-shift/create-working-shift",
-      formData
-    );
+    return axios.put(this.config.apiBaseUrl + "attendance/update", formData);
   }
-
-  getWorkingShiftById(id) {
-    return axios.get(this.config.apiBaseUrl + "working-shift/" + id);
+  getAttendanceById(id) {
+    return axios.get(this.config.apiBaseUrl + "attendance/" + id);
   }
 
   getWorkingShift() {

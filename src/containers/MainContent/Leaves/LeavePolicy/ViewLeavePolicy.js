@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import workingShiftService from "../../../../services/workingShiftService";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import moment from "moment";
+import LeavePolicyServices from "../../../../services/LeavePolicyServices";
+// COde for remove dubblicate
 
 const ViewLeavePolicy = (props) => {
   const [workingHours, setWorkingHours] = useState({ name: "", hours: "" });
@@ -14,18 +16,8 @@ const ViewLeavePolicy = (props) => {
   const [dataa, setData] = useState({
     columns: [
       {
-        label: "Working Shift Type",
+        label: "Time Off Policies",
         field: "type",
-        sort: "asc",
-      },
-      {
-        label: "Time",
-        field: "startTime",
-        sort: "asc",
-      },
-      {
-        label: "Break Time",
-        field: "breakTime",
         sort: "asc",
       },
       {
@@ -41,33 +33,16 @@ const ViewLeavePolicy = (props) => {
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
   const getData = () => {
-    workingShiftService
-      .getWorkingShift()
+    LeavePolicyServices.getLeavePolicies()
       .then((res) => {
         console.log(res);
+
         let updatedData = { ...dataa };
         updatedData.rows = [];
+
         res.data.map((item, index) => {
           updatedData.rows.push({
             type: item.name ? item.name : "N/A",
-            startTime: (
-              <div>
-                <p>
-                  {moment(item.startTime, ["HH:mm"]).format("hh:mm a")}
-                  &nbsp; to&nbsp;
-                  {moment(item.endTime, ["HH:mm"]).format("hh:mm a")}
-                </p>
-              </div>
-            ),
-            breakTime: (
-              <div>
-                <p>
-                  {moment(item.startBreakTime, ["HH:mm"]).format("hh:mm a")}
-                  &nbsp; to&nbsp;
-                  {moment(item.endBreakTime, ["HH:mm"]).format("hh:mm a")}
-                </p>
-              </div>
-            ),
             action: (
               <div class="dropdown">
                 <button
@@ -82,7 +57,7 @@ const ViewLeavePolicy = (props) => {
                     class="dropdown-item"
                     onClick={() => {
                       props.history.push({
-                        pathname: `/working-shift-add/${item._id}`,
+                        pathname: `/view-single-leave-policy/${item._id}`,
                       });
                     }}
                   >
@@ -91,8 +66,9 @@ const ViewLeavePolicy = (props) => {
                   <a
                     class="dropdown-item"
                     onClick={() => {
-                      setWorkingHours(item);
-                      toggleEdit();
+                      props.history.push({
+                        pathname: `/edit-leave-policy/${item.name}`,
+                      });
                     }}
                   >
                     Edit
@@ -137,7 +113,7 @@ const ViewLeavePolicy = (props) => {
         <div className="card m-b-20">
           <div className="card-body">
             <div>
-              <Link to="/working-shift-add">
+              <Link to="/add-leave-policy">
                 <Button className="mt-3 my-primary-button float-right">
                   + ADD
                 </Button>

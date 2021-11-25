@@ -63,6 +63,7 @@ class OutSourceList extends React.Component {
                   phasesDetails={phasesDetails}
                   editable={this.props.editable}
                   phaseArray={this.props.phaseArray}
+                  setPhaseArray={this.props.setPhaseDetials}
                 />
               </div>
             </div>
