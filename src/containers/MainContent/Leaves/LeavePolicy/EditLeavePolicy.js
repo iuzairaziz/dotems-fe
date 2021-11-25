@@ -247,7 +247,7 @@ const EditLeavePolicy = () => {
               // onBlur={props.handleBlur}
               value={
                 item.policy.length > 0
-                  ? item.policy[0].noticePeriod
+                  ? item.policy[0].sandwichType
                   : !formData.find((p) => p.type === item._id)
                   ? ""
                   : formData.find((p) => p.type === item._id).sandwichType &&
