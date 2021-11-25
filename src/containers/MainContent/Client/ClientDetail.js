@@ -118,85 +118,429 @@ const ClientDetails = (props) => {
         });
     };
 
-    console.log("data", ClientData);
+    // console.log("data", ClientData);
 
-    const detail = [
-      { label: "Name", value: ClientData && ClientData.name },
-      {
-        label: "Company Name",
-        value:
-          ClientData && ClientData.companyName ? ClientData.companyName : "N/A",
-      },
+    // const detail = [
+    //   { label: "Name", value: ClientData && ClientData.name },
+    //   {
+    //     label: "Company Name",
+    //     value:
+    //       ClientData && ClientData.companyName ? ClientData.companyName : "N/A",
+    //   },
 
-      {
-        label: "Joining Date",
-        value: moment(ClientData && ClientData.dateOfJoin).format("LL"),
-      },
-      {
-        label: "Address",
-        value: ClientData && ClientData.address ? ClientData.address : "N/A",
-      },
+    //   {
+    //     label: "Joining Date",
+    //     value: moment(ClientData && ClientData.dateOfJoin).format("LL"),
+    //   },
+    //   {
+    //     label: "Address",
+    //     value: ClientData && ClientData.address ? ClientData.address : "N/A",
+    //   },
 
-      {
-        label: "Mobile Number",
-        value: ClientData && ClientData.mobileNo ? ClientData.mobileNo : "N/A",
-      },
-      {
-        label: "Other Contact",
-        value:
-          ClientData && ClientData.otherContact
-            ? ClientData.otherContact
-            : "N/A",
-      },
-      {
-        label: "Social Contact",
-        value:
-          ClientData && ClientData.socialContact
-            ? ClientData.socialContact
-            : "N/A",
-      },
-      {
-        label: "Email",
-        value: ClientData && ClientData.email ? ClientData.email : " N/A",
-      },
-      {
-        label: "URL",
-        value: ClientData && ClientData.url ? ClientData.url : "N/A",
-      },
-      {
-        label: "Client Type",
-        value:
-          ClientData && ClientData.clientType ? ClientData.clientType : "N/A",
-      },
-      {
-        label: "Client Status",
-        value: ClientData && ClientData.status ? ClientData.status : "N/A",
-      },
-      {
-        label: "Client Label",
-        value:
-          ClientData && ClientData.clientLabel
-            ? ClientData.clientLabel.name
-            : "N/A",
-      },
-      {
-        label: "Platform",
-        value:
-          ClientData && ClientData.platform ? ClientData.platform.name : "N/A",
-      },
-      {
-        label: "Country",
-        value: ClientData && ClientData.country ? ClientData.country : "N/A",
-      },
-    ];
+    //   {
+    //     label: "Mobile Number",
+    //     value: ClientData && ClientData.mobileNo ? ClientData.mobileNo : "N/A",
+    //   },
+    //   {
+    //     label: "Other Contact",
+    //     value:
+    //       ClientData && ClientData.otherContact
+    //         ? ClientData.otherContact
+    //         : "N/A",
+    //   },
+    //   {
+    //     label: "Social Contact",
+    //     value:
+    //       ClientData && ClientData.socialContact
+    //         ? ClientData.socialContact
+    //         : "N/A",
+    //   },
+    //   {
+    //     label: "Email",
+    //     value: ClientData && ClientData.email ? ClientData.email : " N/A",
+    //   },
+    //   {
+    //     label: "URL",
+    //     value: ClientData && ClientData.url ? ClientData.url : "N/A",
+    //   },
+    //   {
+    //     label: "Client Type",
+    //     value:
+    //       ClientData && ClientData.clientType ? ClientData.clientType : "N/A",
+    //   },
+    //   {
+    //     label: "Client Status",
+    //     value: ClientData && ClientData.status ? ClientData.status : "N/A",
+    //   },
+    //   {
+    //     label: "Client Label",
+    //     value:
+    //       ClientData && ClientData.clientLabel
+    //         ? ClientData.clientLabel.name
+    //         : "N/A",
+    //   },
+    //   {
+    //     label: "Platform",
+    //     value:
+    //       ClientData && ClientData.platform ? ClientData.platform.name : "N/A",
+    //   },
+    //   {
+    //     label: "Country",
+    //     value: ClientData && ClientData.country ? ClientData.country : "N/A",
+    //   },
+    // ];
 
     return (
       <AUX>
         <div className="page-content-wrapper">
           <div className="container-fluid">
+            <div className="col-lg-12 client-form">
+              <ul className="nav nav-pills" role="tablist">
+                <li className="nav-item">
+                  <a
+                    className="nav-link active"
+                    data-toggle="tab"
+                    href={`#home2`}
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">
+                      {" "}
+                      <i class="mdi mdi-information pr-1" />
+                      Quick Info
+                    </span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-information h5" />
+                    </span>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    data-toggle="tab"
+                    href={`#profile2`}
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">
+                      <i class="mdi mdi-information-outline pr-1" />
+                      Other Info
+                    </span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-information-outline h5" />
+                    </span>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    data-toggle="tab"
+                    href={`#tasks`}
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">
+                      <i class="mdi mdi-information-outline pr-1" />
+                      Client Projects
+                    </span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-information-outline h5" />
+                    </span>
+                  </a>
+                </li>
+              </ul>
+
+              <div className="tab-content">
+                <div
+                  className="tab-pane active p-3"
+                  id={`home2`}
+                  role="tabpanel"
+                >
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Client Name</label>
+                        <input
+                          readOnly={true}
+                          name="title"
+                          onBlur={props.handleBlur}
+                          type="text"
+                          className={`form-control`}
+                          value={ClientData && ClientData.name}
+                          // onChange={props.handleChange("title")}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Joining Date</label>
+                        <input
+                          readOnly={true}
+                          name="title"
+                          type="text"
+                          className={`form-control`}
+                          value={moment(
+                            ClientData && ClientData.dateOfJoin
+                          ).format("LL")}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <div className="row">
+                          <div className="col-6">
+                            <label className="control-label">Country</label>
+                          </div>
+                        </div>
+                        <input
+                          readOnly={true}
+                          name="title"
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            ClientData && ClientData.country
+                              ? ClientData.country
+                              : "N/A"
+                          }
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <div className="row">
+                          <div className="col">
+                            <label className="control-label">Platform</label>
+                          </div>
+                        </div>
+                        <input
+                          readOnly={true}
+                          name="title"
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            ClientData && ClientData.platform
+                              ? ClientData.platform.name
+                              : "N/A"
+                          }
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="tab-pane p-3" id={`profile2`} role="tabpanel">
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Email</label>
+                        <input
+                          readOnly={true}
+                          name="email"
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            ClientData && ClientData.email
+                              ? ClientData.email
+                              : " N/A"
+                          }
+                          placeholder="Enter Email"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Contact Number</label>
+                        <input
+                          readOnly={true}
+                          name="conNum"
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            ClientData && ClientData.mobileNo
+                              ? ClientData.mobileNo
+                              : "N/A"
+                          }
+                          placeholder="Enter Number"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Other Contact</label>
+                        <input
+                          readOnly={true}
+                          name="conNum"
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            ClientData && ClientData.otherContact
+                              ? ClientData.otherContact
+                              : "N/A"
+                          }
+                          placeholder="Enter Number"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Social Contact</label>
+                        <input
+                          readOnly={true}
+                          name="conNum"
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            ClientData && ClientData.socialContact
+                              ? ClientData.socialContact
+                              : "N/A"
+                          }
+                          placeholder="Enter Number"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>URL</label>
+                        <input
+                          readOnly={true}
+                          name="ul"
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            ClientData && ClientData.url
+                              ? ClientData.url
+                              : "N/A"
+                          }
+                          placeholder="Enter URL"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Address</label>
+                        <input
+                          readOnly={true}
+                          name="adrs"
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            ClientData && ClientData.address
+                              ? ClientData.address
+                              : "N/A"
+                          }
+                          placeholder="Enter Address"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label className="control-label">Client Type</label>
+                        <input
+                          readOnly={true}
+                          name="adrs"
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            ClientData && ClientData.clientType
+                              ? ClientData.clientType
+                              : "N/A"
+                          }
+                          placeholder="Enter Address"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <div className="row">
+                          <div className="col">
+                            <label className="control-label">
+                              Client Label
+                            </label>
+                          </div>
+                        </div>
+                        <input
+                          readOnly={true}
+                          name="adrs"
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            ClientData && ClientData.clientLabel
+                              ? ClientData.clientLabel.name
+                              : "N/A"
+                          }
+                          placeholder="Enter Address"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label className="control-label">Client Status</label>
+                        <input
+                          readOnly={true}
+                          name="adrs"
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            ClientData && ClientData.status
+                              ? ClientData.status
+                              : "N/A"
+                          }
+                          placeholder="Enter Address"
+                        />
+                      </div>
+                    </div>
+                    {ClientData && ClientData.companyName ? (
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Company Name</label>
+                          <input
+                            readOnly={true}
+                            name="adrs"
+                            type="text"
+                            className={`form-control`}
+                            value={
+                              ClientData && ClientData.companyName
+                                ? ClientData.companyName
+                                : "N/A"
+                            }
+                            placeholder="Enter Address"
+                          />
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <div
+                  className="tab-pane active p-3"
+                  id={`tasks`}
+                  role="tabpanel"
+                >
+                  <MDBDataTableV5
+                    responsive
+                    striped
+                    small
+                    onPageChange={(val) => console.log(val)}
+                    bordered={true}
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
+                    hover
+                    data={dataa}
+                    theadColor="#000"
+                  />
+                </div>
+              </div>
+            </div>
             <div className="row">
               <div className="col-12">
-                <div className="row align-items-center">
+                {/* <div className="row align-items-center">
                   {detail.map((item, indx) => {
                     return (
                       <>
@@ -221,27 +565,7 @@ const ClientDetails = (props) => {
                       </>
                     );
                   })}
-                </div>
-                <div className="row">
-                  <div className="col-12">
-                    {/* <h4 className="mt-0 header-title">Projects</h4> */}
-                    <MDBDataTableV5
-                      responsive
-                      striped
-                      small
-                      onPageChange={(val) => console.log(val)}
-                      bordered={true}
-                      //  materialSearch
-                      searchTop
-                      searchBottom={false}
-                      pagingTop
-                      barReverse
-                      hover
-                      data={dataa}
-                      theadColor="#000"
-                    />
-                  </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

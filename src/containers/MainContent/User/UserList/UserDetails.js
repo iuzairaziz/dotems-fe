@@ -132,7 +132,10 @@ const UserDetails = (props) => {
     // console.log("Tasks", taskData);
 
     const detail = [
-      { label: "Name", value: userData && userData.name },
+      {
+        label: "Name",
+        value: userData && `${userData.firstName} ${userData.lastName}`,
+      },
       {
         label: "UserName",
         value: userData && userData.email,
@@ -162,23 +165,23 @@ const UserDetails = (props) => {
 
       {
         label: "Contact Number",
-        value: userData && userData.contact,
+        value: userData && userData.contactNo,
       },
       {
         label: "Other Contact",
-        value: userData && userData.otherContact,
+        value: userData && userData.otherContactNo,
       },
       {
         label: "Working Hours",
-        value: userData && userData.workingHrs,
+        value: userData && userData.workingHours.name,
       },
       {
         label: "Working Days",
-        value: userData && userData.workingDays,
+        value: userData && userData.workingDays.name,
       },
       {
         label: "Personal Mail",
-        value: userData && userData.emailPersonal,
+        value: userData && userData.personalEmail,
       },
       {
         label: "Address",
@@ -186,24 +189,11 @@ const UserDetails = (props) => {
       },
       {
         label: "Guardian Name",
-        value: userData && userData.nameEmergency,
-      },
-      {
-        label: "Guardian Address",
-        value: userData && userData.contactEmergency,
+        value: userData && userData.guardianName,
       },
       {
         label: "Role",
-        value:
-          userData &&
-          userData.userRole.map((item, index) => {
-            return (
-              <div>
-                {item}
-                <br />
-              </div>
-            );
-          }),
+        value: userData && userData.role.name,
       },
       {
         label: "Technology",

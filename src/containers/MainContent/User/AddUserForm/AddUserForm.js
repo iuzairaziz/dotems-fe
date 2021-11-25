@@ -29,12 +29,15 @@ import WorkingHoursService from "../../../../services/WorkingHoursService";
 import WorkingDayService from "../../../../services/WorkingDayService";
 import ResourceCostService from "../../../../services/ResourceCostService";
 import TechnologyService from "../../../../services/TechnologyService";
+import RoleService from "../../../../services/RoleService";
 
 import Configuration from "../../../../config/configuration";
 
 const UserForm = (props) => {
+  const [userRole, setUserRole] = useState([]);
   const [machineNo, setMachineNo] = useState([]);
   const [designation, setDesignation] = useState([]);
+  // const [designation, setDesignation] = useState([]);
   const [employeeType, setEmployeeType] = useState([]);
   const [employeeManager, setEmployeeManager] = useState([]);
   const [department, setDepartment] = useState([]);
@@ -63,6 +66,7 @@ const UserForm = (props) => {
     getAllWorkingDays();
     getAllResourceCost();
     getAllTechnology();
+    getUserRole();
   }, [
     machineModal,
     designationModal,
@@ -81,7 +85,15 @@ const UserForm = (props) => {
 
   const user = props.user;
   const editable = props.editable;
-
+  const getUserRole = () => {
+    RoleService.getAllRole().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setUserRole(options);
+    });
+  };
   const getMachines = () => {
     MachineService.getFreeMachines().then((res) => {
       let options = [{ label: "None", value: null }];
@@ -189,7 +201,11 @@ const UserForm = (props) => {
         lastName: editable && user.lastName,
         email: editable && user.email,
         password: editable && user.password,
-        userRole: editable && user.userRole && UserRole ? UserRole : [],
+        userRole: editable &&
+          user.userRole && {
+            label: user.userRole.name,
+            value: user.userRole._id,
+          },
         jobTitle: editable && user.jobTitle,
         designation: editable &&
           user.designation && {
@@ -218,12 +234,14 @@ const UserForm = (props) => {
             value: user.employeeStatus._id,
           },
         workingDays: editable &&
-          user.workingDays && {
+          user.workingDays &&
+          user.workingDays.name && {
             label: user.workingDays.name,
             value: user.workingDays._id,
           },
         workingHours: editable &&
-          user.workingHours && {
+          user.workingHours &&
+          user.workingHours.name && {
             label: user.workingHours.name,
             value: user.workingHours._id,
           },
@@ -269,18 +287,18 @@ const UserForm = (props) => {
       validationSchema={userValidation.newUserValidation}
       onSubmit={(values, actions) => {
         console.log(values);
-        const role = [];
-        values.userRole.map((item) => {
-          role.push(item.value);
-          console.log("user Role", role);
-        });
+        // const role = [];
+        // values.userRole.map((item) => {
+        //   role.push(item.value);
+        //   console.log("user Role", role);
+        // });
         editable
           ? UserService.updateAllUserFields(user._id, {
               firstName: values.firstName,
               lastName: values.lastName,
               email: values.email,
               password: values.password,
-              userRole: role,
+              role: values.userRole.value,
               jobTitle: values.jobTitle,
               designation: values.designation.value,
               employeeType: values.employeeType.value,
@@ -301,13 +319,13 @@ const UserForm = (props) => {
               guardianContact: values.guardianContact,
               status: values.status.value,
               gender: values.gender.value,
-              city: values.gender.city,
-              country: values.gender.country,
-              bankName: values.gender.bankName,
-              bankAccNo: values.gender.bankAccNo,
-              joiningDate: values.gender.joiningDate,
-              terminationDate: values.gender.terminationDate,
-              dateOfBirth: values.gender.dateOfBirth,
+              city: values.city,
+              country: values.country,
+              bankName: values.bankName,
+              bankAccNo: values.bankAccNo,
+              joiningDate: values.joiningDate,
+              terminationDate: values.terminationDate,
+              dateOfBirth: values.dateOfBirth,
             })
               .then((res) => {
                 MachineService.updateMachine(values.machineNo.value, {
@@ -325,7 +343,7 @@ const UserForm = (props) => {
               lastName: values.lastName,
               email: values.email,
               password: values.password,
-              userRole: role,
+              role: values.userRole.value,
               jobTitle: values.jobTitle,
               designation: values.designation.value,
               employeeType: values.employeeType.value,
@@ -346,13 +364,13 @@ const UserForm = (props) => {
               guardianContact: values.guardianContact,
               status: values.status.value,
               gender: values.gender.value,
-              city: values.gender.city,
-              country: values.gender.country,
-              bankName: values.gender.bankName,
-              bankAccNo: values.gender.bankAccNo,
-              joiningDate: values.gender.joiningDate,
-              terminationDate: values.gender.terminationDate,
-              dateOfBirth: values.gender.dateOfBirth,
+              city: values.city,
+              country: values.country,
+              bankName: values.bankName,
+              bankAccNo: values.bankAccNo,
+              joiningDate: values.joiningDate,
+              terminationDate: values.terminationDate,
+              dateOfBirth: values.dateOfBirth,
             })
               .then((res) => {
                 UserService.handleMessage("add");
@@ -592,28 +610,11 @@ const UserForm = (props) => {
                               }`}
                               onBlur={props.handleBlur}
                               value={props.values.userRole}
-                              isMulti={true}
+                              // isMulti={true}
                               onChange={(selected) => {
                                 props.setFieldValue("userRole", selected);
                               }}
-                              options={[
-                                {
-                                  value: roles.INTERNEE,
-                                  label: roles.INTERNEE,
-                                },
-                                {
-                                  value: roles.PROBATION,
-                                  label: roles.PROBATION,
-                                },
-                                {
-                                  value: roles.EMPLOYEE,
-                                  label: roles.EMPLOYEE,
-                                },
-                                { value: roles.PM, label: roles.PM },
-                                { value: roles.ADMIN, label: roles.ADMIN },
-                                { value: roles.HR, label: roles.HR },
-                                { value: roles.AM, label: roles.AM },
-                              ]}
+                              options={userRole}
                             />
                             <span id="err" className="invalid-feedback">
                               {props.touched.userRole && props.errors.userRole}

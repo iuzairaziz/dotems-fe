@@ -109,6 +109,7 @@ import AddAttendance from "../MainContent/Attendance/AddAttendance";
 import EditLeavePolicy from "../MainContent/Leaves/LeavePolicy/EditLeavePolicy";
 import ViewSingleLeavePolicy from "../MainContent/Leaves/LeavePolicy/ViewSingleLeavePolicy";
 import AddTaskPriority from "../MainContent/TaskPriority/AddTaskPriority/AddTaskPriority";
+import Form_uploads from "../MainContent/Forms/Form_uploads";
 
 // import tabledatabale from "../MainContent/Tables/Tables_datatable"
 // import tableresposive from "../MainContent/Tables/Tables_responsive"
@@ -127,6 +128,7 @@ const mainbuilder = (props) => {
           path="/view-single-leave-policy/:name"
           component={ViewSingleLeavePolicy}
         />
+        <Route exact path="/uploadform" component={Form_uploads} />
         <Route
           exact
           path="/edit-leave-policy/:id"

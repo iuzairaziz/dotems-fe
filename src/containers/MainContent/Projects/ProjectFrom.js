@@ -77,6 +77,8 @@ const ProjectForm = (props) => {
     },
   ]);
 
+  const loogedInUser = userService.userLoggedInInfo();
+
   const roless = new Configuration().Roles;
   let tHours = 0;
   const editable = props.editable;
@@ -90,22 +92,6 @@ const ProjectForm = (props) => {
       setPhaseValue(true);
     } else setPhaseValue(false);
   }, []);
-
-  // useEffect(() => {
-  //   editable &&
-  //     project &&
-  //     project.outSource &&
-  //     setOutSourceDetails(project.outSource);
-  //   if (
-  //     editable &&
-  //     project &&
-  //     project.outSource &&
-  //     project.outSource.length > 1
-  //   ) {
-  //     // console.log("phase");
-  //     setOutSourceValue(true);
-  //   } else setOutSourceValue(false);
-  // }, []);
 
   useEffect(() => {
     console.log(tHours);
@@ -589,7 +575,7 @@ const ProjectForm = (props) => {
                         </span>
                       </a>
                     </li>
-                    <li className="nav-item waves-effect waves-light">
+                    {/* <li className="nav-item waves-effect waves-light">
                       <a
                         className="nav-link"
                         data-toggle="tab"
@@ -604,7 +590,7 @@ const ProjectForm = (props) => {
                           <i className="mdi mdi-cash-usd h5" />
                         </span>
                       </a>
-                    </li>
+                    </li> */}
                     <li className="nav-item waves-effect waves-light">
                       <a
                         className="nav-link"
