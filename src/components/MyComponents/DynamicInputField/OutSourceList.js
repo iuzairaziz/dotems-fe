@@ -60,7 +60,7 @@ class OutSourceList extends React.Component {
                 <OutSourceCreate
                   add={this.addNewRow}
                   delete={this.clickOnDelete.bind(this)}
-                  phasesDetails={phasesDetails}
+                  phasesDetails={this.props.phasesDetails}
                   editable={this.props.editable}
                   phaseArray={this.props.phaseArray}
                   setPhaseArray={this.props.setPhaseDetials}
