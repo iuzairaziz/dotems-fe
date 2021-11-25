@@ -77,10 +77,7 @@ const ProjectForm = (props) => {
     },
   ]);
 
-
   const loogedInUser = userService.userLoggedInInfo();
-
-
 
   const roless = new Configuration().Roles;
   let tHours = 0;
@@ -578,7 +575,7 @@ const ProjectForm = (props) => {
                         </span>
                       </a>
                     </li>
-                    <li className="nav-item waves-effect waves-light">
+                    {/* <li className="nav-item waves-effect waves-light">
                       <a
                         className="nav-link"
                         data-toggle="tab"
@@ -593,7 +590,7 @@ const ProjectForm = (props) => {
                           <i className="mdi mdi-cash-usd h5" />
                         </span>
                       </a>
-                    </li>
+                    </li> */}
                     <li className="nav-item waves-effect waves-light">
                       <a
                         className="nav-link"
