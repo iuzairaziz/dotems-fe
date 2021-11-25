@@ -194,6 +194,380 @@ const ClientDetails = (props) => {
       <AUX>
         <div className="page-content-wrapper">
           <div className="container-fluid">
+            <div className="col-lg-12 client-form">
+              <ul className="nav nav-pills" role="tablist">
+                <li className="nav-item">
+                  <a
+                    className="nav-link active"
+                    data-toggle="tab"
+                    href={`#home2`}
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">
+                      {" "}
+                      <i class="mdi mdi-information pr-1" />
+                      Quick Info
+                    </span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-information h5" />
+                    </span>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    data-toggle="tab"
+                    href={`#profile2`}
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">
+                      <i class="mdi mdi-information-outline pr-1" />
+                      Other Info
+                    </span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-information-outline h5" />
+                    </span>
+                  </a>
+                </li>
+              </ul>
+
+              <div className="tab-content">
+                <div
+                  className="tab-pane active p-3"
+                  id={`home2`}
+                  role="tabpanel"
+                >
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Client Name</label>
+                        <input
+                          name="title"
+                          onBlur={props.handleBlur}
+                          type="text"
+                          className={`form-control`}
+                          value={ClientData && ClientData.name}
+                          // onChange={props.handleChange("title")}
+                          placeholder="Enter Name"
+                        />
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.title && props.errors.title}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Joining Date</label>
+                        <input
+                          name="title"
+                          type="text"
+                          className={`form-control`}
+                          value={moment(
+                            ClientData && ClientData.dateOfJoin
+                          ).format("LL")}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <div className="row">
+                          <div className="col-6">
+                            <label className="control-label">Country</label>
+                          </div>
+                        </div>
+                        <input
+                          name="title"
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            ClientData && ClientData.country
+                              ? ClientData.country
+                              : "N/A"
+                          }
+                          placeholder="Enter Name"
+                        />
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.country && props.errors.country}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <div className="row">
+                          <div className="col">
+                            <label className="control-label">Platform</label>
+                          </div>
+                        </div>
+                        <input
+                          name="title"
+                          type="text"
+                          className={`form-control`}
+                          value={moment(
+                            ClientData && ClientData.dateOfJoin
+                          ).format("LL")}
+                          placeholder="Enter Name"
+                        />
+
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.platform && props.errors.platform}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="tab-pane p-3" id={`profile2`} role="tabpanel">
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Email</label>
+                        <input
+                          name="email"
+                          type="text"
+                          className={`form-control ${
+                            props.touched.email && props.errors.email
+                              ? "is-invalid"
+                              : props.touched.email && "is-valid"
+                          }`}
+                          value={
+                            ClientData && ClientData.email
+                              ? ClientData.email
+                              : " N/A"
+                          }
+                          placeholder="Enter Email"
+                        />
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.email && props.errors.email}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Contact Number</label>
+                        <input
+                          name="conNum"
+                          type="text"
+                          className={`form-control ${
+                            props.touched.conNum && props.errors.conNum
+                              ? "is-invalid"
+                              : props.touched.conNum && "is-valid"
+                          }`}
+                          value={
+                            ClientData && ClientData.mobileNo
+                              ? ClientData.mobileNo
+                              : "N/A"
+                          }
+                          placeholder="Enter Number"
+                        />
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.conNum && props.errors.conNum}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Other Contact</label>
+                        <input
+                          name="conNum"
+                          type="text"
+                          className={`form-control ${
+                            props.touched.conNum && props.errors.conNum
+                              ? "is-invalid"
+                              : props.touched.conNum && "is-valid"
+                          }`}
+                          value={
+                            ClientData && ClientData.mobileNo
+                              ? ClientData.mobileNo
+                              : "N/A"
+                          }
+                          placeholder="Enter Number"
+                        />
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.otherContact &&
+                            props.errors.otherContact}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Social Contact</label>
+                        <input
+                          name="conNum"
+                          type="text"
+                          className={`form-control ${
+                            props.touched.conNum && props.errors.conNum
+                              ? "is-invalid"
+                              : props.touched.conNum && "is-valid"
+                          }`}
+                          value={
+                            ClientData && ClientData.mobileNo
+                              ? ClientData.mobileNo
+                              : "N/A"
+                          }
+                          placeholder="Enter Number"
+                        />
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.socialContact &&
+                            props.errors.socialContact}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>URL</label>
+                        <input
+                          name="ul"
+                          type="text"
+                          className={`form-control ${
+                            props.touched.ul && props.errors.ul
+                              ? "is-invalid"
+                              : props.touched.ul && "is-valid"
+                          }`}
+                          value={
+                            ClientData && ClientData.url
+                              ? ClientData.url
+                              : "N/A"
+                          }
+                          placeholder="Enter URL"
+                        />
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.ul && props.errors.ul}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Address</label>
+                        <input
+                          name="adrs"
+                          type="text"
+                          className={`form-control ${
+                            props.touched.adrs && props.errors.adrs
+                              ? "is-invalid"
+                              : props.touched.adrs && "is-valid"
+                          }`}
+                          value={
+                            ClientData && ClientData.address
+                              ? ClientData.address
+                              : "N/A"
+                          }
+                          placeholder="Enter Address"
+                        />
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.adrs && props.errors.adrs}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label className="control-label">Client Type</label>
+                        <input
+                          name="adrs"
+                          type="text"
+                          className={`form-control ${
+                            props.touched.adrs && props.errors.adrs
+                              ? "is-invalid"
+                              : props.touched.adrs && "is-valid"
+                          }`}
+                          value={
+                            ClientData && ClientData.address
+                              ? ClientData.address
+                              : "N/A"
+                          }
+                          placeholder="Enter Address"
+                        />
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.clientType && props.errors.clientType}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <div className="row">
+                          <div className="col">
+                            <label className="control-label">
+                              Client Label
+                            </label>
+                          </div>
+                        </div>
+                        <input
+                          name="adrs"
+                          type="text"
+                          className={`form-control ${
+                            props.touched.adrs && props.errors.adrs
+                              ? "is-invalid"
+                              : props.touched.adrs && "is-valid"
+                          }`}
+                          value={
+                            ClientData && ClientData.address
+                              ? ClientData.address
+                              : "N/A"
+                          }
+                          placeholder="Enter Address"
+                        />
+
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.clientLabel &&
+                            props.errors.clientLabel}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label className="control-label">Client Status</label>
+                        <input
+                          name="adrs"
+                          type="text"
+                          className={`form-control ${
+                            props.touched.adrs && props.errors.adrs
+                              ? "is-invalid"
+                              : props.touched.adrs && "is-valid"
+                          }`}
+                          value={
+                            ClientData && ClientData.address
+                              ? ClientData.address
+                              : "N/A"
+                          }
+                          placeholder="Enter Address"
+                        />
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.status && props.errors.status}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-12">
+                      <div className="form-group">
+                        <label>Company Name</label>
+                        <input
+                          name="adrs"
+                          type="text"
+                          className={`form-control ${
+                            props.touched.adrs && props.errors.adrs
+                              ? "is-invalid"
+                              : props.touched.adrs && "is-valid"
+                          }`}
+                          value={
+                            ClientData && ClientData.address
+                              ? ClientData.address
+                              : "N/A"
+                          }
+                          placeholder="Enter Address"
+                        />
+                        <span id="err" className="invalid-feedback">
+                          {props.touched.compName && props.errors.compName}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="row">
               <div className="col-12">
                 <div className="row align-items-center">
