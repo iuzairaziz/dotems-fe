@@ -4,6 +4,8 @@ import DatePicker from "react-datepicker";
 import { calendarFormat } from "moment";
 
 const OutSourceCreate = (props) => {
+  console.log("prps", props);
+
   return props.phasesDetails.map((val, idx) => {
     console.log(val);
     let phasename = `phasename-${idx}`,
@@ -72,7 +74,10 @@ const OutSourceCreate = (props) => {
             //   }`}
             selected={val.outSourceDeadline}
             onChange={(date) => {
-              props.setPhaseArray({ outSourceDeadline: date });
+              let dateArray = [...props.phasesDetails];
+              console.log("Date Array", dateArray);
+              dateArray[idx].outSourceDeadline = date;
+              props.setPhaseArray(dateArray);
             }}
           />
         </div>
