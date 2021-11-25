@@ -77,6 +77,11 @@ const ProjectForm = (props) => {
     },
   ]);
 
+
+  const loogedInUser = userService.userLoggedInInfo();
+
+
+
   const roless = new Configuration().Roles;
   let tHours = 0;
   const editable = props.editable;
@@ -90,22 +95,6 @@ const ProjectForm = (props) => {
       setPhaseValue(true);
     } else setPhaseValue(false);
   }, []);
-
-  // useEffect(() => {
-  //   editable &&
-  //     project &&
-  //     project.outSource &&
-  //     setOutSourceDetails(project.outSource);
-  //   if (
-  //     editable &&
-  //     project &&
-  //     project.outSource &&
-  //     project.outSource.length > 1
-  //   ) {
-  //     // console.log("phase");
-  //     setOutSourceValue(true);
-  //   } else setOutSourceValue(false);
-  // }, []);
 
   useEffect(() => {
     console.log(tHours);

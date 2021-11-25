@@ -118,77 +118,77 @@ const ClientDetails = (props) => {
         });
     };
 
-    console.log("data", ClientData);
+    // console.log("data", ClientData);
 
-    const detail = [
-      { label: "Name", value: ClientData && ClientData.name },
-      {
-        label: "Company Name",
-        value:
-          ClientData && ClientData.companyName ? ClientData.companyName : "N/A",
-      },
+    // const detail = [
+    //   { label: "Name", value: ClientData && ClientData.name },
+    //   {
+    //     label: "Company Name",
+    //     value:
+    //       ClientData && ClientData.companyName ? ClientData.companyName : "N/A",
+    //   },
 
-      {
-        label: "Joining Date",
-        value: moment(ClientData && ClientData.dateOfJoin).format("LL"),
-      },
-      {
-        label: "Address",
-        value: ClientData && ClientData.address ? ClientData.address : "N/A",
-      },
+    //   {
+    //     label: "Joining Date",
+    //     value: moment(ClientData && ClientData.dateOfJoin).format("LL"),
+    //   },
+    //   {
+    //     label: "Address",
+    //     value: ClientData && ClientData.address ? ClientData.address : "N/A",
+    //   },
 
-      {
-        label: "Mobile Number",
-        value: ClientData && ClientData.mobileNo ? ClientData.mobileNo : "N/A",
-      },
-      {
-        label: "Other Contact",
-        value:
-          ClientData && ClientData.otherContact
-            ? ClientData.otherContact
-            : "N/A",
-      },
-      {
-        label: "Social Contact",
-        value:
-          ClientData && ClientData.socialContact
-            ? ClientData.socialContact
-            : "N/A",
-      },
-      {
-        label: "Email",
-        value: ClientData && ClientData.email ? ClientData.email : " N/A",
-      },
-      {
-        label: "URL",
-        value: ClientData && ClientData.url ? ClientData.url : "N/A",
-      },
-      {
-        label: "Client Type",
-        value:
-          ClientData && ClientData.clientType ? ClientData.clientType : "N/A",
-      },
-      {
-        label: "Client Status",
-        value: ClientData && ClientData.status ? ClientData.status : "N/A",
-      },
-      {
-        label: "Client Label",
-        value:
-          ClientData && ClientData.clientLabel
-            ? ClientData.clientLabel.name
-            : "N/A",
-      },
-      {
-        label: "Platform",
-        value:
-          ClientData && ClientData.platform ? ClientData.platform.name : "N/A",
-      },
-      {
-        label: "Country",
-        value: ClientData && ClientData.country ? ClientData.country : "N/A",
-      },
-    ];
+    //   {
+    //     label: "Mobile Number",
+    //     value: ClientData && ClientData.mobileNo ? ClientData.mobileNo : "N/A",
+    //   },
+    //   {
+    //     label: "Other Contact",
+    //     value:
+    //       ClientData && ClientData.otherContact
+    //         ? ClientData.otherContact
+    //         : "N/A",
+    //   },
+    //   {
+    //     label: "Social Contact",
+    //     value:
+    //       ClientData && ClientData.socialContact
+    //         ? ClientData.socialContact
+    //         : "N/A",
+    //   },
+    //   {
+    //     label: "Email",
+    //     value: ClientData && ClientData.email ? ClientData.email : " N/A",
+    //   },
+    //   {
+    //     label: "URL",
+    //     value: ClientData && ClientData.url ? ClientData.url : "N/A",
+    //   },
+    //   {
+    //     label: "Client Type",
+    //     value:
+    //       ClientData && ClientData.clientType ? ClientData.clientType : "N/A",
+    //   },
+    //   {
+    //     label: "Client Status",
+    //     value: ClientData && ClientData.status ? ClientData.status : "N/A",
+    //   },
+    //   {
+    //     label: "Client Label",
+    //     value:
+    //       ClientData && ClientData.clientLabel
+    //         ? ClientData.clientLabel.name
+    //         : "N/A",
+    //   },
+    //   {
+    //     label: "Platform",
+    //     value:
+    //       ClientData && ClientData.platform ? ClientData.platform.name : "N/A",
+    //   },
+    //   {
+    //     label: "Country",
+    //     value: ClientData && ClientData.country ? ClientData.country : "N/A",
+    //   },
+    // ];
 
     return (
       <AUX>
@@ -229,6 +229,22 @@ const ClientDetails = (props) => {
                     </span>
                   </a>
                 </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    data-toggle="tab"
+                    href={`#tasks`}
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">
+                      <i class="mdi mdi-information-outline pr-1" />
+                      Client Projects
+                    </span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-information-outline h5" />
+                    </span>
+                  </a>
+                </li>
               </ul>
 
               <div className="tab-content">
@@ -242,6 +258,7 @@ const ClientDetails = (props) => {
                       <div className="form-group">
                         <label>Client Name</label>
                         <input
+                          readOnly={true}
                           name="title"
                           onBlur={props.handleBlur}
                           type="text"
@@ -250,9 +267,6 @@ const ClientDetails = (props) => {
                           // onChange={props.handleChange("title")}
                           placeholder="Enter Name"
                         />
-                        <span id="err" className="invalid-feedback">
-                          {props.touched.title && props.errors.title}
-                        </span>
                       </div>
                     </div>
 
@@ -260,6 +274,7 @@ const ClientDetails = (props) => {
                       <div className="form-group">
                         <label>Joining Date</label>
                         <input
+                          readOnly={true}
                           name="title"
                           type="text"
                           className={`form-control`}
@@ -279,6 +294,7 @@ const ClientDetails = (props) => {
                           </div>
                         </div>
                         <input
+                          readOnly={true}
                           name="title"
                           type="text"
                           className={`form-control`}
@@ -289,9 +305,6 @@ const ClientDetails = (props) => {
                           }
                           placeholder="Enter Name"
                         />
-                        <span id="err" className="invalid-feedback">
-                          {props.touched.country && props.errors.country}
-                        </span>
                       </div>
                     </div>
                     <div className="col-6">
@@ -302,18 +315,17 @@ const ClientDetails = (props) => {
                           </div>
                         </div>
                         <input
+                          readOnly={true}
                           name="title"
                           type="text"
                           className={`form-control`}
-                          value={moment(
-                            ClientData && ClientData.dateOfJoin
-                          ).format("LL")}
+                          value={
+                            ClientData && ClientData.platform
+                              ? ClientData.platform.name
+                              : "N/A"
+                          }
                           placeholder="Enter Name"
                         />
-
-                        <span id="err" className="invalid-feedback">
-                          {props.touched.platform && props.errors.platform}
-                        </span>
                       </div>
                     </div>
                   </div>
@@ -324,13 +336,10 @@ const ClientDetails = (props) => {
                       <div className="form-group">
                         <label>Email</label>
                         <input
+                          readOnly={true}
                           name="email"
                           type="text"
-                          className={`form-control ${
-                            props.touched.email && props.errors.email
-                              ? "is-invalid"
-                              : props.touched.email && "is-valid"
-                          }`}
+                          className={`form-control`}
                           value={
                             ClientData && ClientData.email
                               ? ClientData.email
@@ -338,22 +347,16 @@ const ClientDetails = (props) => {
                           }
                           placeholder="Enter Email"
                         />
-                        <span id="err" className="invalid-feedback">
-                          {props.touched.email && props.errors.email}
-                        </span>
                       </div>
                     </div>
                     <div className="col-6">
                       <div className="form-group">
                         <label>Contact Number</label>
                         <input
+                          readOnly={true}
                           name="conNum"
                           type="text"
-                          className={`form-control ${
-                            props.touched.conNum && props.errors.conNum
-                              ? "is-invalid"
-                              : props.touched.conNum && "is-valid"
-                          }`}
+                          className={`form-control`}
                           value={
                             ClientData && ClientData.mobileNo
                               ? ClientData.mobileNo
@@ -361,9 +364,6 @@ const ClientDetails = (props) => {
                           }
                           placeholder="Enter Number"
                         />
-                        <span id="err" className="invalid-feedback">
-                          {props.touched.conNum && props.errors.conNum}
-                        </span>
                       </div>
                     </div>
 
@@ -371,48 +371,34 @@ const ClientDetails = (props) => {
                       <div className="form-group">
                         <label>Other Contact</label>
                         <input
+                          readOnly={true}
                           name="conNum"
                           type="text"
-                          className={`form-control ${
-                            props.touched.conNum && props.errors.conNum
-                              ? "is-invalid"
-                              : props.touched.conNum && "is-valid"
-                          }`}
+                          className={`form-control`}
                           value={
-                            ClientData && ClientData.mobileNo
-                              ? ClientData.mobileNo
+                            ClientData && ClientData.otherContact
+                              ? ClientData.otherContact
                               : "N/A"
                           }
                           placeholder="Enter Number"
                         />
-                        <span id="err" className="invalid-feedback">
-                          {props.touched.otherContact &&
-                            props.errors.otherContact}
-                        </span>
                       </div>
                     </div>
                     <div className="col-6">
                       <div className="form-group">
                         <label>Social Contact</label>
                         <input
+                          readOnly={true}
                           name="conNum"
                           type="text"
-                          className={`form-control ${
-                            props.touched.conNum && props.errors.conNum
-                              ? "is-invalid"
-                              : props.touched.conNum && "is-valid"
-                          }`}
+                          className={`form-control`}
                           value={
-                            ClientData && ClientData.mobileNo
-                              ? ClientData.mobileNo
+                            ClientData && ClientData.socialContact
+                              ? ClientData.socialContact
                               : "N/A"
                           }
                           placeholder="Enter Number"
                         />
-                        <span id="err" className="invalid-feedback">
-                          {props.touched.socialContact &&
-                            props.errors.socialContact}
-                        </span>
                       </div>
                     </div>
 
@@ -420,13 +406,10 @@ const ClientDetails = (props) => {
                       <div className="form-group">
                         <label>URL</label>
                         <input
+                          readOnly={true}
                           name="ul"
                           type="text"
-                          className={`form-control ${
-                            props.touched.ul && props.errors.ul
-                              ? "is-invalid"
-                              : props.touched.ul && "is-valid"
-                          }`}
+                          className={`form-control`}
                           value={
                             ClientData && ClientData.url
                               ? ClientData.url
@@ -434,22 +417,16 @@ const ClientDetails = (props) => {
                           }
                           placeholder="Enter URL"
                         />
-                        <span id="err" className="invalid-feedback">
-                          {props.touched.ul && props.errors.ul}
-                        </span>
                       </div>
                     </div>
                     <div className="col-6">
                       <div className="form-group">
                         <label>Address</label>
                         <input
+                          readOnly={true}
                           name="adrs"
                           type="text"
-                          className={`form-control ${
-                            props.touched.adrs && props.errors.adrs
-                              ? "is-invalid"
-                              : props.touched.adrs && "is-valid"
-                          }`}
+                          className={`form-control`}
                           value={
                             ClientData && ClientData.address
                               ? ClientData.address
@@ -457,9 +434,6 @@ const ClientDetails = (props) => {
                           }
                           placeholder="Enter Address"
                         />
-                        <span id="err" className="invalid-feedback">
-                          {props.touched.adrs && props.errors.adrs}
-                        </span>
                       </div>
                     </div>
 
@@ -467,23 +441,17 @@ const ClientDetails = (props) => {
                       <div className="form-group">
                         <label className="control-label">Client Type</label>
                         <input
+                          readOnly={true}
                           name="adrs"
                           type="text"
-                          className={`form-control ${
-                            props.touched.adrs && props.errors.adrs
-                              ? "is-invalid"
-                              : props.touched.adrs && "is-valid"
-                          }`}
+                          className={`form-control`}
                           value={
-                            ClientData && ClientData.address
-                              ? ClientData.address
+                            ClientData && ClientData.clientType
+                              ? ClientData.clientType
                               : "N/A"
                           }
                           placeholder="Enter Address"
                         />
-                        <span id="err" className="invalid-feedback">
-                          {props.touched.clientType && props.errors.clientType}
-                        </span>
                       </div>
                     </div>
 
@@ -497,80 +465,82 @@ const ClientDetails = (props) => {
                           </div>
                         </div>
                         <input
+                          readOnly={true}
                           name="adrs"
                           type="text"
-                          className={`form-control ${
-                            props.touched.adrs && props.errors.adrs
-                              ? "is-invalid"
-                              : props.touched.adrs && "is-valid"
-                          }`}
+                          className={`form-control`}
                           value={
-                            ClientData && ClientData.address
-                              ? ClientData.address
+                            ClientData && ClientData.clientLabel
+                              ? ClientData.clientLabel.name
                               : "N/A"
                           }
                           placeholder="Enter Address"
                         />
-
-                        <span id="err" className="invalid-feedback">
-                          {props.touched.clientLabel &&
-                            props.errors.clientLabel}
-                        </span>
                       </div>
                     </div>
                     <div className="col-6">
                       <div className="form-group">
                         <label className="control-label">Client Status</label>
                         <input
+                          readOnly={true}
                           name="adrs"
                           type="text"
-                          className={`form-control ${
-                            props.touched.adrs && props.errors.adrs
-                              ? "is-invalid"
-                              : props.touched.adrs && "is-valid"
-                          }`}
+                          className={`form-control`}
                           value={
-                            ClientData && ClientData.address
-                              ? ClientData.address
+                            ClientData && ClientData.status
+                              ? ClientData.status
                               : "N/A"
                           }
                           placeholder="Enter Address"
                         />
-                        <span id="err" className="invalid-feedback">
-                          {props.touched.status && props.errors.status}
-                        </span>
                       </div>
                     </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <label>Company Name</label>
-                        <input
-                          name="adrs"
-                          type="text"
-                          className={`form-control ${
-                            props.touched.adrs && props.errors.adrs
-                              ? "is-invalid"
-                              : props.touched.adrs && "is-valid"
-                          }`}
-                          value={
-                            ClientData && ClientData.address
-                              ? ClientData.address
-                              : "N/A"
-                          }
-                          placeholder="Enter Address"
-                        />
-                        <span id="err" className="invalid-feedback">
-                          {props.touched.compName && props.errors.compName}
-                        </span>
+                    {ClientData && ClientData.companyName ? (
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Company Name</label>
+                          <input
+                            readOnly={true}
+                            name="adrs"
+                            type="text"
+                            className={`form-control`}
+                            value={
+                              ClientData && ClientData.companyName
+                                ? ClientData.companyName
+                                : "N/A"
+                            }
+                            placeholder="Enter Address"
+                          />
+                        </div>
                       </div>
-                    </div>
+                    ) : null}
                   </div>
+                </div>
+                <div
+                  className="tab-pane active p-3"
+                  id={`tasks`}
+                  role="tabpanel"
+                >
+                  <MDBDataTableV5
+                    responsive
+                    striped
+                    small
+                    onPageChange={(val) => console.log(val)}
+                    bordered={true}
+                    searchTop
+                    searchBottom={false}
+                    pagingTop
+                    barReverse
+                    hover
+                    data={dataa}
+                    theadColor="#000"
+                  />
                 </div>
               </div>
             </div>
             <div className="row">
               <div className="col-12">
-                <div className="row align-items-center">
+                {/* <div className="row align-items-center">
                   {detail.map((item, indx) => {
                     return (
                       <>
@@ -595,27 +565,7 @@ const ClientDetails = (props) => {
                       </>
                     );
                   })}
-                </div>
-                <div className="row">
-                  <div className="col-12">
-                    {/* <h4 className="mt-0 header-title">Projects</h4> */}
-                    <MDBDataTableV5
-                      responsive
-                      striped
-                      small
-                      onPageChange={(val) => console.log(val)}
-                      bordered={true}
-                      //  materialSearch
-                      searchTop
-                      searchBottom={false}
-                      pagingTop
-                      barReverse
-                      hover
-                      data={dataa}
-                      theadColor="#000"
-                    />
-                  </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

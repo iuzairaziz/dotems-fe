@@ -235,371 +235,456 @@ const TaskForm = (props) => {
           <>
             {console.log("task", props)}
             <div className="row task-form">
-              <div className="col-6">
-                <div className="form-group">
-                  <div className="row">
-                    <div className="col">
-                      <label className="control-label">Task Priority</label>
-                    </div>
-                    <div className="col-6">
+              <div className="col-lg-12">
+                <div className="card m-b-20">
+                  <div className="card-body">
+                    <ul className="nav nav-pills" role="tablist">
+                      <li className="nav-item waves-effect waves-light">
+                        <a
+                          className="nav-link active"
+                          data-toggle="tab"
+                          href={`#home-1${editable && `editable`}`}
+                          role="tab"
+                        >
+                          <span className="d-none d-md-block">Quick Info</span>
+                          <span className="d-block d-md-none">
+                            <i className="mdi mdi-home-variant h5" />
+                          </span>
+                        </a>
+                      </li>
+                      <li className="nav-item waves-effect waves-light">
+                        <a
+                          className="nav-link"
+                          data-toggle="tab"
+                          href={`#profile2${editable && `editable`}`}
+                          role="tab"
+                        >
+                          <span className="d-none d-md-block">Attachments</span>
+                          <span className="d-block d-md-none">
+                            <i className="mdi mdi-account h5" />
+                          </span>
+                        </a>
+                      </li>
+                    </ul>
+
+                    <div className="tab-content">
                       <div
-                        className="d-flex justify-content-end"
-                        id="add-new-Buttonm "
-                        onClick={() => {
-                          toggleLabelEdit();
-                        }}
+                        className="tab-pane active p-3"
+                        id={`home-1${editable && `editable`}`}
+                        role="tabpanel"
                       >
-                        <i className="mdi mdi-plus icon-add" />
+                        <div className="row">
+                          <div className="col-6">
+                            <div className="form-group">
+                              <div className="row">
+                                <div className="col">
+                                  <label className="control-label">
+                                    Task Priority
+                                  </label>
+                                </div>
+                                <div className="col-6">
+                                  <div
+                                    className="d-flex justify-content-end"
+                                    id="add-new-Buttonm "
+                                    onClick={() => {
+                                      toggleLabelEdit();
+                                    }}
+                                  >
+                                    <i className="mdi mdi-plus icon-add" />
+                                  </div>
+                                </div>
+                              </div>
+                              <Select
+                                className={`my-select ${
+                                  props.touched.taskPriority &&
+                                  props.errors.taskPriority
+                                    ? "is-invalid"
+                                    : props.touched.taskPriority && "is-valid"
+                                }`}
+                                name="taskPriority"
+                                onFocus={() =>
+                                  props.setFieldTouched("taskPriority")
+                                }
+                                value={props.values.taskPriority}
+                                onChange={(val) =>
+                                  props.setFieldValue("taskPriority", val)
+                                }
+                                options={taskPriority}
+                              />
+
+                              <span id="err" className="invalid-feedback">
+                                {props.touched.taskPriority &&
+                                  props.errors.taskPriority}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="col-6">
+                            <div className="form-group">
+                              <label>Title</label>
+                              <input
+                                type="text"
+                                className={`form-control ${
+                                  props.touched.name && props.errors.name
+                                    ? "is-invalid"
+                                    : props.touched.name && "is-valid"
+                                }`}
+                                value={props.values.name}
+                                name="name"
+                                onBlur={props.handleBlur}
+                                onChange={(e) => {
+                                  console.log("name", e.target.value);
+                                  props.setFieldValue("name", e.target.value);
+                                }}
+                                // onChange={props.handleChange("name")}
+                                placeholder="Enter Name"
+                              />
+                              <span id="err" className="invalid-feedback">
+                                {props.touched.name && props.errors.name}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="col-6">
+                            <div className="form-group">
+                              <label>Project</label>
+                              <Select
+                                className={`my-select${
+                                  props.touched.project && props.errors.project
+                                    ? "is-invalid"
+                                    : props.touched.project && "is-valid"
+                                } `}
+                                value={props.values.project}
+                                name="project"
+                                onBlur={props.handleBlur}
+                                onChange={(selected) => {
+                                  props.setFieldValue("project", selected);
+                                  props.setFieldValue("dummyProject", selected);
+                                  console.log("Selected Changes", selected);
+                                  let phases = [];
+                                  selected.phase.map((item) => {
+                                    phases.push({
+                                      label: item.phasename,
+                                      value: item._id,
+                                    });
+                                  });
+                                  setPhase(phases);
+
+                                  props.setFieldValue(
+                                    "maxProjectRatio",
+                                    selected.remainingProjectRatio
+                                  );
+                                  props.setFieldValue(
+                                    "maxEstHrs",
+                                    selected.remainingProjectEstHrs
+                                  );
+
+                                  props.setFieldValue(
+                                    "pmStartDate",
+                                    selected.pmStartDate
+                                  );
+                                  props.setFieldValue(
+                                    "pmEndDate",
+                                    selected.pmEndDate
+                                  );
+                                  getTasksByProjectId(selected.value);
+                                  getProjectUsers(selected.value);
+                                  props.setFieldValue("assignedTo", []);
+                                  props.setFieldValue("teamLead", {});
+                                }}
+                                options={projects}
+                              />
+                              <span id="err" className="invalid-feedback">
+                                {props.touched.project && props.errors.project}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="col-6">
+                            <div className="form-group">
+                              <label>Estimated Hours</label>
+                              <div
+                                id="right_badge"
+                                className="float-right d-flex "
+                              >
+                                <input
+                                  type="number"
+                                  className={`form-control ${
+                                    props.touched.estimatedHrs &&
+                                    props.errors.estimatedHrs
+                                      ? "is-invalid"
+                                      : props.touched.estimatedHrs && "is-valid"
+                                  } inputWdth mr-2`}
+                                  value={props.values.estimatedHrs}
+                                  name="estimatedHrs"
+                                  onBlur={props.handleBlur}
+                                  onChange={(e) => {
+                                    props.setFieldValue(
+                                      "estimatedHrs",
+                                      e.target.value
+                                    );
+
+                                    console.log(props);
+                                  }}
+                                />
+                                <span className="inputFont">Hrs</span>
+                                {/* {"Hrs"} */}
+                              </div>
+                              <br />
+                              <span id="left_badge">0</span>
+                              <span id="right_badge" className="float-right">
+                                {props.values.maxEstHrs}
+                              </span>
+                              <Slider
+                                min={0}
+                                max={props.values.maxEstHrs}
+                                type="number"
+                                step={0.1}
+                                format={formatHrs}
+                                name="estimatedHrs"
+                                onBlur={props.handleBlur}
+                                value={props.values.estimatedHrs}
+                                onChange={(value) => {
+                                  props.setFieldValue(
+                                    "estimatedHrs",
+                                    value.toFixed(1)
+                                  );
+                                }}
+                              />
+                              <span id="err" className="invalid-feedback">
+                                {props.touched.estimatedHrs &&
+                                  props.errors.estimatedHrs}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="col-6">
+                            <div className="form-group">
+                              <label>Project Ratio</label>
+                              <div
+                                id="right_badge"
+                                className="float-right d-flex "
+                              >
+                                <input
+                                  type="number"
+                                  className={`form-control ${
+                                    props.touched.projectRatio &&
+                                    props.errors.projectRatio
+                                      ? "is-invalid"
+                                      : props.touched.projectRatio && "is-valid"
+                                  } inputWdth mr-2 `}
+                                  value={props.values.projectRatio}
+                                  name="projectRatio"
+                                  onBlur={props.handleBlur}
+                                  onChange={(e) => {
+                                    props.setFieldValue(
+                                      "projectRatio",
+                                      e.target.value
+                                    );
+
+                                    console.log(props);
+                                  }}
+                                />
+                                <span className="inputFont">%</span>
+                              </div>
+                              <br />
+                              <span id="left_badge">0</span>
+                              <span id="right_badge" className="float-right">
+                                {props.values.maxProjectRatio}
+                              </span>
+                              <Slider
+                                min={0}
+                                max={props.values.maxProjectRatio}
+                                type="number"
+                                format={formatPercent}
+                                name="projectRatio"
+                                onBlur={props.handleBlur}
+                                value={props.values.projectRatio}
+                                onChange={(value) => {
+                                  // console.log("valueee==", value);
+                                  props.setFieldValue(
+                                    "projectRatio",
+                                    value.toFixed(1)
+                                  );
+                                }}
+                              />
+                              <span id="err" className="invalid-feedback">
+                                {props.touched.projectRatio &&
+                                  props.errors.projectRatio}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="col-6 ">
+                            <div className="form-group">
+                              <label>Parent Task</label>
+                              <Select
+                                className={`my-select${
+                                  props.touched.parentTask &&
+                                  props.errors.parentTask
+                                    ? "is-invalid"
+                                    : props.touched.parentTask && "is-valid"
+                                }`}
+                                value={props.values.parentTask}
+                                name="parentTask"
+                                onBlur={props.handleBlur}
+                                onChange={(selected) => {
+                                  props.setFieldValue("parentTask", selected);
+                                }}
+                                options={tasks}
+                              />
+                              <span id="err" className="invalid-feedback">
+                                {props.touched.parentTask &&
+                                  props.errors.parentTask}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="col-6">
+                            <div className="form-group">
+                              <label>Assign Task</label>
+                              <Select
+                                className={`my-select${
+                                  props.touched.assignedTo &&
+                                  props.errors.assignedTo
+                                    ? "is-invalid"
+                                    : props.touched.assignedTo && "is-valid"
+                                }`}
+                                value={props.values.assignedTo}
+                                name="assignedTo"
+                                onBlur={props.handleBlur}
+                                onChange={(val) =>
+                                  props.setFieldValue("assignedTo", val)
+                                }
+                                options={users}
+                                isMulti={true}
+                              />
+                              <span id="err" className="invalid-feedback">
+                                {props.touched.assignedTo &&
+                                  props.errors.assignedTo}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="col-6 ">
+                            <div className="form-group">
+                              <label>Start Time</label>
+                              <DatePicker
+                                className={`form-control ${
+                                  props.touched.startTime &&
+                                  props.errors.startTime
+                                    ? "is-invalid"
+                                    : props.touched.startTime && "is-valid"
+                                } zIndex`}
+                                selected={props.values.startTime}
+                                name="startTime"
+                                onFocus={() =>
+                                  props.setFieldTouched("startTime")
+                                }
+                                onChange={(date) => {
+                                  props.setFieldValue("startTime", date);
+                                  console.log("datepicker", date);
+                                }}
+                              />
+                              <span id="err" className="invalid-feedback">
+                                {props.touched.startTime &&
+                                  props.errors.startTime}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="col-6 ">
+                            <div className="form-group">
+                              <label>End Time</label>
+                              <DatePicker
+                                className={`form-control ${
+                                  props.touched.endTime && props.errors.endTime
+                                    ? "is-invalid"
+                                    : props.touched.endTime && "is-valid"
+                                } zIndex`}
+                                selected={props.values.endTime}
+                                name="endTime"
+                                onFocus={() => props.setFieldTouched("endTime")}
+                                onChange={(date) => {
+                                  props.setFieldValue("endTime", date);
+                                  console.log("datepicker", date);
+                                }}
+                              />
+                              <span id="err" className="invalid-feedback">
+                                {props.touched.endTime && props.errors.endTime}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="col-6 ">
+                            <div className="form-group">
+                              <label>Team Lead</label>
+                              <Select
+                                className={`my-select${
+                                  props.touched.teamLead &&
+                                  props.errors.teamLead
+                                    ? "is-invalid"
+                                    : props.touched.teamLead && "is-valid"
+                                }`}
+                                value={props.values.teamLead}
+                                name="teamLead"
+                                onBlur={props.handleBlur}
+                                onChange={(val) =>
+                                  props.setFieldValue("teamLead", val)
+                                }
+                                options={users}
+                              />
+                              <span id="err" className="invalid-feedback">
+                                {props.touched.teamLead &&
+                                  props.errors.teamLead}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="col-6 ">
+                            <div className="form-group">
+                              <label>Project Phase</label>
+                              <Select
+                                className={`my-select${
+                                  props.touched.status && props.errors.status
+                                    ? "is-invalid"
+                                    : props.touched.status && "is-valid"
+                                } `}
+                                value={props.values.phase}
+                                name="phase"
+                                onBlur={props.handleBlur}
+                                onChange={(selected) => {
+                                  props.setFieldValue("phase", selected);
+                                }}
+                                options={phase}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12">
+                            <div className="form-group">
+                              <label>Description</label>
+                              <Editor
+                                toolbarClassName="toolbarClassName"
+                                wrapperClassName="wrapperClassName"
+                                editorClassName="editor"
+                                name="description"
+                                onBlur={() => props.handleBlur("description")}
+                                editorState={props.values.description}
+                                // editorStyle={{minHeight:"500px",overflowY:"scroll !important"}}
+                                onEditorStateChange={(val) => {
+                                  props.setFieldValue("description", val);
+                                }}
+                              />
+                              <span id="err" className="invalid-feedback">
+                                {props.touched.description &&
+                                  props.errors.description}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="tab-pane p-3"
+                        id={`profile2${editable && `editable`}`}
+                        role="tabpanel"
+                      >
+                        <p className="font-14 mb-0">Attachments</p>
                       </div>
                     </div>
                   </div>
-                  <Select
-                    className={`my-select ${
-                      props.touched.taskPriority && props.errors.taskPriority
-                        ? "is-invalid"
-                        : props.touched.taskPriority && "is-valid"
-                    }`}
-                    name="taskPriority"
-                    onFocus={() => props.setFieldTouched("taskPriority")}
-                    value={props.values.taskPriority}
-                    onChange={(val) => props.setFieldValue("taskPriority", val)}
-                    options={taskPriority}
-                  />
-
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.taskPriority && props.errors.taskPriority}
-                  </span>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label>Title</label>
-                  <input
-                    type="text"
-                    className={`form-control ${
-                      props.touched.name && props.errors.name
-                        ? "is-invalid"
-                        : props.touched.name && "is-valid"
-                    }`}
-                    value={props.values.name}
-                    name="name"
-                    onBlur={props.handleBlur}
-                    onChange={(e) => {
-                      console.log("name", e.target.value);
-                      props.setFieldValue("name", e.target.value);
-                    }}
-                    // onChange={props.handleChange("name")}
-                    placeholder="Enter Name"
-                  />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.name && props.errors.name}
-                  </span>
-                </div>
-              </div>
-              {/* <div className="col-6">
-                <div className="form-group">
-                  <label> Name</label>
-                  <input
-                    name="name"
-                    onBlur={props.handleBlur}
-                    type="text"
-                    className={`form-control ${
-                      props.touched.name && props.errors.name
-                        ? "is-invalid"
-                        : props.touched.name && "is-valid"
-                    }`}
-                    value={props.values.name}
-                    onChange={props.handleChange("name")}
-                    placeholder="Enter Name"
-                  />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.name && props.errors.name}
-                  </span>
-                </div>
-              </div> */}
-              <div className="col-6">
-                <div className="form-group">
-                  <label>Project</label>
-                  <Select
-                    className={`my-select${
-                      props.touched.project && props.errors.project
-                        ? "is-invalid"
-                        : props.touched.project && "is-valid"
-                    } `}
-                    value={props.values.project}
-                    name="project"
-                    onBlur={props.handleBlur}
-                    onChange={(selected) => {
-                      props.setFieldValue("project", selected);
-                      props.setFieldValue("dummyProject", selected);
-                      console.log("Selected Changes", selected);
-                      let phases = [];
-                      selected.phase.map((item) => {
-                        phases.push({ label: item.phasename, value: item._id });
-                      });
-                      setPhase(phases);
-
-                      props.setFieldValue(
-                        "maxProjectRatio",
-                        selected.remainingProjectRatio
-                      );
-                      props.setFieldValue(
-                        "maxEstHrs",
-                        selected.remainingProjectEstHrs
-                      );
-
-                      props.setFieldValue("pmStartDate", selected.pmStartDate);
-                      props.setFieldValue("pmEndDate", selected.pmEndDate);
-                      getTasksByProjectId(selected.value);
-                      getProjectUsers(selected.value);
-                      props.setFieldValue("assignedTo", []);
-                      props.setFieldValue("teamLead", {});
-                    }}
-                    options={projects}
-                  />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.project && props.errors.project}
-                  </span>
-                </div>
-              </div>
-
-              <div className="col-6">
-                <div className="form-group">
-                  <label>Estimated Hours</label>
-                  <div id="right_badge" className="float-right d-flex ">
-                    <input
-                      type="number"
-                      className={`form-control ${
-                        props.touched.estimatedHrs && props.errors.estimatedHrs
-                          ? "is-invalid"
-                          : props.touched.estimatedHrs && "is-valid"
-                      } inputWdth mr-2`}
-                      value={props.values.estimatedHrs}
-                      name="estimatedHrs"
-                      onBlur={props.handleBlur}
-                      onChange={(e) => {
-                        props.setFieldValue("estimatedHrs", e.target.value);
-
-                        console.log(props);
-                      }}
-                    />
-                    <span className="inputFont">Hrs</span>
-                    {/* {"Hrs"} */}
-                  </div>
-                  <br />
-                  <span id="left_badge">0</span>
-                  <span id="right_badge" className="float-right">
-                    {props.values.maxEstHrs}
-                  </span>
-                  <Slider
-                    min={0}
-                    max={props.values.maxEstHrs}
-                    type="number"
-                    step={0.1}
-                    format={formatHrs}
-                    name="estimatedHrs"
-                    onBlur={props.handleBlur}
-                    value={props.values.estimatedHrs}
-                    onChange={(value) => {
-                      props.setFieldValue("estimatedHrs", value.toFixed(1));
-                    }}
-                  />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.estimatedHrs && props.errors.estimatedHrs}
-                  </span>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label>Project Ratio</label>
-                  <div id="right_badge" className="float-right d-flex ">
-                    <input
-                      type="number"
-                      className={`form-control ${
-                        props.touched.projectRatio && props.errors.projectRatio
-                          ? "is-invalid"
-                          : props.touched.projectRatio && "is-valid"
-                      } inputWdth mr-2 `}
-                      value={props.values.projectRatio}
-                      name="projectRatio"
-                      onBlur={props.handleBlur}
-                      onChange={(e) => {
-                        props.setFieldValue("projectRatio", e.target.value);
-
-                        console.log(props);
-                      }}
-                    />
-                    <span className="inputFont">%</span>
-                  </div>
-                  <br />
-                  <span id="left_badge">0</span>
-                  <span id="right_badge" className="float-right">
-                    {props.values.maxProjectRatio}
-                  </span>
-                  <Slider
-                    min={0}
-                    max={props.values.maxProjectRatio}
-                    type="number"
-                    format={formatPercent}
-                    name="projectRatio"
-                    onBlur={props.handleBlur}
-                    value={props.values.projectRatio}
-                    onChange={(value) => {
-                      // console.log("valueee==", value);
-                      props.setFieldValue("projectRatio", value.toFixed(1));
-                    }}
-                  />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.projectRatio && props.errors.projectRatio}
-                  </span>
-                </div>
-              </div>
-              <div className="col-6 ">
-                <div className="form-group">
-                  <label>Parent Task</label>
-                  <Select
-                    className={`my-select${
-                      props.touched.parentTask && props.errors.parentTask
-                        ? "is-invalid"
-                        : props.touched.parentTask && "is-valid"
-                    }`}
-                    value={props.values.parentTask}
-                    name="parentTask"
-                    onBlur={props.handleBlur}
-                    onChange={(selected) => {
-                      props.setFieldValue("parentTask", selected);
-                    }}
-                    options={tasks}
-                  />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.parentTask && props.errors.parentTask}
-                  </span>
-                </div>
-              </div>
-
-              <div className="col-6">
-                <div className="form-group">
-                  <label>Assign Task</label>
-                  <Select
-                    className={`my-select${
-                      props.touched.assignedTo && props.errors.assignedTo
-                        ? "is-invalid"
-                        : props.touched.assignedTo && "is-valid"
-                    }`}
-                    value={props.values.assignedTo}
-                    name="assignedTo"
-                    onBlur={props.handleBlur}
-                    onChange={(val) => props.setFieldValue("assignedTo", val)}
-                    options={users}
-                    isMulti={true}
-                  />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.assignedTo && props.errors.assignedTo}
-                  </span>
-                </div>
-              </div>
-
-              <div className="col-6 ">
-                <div className="form-group">
-                  <label>Start Time</label>
-                  <DatePicker
-                    className={`form-control ${
-                      props.touched.startTime && props.errors.startTime
-                        ? "is-invalid"
-                        : props.touched.startTime && "is-valid"
-                    } zIndex`}
-                    selected={props.values.startTime}
-                    name="startTime"
-                    onFocus={() => props.setFieldTouched("startTime")}
-                    onChange={(date) => {
-                      props.setFieldValue("startTime", date);
-                      console.log("datepicker", date);
-                    }}
-                  />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.startTime && props.errors.startTime}
-                  </span>
-                </div>
-              </div>
-              <div className="col-6 ">
-                <div className="form-group">
-                  <label>End Time</label>
-                  <DatePicker
-                    className={`form-control ${
-                      props.touched.endTime && props.errors.endTime
-                        ? "is-invalid"
-                        : props.touched.endTime && "is-valid"
-                    } zIndex`}
-                    selected={props.values.endTime}
-                    name="endTime"
-                    onFocus={() => props.setFieldTouched("endTime")}
-                    onChange={(date) => {
-                      props.setFieldValue("endTime", date);
-                      console.log("datepicker", date);
-                    }}
-                  />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.endTime && props.errors.endTime}
-                  </span>
-                </div>
-              </div>
-              <div className="col-6 ">
-                <div className="form-group">
-                  <label>Team Lead</label>
-                  <Select
-                    className={`my-select${
-                      props.touched.teamLead && props.errors.teamLead
-                        ? "is-invalid"
-                        : props.touched.teamLead && "is-valid"
-                    }`}
-                    value={props.values.teamLead}
-                    name="teamLead"
-                    onBlur={props.handleBlur}
-                    onChange={(val) => props.setFieldValue("teamLead", val)}
-                    options={users}
-                  />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.teamLead && props.errors.teamLead}
-                  </span>
-                </div>
-              </div>
-              <div className="col-6 ">
-                <div className="form-group">
-                  <label>Project Phase</label>
-                  <Select
-                    className={`my-select${
-                      props.touched.status && props.errors.status
-                        ? "is-invalid"
-                        : props.touched.status && "is-valid"
-                    } `}
-                    value={props.values.phase}
-                    name="phase"
-                    onBlur={props.handleBlur}
-                    onChange={(selected) => {
-                      props.setFieldValue("phase", selected);
-                    }}
-                    options={phase}
-                  />
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="form-group">
-                  <label>Description</label>
-                  <Editor
-                    toolbarClassName="toolbarClassName"
-                    wrapperClassName="wrapperClassName"
-                    editorClassName="editor"
-                    name="description"
-                    onBlur={() => props.handleBlur("description")}
-                    editorState={props.values.description}
-                    // editorStyle={{minHeight:"500px",overflowY:"scroll !important"}}
-                    onEditorStateChange={(val) => {
-                      props.setFieldValue("description", val);
-                    }}
-                  />
-                  <span id="err" className="invalid-feedback">
-                    {props.touched.description && props.errors.description}
-                  </span>
                 </div>
               </div>
             </div>
