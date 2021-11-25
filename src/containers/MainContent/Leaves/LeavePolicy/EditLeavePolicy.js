@@ -5,9 +5,15 @@ import Select from "react-select";
 import { Button } from "reactstrap";
 import LeavePolicyServices from "../../../../services/LeavePolicyServices";
 import { toast } from "react-toastify";
+import { useParams } from "react-router";
 
-const LeavePolicyForm = () => {
-  const [title, setTitle] = useState("");
+const EditLeavePolicy = () => {
+  const { name } = useParams();
+
+  console.log(name);
+  const [title, setTitle] = useState(name);
+
+  const [data, setData] = useState([]);
   const [dataa, setDataa] = useState({
     columns: [
       {
@@ -60,9 +66,20 @@ const LeavePolicyForm = () => {
     rows: [],
   });
   useEffect(() => {
+    getSingleData();
     getData();
   }, []);
   const [formData, setFormData] = useState([]);
+  const getSingleData = () => {
+    LeavePolicyServices.getLeavePolicyById(name)
+      .then((res) => {
+        setData(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+
+    //   const newArr = [...formData]
+  };
 
   const handleChange = (e, name, item) => {
     console.log("form data", formData);
@@ -98,6 +115,7 @@ const LeavePolicyForm = () => {
     if (leaveType) {
       let updatedData = { ...dataa };
       updatedData.rows = [];
+
       leaveType.map((item, index) => {
         updatedData.rows.push({
           checked: (
@@ -277,30 +295,26 @@ const LeavePolicyForm = () => {
     if (title === "") {
       toast("The title is");
     } else {
-      LeavePolicyServices.addLeavePolicy({ name: title })
-        .then((res) => {
-          console.log(res);
-          var newData = formData
-            .filter((i) => i.checked === true)
-            .map((item, index) => {
-              return {
-                leavePolicy: res.data._id,
-                type: item.type,
-                effectiveDate: item.effectiveDate,
-                totalLeaves: item.totalLeaves,
-                maxPerMonthLeave: item.maxPerMonthLeave,
-                disAllowNegativeBalance: item.DisAllowNeqBal,
-                sandwich: item.sandwich,
-                noticePeriod: item.noticePeriod,
-                sandwichType: item.sandwichType,
-              };
-            });
-          LeavePolicyServices.addLeavePolicyDetail(newData)
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
-          console.log(newData);
-        })
+      const newData = formData
+        .filter((i) => i.checked === true)
+        .map((item, index) => {
+          return {
+            name: title,
+            type: item.type,
+            effectiveDate: item.effectiveDate,
+            totalLeaves: item.totalLeaves,
+            maxPerMonthLeave: item.maxPerMonthLeave,
+            disAllowNegativeBalance: item.DisAllowNeqBal,
+            sandwich: item.sandwich,
+            noticePeriod: item.noticePeriod,
+            sandwichType: item.sandwichType,
+          };
+        });
+
+      LeavePolicyServices.addLeavePolicy(newData)
+        .then((res) => console.log(res))
         .catch((err) => console.log(err));
+      console.log(newData);
     }
   };
 
@@ -330,17 +344,19 @@ const LeavePolicyForm = () => {
       </div>
       <div className="row">
         <div className="col">
-          <MDBDataTableV5
-            hover
-            entriesOptions={[5, 20, 25]}
-            entries={5}
-            pagesAmount={4}
-            data={dataa}
-          />
+          {data && (
+            <MDBDataTableV5
+              hover
+              entriesOptions={[5, 20, 25]}
+              entries={5}
+              pagesAmount={4}
+              data={dataa}
+            />
+          )}{" "}
         </div>
       </div>
     </>
   );
 };
 
-export default LeavePolicyForm;
+export default EditLeavePolicy;
