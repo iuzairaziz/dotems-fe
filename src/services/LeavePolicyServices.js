@@ -22,22 +22,32 @@ class LeavePolicyServices {
     return axios.get(this.config.apiBaseUrl + "leave-policy-detail/" + id);
   }
 
-  getLeavePolicies() {
+  getLeavePolicy() {
     return axios.get(this.config.apiBaseUrl + "leave-policy/");
+  }
+
+  getLeavePolicies(id) {
+    return axios.get(
+      this.config.apiBaseUrl + "leave-policy-detail/policies/" + id
+    );
   }
 
   //   updateWorkingShift(id, formData) {
   //     return axios.put(this.config.apiBaseUrl + "working-shift/" + id, formData);
   //   }
 
-  //   deleteWorkingShift(id) {
-  //     return axios.delete(this.config.apiBaseUrl + "working-shift/" + id);
-  //   }
+  deleteLeavePolicy(id) {
+    return axios.delete(this.config.apiBaseUrl + "leave-policy/" + id);
+  }
+
+  deleteLeavePolicyDetails(id) {
+    return axios.delete(this.config.apiBaseUrl + "leave-policy-detail/" + id);
+  }
 
   handleMessage(type) {
-    if (type === "add") toast("Successfully Added Working Hours");
-    else if (type === "update") toast("Successfully Updated Working Hours");
-    else if (type === "delete") toast("Successfully Deleted Working Hours");
+    if (type === "add") toast("Successfully Added Leave Policy");
+    else if (type === "update") toast("Successfully Updated Leave Policy");
+    else if (type === "delete") toast("Successfully Deleted Leave Policy");
   }
 
   handleError() {

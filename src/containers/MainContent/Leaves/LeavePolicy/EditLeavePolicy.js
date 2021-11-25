@@ -8,12 +8,10 @@ import { toast } from "react-toastify";
 import { useParams } from "react-router";
 
 const EditLeavePolicy = () => {
-  const { name } = useParams();
+  const { id } = useParams();
 
-  console.log(name);
-  const [title, setTitle] = useState(name);
-
-  const [data, setData] = useState([]);
+  const [title, setTitle] = useState("");
+  const [leavePolicies, setLeavePolicies] = useState([]);
   const [dataa, setDataa] = useState({
     columns: [
       {
@@ -66,20 +64,9 @@ const EditLeavePolicy = () => {
     rows: [],
   });
   useEffect(() => {
-    getSingleData();
     getData();
   }, []);
   const [formData, setFormData] = useState([]);
-  const getSingleData = () => {
-    LeavePolicyServices.getLeavePolicyById(name)
-      .then((res) => {
-        setData(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => console.log(err));
-
-    //   const newArr = [...formData]
-  };
 
   const handleChange = (e, name, item) => {
     console.log("form data", formData);
@@ -99,35 +86,32 @@ const EditLeavePolicy = () => {
       local.push({ type: item._id, [name]: val });
       setFormData((oldValue) => [...oldValue, ...local]);
     }
-
-    // let local = { ...dataa };
-    // console.log("locAL", dataa);
-    // local.rows[index].type = "gujkhgy";
-    // // setDataa(dataa);
-    // console.log("data", dataa);
   };
-  const [leaveType, setLeaveType] = useState([]);
+  // const [leaveType, setLeaveType] = useState([]);
   useEffect(() => {
     renderTable();
-  }, [leaveType, formData]);
+  }, [leavePolicies, formData]);
 
   const renderTable = () => {
-    if (leaveType) {
+    if (leavePolicies) {
       let updatedData = { ...dataa };
       updatedData.rows = [];
+      console.log("data abcd", leavePolicies);
+      leavePolicies.map((item, index) => {
+        console.log(item.policy[0], index);
 
-      leaveType.map((item, index) => {
         updatedData.rows.push({
           checked: (
             <div className="form-group">
               <input
                 name="checked"
                 className={"form-control"}
-                value={
-                  formData.find((p) => p.type === item._id)
-                    ? formData.find((p) => p.type === item._id).checked
-                    : true
-                }
+                checked={item.policy.length > 0}
+                // value={
+                //   formData.find((p) => p.type === item._id)
+                //     ? formData.find((p) => p.type === item._id).checked
+                //     : true
+                // }
                 onChange={(e) =>
                   handleChange(e.target.checked, `checked`, item)
                 }
@@ -144,7 +128,9 @@ const EditLeavePolicy = () => {
                 name={`effectiveDate` + index}
                 className={"form-control"}
                 value={
-                  formData.find((p) => p.type === item._id)
+                  item.policy.length > 0
+                    ? item.policy[0].effectiveDate
+                    : formData.find((p) => p.type === item._id)
                     ? formData.find((p) => p.type === item._id).effectiveDate
                     : ""
                 }
@@ -163,7 +149,9 @@ const EditLeavePolicy = () => {
                 type="number"
                 className={"form-control"}
                 value={
-                  formData.find((p) => p.type === item._id)
+                  item.policy.length > 0
+                    ? item.policy[0].totalLeaves
+                    : formData.find((p) => p.type === item._id)
                     ? formData.find((p) => p.type === item._id).totalLeaves
                     : ""
                 }
@@ -181,7 +169,9 @@ const EditLeavePolicy = () => {
                 type="number"
                 className={"form-control"}
                 value={
-                  formData.find((p) => p.type === item._id)
+                  item.policy.length > 0
+                    ? item.policy[0].maxPerMonthLeave
+                    : formData.find((p) => p.type === item._id)
                     ? formData.find((p) => p.type === item._id).maxPerMonthLeave
                     : ""
                 }
@@ -201,6 +191,7 @@ const EditLeavePolicy = () => {
                     ? formData.find((p) => p.type === item._id).DisAllowNeqBal
                     : false
                 }
+                checked={item.policy.length > 0}
                 className={"form-control"}
                 onChange={(e) =>
                   handleChange(e.target.checked, `DisAllowNeqBal`, item)
@@ -215,7 +206,9 @@ const EditLeavePolicy = () => {
               <input
                 name="noticePeriod"
                 value={
-                  formData.find((p) => p.type === item._id)
+                  item.policy.length > 0
+                    ? item.policy[0].noticePeriod
+                    : formData.find((p) => p.type === item._id)
                     ? formData.find((p) => p.type === item._id).noticePeriod
                     : ""
                 }
@@ -237,6 +230,7 @@ const EditLeavePolicy = () => {
                     ? formData.find((p) => p.type === item._id).sandwich
                     : false
                 }
+                checked={item.policy.length > 0}
                 className={"form-control"}
                 onChange={(e) =>
                   handleChange(e.target.checked, `sandwich`, item)
@@ -252,7 +246,9 @@ const EditLeavePolicy = () => {
               className="my-select"
               // onBlur={props.handleBlur}
               value={
-                !formData.find((p) => p.type === item._id)
+                item.policy.length > 0
+                  ? item.policy[0].noticePeriod
+                  : !formData.find((p) => p.type === item._id)
                   ? ""
                   : formData.find((p) => p.type === item._id).sandwichType &&
                     formData.find((p) => p.type === item._id).sandwichType.label
@@ -282,39 +278,42 @@ const EditLeavePolicy = () => {
 
   console.log(formData);
   const getData = () => {
-    LeaveType.getAllLeaveType()
+    LeavePolicyServices.getLeavePolicies(id)
       .then((res) => {
         console.log(res);
-        setLeaveType(res.data);
-        // console.log("clients", updatedData);
+        setLeavePolicies(res.data);
       })
       .catch((err) => console.log(err));
   };
 
   const handleSubmit = () => {
     if (title === "") {
-      toast("The title is");
+      toast("The title is Empty");
     } else {
-      const newData = formData
-        .filter((i) => i.checked === true)
-        .map((item, index) => {
-          return {
-            name: title,
-            type: item.type,
-            effectiveDate: item.effectiveDate,
-            totalLeaves: item.totalLeaves,
-            maxPerMonthLeave: item.maxPerMonthLeave,
-            disAllowNegativeBalance: item.DisAllowNeqBal,
-            sandwich: item.sandwich,
-            noticePeriod: item.noticePeriod,
-            sandwichType: item.sandwichType,
-          };
-        });
-
-      LeavePolicyServices.addLeavePolicy(newData)
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-      console.log(newData);
+      LeavePolicyServices.addLeavePolicy({ name: title })
+        .then((res) => {
+          LeavePolicyServices.handleMessage("add");
+          var newData = formData
+            .filter((i) => i.checked === true)
+            .map((item, index) => {
+              return {
+                leavePolicy: res.data._id,
+                type: item.type,
+                effectiveDate: item.effectiveDate,
+                totalLeaves: item.totalLeaves,
+                maxPerMonthLeave: item.maxPerMonthLeave,
+                disAllowNegativeBalance: item.DisAllowNeqBal,
+                sandwich: item.sandwich,
+                noticePeriod: item.noticePeriod,
+                sandwichType: item.sandwichType,
+              };
+            });
+          LeavePolicyServices.addLeavePolicyDetail(newData)
+            .then((res) => LeavePolicyServices.handleMessage("add"))
+            .catch((err) => LeavePolicyServices.handleError());
+          console.log(newData);
+        })
+        .catch((err) => LeavePolicyServices.handleError());
     }
   };
 
@@ -344,15 +343,13 @@ const EditLeavePolicy = () => {
       </div>
       <div className="row">
         <div className="col">
-          {data && (
-            <MDBDataTableV5
-              hover
-              entriesOptions={[5, 20, 25]}
-              entries={5}
-              pagesAmount={4}
-              data={dataa}
-            />
-          )}{" "}
+          <MDBDataTableV5
+            hover
+            entriesOptions={[5, 20, 25]}
+            entries={5}
+            pagesAmount={4}
+            data={dataa}
+          />
         </div>
       </div>
     </>

@@ -129,7 +129,7 @@ const mainbuilder = (props) => {
         />
         <Route
           exact
-          path="/edit-leave-policy/:name"
+          path="/edit-leave-policy/:id"
           component={EditLeavePolicy}
         />
         <Route exact path="/add-attendance" component={AddAttendance} />

@@ -33,7 +33,7 @@ const ViewLeavePolicy = (props) => {
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
   const getData = () => {
-    LeavePolicyServices.getLeavePolicies()
+    LeavePolicyServices.getLeavePolicy()
       .then((res) => {
         console.log(res);
 
@@ -67,7 +67,7 @@ const ViewLeavePolicy = (props) => {
                     class="dropdown-item"
                     onClick={() => {
                       props.history.push({
-                        pathname: `/edit-leave-policy/${item.name}`,
+                        pathname: `/edit-leave-policy/${item._id}`,
                       });
                     }}
                   >
@@ -95,10 +95,17 @@ const ViewLeavePolicy = (props) => {
   };
 
   const handleDelete = (id) => {
-    workingShiftService
-      .deleteWorkingShift(id)
+    LeavePolicyServices.deleteLeavePolicyDetails(id)
       .then((res) => {
         workingShiftService.handleMessage("delete");
+        LeavePolicyServices.deleteLeavePolicy(id)
+          .then((res) => {
+            workingShiftService.handleMessage("delete");
+          })
+          .catch((err) => {
+            workingShiftService.handleError();
+            toggleDelete();
+          });
         toggleDelete();
       })
       .catch((err) => {

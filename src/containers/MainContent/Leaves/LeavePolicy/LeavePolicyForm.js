@@ -275,11 +275,11 @@ const LeavePolicyForm = () => {
 
   const handleSubmit = () => {
     if (title === "") {
-      toast("The title is");
+      toast("The title is Empty");
     } else {
       LeavePolicyServices.addLeavePolicy({ name: title })
         .then((res) => {
-          console.log(res);
+          LeavePolicyServices.handleMessage("add");
           var newData = formData
             .filter((i) => i.checked === true)
             .map((item, index) => {
@@ -296,11 +296,11 @@ const LeavePolicyForm = () => {
               };
             });
           LeavePolicyServices.addLeavePolicyDetail(newData)
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+            .then((res) => LeavePolicyServices.handleMessage("add"))
+            .catch((err) => LeavePolicyServices.handleError());
           console.log(newData);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => LeavePolicyServices.handleError());
     }
   };
 

@@ -20,24 +20,24 @@ class AttendanceService {
     return axios.get(this.config.apiBaseUrl + "attendance/" + id);
   }
 
-  getWorkingShift() {
-    return axios.get(
-      this.config.apiBaseUrl + "working-shift/show-working-shift"
-    );
-  }
+  // getWorkingShift() {
+  //   return axios.get(
+  //     this.config.apiBaseUrl + "working-shift/show-working-shift"
+  //   );
+  // }
 
-  updateWorkingShift(id, formData) {
-    return axios.put(this.config.apiBaseUrl + "working-shift/" + id, formData);
-  }
+  // updateWorkingShift(id, formData) {
+  //   return axios.put(this.config.apiBaseUrl + "working-shift/" + id, formData);
+  // }
 
-  deleteWorkingShift(id) {
-    return axios.delete(this.config.apiBaseUrl + "working-shift/" + id);
-  }
+  // deleteWorkingShift(id) {
+  //   return axios.delete(this.config.apiBaseUrl + "working-shift/" + id);
+  // }
 
   handleMessage(type) {
-    if (type === "add") toast("Successfully Added Working Hours");
-    else if (type === "update") toast("Successfully Updated Working Hours");
-    else if (type === "delete") toast("Successfully Deleted Working Hours");
+    if (type === "add") toast("Successfully Added Attendance");
+    else if (type === "update") toast("Successfully Updated Attendance");
+    else if (type === "delete") toast("Successfully Deleted Attendance");
   }
 
   handleError() {

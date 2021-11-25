@@ -26,6 +26,10 @@ const AttendanceForm = (props) => {
         label: "Total Time",
         field: "totalTime",
       },
+      {
+        label: "Date",
+        field: "date",
+      },
     ],
     rows: [],
   });
@@ -44,7 +48,7 @@ const AttendanceForm = (props) => {
   let loggedInUser = UserService.userLoggedInInfo();
   useEffect(() => {
     getData(loggedInUser._id);
-  }, [handleTimeIn, handleTimeOut]);
+  }, []);
 
   const handleTimeIn = () => {
     setSwitch2(!switch2);
@@ -58,6 +62,7 @@ const AttendanceForm = (props) => {
     })
       .then((res) => {
         props.toggle && props.toggle();
+        getData(loggedInUser._id);
         AttendanceService.handleMessage("add");
       })
       .catch((err) => {
@@ -68,7 +73,7 @@ const AttendanceForm = (props) => {
     setSwitch1(!switch1);
     setSwitch2(false);
     AttendanceService.addTimeOutAttendance({
-      name: user._id,
+      name: loggedInUser._id,
       timeOut: time,
     })
       .then((res) => {
@@ -78,6 +83,7 @@ const AttendanceForm = (props) => {
         let timeIn = moment(res.data.timeIn, "H:mm");
         let timeOut = moment(res.data.timeOut, "H:mm");
         setTotalHours(timeOut.diff(timeIn, "hours"));
+        getData(loggedInUser._id);
         // var duration = moment.duration(timeOut.diff(timeIn));
         // var hours = parseInt(duration.asHours());
         // console.log("Hours", hours);
@@ -96,10 +102,8 @@ const AttendanceForm = (props) => {
     var hours = Math.floor(diff / 1000 / 60 / 60);
     diff -= hours * 1000 * 60 * 60;
     var minutes = Math.floor(diff / 1000 / 60);
-
     // If using time pickers with 24 hours format, add the below line get exact hours
     if (hours < 0) hours = hours + 24;
-
     return (
       (hours <= 9 ? "0" : "") +
       hours +
@@ -115,12 +119,22 @@ const AttendanceForm = (props) => {
         console.log(res);
         let updatedData = { ...data };
         updatedData.rows = [];
-        res.data.map((item, index) => {
-          let totalTime = diff(item.timeIn, item.timeOut);
+        res.data.reverse().map((item, index) => {
+          let endTime = item.timeOut ? item.timeOut : "N:A";
+          let totalTime = diff(item.timeIn, endTime);
           updatedData.rows.push({
-            timeIn: item.timeIn ? item.timeIn : "N/A",
-            timeOut: item.timeOut ? item.timeOut : "N/A",
-            totalTime: totalTime ? totalTime : "N/A",
+            timeIn: item.timeIn ? (
+              <h6>{moment(item.timeIn, ["HH:mm"]).format("h:m:A")}</h6>
+            ) : (
+              "N/A"
+            ),
+            timeOut: item.timeOut ? (
+              <h6> {moment(item.timeOut, ["HH:mm"]).format("h:m:A")}</h6>
+            ) : (
+              "N/A"
+            ),
+            totalTime: totalTime ? <h6>{totalTime}</h6> : "N/A",
+            date: item.date ? <h6> {item.date} </h6> : "N/A",
           });
         });
         console.log("clients", updatedData);
@@ -181,7 +195,7 @@ const AttendanceForm = (props) => {
             />
           </div> */}
         </div>
-        <div className="col">
+        {/* <div className="col">
           <div className="form-group">
             <label>Time</label>
             <input
@@ -206,7 +220,7 @@ const AttendanceForm = (props) => {
               placeholder="Total Hours"
             />
           </div>
-        </div>
+        </div> */}
       </div>
       <div>
         <div>
