@@ -19,14 +19,15 @@ class UserValidation {
         .required("Required!")
         .min(8)
         .max(200),
-      userRole: Yup.array()
-        .min(1, "Pick At Least One")
-        .of(
-          Yup.object().shape({
-            label: Yup.string().required(),
-            value: Yup.string().required(),
-          })
-        ),
+      userRole: Yup.object().required(),
+      // userRole: Yup.array()
+      //   .min(1, "Pick At Least One")
+      //   .of(
+      //     Yup.object().shape({
+      //       label: Yup.string().required(),
+      //       value: Yup.string().required(),
+      //     })
+      //   ),
       jobTitle: Yup.string()
         .required("Required!")
         .min(2)
@@ -60,9 +61,9 @@ class UserValidation {
       country: Yup.string(),
       bankName: Yup.string(),
       bankAccNo: Yup.string(),
-      joiningDate: Yup.string().required("Required!"),
-      terminationDate: Yup.string(),
-      dateOfBirth: Yup.string(),
+      joiningDate: Yup.date().required("Required!"),
+      terminationDate: Yup.date(),
+      dateOfBirth: Yup.date(),
     });
   };
 
