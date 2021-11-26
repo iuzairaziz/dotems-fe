@@ -23,8 +23,14 @@ const ViewUsers = (props) => {
   const [dataa, setData] = useState({
     columns: [
       {
-        label: "Name",
-        field: "name",
+        label: "First Name",
+        field: "firstName",
+        sort: "asc",
+        width: 125,
+      },
+      {
+        label: "Last Name",
+        field: "lastName",
         sort: "asc",
         width: 125,
       },
@@ -155,7 +161,8 @@ const ViewUsers = (props) => {
         updatedData.rows = [];
         res.data.map((item, index) => {
           updatedData.rows.push({
-            name: item.name ? item.name : "N/A",
+            firstName: item.firstName ? item.firstName : "N/A",
+            lastName: item.lastName ? item.lastName : "N/A",
             username: item.email ? item.email : "N/A",
             dateOfJoin: item.joiningDate
               ? moment(item.joiningDate).format("DD/MMM/YYYY")
@@ -171,16 +178,7 @@ const ViewUsers = (props) => {
             salary: item.salary ? item.salary : "N/A",
             status: item.status ? item.status : "N/A",
             gender: item.gender ? item.gender : "N/A",
-            role: item.userRole
-              ? item.userRole.map((item, index) => {
-                  return (
-                    <div>
-                      {item}
-                      <br />
-                    </div>
-                  );
-                })
-              : "none",
+            role: item.role ? item.role.name : "none",
             //  item.userRole ? item.userRole : "N/A",
             workingHrs: item.workingHrs ? item.workingHrs : "N/A",
             workingDays: item.workingDays ? item.workingDays : "N/A",

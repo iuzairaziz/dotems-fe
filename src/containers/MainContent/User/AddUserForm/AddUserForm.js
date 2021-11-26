@@ -43,6 +43,7 @@ const UserForm = (props) => {
   const [department, setDepartment] = useState([]);
   const [workingHrs, setWorkingHrs] = useState([]);
   const [workingDays, setWorkingDays] = useState([]);
+  const [leavePolicy, setLeavePolicy] = useState([]);
   const [resourceCost, setResourceCost] = useState([]);
   const [technology, setTechnology] = useState([]);
   const [machineModal, setMachineModal] = useState(false);
@@ -84,6 +85,7 @@ const UserForm = (props) => {
     setResourceCostModal(!resourceCostModal);
 
   const user = props.user;
+  console.log("User", user);
   const editable = props.editable;
   const getUserRole = () => {
     RoleService.getAllRole().then((res) => {
@@ -180,6 +182,7 @@ const UserForm = (props) => {
   };
 
   var UserRole = [];
+  var Technology = [];
 
   const passwordgenerate = () => {
     let pass = generator.generate({
@@ -194,6 +197,12 @@ const UserForm = (props) => {
     user.userRole &&
     user.userRole.map((item) => UserRole.push({ label: item, value: item }));
 
+  editable &&
+    user.technology &&
+    user.technology.map((item) =>
+      Technology.push({ label: item.name, value: item._id, id: item._id })
+    );
+
   return (
     <Formik
       initialValues={{
@@ -202,9 +211,9 @@ const UserForm = (props) => {
         email: editable && user.email,
         password: editable && user.password,
         userRole: editable &&
-          user.userRole && {
-            label: user.userRole.name,
-            value: user.userRole._id,
+          user.role && {
+            label: user.role.name,
+            value: user.role._id,
           },
         jobTitle: editable && user.jobTitle,
         designation: editable &&
@@ -230,8 +239,8 @@ const UserForm = (props) => {
           },
         employeeStatus: editable &&
           user.employeeStatus && {
-            label: user.employeeStatus.name,
-            value: user.employeeStatus._id,
+            label: user.employeeStatus,
+            value: user.employeeStatus,
           },
         workingDays: editable &&
           user.workingDays &&
@@ -246,23 +255,22 @@ const UserForm = (props) => {
             value: user.workingHours._id,
           },
         salary: editable && user.salary,
-        machineNo: editable &&
-          user.machineNo && {
-            label: user.machineNo.machineNo,
-            value: user.machineNo._id,
-          },
+        machineNo:
+          editable && user.machineNo
+            ? {
+                label: user.machineNo.machineNo,
+                value: user.machineNo._id,
+              }
+            : {
+                label: "None",
+                value: null,
+              },
         resourceCost: editable &&
           user.resourceCost && {
             label: user.resourceCost.name,
             value: user.resourceCost._id,
           },
-        technology: editable &&
-          user.technology && [
-            {
-              label: user.technology.name,
-              value: user.technology._id,
-            },
-          ],
+        technology: editable && user.technology && Technology ? Technology : [],
         contactNo: editable && user.contactNo,
         otherContactNo: editable && user.otherContactNo,
         personalEmail: editable && user.personalEmail,
@@ -271,8 +279,8 @@ const UserForm = (props) => {
         guardianContact: editable && user.guardianContact,
         status: editable &&
           user.status && {
-            label: user.status.name,
-            value: user.status._id,
+            label: user.status,
+            value: user.status,
           },
         gender: editable &&
           user.gender && { label: user.gender, value: user.gender },
@@ -292,6 +300,11 @@ const UserForm = (props) => {
         //   role.push(item.value);
         //   console.log("user Role", role);
         // });
+        let techId = [];
+        values.technology.map((item, index) => {
+          techId.push(item.value);
+          console.log(techId);
+        });
         editable
           ? UserService.updateAllUserFields(user._id, {
               firstName: values.firstName,
@@ -310,7 +323,7 @@ const UserForm = (props) => {
               salary: values.salary,
               machineNo: values.machineNo.value,
               resourceCost: values.resourceCost.value,
-              technology: values.technology.value,
+              technology: techId,
               contactNo: values.contactNo,
               otherContactNo: values.otherContactNo,
               personalEmail: values.personalEmail,
@@ -355,7 +368,7 @@ const UserForm = (props) => {
               salary: values.salary,
               machineNo: values.machineNo.value,
               resourceCost: values.resourceCost.value,
-              technology: values.technology.value,
+              technology: techId,
               contactNo: values.contactNo,
               otherContactNo: values.otherContactNo,
               personalEmail: values.personalEmail,
@@ -824,9 +837,10 @@ const UserForm = (props) => {
                               }`}
                               onBlur={props.handleBlur}
                               value={props.values.employeeStatus}
-                              onChange={(val) =>
-                                props.setFieldValue("employeeStatus", val)
-                              }
+                              onChange={(val) => {
+                                console.log(val);
+                                props.setFieldValue("employeeStatus", val);
+                              }}
                               options={[
                                 {
                                   value: "Employed",
@@ -1011,6 +1025,37 @@ const UserForm = (props) => {
                             <span id="err" className="invalid-feedback">
                               {props.touched.resourceCost &&
                                 props.errors.resourceCost}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="col-6">
+                          <div className="form-group">
+                            <div className="row">
+                              <div className="col">
+                                <label className="control-label">
+                                  Leave Policy{" "}
+                                </label>
+                              </div>
+                            </div>
+                            <Select
+                              name="leavePolicy"
+                              className={`my-select ${
+                                props.touched.leavePolicy &&
+                                props.errors.leavePolicy
+                                  ? "is-invalid"
+                                  : props.touched.leavePolicy && "is-valid"
+                              }`}
+                              onBlur={props.handleBlur}
+                              value={props.values.leavePolicy}
+                              onChange={(val) =>
+                                props.setFieldValue("leavePolicy", val)
+                              }
+                              options={leavePolicy}
+                            />
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.leavePolicy &&
+                                props.errors.leavePolicy}
                             </span>
                           </div>
                         </div>
