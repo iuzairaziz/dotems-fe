@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
 import TechnologyService from "../../../../services/TechnologyService";
 import moment from "moment";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { MDBDataTableV5 } from "mdbreact";
 import UserService from "../../../../services/UserService";
 import UserForm from "../AddUserForm/AddUserForm";
@@ -375,4 +375,4 @@ const ViewUsers = (props) => {
   );
 };
 
-export default ViewUsers;
+export default withRouter(ViewUsers);

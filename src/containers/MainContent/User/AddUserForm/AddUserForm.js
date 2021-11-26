@@ -30,6 +30,7 @@ import WorkingDayService from "../../../../services/WorkingDayService";
 import ResourceCostService from "../../../../services/ResourceCostService";
 import TechnologyService from "../../../../services/TechnologyService";
 import RoleService from "../../../../services/RoleService";
+import LeavePolicyServices from "../../../../services/LeavePolicyServices";
 
 import Configuration from "../../../../config/configuration";
 
@@ -68,6 +69,7 @@ const UserForm = (props) => {
     getAllResourceCost();
     getAllTechnology();
     getUserRole();
+    getLeavePolicy();
   }, [
     machineModal,
     designationModal,
@@ -180,6 +182,16 @@ const UserForm = (props) => {
       console.log("Technology", options);
     });
   };
+  const getLeavePolicy = () => {
+    LeavePolicyServices.getLeavePolicies().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setLeavePolicy(options);
+      console.log("Technology", options);
+    });
+  };
 
   var UserRole = [];
   var Technology = [];
@@ -253,6 +265,12 @@ const UserForm = (props) => {
           user.workingHours.name && {
             label: user.workingHours.name,
             value: user.workingHours._id,
+          },
+        leavePolicy: editable &&
+          user.leavePolicy &&
+          user.leavePolicy.name && {
+            label: user.leavePolicy.name,
+            value: user.leavePolicy._id,
           },
         salary: editable && user.salary,
         machineNo:
@@ -339,6 +357,7 @@ const UserForm = (props) => {
               joiningDate: values.joiningDate,
               terminationDate: values.terminationDate,
               dateOfBirth: values.dateOfBirth,
+              leavePolicy: values.leavePolicy.value,
             })
               .then((res) => {
                 MachineService.updateMachine(values.machineNo.value, {
@@ -384,6 +403,7 @@ const UserForm = (props) => {
               joiningDate: values.joiningDate,
               terminationDate: values.terminationDate,
               dateOfBirth: values.dateOfBirth,
+              leavePolicy: values.leavePolicy.value,
             })
               .then((res) => {
                 UserService.handleMessage("add");
@@ -416,7 +436,7 @@ const UserForm = (props) => {
                       <a
                         className="nav-link active"
                         data-toggle="tab"
-                        href="#home-1"
+                        href={`#home1${editable && `editable`}`}
                         role="tab"
                       >
                         <span className="d-none d-md-block">
@@ -433,7 +453,7 @@ const UserForm = (props) => {
                       <a
                         className="nav-link"
                         data-toggle="tab"
-                        href="#profile-1"
+                        href={`#profile1${editable && `editable`}`}
                         role="tab"
                       >
                         <span className="d-none d-md-block">
@@ -449,7 +469,7 @@ const UserForm = (props) => {
                       <a
                         className="nav-link"
                         data-toggle="tab"
-                        href="#messages-1"
+                        href={`#messages1${editable && `editable`}`}
                         role="tab"
                       >
                         <span className="d-none d-md-block">
@@ -465,7 +485,7 @@ const UserForm = (props) => {
                       <a
                         className="nav-link"
                         data-toggle="tab"
-                        href="#settings-1"
+                        href={`#settings1${editable && `editable`}`}
                         role="tab"
                       >
                         <span className="d-none d-md-block">
@@ -481,7 +501,7 @@ const UserForm = (props) => {
                       <a
                         className="nav-link"
                         data-toggle="tab"
-                        href="#settings-2"
+                        href={`#settings2${editable && `editable`}`}
                         role="tab"
                       >
                         <span className="d-none d-md-block">
@@ -498,7 +518,7 @@ const UserForm = (props) => {
                   <div className="tab-content">
                     <div
                       className="tab-pane active p-3"
-                      id="home-1"
+                      id={`home1${editable && `editable`}`}
                       role="tabpanel"
                     >
                       <div className="row">
@@ -638,7 +658,7 @@ const UserForm = (props) => {
                     </div>
                     <div
                       className="tab-pane p-3"
-                      id="profile-1"
+                      id={`profile1${editable && `editable`}`}
                       role="tabpanel"
                     >
                       <div className="row">
@@ -1063,7 +1083,7 @@ const UserForm = (props) => {
                     </div>
                     <div
                       className="tab-pane p-3"
-                      id="messages-1"
+                      id={`messages1${editable && `editable`}`}
                       role="tabpanel"
                     >
                       <div className="row">
@@ -1307,7 +1327,7 @@ const UserForm = (props) => {
                     </div>
                     <div
                       className="tab-pane p-3"
-                      id="settings-1"
+                      id={`settings1${editable && `editable`}`}
                       role="tabpanel"
                     >
                       <div className="row">
@@ -1357,7 +1377,7 @@ const UserForm = (props) => {
                     </div>
                     <div
                       className="tab-pane p-3"
-                      id="settings-2"
+                      id={`settings2${editable && `editable`}`}
                       role="tabpanel"
                     >
                       <div className="row">
