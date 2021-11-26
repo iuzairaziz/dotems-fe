@@ -402,7 +402,7 @@ const ProjectForm = (props) => {
               // percentage: values.percentage,
               // fCost: values.fCost,
               otherDeduction: values.otherDeduction,
-              phase: phasesDetails,
+              phase: [...phasesDetails, ...outSourceDetails],
               currency: values.currency.value,
               projectType: values.projectType.value,
             })

@@ -11,6 +11,9 @@ import "./ProjectDetails.scss";
 import ProjectComments from "./ProjectComments/ProjectComments";
 import userService from "../../../services/UserService";
 import Configuration from "../../../config/configuration";
+import { Link } from "react-router-dom";
+import ViewProject from "../Projects/ViewProjects";
+import MyProject from "../Projects/MyProject";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import TaskForm from "../Tasks/TaskForm/TaskForm";
 import RoleAuth from "../../../components/MyComponents/Auth/RoleAuth";
@@ -88,36 +91,29 @@ const ProjectDetails = (props) => {
           sort: "asc",
         },
         {
-          label: "Employee Cost/hr",
+          label: "Employee Cost per hour",
           field: "costperhr",
-          sort: "asc",
-          width: 150,
         },
 
         {
-          label: "Employee Est. Hrs.",
+          label: "Employee Estimate Hours",
           field: "esthr",
-          sort: "asc",
         },
         {
-          label: "Employee Project Est. Cost ",
+          label: "Employee Project Estimate Cost ",
           field: "projEstCst",
-          sort: "true",
         },
         {
           label: "Total Estimated Cost",
           field: "totalEstCst",
-          sort: "asc",
         },
         {
           label: "Total Outscource Cost",
           field: "totalOutsurce",
-          sort: "asc",
         },
         {
           label: "Assessment Profit/Loss",
           field: "endDate",
-          sort: "asc",
         },
       ],
       rows: [],
@@ -180,7 +176,6 @@ const ProjectDetails = (props) => {
     });
 
     const getData = (id) => {
-      // userService.isUserRole();
       ProjectService.getProjectAndTask(id)
         .then((res) => {
           setData(res.data[0]);
@@ -253,1035 +248,22 @@ const ProjectDetails = (props) => {
       setTableData(data);
     };
 
-    const detail = [
-      { label: "Project Name", value: projectData && projectData.name },
-      {
-        label: "Client Name",
-        value:
-          projectData && projectData.client.name
-            ? projectData.client.name
-            : "N/A",
-      },
-
-      {
-        label: "Order Number",
-        value:
-          projectData && projectData.orderNum ? projectData.orderNum : "N/A",
-      },
-      {
-        label: "Platform",
-        value:
-          projectData && projectData.platform.name
-            ? projectData.platform.name
-            : "N/A",
-      },
-      {
-        label: "Service Type",
-        value:
-          projectData && projectData.service.name
-            ? projectData.service.name
-            : "N/A",
-      },
-      {
-        label: "Technology",
-        value:
-          projectData && projectData.technology
-            ? projectData.technology.map((item, index) => {
-                if (index === 0) {
-                  return item.name;
-                } else if (index >= 0) {
-                  return `, ${item.name} `;
-                }
-              })
-            : "None",
-      },
-      {
-        label: "Status",
-        value:
-          projectData && projectData.status.name
-            ? projectData.status.name
-            : "N/A",
-      },
-      {
-        label: "Project Nature",
-        value:
-          projectData && projectData.nature.name
-            ? projectData.nature.name
-            : "N/A",
-      },
-
-      {
-        label: "Client Start Date",
-        value:
-          projectData && moment(projectData.cStartDate).format("DD/MMM/YYYY")
-            ? moment(projectData.cStartDate).format("DD/MMM/YYYY")
-            : "N/A",
-      },
-      {
-        label: "Cient Deadline",
-        value:
-          projectData && moment(projectData.cEndDate).format("DD/MMM/YYYY")
-            ? moment(projectData.cEndDate).format("DD/MMM/YYYY")
-            : "N/A",
-      },
-      {
-        label: "PM Start Date",
-        value:
-          projectData && projectData.pmStartDate
-            ? moment(projectData.pmStartDate).format("DD/MMM/YYYY")
-            : "N/A",
-      },
-      {
-        label: "PM Deadline",
-        value:
-          projectData && projectData.pmEndDate
-            ? moment(projectData.pmEndDate).format("DD/MMM/YYYY")
-            : "N/A",
-      },
-      {
-        label: "Cost",
-        value: projectData && projectData.cost ? projectData.cost : "N/A",
-      },
-      {
-        label: "Currency",
-        value:
-          projectData && projectData.currency ? projectData.currency : "N/A",
-      },
-      {
-        label: "Platform Deductions",
-        value:
-          projectData && projectData.Pdeduction
-            ? projectData.Pdeduction
-            : "N/A",
-      },
-      {
-        label: "Reserve Profit",
-        value: projectData && projectData.Rprofit ? projectData.Rprofit : "N/A",
-      },
-      {
-        label: "Other Deductions",
-        value:
-          projectData && projectData.otherDeduction
-            ? projectData.otherDeduction
-            : "N/A",
-      },
-      {
-        label: "Project Manager",
-        value:
-          projectData && projectData.projectManager.name
-            ? projectData.projectManager.name
-            : "N/A",
-      },
-      {
-        label: "Team Members",
-        value:
-          projectData && projectData.assignedUser
-            ? projectData.assignedUser.map((item, index) => {
-                if (index === 0) {
-                  return item.name;
-                } else if (index >= 0) {
-                  return `, ${item.name} `;
-                }
-              })
-            : "None",
-      },
-    ];
-
     return (
       <AUX>
-        <div className="page-content-wrapper projectD">
-          <div className="col-lg-12">
-            <div className="card m-b-20">
-              <div className="card-body">
-                <ul className="nav nav-pills" role="tablist">
-                  <li className="nav-item waves-effect waves-light">
-                    <a
-                      className="nav-link active"
-                      data-toggle="tab"
-                      href={`#home-1`}
-                      role="tab"
-                    >
-                      <span className="d-none d-md-block">
-                        {" "}
-                        <i class="mdi mdi-information pr-1" /> Quick Info{" "}
-                      </span>
-                      <span className="d-block d-md-none">
-                        <i className="mdi mdi-information h5" />
-                      </span>
-                    </a>
-                  </li>
-                  <li className="nav-item waves-effect waves-light">
-                    <a
-                      className="nav-link"
-                      data-toggle="tab"
-                      href={`#profile1`}
-                      role="tab"
-                    >
-                      <span className="d-none d-md-block">
-                        {" "}
-                        <i class="mdi mdi-account-multiple" />
-                        Client Info
-                      </span>
-                      <span className="d-block d-md-none">
-                        <i className="mdi mdi-account-multiple h5" />
-                      </span>
-                    </a>
-                  </li>
-                  <li className="nav-item waves-effect waves-light">
-                    <a
-                      className="nav-link"
-                      data-toggle="tab"
-                      href={`#messages-1`}
-                      role="tab"
-                    >
-                      <span className="d-none d-md-block">
-                        {" "}
-                        <i class="mdi mdi-cash-multiple" />
-                        Financial Info
-                      </span>
-                      <span className="d-block d-md-none">
-                        <i className="mdi mdi-cash-multiple h5" />
-                      </span>
-                    </a>
-                  </li>
-                  <li className="nav-item waves-effect waves-light">
-                    <a
-                      className="nav-link"
-                      data-toggle="tab"
-                      href={`#settings-1`}
-                      role="tab"
-                    >
-                      <span className="d-none d-md-block">
-                        <i class="mdi mdi-clipboard-text" />
-                        Planning and Assessment
-                      </span>
-                      <span className="d-block d-md-none">
-                        <i className="mdi mdi-clipboard-text h5" />
-                      </span>
-                    </a>
-                  </li>
-                  <li className="nav-item waves-effect waves-light">
-                    <a
-                      className="nav-link"
-                      data-toggle="tab"
-                      href={`#project-status`}
-                      role="tab"
-                    >
-                      <span className="d-none d-md-block">
-                        {" "}
-                        <i class="mdi mdi-clock" />
-                        Project Status
-                      </span>
-                      <span className="d-block d-md-none">
-                        <i className="mdi mdi-clock h5" />
-                      </span>
-                    </a>
-                  </li>
-                  <li className="nav-item waves-effect waves-light">
-                    <a
-                      className="nav-link"
-                      data-toggle="tab"
-                      href={`#attachments`}
-                      role="tab"
-                    >
-                      <span className="d-none d-md-block">
-                        <i class="mdi mdi-attachment" />
-                        Attachments{" "}
-                      </span>
-                      <span className="d-block d-md-none">
-                        <i className="mdi mdi-attachment h5" />
-                      </span>
-                    </a>
-                  </li>
-                  <li className="nav-item waves-effect waves-light">
-                    <a
-                      className="nav-link"
-                      data-toggle="tab"
-                      href={`#pac`}
-                      role="tab"
-                    >
-                      <span className="d-none d-md-block">
-                        <i class="mdi mdi-cash-usd" />
-                        Project Assessment Cost{" "}
-                      </span>
-                      <span className="d-block d-md-none">
-                        <i className="mdi mdi-cash-usd h5" />
-                      </span>
-                    </a>
-                  </li>
-                  <li className="nav-item waves-effect waves-light">
-                    <a
-                      className="nav-link"
-                      data-toggle="tab"
-                      href={`#rr`}
-                      role="tab"
-                    >
-                      <span className="d-none d-md-block">
-                        <i class="mdi mdi-star-half" />
-                        Review and Ratings{" "}
-                      </span>
-                      <span className="d-block d-md-none">
-                        <i className="mdi mdi-star-half h5" />
-                      </span>
-                    </a>
-                  </li>
-                </ul>
-
-                <div className="tab-content">
-                  <div
-                    className="tab-pane active p-3"
-                    id={`home-1`}
-                    role="tabpanel"
-                  >
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Project Name</label>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={projectData && projectData.name}
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Order Number</label>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.orderNum
-                                ? projectData.orderNum
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col">
-                              <label className="control-label">Platform</label>
-                            </div>
-                          </div>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.platform.name
-                                ? projectData.platform.name
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col">
-                              <label className="control-label">
-                                Technology
-                              </label>
-                            </div>
-                          </div>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.technology
-                                ? projectData.technology.map((item, index) => {
-                                    if (index === 0) {
-                                      return item.name;
-                                    } else if (index >= 0) {
-                                      return `, ${item.name} `;
-                                    }
-                                  })
-                                : "None"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col">
-                              <label className="control-label">
-                                Service Type
-                              </label>
-                            </div>
-                          </div>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.service.name
-                                ? projectData.service.name
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col">
-                              <label className="control-label">
-                                Project Nature
-                              </label>
-                            </div>
-                          </div>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.nature.name
-                                ? projectData.nature.name
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-4">
-                        <div className="form-group">
-                          <label className="control-label">
-                            Project Manager
-                          </label>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.projectManager.name
-                                ? projectData.projectManager.name
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-12">
-                        <h4 className="mt-0 header-title">Description</h4>
-                        <Editor
-                          toolbarClassName="toolbarClassName"
-                          wrapperClassName="wrapperClassName"
-                          editorClassName="editorClass"
-                          toolbarStyle={{ display: "none" }}
-                          readOnly
-                          editorStyle={{
-                            minHeight: "300px",
-                          }}
-                          editorState={
-                            projectData &&
-                            EditorState.createWithContent(
-                              convertFromRaw(
-                                JSON.parse(projectData.description)
-                              )
-                            )
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="tab-pane p-3" id={`profile1`} role="tabpanel">
-                    <div className="row">
-                      <div className="col-6">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col">
-                              <label className="control-label">
-                                Client Name
-                              </label>
-                            </div>
-                          </div>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.client.name
-                                ? projectData.client.name
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label className="control-label">Client Type</label>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.client.name
-                                ? projectData.client.name
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="col">
-                        {" "}
-                        <div className="form-group">
-                          <label>Client Start Date</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData &&
-                                moment(projectData.cStartDate).format(
-                                  "DD/MMM/YYYY"
-                                )
-                                  ? moment(projectData.cStartDate).format(
-                                      "DD/MMM/YYYY"
-                                    )
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>{" "}
-                      </div>
-                      <div className="col">
-                        {" "}
-                        <div className="form-group">
-                          <label>Client Deadline</label>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData &&
-                              moment(projectData.cEndDate).format("DD/MMM/YYYY")
-                                ? moment(projectData.cEndDate).format(
-                                    "DD/MMM/YYYY"
-                                  )
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="tab-pane p-3"
-                    id={`messages-1`}
-                    role="tabpanel"
-                  >
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label className="control-label">Project Type</label>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.currency
-                                ? projectData.currency
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col">
-                              <label className="control-label">Currency</label>
-                            </div>
-                          </div>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.currency
-                                ? projectData.currency
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col">
-                              <label className="control-label">
-                                Client Hours
-                              </label>
-                            </div>
-                          </div>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.currency
-                                ? projectData.currency
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col">
-                              <label className="control-label">
-                                Hourly Rate
-                              </label>
-                            </div>
-                          </div>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.currency
-                                ? projectData.currency
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col">
-                              <label className="control-label">Cost</label>
-                            </div>
-                          </div>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.cost
-                                ? projectData.cost
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Platform Deduction</label>
-                          <div className="input-group">
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.Pdeduction
-                                  ? projectData.Pdeduction
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                            <span className="input-group-text">%</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Other Deductions</label>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.otherDeduction
-                                ? projectData.otherDeduction
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <label>Reserve Profit</label>
-                          <div className="input-group">
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.Rprofit
-                                  ? projectData.Rprofit
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                            <span className="input-group-text">%</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="tab-pane p-3"
-                    id={`settings-1`}
-                    role="tabpanel"
-                  >
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="form-group mb-0">
-                          <label className="control-label">Team Members</label>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.assignedUser
-                                ? projectData.assignedUser.map(
-                                    (item, index) => {
-                                      if (index === 0) {
-                                        return item.name;
-                                      } else if (index >= 0) {
-                                        return `, ${item.name} `;
-                                      }
-                                    }
-                                  )
-                                : "None"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-6">
-                        {" "}
-                        <div className="form-group">
-                          <label>PM Start Date</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.pmStartDate
-                                  ? moment(projectData.pmStartDate).format(
-                                      "DD/MMM/YYYY"
-                                    )
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>{" "}
-                      </div>
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>PM End Date</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.pmEndDate
-                                  ? moment(projectData.pmEndDate).format(
-                                      "DD/MMM/YYYY"
-                                    )
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Phase Name</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.Rprofit
-                                  ? projectData.Rprofit
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>
-                      </div>{" "}
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Estimate Hours</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.Rprofit
-                                  ? projectData.Rprofit
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Phase Name</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.pmEndDate
-                                  ? moment(projectData.pmEndDate).format(
-                                      "DD/MMM/YYYY"
-                                    )
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>
-                      </div>{" "}
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Out-Source Name</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.pmEndDate
-                                  ? moment(projectData.pmEndDate).format(
-                                      "DD/MMM/YYYY"
-                                    )
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Cost</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.pmEndDate
-                                  ? moment(projectData.pmEndDate).format(
-                                      "DD/MMM/YYYY"
-                                    )
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>
-                      </div>{" "}
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Deadline</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.pmEndDate
-                                  ? moment(projectData.pmEndDate).format(
-                                      "DD/MMM/YYYY"
-                                    )
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="tab-pane p-3"
-                    id={`project-status`}
-                    role="tabpanel"
-                  >
-                    <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col">
-                              <label className="control-label">Status</label>
-                            </div>
-                          </div>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.status.name
-                                ? projectData.status.name
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="tab-pane p-3"
-                    id={`attachments`}
-                    role="tabpanel"
-                  >
-                    <p className="font-14 mb-0">attachments</p>
-                  </div>
-                  <div className="tab-pane p-3" id={`pac`} role="tabpanel">
-                    <MDBDataTableV5
-                      responsive
-                      striped
-                      small
-                      onPageChange={(val) => console.log(val)}
-                      bordered={true}
-                      searchTop
-                      searchBottom={false}
-                      pagingTop
-                      barReverse
-                      hover
-                      data={estCost}
-                      theadColor="#000"
-                    />
-                  </div>
-                  <div className="tab-pane p-3" id={`rr`} role="tabpanel">
-                    <p className="font-14 mb-0">rr</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="row">
-              <div className="row align-items-center gapp">
-                {detail.map((item, indx) => {
-                  return (
-                    <>
-                      <div
-                        className={`labell ${
-                          item.label === "Team Members"
-                            ? "col-3 col-md-2"
-                            : "col-3 col-md-2"
-                        } mb-3 d-flex align-items-center align-self-center`}
-                      >
-                        <div>{item.label}</div>
-                      </div>
-                      <div
-                        className={`valuee ${
-                          item.label === "Team Members"
-                            ? "col-9 col-md-6"
-                            : "col-3 col-md-2"
-                        } col-3 col-md-2 mb-3 align-self-center"`}
-                      >
-                        {item.value}
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="col-lg-12">
+        <div className="col-lg-12">
+          <div className="card m-b-20">
+            <div className="card-body">
               <ul className="nav nav-tabs nav-tabs-custom" role="tablist">
                 <li className="nav-item">
                   <a
-                    className="nav-link active"
+                    className="nav-link "
                     data-toggle="tab"
                     href="#home1"
                     role="tab"
                   >
-                    <span className="d-none d-md-block">Description</span>
+                    <span className="d-none d-md-block">My Projects</span>
                     <span className="d-block d-md-none">
-                      <i className="mdi mdi-home-variant h5" />
+                      <i className="mdi mdi-clipboard-account h5" />
                     </span>
                   </a>
                 </li>
@@ -1292,84 +274,1031 @@ const ProjectDetails = (props) => {
                     href="#profile1"
                     role="tab"
                   >
-                    <span className="d-none d-md-block">Project Tasks</span>
+                    <span className="d-none d-md-block">Project List</span>
                     <span className="d-block d-md-none">
-                      <i className="mdi mdi-account h5" />
+                      <i className="mdi mdi-clipboard-text h5" />
+                    </span>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link active"
+                    data-toggle="tab"
+                    href="#messages1"
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">View Project</span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-plus h5" />
+                    </span>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    data-toggle="tab"
+                    href="#settings1"
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">Settings</span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-settings h5" />
                     </span>
                   </a>
                 </li>
               </ul>
 
               <div className="tab-content">
-                <div className="tab-pane active p-3" id="home1" role="tabpanel">
-                  <Editor
-                    toolbarClassName="toolbarClassName"
-                    wrapperClassName="wrapperClassName"
-                    editorClassName="editorClass"
-                    toolbarStyle={{ display: "none" }}
-                    readOnly
-                    editorStyle={{
-                      minHeight: "300px",
-                    }}
-                    editorState={
-                      projectData &&
-                      EditorState.createWithContent(
-                        convertFromRaw(JSON.parse(projectData.description))
-                      )
-                    }
-                  />
-                  <br />
-                  <h6>Project Comments</h6>
-                  <ProjectComments projectId={projectData && projectData._id} />
+                <div className="tab-pane  p-3" id="home1" role="tabpanel">
+                  <MyProject />
                 </div>
                 <div className="tab-pane p-3" id="profile1" role="tabpanel">
-                  <div className="row">
-                    <div className="col">
-                      <RoleAuth roles={[PM]}>
-                        <div
-                          className="d-flex justify-content-end"
-                          id="add-new-Buttonm "
-                          onClick={() => {
-                            toggleTaskEdit();
-                          }}
-                        >
-                          <i className="mdi mdi-plus-circle icon-add" />
+                  <ViewProject />
+                </div>
+                <div
+                  className="tab-pane active p-3"
+                  id="messages1"
+                  role="tabpanel"
+                >
+                  <div className="page-content-wrapper projectD">
+                    <div className="col-lg-12">
+                      <div className="card m-b-20">
+                        <div className="card-body">
+                          <ul className="nav nav-pills" role="tablist">
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link active"
+                                data-toggle="tab"
+                                href={`#quick-info`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  {" "}
+                                  <i class="mdi mdi-information pr-1" /> Quick
+                                  Info{" "}
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-information h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#client-info`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  {" "}
+                                  <i class="mdi mdi-account-multiple" />
+                                  Client Info
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-account-multiple h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#financial-info`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  {" "}
+                                  <i class="mdi mdi-cash-multiple" />
+                                  Financial Info
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-cash-multiple h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#planning-assessment`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  <i class="mdi mdi-clipboard-text" />
+                                  Planning and Assessment
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-clipboard-text h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#project-status`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  {" "}
+                                  <i class="mdi mdi-clock" />
+                                  Project Status
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-clock h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#attachments`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  <i class="mdi mdi-attachment" />
+                                  Attachments{" "}
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-attachment h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#pac`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  <i class="mdi mdi-cash-usd" />
+                                  Project Assessment Cost{" "}
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-cash-usd h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#rr`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  <i class="mdi mdi-star-half" />
+                                  Review and Ratings{" "}
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-star-half h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#tasks`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  <i class="mdi mdi-clipboard-outline" />
+                                  Project Tasks
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-clipboard-outline h5" />
+                                </span>
+                              </a>
+                            </li>
+                          </ul>
+
+                          <div className="tab-content">
+                            <div
+                              className="tab-pane active p-3"
+                              id={`quick-info`}
+                              role="tabpanel"
+                            >
+                              <div className="row">
+                                <div className="col">
+                                  <div className="form-group">
+                                    <label>Project Name</label>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={projectData && projectData.name}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col">
+                                  <div className="form-group">
+                                    <label>Order Number</label>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData && projectData.orderNum
+                                          ? projectData.orderNum
+                                          : "N/A"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col">
+                                  <div className="form-group">
+                                    <div className="row">
+                                      <div className="col">
+                                        <label className="control-label">
+                                          Platform
+                                        </label>
+                                      </div>
+                                    </div>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData && projectData.platform.name
+                                          ? projectData.platform.name
+                                          : "N/A"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="row">
+                                <div className="col">
+                                  <div className="form-group">
+                                    <div className="row">
+                                      <div className="col">
+                                        <label className="control-label">
+                                          Technology
+                                        </label>
+                                      </div>
+                                    </div>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData && projectData.technology
+                                          ? projectData.technology.map(
+                                              (item, index) => {
+                                                if (index === 0) {
+                                                  return item.name;
+                                                } else if (index > 0) {
+                                                  return ` ${item.name} `;
+                                                }
+                                              }
+                                            )
+                                          : "None"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col">
+                                  <div className="form-group">
+                                    <div className="row">
+                                      <div className="col">
+                                        <label className="control-label">
+                                          Service Type
+                                        </label>
+                                      </div>
+                                    </div>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData && projectData.service.name
+                                          ? projectData.service.name
+                                          : "N/A"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col">
+                                  <div className="form-group">
+                                    <div className="row">
+                                      <div className="col">
+                                        <label className="control-label">
+                                          Project Nature
+                                        </label>
+                                      </div>
+                                    </div>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData && projectData.nature.name
+                                          ? projectData.nature.name
+                                          : "N/A"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="row">
+                                <div className="col-md-4">
+                                  <div className="form-group">
+                                    <label className="control-label">
+                                      Project Manager
+                                    </label>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData &&
+                                        projectData.projectManager.name
+                                          ? projectData.projectManager.name
+                                          : "N/A"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="row">
+                                <div className="col-12">
+                                  <h4 className="mt-0 header-title">
+                                    Description
+                                  </h4>
+                                  <Editor
+                                    toolbarClassName="toolbarClassName"
+                                    wrapperClassName="wrapperClassName"
+                                    editorClassName="editorClass"
+                                    toolbarStyle={{ display: "none" }}
+                                    readOnly={true}
+                                    editorStyle={{
+                                      minHeight: "300px",
+                                    }}
+                                    editorState={
+                                      projectData &&
+                                      EditorState.createWithContent(
+                                        convertFromRaw(
+                                          JSON.parse(projectData.description)
+                                        )
+                                      )
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`client-info`}
+                              role="tabpanel"
+                            >
+                              <div className="row">
+                                <div className="col-6">
+                                  <div className="form-group">
+                                    <div className="row">
+                                      <div className="col">
+                                        <label className="control-label">
+                                          Client Name
+                                        </label>
+                                      </div>
+                                    </div>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData && projectData.client.name
+                                          ? projectData.client.name
+                                          : "N/A"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-6">
+                                  <div className="form-group">
+                                    <label className="control-label">
+                                      Client Type
+                                    </label>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData &&
+                                        projectData.client.clientType
+                                          ? projectData.client.clientType
+                                          : "N/A"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="row">
+                                <div className="col">
+                                  {" "}
+                                  <div className="form-group">
+                                    <label>Client Start Date</label>
+                                    <div>
+                                      <input
+                                        name="projectName"
+                                        type="text"
+                                        readOnly={true}
+                                        className={`form-control`}
+                                        value={
+                                          projectData &&
+                                          moment(projectData.cStartDate).format(
+                                            "DD/MMM/YYYY"
+                                          )
+                                            ? moment(
+                                                projectData.cStartDate
+                                              ).format("DD/MMM/YYYY")
+                                            : "N/A"
+                                        }
+                                        placeholder="Enter Name"
+                                      />
+                                    </div>
+                                  </div>{" "}
+                                </div>
+                                <div className="col">
+                                  {" "}
+                                  <div className="form-group">
+                                    <label>Client Deadline</label>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData &&
+                                        moment(projectData.cEndDate).format(
+                                          "DD/MMM/YYYY"
+                                        )
+                                          ? moment(projectData.cEndDate).format(
+                                              "DD/MMM/YYYY"
+                                            )
+                                          : "N/A"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`financial-info`}
+                              role="tabpanel"
+                            >
+                              <div className="row">
+                                <div className="col">
+                                  <div className="form-group">
+                                    <label className="control-label">
+                                      Project Type
+                                    </label>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData && projectData.projectType
+                                          ? projectData.projectType
+                                          : "N/A"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col">
+                                  <div className="form-group">
+                                    <div className="row">
+                                      <div className="col">
+                                        <label className="control-label">
+                                          Currency
+                                        </label>
+                                      </div>
+                                    </div>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData && projectData.currency
+                                          ? projectData.currency
+                                          : "N/A"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="row">
+                                {projectData && projectData.clientHours ? (
+                                  <div className="col">
+                                    <div className="form-group">
+                                      <div className="row">
+                                        <div className="col">
+                                          <label className="control-label">
+                                            Client Hours
+                                          </label>
+                                        </div>
+                                      </div>
+                                      <input
+                                        name="projectName"
+                                        type="text"
+                                        readOnly={true}
+                                        className={`form-control`}
+                                        value={
+                                          projectData && projectData.clientHours
+                                            ? projectData.clientHours
+                                            : "N/A"
+                                        }
+                                        placeholder="Enter Name"
+                                      />
+                                    </div>
+                                  </div>
+                                ) : null}
+                                {projectData && projectData.hourlyCost ? (
+                                  <div className="col">
+                                    <div className="form-group">
+                                      <div className="row">
+                                        <div className="col">
+                                          <label className="control-label">
+                                            Hourly Rate
+                                          </label>
+                                        </div>
+                                      </div>
+                                      <input
+                                        name="projectName"
+                                        type="text"
+                                        readOnly={true}
+                                        className={`form-control`}
+                                        value={
+                                          projectData && projectData.hourlyCost
+                                            ? projectData.hourlyCost
+                                            : "N/A"
+                                        }
+                                        placeholder="Enter Name"
+                                      />
+                                    </div>
+                                  </div>
+                                ) : null}
+
+                                <div className="col">
+                                  <div className="form-group">
+                                    <div className="row">
+                                      <div className="col">
+                                        <label className="control-label">
+                                          Cost
+                                        </label>
+                                      </div>
+                                    </div>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData && projectData.cost
+                                          ? projectData.cost
+                                          : "N/A"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="row">
+                                <div className="col">
+                                  <div className="form-group">
+                                    <label>Platform Deduction</label>
+                                    <div className="input-group">
+                                      <input
+                                        name="projectName"
+                                        type="text"
+                                        readOnly={true}
+                                        className={`form-control`}
+                                        value={
+                                          projectData && projectData.Pdeduction
+                                            ? projectData.Pdeduction
+                                            : "N/A"
+                                        }
+                                        placeholder="Enter Name"
+                                      />
+                                      <span className="input-group-text">
+                                        %
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col">
+                                  <div className="form-group">
+                                    <label>Other Deductions</label>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData &&
+                                        projectData.otherDeduction
+                                          ? projectData.otherDeduction
+                                          : "N/A"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col">
+                                  <div className="form-group">
+                                    <label>Reserve Profit</label>
+                                    <div className="input-group">
+                                      <input
+                                        name="projectName"
+                                        type="text"
+                                        readOnly={true}
+                                        className={`form-control`}
+                                        value={
+                                          projectData && projectData.Rprofit
+                                            ? projectData.Rprofit
+                                            : "N/A"
+                                        }
+                                        placeholder="Enter Name"
+                                      />
+                                      <span className="input-group-text">
+                                        %
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`planning-assessment`}
+                              role="tabpanel"
+                            >
+                              <div className="row">
+                                <div className="col-md-12">
+                                  <div className="form-group mb-0">
+                                    <label className="control-label">
+                                      Team Members
+                                    </label>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData && projectData.assignedUser
+                                          ? projectData.assignedUser.map(
+                                              (item, index) => {
+                                                if (index === 0) {
+                                                  return item.name;
+                                                } else if (index > 0) {
+                                                  return ` ${item.name} `;
+                                                }
+                                              }
+                                            )
+                                          : "None"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="row mt-3">
+                                <div className="col-6">
+                                  {" "}
+                                  <div className="form-group">
+                                    <label>PM Start Date</label>
+                                    <div>
+                                      <input
+                                        name="projectName"
+                                        type="text"
+                                        readOnly={true}
+                                        className={`form-control`}
+                                        value={
+                                          projectData && projectData.pmStartDate
+                                            ? moment(
+                                                projectData.pmStartDate
+                                              ).format("DD/MMM/YYYY")
+                                            : "N/A"
+                                        }
+                                        placeholder="Enter Name"
+                                      />
+                                    </div>
+                                  </div>{" "}
+                                </div>
+                                <div className="col-6">
+                                  <div className="form-group">
+                                    <label>PM End Date</label>
+                                    <div>
+                                      <input
+                                        name="projectName"
+                                        type="text"
+                                        readOnly={true}
+                                        className={`form-control`}
+                                        value={
+                                          projectData && projectData.pmEndDate
+                                            ? moment(
+                                                projectData.pmEndDate
+                                              ).format("DD/MMM/YYYY")
+                                            : "N/A"
+                                        }
+                                        placeholder="Enter Name"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-12 phases">
+                                <h2>Phases</h2>
+                              </div>
+                              {projectData && projectData.phase
+                                ? projectData.phase.map((item, index) => {
+                                    return (
+                                      <>
+                                        {item.estHrs ? (
+                                          <div className="row">
+                                            <div className="col-6">
+                                              <div className="form-group">
+                                                <label>Phase Name</label>
+                                                <div>
+                                                  <input
+                                                    name="projectName"
+                                                    type="text"
+                                                    readOnly={true}
+                                                    className={`form-control`}
+                                                    value={item.phasename}
+                                                    placeholder="Enter Name"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>{" "}
+                                            <div className="col-6">
+                                              <div className="form-group">
+                                                <label>Estimate Hours</label>
+                                                <div>
+                                                  <input
+                                                    name="projectName"
+                                                    type="text"
+                                                    readOnly={true}
+                                                    className={`form-control`}
+                                                    value={item.estHrs}
+                                                    placeholder="Enter Name"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        ) : null}
+                                      </>
+                                    );
+                                  })
+                                : null}
+                              <div className="col-12 phases">
+                                <h2>Out-Source</h2>
+                              </div>
+                              {projectData && projectData.phase
+                                ? projectData.phase.map((item, index) => {
+                                    return (
+                                      <>
+                                        {!item.estHrs ? (
+                                          <div className="row">
+                                            <div className="col-6">
+                                              <div className="form-group">
+                                                <label>Phase Name</label>
+                                                <div>
+                                                  <input
+                                                    name="projectName"
+                                                    type="text"
+                                                    readOnly={true}
+                                                    className={`form-control`}
+                                                    value={item.phasename}
+                                                    placeholder="Enter Name"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>{" "}
+                                            <div className="col-6">
+                                              <div className="form-group">
+                                                <label>Out-Source Name</label>
+                                                <div>
+                                                  <input
+                                                    name="projectName"
+                                                    type="text"
+                                                    readOnly={true}
+                                                    className={`form-control`}
+                                                    value={item.outSourceName}
+                                                    placeholder="Enter Name"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div className="col-6">
+                                              <div className="form-group">
+                                                <label>Cost</label>
+                                                <div>
+                                                  <input
+                                                    name="projectName"
+                                                    type="text"
+                                                    readOnly={true}
+                                                    className={`form-control`}
+                                                    value={
+                                                      item.outSourceCost
+                                                        ? item.outSourceCost
+                                                        : null
+                                                    }
+                                                    placeholder="Enter Name"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>{" "}
+                                            <div className="col-6">
+                                              <div className="form-group">
+                                                <label>Deadline</label>
+                                                <div>
+                                                  <input
+                                                    name="projectName"
+                                                    type="text"
+                                                    readOnly={true}
+                                                    className={`form-control`}
+                                                    value={
+                                                      item.outSourceDeadline
+                                                        ? moment(
+                                                            item.outSourceDeadline
+                                                          ).format(
+                                                            "DD/MMM/YYYY"
+                                                          )
+                                                        : null
+                                                    }
+                                                    placeholder="Enter Name"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        ) : null}
+                                      </>
+                                    );
+                                  })
+                                : null}
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`project-status`}
+                              role="tabpanel"
+                            >
+                              <div className="row">
+                                <div className="col">
+                                  <div className="form-group">
+                                    <div className="row">
+                                      <div className="col">
+                                        <label className="control-label">
+                                          Status
+                                        </label>
+                                      </div>
+                                    </div>
+                                    <input
+                                      name="projectName"
+                                      type="text"
+                                      readOnly={true}
+                                      className={`form-control`}
+                                      value={
+                                        projectData && projectData.status.name
+                                          ? projectData.status.name
+                                          : "N/A"
+                                      }
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`attachments`}
+                              role="tabpanel"
+                            >
+                              <p className="font-14 mb-0">attachments</p>
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`pac`}
+                              role="tabpanel"
+                            >
+                              <MDBDataTableV5
+                                responsive
+                                striped
+                                small
+                                onPageChange={(val) => console.log(val)}
+                                bordered={true}
+                                searchTop
+                                searchBottom={false}
+                                pagingTop
+                                barReverse
+                                hover
+                                data={estCost}
+                                theadColor="#000"
+                              />
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`rr`}
+                              role="tabpanel"
+                            >
+                              <p className="font-14 mb-0">rr</p>
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`tasks`}
+                              role="tabpanel"
+                            >
+                              <p className="font-14 mb-0">
+                                {" "}
+                                <MDBDataTableV5
+                                  responsive
+                                  striped
+                                  small
+                                  onPageChange={(val) => console.log(val)}
+                                  bordered={true}
+                                  //  materialSearch
+                                  searchTop
+                                  searchBottom={false}
+                                  pagingTop
+                                  barReverse
+                                  hover
+                                  data={tabledata}
+                                  theadColor="#000"
+                                />
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                      </RoleAuth>
+                      </div>
                     </div>
                   </div>
-
-                  <div className="row">
-                    <div className="col-12">
-                      <MDBDataTableV5
-                        responsive
-                        striped
-                        small
-                        onPageChange={(val) => console.log(val)}
-                        bordered={true}
-                        //  materialSearch
-                        searchTop
-                        searchBottom={false}
-                        pagingTop
-                        barReverse
-                        hover
-                        data={tabledata}
-                        theadColor="#000"
+                </div>
+                <div className="tab-pane p-3" id="settings1" role="tabpanel">
+                  <div className="card project">
+                    <div className="row cardd">
+                      <i
+                        class="mdi mdi-file-powerpoint-box iconSize"
+                        style={{ color: "var(--color-secondary1)" }}
                       />
+                      <i
+                        class="mdi mdi-settings iconSize"
+                        style={{ color: "var(--color-secondary1)" }}
+                      />
+                    </div>
+                    <div className="row cSettings">
+                      <h2>Project Settings</h2>
+                    </div>
+                    <div className="border-b" />
+                    <div className="row cardd ">
+                      <Link to="/addclient">Client</Link>
+                    </div>
+                    <div className="row cardd">
+                      <Link to="/add-platform">Platform</Link>
+                    </div>
+                    <div className="row cardd ">
+                      <Link to="/add-technology">Technology</Link>
+                    </div>
+                    <div className="row cardd ">
+                      <Link to="/add-service">Service Type</Link>
+                    </div>
+                    <div className="row cardd ">
+                      <Link to="/add-nature">Project Nature</Link>
+                    </div>
+                    <div className="row cardd ">
+                      <Link to="/addstatus">Status</Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <Modal
-                style={{ maxWidth: "70%" }}
-                isOpen={taskModal}
-                toggle={toggleTaskEdit}
-              >
-                <ModalHeader toggle={toggleTaskEdit}>New Task</ModalHeader>
-                <ModalBody>
-                  <TaskForm toggle={toggleTaskEdit} />
-                </ModalBody>
-              </Modal>
             </div>
           </div>
         </div>

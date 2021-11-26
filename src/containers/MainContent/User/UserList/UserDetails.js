@@ -129,144 +129,707 @@ const UserDetails = (props) => {
           console.log("error", err);
         });
     };
-    // console.log("Tasks", taskData);
-
-    const detail = [
-      {
-        label: "Name",
-        value: userData && `${userData.firstName} ${userData.lastName}`,
-      },
-      {
-        label: "UserName",
-        value: userData && userData.email,
-      },
-
-      {
-        label: "Joining Date",
-        value: userData && moment(userData.joiningDate).format("DD-MM-YYYY"),
-      },
-      {
-        label: "Machine Number",
-        value: userData && userData.machineNo && userData.machineNo.machineNo,
-      },
-      {
-        label: "Salary",
-        value: userData && userData.salary,
-      },
-      { label: "Designation", value: userData && userData.designation.name },
-      {
-        label: "Status",
-        value: userData && userData.status,
-      },
-      {
-        label: "Gender",
-        value: userData && userData.gender,
-      },
-
-      {
-        label: "Contact Number",
-        value: userData && userData.contactNo,
-      },
-      {
-        label: "Other Contact",
-        value: userData && userData.otherContactNo,
-      },
-      {
-        label: "Working Hours",
-        value: userData && userData.workingHours.name,
-      },
-      {
-        label: "Working Days",
-        value: userData && userData.workingDays.name,
-      },
-      {
-        label: "Personal Mail",
-        value: userData && userData.personalEmail,
-      },
-      {
-        label: "Address",
-        value: userData && userData.address,
-      },
-      {
-        label: "Guardian Name",
-        value: userData && userData.guardianName,
-      },
-      {
-        label: "Role",
-        value: userData && userData.role.name,
-      },
-      {
-        label: "Technology",
-        value:
-          userData &&
-          userData.technology &&
-          userData.technology.map((item, index) => {
-            return (
-              <div>
-                {item.name}
-                <br />
-              </div>
-            );
-            if (index === 0) {
-              return item.name;
-            } else if (index >= 0) {
-              return `, ${item.name} `;
-            }
-          }),
-      },
-    ];
+    console.log("Tasks", userData);
 
     return (
       <AUX>
-        <div className="page-content-wrapper userD">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="row  gapp ">
-                {detail.map((item, indx) => {
-                  return (
-                    <>
-                      <div
-                        className={`labell ${
-                          item.label === "Team Members"
-                            ? "col-3 col-md-2"
-                            : "col-3 col-md-2 "
-                        } mb-3 d-flex align-items-center `}
-                      >
-                        <div>{item.label}</div>
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="card m-b-20">
+              <div className="card-body">
+                <ul className="nav nav-pills" role="tablist">
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link active"
+                      data-toggle="tab"
+                      href="#home-1"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        {" "}
+                        <i class="mdi mdi-information pr-1" />
+                        Quick Info
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-home-variant h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="#profile-1"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        <i class="mdi mdi-information-outline pr-1" /> Offical
+                        Info
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-account h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="#messages-1"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        <i class="mdi mdi-account-box pr-1" />
+                        Personal Info
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-email h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="#settings-1"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        <i class="mdi mdi-bank pr-1" />
+                        Bank Details
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-settings h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="#settings-2"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        <i class="mdi mdi-calendar-multiple pr-1" />
+                        Dates and Others
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-settings h5" />
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+
+                <div className="tab-content">
+                  <div
+                    className="tab-pane active p-3"
+                    id="home-1"
+                    role="tabpanel"
+                  >
+                    <div className="row">
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>First Name</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.firstName}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
                       </div>
-                      <div
-                        className={`valuee ${
-                          item.label === "Team Members"
-                            ? "col-9 col-md-6"
-                            : "col-3 col-md-2  pt-2"
-                        } col-3 col-md-2 mb-3"`}
-                      >
-                        {item.value}
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Last Name</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.lastName}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
                       </div>
-                    </>
-                  );
-                })}
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Email</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.email}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Password</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.password}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">Access Role</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={
+                              userData && userData.role && userData.role.name
+                            }
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="tab-pane p-3" id="profile-1" role="tabpanel">
+                    <div className="row">
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Job Title</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.jobTitle}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">Designation</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={
+                              userData &&
+                              userData.designation &&
+                              userData.designation.name
+                            }
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">Employee Type</label>
+
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.employeeType.name}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">
+                            Employee Manager
+                          </label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.employeeManager.name}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">Department</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={
+                              userData &&
+                              userData.department &&
+                              userData.department.name
+                            }
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">
+                            Employee Status
+                          </label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.employeeStatus}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">Working Days</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.workingDays.name}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">Working Hours</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.workingHours.name}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Salary</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.salary}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">Machine No</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={
+                              userData &&
+                              userData.machineNo &&
+                              `${userData.machineNo.machineNo}`
+                            }
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">
+                            Resource Cost{" "}
+                          </label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={
+                              userData &&
+                              userData.resourceCost &&
+                              userData.resourceCost.name
+                            }
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">Leave Policy </label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={
+                              userData &&
+                              userData.leavePolicy &&
+                              userData.leavePolicy.name
+                            }
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="tab-pane p-3" id="messages-1" role="tabpanel">
+                    <div className="row">
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">Technology</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={
+                              userData &&
+                              userData.technology &&
+                              userData.technology.map((item) => item.name)
+                            }
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Contact Number</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.contactNo}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Other Contact </label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.otherContactNo}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Personal Email</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.personalEmail}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Address </label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.salary}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Guardian Name </label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.guardianName}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Guardian Contact</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.guardianContact}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">Status</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.status}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label className="control-label">Gender</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.gender}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>City</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.city}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Country</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.country}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="tab-pane p-3" id="settings-1" role="tabpanel">
+                    <div className="row">
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Bank Name</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.bankName}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>Account Number</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.bankAccNo}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="tab-pane p-3" id="settings-2" role="tabpanel">
+                    <div className="row">
+                      <div className="col-6">
+                        {" "}
+                        <div className="form-group">
+                          <label>Joining Date</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.joiningDate}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>{" "}
+                      </div>
+                      <div className="col-6">
+                        {" "}
+                        <div className="form-group">
+                          <label>Resign/Terminate Date</label>
+
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.terminationDate}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>{" "}
+                      </div>
+                      <div className="col-6">
+                        {" "}
+                        <div className="form-group">
+                          <label>Date of birth</label>
+                          <input
+                            readOnly={true}
+                            name="title"
+                            onBlur={props.handleBlur}
+                            type="text"
+                            className={`form-control`}
+                            value={userData && userData.dateOfBirth}
+                            // onChange={props.handleChange("title")}
+                            placeholder="Enter Name"
+                          />
+                        </div>{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            {taskData.length != 0 && (
-              <div className="col-12 gap">
-                <h3 className="mt-0">User Tasks</h3>
-                <MDBDataTableV5
-                  responsive
-                  striped
-                  small
-                  bordered={true}
-                  searchTop
-                  searchBottom={false}
-                  pagingTop
-                  barReverse
-                  hover
-                  data={dataa}
-                  theadColor="#000"
-                />
-              </div>
-            )}
           </div>
+          {/* <div className="col">
+              <div className="form-group">
+                <label>Name</label>
+                <input
+                  name="name"
+                  onBlur={props.handleBlur}
+                  type="text"
+                  className={`form-control ${
+                    props.touched.name && props.errors.name
+                      ? "is-invalid"
+                      : props.touched.name && "is-valid"
+                  }`}
+                  value={props.values.name}
+                  onChange={props.handleChange("name")}
+                  placeholder="Enter Name"
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.name && props.errors.name}
+                </span>
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group">
+                <label>User Name</label>
+                <input
+                  name="userName"
+                  onBlur={props.handleBlur}
+                  type="text"
+                  className={`form-control ${
+                    props.touched.userName && props.errors.userName
+                      ? "is-invalid"
+                      : props.touched.userName && "is-valid"
+                  }`}
+                  value={props.values.userName}
+                  onChange={props.handleChange("userName")}
+                  placeholder="Enter user name / email"
+                />
+                <span id="err" className="invalid-feedback">
+                  {props.touched.userName && props.errors.userName}
+                </span>
+              </div>
+            </div> */}
         </div>
       </AUX>
     );
