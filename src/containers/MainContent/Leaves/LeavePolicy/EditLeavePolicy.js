@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { MDBDataTableV5 } from "mdbreact";
-import LeaveType from "../../../../services/LeaveService";
 import Select from "react-select";
 import { Button } from "reactstrap";
 import LeavePolicyServices from "../../../../services/LeavePolicyServices";
@@ -42,7 +41,7 @@ const EditLeavePolicy = () => {
       },
       {
         label: "DisAlowNegbal",
-        field: "DisAllowNeqBal",
+        field: "disAllowNegativeBalance",
         sort: "asc",
       },
       {
@@ -96,21 +95,25 @@ const EditLeavePolicy = () => {
     if (leavePolicies) {
       let updatedData = { ...dataa };
       updatedData.rows = [];
-      console.log("data abcd", leavePolicies);
       leavePolicies.map((item, index) => {
-        console.log(item.policy[0], index);
-
+        console.log(
+          formData.find((p) => p.type === item._id) &&
+            formData.find((p) => p.type === item._id).checked
+        );
         updatedData.rows.push({
           checked: (
             <div className="form-group">
               <input
                 name="checked"
                 className={"form-control"}
-                checked={item.policy.length > 0}
+                checked={
+                  formData.find((p) => p.type === item._id) &&
+                  formData.find((p) => p.type === item._id).checked
+                }
                 // value={
-                //   formData.find((p) => p.type === item._id)
-                //     ? formData.find((p) => p.type === item._id).checked
-                //     : true
+                //   // formData.find((p) => p.type === item._id) &&
+                //   // formData.find((p) => p.type === item._id).checked
+                //   true
                 // }
                 onChange={(e) =>
                   handleChange(e.target.checked, `checked`, item)
@@ -128,11 +131,8 @@ const EditLeavePolicy = () => {
                 name={`effectiveDate` + index}
                 className={"form-control"}
                 value={
-                  item.policy.length > 0
-                    ? item.policy[0].effectiveDate
-                    : formData.find((p) => p.type === item._id)
-                    ? formData.find((p) => p.type === item._id).effectiveDate
-                    : ""
+                  formData.find((p) => p.type === item._id) &&
+                  formData.find((p) => p.type === item._id).effectiveDate
                 }
                 onChange={(e) =>
                   handleChange(e.target.value, `effectiveDate`, item)
@@ -149,11 +149,8 @@ const EditLeavePolicy = () => {
                 type="number"
                 className={"form-control"}
                 value={
-                  item.policy.length > 0
-                    ? item.policy[0].totalLeaves
-                    : formData.find((p) => p.type === item._id)
-                    ? formData.find((p) => p.type === item._id).totalLeaves
-                    : ""
+                  formData.find((p) => p.type === item._id) &&
+                  formData.find((p) => p.type === item._id).totalLeaves
                 }
                 onChange={(e) =>
                   handleChange(e.target.value, `totalLeaves`, item)
@@ -169,11 +166,8 @@ const EditLeavePolicy = () => {
                 type="number"
                 className={"form-control"}
                 value={
-                  item.policy.length > 0
-                    ? item.policy[0].maxPerMonthLeave
-                    : formData.find((p) => p.type === item._id)
-                    ? formData.find((p) => p.type === item._id).maxPerMonthLeave
-                    : ""
+                  formData.find((p) => p.type === item._id) &&
+                  formData.find((p) => p.type === item._id).maxPerMonthLeave
                 }
                 onChange={(e) =>
                   handleChange(e.target.value, `maxPerMonthLeave`, item)
@@ -182,19 +176,27 @@ const EditLeavePolicy = () => {
               />
             </div>
           ),
-          DisAllowNeqBal: (
+          disAllowNegativeBalance: (
             <div className="form-group">
               <input
-                name="DisAllowNeqBal"
-                value={
-                  formData.find((p) => p.type === item._id)
-                    ? formData.find((p) => p.type === item._id).DisAllowNeqBal
-                    : false
-                }
-                checked={item.policy.length > 0}
+                name="disAllowNegativeBalance"
                 className={"form-control"}
+                // checked={
+                //   formData.find((p) => p.type === item._id) &&
+                //   formData.find((p) => p.type === item._id)
+                //     .disAllowNegativeBalance
+                // }
+                value={
+                  formData.find((p) => p.type === item._id) &&
+                  formData.find((p) => p.type === item._id)
+                    .disAllowNegativeBalance
+                }
                 onChange={(e) =>
-                  handleChange(e.target.checked, `DisAllowNeqBal`, item)
+                  handleChange(
+                    e.target.checked,
+                    `disAllowNegativeBalance`,
+                    item
+                  )
                 }
                 type="checkbox"
                 placeholder="Enter Name"
@@ -206,10 +208,10 @@ const EditLeavePolicy = () => {
               <input
                 name="noticePeriod"
                 value={
-                  item.policy.length > 0
-                    ? item.policy[0].noticePeriod
-                    : formData.find((p) => p.type === item._id)
+                  formData.find((p) => p.type === item._id)
                     ? formData.find((p) => p.type === item._id).noticePeriod
+                    : item.policy.length > 0
+                    ? item.policy[0].noticePeriod
                     : ""
                 }
                 className={"form-control"}
@@ -224,14 +226,16 @@ const EditLeavePolicy = () => {
           sandwich: (
             <div className="form-group">
               <input
-                name="sandwich"
-                value={
-                  formData.find((p) => p.type === item._id)
-                    ? formData.find((p) => p.type === item._id).sandwich
-                    : false
-                }
-                checked={item.policy.length > 0}
+                name="sanwich"
                 className={"form-control"}
+                // checked={
+                //   formData.find((p) => p.type === item._id) &&
+                //   formData.find((p) => p.type === item._id).sandwich
+                // }
+                value={
+                  formData.find((p) => p.type === item._id) &&
+                  formData.find((p) => p.type === item._id).sandwich
+                }
                 onChange={(e) =>
                   handleChange(e.target.checked, `sandwich`, item)
                 }
@@ -240,18 +244,23 @@ const EditLeavePolicy = () => {
               />
             </div>
           ),
+
           sandwich2: (
             <Select
               name="sandwichType"
               className="my-select"
               // onBlur={props.handleBlur}
               value={
-                item.policy.length > 0
-                  ? item.policy[0].sandwichType
-                  : !formData.find((p) => p.type === item._id)
-                  ? ""
-                  : formData.find((p) => p.type === item._id).sandwichType &&
-                    formData.find((p) => p.type === item._id).sandwichType.label
+                formData.find((p) => p.type === item._id) &&
+                formData.find((p) => p.type === item._id).sandwichType && {
+                  value: formData.find((p) => p.type === item._id).sandwichType,
+                  label: formData.find((p) => p.type === item._id).sandwichType,
+                }
+
+                // item.policy.length > 0
+                //   ? item.policy[0].sandwichType
+                //   : formData.find((p) => p.type === item._id).sandwichType &&
+                //     formData.find((p) => p.type === item._id).sandwichType.label
               }
               onChange={(e) => handleChange(e.value, `sandwichType`, item)}
               options={[
@@ -277,12 +286,33 @@ const EditLeavePolicy = () => {
   };
 
   console.log(formData);
+
   const getData = () => {
     LeavePolicyServices.getLeavePolicies(id)
       .then((res) => {
-        console.log(res);
+        console.log("policy", res.data);
+        // res.data.filter((item) => item.policy.length > 0);
+        res.data.filter(
+          (item) =>
+            item.policy.length > 0 &&
+            formData.push({
+              checked: true,
+              leavePolicy: id,
+              type: item.policy[0].type,
+              effectiveDate: item.policy[0].effectiveDate,
+              totalLeaves: parseInt(item.policy[0].totalLeaves),
+              maxPerMonthLeave: parseInt(item.policy[0].maxPerMonthLeave),
+              disAllowNegativeBalance: item.policy[0].disAllowNegativeBalance,
+              sandwich: item.policy[0].sandwich,
+              noticePeriod: parseInt(item.policy[0].noticePeriod),
+              sandwichType: item.policy[0].sandwichType,
+            })
+        );
         setLeavePolicies(res.data);
       })
+      .catch((err) => console.log(err));
+    LeavePolicyServices.getLeavePolicyNameById(id)
+      .then((res) => setTitle(res.data.name))
       .catch((err) => console.log(err));
   };
 
@@ -290,28 +320,34 @@ const EditLeavePolicy = () => {
     if (title === "") {
       toast("The title is Empty");
     } else {
-      LeavePolicyServices.addLeavePolicy({ name: title })
+      LeavePolicyServices.updateLeavePolicyName(id, { name: title })
         .then((res) => {
-          LeavePolicyServices.handleMessage("add");
-          var newData = formData
-            .filter((i) => i.checked === true)
+          LeavePolicyServices.handleMessage("update");
+          var checkedData = formData
+            .filter((item, index) => item.checked === true)
             .map((item, index) => {
               return {
-                leavePolicy: res.data._id,
+                leavePolicy: id,
                 type: item.type,
                 effectiveDate: item.effectiveDate,
-                totalLeaves: item.totalLeaves,
-                maxPerMonthLeave: item.maxPerMonthLeave,
-                disAllowNegativeBalance: item.DisAllowNeqBal,
+                totalLeaves: parseInt(item.totalLeaves),
+                maxPerMonthLeave: parseInt(item.maxPerMonthLeave),
+                disAllowNegativeBalance: item.disAllowNegativeBalance,
                 sandwich: item.sandwich,
-                noticePeriod: item.noticePeriod,
+                noticePeriod: parseInt(item.noticePeriod),
                 sandwichType: item.sandwichType,
               };
             });
-          LeavePolicyServices.addLeavePolicyDetail(newData)
-            .then((res) => LeavePolicyServices.handleMessage("add"))
+
+          console.log(checkedData);
+          LeavePolicyServices.deleteLeavePolicyDetails(id)
+            .then(
+              (res) => LeavePolicyServices.handleMessage("delete"),
+              LeavePolicyServices.updateLeavePolicyDetail(checkedData)
+                .then((res) => LeavePolicyServices.handleMessage("add"))
+                .catch((err) => LeavePolicyServices.handleError())
+            )
             .catch((err) => LeavePolicyServices.handleError());
-          console.log(newData);
         })
         .catch((err) => LeavePolicyServices.handleError());
     }
@@ -343,13 +379,15 @@ const EditLeavePolicy = () => {
       </div>
       <div className="row">
         <div className="col">
-          <MDBDataTableV5
-            hover
-            entriesOptions={[5, 20, 25]}
-            entries={5}
-            pagesAmount={4}
-            data={dataa}
-          />
+          {leavePolicies && (
+            <MDBDataTableV5
+              hover
+              entriesOptions={[10, 20, 25]}
+              entries={10}
+              pagesAmount={4}
+              data={dataa}
+            />
+          )}
         </div>
       </div>
     </>

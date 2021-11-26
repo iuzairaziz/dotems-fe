@@ -18,6 +18,10 @@ class LeavePolicyServices {
     );
   }
 
+  getLeavePolicyNameById(id) {
+    return axios.get(this.config.apiBaseUrl + "leave-policy/" + id);
+  }
+
   getLeavePolicyById(id) {
     return axios.get(this.config.apiBaseUrl + "leave-policy-detail/" + id);
   }
@@ -32,9 +36,16 @@ class LeavePolicyServices {
     );
   }
 
-  //   updateWorkingShift(id, formData) {
-  //     return axios.put(this.config.apiBaseUrl + "working-shift/" + id, formData);
-  //   }
+  updateLeavePolicyDetail(formData) {
+    return axios.put(
+      this.config.apiBaseUrl + "leave-policy-detail/update",
+      formData
+    );
+  }
+
+  updateLeavePolicyName(id, formData) {
+    return axios.put(this.config.apiBaseUrl + "leave-policy/" + id, formData);
+  }
 
   deleteLeavePolicy(id) {
     return axios.delete(this.config.apiBaseUrl + "leave-policy/" + id);

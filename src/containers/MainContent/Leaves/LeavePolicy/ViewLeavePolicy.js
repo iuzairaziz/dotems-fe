@@ -153,7 +153,7 @@ const ViewLeavePolicy = (props) => {
             <Modal isOpen={modalDelete} toggle={toggleDelete}>
               <ModalHeader toggle={toggleDelete}>Delete Client ?</ModalHeader>
               <ModalBody>
-                Are you sure you want to delete the working Hour "
+                Are you sure you want to delete the Leave Policy"
                 {workingHours.name}" ?
               </ModalBody>
               <ModalFooter>

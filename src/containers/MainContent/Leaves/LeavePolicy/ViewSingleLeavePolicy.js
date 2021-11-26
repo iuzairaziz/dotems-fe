@@ -63,6 +63,7 @@ const ViewSingleLeavePolicy = () => {
   }, []);
   const [formData, setFormData] = useState([]);
   const getSingleData = () => {
+    console.log(name);
     LeavePolicyServices.getLeavePolicyById(name)
       .then((res) => {
         let updatedData = { ...dataa };
@@ -272,16 +273,18 @@ const ViewSingleLeavePolicy = () => {
         <div className="col-md-4">
           <div className="form-group">
             <label>Title</label>
-            <input
-              name="title"
-              // onBlur={props.handleBlur}
-              type="text"
-              className={"form-control"}
-              disabled
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter Title"
-            />
+            {data.length > 0 && (
+              <input
+                name="title"
+                // onBlur={props.handleBlur}
+                type="text"
+                className={"form-control"}
+                disabled
+                value={data[0].leavePolicy.name}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Enter Title"
+              />
+            )}
           </div>
         </div>
       </div>
