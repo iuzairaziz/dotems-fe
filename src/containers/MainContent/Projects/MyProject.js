@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import AUX from "../../../hoc/Aux_";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, withRouter } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import moment from "moment";
 import ProjectService from "../../../services/ProjectService";
@@ -305,4 +305,4 @@ const MyProjects = (props, match) => {
   );
 };
 
-export default MyProjects;
+export default withRouter(MyProjects);
