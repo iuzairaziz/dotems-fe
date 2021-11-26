@@ -88,36 +88,29 @@ const ProjectDetails = (props) => {
           sort: "asc",
         },
         {
-          label: "Employee Cost/hr",
+          label: "Employee Cost per hour",
           field: "costperhr",
-          sort: "asc",
-          width: 150,
         },
 
         {
-          label: "Employee Est. Hrs.",
+          label: "Employee Estimate Hours",
           field: "esthr",
-          sort: "asc",
         },
         {
-          label: "Employee Project Est. Cost ",
+          label: "Employee Project Estimate Cost ",
           field: "projEstCst",
-          sort: "true",
         },
         {
           label: "Total Estimated Cost",
           field: "totalEstCst",
-          sort: "asc",
         },
         {
           label: "Total Outscource Cost",
           field: "totalOutsurce",
-          sort: "asc",
         },
         {
           label: "Assessment Profit/Loss",
           field: "endDate",
-          sort: "asc",
         },
       ],
       rows: [],
@@ -180,7 +173,6 @@ const ProjectDetails = (props) => {
     });
 
     const getData = (id) => {
-      // userService.isUserRole();
       ProjectService.getProjectAndTask(id)
         .then((res) => {
           setData(res.data[0]);
@@ -252,140 +244,6 @@ const ProjectDetails = (props) => {
         });
       setTableData(data);
     };
-
-    const detail = [
-      { label: "Project Name", value: projectData && projectData.name },
-      {
-        label: "Client Name",
-        value:
-          projectData && projectData.client.name
-            ? projectData.client.name
-            : "N/A",
-      },
-
-      {
-        label: "Order Number",
-        value:
-          projectData && projectData.orderNum ? projectData.orderNum : "N/A",
-      },
-      {
-        label: "Platform",
-        value:
-          projectData && projectData.platform.name
-            ? projectData.platform.name
-            : "N/A",
-      },
-      {
-        label: "Service Type",
-        value:
-          projectData && projectData.service.name
-            ? projectData.service.name
-            : "N/A",
-      },
-      {
-        label: "Technology",
-        value:
-          projectData && projectData.technology
-            ? projectData.technology.map((item, index) => {
-                if (index === 0) {
-                  return item.name;
-                } else if (index >= 0) {
-                  return `, ${item.name} `;
-                }
-              })
-            : "None",
-      },
-      {
-        label: "Status",
-        value:
-          projectData && projectData.status.name
-            ? projectData.status.name
-            : "N/A",
-      },
-      {
-        label: "Project Nature",
-        value:
-          projectData && projectData.nature.name
-            ? projectData.nature.name
-            : "N/A",
-      },
-
-      {
-        label: "Client Start Date",
-        value:
-          projectData && moment(projectData.cStartDate).format("DD/MMM/YYYY")
-            ? moment(projectData.cStartDate).format("DD/MMM/YYYY")
-            : "N/A",
-      },
-      {
-        label: "Cient Deadline",
-        value:
-          projectData && moment(projectData.cEndDate).format("DD/MMM/YYYY")
-            ? moment(projectData.cEndDate).format("DD/MMM/YYYY")
-            : "N/A",
-      },
-      {
-        label: "PM Start Date",
-        value:
-          projectData && projectData.pmStartDate
-            ? moment(projectData.pmStartDate).format("DD/MMM/YYYY")
-            : "N/A",
-      },
-      {
-        label: "PM Deadline",
-        value:
-          projectData && projectData.pmEndDate
-            ? moment(projectData.pmEndDate).format("DD/MMM/YYYY")
-            : "N/A",
-      },
-      {
-        label: "Cost",
-        value: projectData && projectData.cost ? projectData.cost : "N/A",
-      },
-      {
-        label: "Currency",
-        value:
-          projectData && projectData.currency ? projectData.currency : "N/A",
-      },
-      {
-        label: "Platform Deductions",
-        value:
-          projectData && projectData.Pdeduction
-            ? projectData.Pdeduction
-            : "N/A",
-      },
-      {
-        label: "Reserve Profit",
-        value: projectData && projectData.Rprofit ? projectData.Rprofit : "N/A",
-      },
-      {
-        label: "Other Deductions",
-        value:
-          projectData && projectData.otherDeduction
-            ? projectData.otherDeduction
-            : "N/A",
-      },
-      {
-        label: "Project Manager",
-        value:
-          projectData && projectData.projectManager.name
-            ? projectData.projectManager.name
-            : "N/A",
-      },
-      {
-        label: "Team Members",
-        value:
-          projectData && projectData.assignedUser
-            ? projectData.assignedUser.map((item, index) => {
-                if (index === 0) {
-                  return item.name;
-                } else if (index >= 0) {
-                  return `, ${item.name} `;
-                }
-              })
-            : "None",
-      },
-    ];
 
     return (
       <AUX>
@@ -525,6 +383,22 @@ const ProjectDetails = (props) => {
                       </span>
                     </a>
                   </li>
+                  <li className="nav-item waves-effect waves-light">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href={`#tasks`}
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">
+                        <i class="mdi mdi-clipboard-outline" />
+                        Project Tasks
+                      </span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-clipboard-outline h5" />
+                      </span>
+                    </a>
+                  </li>
                 </ul>
 
                 <div className="tab-content">
@@ -606,8 +480,8 @@ const ProjectDetails = (props) => {
                                 ? projectData.technology.map((item, index) => {
                                     if (index === 0) {
                                       return item.name;
-                                    } else if (index >= 0) {
-                                      return `, ${item.name} `;
+                                    } else if (index > 0) {
+                                      return ` ${item.name} `;
                                     }
                                   })
                                 : "None"
@@ -692,7 +566,7 @@ const ProjectDetails = (props) => {
                           wrapperClassName="wrapperClassName"
                           editorClassName="editorClass"
                           toolbarStyle={{ display: "none" }}
-                          readOnly
+                          readOnly={true}
                           editorStyle={{
                             minHeight: "300px",
                           }}
@@ -742,8 +616,8 @@ const ProjectDetails = (props) => {
                             readOnly={true}
                             className={`form-control`}
                             value={
-                              projectData && projectData.client.name
-                                ? projectData.client.name
+                              projectData && projectData.client.clientType
+                                ? projectData.client.clientType
                                 : "N/A"
                             }
                             placeholder="Enter Name"
@@ -816,8 +690,8 @@ const ProjectDetails = (props) => {
                             readOnly={true}
                             className={`form-control`}
                             value={
-                              projectData && projectData.currency
-                                ? projectData.currency
+                              projectData && projectData.projectType
+                                ? projectData.projectType
                                 : "N/A"
                             }
                             placeholder="Enter Name"
@@ -847,52 +721,57 @@ const ProjectDetails = (props) => {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col">
-                              <label className="control-label">
-                                Client Hours
-                              </label>
+                      {projectData && projectData.clientHours ? (
+                        <div className="col">
+                          <div className="form-group">
+                            <div className="row">
+                              <div className="col">
+                                <label className="control-label">
+                                  Client Hours
+                                </label>
+                              </div>
                             </div>
+                            <input
+                              name="projectName"
+                              type="text"
+                              readOnly={true}
+                              className={`form-control`}
+                              value={
+                                projectData && projectData.clientHours
+                                  ? projectData.clientHours
+                                  : "N/A"
+                              }
+                              placeholder="Enter Name"
+                            />
                           </div>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.currency
-                                ? projectData.currency
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
                         </div>
-                      </div>
-                      <div className="col">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col">
-                              <label className="control-label">
-                                Hourly Rate
-                              </label>
+                      ) : null}
+                      {projectData && projectData.hourlyCost ? (
+                        <div className="col">
+                          <div className="form-group">
+                            <div className="row">
+                              <div className="col">
+                                <label className="control-label">
+                                  Hourly Rate
+                                </label>
+                              </div>
                             </div>
+                            <input
+                              name="projectName"
+                              type="text"
+                              readOnly={true}
+                              className={`form-control`}
+                              value={
+                                projectData && projectData.hourlyCost
+                                  ? projectData.hourlyCost
+                                  : "N/A"
+                              }
+                              placeholder="Enter Name"
+                            />
                           </div>
-                          <input
-                            name="projectName"
-                            type="text"
-                            readOnly={true}
-                            className={`form-control`}
-                            value={
-                              projectData && projectData.currency
-                                ? projectData.currency
-                                : "N/A"
-                            }
-                            placeholder="Enter Name"
-                          />
                         </div>
-                      </div>
+                      ) : null}
+
                       <div className="col">
                         <div className="form-group">
                           <div className="row">
@@ -995,8 +874,8 @@ const ProjectDetails = (props) => {
                                     (item, index) => {
                                       if (index === 0) {
                                         return item.name;
-                                      } else if (index >= 0) {
-                                        return `, ${item.name} `;
+                                      } else if (index > 0) {
+                                        return ` ${item.name} `;
                                       }
                                     }
                                   )
@@ -1007,7 +886,7 @@ const ProjectDetails = (props) => {
                         </div>
                       </div>
                     </div>
-                    <div className="row">
+                    <div className="row mt-3">
                       <div className="col-6">
                         {" "}
                         <div className="form-group">
@@ -1052,132 +931,136 @@ const ProjectDetails = (props) => {
                         </div>
                       </div>
                     </div>
-                    <div className="row">
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Phase Name</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.Rprofit
-                                  ? projectData.Rprofit
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>
-                      </div>{" "}
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Estimate Hours</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.Rprofit
-                                  ? projectData.Rprofit
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>
-                      </div>
+                    <div className="col-12 phases">
+                      <h2>Phases</h2>
                     </div>
-                    <div className="row">
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Phase Name</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.pmEndDate
-                                  ? moment(projectData.pmEndDate).format(
-                                      "DD/MMM/YYYY"
-                                    )
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>
-                      </div>{" "}
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Out-Source Name</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.pmEndDate
-                                  ? moment(projectData.pmEndDate).format(
-                                      "DD/MMM/YYYY"
-                                    )
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Cost</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.pmEndDate
-                                  ? moment(projectData.pmEndDate).format(
-                                      "DD/MMM/YYYY"
-                                    )
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>
-                      </div>{" "}
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Deadline</label>
-                          <div>
-                            <input
-                              name="projectName"
-                              type="text"
-                              readOnly={true}
-                              className={`form-control`}
-                              value={
-                                projectData && projectData.pmEndDate
-                                  ? moment(projectData.pmEndDate).format(
-                                      "DD/MMM/YYYY"
-                                    )
-                                  : "N/A"
-                              }
-                              placeholder="Enter Name"
-                            />
-                          </div>
-                        </div>
-                      </div>
+                    {projectData && projectData.phase
+                      ? projectData.phase.map((item, index) => {
+                          return (
+                            <>
+                              {item.estHrs ? (
+                                <div className="row">
+                                  <div className="col-6">
+                                    <div className="form-group">
+                                      <label>Phase Name</label>
+                                      <div>
+                                        <input
+                                          name="projectName"
+                                          type="text"
+                                          readOnly={true}
+                                          className={`form-control`}
+                                          value={item.phasename}
+                                          placeholder="Enter Name"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>{" "}
+                                  <div className="col-6">
+                                    <div className="form-group">
+                                      <label>Estimate Hours</label>
+                                      <div>
+                                        <input
+                                          name="projectName"
+                                          type="text"
+                                          readOnly={true}
+                                          className={`form-control`}
+                                          value={item.estHrs}
+                                          placeholder="Enter Name"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : null}
+                            </>
+                          );
+                        })
+                      : null}
+                    <div className="col-12 phases">
+                      <h2>Out-Source</h2>
                     </div>
+                    {projectData && projectData.phase
+                      ? projectData.phase.map((item, index) => {
+                          return (
+                            <>
+                              {!item.estHrs ? (
+                                <div className="row">
+                                  <div className="col-6">
+                                    <div className="form-group">
+                                      <label>Phase Name</label>
+                                      <div>
+                                        <input
+                                          name="projectName"
+                                          type="text"
+                                          readOnly={true}
+                                          className={`form-control`}
+                                          value={item.phasename}
+                                          placeholder="Enter Name"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>{" "}
+                                  <div className="col-6">
+                                    <div className="form-group">
+                                      <label>Out-Source Name</label>
+                                      <div>
+                                        <input
+                                          name="projectName"
+                                          type="text"
+                                          readOnly={true}
+                                          className={`form-control`}
+                                          value={item.outSourceName}
+                                          placeholder="Enter Name"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-6">
+                                    <div className="form-group">
+                                      <label>Cost</label>
+                                      <div>
+                                        <input
+                                          name="projectName"
+                                          type="text"
+                                          readOnly={true}
+                                          className={`form-control`}
+                                          value={
+                                            item.outSourceCost
+                                              ? item.outSourceCost
+                                              : null
+                                          }
+                                          placeholder="Enter Name"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>{" "}
+                                  <div className="col-6">
+                                    <div className="form-group">
+                                      <label>Deadline</label>
+                                      <div>
+                                        <input
+                                          name="projectName"
+                                          type="text"
+                                          readOnly={true}
+                                          className={`form-control`}
+                                          value={
+                                            item.outSourceDeadline
+                                              ? moment(
+                                                  item.outSourceDeadline
+                                                ).format("DD/MMM/YYYY")
+                                              : null
+                                          }
+                                          placeholder="Enter Name"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : null}
+                            </>
+                          );
+                        })
+                      : null}
                   </div>
                   <div
                     className="tab-pane p-3"
@@ -1234,43 +1117,49 @@ const ProjectDetails = (props) => {
                   <div className="tab-pane p-3" id={`rr`} role="tabpanel">
                     <p className="font-14 mb-0">rr</p>
                   </div>
+                  <div className="tab-pane p-3" id={`tasks`} role="tabpanel">
+                    <p className="font-14 mb-0">
+                      {" "}
+                      <MDBDataTableV5
+                        responsive
+                        striped
+                        small
+                        onPageChange={(val) => console.log(val)}
+                        bordered={true}
+                        //  materialSearch
+                        searchTop
+                        searchBottom={false}
+                        pagingTop
+                        barReverse
+                        hover
+                        data={tabledata}
+                        theadColor="#000"
+                      />
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="container-fluid">
+        {/* <div className="container-fluid">
           <div className="row">
-            <div className="row">
-              <div className="row align-items-center gapp">
-                {detail.map((item, indx) => {
-                  return (
-                    <>
-                      <div
-                        className={`labell ${
-                          item.label === "Team Members"
-                            ? "col-3 col-md-2"
-                            : "col-3 col-md-2"
-                        } mb-3 d-flex align-items-center align-self-center`}
-                      >
-                        <div>{item.label}</div>
-                      </div>
-                      <div
-                        className={`valuee ${
-                          item.label === "Team Members"
-                            ? "col-9 col-md-6"
-                            : "col-3 col-md-2"
-                        } col-3 col-md-2 mb-3 align-self-center"`}
-                      >
-                        {item.value}
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
-            </div>
-
             <div className="col-lg-12">
+              <MDBDataTableV5
+                responsive
+                striped
+                small
+                onPageChange={(val) => console.log(val)}
+                bordered={true}
+                //  materialSearch
+                searchTop
+                searchBottom={false}
+                pagingTop
+                barReverse
+                hover
+                data={tabledata}
+                theadColor="#000"
+              />
               <ul className="nav nav-tabs nav-tabs-custom" role="tablist">
                 <li className="nav-item">
                   <a
@@ -1372,7 +1261,7 @@ const ProjectDetails = (props) => {
               </Modal>
             </div>
           </div>
-        </div>
+        </div> */}
       </AUX>
     );
   }
