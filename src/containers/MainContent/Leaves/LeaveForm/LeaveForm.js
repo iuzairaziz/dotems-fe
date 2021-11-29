@@ -14,6 +14,7 @@ import userService from "../../../../services/UserService";
 import moment from "moment";
 import Configuration from "../../../../config/configuration";
 import { useHistory } from "react-router-dom";
+import LeavePolicyServices from "../../../../services/LeavePolicyServices";
 
 const LeaveForm = (props) => {
   const editable = props.editable;
@@ -23,6 +24,7 @@ const LeaveForm = (props) => {
   const [probationSpan, setProbationSpan] = useState(false);
   const [pendingLeaveSpan, setPendingLeaveSpan] = useState(false);
   const [leaveCount, setLeaveCount] = useState(0);
+  const [currentUser, setCurrentUser] = useState("");
   const loggedInUser = userService.userLoggedInInfo();
   const [remainingLeave, setRemaingLeave] = useState([]);
   const [pendingLeave, setPendingLeave] = useState({});
@@ -36,10 +38,35 @@ const LeaveForm = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    getleaveTypes();
+    // getleaveTypes();
     if (loggedInUser.userRole === Roles.Probation) {
       setProbationSpan(true);
     }
+    userService
+      .getUserById(loggedInUser._id)
+      .then((resp) => {
+        console.log("user", resp);
+        setCurrentUser(resp.data.user);
+        LeavePolicyServices.getLeavePolicyById(resp.data.user.leavePolicy).then(
+          (res) => {
+            console.log("leave Policy", res.data);
+            let options = []; // for react select
+
+            res.data.map((item, index) => {
+              options.push({
+                label: item.type.name,
+                value: item.type._id,
+                totalLeaves: item.totalLeaves,
+              });
+            });
+            setLeaveTypes(options);
+            console.log("options", options);
+          }
+        );
+      })
+      .catch((err) => {
+        LeaveService.handleCustomMessage(err.response.data);
+      });
   }, []);
 
   const getRemainingLeave = (formData) => {
@@ -89,32 +116,32 @@ const LeaveForm = (props) => {
     getLeaveSetting();
   }, [selectedType]);
 
-  const getleaveTypes = () => {
-    LeaveService.getAllLeaveType()
-      .then((res) => {
-        let options = []; // for react select
+  // const getleaveTypes = () => {
+  //   LeaveService.getAllLeaveType()
+  //     .then((res) => {
+  //       let options = []; // for react select
 
-        res.data.map((item, index) => {
-          options.push({
-            label: item.name,
-            value: item._id,
-            totalLeaves: item.totalLeaves,
-          });
-        });
-        if (loggedInUser.status === "Single") {
-          let filterArray = [];
-          filterArray = options.filter((item) => item.label !== "Maternity");
-          // console.log("Filter Array", filterArray);
-          setLeaveTypes(filterArray);
-          // console.log("admin");
-        } else {
-          setLeaveTypes(options);
-        }
-      })
-      .catch((err) => {
-        LeaveService.handleCustomMessage(err.response.data);
-      });
-  };
+  //       res.data.map((item, index) => {
+  //         options.push({
+  //           label: item.name,
+  //           value: item._id,
+  //           totalLeaves: item.totalLeaves,
+  //         });
+  //       });
+  //       if (loggedInUser.status === "Single") {
+  //         let filterArray = [];
+  //         filterArray = options.filter((item) => item.label !== "Maternity");
+  //         // console.log("Filter Array", filterArray);
+  //         setLeaveTypes(filterArray);
+  //         // console.log("admin");
+  //       } else {
+  //         setLeaveTypes(options);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       LeaveService.handleCustomMessage(err.response.data);
+  //     });
+  // };
 
   return (
     <Formik
@@ -130,12 +157,14 @@ const LeaveForm = (props) => {
       //   validationSchema={clientValidation.authSchemaValidation}
       onSubmit={(values, actions) => {
         // console.log("countries", values.country);
+        console.log("current user", currentUser);
         LeaveService.newLeave({
           user: loggedInUser._id,
           type: values.leaveType.value,
           description: JSON.stringify(
             convertToRaw(values.description.getCurrentContent())
           ),
+          employeeManager: currentUser.employeeManager._id,
           dates: values.leaveDates,
         })
           .then((res) => {
