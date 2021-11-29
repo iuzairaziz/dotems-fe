@@ -5,7 +5,6 @@ import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import TaskForm from "../TaskForm/TaskForm";
 import Comments from "./Comments/Comments";
 import taskService from "../../../../services/TaskService";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./TaskDetail.scss";
 import {
   Progress,
@@ -15,6 +14,7 @@ import {
   ModalFooter,
 } from "reactstrap";
 import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertFromRaw, EditorState } from "draft-js";
 import moment from "moment";
 import { Redirect } from "react-router";
@@ -146,7 +146,7 @@ const TaskDetail = (props) => {
     TaskService.getTaskDetailsById(props.match.params.id)
       .then((res) => {
         const { task, subTasks } = res.data;
-        console.log(task);  
+        console.log(task);
         setTaskData(task);
         setSubTask(subTasks);
         let data = { ...dataa };
@@ -298,36 +298,361 @@ const TaskDetail = (props) => {
 
   return (
     <div className="task-detail">
+      <div className="row task-form">
+        <div className="col-lg-12">
+          <div className="card m-b-20">
+            <div className="card-body">
+              <ul className="nav nav-pills" role="tablist">
+                <li className="nav-item waves-effect waves-light">
+                  <a
+                    className="nav-link active"
+                    data-toggle="tab"
+                    href={`#quick-info`}
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">Quick Info</span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-home-variant h5" />
+                    </span>
+                  </a>
+                </li>
+                <li className="nav-item waves-effect waves-light">
+                  <a
+                    className="nav-link"
+                    data-toggle="tab"
+                    href={`#attachments`}
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">Task Status</span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-account h5" />
+                    </span>
+                  </a>
+                </li>
+                <li className="nav-item waves-effect waves-light">
+                  <a
+                    className="nav-link"
+                    data-toggle="tab"
+                    href={`#attachments-1`}
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">Attachments</span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-account h5" />
+                    </span>
+                  </a>
+                </li>
+              </ul>
+
+              <div className="tab-content">
+                <div
+                  className="tab-pane active p-3"
+                  id={`quick-info`}
+                  role="tabpanel"
+                >
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Title</label>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData && taskData.name ? taskData.name : "N/A"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Project</label>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData && taskData.project
+                              ? taskData.project.name
+                              : "N/A"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Estimated Hours</label>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData && taskData.estHrs
+                              ? taskData && Number(taskData.estHrs).toFixed(2)
+                              : "N/A"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Project Ratio</label>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData && taskData.projectRatio
+                              ? `${taskData.projectRatio}%`
+                              : "N/A"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 ">
+                      <div className="form-group">
+                        <label>Parent Task</label>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData && taskData.parentTask
+                              ? taskData.parentTask.name
+                              : "N/A"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Assign Task</label>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData && taskData.assignedTo
+                              ? taskData.assignedTo.map((item, index) => {
+                                  if (index === 0) {
+                                    return item.name;
+                                  } else if (index >= 0) {
+                                    return `, ${item.name} `;
+                                  }
+                                })
+                              : "None"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6 ">
+                      <div className="form-group">
+                        <label>Start Time</label>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData && taskData.startTime
+                              ? moment(taskData.startTime).format("DD/MM/YY")
+                              : "N/A"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 ">
+                      <div className="form-group">
+                        <label>End Time</label>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData && taskData.endTime
+                              ? moment(taskData.endTime).format("DD/MM/YY")
+                              : "N/A"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 ">
+                      <div className="form-group">
+                        <label>Team Lead</label>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData && taskData.teamLead
+                              ? taskData.teamLead.name
+                              : "N/A"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 ">
+                      <div className="form-group">
+                        <label>Project Phase</label>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData &&
+                            taskData.project &&
+                            taskData.project.phase &&
+                            taskData.phase
+                              ? taskData.project.phase.filter(
+                                  (phase) => phase._id == taskData.phase
+                                )[0].phasename
+                              : "N/A"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <div className="row">
+                          <div className="col">
+                            <label className="control-label">
+                              Task Priority
+                            </label>
+                          </div>
+                        </div>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData && taskData.taskPriority
+                              ? taskData.taskPriority.name
+                              : "N/A"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-12">
+                        <h4 className="mt-0 header-title">Description</h4>
+                        {/* <Editor
+                          toolbarClassName="toolbarClassName"
+                          wrapperClassName="wrapperClassName"
+                          editorClassName="editorClass"
+                          toolbarStyle={{ display: "none" }}
+                          readOnly={true}
+                          editorStyle={{
+                            minHeight: "300px",
+                          }}
+                          editorState={
+                            taskData &&
+                            EditorState.createWithContent(
+                              convertFromRaw(JSON.parse(taskData.description))
+                            )
+                          }
+                        /> */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="tab-pane p-3"
+                  id={`attachments`}
+                  role="tabpanel"
+                >
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Status</label>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData && taskData.status
+                              ? taskData.status
+                              : "N/A"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Work Done</label>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData && taskData.workDone
+                              ? `${taskData.workDone}%`
+                              : "N/A"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>Actual Hours</label>
+                        <input
+                          type="text"
+                          className={`form-control`}
+                          value={
+                            taskData && taskData.timesheet
+                              ? taskData.timesheet &&
+                                taskData.timesheet.actualHrs
+                              : "N/A"
+                          }
+                          name="name"
+                          readOnly={true}
+                          placeholder="Enter Name"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="tab-pane p-3"
+                  id={`attachments-1`}
+                  role="tabpanel"
+                >
+                  <p className="font-14 mb-0">Attachments-1</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="page-content-wrapper">
         <div className="container-fluid">
-          <div className="row" />
-          <div className="row align-items-center">
-            {detail.map((item, indx) => {
-              return (
-                <>
-                  <div
-                    className={`labell ${
-                      item.label === "Team Members"
-                        ? "col-3 col-md-2"
-                        : "col-3 col-md-2"
-                    } mb-3 d-flex align-items-center align-self-center`}
-                  >
-                    <div>{item.label}</div>
-                  </div>
-                  <div
-                    className={`valuee ${
-                      item.label === "Team Members"
-                        ? "col-9 col-md-6"
-                        : "col-3 col-md-2"
-                    } col-3 col-md-2 mb-3 align-self-center"`}
-                  >
-                    {item.value}
-                  </div>
-                </>
-              );
-            })}
-          </div>
-
           <div className="row">
             <div>
               <Modal isOpen={modalEdit} toggle={toggleEdit}>

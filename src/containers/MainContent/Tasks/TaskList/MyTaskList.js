@@ -43,6 +43,11 @@ const MyTasks = (props) => {
         // width: 100,
       },
       {
+        label: "Task Priority",
+        field: "taskPriority",
+        sort: "asc",
+      },
+      {
         label: "Start Time",
         field: "startTime",
         sort: "asc",
@@ -130,6 +135,20 @@ const MyTasks = (props) => {
                   <option value="completed">Completed</option>
                 </select>
               </div>
+            ),
+            taskPriority: (
+              <span
+                className="badge"
+                style={{
+                  backgroundColor: `${item.taskPriority &&
+                    item.taskPriority.color}`,
+                  minWidth: `${50}`,
+                  paddingTop: `${5}`,
+                  paddingBottom: `${5}`,
+                }}
+              >
+                {item.taskPriority ? item.taskPriority.name : "N/A"}
+              </span>
             ),
             teamLead: item.teamLead ? item.teamLead.name : "N/A",
             parentTask: item.parentTask ? item.parentTask.name : "N/A",

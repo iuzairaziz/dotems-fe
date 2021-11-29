@@ -3,7 +3,7 @@ import AUX from "../../../hoc/Aux_";
 import moment from "moment";
 import ClientService from "../../../services/ClientService";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import ClientList from "../Client/ViewClients";
 
 const ClientDetails = (props) => {
@@ -583,4 +583,4 @@ const ClientDetails = (props) => {
   }
 };
 
-export default ClientDetails;
+export default withRouter(ClientDetails);

@@ -276,50 +276,6 @@ const TaskForm = (props) => {
                         <div className="row">
                           <div className="col-6">
                             <div className="form-group">
-                              <div className="row">
-                                <div className="col">
-                                  <label className="control-label">
-                                    Task Priority
-                                  </label>
-                                </div>
-                                <div className="col-6">
-                                  <div
-                                    className="d-flex justify-content-end"
-                                    id="add-new-Buttonm "
-                                    onClick={() => {
-                                      toggleLabelEdit();
-                                    }}
-                                  >
-                                    <i className="mdi mdi-plus icon-add" />
-                                  </div>
-                                </div>
-                              </div>
-                              <Select
-                                className={`my-select ${
-                                  props.touched.taskPriority &&
-                                  props.errors.taskPriority
-                                    ? "is-invalid"
-                                    : props.touched.taskPriority && "is-valid"
-                                }`}
-                                name="taskPriority"
-                                onFocus={() =>
-                                  props.setFieldTouched("taskPriority")
-                                }
-                                value={props.values.taskPriority}
-                                onChange={(val) =>
-                                  props.setFieldValue("taskPriority", val)
-                                }
-                                options={taskPriority}
-                              />
-
-                              <span id="err" className="invalid-feedback">
-                                {props.touched.taskPriority &&
-                                  props.errors.taskPriority}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="col-6">
-                            <div className="form-group">
                               <label>Title</label>
                               <input
                                 type="text"
@@ -651,6 +607,50 @@ const TaskForm = (props) => {
                                 }}
                                 options={phase}
                               />
+                            </div>
+                          </div>
+                          <div className="col-6">
+                            <div className="form-group">
+                              <div className="row">
+                                <div className="col">
+                                  <label className="control-label">
+                                    Task Priority
+                                  </label>
+                                </div>
+                                <div className="col-6">
+                                  <div
+                                    className="d-flex justify-content-end"
+                                    id="add-new-Buttonm "
+                                    onClick={() => {
+                                      toggleLabelEdit();
+                                    }}
+                                  >
+                                    <i className="mdi mdi-plus icon-add" />
+                                  </div>
+                                </div>
+                              </div>
+                              <Select
+                                className={`my-select ${
+                                  props.touched.taskPriority &&
+                                  props.errors.taskPriority
+                                    ? "is-invalid"
+                                    : props.touched.taskPriority && "is-valid"
+                                }`}
+                                name="taskPriority"
+                                onFocus={() =>
+                                  props.setFieldTouched("taskPriority")
+                                }
+                                value={props.values.taskPriority}
+                                onChange={(val) =>
+                                  props.setFieldValue("taskPriority", val)
+                                }
+                                options={taskPriority}
+                              />
+
+                              <span id="err" className="invalid-feedback">
+                                {props.touched.taskPriority &&
+                                  props.errors.taskPriority}
+                              </span>
                             </div>
                           </div>
                           <div className="col-12">

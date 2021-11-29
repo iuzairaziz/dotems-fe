@@ -58,7 +58,6 @@ const Tables_datatable = (props) => {
         label: "Task Priority",
         field: "taskPriority",
         sort: "asc",
-        // width: 200,
       },
       {
         label: "Status",
