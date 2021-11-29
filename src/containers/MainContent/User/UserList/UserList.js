@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import AUX from "../../../../hoc/Aux_";
 import TechnologyService from "../../../../services/TechnologyService";
 import moment from "moment";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, useLocation } from "react-router-dom";
 import { MDBDataTableV5 } from "mdbreact";
 import UserService from "../../../../services/UserService";
 import UserForm from "../AddUserForm/AddUserForm";
@@ -14,6 +14,7 @@ const ViewUsers = (props) => {
   const [selectedUser, setSelectedUser] = useState({ name: "" });
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
+  const [reloadData, setReloadData] = useState(false);
   const [technologyfilter, setTechnologyFilter] = useState([]);
   const [applyTechnologyfilter, setApplyTechnologyFilter] = useState("");
   const [applyRolefilter, setApplyRoleFilter] = useState("");
@@ -116,6 +117,7 @@ const ViewUsers = (props) => {
     minimumSalary,
     maximumSalary,
   ]);
+  console.log("eeeee", modalEdit);
 
   useEffect(() => {
     getTechnology();
@@ -136,6 +138,7 @@ const ViewUsers = (props) => {
   };
   const toggleEdit = () => setModalEdit(!modalEdit);
   const toggleDelete = () => setModalDelete(!modalDelete);
+  const reloadDataa = () => setReloadData(!reloadData);
 
   const handleDelete = (id) => {
     UserService.deleteUsers(id)
@@ -205,9 +208,11 @@ const ViewUsers = (props) => {
                   <a
                     class="dropdown-item"
                     onClick={() => {
+                      console.log("Reload Data", reloadData);
                       props.history.push({
                         pathname: "/userdetails/" + item._id,
                       });
+                      window.location.reload(true);
                     }}
                   >
                     View

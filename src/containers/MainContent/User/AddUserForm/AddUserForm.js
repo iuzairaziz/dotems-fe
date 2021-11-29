@@ -183,7 +183,7 @@ const UserForm = (props) => {
     });
   };
   const getLeavePolicy = () => {
-    LeavePolicyServices.getLeavePolicies().then((res) => {
+    LeavePolicyServices.getLeavePolicy().then((res) => {
       let options = [];
       res.data.map((item, index) => {
         options.push({ label: item.name, value: item._id });

@@ -138,6 +138,7 @@ const ViewClients = (props) => {
                       props.history.push({
                         pathname: "/client-details/" + item._id,
                       });
+                      window.location.reload(true);
                     }}
                   >
                     View
