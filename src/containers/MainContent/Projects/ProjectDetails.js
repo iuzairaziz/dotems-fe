@@ -629,7 +629,13 @@ const ProjectDetails = (props) => {
                                       value={
                                         projectData &&
                                         projectData.projectManager.name
-                                          ? projectData.projectManager.name
+                                          ? `${
+                                              projectData.projectManager
+                                                .firstName
+                                            } ${
+                                              projectData.projectManager
+                                                .lastName
+                                            }`
                                           : "N/A"
                                       }
                                       placeholder="Enter Name"
@@ -976,9 +982,13 @@ const ProjectDetails = (props) => {
                                           ? projectData.assignedUser.map(
                                               (item, index) => {
                                                 if (index === 0) {
-                                                  return item.name;
+                                                  return `${item.firstName} ${
+                                                    item.lastName
+                                                  }`;
                                                 } else if (index > 0) {
-                                                  return ` ${item.name} `;
+                                                  return ` ${item.firstName} ${
+                                                    item.lastName
+                                                  } `;
                                                 }
                                               }
                                             )
