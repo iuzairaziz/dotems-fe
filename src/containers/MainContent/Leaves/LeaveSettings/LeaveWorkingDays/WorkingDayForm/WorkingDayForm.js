@@ -67,6 +67,13 @@ const WorkingDayForm = (props) => {
       }}
       validationSchema={shortValidations.workingDayValidation}
       onSubmit={(values, actions) => {
+        console.log(values);
+        let Days = [];
+        for (const days in values) {
+          if (values[days] === true) {
+            Days.push(`${days}: ${values[days]}`);
+          }
+        }
         props.editable
           ? WorkingDayService.updateWorkingDay(props.workingDay._id, {
               name: values.title,
@@ -77,6 +84,7 @@ const WorkingDayForm = (props) => {
               friday: values.friday,
               saturday: values.saturday,
               sunday: values.sunday,
+              daysNumber: Days.length,
             })
               .then((res) => {
                 props.toggle();
@@ -95,6 +103,7 @@ const WorkingDayForm = (props) => {
               friday: values.friday,
               saturday: values.saturday,
               sunday: values.sunday,
+              daysNumber: Days.length,
             })
               .then((res) => {
                 props.toggle && props.toggle();
