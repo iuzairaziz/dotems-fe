@@ -89,6 +89,36 @@ const ProjectSettings = () => {
       viewRoute: "view-leave-faraz",
       icon: "mdi-shape-plus",
     },
+    {
+      name: "Working Hours",
+      addRoute: "working-hours-add",
+      viewRoute: "view-working-hours",
+      icon: "mdi-checkerboard",
+    },
+    {
+      name: "Working Days",
+      addRoute: "leave/add-new-working-day",
+      viewRoute: "leave/working-days",
+      icon: "mdi-shape-plus",
+    },
+    {
+      name: "Working Shift",
+      addRoute: "working-shift-add",
+      viewRoute: "view-working-shift",
+      icon: "mdi-chart-pie",
+    },
+    {
+      name: "Leave Policy",
+      addRoute: "add-leave-policy",
+      viewRoute: "view-leave-policy",
+      icon: "mdi-folder",
+    },
+    {
+      name: "Attendance",
+      addRoute: "add-attendance",
+      viewRoute: "add-attendance",
+      icon: "mdi-comment-account-outline",
+    },
   ];
 
   return (

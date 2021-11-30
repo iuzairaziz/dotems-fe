@@ -16,12 +16,19 @@ const NewLeaveSettings = (props) => {
               <Link to="/leave/working-days">
                 <p>Working days</p>
               </Link>
-              <Link>
-                <p>Leave Type</p>
+              <Link to="/view-working-hours">
+                <p>Working Hours</p>
               </Link>
-              <Link>
+              <Link to="/view-working-shift">
+                <p>Working Shift</p>
+              </Link>
+              <Link to="/view-leave-type">
+                <p>Leave Types</p>
+              </Link>
+              <Link to="/view-leave-policy">
                 <p>Leave Policy</p>
               </Link>
+
               <Link>
                 <p>Approvals</p>
               </Link>

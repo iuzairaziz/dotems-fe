@@ -12,6 +12,8 @@ const AttendanceForm = (props) => {
   const [longitude, setLongitude] = useState("");
   const [switch2, setSwitch2] = useState(false);
   const [switch1, setSwitch1] = useState(false);
+  const [totalTime, setTotalTime] = useState("");
+  const [attendances, setAttendances] = useState([]);
   const [data, setData] = useState({
     columns: [
       {
@@ -68,6 +70,7 @@ const AttendanceForm = (props) => {
       .catch((err) => {
         AttendanceService.handleCustomMessage(err.response.data);
       });
+    getData();
   };
   const handleTimeOut = () => {
     setSwitch1(!switch1);
@@ -91,6 +94,7 @@ const AttendanceForm = (props) => {
       .catch((err) => {
         AttendanceService.handleCustomMessage(err.response.data);
       });
+    getData();
   };
 
   function diff(start, end) {
@@ -113,15 +117,47 @@ const AttendanceForm = (props) => {
     );
   }
 
+  const getTotalHours = (att) => {
+    let todayAttendance = att.filter(
+      (item) => item.date === moment().format("D-M-YYYY") && item.timeOut
+    );
+    console.log("todayAttendance", todayAttendance);
+
+    function hoursStringToDecimal(hoursString) {
+      const [hoursPart, minutesPart] = hoursString.split(":");
+      return Number(hoursPart) + Number(minutesPart) / 60;
+    }
+
+    function decimalHoursToString(hoursDecimal) {
+      const numHours = Math.floor(hoursDecimal);
+      const numMinutes = Math.round((hoursDecimal - numHours) * 60);
+      return `${numHours < 10 ? "0" : ""}${numHours}:${
+        numMinutes < 10 ? "0" : ""
+      }${numMinutes}`;
+    }
+    let sumHoras = 0;
+    todayAttendance.forEach((element) => {
+      let endTime = element.timeOut ? element.timeOut : "N:N";
+      let totalTime = diff(element.timeIn, endTime);
+      sumHoras += hoursStringToDecimal(totalTime);
+    });
+    let total = decimalHoursToString(sumHoras);
+    setTotalTime(total);
+    console.log("Sum ALL TIme", total);
+  };
+
   const getData = (id) => {
     AttendanceService.getAttendanceById(id)
       .then((res) => {
         console.log(res);
+        setAttendances(res.data);
+        getTotalHours(res.data);
         let updatedData = { ...data };
         updatedData.rows = [];
         res.data.reverse().map((item, index) => {
           let endTime = item.timeOut ? item.timeOut : "N:A";
           let totalTime = diff(item.timeIn, endTime);
+          totalTime === "NaN:NaN" && setSwitch2(true);
           updatedData.rows.push({
             timeIn: item.timeIn ? (
               <h6>{moment(item.timeIn, ["HH:mm"]).format("h:m:A")}</h6>
@@ -131,14 +167,13 @@ const AttendanceForm = (props) => {
             timeOut: item.timeOut ? (
               <h6> {moment(item.timeOut, ["HH:mm"]).format("h:m:A")}</h6>
             ) : (
-              "N/A"
+              ""
             ),
-            totalTime: totalTime ? <h6>{totalTime}</h6> : "N/A",
+            totalTime: totalTime === "NaN:NaN" ? "" : <h6>{totalTime}</h6>,
             date: item.date ? <h6> {item.date} </h6> : "N/A",
           });
         });
         console.log("clients", updatedData);
-
         setData(updatedData);
       })
       .catch((err) => console.log(err));
@@ -182,45 +217,21 @@ const AttendanceForm = (props) => {
         />
         <label htmlFor="switch6" data-on-label="Yes" data-off-label="No" />
       </div>
-      <div className="row">
-        <div className="col">
-          {/* <div className="form-group">
-            <label>Name</label>
+      <div className="row justify-content-center align-items-center">
+        <div className="col-md-4">
+          <div className="form-group">
+            <label>Today Total Hours</label>
             <input
               name="title"
-              type="text"
-              className="form-control"
-              value={loggedInUser._id}
-              placeholder="Enter Name"
-            />
-          </div> */}
-        </div>
-        {/* <div className="col">
-          <div className="form-group">
-            <label>Time</label>
-            <input
-              name="timeIn"
-              type="time"
-              className="form-control"
-              value={time}
-              // onChange={props.handleChange}
               // onBlur={props.handleBlur}
-              placeholder="Enter Name"
+              type="text"
+              className={"form-control"}
+              defaultValue={totalTime}
+              // onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter Title"
             />
           </div>
         </div>
-        <div className="col">
-          <div className="form-group">
-            <label>Total Hours</label>
-            <input
-              name="timeIn"
-              type="text"
-              className="form-control"
-              value={TotalHours}
-              placeholder="Total Hours"
-            />
-          </div>
-        </div> */}
       </div>
       <div>
         <div>
@@ -228,13 +239,16 @@ const AttendanceForm = (props) => {
             responsive
             striped
             small
-            onPageChange={(val) => console.log(val)}
+            // onPageChange={(val) => console.log(val)}
             bordered={true}
             //  materialSearch
-            searchTop
-            searchBottom={false}
-            pagingTop
-            barReverse
+            // searchTop
+            entriesOptions={[10, 20, 25]}
+            entries={10}
+            pagesAmount={4}
+            // searchBottom={false}
+            // pagingTop
+            // barReverse
             hover
             // scrollX
             data={data}
