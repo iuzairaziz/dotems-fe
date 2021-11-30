@@ -43,7 +43,7 @@ class sidebar extends Component {
             tab: "user",
             subMenus: [
               { routeName: this.baseUrl + "add-user", label: "Add New User" },
-              { routeName: this.baseUrl + "viewuser", label: "View Users" },
+              // { routeName: this.baseUrl + "viewuser", label: "View Users" },
             ],
           },
         ]
@@ -64,11 +64,11 @@ class sidebar extends Component {
         ...(this.isRole([this.roles.PM, this.roles.ADMIN])
           ? [
               { routeName: this.baseUrl + "add-task", label: "New Tasks" },
-              { routeName: this.baseUrl + "task", label: "View Tasks" },
+              // { routeName: this.baseUrl + "task", label: "View Tasks" },
             ]
           : []),
 
-        { routeName: this.baseUrl + "my-tasks", label: "My Tasks" },
+        // { routeName: this.baseUrl + "my-tasks", label: "My Tasks" },
       ],
     },
     {
@@ -87,23 +87,19 @@ class sidebar extends Component {
         ...(this.isRole([this.roles.ADMIN, this.roles.CEO])
           ? [
               {
-                routeName: this.baseUrl + "viewproject",
-                label: "View Projects",
-              },
-              {
                 routeName: this.baseUrl + "projectreport",
                 label: "Project Report",
               },
             ]
           : []),
-
-        {
-          routeName: this.baseUrl + "my-projects",
-          label: "My Projects",
-        },
       ],
     },
-
+    {
+      name: "client_menu",
+      icon: "mdi-message-text-outline",
+      tab: "client",
+      subMenus: [{ routeName: this.baseUrl + "addclient", label: "Client" }],
+    },
     {
       name: "request_menu",
       icon: "mdi-message-draw",

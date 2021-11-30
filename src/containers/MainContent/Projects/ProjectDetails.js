@@ -14,9 +14,6 @@ import Configuration from "../../../config/configuration";
 import { Link } from "react-router-dom";
 import ViewProject from "../Projects/ViewProjects";
 import MyProject from "../Projects/MyProject";
-import { Modal, ModalHeader, ModalBody } from "reactstrap";
-import TaskForm from "../Tasks/TaskForm/TaskForm";
-import RoleAuth from "../../../components/MyComponents/Auth/RoleAuth";
 
 const ProjectDetails = (props) => {
   {
@@ -473,6 +470,22 @@ const ProjectDetails = (props) => {
                                 </span>
                               </a>
                             </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#comments`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  <i class="mdi mdi-message-text-outline" />
+                                  Comments
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-message-text-outline h5" />
+                                </span>
+                              </a>
+                            </li>
                           </ul>
 
                           <div className="tab-content">
@@ -629,7 +642,13 @@ const ProjectDetails = (props) => {
                                       value={
                                         projectData &&
                                         projectData.projectManager.name
-                                          ? projectData.projectManager.name
+                                          ? `${
+                                              projectData.projectManager
+                                                .firstName
+                                            } ${
+                                              projectData.projectManager
+                                                .lastName
+                                            }`
                                           : "N/A"
                                       }
                                       placeholder="Enter Name"
@@ -976,9 +995,13 @@ const ProjectDetails = (props) => {
                                           ? projectData.assignedUser.map(
                                               (item, index) => {
                                                 if (index === 0) {
-                                                  return item.name;
+                                                  return `${item.firstName} ${
+                                                    item.lastName
+                                                  }`;
                                                 } else if (index > 0) {
-                                                  return ` ${item.name} `;
+                                                  return ` ${item.firstName} ${
+                                                    item.lastName
+                                                  } `;
                                                 }
                                               }
                                             )
@@ -1255,6 +1278,15 @@ const ProjectDetails = (props) => {
                                   theadColor="#000"
                                 />
                               </p>
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`comments`}
+                              role="tabpanel"
+                            >
+                              <ProjectComments
+                                projectId={projectData && projectData._id}
+                              />
                             </div>
                           </div>
                         </div>

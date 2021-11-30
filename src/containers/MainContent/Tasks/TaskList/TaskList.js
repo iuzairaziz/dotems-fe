@@ -21,7 +21,10 @@ import { withRouter } from "react-router-dom";
 const Tables_datatable = (props) => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
+  const [reloadData, setReloadData] = useState(false);
   const [selectedTask, setSelectedTask] = useState({ name: "" });
+  const reloadDataa = () => setReloadData(!reloadData);
+
   const [dataa, setData] = useState({
     columns: [
       {
@@ -239,9 +242,11 @@ const Tables_datatable = (props) => {
                   <a
                     class="dropdown-item"
                     onClick={() => {
+                      console.log("Reload Data", reloadData);
                       props.history.push({
                         pathname: "/task-details/" + item._id,
                       });
+                      window.location.reload(true);
                     }}
                   >
                     View
@@ -267,34 +272,6 @@ const Tables_datatable = (props) => {
                 </div>
               </div>
             ),
-            // action: (
-            //   <div className="row flex-nowrap align-items-center">
-            //     {/* <div className="col"> */}
-            //     <i
-            //       className="mdi mdi-eye
-            //       iconsS my-primary-icon"
-            //       onClick={() => {
-            //         props.history.push({
-            //           pathname: "/task-details/" + item._id,
-            //         });
-            //       }}
-            //     />
-            //     <i
-            //       className="mdi mdi-pencil-box iconsS my-seconday-icon"
-            //       onClick={() => {
-            //         setSelectedTask(item);
-            //         toggleEdit();
-            //       }}
-            //     />
-            //     <i
-            //       className="mdi mdi-delete-forever iconsS my-danger-icon"
-            //       onClick={() => {
-            //         setSelectedTask(item);
-            //         toggleDelete();
-            //       }}
-            //     />
-            //   </div>
-            // ),
           });
         });
         setData(data);
