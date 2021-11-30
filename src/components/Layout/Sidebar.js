@@ -20,7 +20,7 @@ class sidebar extends Component {
     user_menu: false,
     project_settings_menu: false,
   };
-  roles = new Configuration().Roles; 
+  roles = new Configuration().Roles;
   //  { ADMIN, PM, HR, CEO, EMPLOYEE, INTERNEE, PROBATION } = roles;
   ALL_ROLES = [
     this.roles.ADMIN,
@@ -143,7 +143,7 @@ class sidebar extends Component {
         ...(this.isRole([this.roles.PM, this.roles.ADMIN])
           ? [
               {
-                routeName: this.baseUrl + "leave-list",
+                routeName: this.baseUrl + "view-leave-faraz",
                 label: "Leave List",
               },
             ]

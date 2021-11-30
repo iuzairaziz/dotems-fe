@@ -82,12 +82,6 @@ const LeavePolicyForm = () => {
       local.push({ type: item._id, [name]: val });
       setFormData((oldValue) => [...oldValue, ...local]);
     }
-
-    // let local = { ...dataa };
-    // console.log("locAL", dataa);
-    // local.rows[index].type = "gujkhgy";
-    // // setDataa(dataa);
-    // console.log("data", dataa);
   };
   const [leaveType, setLeaveType] = useState([]);
   useEffect(() => {
