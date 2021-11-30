@@ -17,7 +17,9 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertFromRaw, EditorState } from "draft-js";
 import moment from "moment";
-import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
+import TaskList from "../TaskList/TaskList";
+import MyTask from "../TaskList/MyTaskList";
 
 const TaskDetail = (props) => {
   const [taskData, setTaskData] = useState({});
@@ -168,10 +170,11 @@ const TaskDetail = (props) => {
                 {item.status ? item.status : "none"}
               </span>
             ),
-            teamLead: item.teamLead ? item.teamLead.name : "None",
+            teamLead: item.teamLead
+              ? `${item.teamLead.firstName} ${item.teamLead.lastName} `
+              : "None",
             parentTask: item.parentTask ? item.parentTask.name : "None",
-            addedBy: item.addedBy ? item.addedBy : "none",
-            approvedBy: item.approvedBy ? item.approvedBy.name : "none",
+            addedBy: item.addedBy ? item.addedBy.name : "none",
             startTime: item.startTime
               ? moment(item.startTime).format("DD/MMM/YYYY")
               : "none",
@@ -179,31 +182,44 @@ const TaskDetail = (props) => {
               ? moment(item.endTime).format("DD/MMM/YYYY")
               : "none",
             action: (
-              <div className="row flex-nowrap">
-                {/* <div className="col"> */}
-                <i
-                  className="mdi mdi-view-list
-                  iconsS my-primary-icon"
-                  onClick={() => {
-                    props.history.push({
-                      pathname: "/task-details/" + item._id,
-                    });
-                  }}
-                />
-                <i
-                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
-                  onClick={() => {
-                    setSelectedTask(item);
-                    toggleEdit();
-                  }}
-                />
-                <i
-                  className="mdi mdi-delete-forever iconsS my-danger-icon"
-                  onClick={() => {
-                    setSelectedTask(item);
-                    toggleDelete();
-                  }}
-                />
+              <div class="dropdown">
+                <button
+                  type="button"
+                  class="dropdown-toggle"
+                  data-toggle="dropdown"
+                >
+                  <i class="mdi mdi-view-list" size={40} />
+                </button>
+                <div class="dropdown-menu">
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      props.history.push({
+                        pathname: "/task-details/" + item._id,
+                      });
+                    }}
+                  >
+                    View
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedTask(item);
+                      toggleEdit();
+                    }}
+                  >
+                    Edit
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedTask(item);
+                      toggleDelete();
+                    }}
+                  >
+                    Delete
+                  </a>
+                </div>
               </div>
             ),
           });
@@ -214,7 +230,9 @@ const TaskDetail = (props) => {
         task.taskRemarks.map((item, index) => {
           rData.rows.push({
             date: item.date ? moment(item.date).format("DD/MM/YY") : "none",
-            name: item.employee ? item.employee.name : "none",
+            name: item.employee
+              ? `${item.employee.firstName} ${item.employee.lastName} `
+              : "none",
             remarks: item.remarks ? item.remarks : "none",
           });
         });
@@ -226,585 +244,603 @@ const TaskDetail = (props) => {
       });
   };
 
-  const detail = [
-    { label: "Title", value: taskData && taskData.name },
-    {
-      label: "Project",
-      value: taskData && taskData.project ? taskData.project.name : "None",
-    },
-    {
-      label: "Project Phase",
-      value:
-        taskData && taskData.project && taskData.project.phase && taskData.phase
-          ? taskData.project.phase.filter(
-              (phase) => phase._id == taskData.phase
-            )[0].phasename
-          : "None",
-    },
-    {
-      label: "Project Ratio",
-      value: taskData && `${taskData.projectRatio}%`,
-    },
-
-    { label: "Status", value: taskData && taskData.status },
-    {
-      label: "Team Lead",
-      value: taskData && taskData.teamLead ? taskData.teamLead.name : "None",
-    },
-    {
-      label: "Parent Task",
-      value:
-        taskData && taskData.parentTask ? taskData.parentTask.name : "None",
-    },
-    {
-      label: "Added By",
-      value: taskData && taskData.addedBy ? taskData.addedBy.name : "None",
-    },
-
-    {
-      label: "Start Time",
-      value: taskData && moment(taskData.startTime).format("DD/MM/YY"),
-    },
-    {
-      label: "End Time",
-      value: taskData && moment(taskData.endTime).format("DD/MM/YY"),
-    },
-    {
-      label: "Estimate Hours",
-      value: taskData && Number(taskData.estHrs).toFixed(2),
-    },
-    {
-      label: "Actual Hours",
-      value: taskData && taskData.timesheet && taskData.timesheet.actualHrs,
-    },
-    {
-      label: "Work Done",
-      value: taskData && `${taskData.workDone}%`,
-    },
-    {
-      label: "Team Members",
-      value:
-        taskData && taskData.assignedTo
-          ? taskData.assignedTo.map((item, index) => {
-              if (index === 0) {
-                return item.name;
-              } else if (index >= 0) {
-                return `, ${item.name} `;
-              }
-            })
-          : "None",
-    },
-  ];
-
   return (
-    <div className="task-detail">
-      <div className="row task-form">
-        <div className="col-lg-12">
-          <div className="card m-b-20">
-            <div className="card-body">
-              <ul className="nav nav-pills" role="tablist">
-                <li className="nav-item waves-effect waves-light">
-                  <a
-                    className="nav-link active"
-                    data-toggle="tab"
-                    href={`#quick-info`}
-                    role="tab"
-                  >
-                    <span className="d-none d-md-block">Quick Info</span>
-                    <span className="d-block d-md-none">
-                      <i className="mdi mdi-home-variant h5" />
-                    </span>
-                  </a>
-                </li>
-                <li className="nav-item waves-effect waves-light">
-                  <a
-                    className="nav-link"
-                    data-toggle="tab"
-                    href={`#attachments`}
-                    role="tab"
-                  >
-                    <span className="d-none d-md-block">Task Status</span>
-                    <span className="d-block d-md-none">
-                      <i className="mdi mdi-account h5" />
-                    </span>
-                  </a>
-                </li>
-                <li className="nav-item waves-effect waves-light">
-                  <a
-                    className="nav-link"
-                    data-toggle="tab"
-                    href={`#attachments-1`}
-                    role="tab"
-                  >
-                    <span className="d-none d-md-block">Attachments</span>
-                    <span className="d-block d-md-none">
-                      <i className="mdi mdi-account h5" />
-                    </span>
-                  </a>
-                </li>
-              </ul>
-
-              <div className="tab-content">
-                <div
-                  className="tab-pane active p-3"
-                  id={`quick-info`}
-                  role="tabpanel"
+    <div className="row">
+      <div className="col-lg-12">
+        <div className="card m-b-20">
+          <div className="card-body">
+            <ul className="nav nav-tabs nav-tabs-custom" role="tablist">
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  data-toggle="tab"
+                  href="#profile2"
+                  role="tab"
                 >
-                  <div className="row">
-                    <div className="col-6">
-                      <div className="form-group">
-                        <label>Title</label>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData && taskData.name ? taskData.name : "N/A"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="form-group">
-                        <label>Project</label>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData && taskData.project
-                              ? taskData.project.name
-                              : "N/A"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
+                  <span className="d-none d-md-block">Task List</span>
+                  <span className="d-block d-md-none">
+                    <i className="mdi mdi-account h5" />
+                  </span>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link active "
+                  data-toggle="tab"
+                  href="#home2"
+                  role="tab"
+                >
+                  <span className="d-none d-md-block"> View Task</span>
+                  <span className="d-block d-md-none">
+                    <i className="mdi mdi-home-variant h5" />
+                  </span>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link "
+                  data-toggle="tab"
+                  href="#messages2"
+                  role="tab"
+                >
+                  <span className="d-none d-md-block"> My Tasks</span>
+                  <span className="d-block d-md-none">
+                    <i className="mdi mdi-email h5" />
+                  </span>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  data-toggle="tab"
+                  href="#settings2"
+                  role="tab"
+                >
+                  <span className="d-none d-md-block">Settings</span>
+                  <span className="d-block d-md-none">
+                    <i className="mdi mdi-settings h5" />
+                  </span>
+                </a>
+              </li>
+            </ul>
 
-                    <div className="col-6">
-                      <div className="form-group">
-                        <label>Estimated Hours</label>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData && taskData.estHrs
-                              ? taskData && Number(taskData.estHrs).toFixed(2)
-                              : "N/A"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="form-group">
-                        <label>Project Ratio</label>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData && taskData.projectRatio
-                              ? `${taskData.projectRatio}%`
-                              : "N/A"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-6 ">
-                      <div className="form-group">
-                        <label>Parent Task</label>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData && taskData.parentTask
-                              ? taskData.parentTask.name
-                              : "N/A"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
+            <div className="tab-content">
+              <div className="tab-pane  p-3" id="profile2" role="tabpanel">
+                <TaskList />
+              </div>
+              <div className="tab-pane active p-3" id="home2" role="tabpanel">
+                <div className="task-detail">
+                  <div className="row task-form">
+                    <div className="col-lg-12">
+                      <div className="card m-b-20">
+                        <div className="card-body">
+                          <ul className="nav nav-pills" role="tablist">
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link active"
+                                data-toggle="tab"
+                                href={`#quick-info`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  Quick Info
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-home-variant h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#attachments`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  Task Status
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-account h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#attachments-1`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  Attachments
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-account h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#sub-tasks`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  Sub Tasks
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-account h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#remarks`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  Remarks
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-account h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#comments`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  Comments
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-account h5" />
+                                </span>
+                              </a>
+                            </li>
+                          </ul>
 
-                    <div className="col-6">
-                      <div className="form-group">
-                        <label>Assign Task</label>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData && taskData.assignedTo
-                              ? taskData.assignedTo.map((item, index) => {
-                                  if (index === 0) {
-                                    return item.name;
-                                  } else if (index >= 0) {
-                                    return `, ${item.name} `;
-                                  }
-                                })
-                              : "None"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
+                          <div className="tab-content">
+                            <div
+                              className="tab-pane active p-3"
+                              id={`quick-info`}
+                              role="tabpanel"
+                            >
+                              <div className="row">
+                                <div className="col-6">
+                                  <div className="form-group">
+                                    <label>Title</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData && taskData.name
+                                          ? taskData.name
+                                          : "N/A"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-6">
+                                  <div className="form-group">
+                                    <label>Project</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData && taskData.project
+                                          ? taskData.project.name
+                                          : "N/A"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
 
-                    <div className="col-6 ">
-                      <div className="form-group">
-                        <label>Start Time</label>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData && taskData.startTime
-                              ? moment(taskData.startTime).format("DD/MM/YY")
-                              : "N/A"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-6 ">
-                      <div className="form-group">
-                        <label>End Time</label>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData && taskData.endTime
-                              ? moment(taskData.endTime).format("DD/MM/YY")
-                              : "N/A"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-6 ">
-                      <div className="form-group">
-                        <label>Team Lead</label>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData && taskData.teamLead
-                              ? taskData.teamLead.name
-                              : "N/A"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-6 ">
-                      <div className="form-group">
-                        <label>Project Phase</label>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData &&
-                            taskData.project &&
-                            taskData.project.phase &&
-                            taskData.phase
-                              ? taskData.project.phase.filter(
-                                  (phase) => phase._id == taskData.phase
-                                )[0].phasename
-                              : "N/A"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="form-group">
-                        <div className="row">
-                          <div className="col">
-                            <label className="control-label">
-                              Task Priority
-                            </label>
+                                <div className="col-6">
+                                  <div className="form-group">
+                                    <label>Estimated Hours</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData && taskData.estHrs
+                                          ? taskData &&
+                                            Number(taskData.estHrs).toFixed(2)
+                                          : "N/A"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-6">
+                                  <div className="form-group">
+                                    <label>Project Ratio</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData && taskData.projectRatio
+                                          ? `${taskData.projectRatio}%`
+                                          : "N/A"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-6 ">
+                                  <div className="form-group">
+                                    <label>Parent Task</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData && taskData.parentTask
+                                          ? taskData.parentTask.name
+                                          : "N/A"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="col-6">
+                                  <div className="form-group">
+                                    <label>Assigned To</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData && taskData.assignedTo
+                                          ? taskData.assignedTo.map(
+                                              (item, index) => {
+                                                if (index === 0) {
+                                                  return item.name;
+                                                } else if (index >= 0) {
+                                                  return ` ${item.firstName} ${
+                                                    item.lastName
+                                                  } `;
+                                                }
+                                              }
+                                            )
+                                          : "None"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="col-6 ">
+                                  <div className="form-group">
+                                    <label>Start Time</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData && taskData.startTime
+                                          ? moment(taskData.startTime).format(
+                                              "DD/MM/YY"
+                                            )
+                                          : "N/A"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-6 ">
+                                  <div className="form-group">
+                                    <label>End Time</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData && taskData.endTime
+                                          ? moment(taskData.endTime).format(
+                                              "DD/MM/YY"
+                                            )
+                                          : "N/A"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-6 ">
+                                  <div className="form-group">
+                                    <label>Team Lead</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData && taskData.teamLead
+                                          ? `${taskData.teamLead.firstName} ${
+                                              taskData.teamLead.lastName
+                                            } `
+                                          : "N/A"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-6 ">
+                                  <div className="form-group">
+                                    <label>Project Phase</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData &&
+                                        taskData.project &&
+                                        taskData.project.phase &&
+                                        taskData.phase
+                                          ? taskData.project.phase.filter(
+                                              (phase) =>
+                                                phase._id == taskData.phase
+                                            )[0].phasename
+                                          : "N/A"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-6">
+                                  <div className="form-group">
+                                    <div className="row">
+                                      <div className="col">
+                                        <label className="control-label">
+                                          Task Priority
+                                        </label>
+                                      </div>
+                                    </div>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData && taskData.taskPriority
+                                          ? taskData.taskPriority.name
+                                          : "N/A"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-12">
+                                  <div className="row">
+                                    <div className="col-12">
+                                      <h4 className="mt-0 header-title">
+                                        Description
+                                      </h4>
+                                      {taskData && taskData.description ? (
+                                        <Editor
+                                          toolbarClassName="toolbarClassName"
+                                          wrapperClassName="wrapperClassName"
+                                          editorClassName="editorClass"
+                                          readOnly
+                                          toolbarStyle={{ display: "none" }}
+                                          editorStyle={{
+                                            minHeight: "300px",
+                                          }}
+                                          editorState={
+                                            // taskData.description &&
+                                            EditorState.createWithContent(
+                                              convertFromRaw(
+                                                JSON.parse(taskData.description)
+                                              )
+                                            )
+                                          }
+                                          // editorStyle={{minHeight:"500px",overflowY:"scroll !important"}}
+                                        />
+                                      ) : (
+                                        "none"
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`attachments`}
+                              role="tabpanel"
+                            >
+                              <div className="row">
+                                <div className="col-6">
+                                  <div className="form-group">
+                                    <label>Status</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData && taskData.status
+                                          ? taskData.status
+                                          : "N/A"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-6">
+                                  <div className="form-group">
+                                    <label>Work Done</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData && taskData.workDone
+                                          ? `${taskData.workDone}%`
+                                          : "N/A"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-6">
+                                  <div className="form-group">
+                                    <label>Actual Hours</label>
+                                    <input
+                                      type="text"
+                                      className={`form-control`}
+                                      value={
+                                        taskData && taskData.timesheet
+                                          ? taskData.timesheet &&
+                                            taskData.timesheet.actualHrs
+                                          : "N/A"
+                                      }
+                                      name="name"
+                                      readOnly={true}
+                                      placeholder="Enter Name"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`attachments-1`}
+                              role="tabpanel"
+                            >
+                              <p className="font-14 mb-0">Attachments-1</p>
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`sub-tasks`}
+                              role="tabpanel"
+                            >
+                              <MDBDataTableV5
+                                responsive
+                                striped
+                                small
+                                onPageChange={(val) => console.log(val)}
+                                bordered={true}
+                                //  materialSearch
+                                searchTop
+                                searchBottom={false}
+                                pagingTop
+                                barReverse
+                                hover
+                                data={dataa}
+                                theadColor="#000"
+                              />{" "}
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`remarks`}
+                              role="tabpanel"
+                            >
+                              <MDBDataTableV5
+                                responsive
+                                striped
+                                small
+                                onPageChange={(val) => console.log(val)}
+                                bordered={true}
+                                //  materialSearch
+                                searchTop
+                                searchBottom={false}
+                                pagingTop
+                                barReverse
+                                hover
+                                data={remarks}
+                                theadColor="#000"
+                              />{" "}
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`comments`}
+                              role="tabpanel"
+                            >
+                              <Comments taskId={taskData && taskData._id} />
+                            </div>
                           </div>
                         </div>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData && taskData.taskPriority
-                              ? taskData.taskPriority.name
-                              : "N/A"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-12">
-                        <h4 className="mt-0 header-title">Description</h4>
-                        {/* <Editor
-                          toolbarClassName="toolbarClassName"
-                          wrapperClassName="wrapperClassName"
-                          editorClassName="editorClass"
-                          toolbarStyle={{ display: "none" }}
-                          readOnly={true}
-                          editorStyle={{
-                            minHeight: "300px",
-                          }}
-                          editorState={
-                            taskData &&
-                            EditorState.createWithContent(
-                              convertFromRaw(JSON.parse(taskData.description))
-                            )
-                          }
-                        /> */}
                       </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  className="tab-pane p-3"
-                  id={`attachments`}
-                  role="tabpanel"
-                >
-                  <div className="row">
-                    <div className="col-6">
-                      <div className="form-group">
-                        <label>Status</label>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData && taskData.status
-                              ? taskData.status
-                              : "N/A"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="form-group">
-                        <label>Work Done</label>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData && taskData.workDone
-                              ? `${taskData.workDone}%`
-                              : "N/A"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="form-group">
-                        <label>Actual Hours</label>
-                        <input
-                          type="text"
-                          className={`form-control`}
-                          value={
-                            taskData && taskData.timesheet
-                              ? taskData.timesheet &&
-                                taskData.timesheet.actualHrs
-                              : "N/A"
-                          }
-                          name="name"
-                          readOnly={true}
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="tab-pane p-3"
-                  id={`attachments-1`}
-                  role="tabpanel"
-                >
-                  <p className="font-14 mb-0">Attachments-1</p>
+                  <Modal isOpen={modalEdit} toggle={toggleEdit}>
+                    <ModalHeader toggle={toggleEdit}>Edit Task</ModalHeader>
+                    <ModalBody>
+                      <TaskForm
+                        editable={true}
+                        task={selectedTask}
+                        toggle={toggleEdit}
+                      />
+                    </ModalBody>
+                  </Modal>
+                  <Modal isOpen={modalDelete} toggle={toggleDelete}>
+                    <ModalHeader toggle={toggleDelete}>
+                      Delete Sub Task ?
+                    </ModalHeader>
+                    <ModalBody>
+                      Are you sure you want to delete the Task "
+                      {selectedTask.name}" ?
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button
+                        color="primary"
+                        onClick={() => {
+                          handleDelete(selectedTask._id);
+                        }}
+                      >
+                        Yes
+                      </Button>{" "}
+                      <Button color="secondary" onClick={toggleDelete}>
+                        No
+                      </Button>
+                    </ModalFooter>
+                  </Modal>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="page-content-wrapper">
-        <div className="container-fluid">
-          <div className="row">
-            <div>
-              <Modal isOpen={modalEdit} toggle={toggleEdit}>
-                <ModalHeader toggle={toggleEdit}>Edit Task</ModalHeader>
-                <ModalBody>
-                  <TaskForm
-                    editable={true}
-                    task={selectedTask}
-                    toggle={toggleEdit}
-                  />
-                </ModalBody>
-              </Modal>
-              <Modal isOpen={modalDelete} toggle={toggleDelete}>
-                <ModalHeader toggle={toggleDelete}>
-                  Delete Sub Task ?
-                </ModalHeader>
-                <ModalBody>
-                  Are you sure you want to delete the Task "{selectedTask.name}"
-                  ?
-                </ModalBody>
-                <ModalFooter>
-                  <Button
-                    color="primary"
-                    onClick={() => {
-                      handleDelete(selectedTask._id);
-                    }}
-                  >
-                    Yes
-                  </Button>{" "}
-                  <Button color="secondary" onClick={toggleDelete}>
-                    No
-                  </Button>
-                </ModalFooter>
-              </Modal>
-            </div>
-            <div className="col-lg-12 gap">
-              <ul className="nav nav-tabs nav-tabs-custom" role="tablist">
-                <li className="nav-item">
-                  <a
-                    className="nav-link active"
-                    data-toggle="tab"
-                    href="#home"
-                    role="tab"
-                  >
-                    <span className="d-none d-md-block">Description</span>
-                    <span className="d-block d-md-none">
-                      <i className="mdi mdi-home-variant h5" />
-                    </span>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    data-toggle="tab"
-                    href="#profile"
-                    role="tab"
-                  >
-                    <span className="d-none d-md-block">Sub-Tasks</span>
-                    <span className="d-block d-md-none">
-                      <i className="mdi mdi-account h5" />
-                    </span>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    data-toggle="tab"
-                    href="#messages"
-                    role="tab"
-                  >
-                    <span className="d-none d-md-block">Remarks</span>
-                    <span className="d-block d-md-none">
-                      <i className="mdi mdi-email h5" />
-                    </span>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    data-toggle="tab"
-                    href="#settings"
-                    role="tab"
-                  >
-                    <span className="d-none d-md-block">Comments</span>
-                    <span className="d-block d-md-none">
-                      <i className="mdi mdi-settings h5" />
-                    </span>
-                  </a>
-                </li>
-              </ul>
 
-              <div className="tab-content">
-                <div className="tab-pane active p-3" id="home" role="tabpanel">
-                  {taskData && taskData.description ? (
-                    <Editor
-                      toolbarClassName="toolbarClassName"
-                      wrapperClassName="wrapperClassName"
-                      editorClassName="editorClass"
-                      readOnly
-                      toolbarStyle={{ display: "none" }}
-                      editorStyle={{
-                        minHeight: "300px",
-                      }}
-                      editorState={
-                        // taskData.description &&
-                        EditorState.createWithContent(
-                          convertFromRaw(JSON.parse(taskData.description))
-                        )
-                      }
-                      // editorStyle={{minHeight:"500px",overflowY:"scroll !important"}}
+              <div className="tab-pane p-3" id="messages2" role="tabpanel">
+                <MyTask />
+              </div>
+              <div className="tab-pane p-3" id="settings2" role="tabpanel">
+                <div className="card task">
+                  <div className="row cardd">
+                    <i
+                      class="mdi mdi-account iconSize"
+                      style={{ color: "var(--color-secondary1)" }}
                     />
-                  ) : (
-                    "none"
-                  )}
-                </div>
-                <div className="tab-pane p-3" id="profile" role="tabpanel">
-                  <MDBDataTableV5
-                    responsive
-                    striped
-                    small
-                    onPageChange={(val) => console.log(val)}
-                    bordered={true}
-                    //  materialSearch
-                    searchTop
-                    searchBottom={false}
-                    pagingTop
-                    barReverse
-                    hover
-                    data={dataa}
-                    theadColor="#000"
-                  />
-                </div>
-                <div className="tab-pane p-3" id="messages" role="tabpanel">
-                  <MDBDataTableV5
-                    responsive
-                    striped
-                    small
-                    onPageChange={(val) => console.log(val)}
-                    bordered={true}
-                    //  materialSearch
-                    searchTop
-                    searchBottom={false}
-                    pagingTop
-                    barReverse
-                    hover
-                    data={remarks}
-                    theadColor="#000"
-                  />
-                </div>
-                <div className="tab-pane p-3" id="settings" role="tabpanel">
-                  <div className="task-comments col-12">
-                    <Comments taskId={taskData && taskData._id} />
+                    <i class="mdi mdi-settings iconSize" />
+                  </div>
+                  <div className="row cSettings">
+                    <h2>Task Settings</h2>
+                  </div>
+                  <div className="border-b" />
+                  <div className="row cardd">
+                    <Link to="/task-priority">Task Priority</Link>
                   </div>
                 </div>
               </div>

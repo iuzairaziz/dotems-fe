@@ -44,7 +44,11 @@ const TaskForm = (props) => {
     userService.getProjectUsers(projectId).then((res) => {
       let options = [];
       res.data.map((item, index) => {
-        options.push({ value: item._id, label: item.name, id: item._id });
+        options.push({
+          value: item._id,
+          label: `${item.firstName} ${item.lastName}`,
+          id: item._id,
+        });
       });
       setUsers(options);
     });

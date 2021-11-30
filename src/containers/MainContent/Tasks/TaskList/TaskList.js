@@ -267,34 +267,6 @@ const Tables_datatable = (props) => {
                 </div>
               </div>
             ),
-            // action: (
-            //   <div className="row flex-nowrap align-items-center">
-            //     {/* <div className="col"> */}
-            //     <i
-            //       className="mdi mdi-eye
-            //       iconsS my-primary-icon"
-            //       onClick={() => {
-            //         props.history.push({
-            //           pathname: "/task-details/" + item._id,
-            //         });
-            //       }}
-            //     />
-            //     <i
-            //       className="mdi mdi-pencil-box iconsS my-seconday-icon"
-            //       onClick={() => {
-            //         setSelectedTask(item);
-            //         toggleEdit();
-            //       }}
-            //     />
-            //     <i
-            //       className="mdi mdi-delete-forever iconsS my-danger-icon"
-            //       onClick={() => {
-            //         setSelectedTask(item);
-            //         toggleDelete();
-            //       }}
-            //     />
-            //   </div>
-            // ),
           });
         });
         setData(data);

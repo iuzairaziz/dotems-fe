@@ -14,7 +14,7 @@ const Comments = (props) => {
   //   const socket = userService.getSocket();
 
   useEffect(() => {
-    getTaskComments(props.taskId);
+    props.taskId && getTaskComments(props.taskId);
   }, [props.taskId]);
 
   const getTaskComments = (id) => {

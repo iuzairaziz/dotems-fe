@@ -150,15 +150,15 @@ const ProjectForm = (props) => {
     userService.getUsers("", "", "", "").then((res) => {
       let options = [];
       res.data
-        .filter((user) => {
-          return user.userRole.some((role) => {
-            return role === roless.PM;
-          });
-        })
+        // .filter((user) => {
+        //   return user.userRole.some((role) => {
+        //     return role === roless.PM;
+        //   });
+        // })
         .map((item, index) => {
           options.push({
             value: item._id,
-            label: `${item.name}`,
+            label: `${item.firstName} ${item.lastName}`,
           });
         });
       setUsers(options);
@@ -170,19 +170,19 @@ const ProjectForm = (props) => {
     userService.getUsers("", "", "", "").then((res) => {
       let options = [];
       res.data
-        .filter((user) => {
-          return user.userRole.some((role) => {
-            return (
-              role === roless.INTERNEE ||
-              role === roless.PROBATION ||
-              role === roless.EMPLOYEE
-            );
-          });
-        })
+        // .filter((user) => {
+        //   return user.userRole.some((role) => {
+        //     return (
+        //       role === roless.INTERNEE ||
+        //       role === roless.PROBATION ||
+        //       role === roless.EMPLOYEE
+        //     );
+        //   });
+        // })
         .map((item, index) => {
           options.push({
             value: item._id,
-            label: `${item.name}`,
+            label: `${item.firstName} ${item.lastName}`,
           });
         });
       setTeamMember(options);

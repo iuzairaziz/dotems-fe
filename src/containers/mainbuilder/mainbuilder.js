@@ -123,6 +123,9 @@ const mainbuilder = (props) => {
   return (
     <>
       <Switch>
+        <Route exact path="/add-time" component={AddTime} />
+        <Route exact path="/my-tasks" component={MyTasks} />
+
         <Route
           exact
           path="/view-single-leave-policy/:name"
@@ -191,7 +194,6 @@ const mainbuilder = (props) => {
           <Route exact path="/add-request" component={AddRequest} />
           <Route exact path="/form" component={Ui_tabs_accordions} />
           <Route exact path="/attendance" component={AttendanceList} />
-          <Route exact path="/my-tasks" component={MyTasks} />
           <Route exact path="/leave-form" component={NewLeave} />
           <Route
             exact
@@ -299,7 +301,6 @@ const mainbuilder = (props) => {
             <Route exact path="/viewstatus" component={StatusList} />
             <Route exact path="/viewcurrency" component={CurrencyList} />
           </RoleAuth>
-          <Route exact path="/add-time" component={AddTime} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/task" component={TaskList} />
           <Route exact path="/dashboard2" component={Dashboard2} />
