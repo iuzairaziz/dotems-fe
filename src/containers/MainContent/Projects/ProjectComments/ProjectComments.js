@@ -12,7 +12,7 @@ const ProjectComments = (props) => {
   const loggedInUser = userService.userLoggedInInfo();
 
   useEffect(() => {
-    getProjectComments(props.projectId);
+    props.projectId && getProjectComments(props.projectId);
   }, [props.projectId]);
 
   const getProjectComments = (id) => {
