@@ -232,6 +232,12 @@ const ViewProjects = (props, match) => {
             index: index,
             projectName: item.name ? item.name : "N/A",
             clientName: item.client ? item.client.name : "N/A",
+            // clientName: (
+            //   <Link to={`/client-details/${item.client._id}`}>
+            //     {" "}
+            //     {item.client ? item.client.name : "N/A"}
+            //   </Link>
+            // ),
             orderNum: item.orderNum ? item.orderNum : "N/A",
             platform: item.platform ? item.platform.name : "N/A",
             technology: item.technology
@@ -285,6 +291,7 @@ const ViewProjects = (props, match) => {
                       props.history.push({
                         pathname: "/viewprojects/" + item._id,
                       });
+                      window.location.reload(true);
                     }}
                   >
                     View

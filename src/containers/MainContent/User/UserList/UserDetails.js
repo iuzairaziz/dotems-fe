@@ -632,6 +632,27 @@ const UserDetails = (props) => {
                                       />
                                     </div>
                                   </div>
+                                  <div className="col-6">
+                                    <div className="form-group">
+                                      <label className="control-label">
+                                        Working Shift{" "}
+                                      </label>
+                                      <input
+                                        readOnly={true}
+                                        name="title"
+                                        onBlur={props.handleBlur}
+                                        type="text"
+                                        className={`form-control`}
+                                        value={
+                                          userData &&
+                                          userData.workingShift &&
+                                          userData.workingShift.name
+                                        }
+                                        // onChange={props.handleChange("title")}
+                                        placeholder="Enter Name"
+                                      />
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                               <div

@@ -38,7 +38,9 @@ const TaskFormDaily = (props) => {
     console.log("updated emplyee data", employeeData);
   }, [employeeData]);
 
-  useEffect(() => {getSaveSettings()}, [])
+  useEffect(() => {
+    getSaveSettings();
+  }, []);
 
   const isEmptyObj = (obj) => {
     for (var x in obj) {
@@ -47,27 +49,27 @@ const TaskFormDaily = (props) => {
     return true;
   };
 
-//   const getAllUsers = () => {
-//     userService.getUsers("", "", "", "").then((res) => {
-//       let options = [];
-//       res.data.map((item, index) => {
-//         options.push({ value: item._id, label: item.name });
-//       });
-//       setUsers(options);
-//     });
-//   };
+  //   const getAllUsers = () => {
+  //     userService.getUsers("", "", "", "").then((res) => {
+  //       let options = [];
+  //       res.data.map((item, index) => {
+  //         options.push({ value: item._id, label: item.name });
+  //       });
+  //       setUsers(options);
+  //     });
+  //   };
 
   const getSaveSettings = () => {
     LeaveService.getAllLeaveSettings().then((res) => {
       let options = [];
       res.data.map((item) => {
-        options.push(item)
-      })
+        options.push(item);
+      });
       setSaveSettings(options);
       console.log("opt", options);
-      console.log("res", res.data)
-    })
-  }
+      console.log("res", res.data);
+    });
+  };
 
   const handleChange = (
     e,
@@ -176,7 +178,7 @@ const TaskFormDaily = (props) => {
             </tr>
           </thead>
           <tbody>
-                        <tr>
+            <tr>
               <td colSpan="9" className="not-found-icon p-0">
                 {employeeData.length === 0 && (
                   <>
@@ -192,7 +194,7 @@ const TaskFormDaily = (props) => {
                 <>
                   <tr key={pIndex}>
                     <td className="project-name" colSpan="9">
-                      <strong>Project: {project.project.name}</strong>
+                      <strong>Project: {project.name}</strong>
                     </td>
                   </tr>
                   {project.tasks.map((task, tIndex) => {
@@ -230,7 +232,7 @@ const TaskFormDaily = (props) => {
                             />
                           </div>
                         </td>
-                        {[0].map((item, tsIndx) => {                        
+                        {[0].map((item, tsIndx) => {
                           return (
                             <td key={tsIndx} className="inputCol">
                               <input
