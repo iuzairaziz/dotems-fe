@@ -117,7 +117,11 @@ const TaskForm = (props) => {
     TaskService.getEmployeeTasksGroupByProject({ empId, startDate, endDate })
       .then((res) => {
         setEmployeeData(() => res.data);
-        if (res.data[0] && res.data[0].tasks[0].timesheet[0].final) {
+        if (
+          res.data[0] &&
+          res.data[0].tasks[0].timesheet[0] &&
+          res.data[0].tasks[0].timesheet[0].final
+        ) {
           setFinalSheet(true);
           setFinalSwitch(true);
         } else {
@@ -126,6 +130,7 @@ const TaskForm = (props) => {
         }
       })
       .catch((err) => {
+        console.log("erro", err);
         TaskService.handleError();
       });
   };

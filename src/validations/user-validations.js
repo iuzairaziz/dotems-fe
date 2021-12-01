@@ -39,6 +39,8 @@ class UserValidation {
       employeeStatus: Yup.object().required(),
       workingDays: Yup.object().required(),
       workingHours: Yup.object().required(),
+      workingShift: Yup.object().required(),
+      leavePolicy: Yup.object().required(),
       salary: Yup.number().required("Required!"),
       gender: Yup.object().required(),
       joiningDate: Yup.string().required("Required!"),
