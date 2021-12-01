@@ -524,7 +524,7 @@ const ClientDetails = (props) => {
                                     </div>
                                   </div>
                                   <div
-                                    className="tab-pane active p-3"
+                                    className="tab-pane p-3"
                                     id={`tasks`}
                                     role="tabpanel"
                                   >

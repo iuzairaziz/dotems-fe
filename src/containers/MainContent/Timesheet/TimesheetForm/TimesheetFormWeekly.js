@@ -39,7 +39,9 @@ const TaskForm = (props) => {
     console.log("updated emplyee data", employeeData);
   }, [employeeData]);
 
-  useEffect(() => {getSaveSettings()}, [])
+  useEffect(() => {
+    getSaveSettings();
+  }, []);
 
   const isEmptyObj = (obj) => {
     for (var x in obj) {
@@ -62,13 +64,13 @@ const TaskForm = (props) => {
     LeaveService.getAllLeaveSettings().then((res) => {
       let options = [];
       res.data.map((item) => {
-        options.push(item)
-      })
+        options.push(item);
+      });
       setSaveSettings(options);
       console.log("opt", options);
-      console.log("res", res.data)
-    })
-  }
+      console.log("res", res.data);
+    });
+  };
 
   const handleChange = (
     e,
@@ -225,7 +227,7 @@ const TaskForm = (props) => {
             </tr>
           </thead>
           <tbody>
-                        <tr>
+            <tr>
               <td colSpan="9" className="not-found-icon p-0">
                 {employeeData.length === 0 && (
                   <>
@@ -241,7 +243,7 @@ const TaskForm = (props) => {
                 <>
                   <tr key={pIndex}>
                     <td className="project-name" colSpan="9">
-                      <strong>Project: {project.project.name}</strong>
+                      <strong>Project: {project.name}</strong>
                     </td>
                   </tr>
                   {project.tasks.map((task, tIndex) => {
@@ -279,7 +281,7 @@ const TaskForm = (props) => {
                             />
                           </div>
                         </td>
-                        {[0, 1, 2, 3, 4, 5, 6].map((item, tsIndx) => {                        
+                        {[0, 1, 2, 3, 4, 5, 6].map((item, tsIndx) => {
                           return (
                             <td key={tsIndx} className="inputCol">
                               <input
@@ -288,7 +290,10 @@ const TaskForm = (props) => {
                                   isRole([ADMIN, PM, CEO])
                                     ? true
                                     : (task.timesheet[tsIndx] &&
-                                      task.timesheet[tsIndx].final) || moment(selectedDays[tsIndx]).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD") 
+                                        task.timesheet[tsIndx].final) ||
+                                      moment(selectedDays[tsIndx]).format(
+                                        "YYYY-MM-DD"
+                                      ) > moment().format("YYYY-MM-DD")
                                 }
                                 name={`task${counter}day${tsIndx}hrs`}
                                 value={
@@ -317,7 +322,10 @@ const TaskForm = (props) => {
                                     isRole([ADMIN, PM, CEO])
                                       ? true
                                       : (task.timesheet[tsIndx] &&
-                                        task.timesheet[tsIndx].final) || moment(selectedDays[tsIndx]).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD")
+                                          task.timesheet[tsIndx].final) ||
+                                        moment(selectedDays[tsIndx]).format(
+                                          "YYYY-MM-DD"
+                                        ) > moment().format("YYYY-MM-DD")
                                   }
                                   value={
                                     task.timesheet[tsIndx]
