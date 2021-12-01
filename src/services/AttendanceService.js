@@ -20,11 +20,9 @@ class AttendanceService {
     return axios.get(this.config.apiBaseUrl + "attendance/" + id);
   }
 
-  // getWorkingShift() {
-  //   return axios.get(
-  //     this.config.apiBaseUrl + "working-shift/show-working-shift"
-  //   );
-  // }
+  getPresentEmployes(date) {
+    return axios.post(this.config.apiBaseUrl + "attendance", date);
+  }
 
   // updateWorkingShift(id, formData) {
   //   return axios.put(this.config.apiBaseUrl + "working-shift/" + id, formData);

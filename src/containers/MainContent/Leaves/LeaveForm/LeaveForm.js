@@ -47,22 +47,22 @@ const LeaveForm = (props) => {
       .then((resp) => {
         console.log("user", resp);
         setCurrentUser(resp.data.user);
-        LeavePolicyServices.getLeavePolicyById(resp.data.user.leavePolicy).then(
-          (res) => {
-            console.log("leave Policy", res.data);
-            let options = []; // for react select
+        LeavePolicyServices.getLeavePolicyById(
+          resp.data.user.leavePolicy._id
+        ).then((res) => {
+          console.log("leave Policy", res.data);
+          let options = []; // for react select
 
-            res.data.map((item, index) => {
-              options.push({
-                label: item.type.name,
-                value: item.type._id,
-                totalLeaves: item.totalLeaves,
-              });
+          res.data.map((item, index) => {
+            options.push({
+              label: item.type.name,
+              value: item.type._id,
+              totalLeaves: item.totalLeaves,
             });
-            setLeaveTypes(options);
-            console.log("options", options);
-          }
-        );
+          });
+          setLeaveTypes(options);
+          console.log("options", options);
+        });
       })
       .catch((err) => {
         LeaveService.handleCustomMessage(err.response.data);

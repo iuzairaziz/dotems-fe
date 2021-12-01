@@ -6,6 +6,7 @@ import ProjectService from "../../../services/ProjectService";
 import { data } from "jquery";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import moment from "moment";
+import PresentEmployes from "../Attendance/PresentEmployes";
 
 const AdminDashboard = () => {
   const [pendingRequest, setPendingRequest] = useState([]);
@@ -676,7 +677,7 @@ const AdminDashboard = () => {
                           id="leavePresent"
                           role="tabpanel"
                         >
-                          <p className="font-14 mb-0">Present</p>
+                          <PresentEmployes />{" "}
                         </div>
                         <div
                           className="tab-pane p-3"

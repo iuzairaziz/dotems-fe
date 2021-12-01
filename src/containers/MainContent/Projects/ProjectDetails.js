@@ -14,9 +14,6 @@ import Configuration from "../../../config/configuration";
 import { Link } from "react-router-dom";
 import ViewProject from "../Projects/ViewProjects";
 import MyProject from "../Projects/MyProject";
-import { Modal, ModalHeader, ModalBody } from "reactstrap";
-import TaskForm from "../Tasks/TaskForm/TaskForm";
-import RoleAuth from "../../../components/MyComponents/Auth/RoleAuth";
 
 const ProjectDetails = (props) => {
   {
@@ -470,6 +467,22 @@ const ProjectDetails = (props) => {
                                 </span>
                                 <span className="d-block d-md-none">
                                   <i className="mdi mdi-clipboard-outline h5" />
+                                </span>
+                              </a>
+                            </li>
+                            <li className="nav-item waves-effect waves-light">
+                              <a
+                                className="nav-link"
+                                data-toggle="tab"
+                                href={`#comments`}
+                                role="tab"
+                              >
+                                <span className="d-none d-md-block">
+                                  <i class="mdi mdi-message-text-outline" />
+                                  Comments
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="mdi mdi-message-text-outline h5" />
                                 </span>
                               </a>
                             </li>
@@ -1265,6 +1278,15 @@ const ProjectDetails = (props) => {
                                   theadColor="#000"
                                 />
                               </p>
+                            </div>
+                            <div
+                              className="tab-pane p-3"
+                              id={`comments`}
+                              role="tabpanel"
+                            >
+                              <ProjectComments
+                                projectId={projectData && projectData._id}
+                              />
                             </div>
                           </div>
                         </div>
