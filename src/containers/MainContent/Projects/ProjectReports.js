@@ -148,7 +148,7 @@ const ProjectReports = () => {
           .children("td")
           .eq(11)
           .text();
-          var second = $(this)
+        var second = $(this)
           .children("td")
           .eq(2)
           .text();
@@ -156,8 +156,8 @@ const ProjectReports = () => {
           .children("td")
           .eq(1)
           .text();
-          var finalSecond = parseInt(second);
-          var finalFirst = parseInt(first);
+        var finalSecond = parseInt(second);
+        var finalFirst = parseInt(first);
         var finalEleven = parseInt(eleven);
         if (finalEleven < 0) {
           $(this).css("color", "red");
@@ -169,8 +169,7 @@ const ProjectReports = () => {
           $(this)
             .find("a")
             .css("color", "#00FF00");
-        } 
-        else {
+        } else {
           $(this).css("color", "black");
           $(this)
             .find("a")
@@ -215,7 +214,6 @@ const ProjectReports = () => {
         toggleDelete();
       });
   };
-
 
   const getData = () => {
     ProjectService.getProjectReport({

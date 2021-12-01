@@ -461,7 +461,11 @@ const UserDetails = (props) => {
                                         className={`form-control`}
                                         value={
                                           userData &&
-                                          userData.employeeManager.name
+                                          `${
+                                            userData.employeeManager.firstName
+                                          } ${
+                                            userData.employeeManager.lastName
+                                          }`
                                         }
                                         // onChange={props.handleChange("title")}
                                         placeholder="Enter Name"
