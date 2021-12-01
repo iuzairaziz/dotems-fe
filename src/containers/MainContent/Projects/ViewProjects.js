@@ -231,6 +231,7 @@ const ViewProjects = (props, match) => {
           data.rows.push({
             index: index,
             projectName: item.name ? item.name : "N/A",
+            clientName: item.client ? item.client.name : "N/A",
             // clientName: (
             //   <Link to={`/client-details/${item.client._id}`}>
             //     {" "}
@@ -290,6 +291,7 @@ const ViewProjects = (props, match) => {
                       props.history.push({
                         pathname: "/viewprojects/" + item._id,
                       });
+                      window.location.reload(true);
                     }}
                   >
                     View
