@@ -14,6 +14,7 @@ import Configuration from "../../../config/configuration";
 import { Link } from "react-router-dom";
 import ViewProject from "../Projects/ViewProjects";
 import MyProject from "../Projects/MyProject";
+import ProjectForm from "../Projects/ProjectFrom";
 
 const ProjectDetails = (props) => {
   {
@@ -279,6 +280,19 @@ const ProjectDetails = (props) => {
                 </li>
                 <li className="nav-item">
                   <a
+                    className="nav-link "
+                    data-toggle="tab"
+                    href="#addproject"
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">+ Add Projects</span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-clipboard-account h5" />
+                    </span>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
                     className="nav-link active"
                     data-toggle="tab"
                     href="#messages1"
@@ -311,6 +325,9 @@ const ProjectDetails = (props) => {
                 </div>
                 <div className="tab-pane p-3" id="profile1" role="tabpanel">
                   <ViewProject />
+                </div>
+                <div className="tab-pane p-3" id="addproject" role="tabpanel">
+                  <ProjectForm />
                 </div>
                 <div
                   className="tab-pane active p-3"

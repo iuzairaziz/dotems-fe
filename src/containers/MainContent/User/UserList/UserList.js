@@ -342,7 +342,11 @@ const ViewUsers = (props) => {
               />
             </div>
             <div>
-              <Modal isOpen={modalEdit} toggle={toggleEdit}>
+              <Modal
+                isOpen={modalEdit}
+                toggle={toggleEdit}
+                style={{ maxWidth: "90%" }}
+              >
                 <ModalHeader toggle={toggleEdit}>Edit User</ModalHeader>
                 <ModalBody>
                   <UserForm

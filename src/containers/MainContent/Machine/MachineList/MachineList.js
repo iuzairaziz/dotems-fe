@@ -2,8 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link, useHistory } from "react-router-dom";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
-import DatePicker from "react-datepicker";
-import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
+import { withRouter } from "react-router-dom";
 
 import moment from "moment";
 import {
@@ -24,6 +23,8 @@ const ViewMachines = (props) => {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [selectedMachine, setSelectedMachine] = useState({ name: "" });
+  const [reloadData, setReloadData] = useState(false);
+  const reloadDataa = () => setReloadData(!reloadData);
 
   const [dataa, setData] = useState({
     columns: [
@@ -83,32 +84,47 @@ const ViewMachines = (props) => {
             machineName: item.name ? item.name : "none",
             machineNo: item.machineNo ? item.machineNo : "none",
             resourceName: item.resourceName ? item.resourceName.name : "none",
-
             action: (
-              <div className="row flex-nowrap">
-                <i
-                  className="mdi mdi-eye
-                  iconsS my-primary-icon"
-                  onClick={() => {
-                    props.history.push({
-                      pathname: `/machine-details/${item._id}`,
-                    });
-                  }}
-                />
-                <i
-                  className="mdi mdi-pencil-box iconsS my-seconday-icon"
-                  onClick={() => {
-                    setSelectedMachine(item);
-                    toggleEdit();
-                  }}
-                />
-                <i
-                  className="mdi mdi-delete-forever iconsS my-danger-icon"
-                  onClick={() => {
-                    setSelectedMachine(item);
-                    toggleDelete();
-                  }}
-                />
+              <div class="dropdown">
+                <button
+                  type="button"
+                  class="dropdown-toggle"
+                  data-toggle="dropdown"
+                >
+                  <i class="mdi mdi-view-list" size={40} />
+                </button>
+                <div class="dropdown-menu">
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      console.log("Reload Data", reloadData);
+                      props.history.push({
+                        pathname: "/machine-details/" + item._id,
+                      });
+                      window.location.reload(true);
+                    }}
+                  >
+                    View
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedMachine(item);
+                      toggleEdit();
+                    }}
+                  >
+                    Edit
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    onClick={() => {
+                      setSelectedMachine(item);
+                      toggleDelete();
+                    }}
+                  >
+                    Delete
+                  </a>
+                </div>
               </div>
             ),
           });
@@ -129,29 +145,22 @@ const ViewMachines = (props) => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="card m-b-20">
-                <div className="card-body">
-                  <div className="row align-items-center mb-3">
-                    <div className="col" />
-                  </div>
-                  <MDBDataTableV5
-                    responsive
-                    striped
-                    small
-                    onPageChange={(val) => console.log(val)}
-                    bordered={true}
-                    //  materialSearch
-                    searchTop
-                    searchBottom={false}
-                    pagingTop
-                    barReverse
-                    hover
-                    // scrollX
-                    data={dataa}
-                    theadColor="#000"
-                  />
-                </div>
-              </div>
+              <MDBDataTableV5
+                responsive
+                striped
+                small
+                onPageChange={(val) => console.log(val)}
+                bordered={true}
+                //  materialSearch
+                searchTop
+                searchBottom={false}
+                pagingTop
+                barReverse
+                hover
+                // scrollX
+                data={dataa}
+                theadColor="#000"
+              />
             </div>
             <Modal isOpen={modalEdit} toggle={toggleEdit}>
               <ModalHeader toggle={toggleEdit}>Edit Machine</ModalHeader>
@@ -166,8 +175,8 @@ const ViewMachines = (props) => {
             <Modal isOpen={modalDelete} toggle={toggleDelete}>
               <ModalHeader toggle={toggleDelete}>Delete Machine?</ModalHeader>
               <ModalBody>
-                Are you sure you want to delete the Machine?
-                {selectedMachine.name}
+                Are you sure you want to delete the Machine "{" "}
+                {selectedMachine.name}"?
               </ModalBody>
               <ModalFooter>
                 <Button
@@ -190,4 +199,4 @@ const ViewMachines = (props) => {
   );
 };
 
-export default ViewMachines;
+export default withRouter(ViewMachines);

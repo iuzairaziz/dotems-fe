@@ -231,12 +231,7 @@ const ViewProjects = (props, match) => {
           data.rows.push({
             index: index,
             projectName: item.name ? item.name : "N/A",
-            // clientName: (
-            //   <Link to={`/client-details/${item.client._id}`}>
-            //     {" "}
-            //     {item.client ? item.client.name : "N/A"}
-            //   </Link>
-            // ),
+            clientName: item.client ? item.client.name : "N/A",
             orderNum: item.orderNum ? item.orderNum : "N/A",
             platform: item.platform ? item.platform.name : "N/A",
             technology: item.technology

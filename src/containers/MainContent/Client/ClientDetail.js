@@ -5,6 +5,7 @@ import ClientService from "../../../services/ClientService";
 import { MDBDataTableV5, MDBBtn } from "mdbreact";
 import { Link, withRouter } from "react-router-dom";
 import ClientList from "../Client/ViewClients";
+import ClientForm from "../Client/ClientsForm";
 
 const ClientDetails = (props) => {
   {
@@ -140,6 +141,19 @@ const ClientDetails = (props) => {
                 </li>
                 <li className="nav-item">
                   <a
+                    className="nav-link "
+                    data-toggle="tab"
+                    href="#client1"
+                    role="tab"
+                  >
+                    <span className="d-none d-md-block">+ Add Client</span>
+                    <span className="d-block d-md-none">
+                      <i className="mdi mdi-view-list h5" />
+                    </span>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
                     className="nav-link active"
                     data-toggle="tab"
                     href="#home1"
@@ -169,6 +183,9 @@ const ClientDetails = (props) => {
               <div className="tab-content">
                 <div className="tab-pane p-3" id="profile1" role="tabpanel">
                   <ClientList />
+                </div>
+                <div className="tab-pane p-3" id="client1" role="tabpanel">
+                  <ClientForm />
                 </div>
                 <div
                   className="tab-pane active  p-3"

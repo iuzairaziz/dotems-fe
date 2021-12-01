@@ -21,6 +21,10 @@ const TechnologyList = () => {
         // width: 150,
       },
       {
+        label: "Preset",
+        field: "preset",
+      },
+      {
         label: "Action",
         field: "action",
         sort: "asc",
@@ -57,6 +61,23 @@ const TechnologyList = () => {
         res.data.map((item, index) => {
           updatedData.rows.push({
             title: item.name ? item.name : "none",
+            preset: (
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
+                  // id="exampleRadios1"
+                  value="option1"
+                  onChange={(e) =>
+                    TechnologyService.setTechnologypreset(item._id).then(() => {
+                      getTechnologies();
+                    })
+                  }
+                  checked={item.preset ? true : false}
+                />
+              </div>
+            ),
             action: (
               <div className="row flex-nowrap">
                 <i

@@ -1,11 +1,9 @@
 import React, { Component, useState, useEffect } from "react";
 import AUX from "../../../../hoc/Aux_";
 import { Link } from "react-router-dom";
-import Editable from "react-x-editable";
 import moment from "moment";
 import { withRouter } from "react-router-dom";
-
-import { MDBDataTableV5, MDBBtn } from "mdbreact";
+import UserForm from "../AddUserForm/AddUserForm";
 import UserService from "../../../../services/UserService";
 import { Progress } from "reactstrap";
 import UserList from "../UserList/UserList";
@@ -157,6 +155,19 @@ const UserDetails = (props) => {
                   </li>
                   <li className="nav-item">
                     <a
+                      className="nav-link "
+                      data-toggle="tab"
+                      href="#adduser"
+                      role="tab"
+                    >
+                      <span className="d-none d-md-block">+ Add User</span>
+                      <span className="d-block d-md-none">
+                        <i className="mdi mdi-account h5" />
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
                       className="nav-link active"
                       data-toggle="tab"
                       href="#home2"
@@ -165,19 +176,6 @@ const UserDetails = (props) => {
                       <span className="d-none d-md-block"> View User</span>
                       <span className="d-block d-md-none">
                         <i className="mdi mdi-home-variant h5" />
-                      </span>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a
-                      className="nav-link "
-                      data-toggle="tab"
-                      href="#messages2"
-                      role="tab"
-                    >
-                      <span className="d-none d-md-block">Update Password</span>
-                      <span className="d-block d-md-none">
-                        <i className="mdi mdi-email h5" />
                       </span>
                     </a>
                   </li>
@@ -199,6 +197,9 @@ const UserDetails = (props) => {
                 <div className="tab-content">
                   <div className="tab-pane  p-3" id="profile2" role="tabpanel">
                     <UserList />
+                  </div>
+                  <div className="tab-pane  p-3" id="adduser" role="tabpanel">
+                    <UserForm />
                   </div>
                   <div
                     className="tab-pane active p-3"
@@ -971,10 +972,6 @@ const UserDetails = (props) => {
             </div> */}
                     </div>
                   </div>
-
-                  <div className="tab-pane p-3" id="messages2" role="tabpanel">
-                    <ChangePasswordForm />
-                  </div>
                   <div className="tab-pane p-3" id="settings2" role="tabpanel">
                     <div className="card user">
                       <div className="row cardd">
@@ -989,10 +986,39 @@ const UserDetails = (props) => {
                       </div>
                       <div className="border-b" />
                       <div className="row cardd">
-                        <Link to="/add-platform">Platform</Link>
+                        <Link to="/role/add">Roles</Link>
+                      </div>
+                      <div className="row cardd">
+                        <Link to="/permissions">Roles & Permissions</Link>
                       </div>
                       <div className="row cardd ">
-                        <Link to="/add-clientlabel">Client Label</Link>
+                        <Link to="/add-designation">Designation</Link>
+                      </div>
+                      <div className="row cardd ">
+                        <Link to="/add-employee-type">Employee Type</Link>
+                      </div>
+                      <div className="row cardd ">
+                        <Link to="/add-department">Department</Link>
+                      </div>
+                      <div className="row cardd ">
+                        <Link to="/leave/add-new-working-day">
+                          Working Days
+                        </Link>
+                      </div>
+                      <div className="row cardd ">
+                        <Link to="/working-hours-add">Working Hours</Link>
+                      </div>
+                      <div className="row cardd ">
+                        <Link to="/working-shift-add">Working Shift</Link>
+                      </div>
+                      <div className="row cardd ">
+                        <Link to="/add-machine">Machine</Link>
+                      </div>
+                      <div className="row cardd ">
+                        <Link to="/resource-cost-add">Resource Cost</Link>
+                      </div>
+                      <div className="row cardd ">
+                        <Link to="/add-leave-policy">Leave Policy</Link>
                       </div>
                     </div>
                   </div>

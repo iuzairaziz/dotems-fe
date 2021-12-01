@@ -58,6 +58,7 @@ const ProjectForm = (props) => {
   const [outSourceValue, setOutSourceValue] = useState(true);
   const [outSourceHideField, setOutSourceHideField] = useState(false);
   const [platformPreset, setPlatformPreset] = useState();
+  const [labelPreset, setLabelPreset] = useState();
 
   const [phasesDetails, setPhasesDetails] = useState([
     {
@@ -150,11 +151,9 @@ const ProjectForm = (props) => {
     userService.getUsers("", "", "", "").then((res) => {
       let options = [];
       res.data
-        // .filter((user) => {
-        //   return user.userRole.some((role) => {
-        //     return role === roless.PM;
-        //   });
-        // })
+        .filter((user) => {
+          return user.role.name === "Project Manager";
+        })
         .map((item, index) => {
           options.push({
             value: item._id,
@@ -170,15 +169,13 @@ const ProjectForm = (props) => {
     userService.getUsers("", "", "", "").then((res) => {
       let options = [];
       res.data
-        // .filter((user) => {
-        //   return user.userRole.some((role) => {
-        //     return (
-        //       role === roless.INTERNEE ||
-        //       role === roless.PROBATION ||
-        //       role === roless.EMPLOYEE
-        //     );
-        //   });
-        // })
+        .filter((user) => {
+          return (
+            user.role.name === "Employee" ||
+            user.role.name === "Internee" ||
+            user.role.name === "Probation"
+          );
+        })
         .map((item, index) => {
           options.push({
             value: item._id,
@@ -188,6 +185,8 @@ const ProjectForm = (props) => {
       setTeamMember(options);
     });
   };
+
+  console.log("team", teamMember);
 
   const getClient = () => {
     ClientService.getAllClient().then((res) => {
@@ -231,6 +230,15 @@ const ProjectForm = (props) => {
         options.push({ label: item.name, value: item._id });
       });
       setTechnology(options);
+      const presetLabel = res.data.find(
+        (technology) => technology.preset === true
+      );
+      // console.log("...", presetLabel);
+      // setLabelPreset({ label: presetLabel.name, value: presetLabel._id });
+      formikSetter("technology", {
+        label: presetLabel.name,
+        value: presetLabel._id,
+      });
     });
   };
 
@@ -242,7 +250,7 @@ const ProjectForm = (props) => {
       });
       setPlatform(options);
       const preset = res.data.find((platform) => platform.preset === true);
-      console.log("...", preset);
+      // console.log("...", preset);
       // setPlatformPreset({ label: preset.name, value: preset._id });
       formikSetter("platform", { label: preset.name, value: preset._id });
     });
@@ -318,7 +326,9 @@ const ProjectForm = (props) => {
             }
           : platformPreset,
         technology:
-          editable && project.technology && Technology ? Technology : [],
+          editable && project.technology && Technology
+            ? Technology
+            : labelPreset,
         serviceType: editable &&
           project.service && {
             label: project.service.name,
@@ -361,9 +371,9 @@ const ProjectForm = (props) => {
         } else {
           setCostValue(false);
         }
-        console.log("vall", values);
+        // console.log("vall", values);
       }}
-      // validationSchema={ProjectValidation.newProjectValidation}
+      validationSchema={ProjectValidation.newProjectValidation}
       onSubmit={(values, actions, errors) => {
         const usrs = [];
         const tech = [];
@@ -449,7 +459,7 @@ const ProjectForm = (props) => {
                 let client = res.data.client;
 
                 client.clientType = values.clientType;
-                console.log("client", client);
+                // console.log("client", client);
                 ClientService.updateClient(client._id, { ...client })
                   .then(() => {
                     console.log("client updated");
@@ -461,7 +471,7 @@ const ProjectForm = (props) => {
                 // history.push("/viewproject");
               })
               .catch((err) => {
-                console.log("err", err);
+                // console.log("err", err);
                 ProjectService.handleCustomMessage(err.response.data);
               });
 
@@ -932,7 +942,7 @@ const ProjectForm = (props) => {
                                     props.setFieldValue("clientType", "New");
                                   });
                                 props.setFieldValue("clientName", val);
-                                console.log("c val", val);
+                                // console.log("c val", val);
                               }}
                               options={client}
                             />

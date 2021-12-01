@@ -265,6 +265,19 @@ const TaskDetail = (props) => {
               </li>
               <li className="nav-item">
                 <a
+                  className="nav-link"
+                  data-toggle="tab"
+                  href="#addtask"
+                  role="tab"
+                >
+                  <span className="d-none d-md-block">+ Add Task</span>
+                  <span className="d-block d-md-none">
+                    <i className="mdi mdi-account h5" />
+                  </span>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
                   className="nav-link active "
                   data-toggle="tab"
                   href="#home2"
@@ -307,6 +320,9 @@ const TaskDetail = (props) => {
             <div className="tab-content">
               <div className="tab-pane  p-3" id="profile2" role="tabpanel">
                 <TaskList />
+              </div>
+              <div className="tab-pane  p-3" id="addtask" role="tabpanel">
+                <TaskForm />
               </div>
               <div className="tab-pane active p-3" id="home2" role="tabpanel">
                 <div className="task-detail">

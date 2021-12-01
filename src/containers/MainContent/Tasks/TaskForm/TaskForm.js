@@ -115,6 +115,8 @@ const TaskForm = (props) => {
       });
   };
 
+  editable && console.log("hhsha", task);
+
   var assignedUsers = [];
   editable &&
     task.assignedTo.map((item) =>
@@ -132,6 +134,15 @@ const TaskForm = (props) => {
           task.project && {
             label: task.project.name,
             value: task.project._id,
+            pmStartDate: task.project.pmStartDate,
+            pmEndDate: task.project.pmEndDate,
+            remainingProjectRatio: task.project.tasks
+              ? task.project.tasks.remainingProjectRatio
+              : 100,
+            remainingProjectEstHrs: task.project.projectRemainingEstTime
+              ? task.project.projectRemainingEstTime
+              : 1000,
+            phase: task.project.phase ? task.project.phase : null,
           },
         phase: editable &&
           task.phase && {
@@ -160,8 +171,8 @@ const TaskForm = (props) => {
         assignedTo: editable && assignedUsers,
         startTime: editable && task.startTime,
         endTime: editable && task.endTime,
-        pmStartDate: "",
-        pmEndDate: "",
+        pmStartDate: editable && task.project.pmStartDate,
+        pmEndDate: editable && task.project.pmEndDate,
         teamLead: editable &&
           task.teamLead && {
             label: task.teamLead.name,

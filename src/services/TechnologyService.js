@@ -14,6 +14,10 @@ class TechnologyService {
     );
   }
 
+  setTechnologypreset(id) {
+    return axios.put(this.config.apiBaseUrl + "technologies/preset/" + id);
+  }
+
   getTechnologyById(orderId) {
     return axios.get(this.config.apiBaseUrl + "tasks/" + orderId);
   }

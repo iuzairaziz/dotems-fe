@@ -295,13 +295,17 @@ const UserForm = (props) => {
         address: editable && user.address,
         guardianName: editable && user.guardianName,
         guardianContact: editable && user.guardianContact,
-        status: editable &&
-          user.status && {
-            label: user.status,
-            value: user.status,
-          },
-        gender: editable &&
-          user.gender && { label: user.gender, value: user.gender },
+        status:
+          editable && user.status
+            ? {
+                label: user.status,
+                value: user.status,
+              }
+            : { label: "Single", value: "Single" },
+        gender:
+          editable && user.gender
+            ? { label: user.gender, value: user.gender }
+            : { label: "Male", value: "Male" },
         city: editable && user.city,
         country: editable && user.country,
         bankName: editable && user.bankName,
@@ -417,12 +421,6 @@ const UserForm = (props) => {
               .catch((err) => {
                 UserService.handleCustomMessage(err.response.data);
               });
-        // console.log("clientName", values.clientName);
-        // console.log("platform", values.platform);
-        // console.log("technology", values.technology);
-        // console.log("serviceType", values.serviceType);
-        // console.log("projectNature", values.projectNature);
-        // console.log("projectManager", values.projectManager);
       }}
     >
       {(props) => (
