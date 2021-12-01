@@ -139,7 +139,7 @@ class sidebar extends Component {
         ...(this.isRole([this.roles.PM, this.roles.ADMIN])
           ? [
               {
-                routeName: this.baseUrl + "leave-list",
+                routeName: this.baseUrl + "view-leave-faraz",
                 label: "Leave List",
               },
             ]
