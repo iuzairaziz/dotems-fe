@@ -82,10 +82,9 @@ class UserValidation {
     return Yup.object({
       oldPassword: Yup.string().required("Old Password is required"),
       password: Yup.string().required("Password is required"),
-      confirmPassword: Yup.string().oneOf(
-        [Yup.ref("password"), null],
-        "Passwords must match"
-      ),
+      confirmPassword: Yup.string()
+        .required("Please Enter To Confirm Password")
+        .oneOf([Yup.ref("password"), null], "Passwords must match"),
     });
   };
   SignIn = () => {

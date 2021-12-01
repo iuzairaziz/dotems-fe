@@ -31,8 +31,10 @@ import ResourceCostService from "../../../../services/ResourceCostService";
 import TechnologyService from "../../../../services/TechnologyService";
 import RoleService from "../../../../services/RoleService";
 import LeavePolicyServices from "../../../../services/LeavePolicyServices";
+import WorkingShiftService from "../../../../services/workingShiftService";
 
 import Configuration from "../../../../config/configuration";
+import workingShiftService from "../../../../services/workingShiftService";
 
 const UserForm = (props) => {
   const [userRole, setUserRole] = useState([]);
@@ -45,6 +47,7 @@ const UserForm = (props) => {
   const [workingHrs, setWorkingHrs] = useState([]);
   const [workingDays, setWorkingDays] = useState([]);
   const [leavePolicy, setLeavePolicy] = useState([]);
+  const [workingShift, setWorkingShift] = useState([]);
   const [resourceCost, setResourceCost] = useState([]);
   const [technology, setTechnology] = useState([]);
   const [machineModal, setMachineModal] = useState(false);
@@ -70,6 +73,7 @@ const UserForm = (props) => {
     getAllTechnology();
     getUserRole();
     getLeavePolicy();
+    getWorkingShift();
   }, [
     machineModal,
     designationModal,
@@ -192,6 +196,16 @@ const UserForm = (props) => {
       console.log("Technology", options);
     });
   };
+  const getWorkingShift = () => {
+    workingShiftService.getWorkingShift().then((res) => {
+      let options = [];
+      res.data.map((item, index) => {
+        options.push({ label: item.name, value: item._id });
+      });
+      setWorkingShift(options);
+      console.log("Technology", options);
+    });
+  };
 
   var UserRole = [];
   var Technology = [];
@@ -271,6 +285,12 @@ const UserForm = (props) => {
           user.leavePolicy.name && {
             label: user.leavePolicy.name,
             value: user.leavePolicy._id,
+          },
+        workingShift: editable &&
+          user.workingShift &&
+          user.workingShift.name && {
+            label: user.workingShift.name,
+            value: user.workingShift._id,
           },
         salary: editable && user.salary,
         machineNo:
@@ -358,6 +378,7 @@ const UserForm = (props) => {
               terminationDate: values.terminationDate,
               dateOfBirth: values.dateOfBirth,
               leavePolicy: values.leavePolicy.value,
+              workingShift: values.workingShift.value,
             })
               .then((res) => {
                 MachineService.updateMachine(values.machineNo.value, {
@@ -404,6 +425,7 @@ const UserForm = (props) => {
               terminationDate: values.terminationDate,
               dateOfBirth: values.dateOfBirth,
               leavePolicy: values.leavePolicy.value,
+              workingShift: values.workingShift.value,
             })
               .then((res) => {
                 UserService.handleMessage("add");
@@ -1076,6 +1098,37 @@ const UserForm = (props) => {
                             <span id="err" className="invalid-feedback">
                               {props.touched.leavePolicy &&
                                 props.errors.leavePolicy}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="col-6">
+                          <div className="form-group">
+                            <div className="row">
+                              <div className="col">
+                                <label className="control-label">
+                                  Working Shift{" "}
+                                </label>
+                              </div>
+                            </div>
+                            <Select
+                              name="workingShift"
+                              className={`my-select ${
+                                props.touched.workingShift &&
+                                props.errors.workingShift
+                                  ? "is-invalid"
+                                  : props.touched.workingShift && "is-valid"
+                              }`}
+                              onBlur={props.handleBlur}
+                              value={props.values.workingShift}
+                              onChange={(val) =>
+                                props.setFieldValue("workingShift", val)
+                              }
+                              options={workingShift}
+                            />
+                            <span id="err" className="invalid-feedback">
+                              {props.touched.workingShift &&
+                                props.errors.workingShift}
                             </span>
                           </div>
                         </div>
